@@ -2,9 +2,13 @@
 
 namespace HealthCare.Controllers
 {
-    public class PatientRegisterController : Controller
+    public class PatientRegistrationController : Controller
     {
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult PatientRegister()
         {
             return View();
         }

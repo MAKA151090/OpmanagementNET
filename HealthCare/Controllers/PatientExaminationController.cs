@@ -2,34 +2,33 @@
 
 namespace HealthCare.Controllers
 {
-    public class ClinicAdministrationController : Controller
+    public class PatientExaminationController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult ClinicRegistration()
+        public IActionResult PatientObjectiveData()
         {
             return View();
         }
-
-        public IActionResult BloodGroupAdministration()
+        public IActionResult PatientHealthHistory()
         {
             return View();
         }
-        public IActionResult RollAccess()
+        public IActionResult PatientFamilyHistory()
         {
             return View();
         }
-        public IActionResult DoctorRegistration()
+        public IActionResult PatientVisitIntoDocument()
         {
             return View();
         }
-        public IActionResult DoctorSchedule()
+        public IActionResult PatientExamination()
         {
             return View();
         }
+        
 
     }
 }

@@ -21,6 +21,8 @@
 
   <div class="menu-inner-shadow"></div>
 
+
+
   @* ! Full version menu-items *@
   <ul class="menu-inner py-1">
     <!-- Clinic Adminstration -->
@@ -28,24 +30,42 @@
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
         <div>Clinic Administration</div>
-        
       </a>
+
       <ul class="menu-sub">
         @* <li class='menu-item@(currentPage == "/ClinicAdministration/CRM" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/dashboards-crm.html" target="_blank" class="menu-link">
             <div>CRM</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
           </a>
         </li> *@
+
         <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicRegistration" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="ClinicRegistration" class="menu-link">
             <div>Clinic Registration</div>
           </a>
         </li>
+
         <li class='menu-item@(currentPage == "/ClinicAdministration/BloodGroupMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="BloodGroupMaster" class="menu-link">
-            <div>Blood Group Master</div>
+                    <a asp-controller="ClinicAdministration" asp-action="BloodGroupAdministration" class="menu-link">
+            <div>Blood Group Administration</div>
           </a>
         </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/DoctorSchedule" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="DoctorSchedule" class="menu-link">
+                        <div>DoctorSchedule</div>
+                    </a>
+                </li>
+                    <li class='menu-item@(currentPage == "/PatientExamination/DoctorRegistration" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="DoctorRegistration" class="menu-link">
+                            <div>DoctorRegistration</div>
+                        </a>
+                    </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccess" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="RollAccess" class="menu-link">
+               <div>RollAccess</div>
+             </a>
+            </li>
+               
       @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html" target="_blank" class="menu-link">
             <div>eCommerce</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
@@ -61,8 +81,85 @@
             <div>Academy</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
           </a>
         </li> *@
-      </ul>
+            </ul>
     </li>
+        <ul class="menu-inner py-1">
+
+        <!-- Patient Registration -->
+        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Patient Registration") ? " active open" : "")'>
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                
+                <div>Patient Registration</div>
+                </a>
+         <ul class="menu-sub">
+        <li class='menu-item@(currentPage == "/PatientRegistration/PatientRegister" ? " active" : "")'>
+            <a asp-controller="PatientRegistration" asp-action="PatientRegister" class="menu-link">
+                <div>PatientRegister</div>
+            </a>
+        </li>
+        </ul>
+        <ul class="menu-inner py-1">
+
+        <!-- PatientBilling -->
+        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientBilling") ? " active open" : "")'>
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+        <div>PatientBilling</div> </a>
+        <ul class="menu-sub">
+        <li class='menu-item@(currentPage == "/PatientBilling/PatientBilling" ? " active" : "")'>
+        <a asp-controller="PatientBilling" asp-action="PatientBilling" class="menu-link">
+        <div>PatientBilling</div>
+        </a>
+        </li>
+        </ul>
+        <ul class="menu-inner py-1">
+
+        <!-- PatientExamination -->
+        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientExamination") ? " active open" : "")'>
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+        <div>PatientExamination</div> </a>
+        <ul class="menu-sub">
+            <li class='menu-item@(currentPage == "/PatientExamination/PatientObjectiveData" ? " active" : "")'>
+               <a asp-controller="PatientExamination" asp-action="PatientObjectiveData" class="menu-link">
+             <div>PatientObjectiveData</div>
+              </a>
+               </li>
+         </ul>
+                                <ul class="menu-sub">
+                                    <li class='menu-item@(currentPage == "/PatientExamination/PatientHealthHistory" ? " active" : "")'>
+                                        <a asp-controller="PatientExamination" asp-action="PatientHealthHistory" class="menu-link">
+                                            <div>PatientHealthHistory</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="menu-sub">
+                                    <li class='menu-item@(currentPage == "/PatientExamination/PatientFamilyHistory" ? " active" : "")'>
+                                        <a asp-controller="PatientExamination" asp-action="PatientFamilyHistory" class="menu-link">
+                                            <div>PatientFamilyHistory</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="menu-sub">
+                                    <li class='menu-item@(currentPage == "/PatientExamination/PatientVisitIntoDocument" ? " active" : "")'>
+                                        <a asp-controller="PatientExamination" asp-action="PatientVisitIntoDocument" class="menu-link">
+                                            <div>PatientVisitIntoDocument</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="menu-sub">
+                                    <li class='menu-item@(currentPage == "/PatientExamination/PatientExamination" ? " active" : "")'>
+                                        <a asp-controller="PatientExamination" asp-action="PatientExamination" class="menu-link">
+                                            <div>PatientExamination</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                
+
+
+
+   
 @* 
     <!-- Layouts -->
     <li class='menu-item@(currentPage.StartsWith("/LayoutExamples") ? " active open" : "")'>
