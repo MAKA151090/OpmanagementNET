@@ -1,0 +1,88 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    ViewData["Title"] = "PatientObjectiveData";
+}
+
+<form asp-controller="PatientExamination" asp-action="Save"  method="post"> 
+<div> this page is for PatientObjectiveData</div>
+<div>
+    <label for="PatientID">PatientID:</label>
+    <input type="text" name="PatientID" value="" />
+
+    
+<div>
+    <label for="ClinicID">ClinicID:</label>
+    <input type="text" name="ClinicID" value="" />
+
+
+        <div>
+            <label for="VisitID">VisitID:</label>
+            <input type="text" name="VisitID" value="" />
+
+
+        <div>
+         <label for="Height">Height:</label>
+         <input type="text" name="Height" value="" />
+
+
+         <div>
+           <label for="Weight">Weight:</label>
+           <input type="text" name="Weight" value="" />
+
+
+         <div>
+          <label for="BloodPressure">BloodPressure:</label>
+           <input type="text" name="BloodPressure" value="" />
+
+
+          <div>
+            <label for="HeartRate">HeartRate:</label>
+            <input type="text" name="HeartRate" value="" />
+
+
+           <div>
+            <label for="Temperature">Temperature:</label>
+            <input type="text" name="Temperature" value="" />
+
+
+            <div>
+             <label for="RespiratoryRate">RespiratoryRate:</label>
+              <input type="text" name="RespiratoryRate" value="" />
+
+              <div>
+               <label for="OxygenSaturation">OxygenSaturation:</label>
+               <input type="text" name="OxygenSaturation" value="" />
+
+              <div>
+               <label for="PulseRate">PulseRate:</label>
+                <input type="text" name="PulseRate" value="" />
+
+               <div>
+                <label for="VisitDate">VisitDate:</label>
+                <input type="text" name="VisitDate" value="" />
+
+                 <div>
+                 <label for="BloodGlucoseLevel">BloodGlucoseLevel:</label>
+                 <input type="text" name="BloodGlucoseLevel" value="" />
+ 
+                 <div>
+                  <label for="ChiefComplaint/Reasonfor patientVisit">ChiefComplaint/Reasonfor patientVisit:</label>
+                 <input type="text" name="ChiefComplaint/Reasonfor patientVisit" value="" />
+
+
+
+                 <div>
+                  <label> </label>
+                   <input type="button" value="Save">Save</input>
+                   </div>
+
+                 <div>
+                   <label> </label>
+                        <input type="button" value="Cancel" class="Cancel" />
+                  </div>
+                                    
+</form>

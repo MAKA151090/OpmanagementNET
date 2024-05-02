@@ -1,7 +1,11 @@
+using HealthCare.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddDbContext<HealthcareContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ClsPatientObjective")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
