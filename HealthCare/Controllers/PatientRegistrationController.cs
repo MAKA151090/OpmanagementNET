@@ -33,5 +33,9 @@ namespace HealthCare.Controllers
         {
             return View();
         }
+        public IActionResult PatientScheduling()
+        {
+            return View();
+        }
     }
 }
