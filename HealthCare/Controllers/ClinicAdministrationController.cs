@@ -6,7 +6,7 @@ namespace HealthCare.Controllers
 {
     public class ClinicAdministrationController : Controller
     {
-        private readonly HealthcareContext _healthcareContext;
+        private HealthcareContext _healthcareContext;
 
         public ClinicAdministrationController(HealthcareContext healthcareContext)
         {

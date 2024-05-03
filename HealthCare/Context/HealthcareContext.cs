@@ -16,6 +16,8 @@ namespace HealthCare.Context
         //ClinicAdmin 
         public DbSet<ClinicAdminModel> SHclnClinicAdmin { get; set; }
 
+        public DbSet<PatientRegistrationModel> SHPatientRegistration { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +29,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<ClinicAdminModel>()
        .HasKey(i => new { i.ClinicId });
+
+            modelBuilder.Entity<PatientRegistrationModel>()
+                .HasKey(i => new { i.PatientID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()
