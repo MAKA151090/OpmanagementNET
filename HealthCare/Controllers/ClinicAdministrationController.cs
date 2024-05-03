@@ -1,10 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HealthCare.Context;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
 {
     public class ClinicAdministrationController : Controller
     {
-        public IActionResult Index()
+        private readonly HealthcareContext _healthcareContext;
+
+        public ClinicAdministrationController(HealthcareContext healthcareContext)
+        {
+            _healthcareContext = healthcareContext;
+        }
+
+        [HttpPost]
+
+        public async Task<ClinicAdminModel> AddClinic(ClinicAdminModel model)
+        {
+           
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                _healthcareContext.SHclnClinicAdmin.Add(model);
+                await _healthcareContext.SaveChangesAsync();
+           
+            return model;
+        }
+      public IActionResult Index()
         {
             return View();
         }
