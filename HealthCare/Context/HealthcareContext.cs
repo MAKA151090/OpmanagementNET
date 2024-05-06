@@ -11,7 +11,15 @@ namespace HealthCare.Context
         public HealthcareContext(DbContextOptions options) : base(options)
         {
         }
+        //PatientObjective
         public DbSet<PatientObjectiveModel> SHExmPatientObjective { get; set; }
+
+        //ClinicAdmin 
+        public DbSet<ClinicAdminModel> SHclnClinicAdmin { get; set; }
+
+        public DbSet<PatientRegistrationModel> SHPatientRegistration { get; set; }
+
+
 
         public DbSet<PatientExaminationModel> SHExmPatientExamination { get; set; }
 
@@ -38,6 +46,14 @@ namespace HealthCare.Context
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()
         .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });
+
+
+            modelBuilder.Entity<ClinicAdminModel>()
+       .HasKey(i => new { i.ClinicId });
+
+            modelBuilder.Entity<PatientRegistrationModel>()
+                .HasKey(i => new { i.PatientID });
+
 
             modelBuilder.Entity<PatientExaminationModel>()
         .HasKey(i => new { i.PatientID,i.ClinicID,i.VisitID,i.ExaminationID });
