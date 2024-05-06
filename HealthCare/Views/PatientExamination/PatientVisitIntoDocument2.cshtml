@@ -1,4 +1,4 @@
-﻿@model PatientFHPHModel1
+﻿@model HealthCare.Models.PatientVisitIntoDocumentModel
 
 @{
     ViewData["Title"] = "View";
@@ -7,11 +7,11 @@
 
 <h1>View</h1>
 
-<h4>PatientFHPHModel1</h4>
+<h4>PatientVisitIntoDocumentModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="FHPH2" asp-controller="PatientExamination">
+        <form asp-action="GetDocument" asp-controller="PatientExamination">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PatientID" class="control-label"></label>
@@ -19,19 +19,14 @@
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Question" class="control-label"></label>
-                <input asp-for="Question" class="form-control" />
-                <span asp-validation-for="Question" class="text-danger"></span>
+                <label asp-for="ClinicID" class="control-label"></label>
+                <input asp-for="ClinicID" class="form-control" />
+                <span asp-validation-for="ClinicID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Answer" class="control-label"></label>
-                <input asp-for="Answer" class="form-control" />
-                <span asp-validation-for="Answer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
+                <label asp-for="VisitID" class="control-label"></label>
+                <input asp-for="VisitID" class="form-control" />
+                <span asp-validation-for="VisitID" class="text-danger"></span>
             </div>
            @*  <div class="form-group">
                 <label asp-for="lastUpdatedDate" class="control-label"></label>
@@ -44,7 +39,7 @@
                 <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="GetDocument" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -53,4 +48,5 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
 

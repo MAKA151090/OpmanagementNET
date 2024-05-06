@@ -3,6 +3,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class PatientExaminationContextModelSnapshot : ModelSnapshot
+    [Migration("20240502154409_MigServerity1")]
+    partial class MigServerity1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,30 +23,6 @@ namespace HealthCare.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("HealthCare.Models.PatientVisitIntoDocumentModel", b =>
-                {
-                    b.Property<string>("PatientID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClinicID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("VisitID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PatientID", "ClinicID", "VisitID");
-
-                    b.ToTable("SHExmPatientDocument");
-                });
 
             modelBuilder.Entity("PatExmSymptomsSeverity", b =>
                 {
@@ -62,18 +41,6 @@ namespace HealthCare.Migrations
                     b.Property<string>("Severity")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PatientExaminationModelClinicID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientExaminationModelExaminationID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientExaminationModelPatientID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientExaminationModelVisitID")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Symptoms")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -87,8 +54,6 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PatientID", "ClinicID", "VisitID", "ExaminationID", "Severity");
-
-                    b.HasIndex("PatientExaminationModelPatientID", "PatientExaminationModelClinicID", "PatientExaminationModelVisitID", "PatientExaminationModelExaminationID");
 
                     b.ToTable("SHExmSeverity");
                 });
@@ -123,6 +88,26 @@ namespace HealthCare.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Severity1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SeverityClinicID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SeverityExaminationID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SeverityPatientID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SeverityVisitID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("lastUpdatedDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -133,63 +118,9 @@ namespace HealthCare.Migrations
 
                     b.HasKey("PatientID", "ClinicID", "VisitID", "ExaminationID");
 
+                    b.HasIndex("SeverityPatientID", "SeverityClinicID", "SeverityVisitID", "SeverityExaminationID", "Severity1");
+
                     b.ToTable("SHExmPatientExamination");
-                });
-
-            modelBuilder.Entity("PatientFHPHModel", b =>
-                {
-                    b.Property<string>("PatientID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PatientID", "Question", "Type");
-
-                    b.ToTable("SHExmPatientFHPH");
-                });
-
-            modelBuilder.Entity("PatientFHPHModel1", b =>
-                {
-                    b.Property<string>("PatientID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PatientID", "Question", "Type");
-
-                    b.ToTable("PatientFHPHModel1");
                 });
 
             modelBuilder.Entity("PatientObjectiveModel", b =>
@@ -262,15 +193,14 @@ namespace HealthCare.Migrations
                     b.ToTable("SHExmPatientObjective");
                 });
 
-            modelBuilder.Entity("PatExmSymptomsSeverity", b =>
-                {
-                    b.HasOne("PatientExaminationModel", null)
-                        .WithMany("Severity")
-                        .HasForeignKey("PatientExaminationModelPatientID", "PatientExaminationModelClinicID", "PatientExaminationModelVisitID", "PatientExaminationModelExaminationID");
-                });
-
             modelBuilder.Entity("PatientExaminationModel", b =>
                 {
+                    b.HasOne("PatExmSymptomsSeverity", "Severity")
+                        .WithMany()
+                        .HasForeignKey("SeverityPatientID", "SeverityClinicID", "SeverityVisitID", "SeverityExaminationID", "Severity1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Severity");
                 });
 #pragma warning restore 612, 618

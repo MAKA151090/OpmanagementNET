@@ -17,6 +17,7 @@ public class PatientExaminationModel
 	private String strFollowUp;
     private String strlastUpdatedDate;
     private String strlastUpdatedUser;
+    private List<PatExmSymptomsSeverity> severity;
 
 
 
@@ -30,4 +31,7 @@ public class PatientExaminationModel
     public string FollowUp { get => strFollowUp; set => strFollowUp = value; }
     public string lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+    public List<PatExmSymptomsSeverity> Severity { get => severity; set => severity = value; }
+
+
 }
