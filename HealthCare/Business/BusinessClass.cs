@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.Office.Interop.Word;
 
 namespace HealthCare.Business
 {
@@ -15,16 +16,15 @@ namespace HealthCare.Business
             // Retrieve data from database
             using (var dbContext = new HealthcareContext())
             {
-                /*var patientInfo = dbContext.SHExmInfoDocument
-                    .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
+                var patientObjective = dbContext.SHExmPatientObjective
+                   .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
 
-                if (patientInfo == null)
+                if (patientObjective == null)
                 {
                     throw new Exception("Patient information not found.");
-                }*/
-
-                var patientObjective = dbContext.SHExmPatientObjective
-                    .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
+                }
+                var patientInfo = dbContext.SHPatientRegistration
+                   .FirstOrDefault(p => p.PatientID == patientId && p.ClinicID == clinicId);
 
                 var patientFamilyHistory = dbContext.SHExmPatientFHPH
                     .FirstOrDefault(p => p.PatientID == patientId);
@@ -39,7 +39,7 @@ namespace HealthCare.Business
                     .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
 
                 // Generate the populated document
-                byte[] generatedDocument = PopulateWordTemplate(
+                byte[] generatedDocument = PopulateWordTemplate(patientInfo,
                      patientObjective, patientFamilyHistory,
                     patientHealthHistory, patientExamination, patExmSymptomsSeverity);
 
@@ -47,7 +47,7 @@ namespace HealthCare.Business
             }
         }
 
-        private byte[] PopulateWordTemplate(
+        private byte[] PopulateWordTemplate(PatientRegistrationModel patientRegistration,
              PatientObjectiveModel patientObjective,
             PatientFHPHModel patientFamilyHistory, PatientFHPHModel1 patientHealthHistory,
             PatientExaminationModel patientExamination, PatExmSymptomsSeverity patExmSymptomsSeverity)
@@ -69,31 +69,27 @@ namespace HealthCare.Business
                     }
 
                     // Replace placeholders with actual values
-                   // ReplacePlaceholder(mainPart, "<PatientName>", patientInfo.PatientName);
-                    //ReplacePlaceholder(mainPart, "<Age>", patientInfo.Age.ToString());
-                    //ReplacePlaceholder(mainPart, "<Gender>", patientInfo.Gender);
-                    //ReplacePlaceholder(mainPart, "<VisitID>", patientInfo.VisitID);
-                    //ReplacePlaceholder(mainPart, "<VisitDate>", patientInfo.VisitDate.ToShortDateString());
-                    ReplacePlaceholder(mainPart, "<MainComplaint>", patientObjective.CheifComplaint);
-                    ReplacePlaceholder(mainPart, "<Height>", patientObjective.Height);
-                    ReplacePlaceholder(mainPart, "<Weight>", patientObjective.Weight);
-                    ReplacePlaceholder(mainPart, "<BP>", patientObjective.BloodPressure);
-                    ReplacePlaceholder(mainPart, "<HeartRate>", patientObjective.HeartRate);
-                    ReplacePlaceholder(mainPart, "<Temperature>", patientObjective.Temperature);
-                    ReplacePlaceholder(mainPart, "<RespiratoryRate>", patientObjective.ResptryRate);
-                    ReplacePlaceholder(mainPart, "<OxygenSaturaion>", patientObjective.OxySat);
-                    ReplacePlaceholder(mainPart, "<PulseRate>", patientObjective.PulseRate);
-                    ReplacePlaceholder(mainPart, "<BloodGlucoseLevel>", patientObjective.BldGluLvl);
-                    ReplacePlaceholder(mainPart, "<Complaints>", patientExamination.Complaint);
-                    ReplacePlaceholder(mainPart, "<Diagnosis>", patientExamination.Diagnosis);
-                    ReplacePlaceholder(mainPart, "<Prescription>", patientExamination.Prescription);
-                    ReplacePlaceholder(mainPart, "<Followupdate>", patientExamination.FollowUp);
+                    ReplacePlaceholder(mainPart, "Full Name", patientRegistration.FullName);
+                    ReplacePlaceholder(mainPart, "Age", patientRegistration.Age.ToString());
+                    ReplacePlaceholder(mainPart, "Gender", patientRegistration.Gender);
+                    ReplacePlaceholder(mainPart, "Visit ID", patientObjective.VisitID);
+                    ReplacePlaceholder(mainPart, "VisitDate", patientObjective.VisitDate.ToString());
+                    ReplacePlaceholder(mainPart, "Main Complaint", patientObjective.CheifComplaint);
+                    ReplacePlaceholder(mainPart, "Height", patientObjective.Height);
+                    ReplacePlaceholder(mainPart, "Weight", patientObjective.Weight);
+                    ReplacePlaceholder(mainPart, "BP", patientObjective.BloodPressure);
+                    ReplacePlaceholder(mainPart, "Heart Rate", patientObjective.HeartRate);
+                    ReplacePlaceholder(mainPart, "Temperature", patientObjective.Temperature);
+                    ReplacePlaceholder(mainPart, "Respiratory Rate", patientObjective.ResptryRate);
+                    ReplacePlaceholder(mainPart, "Oxygen Saturaion", patientObjective.OxySat);
+                    ReplacePlaceholder(mainPart, "Pulse Rate", patientObjective.PulseRate);
+                    ReplacePlaceholder(mainPart, "Blood Glucose Level", patientObjective.BldGluLvl);
+                    ReplacePlaceholder(mainPart, "Complaints", patientExamination.Complaint);
+                    ReplacePlaceholder(mainPart, "Diagnosis", patientExamination.Diagnosis);
+                    ReplacePlaceholder(mainPart, "Prescription", patientExamination.Prescription);
+                    ReplacePlaceholder(mainPart, "Followupdate", patientExamination.FollowUp);
                    // ReplacePlaceholder(mainPart, "<DoctorName>", patientExamination.DoctorName);
                     //ReplacePlaceholder(mainPart, "<Signature>", patientExamination.DoctorName);
-
-
-
-
 
 
 
@@ -108,15 +104,35 @@ namespace HealthCare.Business
 
         private void ReplacePlaceholder(MainDocumentPart mainPart, string placeholder, string value)
         {
-            var docText = mainPart.Document.Body.Descendants<Text>()
+
+
+            /* var texts = mainPart.Document.Descendants<Text>()
+          .Where(t => t.Text.Contains(placeholder));
+
+             foreach (var text in texts)
+             {
+                 if (text.Text.Contains(placeholder))
+                 {
+                     text.Text = text.Text.Replace(placeholder, value ?? string.Empty);
+                 }
+             }*/
+
+            foreach (var textElement in mainPart.Document.Body.Descendants<Text>())
+            {
+                if (textElement.Text == placeholder)
+                {
+                    textElement.Text = value;
+                }
+            }
+
+            /*var docText = mainPart.Document.Body.Descendants<Text>()
                 .FirstOrDefault(t => t.Text.Contains(placeholder));
 
             if (docText != null)
             {
                 docText.Text = docText.Text.Replace(placeholder, value);
-            }
+            }*/
         }
-
         
     }
 }
