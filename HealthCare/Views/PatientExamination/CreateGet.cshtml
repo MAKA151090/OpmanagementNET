@@ -1,0 +1,464 @@
+﻿@model PatExamSearch;
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>Patient Visit Search</h1>
+@* <form asp-controller="PatientExamination" asp-action="HandleForm">
+    <div class="row">
+        <!-- Basic -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <h5 class="card-header">Clinic Details</h5>
+                <div class="card-body demo-vertical-spacing demo-only-element">
+                    <form asp-controller="PatientExamination"></form>
+                    <div class="input-group">
+
+                        <span class="input-group-text" id="basic-addon41"></span>
+                        <input type="text" class="form-control" placeholder="ClinicID" aria-label="ClinicID" aria-describedby="basic-addon41" />
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon41"></span>
+                        <input type="text" class="form-control" placeholder="ClinicName" aria-label="ClinicName" aria-describedby="basic-addon41" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <h5 class="card-header">Patient Details</h5>
+            <div class="card-body demo-vertical-spacing demo-only-element">
+
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon41"></span>
+                    <input type="text" class="form-control" placeholder="PatientID" aria-label="PatientID" aria-describedby="basic-addon41" />
+                </div>
+
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon41"></span>
+                    <input type="text" class="form-control" placeholder="PatientName" aria-label="FullName" aria-describedby="basic-addon41" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <h5 class="card-header">Visit Details</h5>
+            <div class="card-body demo-vertical-spacing demo-only-element">
+
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon41"></span>
+                    <input type="text" class="form-control" placeholder="VisitID" aria-label="VisitID" aria-describedby="basic-addon41" />
+                </div>
+
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon41"></span>
+                    <input type="text" class="form-control" placeholder="VisitDate" aria-label="VisitDate" aria-describedby="basic-addon41" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" name="buttonType" value="select"  class="btn btn-primary">Select</button>
+    <button type="submit" name="buttonType" value="create"  class="btn btn-success">Create</button>
+    <button type="submit" name="but tonType" value="submit"  class="btn btn-danger">Submit</button>
+ *@
+    @* <div class="row">
+        <div class="col-md-6">
+            <a asp-action="HandleForm"  class="btn btn-primary " asp-route-patientID="PatientID">Select</a>
+            <input type="submit" value="Select" asp-action="HandleForm" class="btn btn-primary" />
+        </div>
+        <div class="col-md-6">
+            <!-- Create Button -->
+            <a asp-action="HandleForm" class="btn btn-primary " asp-route-patientID="PatientID">Create</a>
+            <input type="submit" value="Submit" asp-action="HandleForm" class="btn btn-primary" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a asp-action="HandleForm" class="btn btn-primary " asp-route-patientID="PatientID">Submit</a>
+             <input type="submit" value="Create" asp-action="HandleForm" class="btn btn-primary" /> 
+        </div>
+    </div> *@
+
+    
+      
+
+ @using (Html.BeginForm("HandleForm", "PatientExamination", FormMethod.Post))
+{
+    <div class=" row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <h5 class="card-header">Clinic Details</h5>
+                <div class="card-body demo-vertical-spacing demo-only-element">
+                    <div class="input-group">
+                        
+                        <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" />
+                        <span asp-validation-for="ClinicID" class="text-danger"></span>
+                        </div>
+                    <div class="input-group">
+                        
+                        <input asp-for="ClinicName" class="form-control" placeholder="ClinicName" />
+                        <span asp-validation-for="ClinicName" class="text-danger"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    
+
+     
+        <div class="col-md-6">
+        <div class="card mb-4">
+            <h5 class="card-header">Patient Details</h5>
+            <div class="card-body demo-vertical-spacing demo-only-element">
+                <div class="input-group">
+                    <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
+                    <span asp-validation-for="PatientID" class="text-danger"></span>
+
+                </div>
+                <div class="input-group ">
+                    <input asp-for="FullName" class="form-control" placeholder="PatientName" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+     </div>
+
+    <div class="col-md-6">
+
+        <div class="card mb-4">
+            <h5 class="card-header">Visit Details</h5>
+            <div class="card-body demo-vertical-spacing demo-only-element">
+                <div class="input-group">
+                    <input asp-for="VisitID" class="form-control" placeholder="VisitID" />
+                    <span asp-validation-for="VisitID" class="text-danger"></span>
+
+                </div>
+
+                <div class="input-group">
+                    <input asp-for="VisitDate" class="form-control" placeholder="VisitDate" />
+                    <span asp-validation-for="VisitDate" class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    @* <div class="form-floating form-floating-outline mb-4">
+        <label asp-for="ClinicID" class="control-label"></label>
+        <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" />
+        <span asp-validation-for="ClinicID" class="text-danger"></span>
+    </div>
+    <div class="form-floating form-floating-outline mb-4">
+        <label asp-for="VisitID" class="control-label"></label>
+        <input asp-for="VisitID" class="form-control" />
+        <span asp-validation-for="VisitID" class="text-danger"></span>
+    </div>
+    <div class="form-floating form-floating-outline mb-4">
+        <label asp-for="PatientID" class="control-label"></label>
+        <input asp-for="PatientID" class="form-control" />
+        <span asp-validation-for="PatientID" class="text-danger"></span>
+    </div>
+    <div class="form-floating form-floating-outline mb-4">
+        <label asp-for="FullName" class="control-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div class="form-floating form-floating-outline mb-4">
+        <label asp-for="ClinicName" class="control-label"></label>
+        <input asp-for="ClinicName" class="form-control" />
+        <span asp-validation-for="ClinicName" class="text-danger"></span>
+    </div>
+    <div class="form-floating form-floating-outline mb-4">
+        <label asp-for="VisitDate" class="control-label"></label>
+        <input asp-for="VisitDate" class="form-control" />
+        <span asp-validation-for="VisitDate" class="text-danger"></span>
+    </div> 
+
+   
+
+
+
+     <div class="form-group">
+        <label for="patientID">Patient ID:</label>
+        <input type="text" class="form-control" id="patientID" name="patientID" >
+    </div>
+    <div class="form-group">
+        <label for="visitID">Visit ID:</label>
+        <input type="text" class="form-control" id="visitID" name="visitID">
+    </div>
+    <div class="form-group">
+        <label for="clinicID">Clinic ID:</label>
+        <input type="text" class="form-control" id="clinicID" name="clinicID">
+    </div>
+    <div class="form-group">
+        <label for="clinicName">Clinic Name:</label>
+        <input type="text" class="form-control" id="clinicName" name="clinicName">
+    </div>
+    <div class="form-group">
+        <label for="patientName">Patient Name:</label>
+        <input type="text" class="form-control" id="patientName" name="patientName">
+    </div>
+    <div class="form-group">
+        <label for="visitDate">Visit Date:</label>
+        <input type="text" class="form-control" id="visitDate" name="visitDate">
+    </div>
+  *@
+    @* <button type="submit" name="buttonType" value="select" class="btn btn-primary">Select</button>
+    <button type="submit" name="buttonType" value="create" class="btn btn-success" @(ViewBag.PatientObjectiveData == null ? "" : "disabled")>Create</button>
+    <button type="submit" name="buttonType" value="submit" class="btn btn-danger" @(ViewBag.PatientObjectiveData == null ? "disabled" : "")>Submit</button> *@
+
+    <button type="submit" name="buttonType" value="select" class="btn btn-primary">Select</button>
+    <button type="submit" name="buttonType" value="create" class="btn btn-success">Create</button>
+    <button type="submit" name="buttonType" value="submit" class="btn btn-danger" >Submit</button>  
+ } 
+
+@if (ViewBag.PatientObjectiveData != null)
+{
+    <div class="card">
+        <h5 class="card-header">Patient Search Result</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Visit ID</th>
+                        <th>Clinic ID</th>
+                        <th>Clinic Name</th>
+                        <th>Patient Name</th>
+                        <th>Visit Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@ViewBag.PatientObjectiveData.PatientID</td>
+                        <td>@ViewBag.PatientObjectiveData.VisitID</td>
+                        <td>@ViewBag.PatientObjectiveData.ClinicID</td>
+                        <td>@ViewBag.PatientObjectiveData.ClinicName</td>
+                        <td>@ViewBag.PatientObjectiveData.FullName</td>
+                        <td>@ViewBag.PatientObjectiveData.VisitDate</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+       
+        @* <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Visit ID</th>
+                    <th>Clinic ID</th>
+                <th>Clinic Name</th>
+                <th>Patient Name</th>
+                <th>Visit Date</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@ViewBag.PatientObjectiveData.PatientID</td>
+                    <td>@ViewBag.PatientObjectiveData.VisitID</td>
+                    <td>@ViewBag.PatientObjectiveData.ClinicID</td>
+                    <td>@ViewBag.PatientObjectiveData.ClinicName</td> 
+                <td>@ViewBag.PatientObjectiveData.FullName</td>
+                <td>@ViewBag.PatientObjectiveData.VisitDate</td>
+                
+                </tr>
+            </tbody>
+        </table>
+    
+ *@
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <h1>@ViewBag.ErrorMessage</h1>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+
+
+
+
+ <script>
+    document.getElementById('selectBtn').addEventListener('click', function () {
+        var patientID = document.getElementById('patientID').value;
+        var visitID = document.getElementById('visitID').value;
+        var clinicID = document.getElementById('clinicID').value;
+
+        fetch(`/PatientExamination/View?patientID=${patientID}&visitID=${visitID}&clinicID=${clinicID}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Patient objective not found');
+                }
+            })
+            .then(data => {
+                // Display retrieved patient data
+                document.getElementById('patientIdSpan').innerText = data.patientID;
+                document.getElementById('visitIdSpan').innerText = data.visitID;
+                document.getElementById('clinicIdSpan').innerText = data.clinicID;
+
+                sessionStorage.setItem('patientObjective', JSON.stringify(data.patientObjective));
+
+                // Show patient data and enable the submit button
+                document.getElementById('patientData').style.display = 'block';
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('createBtn').disabled = true; // Disable create button by default
+
+                // Add logic to enable 'Create' button only if patient objective is not found
+                if (!data.patientObjective) {
+                    document.getElementById('createBtn').disabled = false;
+                }
+            })
+            .catch(error => {
+                // If patient data not found, enable the 'Create' button
+                document.getElementById('createBtn').disabled = false;
+                alert(error.message);
+            });
+    });
+
+    document.getElementById('createBtn').addEventListener('click', function () {
+        var patientID = document.getElementById('patientID').value;
+        var visitID = document.getElementById('visitID').value;
+        var clinicID = document.getElementById('clinicID').value;
+
+        // Call the API to create a new patient objective record
+        fetch(`/PatientExamination/CreateGet`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ patientID: patientID, visitID: visitID, clinicID: clinicID })
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to the newly created patient objective data page
+                    var url = `/PatientExamination/PatientObjectiveData?patientID=${patientID}&visitID=${visitID}&clinicID=${clinicID}`;
+                    window.location.href = url;
+                } else {
+                    throw new Error('Failed to create patient objective');
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', function () {
+        var patientObjective = sessionStorage.getItem('patientObjective');
+        if (patientObjective) {
+            var url = `/PatientExamination/CreateGet?patientID=${encodeURIComponent(patientObjective.PatientID)}&visitID=${encodeURIComponent(patientObjective.VisitID)}&clinicID=${encodeURIComponent(patientObjective.ClinicID)}`;
+
+           // var url = `/PatientExamination/PatientObjectiveData1?data=${encodeURIComponent(patientObjective)}`;
+
+            //var url = `/PatientExamination/?patientID=${encodeURIComponent(patientObjective.PatientID)}&visitID=${encodeURIComponent(patientObjective.VisitID)}&clinicID=${encodeURIComponent(patientObjective.ClinicID)}`;
+            window.location.href = url;
+        } else {
+            alert('Patient objective data not found. Please select a patient first.');
+        }
+    });
+</script>  *@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* <script>
+    // Function to handle the 'Select' button click
+    document.getElementById('selectBtn').addEventListener('click', function() {
+        var patientID = document.getElementById('patientID').value;
+        var visitID = document.getElementById('visitID').value;
+        var clinicID = document.getElementById('clinicID').value;
+
+        fetch(`/PatientExamination/View?patientID=${patientID}&visitID=${visitID}&clinicID=${clinicID}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Patient objective not found');
+                }
+            })
+            .then(data => {
+                // Display retrieved patient data
+                document.getElementById('patientIdSpan').innerText = data.patientID;
+                document.getElementById('visitIdSpan').innerText = data.visitID;
+                document.getElementById('clinicIdSpan').innerText = data.clinicID;
+
+                sessionStorage.setItem('patientObjective', JSON.stringify(data.patientObjective));
+
+                // Show patient data and enable the submit button
+              
+                document.getElementById('patientData').style.display = 'block';
+                document.getElementById('submitBtn').disabled = false;
+
+               
+
+                //var url = `/PatientExamination/PatientObjectiveData?patientID=${data.patientID}&visitID=${data.visitID}&clinicID=${data.clinicID}`;
+                //window.location.href = url;
+            })
+            .catch(error => {
+                // If patient data not found, enable the 'Create' button
+                document.getElementById('createBtn').disabled = false;
+                alert(error.message);
+            });
+
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            // Retrieve patient objective data from session storage
+            var patientObjective = sessionStorage.getItem('patientObjective');
+            if (patientObjective) {
+                // Redirect to the page with the patient objective data
+                var url = `/PatientExamination/PatientObjectiveData?data=${encodeURIComponent(patientObjective)}`;
+                window.location.href = url;
+            }
+                else {
+                alert('Patient objective data not found. Please select a patient first.');
+            }
+        });
+    });
+</script> *@

@@ -5,12 +5,22 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Office.Interop.Word;
 
 namespace HealthCare.Business
 {
     public class BusinessClass
     {
+        private readonly HealthcareContext objSearchContext;
+
+        public BusinessClass(HealthcareContext serviceContext)
+        {
+            objSearchContext = serviceContext;
+        }
+
+
         public byte[] GenerateDocument(string patientId, string visitId, string clinicId)
         {
             // Retrieve data from database
@@ -46,7 +56,6 @@ namespace HealthCare.Business
                 return generatedDocument;
             }
         }
-
         private byte[] PopulateWordTemplate(PatientRegistrationModel patientRegistration,
              PatientObjectiveModel patientObjective,
             PatientFHPHModel patientFamilyHistory, PatientFHPHModel1 patientHealthHistory,
@@ -133,6 +142,85 @@ namespace HealthCare.Business
                 docText.Text = docText.Text.Replace(placeholder, value);
             }*/
         }
-        
+
+
+        public async Task<PatExamSearch> GetPatientObjectiveData(string patientID, string visitID, string clinicID, string patientName, string visitDate, string clinicName)
+        {
+
+            var patientObjectiveData = await (from po in objSearchContext.SHExmPatientObjective
+                                              join pr in objSearchContext.SHPatientRegistration on po.PatientID equals pr.PatientID
+                                              join c in objSearchContext.SHclnClinicAdmin on po.ClinicID equals c.ClinicId
+                                              where (po.PatientID == patientID || pr.FullName == patientName )&&
+                                           ( po.VisitID == visitID || po.VisitDate == visitDate) &&
+                                           ( po.ClinicID == clinicID || c.ClinicName == clinicName)
+                                              select new PatExamSearch
+                                              {
+                                                  PatientID = po.PatientID,
+                                                  ClinicID = po.ClinicID,
+                                                  VisitID = po.VisitID,
+                                                  ClinicName = c.ClinicName,
+                                                  FullName = pr.FullName,
+                                                  VisitDate = po.VisitDate.ToString()
+
+                                              }).FirstOrDefaultAsync();
+
+            return patientObjectiveData;
+        }
+
+        public async Task<PatientObjectiveModel> GetPatientObjectiveSubmit(string patientID, string visitID, string clinicID)
+        {
+            var patitentObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
+                    x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
+
+            return patitentObjectiveDataSubmit;
+        }
+
+
     }
+
+    /*public class PatientExaminationService
+    {
+        private readonly HealthcareContext objSearchContext ; 
+
+        public PatientExaminationService(HealthcareContext Servicecontext)
+        {
+            objSearchContext = Servicecontext;
+        }
+
+        public async Task<PatExamSearch> GetPatientObjectiveData(string patientID, string visitID, string clinicID,string patientName,string visitDate,string clinicName,string ClinicID)
+        {
+            
+            var patientObjectiveData = await (from po in objSearchContext.SHExmPatientObjective
+                                              join pr in objSearchContext.SHPatientRegistration on po.PatientID equals pr.PatientID
+                                              join c in objSearchContext.SHclnClinicAdmin on po.ClinicID equals c.ClinicId
+                                              where po.PatientID  == patientID || pr.FullName == patientName &&
+                                            po.VisitID == visitID || po.VisitDate == visitDate &&
+                                            po.ClinicID == clinicID || c.ClinicName == clinicName
+                                              select new PatExamSearch
+                                              {
+                                                  PatientID = po.PatientID,
+                                                  ClinicID = po.ClinicID,
+                                                  VisitID = po.VisitID,
+                                                  StrClinicName = c.ClinicName,
+                                                  StrFullName = pr.FullName,
+                                                  StrVisitDate = po.VisitDate.ToString() 
+                                                  
+                                              }).FirstOrDefaultAsync();
+
+            return patientObjectiveData;
+        }
+
+        public async Task<PatientObjectiveModel> GetPatientObjectiveSubmit(string patientID, string visitID, string clinicID, string patientName, string visitDate, string clinicName, string ClinicID)
+        {
+            var patitentObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
+                    x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
+
+            return patitentObjectiveDataSubmit;
+        }
+        
+
+
+    }*/
+
+
 }

@@ -56,7 +56,7 @@ namespace HealthCare.Context
 
 
             modelBuilder.Entity<PatientExaminationModel>()
-        .HasKey(i => new { i.PatientID,i.ClinicID,i.VisitID,i.ExaminationID });
+        .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID, i.ExaminationID });
 
             modelBuilder.Entity<PatExmSymptomsSeverity>()
         .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID, i.ExaminationID, i.Severity });
@@ -79,7 +79,6 @@ namespace HealthCare.Context
        .ValueGeneratedOnUpdate()
        .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
-        public DbSet<PatientFHPHModel1> PatientFHPHModel1 { get; set; } = default!;
 
     }
     

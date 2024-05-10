@@ -38,4 +38,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=ClinicAdministration}/{action=Index}/{id?}");
 
+
 app.Run();
