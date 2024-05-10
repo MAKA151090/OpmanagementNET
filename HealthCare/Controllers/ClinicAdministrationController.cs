@@ -12,6 +12,7 @@ namespace HealthCare.Controllers
         public IActionResult ClinicRegistration()
         {
             return View();
+      
         }
 
         public IActionResult BloodGroupAdministration()
