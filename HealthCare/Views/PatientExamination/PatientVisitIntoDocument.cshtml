@@ -1,9 +1,51 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model HealthCare.Business.PatientInfoDocumentModel
+
 @{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-@{
-    ViewData["Title"] = "PatientVisitIntoDocument";
-}
-<div> this page is for PatientVisitIntoDocument</div>
+
+<h1>View</h1>
+
+<h4>PatientInfoDocumentModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="GeneratePatientExaminationDocument" asp-controller="PatientExamination">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PatientID" class="control-label"></label>
+                <input asp-for="PatientID" class="form-control" />
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitID" class="control-label"></label>
+                <input asp-for="VisitID" class="form-control" />
+                <span asp-validation-for="VisitID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClinicID" class="control-label"></label>
+                <input asp-for="ClinicID" class="form-control" />
+                <span asp-validation-for="ClinicID" class="text-danger"></span>
+            </div>
+           @*  <div class="form-group">
+                <label asp-for="StrlastUpdatedDate" class="control-label"></label>
+                <input asp-for="StrlastUpdatedDate" class="form-control" />
+                <span asp-validation-for="StrlastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StrlastUpdatedUser" class="control-label"></label>
+                <input asp-for="StrlastUpdatedUser" class="form-control" />
+                <span asp-validation-for="StrlastUpdatedUser" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="GetDocument" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

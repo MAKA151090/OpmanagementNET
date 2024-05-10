@@ -1,7 +1,17 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using HealthCare.Context;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddDbContext<HealthcareContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ClsPatientObjective")));
+
+builder.Services.AddDbContext<HealthcareContext>(options =>
+       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,5 +37,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=ClinicAdministration}/{action=Index}/{id?}");
+
 
 app.Run();
