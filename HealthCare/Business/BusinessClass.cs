@@ -1,17 +1,33 @@
 ﻿using System;
 using System.IO;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Office.Interop.Word;
 
 namespace HealthCare.Business
 {
-    public class BusinessClass
+    public  class BusinessClass
     {
-        public byte[] GenerateDocument(string patientId, string visitId, string clinicId)
+        private HealthcareContext _healthcareContext;
+
+        public BusinessClass(HealthcareContext healthcareContext)
+        {
+            _healthcareContext = healthcareContext;
+        }
+
+        public async Task<ClinicAdminModel> GetClinicDetails(string clinicId, string clinicName)
+        {
+            var clinic =  _healthcareContext.SHclnClinicAdmin.FirstOrDefault(c => c.ClinicId == clinicId && c.ClinicName == clinicName);
+
+            return clinic;
+        }
+        public  byte[] GenerateDocument(string patientId, string visitId, string clinicId)
         {
             // Retrieve data from database
             using (var dbContext = new HealthcareContext())
@@ -133,6 +149,7 @@ namespace HealthCare.Business
                 docText.Text = docText.Text.Replace(placeholder, value);
             }*/
         }
-        
+
+       
     }
 }

@@ -1,0 +1,27 @@
+﻿@model ClinicAdminModel
+
+@{
+    ViewData["Title"] = "GetClinic";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>Clinic Details</h1>
+
+@using (Html.BeginForm("GetClinic", "ClinicAdministration", FormMethod.Post))
+{
+
+    <div class="form-group">
+        <label asp-for="ClinicId" class="control-label"></label>
+        <input asp-for="ClinicId" class="form-control" placeholder="ClinicId" />
+        <span asp-validation-for="ClinicId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ClinicName" class="control-label"></label>
+        <input asp-for="ClinicName" class="form-control" />
+        <span asp-validation-for="ClinicName" class="text-danger"></span>
+    </div>
+
+    <a class="btn btn-primary">Get</a>
+}
+
+

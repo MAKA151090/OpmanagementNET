@@ -1,66 +1,70 @@
 ﻿@model ClinicAdminModel
 
+
 @{
     ViewData["Title"] = "View";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
 <h1>View</h1>
-
+  
 <h4>ClinicAdminModel</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddClinic" asp-controller="ClinicAdministration">
+        <form asp-controller="ClinicAdministration">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ClinicId" class="control-label"></label>
-                <input asp-for="ClinicId" class="form-control" />
+                <div class="form-group">
+             <label asp-for="ClinicId" class="control-label" ></label>
+                <input asp-for="ClinicId" class="form-control"  />
                 <span asp-validation-for="ClinicId" class="text-danger"></span>
             </div>
+                <input type="submit"  value="Search" class="btn btn-primary" asp-action="GetClinic" />
             <div class="form-group">
                 <label asp-for="ClinicName" class="control-label"></label>
-                <input asp-for="ClinicName" class="form-control" />
+                <input asp-for="ClinicName" class="form-control"  />
                 <span asp-validation-for="ClinicName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClinicAddress" class="control-label"></label>
-                <input asp-for="ClinicAddress" class="form-control" />
+                <input asp-for="ClinicAddress" class="form-control"  />
                 <span asp-validation-for="ClinicAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
+                <input asp-for="City" class="form-control"  />
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
+                <input asp-for="State" class="form-control"  />
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PostalCode" class="control-label"></label>
-                <input asp-for="PostalCode" class="form-control" />
+                <input asp-for="PostalCode" class="form-control"  />
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClinicPhoneNumber" class="control-label"></label>
-                <input asp-for="ClinicPhoneNumber" class="form-control" />
+                <input asp-for="ClinicPhoneNumber" class="form-control"  />
                 <span asp-validation-for="ClinicPhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClinicEmailAddress" class="control-label"></label>
-                <input asp-for="ClinicEmailAddress" class="form-control" />
+                <input asp-for="ClinicEmailAddress" type="email" class="form-control"  />
                 <span asp-validation-for="ClinicEmailAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FromHour" class="control-label"></label>
-                <input asp-for="FromHour" class="form-control" />
+                <input asp-for="FromHour" class="form-control"  />
                 <span asp-validation-for="FromHour" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ToHour" class="control-label"></label>
-                <input asp-for="ToHour" class="form-control" />
+                <input asp-for="ToHour" class="form-control"  />
                 <span asp-validation-for="ToHour" class="text-danger"></span>
             </div>
 @*             <div class="form-group">
@@ -74,12 +78,10 @@
                 <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" asp-action="AddClinic" value="Create" class="btn btn-primary" />
+                
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
