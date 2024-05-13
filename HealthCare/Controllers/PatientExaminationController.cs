@@ -108,18 +108,18 @@ namespace HealthCare.Controllers
             await getPatientObjective.SaveChangesAsync();
             
             return NoContent();
-        }
+        }*/
 
-        //PatientExamination POST
-        public async Task<IActionResult> Create(string objPatientID, PatientExaminationModel pPatientExmCreate)
+      
+        public async Task<IActionResult> CreateExm(string objPatientID, PatientExaminationModel pPatientExmCreate)
         {
             pPatientExmCreate.lastUpdatedDate = DateTime.Now.ToString();
             pPatientExmCreate.lastUpdatedUser = "Myself";
             getPatientObjective.SHExmPatientExamination.Add(pPatientExmCreate);
             await getPatientObjective.SaveChangesAsync();
+            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientExmCreate.PatientID }, pPatientExmCreate);
 
-            // Assuming you want to redirect to the Index action after creation
-            return RedirectToAction("Index");
+           // return RedirectToAction("Index");
         }
         //PatientVisitDocument
         /*public async Task<IActionResult> GetDocument(string objPatientID, PatientVisitIntoDocumentModel pPatientDocument)
@@ -197,6 +197,7 @@ namespace HealthCare.Controllers
                 {
                        
                     ViewBag.PatientObjectiveData = patientObjective;
+                    
                     return View("CreateGet");
                 }
                 else
@@ -208,10 +209,13 @@ namespace HealthCare.Controllers
             }
             else if (buttonType == "submit")
             {
-                var patientObjective = await business.GetPatientObjectiveSubmit(patientID, visitID, clinicID); 
+                var patientObjective = await business.GetPatientObjectiveSubmit(patientID, visitID,clinicID); 
 
                 if (patientObjective != null)
                 {
+                    patientID = patientObjective.PatientID;
+                    visitID = patientObjective.VisitID;
+                    clinicID = patientObjective.ClinicID;
                     return View("PatientObjectiveData", patientObjective);
                 }
                 else
@@ -311,23 +315,8 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientExamination()
         {
-             var objsymp = new PatExmSymptomsSeverity()
-             {
-                 ClinicID = "1",
-                 PatientID = "1",
-                 VisitID = "1",
-                 ExaminationID = "1",
-                 Severity = "test"
-             };
-             var Obj = new PatientExaminationModel()
-             {
-                 ClinicID = "1",
-                 PatientID = "1",
-                 VisitID = "1",
-                 ExaminationID = "1",
-                 Severity = new List<PatExmSymptomsSeverity> { objsymp}
-             };
-            return View(Obj);
+            
+            return View();
 
 
 

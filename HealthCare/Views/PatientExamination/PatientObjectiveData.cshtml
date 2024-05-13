@@ -13,12 +13,7 @@
         <form asp-controller="PatientExamination">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating form-floating-outline mb-4">               
-                <input asp-for="PatientID" class="form-control" placeholder="PatientID" aria-describedby="btnSearch" />
-                         @*  <input type="submit" id="btnSearch" value="CreateGet" asp-action="CreateGet" asp-route-patientID="CreateGet"
-                               class="btn btn-outline-primary waves-effect"/> *@
-
-               @*          <div id="patientData" style="display: none;"></div> *@
-
+                <input asp-for="PatientID" class="form-control" placeholder="PatientID"/>
                 <label asp-for="PatientID">Patient ID</label>
                 <span asp-validation-for="PatientID" class="text-danger"></span>
 
@@ -27,7 +22,7 @@
                     </div> 
             <div class="form-floating form-floating-outline mb-4">
             
-                <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" />
+                <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" name="ClinicID" />
                         <label asp-for="ClinicID" class="control-label"></label>
                         <span asp-validation-for="ClinicID" class="text-danger"></span>
             </div>

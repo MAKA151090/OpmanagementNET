@@ -1,8 +1,8 @@
 ﻿namespace HealthCare.Models
 {
-    public class PatExamSearch
+    public class PatExamSearchModel
     {
-        public PatExamSearch() 
+        public PatExamSearchModel() 
         { }
         private String strPatientID;
         private String strFullName;
