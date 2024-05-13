@@ -202,7 +202,7 @@ h4, .h4 {
 }
 
 h5, .h5 {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
 }
 
 h6, .h6 {
@@ -6866,7 +6866,7 @@ input:-internal-autofill-selected {
 }
 
 .fs-5:before {
-  font-size: 1.25rem;
+  font-size: 1.05rem;
 }
 
 .fs-6:before {
@@ -8675,7 +8675,7 @@ div:not(.nav-align-left):not(.nav-align-right) > .nav-tabs {
 }
 .popover .popover-header {
   padding-bottom: 0;
-  font-size: 1.25rem;
+  font-size: 1.05rem;
 }
 .popover .popover-body {
   padding-top: 1rem;
@@ -8989,7 +8989,7 @@ div:not(.nav-align-left):not(.nav-align-right) > .nav-tabs {
   padding-bottom: 0;
 }
 .modal-content .modal-header .modal-title {
-  font-size: 1.25rem;
+  font-size: 1.05rem;
 }
 .modal-content .modal-footer {
   padding: 1.25rem 1.25rem;
@@ -11084,7 +11084,7 @@ button.list-group-item-gray.active {
 }
 
 .fs-5 {
-  font-size: 1.25rem !important;
+  font-size: 1.05rem !important;
 }
 
 .fs-6 {
@@ -16638,7 +16638,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   margin-left: 0;
 }
 .menu-vertical .menu-item .menu-link {
-  font-size: 1rem;
+  font-size: 0.9rem;
   letter-spacing: 0.15px;
 }
 .menu-vertical .menu-item .menu-link > div:not(.badge) {
@@ -17245,7 +17245,7 @@ html:not(.layout-footer-fixed) .content-wrapper {
 }
 
 .app-brand-text {
-  text-transform: uppercase;
+  text-transform: capitalize;
   flex-shrink: 0;
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
@@ -17414,7 +17414,7 @@ html:not(.layout-footer-fixed) .content-wrapper {
   height: 3rem;
 }
 .avatar-md .avatar-initial {
-  font-size: 1.25rem;
+  font-size: 1.05rem;
 }
 .avatar-md.avatar-online:after, .avatar-md.avatar-offline:after, .avatar-md.avatar-away:after, .avatar-md.avatar-busy:after {
   width: 0.6rem;

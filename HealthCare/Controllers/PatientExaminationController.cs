@@ -1,4 +1,5 @@
-﻿using HealthCare.Business;
+﻿using DocumentFormat.OpenXml.InkML;
+using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -16,28 +17,6 @@ namespace HealthCare.Controllers
         {
             this.getPatientObjective = getPatientObjective;
         }
-    
-
-        [HttpGet]
-
-        [HttpGet]
-        public async Task<IEnumerable<PatientObjectiveModel>> Get()
-        {
-            return await Task.FromResult(getPatientObjective.SHExmPatientObjective.ToList());
-        }
-
-        [HttpGet("PatientID")]
-        public async Task<ActionResult<PatientObjectiveModel>> Get(string pPatientID)
-        {
-            var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x => x.PatientID == pPatientID);
-
-            if (patientObjective == null)
-            {
-                return NotFound();
-            }
-
-            return patientObjective;
-        }
 
         [HttpPost]
         public async Task<IActionResult> Create(string objPatientID, PatientObjectiveModel pPatientIDCreate)
@@ -47,7 +26,72 @@ namespace HealthCare.Controllers
             getPatientObjective.SHExmPatientObjective.Add(pPatientIDCreate);
             await getPatientObjective.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(Get), new { pPatientID = pPatientIDCreate.PatientID }, pPatientIDCreate);
+            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientIDCreate.PatientID }, pPatientIDCreate);
+        }
+
+        /* public async Task<ActionResult> CreateGet(PatientObjectiveModel patient)
+         {
+             return View();
+         }*/
+
+        /* [HttpGet("PatientID")]
+         public async Task<ActionResult<PatientObjectiveModel>> CreateGet(string pPatientID)
+         {
+             var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x => x.PatientID == pPatientID);
+
+             if (patientObjective == null)
+             {
+                 return NotFound();
+             }
+
+             return patientObjective;
+         }*/
+
+
+        public async Task<ActionResult<PatientObjectiveModel>> CreateGet()
+        {
+            
+                return View();
+             
+           
+        }
+
+       
+        /*public async Task<ActionResult> View(string patientID, string visitID, string clinicID)
+        {
+            // Retrieve relevant patient objective details from the database based on the IDs
+            var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x =>
+                x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
+
+            if (patientObjective == null)
+            {
+                return NotFound(); 
+            }
+
+            return Json(new
+            {
+                patientID = patientObjective.PatientID,
+                visitID = patientObjective.VisitID,
+                clinicID = patientObjective.ClinicID,
+                PatientObjectiveData = patientObjective
+            });
+
+            //return Json(new { patientID = patientObjective.PatientID, visitID = patientObjective.VisitID, clinicID = patientObjective.ClinicID,patientObjective});
+
+            //return RedirectToAction("PatientObjectiveData");
+            //return Json ("PatientObjectiveData",patientObjective);
+        }
+        
+
+            [HttpPost]
+        public async Task<IActionResult> Create(string objPatientID, PatientObjectiveModel pPatientIDCreate)
+        {
+            pPatientIDCreate.lastUpdatedDate = DateTime.Now.ToString();
+            pPatientIDCreate.lastUpdatedUser = "Myself";
+            getPatientObjective.SHExmPatientObjective.Add(pPatientIDCreate);
+            await getPatientObjective.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientIDCreate.PatientID }, pPatientIDCreate);
         }
 
         [HttpPut("{pPatientID}")]
@@ -95,7 +139,7 @@ namespace HealthCare.Controllers
             //getPatientObjective.SHExmPatientDocument.Add(pPatientDocument);
             await getPatientObjective.SaveChangesAsync();
             //return RedirectToAction("Index");
-            return CreatedAtAction(nameof(Get), new { pPatientID = pPatientDocument.PatientID }, pPatientDocument);
+            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientDocument.PatientID }, pPatientDocument);
         }
 
         //PatientFHPH
@@ -107,7 +151,7 @@ namespace HealthCare.Controllers
             getPatientObjective.SHExmPatientFHPH.Add(pPatientFHPH);
             await getPatientObjective.SaveChangesAsync();
             //return RedirectToAction("Index");
-            return CreatedAtAction(nameof(Get), new { pPatientID = pPatientFHPH.PatientID }, pPatientFHPH);
+            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientFHPH.PatientID }, pPatientFHPH);
         }
 
         //PatientFHPH1
@@ -119,7 +163,7 @@ namespace HealthCare.Controllers
             getPatientObjective.SHExmPatientFHPH1.Add(pPatientFHPH1);
             await getPatientObjective.SaveChangesAsync();
             // return RedirectToAction("Index");
-            return CreatedAtAction(nameof(Get), new { pPatientID = pPatientFHPH1.PatientID }, pPatientFHPH1);
+            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientFHPH1.PatientID }, pPatientFHPH1);
         }
 
         public IActionResult GeneratePatientExaminationDocument(string patientId, string visitId, string clinicId)
@@ -140,6 +184,106 @@ namespace HealthCare.Controllers
                 return BadRequest($"Error generating document: {ex.Message}");
             }
         }
+      
+        public async Task<ActionResult> HandleForm(string patientID, string visitID, string clinicID,string visitDate,string patientName,string clinicName, string buttonType)
+        {
+            BusinessClass business = new BusinessClass(getPatientObjective);
+
+            if (buttonType == "select")
+            {
+                var patientObjective = await business.GetPatientObjectiveData(patientID, visitID, clinicID, visitDate,patientName,clinicName);
+
+                if (patientObjective != null)
+                {
+                       
+                    ViewBag.PatientObjectiveData = patientObjective;
+                    return View("CreateGet");
+                }
+                else
+                {
+                   
+                    ViewBag.ErrorMessage = "No data found for the entered IDs.";
+                    return View("CreateGet");
+                }
+            }
+            else if (buttonType == "submit")
+            {
+                var patientObjective = await business.GetPatientObjectiveSubmit(patientID, visitID, clinicID); 
+
+                if (patientObjective != null)
+                {
+                    return View("PatientObjectiveData", patientObjective);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "No data found for the entered IDs.";
+                    return View("CreateGet");
+                }
+            }
+            else if (buttonType == "create")
+            {
+                
+                return RedirectToAction("PatientObjectiveData");
+            }
+
+           
+            return View();
+        }
+
+
+
+
+
+        /*// Check which button was clicked
+        switch (buttonType)
+        {
+            case "select":
+                // Handle Select button click
+                return await HandleSelectButton(patientID, visitID, clinicID);
+
+            case "create":
+                // Handle Create button click
+                return HandleCreateButton();
+
+            case "submit":
+                // Handle Submit button click
+                return HandleSubmitButton();
+
+            default:
+                return View();
+        }*/
+    
+
+       /* private async Task<ActionResult> HandleSelectButton(string patientID, string visitID, string clinicID)
+        {
+            // Retrieve relevant patient objective details from the database based on the IDs
+            var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x =>
+                x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
+
+            if (patientObjective == null)
+            {
+                ViewBag.Message = "No data found for the provided IDs.";
+                ViewBag.PatientObjectiveData = null;
+                return View();
+            }
+
+            ViewBag.PatientObjectiveData = patientObjective;
+            // Enable the Submit button
+            ViewBag.SubmitButtonDisabled = false;
+            return View("PatientObjectiveData",patientObjective);
+        }
+
+        private ActionResult HandleCreateButton()
+        {
+            // Handle Create button click logic here
+            return RedirectToAction("PatientObjectivePage");
+        }
+
+        private ActionResult HandleSubmitButton()
+        {
+            // Handle Submit button click logic here
+            return RedirectToAction("PatientObjectivePage");
+        }*/
 
 
         public IActionResult Index()
@@ -148,6 +292,7 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientObjectiveData()
         {
+           
             return View();
         }
         public IActionResult PatientHealthHistory()
