@@ -1,8 +1,10 @@
-﻿using System;
+﻿using HealthCare.Context;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 public class ClinicAdminModel
 {
-	public ClinicAdminModel()
+    public ClinicAdminModel()
 	{
 
 	}
@@ -19,8 +21,6 @@ public class ClinicAdminModel
 	private String strToHour;
 	private String strlastUpdatedDate;
 	private String strlastUpdatedUser;
-
-
 
 
 

@@ -172,7 +172,7 @@ namespace HealthCare.Controllers
             {
                 BusinessClass business = new BusinessClass(getPatientObjective);
 
-                // Generate the document using the business class method
+                // Generate the document using the business class method-
                 byte[] generatedDocument = business.GenerateDocument(patientId, visitId, clinicId);
 
                 // Return the document as a downloadable file
@@ -233,9 +233,6 @@ namespace HealthCare.Controllers
            
             return View();
         }
-
-
-
 
 
         /*// Check which button was clicked
