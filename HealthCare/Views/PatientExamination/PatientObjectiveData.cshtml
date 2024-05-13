@@ -12,8 +12,8 @@
                 
             </div>
            </div>
-        <form asp-controller="PatientExamination">
-
+     @using (Html.BeginForm("PatientObjectiveData","PatientExamination",FormMethod.Post))
+    {
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row gy-4">
 
@@ -22,7 +22,8 @@
                     <div class="card-body">
             <div class="form-floating form-floating-outline mb-4">  
                 
-                <input asp-for="PatientID" class="form-control" placeholder="PatientID" aria-describedby="btnSearch" />
+                <input asp-for="PatientID" class="form-control" placeholder="PatientID"
+                            name="PatientID" id="PatientID"/>
                          @*  <input type="submit" id="btnSearch" value="CreateGet" asp-action="CreateGet" asp-route-patientID="CreateGet"
                                class="btn btn-outline-primary waves-effect"/> *@
 
@@ -46,7 +47,7 @@
             </div>
 
                     <div>
-                        <a asp-action="CreateGet" class="btn btn-primary btn-lg" asp-route-patientID="PatientID">SEARCH</a>
+                        <a asp-action="CreateGet" class="btn btn-primary btn-lg">SEARCH</a>
                     </div>
             </div>
             </div>
@@ -126,7 +127,8 @@
                 <span asp-validation-for="CheifComplaint" class="text-danger"></span>
             </div>
                     <div>
-                        <a asp-action="Create"  class="btn btn-primary btn-lg" asp-route-patientID="PatientID">SAVE</a>
+                            <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                        @* <a asp-action="Create" class="btn btn-primary btn-lg" asp-route-PatientObjectData="Model">SAVE</a> *@
                     </div>
                     
             
@@ -136,7 +138,7 @@
         </div>
                     
 
-        </form>
+    }
     
     </div>
     </div>

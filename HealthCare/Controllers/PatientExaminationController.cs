@@ -19,7 +19,7 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string objPatientID, PatientObjectiveModel pPatientIDCreate)
+        public async Task<IActionResult> PatientObjectiveData(PatientObjectiveModel pPatientIDCreate)
         {
             pPatientIDCreate.lastUpdatedDate = DateTime.Now.ToString();
             pPatientIDCreate.lastUpdatedUser = "Myself";
@@ -225,8 +225,7 @@ namespace HealthCare.Controllers
                 }
             }
             else if (buttonType == "create")
-            {
-                
+            {                
                 return RedirectToAction("PatientObjectiveData");
             }
 
