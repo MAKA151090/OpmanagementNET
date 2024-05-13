@@ -1,4 +1,4 @@
-﻿@model PatExamSearch;
+﻿@model PatExamSearchModel;
 
 @{
     ViewData["Title"] = "View";
@@ -101,12 +101,13 @@
                     <div class="input-group">
                         
                         <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" />
-                        <span asp-validation-for="ClinicID" class="text-danger"></span>
+                        
+                       @*  <span asp-validation-for="ClinicID" class="text-danger"></span> *@
                         </div>
                     <div class="input-group">
                         
                         <input asp-for="ClinicName" class="form-control" placeholder="ClinicName" />
-                        <span asp-validation-for="ClinicName" class="text-danger"></span>
+                        @* <span asp-validation-for="ClinicName" class="text-danger"></span> *@
                     </div>
 
                 </div>
@@ -122,12 +123,12 @@
             <div class="card-body demo-vertical-spacing demo-only-element">
                 <div class="input-group">
                     <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                    <span asp-validation-for="PatientID" class="text-danger"></span>
+                    @* <span asp-validation-for="PatientID" class="text-danger"></span> *@
 
                 </div>
                 <div class="input-group ">
                     <input asp-for="FullName" class="form-control" placeholder="PatientName" />
-                    <span asp-validation-for="FullName" class="text-danger"></span>
+                   @*  <span asp-validation-for="FullName" class="text-danger"></span> *@
 
                 </div>
             </div>
@@ -142,13 +143,13 @@
             <div class="card-body demo-vertical-spacing demo-only-element">
                 <div class="input-group">
                     <input asp-for="VisitID" class="form-control" placeholder="VisitID" />
-                    <span asp-validation-for="VisitID" class="text-danger"></span>
+                   @*  <span asp-validation-for="VisitID" class="text-danger"></span> *@
 
                 </div>
 
                 <div class="input-group">
                     <input asp-for="VisitDate" class="form-control" placeholder="VisitDate" />
-                    <span asp-validation-for="VisitDate" class="text-danger"></span>
+                    @* <span asp-validation-for="VisitDate" class="text-danger"></span> *@
 
                 </div>
 
@@ -238,24 +239,32 @@
             <table class="table table-dark">
                 <thead>
                     <tr>
+                        <th>Select</th>
                         <th>Patient ID</th>
                         <th>Visit ID</th>
                         <th>Clinic ID</th>
                         <th>Clinic Name</th>
                         <th>Patient Name</th>
                         <th>Visit Date</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>@ViewBag.PatientObjectiveData.PatientID</td>
-                        <td>@ViewBag.PatientObjectiveData.VisitID</td>
-                        <td>@ViewBag.PatientObjectiveData.ClinicID</td>
-                        <td>@ViewBag.PatientObjectiveData.ClinicName</td>
-                        <td>@ViewBag.PatientObjectiveData.FullName</td>
-                        <td>@ViewBag.PatientObjectiveData.VisitDate</td>
-
-                    </tr>
+                    
+                        @foreach (var item in ViewBag.PatientObjectiveData)
+                        {
+                        <tr>
+                            <td><input type="checkbox" name="selectedPatients" value="@item.PatientID" /></td>
+                            <td>@item.PatientID</td>
+                            <td>@item.VisitID</td>
+                            <td>@item.ClinicID</td>
+                            <td>@item.ClinicName</td>
+                            <td>@item.FullName</td>
+                            <td>@item.VisitDate</td>
+                           
+                        </tr>
+                        }
+                   
                 </tbody>
             </table>
         </div>

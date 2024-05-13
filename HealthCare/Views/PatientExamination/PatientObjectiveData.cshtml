@@ -34,7 +34,7 @@
                     </div> 
             <div class="form-floating form-floating-outline mb-4">
             
-                <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" />
+                <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" name="ClinicID" />
                         <label asp-for="ClinicID" class="control-label"></label>
                         <span asp-validation-for="ClinicID" class="text-danger"></span>
             </div>
@@ -97,51 +97,34 @@
                 <div class="col-lg-4">
                 <div class="card">
                 <div class="card-body">
-                        <div class="form-floating form-floating-outline">
-                            <input asp-for="OxySat" class="form-control" placeholder="Oxygen Saturation" />
-                            <label asp-for="OxySat" class="control-label">Oxygen Saturation</label>
-             
+               <div class="form-floating form-floating-outline">
+                <input asp-for="OxySat" class="form-control" placeholder="Oxygen Saturation" />
+                <label asp-for="OxySat" class="control-label">Oxygen Saturation</label>
                 <span asp-validation-for="OxySat" class="text-danger"></span>
             </div>
             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PulseRate" class="form-control" placeholder="PulseRate" />
-                <label asp-for="PulseRate" class="control-label"></label>
-               
+                <input asp-for="PulseRate" class="form-control" placeholder="PulseRate" />
+                <label asp-for="PulseRate" class="control-label">Pulse Rate</label>
                 <span asp-validation-for="PulseRate" class="text-danger"></span>
             </div>
             
             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="VisitDate" class="form-control" placeholder="VisitDate" />
-                <label asp-for="VisitDate" class="control-label"></label>
-              
+                <input asp-for="VisitDate" class="form-control" placeholder="VisitDate" />
+                <label asp-for="VisitDate" class="control-label">Visit Date</label>              
                 <span asp-validation-for="VisitDate" class="text-danger"></span>
             </div>
             <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="BldGluLvl" class="form-control" placeholder="BldGluLvl" />
-                <label asp-for="BldGluLvl" class="control-label"></label>
+                <label asp-for="BldGluLvl" class="control-label">Blood Glucose Level</label>
                
                 <span asp-validation-for="BldGluLvl" class="text-danger"></span>
             </div>
             <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="CheifComplaint" class="form-control" placeholder="CheifComplaint" />
-                <label asp-for="CheifComplaint" class="control-label"></label>
+                <label asp-for="CheifComplaint" class="control-label">Cheif Complaint</label>
                 
                 <span asp-validation-for="CheifComplaint" class="text-danger"></span>
             </div>
-              @* <div class="form-floating form-floating-outline mb-4">  
-                 <label asp-for="lastUpdatedDate" class="control-label"></label> 
-                 <input asp-for="lastUpdatedDate" class="form-control" /> 
-                 <span asp-validation-for="lastUpdatedDate" class="text-danger"></span> 
-              </div> *@  
-              @* <div class="form-floating form-floating-outline mb-4">  
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-             @* </div>
-                    @* <div>
-                        <input type="submit" value="Create" asp-action="CreateGet" class="btn btn-primary btn-lg" />
-            </div>*@
-
                     <div>
                         <a asp-action="Create"  class="btn btn-primary btn-lg" asp-route-patientID="PatientID">SAVE</a>
                     </div>
