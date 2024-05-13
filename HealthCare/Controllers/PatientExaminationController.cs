@@ -231,9 +231,6 @@ namespace HealthCare.Controllers
         }
 
 
-
-
-
         /*// Check which button was clicked
         switch (buttonType)
         {
