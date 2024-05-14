@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Spreadsheet;
 using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
@@ -21,11 +22,36 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> PatientObjectiveData(PatientObjectiveModel pPatientIDCreate)
         {
-            pPatientIDCreate.lastUpdatedDate = DateTime.Now.ToString();
-            pPatientIDCreate.lastUpdatedUser = "Myself";
-            getPatientObjective.SHExmPatientObjective.Add(pPatientIDCreate);
-            await getPatientObjective.SaveChangesAsync();
+            var existingPatientobjective= await getPatientObjective.SHExmPatientObjective.FindAsync(pPatientIDCreate.PatientID,pPatientIDCreate.ClinicID,pPatientIDCreate.VisitID);
+            if (existingPatientobjective != null)
+            {
 
+                existingPatientobjective.PatientID = pPatientIDCreate.PatientID;
+                existingPatientobjective.ClinicID = pPatientIDCreate.ClinicID;
+                existingPatientobjective.VisitID = pPatientIDCreate.VisitID;
+                existingPatientobjective.Height = pPatientIDCreate.Height;
+                existingPatientobjective.Weight = pPatientIDCreate.Weight;
+                existingPatientobjective.BloodPressure = pPatientIDCreate.BloodPressure;
+                existingPatientobjective.BldGluLvl = pPatientIDCreate.BldGluLvl;
+                existingPatientobjective.HeartRate = pPatientIDCreate.HeartRate;
+                existingPatientobjective.Temperature = pPatientIDCreate.Temperature;
+                existingPatientobjective.ResptryRate = pPatientIDCreate.ResptryRate;
+                existingPatientobjective.OxySat = pPatientIDCreate.OxySat;
+                existingPatientobjective.PulseRate = pPatientIDCreate.PulseRate;
+                existingPatientobjective.VisitDate = pPatientIDCreate.VisitDate;
+                existingPatientobjective.CheifComplaint = pPatientIDCreate.CheifComplaint;
+                existingPatientobjective.lastUpdatedDate = pPatientIDCreate.lastUpdatedDate;
+                existingPatientobjective.lastUpdatedUser = pPatientIDCreate.lastUpdatedUser;
+
+            }
+            else
+            {
+                pPatientIDCreate.lastUpdatedDate = DateTime.Now.ToString();
+                pPatientIDCreate.lastUpdatedUser = "Myself";
+                getPatientObjective.SHExmPatientObjective.Add(pPatientIDCreate);
+           
+            }
+            await getPatientObjective.SaveChangesAsync();
             return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientIDCreate.PatientID }, pPatientIDCreate);
         }
 
@@ -111,12 +137,17 @@ namespace HealthCare.Controllers
         }*/
 
       
-        public async Task<IActionResult> CreateExm(string objPatientID, PatientExaminationModel pPatientExmCreate)
+        public async Task<IActionResult> CreateExm(string objPatientID, PatientExaminationModel pPatientExmCreate,PatExmSymptomsSeverity severity,PatientExaminationModel patientExamination)
         {
+            BusinessClassExamination objBusinessclass = new BusinessClassExamination(getPatientObjective);
             pPatientExmCreate.lastUpdatedDate = DateTime.Now.ToString();
             pPatientExmCreate.lastUpdatedUser = "Myself";
-            getPatientObjective.SHExmPatientExamination.Add(pPatientExmCreate);
-            await getPatientObjective.SaveChangesAsync();
+
+            await objBusinessclass.SavePatientExaminationAndSeverity(patientExamination,severity);
+            
+
+            //getPatientObjective.SHExmPatientExamination.Add(pPatientExmCreate);
+            //await getPatientObjective.SaveChangesAsync();
             return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientExmCreate.PatientID }, pPatientExmCreate);
 
            // return RedirectToAction("Index");
@@ -170,7 +201,7 @@ namespace HealthCare.Controllers
         {
             try
             {
-                BusinessClass business = new BusinessClass(getPatientObjective);
+                BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
 
                 // Generate the document using the business class method-
                 byte[] generatedDocument = business.GenerateDocument(patientId, visitId, clinicId);
@@ -187,7 +218,7 @@ namespace HealthCare.Controllers
       
         public async Task<ActionResult> HandleForm(string patientID, string visitID, string clinicID,string visitDate,string patientName,string clinicName, string buttonType)
         {
-            BusinessClass business = new BusinessClass(getPatientObjective);
+            BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
 
             if (buttonType == "select")
             {
@@ -301,9 +332,49 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientFamilyHistory()
         {
-            return View();
-        }
+            String PatientID = "101";
+            String ClinicID = "1000";
 
+            List<PatientExamFHViewModel> patientExamFH = new List<PatientExamFHViewModel>();
+
+            //Code here to take questions
+            BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
+
+            var Questions = business.GetHistoryQuestions("FH");
+
+            foreach (PatientFHPHMasterModel Question in Questions)
+            {
+                patientExamFH.Add(new PatientExamFHViewModel { PatientID = PatientID, Question = Question.Question,ClinicID=ClinicID ,QuestionID=Question.QuestionID});
+            }
+
+            return View("PatientExamFamilyHealthHxView",patientExamFH);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SaveFHPH(List<PatientExamFHViewModel> patientExamFH)
+        {
+            //Save FH PH 
+
+            foreach(PatientExamFHViewModel Patient in patientExamFH)
+            {
+                if (!string.IsNullOrEmpty(Patient.Answer))
+                {
+                    getPatientObjective.SHExmPatientFHPH.Add(new PatientFHPHModel
+                    {
+
+                        Answer = Patient.Answer,
+                        QuestionID = Patient.QuestionID,
+                        PatientID = Patient.PatientID,
+                        ClinicID = Patient.ClinicID
+
+                    });
+                }
+                getPatientObjective.SaveChanges();
+            }
+          
+
+            return View("PatientExamFamilyHealthHxView", patientExamFH);
+        }
+        
        
         public IActionResult PatientVisitIntoDocument()
         {
@@ -311,10 +382,8 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientExamination()
         {
-            
+
             return View();
-
-
 
         }
         

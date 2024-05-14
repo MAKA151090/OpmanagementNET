@@ -3,6 +3,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class PatientExaminationContextModelSnapshot : ModelSnapshot
+    [Migration("20240514052200_MigModelFHPH")]
+    partial class MigModelFHPH
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,32 +89,6 @@ namespace HealthCare.Migrations
                     b.HasKey("PatientID", "ClinicID", "VisitID");
 
                     b.ToTable("SHExmInfoDocument");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.PatientFHPHMasterModel", b =>
-                {
-                    b.Property<string>("QuestionID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Question")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("QuestionID");
-
-                    b.ToTable("PatExmFHPH");
                 });
 
             modelBuilder.Entity("HealthCare.Models.PatientVisitIntoDocumentModel", b =>
@@ -254,25 +231,29 @@ namespace HealthCare.Migrations
                     b.Property<string>("PatientID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("QuestionID")
+                    b.Property<string>("Question")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Answer")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClinicID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedDate")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedUser")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PatientID", "QuestionID", "Type");
+                    b.HasKey("PatientID", "Question", "Type");
 
                     b.ToTable("SHExmPatientFHPH");
                 });
