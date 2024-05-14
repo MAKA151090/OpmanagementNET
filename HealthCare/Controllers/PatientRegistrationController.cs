@@ -21,11 +21,7 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<PatientRegistrationModel> Create(PatientRegistrationModel model)
         {
-            model.lastUpdatedDate = DateTime.Now.ToString();
-            model.lastUpdatedUser = "Myself";
-            _healthcareContext.SHPatientRegistration.Add(model);
-            await _healthcareContext.SaveChangesAsync();
-
+         
             var exitingpatient = await _healthcareContext.SHPatientRegistration.FindAsync(model.PatientID);
             if (exitingpatient != null)
             {
@@ -62,9 +58,6 @@ namespace HealthCare.Controllers
             }
             else
             {
-
-
-
 
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = "Myself";
