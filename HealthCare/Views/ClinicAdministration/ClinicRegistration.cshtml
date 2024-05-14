@@ -33,8 +33,9 @@
             </div>
 
                         <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ClinicName" class="form-control" placeholder="ClinicName" />
                 <label asp-for="ClinicName" class="control-label"></label>
-                <input asp-for="ClinicName" class="form-control"  />
+            
                 <span asp-validation-for="ClinicName" class="text-danger"></span>
             </div>
                       @*  <div class="form-floating form-floating-outline mb-4">
@@ -44,7 +45,8 @@
                         </div>*@
 
                         <div>
-                            <a asp-action="GetClinic" class="btn btn-primary btn-lg" asp-route-patientID="submit">Search</a>
+                            <input type="submit" class=" btn rounded-pill btn-info" asp-action="GetClinic" value="Search" />
+                          
                         </div>
 
                     </div>
@@ -55,24 +57,28 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ClinicAddress" class="form-control" placeholder="ClinicAddress" />
                             <label asp-for="ClinicAddress" class="control-label"></label>
-                            <input asp-for="ClinicAddress" class="form-control" />
+                          
                             <span asp-validation-for="ClinicAddress" class="text-danger"></span>
             
             </div>
                         <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="City" class="form-control" placeholder="City" />
                             <label asp-for="City" class="control-label"></label>
-                            <input asp-for="City" class="form-control" />
+                          
                             <span asp-validation-for="City" class="text-danger"></span>
                 </div>
                         <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="State" class="form-control" placeholder="State" />
                             <label asp-for="State" class="control-label"></label>
-                            <input asp-for="State" class="form-control" />
+                          
                             <span asp-validation-for="State" class="text-danger"></span>
  </div>
                             <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="PostalCode" class="form-control" placeholder="PostalCode" />
                             <label asp-for="PostalCode" class="control-label"></label>
-                            <input asp-for="PostalCode" class="form-control" />
+                          
                             <span asp-validation-for="PostalCode" class="text-danger"></span>
 
                            </div>
@@ -85,26 +91,30 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ClinicPhoneNumber" class="form-control" placeholder="ClinicPhoneNumber" />
                             <label asp-for="ClinicPhoneNumber" class="control-label"></label>
-                            <input asp-for="ClinicPhoneNumber" class="form-control" />
+                          
                             <span asp-validation-for="ClinicPhoneNumber" class="text-danger"></span>
 
                </div>
                         <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ClinicEmailAddress" class="form-control" placeholder="ClinicEmailAddress" />
                             <label asp-for="ClinicEmailAddress" class="control-label"></label>
-                            <input asp-for="ClinicEmailAddress" class="form-control" />
+                          
                             <span asp-validation-for="ClinicEmailAddress" class="text-danger"></span>
 
             </div>
                         <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="FromHour" class="form-control" placeholder="FromHour" />
                             <label asp-for="FromHour" class="control-label"></label>
-                            <input asp-for="FromHour" class="form-control" />
+                          
                             <span asp-validation-for="FromHour" class="text-danger"></span>
 
                </div>
                         <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ToHour" class="form-control" placeholder="ToHour" />
                             <label asp-for="ToHour" class="control-label"></label>
-                            <input asp-for="ToHour" class="form-control" />
+                          
                             <span asp-validation-for="ToHour" class="text-danger"></span>
 
               </div>
