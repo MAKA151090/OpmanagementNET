@@ -123,7 +123,7 @@ namespace HealthCare.Business
                 }
             }
 
-           
+
         }
         public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string clinicID, string patientName, string visitDate, string clinicName)
         {
@@ -135,7 +135,7 @@ namespace HealthCare.Business
                                  on re.ClinicID equals c.ClinicId into PatClinc
                                  from rec in PatClinc.DefaultIfEmpty()
                                  where (r.PatientID == patientID || r.FullName == patientName) &&
-                                                      (re.VisitID == visitID|| re.VisitDate == visitDate || re.VisitID == null) &&
+                                                      (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) &&
                                                       (re.ClinicID == clinicID || rec.ClinicName == clinicName || re.ClinicID == null)
                                  select new PatExamSearchModel
                                  {
@@ -159,7 +159,7 @@ namespace HealthCare.Business
             return patExamSearch;
 
 
-           
+
         }
 
         public int GetNextVisitIdForPatient(String patientId)
@@ -170,7 +170,7 @@ namespace HealthCare.Business
                 .Select(v => v.VisitID)
                 .ToList();
 
-        
+
 
 
             if (existingIds.Count == 0)
@@ -187,8 +187,8 @@ namespace HealthCare.Business
         }
         public async Task<PatientObjectiveModel> GetPatientObjectiveSubmit(string patientID, string visitID, string clinicID)
         {
-            String strNewCliniid=clinicID;
-            
+            String strNewCliniid = clinicID;
+
             if (string.IsNullOrEmpty(visitID))
             {
                 // Generate the next visit ID for the patient
@@ -200,27 +200,30 @@ namespace HealthCare.Business
             .FirstOrDefaultAsync();
 
                 var newPatientObjective = new PatientObjectiveModel
-            {
-               PatientID= patientID,
-               ClinicID= strNewCliniid,
-                VisitID = visitID,
-                 
-            };
+                {
+                    PatientID = patientID,
+                    ClinicID = strNewCliniid,
+                    VisitID = visitID,
+
+                };
 
 
-            objSearchContext.SHExmPatientObjective.Add(newPatientObjective);
+                objSearchContext.SHExmPatientObjective.Add(newPatientObjective);
 
-            await objSearchContext.SaveChangesAsync();
-        }
+                await objSearchContext.SaveChangesAsync();
+            }
 
+<<<<<<< HEAD
+=======
             
             var patientObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
                 x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == strNewCliniid);
 
             return patientObjectiveDataSubmit;
+>>>>>>> a2f5cba3cfb2c875808d3a64a08c4efe0002bcb2
+        }
+
     }
 
-}
 
-       
 }
