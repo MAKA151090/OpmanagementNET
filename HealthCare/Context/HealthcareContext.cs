@@ -33,6 +33,8 @@ namespace HealthCare.Context
 
         public DbSet<PatientInfoDocumentModel> SHExmInfoDocument { get; set; }
 
+        public DbSet<WebErrorsModel> SHWebErrors { get; set; }
+
         public DbSet<LogsModel> SHLogs { get; set; }
 
 
@@ -76,6 +78,9 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientInfoDocumentModel>()
        .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });
 
+            modelBuilder.Entity<WebErrorsModel>()
+        .HasKey(i => new { i.ErrodDesc, i.ErrDateTime, i.ScreenName });
+
             modelBuilder.Entity<LogsModel>()
         .HasKey(i => new { i.LogID });
 
@@ -85,6 +90,7 @@ namespace HealthCare.Context
        .ValueGeneratedOnUpdate()
        .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
+        public DbSet<PatientFHPHModel1> PatientFHPHModel1 { get; set; } = default!;
 
     }
     
