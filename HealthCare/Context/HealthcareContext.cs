@@ -42,6 +42,10 @@ namespace HealthCare.Context
 
         public DbSet<LogsModel> SHLogs { get; set; }
 
+        public DbSet<PatientTestModel> SHPatientTest { get; set; }
+
+        public DbSet<TestMasterModel> SHTestMaster { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -54,6 +58,11 @@ namespace HealthCare.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
+
+            modelBuilder.Entity<TestMasterModel>().HasKey(i => new { i.TestID });
+
+            modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID });
+                
 
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()
