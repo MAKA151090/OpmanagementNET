@@ -174,6 +174,5 @@ namespace HealthCare.Business
 
             return patitentObjectiveDataSubmit;
         }
-
     }
 }

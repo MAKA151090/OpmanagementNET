@@ -46,7 +46,28 @@ namespace HealthCare.Controllers
 
             return View("GetClinic");
         }
-            
+
+        public async Task<ActionResult> HandleForm(string clinicID, string clinicName , string buttonType)
+        {
+            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
+
+            if(buttonType == "select")
+            {
+                var clinicreg = await business.GetClinicRegister(clinicID, clinicName);
+
+                if(clinicreg != null)
+                {
+                    ViewBag.ClinicRegistration = clinicreg;
+                    return View("GetClinic");
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "No data found for the entered IDs.";
+                    return View("GetClinic");
+                }
+            }
+            return View();
+        }   
         public IActionResult Index()
         {
             return View();
@@ -73,6 +94,6 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-
+       
     }
 }
