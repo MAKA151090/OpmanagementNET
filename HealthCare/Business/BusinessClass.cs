@@ -213,14 +213,13 @@ namespace HealthCare.Business
                 await objSearchContext.SaveChangesAsync();
             }
 
-<<<<<<< HEAD
-=======
+
             
             var patientObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
                 x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == strNewCliniid);
 
             return patientObjectiveDataSubmit;
->>>>>>> a2f5cba3cfb2c875808d3a64a08c4efe0002bcb2
+
         }
 
     }
