@@ -1,0 +1,44 @@
+﻿
+namespace HealthCare.Models
+{
+    public class PatientTestModel
+    {
+        public PatientTestModel()
+        {
+        }
+
+        private String patientID;
+        private String testID;
+        private String clinicID;
+        private String testDateTime;
+        private String testResult;
+        private String tsampleClt;
+        private String tsampleCltDateTime;
+        private String exptRsltDateTime;
+        private String resultPublish;
+        private String referDocID;
+        private String referDate;
+        private String resultDate;
+        private String lastupdatedUser;
+        private String lastupdatedDate;
+        private String lastUpdatedMachine;
+
+
+        public string PatientID { get => patientID; set => patientID = value; }
+        public string TestID { get => testID; set => testID = value; }
+        public string ClinicID { get => clinicID; set => clinicID = value; }
+        public string? TestDateTime { get => testDateTime; set => testDateTime = value; }
+        public string? TestResult { get => testResult; set => testResult = value; }
+        public string? TsampleClt { get => tsampleClt; set => tsampleClt = value; }
+        public string? TsampleCltDateTime { get => tsampleCltDateTime; set => tsampleCltDateTime = value; }
+        public string? ExptRsltDateTime { get => exptRsltDateTime; set => exptRsltDateTime = value; }
+        public string? ResultPublish { get => resultPublish; set => resultPublish = value; }
+        public string? ReferDocID { get => referDocID; set => referDocID = value; }
+        public string? ReferDate { get => referDate; set => referDate = value; }
+        public string? ResultDate { get => resultDate; set => resultDate = value; }
+        public string? LastupdatedUser { get => lastupdatedUser; set => lastupdatedUser = value; }
+        public string? LastupdatedDate { get => lastupdatedDate; set => lastupdatedDate = value; }
+        public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
+    }
+
+}

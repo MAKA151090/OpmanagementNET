@@ -104,7 +104,6 @@ namespace HealthCare.Context
        .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
 
-        public DbSet<PatientFHPHModel1> PatientFHPHModel1 { get; set; } = default!;
 
     }
     
