@@ -1,0 +1,34 @@
+﻿@model PatientRegistrationModel
+
+@{
+    ViewData["Title"] = "GetPatient";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>GetPatient</h1>
+
+@using (Html.BeginForm("HandleReg", "PatientRegistration", FormMethod.Post))
+{
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="GetPatient">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="PatientID" class="control-label"></label>
+                    <input asp-for="PatientID" class="form-control" />
+                    <span asp-validation-for="PatientID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClinicID" class="control-label"></label>
+                    <input asp-for="ClinicID" class="form-control" />
+                    <span asp-validation-for="ClinicID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="buttonType" value="submit" class="btn btn-danger">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+

@@ -17,6 +17,8 @@ namespace HealthCare.Context
         //ClinicAdmin 
         public DbSet<ClinicAdminModel> SHclnClinicAdmin { get; set; }
 
+        public DbSet<BloodGroupModel> SHclnBloodGroup { get; set; }
+
         public DbSet<PatientRegistrationModel> SHPatientRegistration { get; set; }
 
 
@@ -59,6 +61,10 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<ClinicAdminModel>()
        .HasKey(i => new { i.ClinicId });
+
+            modelBuilder.Entity<BloodGroupModel>()
+                .HasKey(i => new { i.IntBg_Id, i.BloodGroup});
+
 
             modelBuilder.Entity<PatientRegistrationModel>()
                 .HasKey(i => new { i.PatientID });

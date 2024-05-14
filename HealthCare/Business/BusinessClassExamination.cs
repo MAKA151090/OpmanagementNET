@@ -200,8 +200,7 @@ namespace HealthCare.Business
                 .Select(v => v.VisitID)
                 .ToList();
 
-
-
+          
 
             if (existingIds.Count == 0)
             {
@@ -209,6 +208,7 @@ namespace HealthCare.Business
             }
             else
             {
+    
 
                 List<int> idIntegers = existingIds.Select(int.Parse).ToList();
                 int maxId = idIntegers.Max();
