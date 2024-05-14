@@ -18,5 +18,12 @@ namespace HealthCare.Business
 
              return clinicregisterdata;
         }
+
+        public async Task<DoctorAdminModel> GetDoctorRegister(string doctorid)
+        {
+            var doctorregisterdata = await _healthcareContext.SHclnDoctorAdmin.FirstOrDefaultAsync(x => x.DoctorID == doctorid);
+            
+            return doctorregisterdata;
+        }
     }
 }

@@ -91,7 +91,7 @@ namespace HealthCare.Controllers
                     else
                     {
                         ViewBag.ErrorMessage = "No data found for the entered IDs.";
-                        return View("CreateGet");
+                        return View("GetClinic");
                     }
                 }    
             }
@@ -123,6 +123,69 @@ namespace HealthCare.Controllers
             return model;
             // Pass the list to the view
         }
+
+        public async Task<DoctorAdminModel> AddDoctor(DoctorAdminModel model)
+        {
+            var existingDoctor = await _healthcareContext.SHclnDoctorAdmin.FindAsync(model.DoctorID);
+
+            if (existingDoctor != null)
+            {
+                existingDoctor.DoctorID = model.DoctorID;
+                existingDoctor.FirstName = model.FirstName;
+                existingDoctor.LastName = model.LastName;
+                existingDoctor.FullName = model.FullName;
+                existingDoctor.Gender = model.Gender;
+                existingDoctor.DateofBirth = model.DateofBirth;
+                existingDoctor.Address1 = model.Address1;
+                existingDoctor.Address2 = model.Address2;
+                existingDoctor.PhoneNumber = model.PhoneNumber;
+                existingDoctor.EmailId = model.EmailId;
+                existingDoctor.Nationality = model.Nationality;
+                existingDoctor.MedialLicenseNumber = model.MedialLicenseNumber;
+                existingDoctor.lastUpdatedDate = DateTime.Now.ToString();
+                existingDoctor.lastUpdatedUser = "Admin";
+            }
+            else
+            {
+
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Admin";
+                _healthcareContext.SHclnDoctorAdmin.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            return model;
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> GetDoctor()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Doctoradmin(string doctorid , string buttonType)
+        {
+            ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
+            if (buttonType == "submit")
+            {
+               var doctor = await businessClass.GetDoctorRegister(doctorid);
+                if (doctor != null) 
+                {
+                    doctorid = doctor.DoctorID;
+
+                    return View("DoctorRegistration" , doctor);
+                }
+               else
+                {
+                    ViewBag.ErrorMessage = "No data found for the entered IDs.";
+                    return View(GetDoctor);
+                }
+            }
+
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
