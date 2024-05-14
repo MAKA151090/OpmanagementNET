@@ -76,7 +76,7 @@ namespace HealthCare.Business
         }
         private byte[] PopulateWordTemplate(PatientRegistrationModel patientRegistration,
              PatientObjectiveModel patientObjective,
-            PatientFHPHModel patientFamilyHistory, PatientFHPHModel1 patientHealthHistory,
+            PatientFHPHModel patientFamilyHistory, PatientFHPHModel patientHealthHistory,
             PatientExaminationModel patientExamination, PatExmSymptomsSeverity patExmSymptomsSeverity)
         {
             // Load the existing template document
