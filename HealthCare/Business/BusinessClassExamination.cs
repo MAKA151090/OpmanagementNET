@@ -200,10 +200,7 @@ namespace HealthCare.Business
                 .Select(v => v.VisitID)
                 .ToList();
 
-            var patitentObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
-                    x.PatientID == patientID  && x.ClinicID == clinicID && x.VisitID==visitID);
-
-
+          
 
             if (existingIds.Count == 0)
             {
@@ -211,7 +208,7 @@ namespace HealthCare.Business
             }
             else
             {
-    }
+    
 
                 List<int> idIntegers = existingIds.Select(int.Parse).ToList();
                 int maxId = idIntegers.Max();
