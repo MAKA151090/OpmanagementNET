@@ -11,6 +11,7 @@ namespace HealthCare.Controllers
 {
     public class ClinicAdministrationController : Controller
     {
+        
       
         private HealthcareContext _healthcareContext;
 
@@ -22,100 +23,66 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<ClinicAdminModel> AddClinic(ClinicAdminModel model)
         {
-            //BusinessClass businessClass = new BusinessClass(_healthcareContext);
-            //try
-            //{
+            var existingClinic = await _healthcareContext.SHclnClinicAdmin.FindAsync(model.ClinicId);
+
+            if (existingClinic != null)
+            {
+                existingClinic.ClinicId = model.ClinicId;
+                existingClinic.ClinicName = model.ClinicName;
+                existingClinic.ClinicAddress = model.ClinicAddress;
+                existingClinic.City = model.City;
+                existingClinic.State = model.State;
+                existingClinic.PostalCode = model.PostalCode;
+                existingClinic.ClinicPhoneNumber = model.ClinicPhoneNumber;
+                existingClinic.ClinicEmailAddress = model.ClinicEmailAddress;
+                existingClinic.FromHour = model.FromHour;
+                existingClinic.ToHour = model.ToHour;
+                existingClinic.lastUpdatedDate = DateTime.Now.ToString();
+                existingClinic.lastUpdatedUser = "Myself";
+
+                _healthcareContext.Entry(existingClinic).State = EntityState.Modified;
+            }
+            else
+            {
+
+                //BusinessClass businessClass = new BusinessClass(_healthcareContext);
+                //try
+                //{
 
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = "Myself";
                 _healthcareContext.SHclnClinicAdmin.Add(model);
-                await _healthcareContext.SaveChangesAsync();
+                
+            }
+            await _healthcareContext.SaveChangesAsync();
+
             //}
             //catch (Exception ex)
             //{
-                //businessClass = new BusinessClass(_healthcareContext);
-                //businessClass.ErrorHandlers("ClinicRegistraion", ex.Message.ToString());
+            //businessClass = new BusinessClass(_healthcareContext);
+            //businessClass.ErrorHandlers("ClinicRegistraion", ex.Message.ToString());
             //}
             return model;
         }
-     /*   [HttpPatch]
-        public async Task<ActionResult<ClinicAdminModel>> UpdateClinic(int id, ClinicAdminModel updatedModel)
-        {
-            var existingClinic = await _healthcareContext.SHclnClinicAdmin.FindAsync(id);
-
-            if (existingClinic == null)
-            {
-                return NotFound(); // Return HTTP 404 Not Found if clinic with the given ID is not found
-            }
-
-            // Update properties of the existing clinic
-            existingClinic.ClinicName = updatedModel.ClinicName;
-            existingClinic.ClinicPhoneNumber = updatedModel.ClinicPhoneNumber;
-            // Update other properties as needed
-
-            _healthcareContext.Entry(existingClinic).State = EntityState.Modified;
-            await _healthcareContext.SaveChangesAsync();
-
-            return Ok(existingClinic); // Return HTTP 200 OK with the updated clinic model
-        }*/
-
-        [HttpPatch]
-
-        public async Task<ClinicAdminModel> UpdateClinic(ClinicAdminModel updatedModel)
-        {
-            _healthcareContext.Entry(updatedModel).State = EntityState.Modified;
-            await _healthcareContext.SaveChangesAsync();
-
-            return updatedModel;
-        }
-
-        /*[HttpPatch]
-        //[Authorize]
-        [Route("UdateEmployee/{EmpId}")]
-
-        public async Task<Employee> UpdateEmployee(Employee objEmployee)
-        {
-            try
-            {
-                _employeeDbContext.Entry(objEmployee).State = EntityState.Modified;
-                await _employeeDbContext.SaveChangesAsync();
-
-            }
-            catch
-            {
-                Console.WriteLine("Update error");
-            }
-            return objEmployee;
-        }*/
 
         [HttpPost]
         public async Task<IActionResult> GetClinic(ClinicAdminModel model)
         {
-            
+
             return View("GetClinic");
         }
 
-        public async Task<ActionResult> HandleForm(string clinicID, string clinicName , string buttonType)
+       /* public async Task<IActionResult> BloodGroupList(ClinicAdminModel model)
+
         {
-            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
+            model.lastUpdatedDate = DateTime.Now.ToString();
+            model.lastUpdatedUser = "Admin";
+            // Retrieve the list of blood groups from the database
+            var bloodGroups = await _healthcareContext.SHclnBloodGroup.ToListAsync();
 
-            if(buttonType == "select")
-            {
-                var clinicreg = await business.GetClinicRegister(clinicID, clinicName);
-
-                if(clinicreg != null)
-                {
-                    ViewBag.ClinicRegistration = clinicreg;
-                    return View("GetClinic");
-                }
-                else
-                {
-                    ViewBag.ErrorMessage = "No data found for the entered IDs.";
-                    return View("GetClinic");
-                }
-            }
-            return View();
-        }   
+            // Pass the list to the view
+            return View(bloodGroups);
+        }*/
         public IActionResult Index()
         {
             return View();
@@ -126,8 +93,9 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public IActionResult BloodGroupAdministration()
+        public IActionResult BloodGroupAdministration()    
         {
+           
             return View();
         }
         public IActionResult RollAccess()
