@@ -33,5 +33,6 @@ public class PatientExaminationModel
     public string lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
     public List<PatExmSymptomsSeverity> Severity { get => severity; set => severity = value; }
 
+    
 
 }

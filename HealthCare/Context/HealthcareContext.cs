@@ -29,6 +29,8 @@ namespace HealthCare.Context
 
         public DbSet<PatientFHPHModel>SHExmPatientFHPH { get; set; }
 
+        public DbSet<PatientFHPHMasterModel> PatExmFHPH {  get; set; }
+
         public DbSet<PatientFHPHModel1> SHExmPatientFHPH1 { get; set; }
 
         public DbSet<PatientInfoDocumentModel> SHExmInfoDocument { get; set; }
@@ -48,6 +50,8 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
+
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()
         .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });
@@ -70,7 +74,7 @@ namespace HealthCare.Context
         .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });
 
             modelBuilder.Entity<PatientFHPHModel>()
-        .HasKey(i => new { i.PatientID, i.Question, i.Type });
+        .HasKey(i => new { i.PatientID, i.QuestionID, i.Type });
 
             modelBuilder.Entity<PatientFHPHModel1>()
        .HasKey(i => new { i.PatientID, i.Question, i.Type });

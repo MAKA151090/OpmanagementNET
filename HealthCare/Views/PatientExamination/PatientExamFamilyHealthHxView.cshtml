@@ -1,0 +1,48 @@
+﻿@model List<PatientExamFHViewModel>
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>View</h1>
+
+<form asp-action="SaveFHPH" asp-controller="PatientExamination" method="post">
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+               QuestionID
+            </th>
+            <th>
+                Question
+            </th>
+            <th>
+                Answer
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <input type="text" class="form-control" name="QuestionID" value="@item.QuestionID" asp-for="@item.QuestionID" />
+            </td>
+            <td>
+                        <input type="text" class="form-control" name="Question" value="@item.Question" asp-for="@item.Question" />
+            </td>
+            <td>
+                        <input type="text" class="form-control" name="Answer" value="@item.Answer" asp-for="@item.Answer" />
+            </td>
+          
+        </tr>
+}
+    </tbody>
+</table>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

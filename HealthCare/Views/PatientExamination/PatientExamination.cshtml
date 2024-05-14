@@ -64,6 +64,27 @@
                 <input asp-for="lastUpdatedUser" class="form-control" />
                 <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
             </div>
+
+            <h4>Symptoms and Severity</h4>
+                <table class="table" id="symptomsTable">
+                    <thead>
+                        <tr>
+                            <th>Symptom</th>
+                            <th>Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Severity)
+                        {
+                            <tr>
+                                <td><input type="text" class="form-control" name="Symptoms[@item.Symptoms].Name" value="@item.Symptoms" /></td>
+                                <td><input type="text" class="form-control" name="Symptoms[@item.Severity].Severity" value="@item.Severity" /></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" asp-action="CreateExm" />
             </div>
