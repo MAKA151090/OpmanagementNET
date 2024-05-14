@@ -155,6 +155,60 @@
                         </ul>
             </li>
 
+
+
+                <ul class="menu-inner py-1">
+
+                    <!-- Laboratory Radiology -->
+                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/LabRad") ? " active open" : "")'>
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons mdi mdi-text-box-plus-outline"></i>
+                            <div>LaboratoryRadiology</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/LabRad/TestCreation" ? " active" : "")'>
+                                <a asp-controller="LabRad" asp-action="TestCreation" class="menu-link">
+                                    <div>TestCreation</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/LabRad/UpdateTestResults" ? " active" : "")'>
+                                <a asp-controller="LabRad" asp-action="UpdateTestResults" class="menu-link">
+                                    <div>UpdateTestResults</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/LabRad/PrintTestResults" ? " active" : "")'>
+                                <a asp-controller="LabRad" asp-action="PrintTestResults" class="menu-link">
+                                    <div>PrintTestResults</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/LabRad/RadiologyCreation" ? " active" : "")'>
+                                <a asp-controller="LabRad" asp-action="RadiologyCreation" class="menu-link">
+                                    <div>RadiologyCreation</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/LabRad/UpdateRadiologyResults" ? " active" : "")'>
+                                <a asp-controller="LabRad" asp-action="UpdateRadiologyResults" class="menu-link">
+                                    <div>UpdateRadiologyResults</div>
+                                </a>
+                            </li>
+                        </ul>
+                      
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/LabRad/PrintRadiologyResults" ? " active" : "")'>
+                                <a asp-controller="LabRad" asp-action="PrintRadiologyResults" class="menu-link">
+                                    <div>PrintRadiologyResults</div>
+                                </a>
+                            </li>
+                        </ul>
+            
             <ul class="menu-inner py-1">
 
                 <!-- PatientBilling -->

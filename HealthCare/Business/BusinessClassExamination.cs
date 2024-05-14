@@ -13,16 +13,34 @@ using Microsoft.Office.Interop.Word;
 
 namespace HealthCare.Business
 {
-    public class BusinessClass
+    public class BusinessClassExamination
     {
         private readonly HealthcareContext objSearchContext;
 
-        public BusinessClass(HealthcareContext serviceContext)
+        public BusinessClassExamination(HealthcareContext serviceContext)
         {
             objSearchContext = serviceContext;
         }
 
-        public byte[] GenerateDocument(string patientId, string visitId, string clinicId)
+        public async Task<bool> SavePatientExaminationAndSeverity(PatientExaminationModel patientExamination, PatExmSymptomsSeverity severity)
+        {
+            
+                patientExamination.lastUpdatedDate = DateTime.Now.ToString();
+                patientExamination.lastUpdatedUser = "Myself";
+
+                // Add patient examination
+                objSearchContext.SHExmPatientExamination.Add(patientExamination);
+                await objSearchContext.SaveChangesAsync();
+
+                // Assign the patientExaminationId to severity and save severity
+                severity.PatientID = patientExamination.PatientID;
+                objSearchContext.SHExmSeverity.Add(severity);
+                await objSearchContext.SaveChangesAsync();
+
+            return true;
+        }
+   
+    public byte[] GenerateDocument(string patientId, string visitId, string clinicId)
         {
             // Retrieve data from database
             using (var dbContext = new HealthcareContext())
@@ -123,7 +141,19 @@ namespace HealthCare.Business
                 }
             }
 
+           
+        }
+        public List<PatientFHPHMasterModel> GetHistoryQuestions (String Type)
+        {
 
+         var patExmQuestion= (from q in objSearchContext.PatExmFHPH
+                                  where q.Type == Type
+                                  select new PatientFHPHMasterModel{ Question = q.Question,QuestionID=q.QuestionID}).ToList();
+
+
+
+            return patExmQuestion;
+                    
         }
         public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string clinicID, string patientName, string visitDate, string clinicName)
         {
@@ -134,8 +164,8 @@ namespace HealthCare.Business
                                  join c in objSearchContext.SHclnClinicAdmin
                                  on re.ClinicID equals c.ClinicId into PatClinc
                                  from rec in PatClinc.DefaultIfEmpty()
-                                 where (r.PatientID == patientID || r.FullName == patientName) &&
-                                                      (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) &&
+                                 where (r.PatientID == patientID || r.FullName == patientName) ||
+                                                      (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
                                                       (re.ClinicID == clinicID || rec.ClinicName == clinicName || re.ClinicID == null)
                                  select new PatExamSearchModel
                                  {
@@ -222,7 +252,9 @@ namespace HealthCare.Business
 
         }
 
-    }
+
+
+}
 
 
 }
