@@ -66,23 +66,63 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetClinic(ClinicAdminModel model)
+        public async Task<IActionResult> GetClinic()
         {
 
-            return View("GetClinic");
+            return View();
         }
 
-       /* public async Task<IActionResult> BloodGroupList(ClinicAdminModel model)
+        public async Task<ActionResult> ClinicAdmin(string clinicid, string clinicname, string buttonType)
+        {
+
+            {
+                ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
+                if (buttonType == "submit")
+                {
+                    var Clinic = await business.GetClinicRegister(clinicid, clinicname);
+
+                    if (Clinic != null)
+                    {
+                        clinicid = Clinic.ClinicId;
+                        clinicname = Clinic.ClinicName;
+
+                        return View("ClinicRegistration", Clinic);
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessage = "No data found for the entered IDs.";
+                        return View("CreateGet");
+                    }
+                }    
+            }
+            return View();
+        }
+            public async Task<BloodGroupModel> BloodGroupList(BloodGroupModel model)
 
         {
-            model.lastUpdatedDate = DateTime.Now.ToString();
-            model.lastUpdatedUser = "Admin";
-            // Retrieve the list of blood groups from the database
-            var bloodGroups = await _healthcareContext.SHclnBloodGroup.ToListAsync();
+            var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id,model.BloodGroup);
 
+            if (existingBloodGroup != null)
+            {
+                existingBloodGroup.IntBg_Id =   model.IntBg_Id;
+                existingBloodGroup.BloodGroup = model.BloodGroup;
+                existingBloodGroup.lastUpdatedUser = "Admin";
+                existingBloodGroup.lastUpdatedDate = DateTime.Now.ToString();
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Admin";
+                // Retrieve the list of blood groups from the database
+
+                _healthcareContext.SHclnBloodGroup.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            return model;
             // Pass the list to the view
-            return View(bloodGroups);
-        }*/
+        }
         public IActionResult Index()
         {
             return View();
