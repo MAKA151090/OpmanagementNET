@@ -98,7 +98,7 @@ namespace HealthCare.Business
                     ReplacePlaceholder(mainPart, "Diagnosis", patientExamination.Diagnosis);
                     ReplacePlaceholder(mainPart, "Prescription", patientExamination.Prescription);
                     ReplacePlaceholder(mainPart, "Followupdate", patientExamination.FollowUp);
-                   // ReplacePlaceholder(mainPart, "<DoctorName>", patientExamination.DoctorName);
+                    // ReplacePlaceholder(mainPart, "<DoctorName>", patientExamination.DoctorName);
                     //ReplacePlaceholder(mainPart, "<Signature>", patientExamination.DoctorName);
 
 
@@ -115,18 +115,6 @@ namespace HealthCare.Business
         private void ReplacePlaceholder(MainDocumentPart mainPart, string placeholder, string value)
         {
 
-
-            /* var texts = mainPart.Document.Descendants<Text>()
-          .Where(t => t.Text.Contains(placeholder));
-
-             foreach (var text in texts)
-             {
-                 if (text.Text.Contains(placeholder))
-                 {
-                     text.Text = text.Text.Replace(placeholder, value ?? string.Empty);
-                 }
-             }*/
-
             foreach (var textElement in mainPart.Document.Body.Descendants<Text>())
             {
                 if (textElement.Text == placeholder)
@@ -135,44 +123,104 @@ namespace HealthCare.Business
                 }
             }
 
-            /*var docText = mainPart.Document.Body.Descendants<Text>()
-                .FirstOrDefault(t => t.Text.Contains(placeholder));
+           
+        }
+        public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string clinicID, string patientName, string visitDate, string clinicName)
+        {
+            var patExamSearch = (from r in objSearchContext.SHPatientRegistration
+                                 join e in objSearchContext.SHExmPatientObjective
+                                 on r.PatientID equals e.PatientID into PatReg
+                                 from re in PatReg.DefaultIfEmpty()
+                                 join c in objSearchContext.SHclnClinicAdmin
+                                 on re.ClinicID equals c.ClinicId into PatClinc
+                                 from rec in PatClinc.DefaultIfEmpty()
+                                 where (r.PatientID == patientID || r.FullName == patientName) &&
+                                                      (re.VisitID == visitID|| re.VisitDate == visitDate || re.VisitID == null) &&
+                                                      (re.ClinicID == clinicID || rec.ClinicName == clinicName || re.ClinicID == null)
+                                 select new PatExamSearchModel
+                                 {
 
-            if (docText != null)
-            {
-                docText.Text = docText.Text.Replace(placeholder, value);
-            }*/
+                                     PatientID = r.PatientID,
+
+                                     FullName = r.FullName,
+
+                                     VisitID = re != null ? re.VisitID : null,
+
+                                     VisitDate = re != null ? re.VisitDate : null,
+
+                                     ClinicID = rec != null ? rec.ClinicId : null,
+
+                                     ClinicName = rec != null ? rec.ClinicName : null,
+
+
+
+                                 }).ToListAsync().Result;
+
+            return patExamSearch;
+
+
+           
         }
 
-        public async Task<PatExamSearch> GetPatientObjectiveData(string patientID, string visitID, string clinicID, string patientName, string visitDate, string clinicName)
+        public int GetNextVisitIdForPatient(String patientId)
         {
 
-            var patientObjectiveData = await (from po in objSearchContext.SHExmPatientObjective
-                                              join pr in objSearchContext.SHPatientRegistration on po.PatientID equals pr.PatientID
-                                              join c in objSearchContext.SHclnClinicAdmin on po.ClinicID equals c.ClinicId
-                                              where (po.PatientID == patientID || pr.FullName == patientName) &&
-                                           (po.VisitID == visitID || po.VisitDate == visitDate) &&
-                                           (po.ClinicID == clinicID || c.ClinicName == clinicName)
-                                              select new PatExamSearch
-                                              {
-                                                  PatientID = po.PatientID,
-                                                  ClinicID = po.ClinicID,
-                                                  VisitID = po.VisitID,
-                                                  ClinicName = c.ClinicName,
-                                                  FullName = pr.FullName,
-                                                  VisitDate = po.VisitDate.ToString()
+            var existingIds = objSearchContext.SHExmPatientObjective
+                .Where(v => v.PatientID == patientId && !string.IsNullOrEmpty(v.VisitID))
+                .Select(v => v.VisitID)
+                .ToList();
 
-                                              }).FirstOrDefaultAsync();
+        
 
-            return patientObjectiveData;
+
+            if (existingIds.Count == 0)
+            {
+                return 1;
+            }
+            else
+            {
+
+                List<int> idIntegers = existingIds.Select(int.Parse).ToList();
+                int maxId = idIntegers.Max();
+                return maxId + 1;
+            }
         }
-
         public async Task<PatientObjectiveModel> GetPatientObjectiveSubmit(string patientID, string visitID, string clinicID)
         {
-            var patitentObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
-                    x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
+            String strNewCliniid=clinicID;
+            
+            if (string.IsNullOrEmpty(visitID))
+            {
+                // Generate the next visit ID for the patient
+                visitID = GetNextVisitIdForPatient(patientID).ToString();
 
-            return patitentObjectiveDataSubmit;
+                strNewCliniid = await objSearchContext.SHclnClinicAdmin
+            .Where(x => x.ClinicName == "Stellar")
+            .Select(x => x.ClinicId)
+            .FirstOrDefaultAsync();
+
+                var newPatientObjective = new PatientObjectiveModel
+            {
+               PatientID= patientID,
+               ClinicID= strNewCliniid,
+                VisitID = visitID,
+                 
+            };
+
+
+            objSearchContext.SHExmPatientObjective.Add(newPatientObjective);
+
+            await objSearchContext.SaveChangesAsync();
         }
+
+            
+            var patientObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
+                x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == strNewCliniid);
+
+            return patientObjectiveDataSubmit;
     }
+
+}
+
+       
 }
