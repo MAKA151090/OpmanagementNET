@@ -185,17 +185,7 @@ namespace HealthCare.Controllers
             return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientFHPH.PatientID }, pPatientFHPH);
         }
 
-        //PatientFHPH1
-        [HttpPost]
-        public async Task<IActionResult> FHPH2 (string objPatientID, PatientFHPHModel1 pPatientFHPH1)
-        {
-            pPatientFHPH1.lastUpdatedDate = DateTime.Now.ToString();
-            pPatientFHPH1.lastUpdatedUser = "Myself";
-            getPatientObjective.SHExmPatientFHPH1.Add(pPatientFHPH1);
-            await getPatientObjective.SaveChangesAsync();
-            // return RedirectToAction("Index");
-            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientFHPH1.PatientID }, pPatientFHPH1);
-        }
+     
 
         public IActionResult GeneratePatientExaminationDocument(string patientId, string visitId, string clinicId)
         {

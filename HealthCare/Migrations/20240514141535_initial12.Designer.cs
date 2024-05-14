@@ -4,6 +4,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class HealthcareContextModelSnapshot : ModelSnapshot
+    [Migration("20240514141535_initial12")]
+    partial class initial12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,58 +171,6 @@ namespace HealthCare.Migrations
                     b.ToTable("PatExmFHPH");
                 });
 
-            modelBuilder.Entity("HealthCare.Models.PatientTestModel", b =>
-                {
-                    b.Property<string>("PatientID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClinicID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TestID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ExptRsltDateTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReferDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReferDocID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResultDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResultPublish")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestDateTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestResult")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TsampleClt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TsampleCltDateTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PatientID", "ClinicID", "TestID");
-
-                    b.ToTable("SHPatientTest");
-                });
-
             modelBuilder.Entity("HealthCare.Models.PatientVisitIntoDocumentModel", b =>
                 {
                     b.Property<string>("PatientID")
@@ -242,34 +193,6 @@ namespace HealthCare.Migrations
                     b.HasKey("PatientID", "ClinicID", "VisitID");
 
                     b.ToTable("PatientVisitIntoDocumentModel");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.TestMasterModel", b =>
-                {
-                    b.Property<string>("TestID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Cost")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Range")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TestID");
-
-                    b.ToTable("SHTestMaster");
                 });
 
             modelBuilder.Entity("HealthCare.Models.WebErrorsModel", b =>
