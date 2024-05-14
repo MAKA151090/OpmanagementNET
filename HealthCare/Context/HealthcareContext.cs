@@ -37,6 +37,9 @@ namespace HealthCare.Context
 
         public DbSet<WebErrorsModel> SHWebErrors { get; set; }
 
+        public DbSet<LogsModel> SHLogs { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -83,6 +86,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<WebErrorsModel>()
         .HasKey(i => new { i.ErrodDesc, i.ErrDateTime, i.ScreenName });
+
+            modelBuilder.Entity<LogsModel>()
+        .HasKey(i => new { i.LogID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()
