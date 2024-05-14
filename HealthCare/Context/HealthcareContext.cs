@@ -34,7 +34,7 @@ namespace HealthCare.Context
 
         public DbSet<PatientFHPHMasterModel> PatExmFHPH {  get; set; }
 
-        public DbSet<PatientFHPHModel1> SHExmPatientFHPH1 { get; set; }
+     
 
         public DbSet<PatientInfoDocumentModel> SHExmInfoDocument { get; set; }
 
@@ -85,8 +85,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientFHPHModel>()
         .HasKey(i => new { i.PatientID, i.QuestionID, i.Type });
 
-            modelBuilder.Entity<PatientFHPHModel1>()
-       .HasKey(i => new { i.PatientID, i.Question, i.Type });
+
 
             modelBuilder.Entity<PatientInfoDocumentModel>()
        .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });

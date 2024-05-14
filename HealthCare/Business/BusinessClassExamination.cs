@@ -58,8 +58,7 @@ namespace HealthCare.Business
                 var patientFamilyHistory = dbContext.SHExmPatientFHPH
                     .FirstOrDefault(p => p.PatientID == patientId);
 
-                var patientHealthHistory = dbContext.SHExmPatientFHPH1
-                    .FirstOrDefault(p => p.PatientID == patientId);
+                
 
                 var patientExamination = dbContext.SHExmPatientExamination
                     .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
@@ -69,8 +68,8 @@ namespace HealthCare.Business
 
                 // Generate the populated document
                 byte[] generatedDocument = PopulateWordTemplate(patientInfo,
-                     patientObjective, patientFamilyHistory,
-                    patientHealthHistory, patientExamination, patExmSymptomsSeverity);
+                     patientObjective, patientFamilyHistory
+                     ,null,patientExamination, patExmSymptomsSeverity);
 
                 return generatedDocument;
             }
