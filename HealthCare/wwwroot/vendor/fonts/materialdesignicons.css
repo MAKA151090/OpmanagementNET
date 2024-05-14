@@ -29522,7 +29522,7 @@
 }
 
 .mdi-light:before {
-  color: rgb(255, 255, 255);
+    color: #fff;
 }
 .mdi-light.mdi-inactive:before {
   color: rgba(255, 255, 255, 0.3);

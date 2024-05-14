@@ -58,8 +58,7 @@ namespace HealthCare.Business
                 var patientFamilyHistory = dbContext.SHExmPatientFHPH
                     .FirstOrDefault(p => p.PatientID == patientId);
 
-                var patientHealthHistory = dbContext.SHExmPatientFHPH1
-                    .FirstOrDefault(p => p.PatientID == patientId);
+                
 
                 var patientExamination = dbContext.SHExmPatientExamination
                     .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
@@ -69,15 +68,15 @@ namespace HealthCare.Business
 
                 // Generate the populated document
                 byte[] generatedDocument = PopulateWordTemplate(patientInfo,
-                     patientObjective, patientFamilyHistory,
-                    patientHealthHistory, patientExamination, patExmSymptomsSeverity);
+                     patientObjective, patientFamilyHistory
+                     ,null,patientExamination, patExmSymptomsSeverity);
 
                 return generatedDocument;
             }
         }
         private byte[] PopulateWordTemplate(PatientRegistrationModel patientRegistration,
              PatientObjectiveModel patientObjective,
-            PatientFHPHModel patientFamilyHistory, PatientFHPHModel1 patientHealthHistory,
+            PatientFHPHModel patientFamilyHistory, PatientFHPHModel patientHealthHistory,
             PatientExaminationModel patientExamination, PatExmSymptomsSeverity patExmSymptomsSeverity)
         {
             // Load the existing template document
@@ -200,8 +199,7 @@ namespace HealthCare.Business
                 .Select(v => v.VisitID)
                 .ToList();
 
-
-
+          
 
             if (existingIds.Count == 0)
             {
@@ -209,6 +207,7 @@ namespace HealthCare.Business
             }
             else
             {
+    
 
                 List<int> idIntegers = existingIds.Select(int.Parse).ToList();
                 int maxId = idIntegers.Max();
