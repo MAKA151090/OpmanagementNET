@@ -21,6 +21,7 @@ namespace HealthCare.Context
 
         public DbSet<PatientRegistrationModel> SHPatientRegistration { get; set; }
 
+        public DbSet<PatientScheduleModel> SHPatientSchedule { get; set; }
 
 
         public DbSet<PatientExaminationModel> SHExmPatientExamination { get; set; }
@@ -69,6 +70,8 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientRegistrationModel>()
                 .HasKey(i => new { i.PatientID });
 
+            modelBuilder.Entity<PatientScheduleModel>()
+                .HasKey(i => new { i.PatientID });
 
             modelBuilder.Entity<PatientExaminationModel>()
         .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID, i.ExaminationID });
@@ -100,6 +103,7 @@ namespace HealthCare.Context
        .ValueGeneratedOnUpdate()
        .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
+
         public DbSet<PatientFHPHModel1> PatientFHPHModel1 { get; set; } = default!;
 
     }
