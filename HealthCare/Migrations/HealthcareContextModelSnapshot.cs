@@ -84,6 +84,55 @@ namespace HealthCare.Migrations
                     b.ToTable("SHclnClinicAdmin");
                 });
 
+            modelBuilder.Entity("DoctorAdminModel", b =>
+                {
+                    b.Property<string>("DoctorID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DateofBirth")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MedialLicenseNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nationality")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DoctorID");
+
+                    b.ToTable("SHclnDoctorAdmin");
+                });
+
             modelBuilder.Entity("HealthCare.Business.PatientInfoDocumentModel", b =>
                 {
                     b.Property<string>("PatientID")
