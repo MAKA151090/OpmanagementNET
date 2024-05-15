@@ -120,52 +120,64 @@
 
                             <span asp-validation-for="Age" class="text-danger"></span>
                         </div>
-                       
-         
-            <div class="form-floating form-floating-outline mb-4">               
-                <select asp-for="Gender" class="form-control">
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-                    <label asp-for="Gender" class="control-label"></label>
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-          
-            <div class="form-floating form-floating-outline mb-4">               
-                <select asp-for="BloodGroup" class="form-control">
-                    <option value="">Select Blood Group</option>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
-                </select>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <select asp-for="BloodGroup" class="form-control">
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
                             <label asp-for="BloodGroup" class="control-label"></label>
-                <span asp-validation-for="BloodGroup" class="text-danger"></span>
-            </div>
-                      
-                   
+                            <span asp-validation-for="BloodGroup" class="text-danger"></span>
+                        </div>
 
-            <div class="form-floating form-floating-outline mb-4">              
-                <select asp-for="MaritalStatus" class="form-control">
-                    <option value="">Select Marital Status</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                </select>
-                <label asp-for="MaritalStatus" class="control-label"></label>
-                <span asp-validation-for="MaritalStatus" class="text-danger"></span>
-            </div>
 
-            <div class="form-floating form-floating-outline mb-4">
-                            <textarea class="form-control" aria-label="Address1" plac1eholder="Address1" style="height: 90px;"></textarea>
+                        <div class="form-group">
+                            <label class="control-label">Gender:</label><br />
+                            <div class="form-check form-check-inline">
+                                <input asp-for="Gender" class="form-check-input" type="radio" value="Male" id="maleRadio" />
+                                <label class="form-check-label" for="maleRadio">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input asp-for="Gender" class="form-check-input" type="radio" value="Female" id="femaleRadio" />
+                                <label class="form-check-label" for="femaleRadio">Female</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input asp-for="Gender" class="form-check-input" type="radio" value="Other" id="otherRadio" />
+                                <label class="form-check-label" for="otherRadio">Other</label>
+                            </div>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+
+          
+           
+
+
+
+                        <div class="form-group">
+                            <label class="control-label">Marital Status:</label><br />
+                            <div class="form-check form-check-inline">
+                                <input asp-for="MaritalStatus" class="form-check-input" type="radio" value="Single" id="singleRadio" />
+                                <label class="form-check-label" for="singleRadio">Single</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input asp-for="MaritalStatus" class="form-check-input" type="radio" value="Married" id="marriedRadio" />
+                                <label class="form-check-label" for="marriedRadio">Married</label>
+                            </div>
+                            <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <textarea class="form-control" aria-label="Address1" placeholder="Address1" style="height: 90px;"></textarea>
                             <label asp-for="Address1" class="control-label"></label>
-                           <span asp-validation-for="Address1" class="text-danger"></span>
-
+                            <span asp-validation-for="Address1" class="text-danger"></span>
              </div>               
 
                         <div class="form-floating form-floating-outline mb-4">
@@ -255,7 +267,6 @@
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="DateTime" class="form-control" type="date" placeholder="DateTime" />
                 <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" type="date" />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
                         <div class="row gy-4">
@@ -270,17 +281,17 @@
             </div>
             </div>
         </div>
-        <div class="row gy-4">
+        @* <div class="row gy-4">
             <div class="form-floating form-floating-outline mb-4">
             </div>
             <div class="form-group">
                 <label asp-for="lastUpdatedUser" class="control-label"></label>
                 <input asp-for="lastUpdatedUser" class="form-control" />
                 <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div> *@
+            </div> 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            </div> *@
             @if(ViewBag.Message!=null)
             {
                 <div class="alert alert-success">
@@ -291,6 +302,6 @@
    
 </div>
 
-<div>
+@* <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div> *@
