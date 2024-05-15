@@ -266,7 +266,7 @@ namespace HealthCare.Business
                     TestName = tm.TestName,
                     Range = tm.Range,
                     TestDate = pt.TestDateTime,
-                    Result = pt.ResultDate,
+                    Result = pt.TestResult,
                     DoctorName = ca.FullName,
                     PatientName = p.FullName,
                     ClinicName = c.ClinicName
