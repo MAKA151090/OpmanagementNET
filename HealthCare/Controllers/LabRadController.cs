@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Business;
+using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,6 +54,20 @@ namespace HealthCare.Controllers
 
 
         }
+        public async Task<IActionResult> ViewResult(PatientViewResultModel Model)
+        {
+            BusinessClassExamination ObjBusTestResult = new BusinessClassExamination(GetlabData);
+
+            if (ObjBusTestResult!=null)
+            {
+                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.ClinicID);
+                return View("PrintTestResults", testResults);
+            }
+            return View(Model); 
+
+
+        }
+
         public IActionResult LabTest()
         {
             return View();

@@ -49,6 +49,7 @@ namespace HealthCare.Context
 
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

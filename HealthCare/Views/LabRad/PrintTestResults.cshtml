@@ -1,13 +1,169 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
+﻿@model List<PatientViewResultModel>
 
 @{
     ViewData["Title"] = "PrintTestResults";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div> this page is for PrintTestResults two</div>
+
+<h1>PrintTestResults</h1>
+
+<hr />
+
+@using (Html.BeginForm("ViewResult", "LabRad", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="PrintTestResults">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label for="PatientID" class="control-label">Patient ID</label>
+                    <input type="text" id="PatientID" name="PatientID" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="ClinicID" class="control-label">Clinic ID</label>
+                    <input type="text" id="ClinicID" name="ClinicID" class="form-control" />
+                </div>
+
+               
+
+                <div class="form-group">
+                    <input type="submit" value="GetReport" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Patient Name
+            </th>
+            <th>
+                Test ID
+            </th>
+            <th>
+                Test Name
+            </th>
+            <th>
+                Result
+            </th>
+            <th>
+                Range
+            </th>
+            <th>
+                Test Date
+            </th>
+            <th>
+                Doctor Name
+            </th>
+            <th>
+                ClinicName
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model !=null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.PatientName</td>
+                    <td>@item.TestID</td>
+                    <td>@item.TestName</td>
+                    <td>@item.Result</td>
+                    <td>@item.Range</td>
+                    <td>@item.TestDate</td>
+                    <td>@item.DoctorName</td>
+                    <td>@item.ClinicName</td>
+                </tr>
+            }            
+        }
+            </tbody>
+            </table>
+    @if (Model != null)
+    {
+      <div class="form-group">
+        <input type="submit" value="Print" class="btn btn-primary" />
+      </div>
+    }
+}
+        
+
+
+@* <h1>Test Results</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+            <th>Test Name</th>
+            <th>Range</th>
+            <th>Test Date</th>
+            <th>Result</th>
+            <th>Doctor Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var testResult in Model)
+        {
+            <tr>
+                <td>@testResult.TestID</td>
+                <td>@testResult.TestName</td>
+                <td>@testResult.Range</td>
+                <td>@testResult.TestDate</td>
+                <td>@testResult.Result</td>
+                <td>@testResult.DoctorName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+ *@
+@* @if (ViewBag.Result!=null)
+{
+    <div class="card">
+        <h5 class="card-header">Patient Search Result</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Test ID</th>
+                        <th>Test Name</th>
+                        <th>Test Date</th>
+                        <th>Result</th>
+                        <th>Range</th>
+                        <th>Doctor Name</th>
+                       
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                        @foreach (var item in ViewBag.Result)
+                        {
+                        <tr>
+                            <td><input type="checkbox" name="selectedPatients" value="@item.PatientID" /></td>
+                            <td>@item.TestID</td>
+                            <td>@item.TestName</td>
+                            <td>@item.TestDate</td>
+                            <td>@item.Result</td>
+                            <td>@item.Range</td>
+                            <td>@item.DoctorName</td>
+                           
+                        </tr>
+                        }
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+} *@
+
+
 
 
