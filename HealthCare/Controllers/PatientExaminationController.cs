@@ -52,7 +52,8 @@ namespace HealthCare.Controllers
            
             }
             await getPatientObjective.SaveChangesAsync();
-            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientIDCreate.PatientID }, pPatientIDCreate);
+            ViewBag.Message = "Saved Successfully.";
+            return View(pPatientIDCreate);
         }
 
         /* public async Task<ActionResult> CreateGet(PatientObjectiveModel patient)

@@ -1,17 +1,17 @@
 ﻿@model HealthCare.Models.PatientTestModel
 
 @{
-    ViewData["Title"] = "View";
-    Layout = "~/Views/Shared/Sections/Menu/_VerticalMenu.cshtml";
+    ViewData["Title"] = "TestCreation";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>View</h1>
+<h1>TestCreation</h1>
 
 <h4>PatientTestModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="View">
+        <form asp-controller="LabRad" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PatientID" class="control-label"></label>
@@ -73,23 +73,23 @@
                 <input asp-for="ResultDate" class="form-control" />
                 <span asp-validation-for="ResultDate" class="text-danger"></span>
             </div>
-           @*  <div class="form-group">
-                <label asp-for="LastupdatedUser" class="control-label"></label>
-                <input asp-for="LastupdatedUser" class="form-control" />
-                <span asp-validation-for="LastupdatedUser" class="text-danger"></span>
+            @*  <div class="form-group">
+            <label asp-for="LastupdatedUser" class="control-label"></label>
+            <input asp-for="LastupdatedUser" class="form-control" />
+            <span asp-validation-for="LastupdatedUser" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastupdatedDate" class="control-label"></label>
-                <input asp-for="LastupdatedDate" class="form-control" />
-                <span asp-validation-for="LastupdatedDate" class="text-danger"></span>
+            <label asp-for="LastupdatedDate" class="control-label"></label>
+            <input asp-for="LastupdatedDate" class="form-control" />
+            <span asp-validation-for="LastupdatedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastUpdatedMachine" class="control-label"></label>
-                <input asp-for="LastUpdatedMachine" class="form-control" />
-                <span asp-validation-for="LastUpdatedMachine" class="text-danger"></span>
+            <label asp-for="LastUpdatedMachine" class="control-label"></label>
+            <input asp-for="LastUpdatedMachine" class="form-control" />
+            <span asp-validation-for="LastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" asp-action="LabTest" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -99,6 +99,4 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+

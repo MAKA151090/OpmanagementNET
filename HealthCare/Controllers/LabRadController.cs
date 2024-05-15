@@ -1,9 +1,75 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HealthCare.Context;
+using HealthCare.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HealthCare.Controllers
 {
     public class LabRadController : Controller
     {
+        private HealthcareContext GetlabData;
+
+        public LabRadController(HealthcareContext GetlabData)
+        {
+            this.GetlabData = GetlabData;
+        }
+        [HttpPost]
+        public async Task<IActionResult> LabTest(PatientTestModel pPatientTest)
+        {
+            var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.ClinicID, pPatientTest.TestID);
+            if (existingPatientTest != null)
+            {
+
+                existingPatientTest.PatientID = pPatientTest.PatientID;
+                existingPatientTest.ClinicID = pPatientTest.ClinicID;
+                existingPatientTest.TestID = pPatientTest.TestID;
+                existingPatientTest.TestResult = pPatientTest.TestResult;
+                existingPatientTest.TestDateTime = pPatientTest.TestDateTime;
+                existingPatientTest.TsampleCltDateTime = pPatientTest.TsampleCltDateTime;
+                existingPatientTest.TsampleClt = pPatientTest.TsampleClt;
+                existingPatientTest.ExptRsltDateTime = pPatientTest.ExptRsltDateTime;
+                existingPatientTest.ResultPublish = pPatientTest.ResultPublish;
+                existingPatientTest.ReferDate = pPatientTest.ReferDate;
+                existingPatientTest.ReferDocID = pPatientTest.ReferDocID;
+                existingPatientTest.ResultDate = pPatientTest.ResultDate;
+                existingPatientTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingPatientTest.lastUpdatedUser = "Myself";
+                existingPatientTest.lastUpdatedMachine = "Lap";
+
+
+            }
+            else
+            {
+                pPatientTest.lastUpdatedDate = DateTime.Now.ToString();
+                pPatientTest.lastUpdatedUser = "Myself";
+                pPatientTest.lastUpdatedMachine = "Lap";
+                GetlabData.SHPatientTest.Add(pPatientTest);
+
+            }
+            await GetlabData.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("TestCeation", pPatientTest);
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public IActionResult Index()
         {
             return View();
@@ -17,7 +83,7 @@ namespace HealthCare.Controllers
             return View();
         }
         public IActionResult PrintTestResults()
-        
+
         {
             return View();
         }
