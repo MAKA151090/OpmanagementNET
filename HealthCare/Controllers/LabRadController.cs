@@ -12,9 +12,11 @@ namespace HealthCare.Controllers
         {
             this.GetlabData = GetlabData;
         }
+
         [HttpPost]
-        public async Task<IActionResult> LabTest(PatientTestModel pPatientTest)
+        public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest)
         {
+            //PatientTestModel = new PatientTestModel();
             var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.ClinicID, pPatientTest.TestID);
             if (existingPatientTest != null)
             {
@@ -47,28 +49,14 @@ namespace HealthCare.Controllers
             }
             await GetlabData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
-            return View("TestCeation", pPatientTest);
+            return View("TestCreation", pPatientTest);
 
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        public IActionResult LabTest()
+        {
+            return View();
+        }
 
         public IActionResult Index()
         {

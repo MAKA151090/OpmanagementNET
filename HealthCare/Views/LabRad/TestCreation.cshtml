@@ -1,4 +1,4 @@
-﻿@model HealthCare.Models.PatientTestModel
+﻿@model PatientTestModel
 
 @{
     ViewData["Title"] = "TestCreation";
@@ -9,43 +9,44 @@
 
 <h4>PatientTestModel</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="LabRad" method="post">
+@using (Html.BeginForm("TestCreation", "LabRad", FormMethod.Post))
+{
+     <div class="row">
+        <div class="col-md-4">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
+                <input asp-for="PatientID" class="form-control" name="PatientID" />
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TestID" class="control-label"></label>
-                <input asp-for="TestID" class="form-control" />
+                <input asp-for="TestID" class="form-control" name="TestID" />
                 <span asp-validation-for="TestID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClinicID" class="control-label"></label>
-                <input asp-for="ClinicID" class="form-control" />
+                <input asp-for="ClinicID" class="form-control" name="ClinicID" />
                 <span asp-validation-for="ClinicID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TestDateTime" class="control-label"></label>
-                <input asp-for="TestDateTime" class="form-control" />
+                <input asp-for="TestDateTime" class="form-control" name="TestDateTime" />
                 <span asp-validation-for="TestDateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TestResult" class="control-label"></label>
-                <input asp-for="TestResult" class="form-control" />
+                <input asp-for="TestResult" class="form-control" name="TestResult" />
                 <span asp-validation-for="TestResult" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TsampleClt" class="control-label"></label>
-                <input asp-for="TsampleClt" class="form-control" />
-                <span asp-validation-for="TsampleClt" class="text-danger"></span>
+                <input asp-for="TsampleClt" class="form-control" name="TsampleClt"/>
             </div>
             <div class="form-group">
                 <label asp-for="TsampleCltDateTime" class="control-label"></label>
-                <input asp-for="TsampleCltDateTime" class="form-control" />
+                <input asp-for="TsampleCltDateTime" class="form-control" name="TsampleCltDateTime" />
                 <span asp-validation-for="TsampleCltDateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -73,30 +74,21 @@
                 <input asp-for="ResultDate" class="form-control" />
                 <span asp-validation-for="ResultDate" class="text-danger"></span>
             </div>
-            @*  <div class="form-group">
-            <label asp-for="LastupdatedUser" class="control-label"></label>
-            <input asp-for="LastupdatedUser" class="form-control" />
-            <span asp-validation-for="LastupdatedUser" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
-            <label asp-for="LastupdatedDate" class="control-label"></label>
-            <input asp-for="LastupdatedDate" class="form-control" />
-            <span asp-validation-for="LastupdatedDate" class="text-danger"></span>
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-            <div class="form-group">
-            <label asp-for="LastUpdatedMachine" class="control-label"></label>
-            <input asp-for="LastUpdatedMachine" class="form-control" />
-            <span asp-validation-for="LastUpdatedMachine" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <input type="submit" value="Create" asp-action="LabTest" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
+</div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+}
+
 
 

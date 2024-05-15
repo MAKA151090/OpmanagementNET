@@ -36,9 +36,9 @@ namespace HealthCare.Models
         public string? ReferDocID { get => referDocID; set => referDocID = value; }
         public string? ReferDate { get => referDate; set => referDate = value; }
         public string? ResultDate { get => resultDate; set => resultDate = value; }
-        public string? lastUpdatedUser { get => lastUpdatedUser; set => lastUpdatedUser = value; }
-        public string? lastUpdatedDate { get => lastUpdatedDate; set => lastUpdatedDate = value; }
-        public string? lastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
+        public string? lastUpdatedUser { get => LastupdatedUser; set => LastupdatedUser = value; }
+        public string? lastUpdatedDate { get => LastupdatedDate; set => LastupdatedDate = value; }
+        public string? lastUpdatedMachine { get => LastUpdatedMachine; set => LastUpdatedMachine = value; }
     }
 
 }
