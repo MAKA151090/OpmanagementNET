@@ -5,8 +5,7 @@
       "secretStore": "AzureAppSettings",
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/healthcaredbserver2024/databases/HealthCare_db",
       "type": "mssql.azure",
-      "connectionId": "ConnectionStrings:Stellar",
-      "dynamicId": null
+      "connectionId": "ConnectionStrings:Stellar"
     }
   }
 }
