@@ -5,89 +5,135 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>View</h1>
-<h4>PatientRegistrationModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+
+
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1" >Patient Registration</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
+
+
         <form asp-action="Create" asp-controller="PatientRegistration">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
-                <span asp-validation-for="PatientID" class="text-danger"></span>
+        <div class="card">
+            <div class="card-body">
+        <div class="row gy-4">
+           
+            <div class="col-md-12 col-lg-3">
+                 <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
+                            <label asp-for="PatientID" class="control-label"></label>
+                                  <span asp-validation-for="PatientID" class="text-danger"></span>
+
+
+                        </div>
+
+
+                    
             </div>
-            <div class="form-group">
+                        <div class="col-md-12 col-lg-3">
+                          
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" />
                 <label asp-for="ClinicID" class="control-label"></label>
-                <input asp-for="ClinicID" class="form-control" />
+                            
                 <span asp-validation-for="ClinicID" class="text-danger"></span>
             </div>
-            <div>
-                <input type="submit" value="Get" asp-action="GetPatient" class="btn btn-primary" />
+                   
             </div>
-            <div class="form-group">
+            <div class="col-md-12 col-lg-6">
+               
+            <div>
+                            <input type="submit" value="Get" asp-action="GetPatient" class="btn btn-outline-dark waves-effect" />
+            </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+        <div class="row gy-4">
+            <div class="form-floating form-floating-outline mb-4">
+                </div>
+            </div>
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="FirstName" class="form-control" placeholder="FirstName" />
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+                           
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="MidName" class="form-control" placeholder="MidName" />
                 <label asp-for="MidName" class="control-label"></label>
-                <input asp-for="MidName" class="form-control" />
+                           
                 <span asp-validation-for="MidName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="LastName" class="form-control" placeholder="LastName" />
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                            
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="FullName" class="form-control" placeholder="FullName" />
                 <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
+                          
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Initial" class="form-control" placeholder="Initial" />
                 <label asp-for="Initial" class="control-label"></label>
-                <input asp-for="Initial" class="form-control" />
+                           
                 <span asp-validation-for="Initial" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Prefix" class="form-control" placeholder="Prefix" />
                 <label asp-for="Prefix" class="control-label"></label>
-                <input asp-for="Prefix" class="form-control" />
+                           
                 <span asp-validation-for="Prefix" class="text-danger"></span>
+            </div>                          
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Dob" class="form-control" placeholder="Dob" />
+                            <label asp-for="Dob" class="control-label"></label>
+
+                            <span asp-validation-for="Dob" class="text-danger"></span>
+                        </div>
+                      
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Dob" class="control-label"></label>
-                <input asp-for="Dob" class="form-control" />
-                <span asp-validation-for="Dob" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            
-           @*  <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
+            <div class="col-md-12 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Age" class="form-control" placeholder="Age" />
+                            <label asp-for="Age" class="control-label"></label>
+
+                            <span asp-validation-for="Age" class="text-danger"></span>
+                        </div>
+                       
+         
+            <div class="form-floating form-floating-outline mb-4">               
                 <select asp-for="Gender" class="form-control">
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                 </select>
+                    <label asp-for="Gender" class="control-label"></label>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-            @* <div class="form-group">
-                <label asp-for="BloodGroup" class="control-label"></label>
-                <input asp-for="BloodGroup" class="form-control" />
-                <span asp-validation-for="BloodGroup" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="BloodGroup" class="control-label"></label>
+          
+            <div class="form-floating form-floating-outline mb-4">               
                 <select asp-for="BloodGroup" class="form-control">
                     <option value="">Select Blood Group</option>
                     <option value="A+">A+</option>
@@ -99,103 +145,137 @@
                     <option value="O+">O+</option>
                     <option value="O-">O-</option>
                 </select>
+                            <label asp-for="BloodGroup" class="control-label"></label>
                 <span asp-validation-for="BloodGroup" class="text-danger"></span>
-            </div>                                          
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-@*             <div class="form-group">
-                <label asp-for="MaritalStatus" class="control-label"></label>
-                <input asp-for="MaritalStatus" class="form-control" />
-                <span asp-validation-for="MaritalStatus" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="MaritalStatus" class="control-label"></label>
+                      
+                   
+
+            <div class="form-floating form-floating-outline mb-4">              
                 <select asp-for="MaritalStatus" class="form-control">
                     <option value="">Select Marital Status</option>
                     <option value="Single">Single</option>
                     <option value="Married">Married</option>
                 </select>
+                <label asp-for="MaritalStatus" class="control-label"></label>
                 <span asp-validation-for="MaritalStatus" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Address1" class="control-label"></label>
-                <input asp-for="Address1" class="form-control" />
-                <span asp-validation-for="Address1" class="text-danger"></span>
+            <div class="form-floating form-floating-outline mb-4">
+                            <textarea class="form-control" aria-label="Address1" plac1eholder="Address1" style="height: 90px;"></textarea>
+                            <label asp-for="Address1" class="control-label"></label>
+                           <span asp-validation-for="Address1" class="text-danger"></span>
+
+             </div>               
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <textarea class="form-control" aria-label="Address2" placeholder="Address2" style="height: 90px;"></textarea>
+                            <label asp-for="Address2" class="control-label"></label>
+                            <span asp-validation-for="Address2" class="text-danger"></span>
+
+
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Address2" class="control-label"></label>
-                <input asp-for="Address2" class="form-control" />
-                <span asp-validation-for="Address2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="col-md-12 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="PhoneNumber" />
+                            <label asp-for="PhoneNumber" class="control-label"></label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Country" class="form-control" placeholder="Country" />
                 <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
+                
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="City" class="form-control" placeholder="City" />
                 <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
+              
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="State" class="form-control" placeholder="State" />
                 <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
+                         
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Pin" class="form-control" placeholder="Pin" />
                 <label asp-for="Pin" class="control-label"></label>
-                <input asp-for="Pin" class="form-control" />
+                          
                 <span asp-validation-for="Pin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IDPrfName" class="control-label"></label>
-                <input asp-for="IDPrfName" class="form-control" />
+           </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="IDPrfName" class="form-control" placeholder="IDProofName" />
+                <label asp-for="IDPrfName"  class="control-label">IDProofName</label>
                 <span asp-validation-for="IDPrfName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IDPrfNumber" class="control-label"></label>
-                <input asp-for="IDPrfNumber" class="form-control" />
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="IDPrfNumber" class="form-control" placeholder="IDProofNumber" />
+                <label asp-for="IDPrfNumber" class="control-label">IDProofNumber</label>
+                         
                 <span asp-validation-for="IDPrfNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CnctPrsnName" class="control-label"></label>
-                <input asp-for="CnctPrsnName" class="form-control" />
+                        </div>
+
+                    </div>
+
+                </div>
+
+            
+            <div class="col-md-12 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="CnctPrsnName" class="form-control" placeholder="CnctPrsnName" />
+                <label asp-for="CnctPrsnName" class="control-label">ContactPersonName</label>
+                        
                 <span asp-validation-for="CnctPrsnName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Rlnpatient" class="control-label"></label>
-                <input asp-for="Rlnpatient" class="form-control" />
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Rlnpatient" class="form-control" placeholder="Rlnpatient" />
+                <label asp-for="Rlnpatient" class="control-label">Patient Relation</label>
+                          
                 <span asp-validation-for="Rlnpatient" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EmgcyCntNum" class="control-label"></label>
-                <input asp-for="EmgcyCntNum" class="form-control" />
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="EmgcyCntNum" class="form-control" placeholder="EmgcyCntNum" />
+                <label asp-for="EmgcyCntNum" class="control-label">Emergency Contact Number</label>
+                          
                 <span asp-validation-for="EmgcyCntNum" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="DateTime" class="form-control" type="date" placeholder="DateTime" />
                 <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
+                           
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
-            @* <div class="form-group">
-                <label asp-for="lastUpdatedDate" class="control-label"></label>
-                <input asp-for="lastUpdatedDate" class="form-control" />
-                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+                        <div class="row gy-4">
+                            <div class="form-floating form-floating-outline mb-4">
+                            </div>
+                        </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="submit" value="Create" class="btn btn-outline-dark waves-effect" />
             </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    
+                </div>
             </div>
+            </div>
+        </div>
+        <div class="row gy-4">
+            <div class="form-floating form-floating-outline mb-4">
+            </div>
+        </div>
         </form>
-    </div>
+   
 </div>
 
 <div>
