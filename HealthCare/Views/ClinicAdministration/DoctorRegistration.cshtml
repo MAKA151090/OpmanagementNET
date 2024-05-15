@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+
+
 <h1>DoctorRegistration</h1>
 
 <h4>DoctorAdminModel</h4>
@@ -98,6 +100,14 @@
             <div class="form-group">
                 <input type="submit" asp-action="AddDoctor" value="Create" class="btn btn-primary" />
             </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+            }
         </form>
     </div>
 </div>

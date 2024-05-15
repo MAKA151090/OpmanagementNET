@@ -20,8 +20,9 @@ namespace HealthCare.Controllers
             _healthcareContext = healthcareContext;
         }
 
+       
         [HttpPost]
-        public async Task<ClinicAdminModel> AddClinic(ClinicAdminModel model)
+        public async Task<IActionResult> AddClinic(ClinicAdminModel model)
         {
             var existingClinic = await _healthcareContext.SHclnClinicAdmin.FindAsync(model.ClinicId);
 
@@ -56,13 +57,8 @@ namespace HealthCare.Controllers
             }
             await _healthcareContext.SaveChangesAsync();
 
-            //}
-            //catch (Exception ex)
-            //{
-            //businessClass = new BusinessClass(_healthcareContext);
-            //businessClass.ErrorHandlers("ClinicRegistraion", ex.Message.ToString());
-            //}
-            return model;
+            ViewBag.Message = "Saved Successfully";
+            return View("ClinicRegistration",model);
         }
 
         [HttpPost]
@@ -97,7 +93,7 @@ namespace HealthCare.Controllers
             }
             return View();
         }
-            public async Task<BloodGroupModel> BloodGroupList(BloodGroupModel model)
+            public async Task<IActionResult> BloodGroupList(BloodGroupModel model)
 
         {
             var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id,model.BloodGroup);
@@ -120,11 +116,13 @@ namespace HealthCare.Controllers
             }
             await _healthcareContext.SaveChangesAsync();
 
-            return model;
+
+            ViewBag.Message = "Saved Successfully";
+            return View("BloodGroupAdministration", model);
             // Pass the list to the view
         }
 
-        public async Task<DoctorAdminModel> AddDoctor(DoctorAdminModel model)
+        public async Task<IActionResult> AddDoctor(DoctorAdminModel model)
         {
             var existingDoctor = await _healthcareContext.SHclnDoctorAdmin.FindAsync(model.DoctorID);
 
@@ -154,7 +152,9 @@ namespace HealthCare.Controllers
             }
             await _healthcareContext.SaveChangesAsync();
 
-            return model;
+            ViewBag.Message = "Saved Successfully";
+            return View("DoctorRegistration", model);
+
         }
 
         [HttpPost]
