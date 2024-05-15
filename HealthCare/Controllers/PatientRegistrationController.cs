@@ -19,7 +19,7 @@ namespace HealthCare.Controllers
 
         }
         [HttpPost]
-        public async Task<PatientRegistrationModel> Create(PatientRegistrationModel model)
+        public async Task<IActionResult> Create(PatientRegistrationModel model)
         {
          
             var exitingpatient = await _healthcareContext.SHPatientRegistration.FindAsync(model.PatientID);
@@ -64,9 +64,10 @@ namespace HealthCare.Controllers
                 _healthcareContext.SHPatientRegistration.Add(model);
             }
                 await _healthcareContext.SaveChangesAsync();
-            
+            ViewBag.Message = "Saved Successfully";
+            return View("PatientRegister" , model);
 
-            return model;
+            
 
         }
 
@@ -96,6 +97,17 @@ namespace HealthCare.Controllers
             }
             return View();
         }
+        public async Task<PatientScheduleModel> PatientScedule(PatientScheduleModel model)
+        {
+            model.lastUpdatedDate = DateTime.Now.ToString() ;
+            model.lastUpdatedUser = "Admin";
+            _healthcareContext.SHPatientSchedule.Add(model);
+            await _healthcareContext.SaveChangesAsync();
+
+            return model;
+
+        }
+        
 
        public IActionResult Index()
         {
