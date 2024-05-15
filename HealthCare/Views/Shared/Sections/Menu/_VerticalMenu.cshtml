@@ -65,8 +65,13 @@
                <div>RollAccess</div>
              </a>
             </li>
-               
-      @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/TestMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="TestMaster" class="menu-link">
+                        <div>TestMaster</div>
+                    </a>
+                </li>
+
+                @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html" target="_blank" class="menu-link">
             <div>eCommerce</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
           </a>

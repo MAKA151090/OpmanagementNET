@@ -1,0 +1,47 @@
+﻿@model HealthCare.Models.TestMasterModel
+
+@{
+    ViewData["Title"] = "TestMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>TestMaster</h1>
+
+<h4>TestMasterModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="TestMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TestID" class="control-label"></label>
+                <input asp-for="TestID" class="form-control" />
+                <span asp-validation-for="TestID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestName" class="control-label"></label>
+                <input asp-for="TestName" class="form-control" />
+                <span asp-validation-for="TestName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Range" class="control-label"></label>
+                <input asp-for="Range" class="form-control" />
+                <span asp-validation-for="Range" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
