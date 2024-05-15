@@ -138,7 +138,17 @@
                             <input type="submit" class="btn btn-outline-dark waves-effect " asp-action="AddClinic" value="Create" />
                             
                         </div>
-        </div>
+
+                        @if(ViewBag.Message!=null)
+                        {
+                            <div class="alert alert-success">
+                                
+                               
+                                @ViewBag.Message
+                            </div>
+                            
+                        }
+                    
         </div>
         </div>
        

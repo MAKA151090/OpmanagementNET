@@ -20,8 +20,9 @@ namespace HealthCare.Controllers
             _healthcareContext = healthcareContext;
         }
 
+       
         [HttpPost]
-        public async Task<ClinicAdminModel> AddClinic(ClinicAdminModel model)
+        public async Task<IActionResult> AddClinic(ClinicAdminModel model)
         {
             var existingClinic = await _healthcareContext.SHclnClinicAdmin.FindAsync(model.ClinicId);
 
@@ -56,13 +57,8 @@ namespace HealthCare.Controllers
             }
             await _healthcareContext.SaveChangesAsync();
 
-            //}
-            //catch (Exception ex)
-            //{
-            //businessClass = new BusinessClass(_healthcareContext);
-            //businessClass.ErrorHandlers("ClinicRegistraion", ex.Message.ToString());
-            //}
-            return model;
+            ViewBag.Message = "Saved Successfully";
+            return View("ClinicRegistration",model);
         }
 
         [HttpPost]
@@ -91,13 +87,13 @@ namespace HealthCare.Controllers
                     else
                     {
                         ViewBag.ErrorMessage = "No data found for the entered IDs.";
-                        return View("CreateGet");
+                        return View("GetClinic");
                     }
                 }    
             }
             return View();
         }
-            public async Task<BloodGroupModel> BloodGroupList(BloodGroupModel model)
+            public async Task<IActionResult> BloodGroupList(BloodGroupModel model)
 
         {
             var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id,model.BloodGroup);
@@ -120,9 +116,76 @@ namespace HealthCare.Controllers
             }
             await _healthcareContext.SaveChangesAsync();
 
-            return model;
+
+            ViewBag.Message = "Saved Successfully";
+            return View("BloodGroupAdministration", model);
             // Pass the list to the view
         }
+
+        public async Task<IActionResult> AddDoctor(DoctorAdminModel model)
+        {
+            var existingDoctor = await _healthcareContext.SHclnDoctorAdmin.FindAsync(model.DoctorID);
+
+            if (existingDoctor != null)
+            {
+                existingDoctor.DoctorID = model.DoctorID;
+                existingDoctor.FirstName = model.FirstName;
+                existingDoctor.LastName = model.LastName;
+                existingDoctor.FullName = model.FullName;
+                existingDoctor.Gender = model.Gender;
+                existingDoctor.DateofBirth = model.DateofBirth;
+                existingDoctor.Address1 = model.Address1;
+                existingDoctor.Address2 = model.Address2;
+                existingDoctor.PhoneNumber = model.PhoneNumber;
+                existingDoctor.EmailId = model.EmailId;
+                existingDoctor.Nationality = model.Nationality;
+                existingDoctor.MedialLicenseNumber = model.MedialLicenseNumber;
+                existingDoctor.lastUpdatedDate = DateTime.Now.ToString();
+                existingDoctor.lastUpdatedUser = "Admin";
+            }
+            else
+            {
+
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Admin";
+                _healthcareContext.SHclnDoctorAdmin.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("DoctorRegistration", model);
+
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> GetDoctor()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Doctoradmin(string doctorid , string buttonType)
+        {
+            ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
+            if (buttonType == "submit")
+            {
+               var doctor = await businessClass.GetDoctorRegister(doctorid);
+                if (doctor != null) 
+                {
+                    doctorid = doctor.DoctorID;
+
+                    return View("DoctorRegistration" , doctor);
+                }
+               else
+                {
+                    ViewBag.ErrorMessage = "No data found for the entered IDs.";
+                    return View(GetDoctor);
+                }
+            }
+
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();

@@ -20,10 +20,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="BloodGroup" class="control-label"></label>
-                <input asp-for="BloodGroup" class="form-control" />
+                <select asp-for="BloodGroup" class="form-control">
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
                 <span asp-validation-for="BloodGroup" class="text-danger"></span>
             </div>
-         @*    <div class="form-group">
+            @*    <div class="form-group">
                 <label asp-for="lastUpdatedDate" class="control-label"></label>
                 <input asp-for="lastUpdatedDate" class="form-control" />
                 <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
@@ -36,10 +46,18 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+
+            }
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

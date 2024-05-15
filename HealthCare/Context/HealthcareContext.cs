@@ -19,8 +19,12 @@ namespace HealthCare.Context
 
         public DbSet<BloodGroupModel> SHclnBloodGroup { get; set; }
 
+        public DbSet<DoctorAdminModel> SHclnDoctorAdmin {  get; set; }
+
+
         public DbSet<PatientRegistrationModel> SHPatientRegistration { get; set; }
 
+        public DbSet<PatientScheduleModel> SHPatientSchedule { get; set; }
 
 
         public DbSet<PatientExaminationModel> SHExmPatientExamination { get; set; }
@@ -33,13 +37,17 @@ namespace HealthCare.Context
 
         public DbSet<PatientFHPHMasterModel> PatExmFHPH {  get; set; }
 
-        public DbSet<PatientFHPHModel1> SHExmPatientFHPH1 { get; set; }
+     
 
         public DbSet<PatientInfoDocumentModel> SHExmInfoDocument { get; set; }
 
         public DbSet<WebErrorsModel> SHWebErrors { get; set; }
 
         public DbSet<LogsModel> SHLogs { get; set; }
+
+        public DbSet<PatientTestModel> SHPatientTest { get; set; }
+
+        public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -54,6 +62,11 @@ namespace HealthCare.Context
         {
             modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
 
+            modelBuilder.Entity<TestMasterModel>().HasKey(i => new { i.TestID });
+
+            modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID });
+                
+
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()
         .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });
@@ -65,10 +78,14 @@ namespace HealthCare.Context
             modelBuilder.Entity<BloodGroupModel>()
                 .HasKey(i => new { i.IntBg_Id, i.BloodGroup});
 
+            modelBuilder.Entity<DoctorAdminModel>()
+                .HasKey(i => new { i.DoctorID });
 
             modelBuilder.Entity<PatientRegistrationModel>()
                 .HasKey(i => new { i.PatientID });
 
+            modelBuilder.Entity<PatientScheduleModel>()
+                .HasKey(i => new { i.PatientID });
 
             modelBuilder.Entity<PatientExaminationModel>()
         .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID, i.ExaminationID });
@@ -82,8 +99,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientFHPHModel>()
         .HasKey(i => new { i.PatientID, i.QuestionID, i.Type });
 
-            modelBuilder.Entity<PatientFHPHModel1>()
-       .HasKey(i => new { i.PatientID, i.Question, i.Type });
+
 
             modelBuilder.Entity<PatientInfoDocumentModel>()
        .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });
@@ -100,7 +116,7 @@ namespace HealthCare.Context
        .ValueGeneratedOnUpdate()
        .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
-        public DbSet<PatientFHPHModel1> PatientFHPHModel1 { get; set; } = default!;
+
 
     }
     

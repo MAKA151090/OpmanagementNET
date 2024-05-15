@@ -1,9 +1,118 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model DoctorAdminModel
+
 @{
     ViewData["Title"] = "DoctorRegistration";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div> this page is for DoctorRegistration</div>
+
+
+
+<h1>DoctorRegistration</h1>
+
+<h4>DoctorAdminModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DoctorRegistration">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DoctorID" class="control-label"></label>
+                <input asp-for="DoctorID" class="form-control" />
+                <span asp-validation-for="DoctorID" class="text-danger"></span>
+            </div>
+            <input type="submit" asp-action="GetDoctor" class="btn btn-primary btn-lg" value="Search" />
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Gender:</label><br />
+                <div class="form-check form-check-inline">
+                    <input asp-for="Gender" class="form-check-input" type="radio" value="Male" id="maleRadio" />
+                    <label class="form-check-label" for="maleRadio">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="Gender" class="form-check-input" type="radio" value="Female" id="femaleRadio" />
+                    <label class="form-check-label" for="femaleRadio">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="Gender" class="form-check-input" type="radio" value="Other" id="otherRadio" />
+                    <label class="form-check-label" for="otherRadio">Other</label>
+                </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateofBirth" class="control-label"></label>
+                <input asp-for="DateofBirth" class="form-control" type="date" />
+                <span asp-validation-for="DateofBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address1" class="control-label"></label>
+                <input asp-for="Address1" class="form-control" type="text" />
+                <span asp-validation-for="Address1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address2" class="control-label"></label>
+                <input asp-for="Address2" class="form-control" type="text" />
+                <span asp-validation-for="Address2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailId" class="control-label"></label>
+                <input asp-for="EmailId" class="form-control" />
+                <span asp-validation-for="EmailId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nationality" class="control-label"></label>
+                <input asp-for="Nationality" class="form-control" />
+                <span asp-validation-for="Nationality" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MedialLicenseNumber" class="control-label"></label>
+                <input asp-for="MedialLicenseNumber" class="form-control" />
+                <span asp-validation-for="MedialLicenseNumber" class="text-danger"></span>
+            </div>
+          @*   <div class="form-group">
+                <label asp-for="lastUpdatedDate" class="control-label"></label>
+                <input asp-for="lastUpdatedDate" class="form-control" />
+                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" asp-action="AddDoctor" value="Create" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

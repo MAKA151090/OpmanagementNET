@@ -24,28 +24,6 @@
     <button type="submit" name="buttonType" value="submit" class="btn btn-danger" >Submit</button> 
 }
 
-@if(ViewBag.ClinicRegistration != null)
-{
-  <div class="card">
-        <h5 class="card-header">Clinic Register Search Result</h5>
-        <div class="table-responsive text-nowrap">
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th>ClinicID</th>
-                        <th>ClinicName</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>@ViewBag.ClinicRegistration.ClinicID </td>
-                        <td>@ViewBag.ClinicRegistration.ClinicName</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>  
-}
 
 
 

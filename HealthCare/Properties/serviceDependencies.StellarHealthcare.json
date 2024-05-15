@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/StellarHealthcare/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsStellar_C2E2B5E0F2",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/healthcaredbserver2024/databases/HealthCare_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:Stellar"
+    }
+  }
+}
