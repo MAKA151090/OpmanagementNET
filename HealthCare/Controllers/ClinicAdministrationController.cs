@@ -321,6 +321,54 @@ namespace HealthCare.Controllers
             return View("SeverityModel", model);
         }
 
+        public IActionResult MedicationInventory()
+        {
+            return View();
+        }
+        [HttpPost]
+
+        public async Task<IActionResult> MedicationInventory(DrugInventoryModel model)
+        {
+            var existingTest = await _healthcareContext.SHstkDrugInventory.FindAsync(model.DrugId );
+
+            if (existingTest != null)
+            {
+                existingTest.DrugId = model.DrugId;
+                existingTest.ModelName = model.ModelName;
+                existingTest.CategoryId = model.CategoryId;
+                existingTest.TypeId = model.TypeId;
+                existingTest.RockId = model.RockId;
+                existingTest.MedicalDescription = model.MedicalDescription;
+                existingTest.Price = model.Price;
+                existingTest.SideEffects = model.SideEffects;
+                existingTest.Therapy = model.Therapy;
+                existingTest.User = model.User;
+                existingTest.Company = model.Company;
+                existingTest.BarCode = model.BarCode;
+                existingTest.GroupName = model.GroupName;
+                existingTest.GroupType = model.GroupType;
+                existingTest.LastupdatedUser1 = "Myself";
+                existingTest.LastupdatedDate1 = DateTime.Now.ToString(); ;
+                existingTest.LastUpdatedMachine1 = "Myself";
+                _healthcareContext.Entry(existingTest).State = EntityState.Modified;
+            }
+            else
+            {
+
+
+                model.LastupdatedDate1 = DateTime.Now.ToString();
+                model.LastupdatedUser1 = "Myself";
+                model.LastUpdatedMachine1 = "Myself";
+                _healthcareContext.SHstkDrugInventory.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("SeverityModel", model);
+        }
+
+
       
     }
 }

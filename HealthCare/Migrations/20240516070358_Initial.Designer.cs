@@ -4,6 +4,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class HealthcareContextModelSnapshot : ModelSnapshot
+    [Migration("20240516070358_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,67 +208,6 @@ namespace HealthCare.Migrations
                     b.ToTable("SHstkDrugGroup");
                 });
 
-            modelBuilder.Entity("HealthCare.Models.DrugInventoryModel", b =>
-                {
-                    b.Property<string>("DrugId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("BarCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Company")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Dosage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GroupName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GroupType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MedicalDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModelName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Price")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RockId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SideEffects")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Therapy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("User")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DrugId");
-
-                    b.ToTable("SHstkDrugInventory");
-                });
-
             modelBuilder.Entity("HealthCare.Models.DrugRackModel", b =>
                 {
                     b.Property<string>("RackID")
@@ -304,7 +246,7 @@ namespace HealthCare.Migrations
                     b.Property<string>("IDNumber")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DrugID")
+                    b.Property<string>("MedID")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ExpiryDate")
@@ -325,7 +267,7 @@ namespace HealthCare.Migrations
                     b.Property<string>("lastUpdatedUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IDNumber", "DrugID");
+                    b.HasKey("IDNumber", "MedID");
 
                     b.ToTable("SHstkDrugStock");
                 });
@@ -558,31 +500,6 @@ namespace HealthCare.Migrations
                     b.HasKey("RadioID");
 
                     b.ToTable("SHRadioMaster");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.SeverityModel", b =>
-                {
-                    b.Property<string>("SeverityID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Active")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SeverityName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SeverityID");
-
-                    b.ToTable("SHSeverityModel");
                 });
 
             modelBuilder.Entity("HealthCare.Models.TestMasterModel", b =>

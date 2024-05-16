@@ -73,14 +73,14 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> DrugRack(DrugRackModel pRack)
         {
 
-            var existingRack = await GetDrugData.SHstkDrugRack.FindAsync(pRack.RackID,pRack.RackName);
+            var existingRack = await GetDrugData.SHstkDrugRack.FindAsync(pRack.RackID, pRack.RackName);
             if (existingRack != null)
             {
 
                 existingRack.RackID = pRack.RackID;
                 existingRack.RackName = pRack.RackName;
                 existingRack.UniqueIdentifier = pRack.UniqueIdentifier;
-                existingRack.Comments= pRack.Comments;
+                existingRack.Comments = pRack.Comments;
                 existingRack.lastUpdatedDate = DateTime.Now.ToString();
                 existingRack.lastUpdatedUser = "Myself";
                 existingRack.lastUpdatedmachine = "Lap";
@@ -96,14 +96,36 @@ namespace HealthCare.Controllers
             await GetDrugData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
             return View("DrugRackMaster", pRack);
-
-
         }
 
+        public async Task<IActionResult> DrugStock(DrugStockModel model)
+        {
+            var existingStk = await GetDrugData.SHstkDrugStock.FindAsync(model.IDNumber, model.DrugID);
+                if (existingStk != null)
+            {
+                existingStk.IDNumber = model.IDNumber;
+                existingStk.DrugID = model.DrugID;
+                existingStk.ManufacturingDate = model.ManufacturingDate;
+                existingStk.ExpiryDate = model.ExpiryDate;
+                existingStk.NumberOfStock  = model.NumberOfStock;
+                existingStk.lastUpdatedDate = DateTime.Now.ToString();
+                existingStk.lastUpdatedUser = "Myself";
+                existingStk.lastUpdatedMachine = "Lap";
+        
 
+            }
+                else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "Lap";
+                GetDrugData.SHstkDrugStock.Add(model);
 
-
-
+            }
+            await GetDrugData.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("" , model);
+        }
 
         public IActionResult Index()
         {
