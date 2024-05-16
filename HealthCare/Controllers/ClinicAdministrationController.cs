@@ -329,16 +329,16 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> MedicationInventory(DrugInventoryModel model)
         {
-            var existingTest = await _healthcareContext.SHSTKMedicationInventory.FindAsync(model.MedicationID , model.IdNumber);
+            var existingTest = await _healthcareContext.SHstkDrugInventory.FindAsync(model.DrugId );
 
             if (existingTest != null)
             {
-                existingTest.MedicationID = model.MedicationID;
+                existingTest.DrugId = model.DrugId;
                 existingTest.ModelName = model.ModelName;
                 existingTest.CategoryId = model.CategoryId;
                 existingTest.TypeId = model.TypeId;
                 existingTest.RockId = model.RockId;
-                existingTest.MedicaiDescription = model.MedicaiDescription;
+                existingTest.MedicalDescription = model.MedicalDescription;
                 existingTest.Price = model.Price;
                 existingTest.SideEffects = model.SideEffects;
                 existingTest.Therapy = model.Therapy;
@@ -359,7 +359,7 @@ namespace HealthCare.Controllers
                 model.LastupdatedDate1 = DateTime.Now.ToString();
                 model.LastupdatedUser1 = "Myself";
                 model.LastUpdatedMachine1 = "Myself";
-                _healthcareContext.SHSTKMedicationInventory.Add(model);
+                _healthcareContext.SHstkDrugInventory.Add(model);
 
             }
             await _healthcareContext.SaveChangesAsync();

@@ -72,14 +72,14 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> DrugRack(DrugRackModel pRack)
         {
 
-            var existingRack = await GetDrugData.SHstkDrugRack.FindAsync(pRack.RackID,pRack.RackName);
+            var existingRack = await GetDrugData.SHstkDrugRack.FindAsync(pRack.RackID, pRack.RackName);
             if (existingRack != null)
             {
 
                 existingRack.RackID = pRack.RackID;
                 existingRack.RackName = pRack.RackName;
                 existingRack.UniqueIdentifier = pRack.UniqueIdentifier;
-                existingRack.Comments= pRack.Comments;
+                existingRack.Comments = pRack.Comments;
                 existingRack.lastUpdatedDate = DateTime.Now.ToString();
                 existingRack.lastUpdatedUser = "Myself";
                 existingRack.lastUpdatedmachine = "Lap";
@@ -95,7 +95,7 @@ namespace HealthCare.Controllers
             await GetDrugData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
             return View("DrugRackMaster", pRack);
-
+        }
 
         public async Task<IActionResult> DrugStock(DrugStockModel model)
         {
@@ -110,7 +110,7 @@ namespace HealthCare.Controllers
                 existingStk.lastUpdatedDate = DateTime.Now.ToString();
                 existingStk.lastUpdatedUser = "Myself";
                 existingStk.lastUpdatedMachine = "Lap";
-        }
+        
 
             }
                 else
