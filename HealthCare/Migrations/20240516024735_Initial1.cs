@@ -10,13 +10,20 @@ namespace HealthCare.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.AddColumn<string>(
+                name: "SrtImageData",
+                table: "SHUpdateRadiologyResult",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.DropColumn(
+                name: "SrtImageData",
+                table: "SHUpdateRadiologyResult");
         }
     }
 }

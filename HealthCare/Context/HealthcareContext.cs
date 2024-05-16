@@ -49,9 +49,12 @@ namespace HealthCare.Context
 
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
+        public DbSet<UpdateRadiologyResultsModel> SHUpdateRadiologyResult {  get; set; }
+
         
 
         public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -117,6 +120,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<LogsModel>()
         .HasKey(i => new { i.LogID });
+
+            modelBuilder.Entity<UpdateRadiologyResultsModel>()
+                .HasKey(i => new { i.PatientID, i.ClinicID,i.RadioID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    [Migration("20240515091735_Initial")]
+    [Migration("20240515114712_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -329,11 +329,17 @@ namespace HealthCare.Migrations
 
             modelBuilder.Entity("HealthCare.Models.UpdateRadiologyResultsModel", b =>
                 {
+                    b.Property<string>("PatientID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClinicID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("RadioID")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageID")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedDate")
                         .HasColumnType("nvarchar(max)");
@@ -341,9 +347,9 @@ namespace HealthCare.Migrations
                     b.Property<string>("lastUpdatedUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RadioID", "ImageID");
+                    b.HasKey("PatientID", "ClinicID", "RadioID");
 
-                    b.ToTable("SHUpdateRadiologyResults");
+                    b.ToTable("SHUpdateRadiologyResult");
                 });
 
             modelBuilder.Entity("HealthCare.Models.WebErrorsModel", b =>

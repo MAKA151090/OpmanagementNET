@@ -295,17 +295,19 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SHUpdateRadiologyResults",
+                name: "SHUpdateRadiologyResult",
                 columns: table => new
                 {
+                    PatientID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClinicID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RadioID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ImageID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ImageID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHUpdateRadiologyResults", x => new { x.RadioID, x.ImageID });
+                    table.PrimaryKey("PK_SHUpdateRadiologyResult", x => new { x.PatientID, x.ClinicID, x.RadioID });
                 });
 
             migrationBuilder.CreateTable(
@@ -401,7 +403,7 @@ namespace HealthCare.Migrations
                 name: "SHTestMaster");
 
             migrationBuilder.DropTable(
-                name: "SHUpdateRadiologyResults");
+                name: "SHUpdateRadiologyResult");
 
             migrationBuilder.DropTable(
                 name: "SHWebErrors");

@@ -120,6 +120,102 @@ namespace HealthCare.Controllers
             }
             return View();
         }
+
+
+
+        private bool IsImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return false;
+
+            // Check the file's MIME type to confirm it's an image
+            if (file.ContentType.ToLower().StartsWith("image/"))
+                return true;
+
+            // You can add more checks here depending on your requirements
+
+            return false;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TestRadiologyResults(UpdateRadiologyResultsModel model, IFormFile imageData)
+        {
+            if (ModelState.IsValid)
+            {
+                // Process the uploaded image
+                if (imageData != null && imageData.Length > 0)
+                {
+                    // Validate that the uploaded file is an image (optional)
+                    if (!IsImage(imageData))
+                    {
+                        ModelState.AddModelError(string.Empty, "Uploaded file is not an image.");
+                        return View(model);
+                    }
+
+                    try
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await imageData.CopyToAsync(memoryStream);
+                            // Convert memory stream to byte array
+                            model.ImageData = memoryStream.ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle any exceptions (e.g., file upload or database saving errors)
+                        ModelState.AddModelError(string.Empty, "An error occurred while processing the uploaded image.");
+                        // Log the exception for debugging
+                        Console.WriteLine(ex.Message);
+                        return View(model);
+                    }
+                }
+
+                var existingUpdateRadiologyResult = await GetlabData.SHUpdateRadiologyResult.FindAsync(model.ClinicID, model.PatientID, model.RadioID);
+                if (existingUpdateRadiologyResult != null)
+                {
+                    existingUpdateRadiologyResult.PatientID = model.PatientID;
+                    existingUpdateRadiologyResult.ClinicID = model.ClinicID;
+                    existingUpdateRadiologyResult.RadioID = model.RadioID;
+                    existingUpdateRadiologyResult.ImageID = model.ImageID;
+                    existingUpdateRadiologyResult.ImageData = model.ImageData;
+                    existingUpdateRadiologyResult.lastUpdatedDate = DateTime.Now.ToString();
+                    existingUpdateRadiologyResult.lastUpdatedUser = "myself";
+                }
+                else
+                {
+                    model.lastUpdatedDate = DateTime.Now.ToString();
+                    model.lastUpdatedUser = "myself";
+                    GetlabData.SHUpdateRadiologyResult.Add(model);
+                }
+
+                try
+                {
+                    await GetlabData.SaveChangesAsync();
+                    ViewBag.Message = "Saved Successfully.";
+                    return View("UpdateRadiologyResults", model);
+                }
+                catch (Exception ex)
+                {
+                    // Handle database save error
+                    ModelState.AddModelError(string.Empty, "An error occurred while saving data to the database.");
+                    // Log the exception for debugging
+                    Console.WriteLine(ex.Message);
+                    return View(model);
+                }
+            }
+            // If ModelState is not valid, return the view with errors
+            return View(model);
+        }
+    
+
+
+
+
+
+
+
+    public IActionResult LabTest()
             public IActionResult LabTest()
         {
             return View();
