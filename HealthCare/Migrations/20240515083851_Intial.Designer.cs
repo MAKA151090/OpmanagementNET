@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    [Migration("20240515030917_Initial1")]
-    partial class Initial1
+    [Migration("20240515083851_Intial")]
+    partial class Intial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,6 +218,49 @@ namespace HealthCare.Migrations
                     b.HasKey("QuestionID");
 
                     b.ToTable("PatExmFHPH");
+                });
+
+            modelBuilder.Entity("HealthCare.Models.PatientRadiolodyModel", b =>
+                {
+                    b.Property<string>("RadioID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClinicID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReferralDoctorID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReferralDoctorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ScreeningCompleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ScreeningCompletedDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ScreeningDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedMachine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RadioID");
+
+                    b.ToTable("SHPatientRadiology");
                 });
 
             modelBuilder.Entity("HealthCare.Models.PatientTestModel", b =>

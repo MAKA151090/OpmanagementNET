@@ -4,6 +4,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class HealthcareContextModelSnapshot : ModelSnapshot
+    [Migration("20240516024735_Initial1")]
+    partial class Initial1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,91 +194,6 @@ namespace HealthCare.Migrations
                     b.ToTable("SHLogs");
                 });
 
-            modelBuilder.Entity("HealthCare.Models.MedicationCategoryModel", b =>
-                {
-                    b.Property<string>("CategoryID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CategoryID");
-
-                    b.ToTable("SHstkMedCategory");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.MedicationRackModel", b =>
-                {
-                    b.Property<string>("RackID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RackName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Comments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UniqueIdentifier")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RackID", "RackName");
-
-                    b.ToTable("SHstkMedRack");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.MedicationTypeModel", b =>
-                {
-                    b.Property<string>("TypeID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TypeID");
-
-                    b.ToTable("SHstkMedType");
-                });
-
             modelBuilder.Entity("HealthCare.Models.PatientFHPHMasterModel", b =>
                 {
                     b.Property<string>("QuestionID")
@@ -302,49 +220,6 @@ namespace HealthCare.Migrations
                     b.ToTable("PatExmFHPH");
                 });
 
-            modelBuilder.Entity("HealthCare.Models.PatientRadiolodyModel", b =>
-                {
-                    b.Property<string>("RadioID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClinicID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ScreeningDate")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ReferralDoctorID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReferralDoctorName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Result")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ScreeningCompleted")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ScreeningCompletedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RadioID", "ClinicID", "PatientID", "ScreeningDate");
-
-                    b.ToTable("SHPatientRadiology");
-                });
-
             modelBuilder.Entity("HealthCare.Models.PatientTestModel", b =>
                 {
                     b.Property<string>("PatientID")
@@ -354,9 +229,6 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TestID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TestDateTime")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ExptRsltDateTime")
@@ -372,6 +244,9 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ResultPublish")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TestDateTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TestResult")
@@ -392,7 +267,7 @@ namespace HealthCare.Migrations
                     b.Property<string>("lastUpdatedUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PatientID", "ClinicID", "TestID", "TestDateTime");
+                    b.HasKey("PatientID", "ClinicID", "TestID");
 
                     b.ToTable("SHPatientTest");
                 });
@@ -419,31 +294,6 @@ namespace HealthCare.Migrations
                     b.HasKey("PatientID", "ClinicID", "VisitID");
 
                     b.ToTable("PatientVisitIntoDocumentModel");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.RadiologyMasterModel", b =>
-                {
-                    b.Property<string>("RadioID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Cost")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RadioName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RadioID");
-
-                    b.ToTable("SHRadioMaster");
                 });
 
             modelBuilder.Entity("HealthCare.Models.TestMasterModel", b =>
@@ -488,11 +338,11 @@ namespace HealthCare.Migrations
                     b.Property<string>("RadioID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ImageData")
-                        .IsRequired()
+                    b.Property<string>("ImageID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageID")
+                    b.Property<string>("SrtImageData")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedDate")
