@@ -163,7 +163,7 @@ namespace HealthCare.Context
                 .HasKey(i => new { i.GroupTypeName, i.GroupTypeID });
 
             modelBuilder.Entity<DrugStockModel>()
-                .HasKey(i => new { i.IDNumber, i.MedID });
+                .HasKey(i => new { i.IDNumber, i.DrugID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

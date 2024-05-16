@@ -2,20 +2,20 @@
 
 namespace HealthCare.Controllers
 {
-    public class PatientBillingController : Controller
+    public class PatientPrescriptionController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult PatientBilling()
+        public IActionResult PatientEPrescription()
         {
             return View();
         }
-        public IActionResult PharmacyBilling()
+        public IActionResult PatientEPrescriptionPrint()
         {
             return View();
         }
-        
+
     }
 }
