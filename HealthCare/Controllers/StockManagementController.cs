@@ -8,27 +8,27 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        public IActionResult MedicationInventory()
+        public IActionResult DrugInventory()
         {
             return View();
         }
-        public IActionResult MedicationCategoryMaster()
+        public IActionResult DrugCategoryMaster()
         {
             return View();
         }
-        public IActionResult MedicationStockMaster()
+        public IActionResult DrugStockMaster()
         {
             return View(); 
         }
-        public IActionResult MedicationTypeMaster()
+        public IActionResult DrugTypeMaster()
         {
             return View();
         }
-        public IActionResult MedicationGroupMaster()
+        public IActionResult DrugGroupMaster()
         {
             return View();
         }
-        public IActionResult MedicationRackMaster()
+        public IActionResult DrugRackMaster()
         {
             return View();
         }

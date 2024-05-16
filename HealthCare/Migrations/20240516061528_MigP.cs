@@ -5,7 +5,7 @@
 namespace HealthCare.Migrations
 {
     /// <inheritdoc />
-    public partial class Intial : Migration
+    public partial class MigP : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -202,11 +202,11 @@ namespace HealthCare.Migrations
                 columns: table => new
                 {
                     RadioID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClinicID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PatientID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClinicID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PatientID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ScreeningDate = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ReferralDoctorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferralDoctorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ScreeningDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -216,7 +216,7 @@ namespace HealthCare.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHPatientRadiology", x => x.RadioID);
+                    table.PrimaryKey("PK_SHPatientRadiology", x => new { x.RadioID, x.ClinicID, x.PatientID, x.ScreeningDate });
                 });
 
             migrationBuilder.CreateTable(
@@ -265,6 +265,7 @@ namespace HealthCare.Migrations
                     ClinicID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DoctorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -289,13 +290,29 @@ namespace HealthCare.Migrations
                     ReferDocID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ResultDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastupdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SHPatientTest", x => new { x.PatientID, x.ClinicID, x.TestID });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHRadioMaster",
+                columns: table => new
+                {
+                    RadioID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RadioName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cost = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHRadioMaster", x => x.RadioID);
                 });
 
             migrationBuilder.CreateTable(
@@ -306,13 +323,30 @@ namespace HealthCare.Migrations
                     TestName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cost = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Range = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastupdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SHTestMaster", x => x.TestID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHUpdateRadiologyResult",
+                columns: table => new
+                {
+                    PatientID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClinicID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RadioID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ImageID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageData = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHUpdateRadiologyResult", x => new { x.PatientID, x.ClinicID, x.RadioID });
                 });
 
             migrationBuilder.CreateTable(
@@ -408,7 +442,13 @@ namespace HealthCare.Migrations
                 name: "SHPatientTest");
 
             migrationBuilder.DropTable(
+                name: "SHRadioMaster");
+
+            migrationBuilder.DropTable(
                 name: "SHTestMaster");
+
+            migrationBuilder.DropTable(
+                name: "SHUpdateRadiologyResult");
 
             migrationBuilder.DropTable(
                 name: "SHWebErrors");

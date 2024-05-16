@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    [Migration("20240515105632_Initial3")]
-    partial class Initial3
+    [Migration("20240516061528_MigP")]
+    partial class MigP
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,6 +231,9 @@ namespace HealthCare.Migrations
                     b.Property<string>("PatientID")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ScreeningDate")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ReferralDoctorID")
                         .HasColumnType("nvarchar(max)");
 
@@ -246,9 +249,6 @@ namespace HealthCare.Migrations
                     b.Property<string>("ScreeningCompletedDate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ScreeningDate")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("lastUpdatedDate")
                         .HasColumnType("nvarchar(max)");
 
@@ -258,7 +258,7 @@ namespace HealthCare.Migrations
                     b.Property<string>("lastUpdatedUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RadioID", "ClinicID", "PatientID");
+                    b.HasKey("RadioID", "ClinicID", "PatientID", "ScreeningDate");
 
                     b.ToTable("SHPatientRadiology");
                 });
@@ -393,6 +393,35 @@ namespace HealthCare.Migrations
                     b.HasKey("TestID");
 
                     b.ToTable("SHTestMaster");
+                });
+
+            modelBuilder.Entity("HealthCare.Models.UpdateRadiologyResultsModel", b =>
+                {
+                    b.Property<string>("PatientID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClinicID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RadioID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PatientID", "ClinicID", "RadioID");
+
+                    b.ToTable("SHUpdateRadiologyResult");
                 });
 
             modelBuilder.Entity("HealthCare.Models.WebErrorsModel", b =>
@@ -691,6 +720,9 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Date")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DoctorID")
