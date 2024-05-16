@@ -69,7 +69,9 @@ namespace HealthCare.Context
 
         public DbSet<DrugGroupModel> SHstkDrugGroup { get; set; }
 
+        public DbSet<PatientEPrescriptionModel>SHprsPrescription { get; set; }
         
+        public DbSet<PatientEPrescriptionPrintModel>SHprsPrescriptionPrint { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -81,6 +83,11 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<PatientEPrescriptionModel>().HasKey(i => new { i.PatientID, i.CaseVisitID, i.OrderID, i.DrugID });
+
+            modelBuilder.Entity<PatientEPrescriptionModel>().Property(p => p.EpressID).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<PatientEPrescriptionPrintModel>().HasKey(i => new { i.PatientID, i.CaseVisitID, i.OrderID });
 
             modelBuilder.Entity<DrugRackModel>().HasKey(i => new { i.RackID, i.RackName });
 
