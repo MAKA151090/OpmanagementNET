@@ -51,7 +51,7 @@ namespace HealthCare.Context
 
         public DbSet<UpdateRadiologyResultsModel> SHUpdateRadiologyResult {  get; set; }
 
-        
+        public DbSet<DrugStockModel> SHstkDrugStock { get; set; }
 
         public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
 
@@ -123,6 +123,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<UpdateRadiologyResultsModel>()
                 .HasKey(i => new { i.PatientID, i.ClinicID,i.RadioID });
+
+            modelBuilder.Entity<DrugStockModel>()
+                .HasKey(i => new { i.IDNumber, i.MedID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()
