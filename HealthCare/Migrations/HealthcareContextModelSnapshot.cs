@@ -163,19 +163,15 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryID");
@@ -275,23 +271,18 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UniqueIdentifier")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RackID", "RackName");
@@ -336,19 +327,15 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TypeName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TypeID");
@@ -388,6 +375,140 @@ namespace HealthCare.Migrations
                     b.HasKey("LogID");
 
                     b.ToTable("SHLogs");
+                });
+
+            modelBuilder.Entity("HealthCare.Models.PatientEPrescriptionModel", b =>
+                {
+                    b.Property<string>("PatientID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CaseVisitID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OrderID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DrugID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoctorID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Duration")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EndDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("EpressID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("EpressID"));
+
+                    b.Property<string>("FillDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Frequency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FrequencyUnit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Instructions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrescriptionDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Quantity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RouteAdmin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnitCategory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedMachine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastupdatedDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PatientID", "CaseVisitID", "OrderID", "DrugID");
+
+                    b.ToTable("SHprsPrescription");
+                });
+
+            modelBuilder.Entity("HealthCare.Models.PatientEPrescriptionPrintModel", b =>
+                {
+                    b.Property<string>("PatientID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CaseVisitID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OrderID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DoctorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Duration")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EndDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Frequency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FrequencyUnit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Instructions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MedicactionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Quantity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnitCategory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedMachine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastupdatedDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PatientID", "CaseVisitID", "OrderID");
+
+                    b.ToTable("SHprsPrescriptionPrint");
                 });
 
             modelBuilder.Entity("HealthCare.Models.PatientFHPHMasterModel", b =>
@@ -600,15 +721,12 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedMachine")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TestID");
