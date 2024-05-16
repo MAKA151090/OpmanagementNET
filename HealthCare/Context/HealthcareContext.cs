@@ -51,6 +51,11 @@ namespace HealthCare.Context
 
         public DbSet<DrugCategoryModel>SHstkDrugCategory { get; set; }
 
+        public DbSet<SeverityModel> SHSeverityModel { get; set; }
+
+        public DbSet<DrugInventoryModel> SHstkDrugInventory { get; set; }
+
+
         public DbSet<DrugTypeModel>SHstkDrugType { get; set; }
         public DbSet<UpdateRadiologyResultsModel> SHUpdateRadiologyResult {  get; set; }
 
@@ -87,6 +92,13 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<TestMasterModel>().HasKey(i => new { i.TestID });
 
+
+            modelBuilder.Entity<SeverityModel>().HasKey(i => new { i.SeverityID });
+
+            modelBuilder.Entity<DrugInventoryModel>().HasKey(i => new { i.DrugId });
+
+
+            modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID });
             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID ,i.TestDateTime});
                 
 
