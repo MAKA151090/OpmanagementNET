@@ -190,6 +190,41 @@
                     </li>
                 </ul>
             </li>
+
+
+                <ul class="menu-inner py-1">
+
+                    <!-- Front Desk -->
+                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/FrontDesk") ? " active open" : "")'>
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                            <div>FrontDesk</div>
+
+                        </a>
+                        <ul class="menu-sub">
+
+                            <li class='menu-item@(currentPage == "/FrontDesk/OpChecking" ? " active" : "")'>
+                                <a asp-controller="FrontDesk" asp-action="OpChecking" class="menu-link">
+
+                                    <div>Op Checking</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/FrontDesk/IpRegistration" ? " active" : "")'>
+                                <a asp-controller="FrontDesk" asp-action="IpRegistration" class="menu-link">
+                                    <div>IpRegistration</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/FrontDesk/OpDischarge" ? " active" : "")'>
+                                <a asp-controller="FrontDesk" asp-action="OpDischarge" class="menu-link">
+                                    <div>OpDischarge</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
             
                 <ul class="menu-inner py-1">
 
