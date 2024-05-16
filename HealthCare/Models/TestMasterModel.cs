@@ -16,8 +16,8 @@
         public string? TestName { get => testName; set => testName = value; }
         public string? Cost { get => cost; set => cost = value; }
         public string? Range { get => range; set => range = value; }
-        public string lastUpdatedUser { get => LastupdatedUser; set => LastupdatedUser = value; }
-        public string lastUpdatedDate { get => LastupdatedDate; set => LastupdatedDate = value; }
-        public string lastUpdatedMachine { get => LastUpdatedMachine; set => LastUpdatedMachine = value; }
+        public string? lastUpdatedUser { get => LastupdatedUser; set => LastupdatedUser = value; }
+        public string? lastUpdatedDate { get => LastupdatedDate; set => LastupdatedDate = value; }
+        public string? lastUpdatedMachine { get => LastUpdatedMachine; set => LastUpdatedMachine = value; }
     }
 }
