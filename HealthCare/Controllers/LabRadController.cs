@@ -66,11 +66,10 @@ namespace HealthCare.Controllers
 
         }
 
-        public IActionResult LabTest()
-
+ 
         public async Task<IActionResult>  GetPatientRadio(PatientRadiolodyModel model)
         {
-            var existingPatientRadiology = await GetlabData.SHPatientRadiology.FindAsync(model.RadioID , model.ClinicID , model.PatientID);
+            var existingPatientRadiology = await GetlabData.SHPatientRadiology.FindAsync(model.RadioID , model.ClinicID , model.PatientID , model.ScreeningDate);
             if (existingPatientRadiology != null)
             {
                     existingPatientRadiology.RadioID = model.RadioID;
