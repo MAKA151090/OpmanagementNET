@@ -73,6 +73,14 @@ namespace HealthCare.Context
         
         public DbSet<PatientEPrescriptionPrintModel>SHprsPrescriptionPrint { get; set; }
 
+        public DbSet<OTSchedulingModel>SHotScheduling { get; set; }
+        public DbSet<OTNotes>SHotNotes { get; set; }
+        public DbSet<OtTableMasterModel>SHotTableMaster { get; set; }
+        public DbSet<ClinicSurgeryMasterModel>SHclnSurgeryMaster { get; set; }
+        public DbSet<OtSurgeryMasterModel>SHotSurgerymaster { get; set; }
+
+        public DbSet<OtDepartmentModel>SHotDepartmentMaster { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -83,6 +91,9 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+           
+
             modelBuilder.Entity<PatientEPrescriptionModel>().HasKey(i => new { i.PatientID, i.CaseVisitID, i.OrderID, i.DrugID });
 
             modelBuilder.Entity<PatientEPrescriptionModel>().Property(p => p.EpressID).ValueGeneratedOnAdd();
@@ -107,7 +118,15 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID });
             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID ,i.TestDateTime});
-                
+
+            modelBuilder.Entity<OTSchedulingModel>().HasKey(i => new { i.OtScheduleID });
+            modelBuilder.Entity<OTNotes>().HasKey(i => new { i.OtScheduleID });
+            modelBuilder.Entity<ClinicSurgeryMasterModel>().HasKey(i => new { i.SurgeryID });
+            modelBuilder.Entity<OtTableMasterModel>().HasKey(i => new { i.TableID });
+            modelBuilder.Entity<OtSurgeryMasterModel>().HasKey(i => new { i.SurgeryTypeID });
+            modelBuilder.Entity<OtDepartmentModel>().HasKey(i => new { i.DepartmentID });
+            modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
+
 
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()
