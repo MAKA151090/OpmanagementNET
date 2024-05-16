@@ -50,6 +50,11 @@ namespace HealthCare.Context
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
 
+        public DbSet<SeverityModel> SHSeverityModel { get; set; }
+
+        public DbSet<DrugInventoryModel> SHstkDrugInventory { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -63,6 +68,12 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
 
             modelBuilder.Entity<TestMasterModel>().HasKey(i => new { i.TestID });
+
+
+            modelBuilder.Entity<SeverityModel>().HasKey(i => new { i.SeverityID });
+
+            modelBuilder.Entity<DrugInventoryModel>().HasKey(i => new { i.DrugId });
+
 
             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID });
                 

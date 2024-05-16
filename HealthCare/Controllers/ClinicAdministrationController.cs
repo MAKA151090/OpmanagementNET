@@ -218,8 +218,8 @@ namespace HealthCare.Controllers
         {
             return View();
         }
+      
         [HttpPost]
-
 
         public async Task<IActionResult> TestMaster(TestMasterModel model)
         {
@@ -250,6 +250,92 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("TestMaster", model);
         }
+
+        public IActionResult SeverityModel()
+        {
+            return View();
+        }
+        [HttpPost]
+
+        public async Task<IActionResult> SeverityModel(SeverityModel model)
+        {
+            var existingTest = await _healthcareContext.SHSeverityModel.FindAsync(model.SeverityID);
+
+            if (existingTest != null)
+            {
+                existingTest.SeverityID= model.SeverityID;
+                existingTest.SeverityName = model.SeverityName;
+                existingTest.Active = model.Active;
+               
+                existingTest.LastupdatedUser = "Myself";
+                existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
+                existingTest.LastUpdatedMachine = "Myself";
+                _healthcareContext.Entry(existingTest).State = EntityState.Modified;
+            }
+            else
+            {
+
+
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = "Myself";
+                model.LastUpdatedMachine = "Myself";
+                _healthcareContext.SHSeverityModel.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("SeverityModel", model);
+        }
+
+        public IActionResult MedicationInventory()
+        {
+            return View();
+        }
+        [HttpPost]
+
+        public async Task<IActionResult> MedicationInventory(DrugInventoryModel model)
+        {
+            var existingTest = await _healthcareContext.SHSTKMedicationInventory.FindAsync(model.MedicationID , model.IdNumber);
+
+            if (existingTest != null)
+            {
+                existingTest.MedicationID = model.MedicationID;
+                existingTest.ModelName = model.ModelName;
+                existingTest.CategoryId = model.CategoryId;
+                existingTest.TypeId = model.TypeId;
+                existingTest.RockId = model.RockId;
+                existingTest.MedicaiDescription = model.MedicaiDescription;
+                existingTest.Price = model.Price;
+                existingTest.SideEffects = model.SideEffects;
+                existingTest.Therapy = model.Therapy;
+                existingTest.User = model.User;
+                existingTest.Company = model.Company;
+                existingTest.BarCode = model.BarCode;
+                existingTest.GroupName = model.GroupName;
+                existingTest.GroupType = model.GroupType;
+                existingTest.LastupdatedUser1 = "Myself";
+                existingTest.LastupdatedDate1 = DateTime.Now.ToString(); ;
+                existingTest.LastUpdatedMachine1 = "Myself";
+                _healthcareContext.Entry(existingTest).State = EntityState.Modified;
+            }
+            else
+            {
+
+
+                model.LastupdatedDate1 = DateTime.Now.ToString();
+                model.LastupdatedUser1 = "Myself";
+                model.LastUpdatedMachine1 = "Myself";
+                _healthcareContext.SHSTKMedicationInventory.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("SeverityModel", model);
+        }
+
+
     }
 }
         
