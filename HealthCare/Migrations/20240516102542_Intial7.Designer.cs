@@ -4,6 +4,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class HealthcareContextModelSnapshot : ModelSnapshot
+    [Migration("20240516102542_Intial7")]
+    partial class Intial7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -431,31 +434,6 @@ namespace HealthCare.Migrations
                     b.HasKey("LogID");
 
                     b.ToTable("SHLogs");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.OpCheckingModel", b =>
-                {
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VisitId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VisitStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PatientId");
-
-                    b.ToTable("SHfdOpCheckingModel");
                 });
 
             modelBuilder.Entity("HealthCare.Models.PatientEPrescriptionModel", b =>

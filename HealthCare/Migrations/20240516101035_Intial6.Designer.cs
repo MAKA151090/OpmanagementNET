@@ -4,6 +4,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class HealthcareContextModelSnapshot : ModelSnapshot
+    [Migration("20240516101035_Intial6")]
+    partial class Intial6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,49 +134,6 @@ namespace HealthCare.Migrations
                     b.HasKey("DoctorID");
 
                     b.ToTable("SHclnDoctorAdmin");
-                });
-
-            modelBuilder.Entity("DoctorScheduleModel", b =>
-                {
-                    b.Property<string>("DoctorID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClinicID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SlotsID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Active")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Blocker")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Duration")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Holiday")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PatientID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StartTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DoctorID", "ClinicID", "SlotsID");
-
-                    b.ToTable("SHcllDoctorScheduleModel");
                 });
 
             modelBuilder.Entity("HealthCare.Business.PatientInfoDocumentModel", b =>
@@ -431,31 +391,6 @@ namespace HealthCare.Migrations
                     b.HasKey("LogID");
 
                     b.ToTable("SHLogs");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.OpCheckingModel", b =>
-                {
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastupdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VisitId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VisitStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PatientId");
-
-                    b.ToTable("SHfdOpCheckingModel");
                 });
 
             modelBuilder.Entity("HealthCare.Models.PatientEPrescriptionModel", b =>
