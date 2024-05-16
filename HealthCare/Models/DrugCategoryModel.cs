@@ -1,8 +1,8 @@
 ﻿namespace HealthCare.Models
 {
-    public class MedicationCategoryModel
+    public class DrugCategoryModel
     {
-        public MedicationCategoryModel() { }
+        public DrugCategoryModel() { }
 
         private String categoryID;
         private String categoryName;

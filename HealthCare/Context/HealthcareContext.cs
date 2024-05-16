@@ -49,7 +49,7 @@ namespace HealthCare.Context
 
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
-        public DbSet<MedicationCategoryModel>SHstkMedCategory { get; set; }
+        public DbSet<DrugCategoryModel>SHstkMedCategory { get; set; }
 
         public DbSet<MedicationTypeModel>SHstkMedType { get; set; }
         public DbSet<UpdateRadiologyResultsModel> SHUpdateRadiologyResult {  get; set; }
@@ -79,7 +79,7 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<MedicationTypeModel>().HasKey(i => new { i.TypeID });
 
-            modelBuilder.Entity<MedicationCategoryModel>().HasKey(i => new { i.CategoryID });
+            modelBuilder.Entity<DrugCategoryModel>().HasKey(i => new { i.CategoryID });
 
             modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
 

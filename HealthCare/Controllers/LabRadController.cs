@@ -212,10 +212,6 @@ namespace HealthCare.Controllers
 
 
 
-
-
-
-    public IActionResult LabTest()
             public IActionResult LabTest()
         {
             return View();
