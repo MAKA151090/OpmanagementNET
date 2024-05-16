@@ -1,11 +1,72 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model HealthCare.Models.DrugStockModel
+
 @{
     ViewData["Title"] = "DrugStockMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div>this page is for DrugStockMaster</div>
+<h1>DrugStockMaster</h1>
+
+<h4>DrugStockModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DrugStockMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IDNumber" class="control-label"></label>
+                <input asp-for="IDNumber" class="form-control" />
+                <span asp-validation-for="IDNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DrugID" class="control-label"></label>
+                <input asp-for="DrugID" class="form-control" />
+                <span asp-validation-for="DrugID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturingDate" class="control-label"></label>
+                <input asp-for="ManufacturingDate" type="date" class="form-control" />
+                <span asp-validation-for="ManufacturingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpiryDate" class="control-label"></label>
+                <input asp-for="ExpiryDate" type="date" class="form-control" />
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfStock" class="control-label"></label>
+                <input asp-for="NumberOfStock" class="form-control" />
+                <span asp-validation-for="NumberOfStock" class="text-danger"></span>
+            </div>
+@*             <div class="form-group">
+                <label asp-for="lastUpdatedDate" class="control-label"></label>
+                <input asp-for="lastUpdatedDate" class="form-control" />
+                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="Submit" asp-action="DrugStock" class="btn btn-primary" />
+            </div>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+
+            }
+        </form>
+    </div>
+</div>
 
