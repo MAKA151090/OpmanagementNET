@@ -347,18 +347,18 @@ namespace HealthCare.Controllers
                 existingTest.BarCode = model.BarCode;
                 existingTest.GroupName = model.GroupName;
                 existingTest.GroupType = model.GroupType;
-                existingTest.LastupdatedUser1 = "Myself";
-                existingTest.LastupdatedDate1 = DateTime.Now.ToString(); ;
-                existingTest.LastUpdatedMachine1 = "Myself";
+                existingTest.LastupdatedUser = "Myself";
+                existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
+                existingTest.LastUpdatedMachine = "Myself";
                 _healthcareContext.Entry(existingTest).State = EntityState.Modified;
             }
             else
             {
 
 
-                model.LastupdatedDate1 = DateTime.Now.ToString();
-                model.LastupdatedUser1 = "Myself";
-                model.LastUpdatedMachine1 = "Myself";
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = "Myself";
+                model.LastUpdatedMachine = "Myself";
                 _healthcareContext.SHstkDrugInventory.Add(model);
 
             }
