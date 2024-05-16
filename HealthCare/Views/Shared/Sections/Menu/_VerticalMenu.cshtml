@@ -271,6 +271,31 @@
                         </ul>
             </li>
 
+                    <ul class="menu-inner py-1">
+                    <!-- Patient Prescription -->
+                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientPrescription") ? " active open" : "")'>
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                                <div>Patient Prescription</div>
+
+                        </a>
+                        <ul class="menu-sub">
+
+                                <li class='menu-item@(currentPage == "/PatientPrescription/PatientEPrescription" ? " active" : "")'>
+                                    <a asp-controller="PatientPrescription" asp-action="PatientEPrescription" class="menu-link">
+
+                                        <div>Patient E Prescription</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                                <li class='menu-item@(currentPage == "/PatientPrescription/PatientEPrescriptionPrint" ? " active" : "")'>
+                                    <a asp-controller="PatientPrescription" asp-action="PatientEPrescriptionPrint" class="menu-link">
+                                        <div>Patient E Prescription Print</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
 
                 <ul class="menu-inner py-1">
@@ -341,6 +366,14 @@
                                 </a>
                             </li>
                         </ul>
+                                        <ul class="menu-sub">
+                                            <li class='menu-item@(currentPage == "/PatientBilling/PharmacyBilling" ? " active" : "")'>
+                                                <a asp-controller="PatientBilling" asp-action="PharmacyBilling" class="menu-link">
+
+                                                    <div>Pharmacy Billing</div>
+                                                </a>
+                                            </li>
+                                        </ul>
                     </li>
                
 
