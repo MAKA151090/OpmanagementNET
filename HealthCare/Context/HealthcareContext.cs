@@ -38,7 +38,7 @@ namespace HealthCare.Context
         public DbSet<PatientFHPHMasterModel> PatExmFHPH {  get; set; }
 
      
-
+        public DbSet<RadiologyMasterModel> SHRadioMaster { get; set; }
         public DbSet<PatientInfoDocumentModel> SHExmInfoDocument { get; set; }
 
         public DbSet<WebErrorsModel> SHWebErrors { get; set; }
@@ -49,11 +49,27 @@ namespace HealthCare.Context
 
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
+        public DbSet<DrugCategoryModel>SHstkDrugCategory { get; set; }
 
         public DbSet<SeverityModel> SHSeverityModel { get; set; }
 
         public DbSet<DrugInventoryModel> SHstkDrugInventory { get; set; }
 
+
+        public DbSet<DrugTypeModel>SHstkDrugType { get; set; }
+        public DbSet<UpdateRadiologyResultsModel> SHUpdateRadiologyResult {  get; set; }
+
+        public DbSet<DrugStockModel> SHstkDrugStock { get; set; }
+
+        public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
+
+
+
+        public DbSet<DrugRackModel> SHstkDrugRack {  get; set; }
+
+        public DbSet<DrugGroupModel> SHstkDrugGroup { get; set; }
+
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -65,6 +81,13 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<DrugRackModel>().HasKey(i => new { i.RackID, i.RackName });
+
+            modelBuilder.Entity<DrugTypeModel>().HasKey(i => new { i.TypeID });
+
+            modelBuilder.Entity<DrugCategoryModel>().HasKey(i => new { i.CategoryID });
+
             modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
 
             modelBuilder.Entity<TestMasterModel>().HasKey(i => new { i.TestID });
@@ -76,6 +99,7 @@ namespace HealthCare.Context
 
 
             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID });
+            modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID ,i.TestDateTime});
                 
 
             // Configure primary key for Login
@@ -110,7 +134,11 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientFHPHModel>()
         .HasKey(i => new { i.PatientID, i.QuestionID, i.Type });
 
+            modelBuilder.Entity<PatientRadiolodyModel>()
+                 .HasKey(i => new { i.RadioID , i.ClinicID , i.PatientID , i.ScreeningDate });
 
+            modelBuilder.Entity<RadiologyMasterModel>()
+                .HasKey(i => new { i.RadioID });
 
             modelBuilder.Entity<PatientInfoDocumentModel>()
        .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });
@@ -120,6 +148,15 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<LogsModel>()
         .HasKey(i => new { i.LogID });
+
+            modelBuilder.Entity<UpdateRadiologyResultsModel>()
+                .HasKey(i => new { i.PatientID, i.ClinicID,i.RadioID });
+
+            modelBuilder.Entity<DrugGroupModel>()
+                .HasKey(i => new { i.GroupTypeName, i.GroupTypeID });
+
+            modelBuilder.Entity<DrugStockModel>()
+                .HasKey(i => new { i.IDNumber, i.MedID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

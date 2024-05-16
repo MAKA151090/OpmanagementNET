@@ -70,6 +70,11 @@
                         <div>TestMaster</div>
                     </a>
                 </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/PatientFHPHMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="PatientFHPHMaster" class="menu-link">
+                        <div>PatientFHPHMaster</div>
+                    </a>
+                </li>
                 <li class='menu-item@(currentPage == "/ClinicAdministration/SeverityModel" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="SeverityModel" class="menu-link">
                         <div>SeverityModel</div>
@@ -93,6 +98,70 @@
         </li> *@
             </ul>
     </li>
+
+       
+        <ul class="menu-inner py-1">
+        <!-- Stock Management -->
+        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StockManagement") ? " active open" : "")'>
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                <div>Stock Management</div>
+
+            </a>
+
+            <ul class="menu-sub">
+
+                <li class='menu-item@(currentPage == "/StockManagement/DrugInventory" ? " active" : "")'>
+                    <a asp-controller="StockManagement" asp-action="DrugInventory" class="menu-link">
+
+                            <div>Drug Inventory</div>
+                    </a>
+                </li>
+            </ul>
+                <ul class="menu-sub">
+                    <li class='menu-item@(currentPage == "/StockManagement/DrugCategoryMaster" ? " active" : "")'>
+                        <a asp-controller="StockManagement" asp-action="DrugCategoryMaster" class="menu-link">
+                            <div>Drug Category Master</div>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="menu-sub">
+
+                    <li class='menu-item@(currentPage == "/StockManagement/DrugTypeMaster" ? " active" : "")'>
+                        <a asp-controller="StockManagement" asp-action="DrugTypeMaster" class="menu-link">
+
+                            <div>Drug Type Master</div>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="menu-sub">
+
+                    <li class='menu-item@(currentPage == "/StockManagement/DrugRackMaster" ? " active" : "")'>
+                        <a asp-controller="StockManagement" asp-action="DrugRackMaster" class="menu-link">
+
+                            <div>Drug Rack Master</div>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="menu-sub">
+
+                    <li class='menu-item@(currentPage == "/StockManagement/DrugStockMaster" ? " active" : "")'>
+                        <a asp-controller="StockManagement" asp-action="DrugStockMaster" class="menu-link">
+
+                            <div>Drug Stock Master</div>
+                        </a>
+                    </li>
+                </ul>
+            
+                <ul class="menu-sub">
+                    <li class='menu-item@(currentPage == "/StockManagement/DrugGroupMaster" ? " active" : "")'>
+                        <a asp-controller="StockManagement" asp-action="DrugGroupMaster" class="menu-link">
+                            <div>Drug Group Master</div>
+                        </a>
+                    </li>
+                </ul>
+        </li>
+
         <ul class="menu-inner py-1">
 
         <!-- Patient Registration -->

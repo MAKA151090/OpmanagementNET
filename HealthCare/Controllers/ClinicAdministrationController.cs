@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 
 namespace HealthCare.Controllers
 {
@@ -249,6 +250,38 @@ namespace HealthCare.Controllers
 
             ViewBag.Message = "Saved Successfully";
             return View("TestMaster", model);
+        }
+        public IActionResult PatientFHPHMaster()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> FHPHMaster(PatientFHPHMasterModel model)
+        {
+            var existingFHPH = await _healthcareContext.PatExmFHPH.FindAsync(model.QuestionID);
+            if (existingFHPH != null)
+            {
+                existingFHPH.QuestionID = model.QuestionID;
+                existingFHPH.Question = model.Question;
+                existingFHPH.Type = model.Type;
+                existingFHPH.LastUpdatedDate = DateTime.Now.ToString(); 
+                existingFHPH.LastUpdatedUser = "Myself";
+            }
+            else
+            {
+                
+               model.LastUpdatedDate = DateTime.Now.ToString(); 
+               model.LastUpdatedUser = "Myself";
+                _healthcareContext.PatExmFHPH.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("PatientFHPHMaster", model);
+
+
+
         }
 
         public IActionResult SeverityModel()
