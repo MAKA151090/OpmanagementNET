@@ -49,6 +49,8 @@ namespace HealthCare.Context
 
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
+        
+
         public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
 
 

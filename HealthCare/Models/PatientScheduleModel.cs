@@ -10,6 +10,7 @@ public class PatientScheduleModel
 	private String strClinicID;
 	private String strDoctorID;
 	private String strDate;
+	private String strDescription;
 	private String strlastUpdatedDate;
 	private String strlastUpdatedUser;
 
@@ -20,6 +21,7 @@ public class PatientScheduleModel
     public string? ClinicID { get => strClinicID; set => strClinicID = value; }
     public string? DoctorID { get => strDoctorID; set => strDoctorID = value; }
     public string? Date { get => strDate; set => strDate = value; }
+	public string? Description { get => strDescription; set => strDescription = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
 }

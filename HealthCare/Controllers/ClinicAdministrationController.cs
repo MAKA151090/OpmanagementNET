@@ -11,8 +11,8 @@ namespace HealthCare.Controllers
 {
     public class ClinicAdministrationController : Controller
     {
-        
-      
+
+
         private HealthcareContext _healthcareContext;
 
         public ClinicAdministrationController(HealthcareContext healthcareContext)
@@ -20,7 +20,7 @@ namespace HealthCare.Controllers
             _healthcareContext = healthcareContext;
         }
 
-       
+
         [HttpPost]
         public async Task<IActionResult> AddClinic(ClinicAdminModel model)
         {
@@ -53,12 +53,12 @@ namespace HealthCare.Controllers
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = "Myself";
                 _healthcareContext.SHclnClinicAdmin.Add(model);
-                
+
             }
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-            return View("ClinicRegistration",model);
+            return View("ClinicRegistration", model);
         }
 
         [HttpPost]
@@ -89,18 +89,18 @@ namespace HealthCare.Controllers
                         ViewBag.ErrorMessage = "No data found for the entered IDs.";
                         return View("GetClinic");
                     }
-                }    
+                }
             }
             return View();
         }
-            public async Task<IActionResult> BloodGroupList(BloodGroupModel model)
+        public async Task<IActionResult> BloodGroupList(BloodGroupModel model)
 
         {
-            var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id,model.BloodGroup);
+            var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id, model.BloodGroup);
 
             if (existingBloodGroup != null)
             {
-                existingBloodGroup.IntBg_Id =   model.IntBg_Id;
+                existingBloodGroup.IntBg_Id = model.IntBg_Id;
                 existingBloodGroup.BloodGroup = model.BloodGroup;
                 existingBloodGroup.lastUpdatedUser = "Admin";
                 existingBloodGroup.lastUpdatedDate = DateTime.Now.ToString();
@@ -164,19 +164,19 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Doctoradmin(string doctorid , string buttonType)
+        public async Task<ActionResult> Doctoradmin(string doctorid, string buttonType)
         {
             ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
             if (buttonType == "submit")
             {
-               var doctor = await businessClass.GetDoctorRegister(doctorid);
-                if (doctor != null) 
+                var doctor = await businessClass.GetDoctorRegister(doctorid);
+                if (doctor != null)
                 {
                     doctorid = doctor.DoctorID;
 
-                    return View("DoctorRegistration" , doctor);
+                    return View("DoctorRegistration", doctor);
                 }
-               else
+                else
                 {
                     ViewBag.ErrorMessage = "No data found for the entered IDs.";
                     return View(GetDoctor);
@@ -194,12 +194,12 @@ namespace HealthCare.Controllers
         public IActionResult ClinicRegistration()
         {
             return View();
-      
+
         }
 
-        public IActionResult BloodGroupAdministration()    
+        public IActionResult BloodGroupAdministration()
         {
-           
+
             return View();
         }
         public IActionResult RollAccess()
@@ -214,6 +214,42 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-       
+        public IActionResult TestMaster()
+        {
+            return View();
+        }
+        [HttpPost]
+
+
+        public async Task<IActionResult> TestMaster(TestMasterModel model)
+        {
+            var existingTest = await _healthcareContext.SHTestMaster.FindAsync(model.TestID);
+
+            if (existingTest != null)
+            {
+                existingTest.TestID = model.TestID;
+                existingTest.TestName = model.TestName;
+                existingTest.Cost = model.Cost;
+                existingTest.Range = model.Range;
+                existingTest.lastUpdatedUser = "Myself";
+                existingTest.lastUpdatedDate = DateTime.Now.ToString(); ;
+                existingTest.lastUpdatedMachine = "Myself";
+                _healthcareContext.Entry(existingTest).State = EntityState.Modified;
+            }
+            else
+            {
+
+
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                _healthcareContext.SHTestMaster.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("TestMaster", model);
+        }
     }
 }
+        

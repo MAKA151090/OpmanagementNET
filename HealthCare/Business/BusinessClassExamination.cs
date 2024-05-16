@@ -24,23 +24,23 @@ namespace HealthCare.Business
 
         public async Task<bool> SavePatientExaminationAndSeverity(PatientExaminationModel patientExamination, PatExmSymptomsSeverity severity)
         {
-            
-                patientExamination.lastUpdatedDate = DateTime.Now.ToString();
-                patientExamination.lastUpdatedUser = "Myself";
 
-                // Add patient examination
-                objSearchContext.SHExmPatientExamination.Add(patientExamination);
-                await objSearchContext.SaveChangesAsync();
+            patientExamination.lastUpdatedDate = DateTime.Now.ToString();
+            patientExamination.lastUpdatedUser = "Myself";
 
-                // Assign the patientExaminationId to severity and save severity
-                severity.PatientID = patientExamination.PatientID;
-                objSearchContext.SHExmSeverity.Add(severity);
-                await objSearchContext.SaveChangesAsync();
+            // Add patient examination
+            objSearchContext.SHExmPatientExamination.Add(patientExamination);
+            await objSearchContext.SaveChangesAsync();
+
+            // Assign the patientExaminationId to severity and save severity
+            severity.PatientID = patientExamination.PatientID;
+            objSearchContext.SHExmSeverity.Add(severity);
+            await objSearchContext.SaveChangesAsync();
 
             return true;
         }
-   
-    public byte[] GenerateDocument(string patientId, string visitId, string clinicId)
+
+        public byte[] GenerateDocument(string patientId, string visitId, string clinicId)
         {
             // Retrieve data from database
             using (var dbContext = new HealthcareContext())
@@ -58,7 +58,7 @@ namespace HealthCare.Business
                 var patientFamilyHistory = dbContext.SHExmPatientFHPH
                     .FirstOrDefault(p => p.PatientID == patientId);
 
-                
+
 
                 var patientExamination = dbContext.SHExmPatientExamination
                     .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
@@ -69,7 +69,7 @@ namespace HealthCare.Business
                 // Generate the populated document
                 byte[] generatedDocument = PopulateWordTemplate(patientInfo,
                      patientObjective, patientFamilyHistory
-                     ,null,patientExamination, patExmSymptomsSeverity);
+                     , null, patientExamination, patExmSymptomsSeverity);
 
                 return generatedDocument;
             }
@@ -140,19 +140,19 @@ namespace HealthCare.Business
                 }
             }
 
-           
+
         }
-        public List<PatientFHPHMasterModel> GetHistoryQuestions (String Type)
+        public List<PatientFHPHMasterModel> GetHistoryQuestions(String Type)
         {
 
-         var patExmQuestion= (from q in objSearchContext.PatExmFHPH
+            var patExmQuestion = (from q in objSearchContext.PatExmFHPH
                                   where q.Type == Type
-                                  select new PatientFHPHMasterModel{ Question = q.Question,QuestionID=q.QuestionID}).ToList();
+                                  select new PatientFHPHMasterModel { Question = q.Question, QuestionID = q.QuestionID }).ToList();
 
 
 
             return patExmQuestion;
-                    
+
         }
         public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string clinicID, string patientName, string visitDate, string clinicName)
         {
@@ -199,7 +199,7 @@ namespace HealthCare.Business
                 .Select(v => v.VisitID)
                 .ToList();
 
-          
+
 
             if (existingIds.Count == 0)
             {
@@ -207,7 +207,7 @@ namespace HealthCare.Business
             }
             else
             {
-    
+
 
                 List<int> idIntegers = existingIds.Select(int.Parse).ToList();
                 int maxId = idIntegers.Max();
@@ -243,7 +243,7 @@ namespace HealthCare.Business
             }
 
 
-            
+
             var patientObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
                 x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == strNewCliniid);
 
@@ -251,9 +251,31 @@ namespace HealthCare.Business
 
         }
 
+        public async Task<List<PatientViewResultModel>> GetTestResults(string patientId, string clinicId)
+        {
+            var testResults = await (
+                from pt in objSearchContext.SHPatientTest
+                join tm in objSearchContext.SHTestMaster on pt.TestID equals tm.TestID
+                join ca in objSearchContext.SHclnDoctorAdmin on pt.ReferDocID equals ca.DoctorID
+                join p in objSearchContext.SHPatientRegistration on pt.PatientID equals p.PatientID
+                join c in objSearchContext.SHclnClinicAdmin on pt.ClinicID equals c.ClinicId
+                where pt.PatientID == patientId && pt.ClinicID == clinicId
+                select new PatientViewResultModel
+                {
+                    TestID = pt.TestID,
+                    TestName = tm.TestName,
+                    Range = tm.Range,
+                    TestDate = pt.TestDateTime,
+                    Result = pt.TestResult,
+                    DoctorName = ca.FullName,
+                    PatientName = p.FullName,
+                    ClinicName = c.ClinicName
 
+                }).ToListAsync();
 
-}
+            return testResults;
 
+        }
 
+    }
 }

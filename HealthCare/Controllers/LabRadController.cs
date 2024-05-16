@@ -52,6 +52,21 @@ namespace HealthCare.Controllers
 
 
         }
+        public async Task<IActionResult> ViewResult(PatientViewResultModel Model)
+        {
+            BusinessClassExamination ObjBusTestResult = new BusinessClassExamination(GetlabData);
+
+            if (ObjBusTestResult!=null)
+            {
+                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.ClinicID);
+                return View("PrintTestResults", testResults);
+            }
+            return View(Model); 
+
+
+        }
+
+        public IActionResult LabTest()
 
         public async Task<IActionResult>  GetPatientRadio(PatientRadiolodyModel model)
         {
