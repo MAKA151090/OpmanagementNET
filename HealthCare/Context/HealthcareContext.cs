@@ -49,9 +49,9 @@ namespace HealthCare.Context
 
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
-        public DbSet<DrugCategoryModel>SHstkMedCategory { get; set; }
+        public DbSet<DrugCategoryModel>SHstkDrugCategory { get; set; }
 
-        public DbSet<MedicationTypeModel>SHstkMedType { get; set; }
+        public DbSet<DrugTypeModel>SHstkDrugType { get; set; }
         public DbSet<UpdateRadiologyResultsModel> SHUpdateRadiologyResult {  get; set; }
 
         
@@ -60,7 +60,7 @@ namespace HealthCare.Context
 
 
 
-        public DbSet<MedicationRackModel> SHstkMedRack {  get; set; }
+        public DbSet<DrugRackModel> SHstkDrugRack {  get; set; }
 
         
 
@@ -75,9 +75,9 @@ namespace HealthCare.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<MedicationRackModel>().HasKey(i => new { i.RackID, i.RackName });
+            modelBuilder.Entity<DrugRackModel>().HasKey(i => new { i.RackID, i.RackName });
 
-            modelBuilder.Entity<MedicationTypeModel>().HasKey(i => new { i.TypeID });
+            modelBuilder.Entity<DrugTypeModel>().HasKey(i => new { i.TypeID });
 
             modelBuilder.Entity<DrugCategoryModel>().HasKey(i => new { i.CategoryID });
 

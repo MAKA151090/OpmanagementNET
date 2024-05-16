@@ -1,8 +1,8 @@
 ﻿namespace HealthCare.Models
 {
-    public class MedicationRackModel
+    public class DrugRackModel
     {
-        public MedicationRackModel() { }
+        public DrugRackModel() { }
 
         private String rackID;
         private String rackName;

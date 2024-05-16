@@ -16,7 +16,7 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> DrugCategory(DrugCategoryModel pCategory)
         {
            
-            var existingCat = await GetDrugData.SHstkMedCategory.FindAsync(pCategory.CategoryID);
+            var existingCat = await GetDrugData.SHstkDrugCategory.FindAsync(pCategory.CategoryID);
             if (existingCat != null)
             {
 
@@ -31,7 +31,7 @@ namespace HealthCare.Controllers
                 pCategory.lastUpdatedDate = DateTime.Now.ToString();
                 pCategory.lastUpdatedUser = "Myself";
                 pCategory.lastUpdatedmachine = "Lap";
-                GetDrugData.SHstkMedCategory.Add(pCategory);
+                GetDrugData.SHstkDrugCategory.Add(pCategory);
 
             }
             await GetDrugData.SaveChangesAsync();
