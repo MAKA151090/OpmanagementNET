@@ -62,6 +62,8 @@ namespace HealthCare.Context
 
         public DbSet<DrugRackModel> SHstkDrugRack {  get; set; }
 
+        public DbSet<DrugGroupModel> SHstkDrugGroup { get; set; }
+
         
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -137,6 +139,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<UpdateRadiologyResultsModel>()
                 .HasKey(i => new { i.PatientID, i.ClinicID,i.RadioID });
+
+            modelBuilder.Entity<DrugGroupModel>()
+                .HasKey(i => new { i.GroupTypeName, i.GroupTypeID });
 
             modelBuilder.Entity<DrugStockModel>()
                 .HasKey(i => new { i.IDNumber, i.MedID });
