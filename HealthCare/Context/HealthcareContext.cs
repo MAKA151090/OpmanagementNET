@@ -49,6 +49,9 @@ namespace HealthCare.Context
 
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
 
+        public DbSet<DrugCategoryModel>SHstkDrugCategory { get; set; }
+
+        public DbSet<DrugTypeModel>SHstkDrugType { get; set; }
         public DbSet<UpdateRadiologyResultsModel> SHUpdateRadiologyResult {  get; set; }
 
         public DbSet<DrugStockModel> SHstkDrugStock { get; set; }
@@ -56,6 +59,10 @@ namespace HealthCare.Context
         public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
 
 
+
+        public DbSet<DrugRackModel> SHstkDrugRack {  get; set; }
+
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -67,11 +74,18 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<DrugRackModel>().HasKey(i => new { i.RackID, i.RackName });
+
+            modelBuilder.Entity<DrugTypeModel>().HasKey(i => new { i.TypeID });
+
+            modelBuilder.Entity<DrugCategoryModel>().HasKey(i => new { i.CategoryID });
+
             modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
 
             modelBuilder.Entity<TestMasterModel>().HasKey(i => new { i.TestID });
 
-            modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID });
+            modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID ,i.TestDateTime});
                 
 
             // Configure primary key for Login
