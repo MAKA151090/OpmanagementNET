@@ -4,19 +4,19 @@ public class DoctorScheduleModel
 {
 
     public DoctorScheduleModel()
-	{
-	}
+    {
+    }
 
-	private String strDoctorID;
-	private String strClinicID;
-	private String strDate;
-	private String strDuration;
-	private String strStartTime;
-	private String strPatientID;
-	private String strSlotsID;
-	private String strHoliday;
-	private String strBlocker;
-	private String strActive;
+    private String strDoctorID;
+    private String strClinicID;
+    private String strDate;
+    private String strDuration;
+    private String strStartTime;
+    private String strPatientID;
+    private String strSlotsID;
+    private String strHoliday;
+    private String strBlocker;
+    private String strActive;
     private String strlastUpdatedDate;
     private String strlastUpdatedUser;
 

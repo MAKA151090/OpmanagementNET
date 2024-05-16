@@ -38,7 +38,7 @@ namespace HealthCare.Context
         public DbSet<PatientFHPHMasterModel> PatExmFHPH {  get; set; }
 
      
-
+        public DbSet<RadiologyMasterModel> SHRadioMaster { get; set; }
         public DbSet<PatientInfoDocumentModel> SHExmInfoDocument { get; set; }
 
         public DbSet<WebErrorsModel> SHWebErrors { get; set; }
@@ -48,6 +48,8 @@ namespace HealthCare.Context
         public DbSet<PatientTestModel> SHPatientTest { get; set; }
 
         public DbSet<TestMasterModel> SHTestMaster { get; set; }
+
+        public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -99,7 +101,11 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientFHPHModel>()
         .HasKey(i => new { i.PatientID, i.QuestionID, i.Type });
 
+            modelBuilder.Entity<PatientRadiolodyModel>()
+                 .HasKey(i => new { i.RadioID , i.ClinicID , i.PatientID , i.ScreeningDate });
 
+            modelBuilder.Entity<RadiologyMasterModel>()
+                .HasKey(i => new { i.RadioID });
 
             modelBuilder.Entity<PatientInfoDocumentModel>()
        .HasKey(i => new { i.PatientID, i.ClinicID, i.VisitID });

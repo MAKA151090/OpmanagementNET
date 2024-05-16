@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Business;
+using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,8 +37,6 @@ namespace HealthCare.Controllers
                 existingPatientTest.lastUpdatedDate = DateTime.Now.ToString();
                 existingPatientTest.lastUpdatedUser = "Myself";
                 existingPatientTest.lastUpdatedMachine = "Lap";
-
-
             }
             else
             {
@@ -53,7 +52,61 @@ namespace HealthCare.Controllers
 
 
         }
-        public IActionResult LabTest()
+
+        public async Task<IActionResult>  GetPatientRadio(PatientRadiolodyModel model)
+        {
+            var existingPatientRadiology = await GetlabData.SHPatientRadiology.FindAsync(model.RadioID , model.ClinicID , model.PatientID);
+            if (existingPatientRadiology != null)
+            {
+                    existingPatientRadiology.RadioID = model.RadioID;
+                existingPatientRadiology.ClinicID = model.ClinicID;
+                existingPatientRadiology.PatientID = model.PatientID;
+                existingPatientRadiology.ReferralDoctorID = model.ReferralDoctorID;
+                existingPatientRadiology.ReferralDoctorName = model.ReferralDoctorName;
+                existingPatientRadiology.ScreeningDate = model.ScreeningDate;
+                existingPatientRadiology.Result = model.Result;
+                existingPatientRadiology.lastUpdatedDate = DateTime.Now.ToString();
+                existingPatientRadiology.lastUpdatedUser = "Admin";
+                existingPatientRadiology.lastUpdatedMachine = "Lap";
+                existingPatientRadiology.ScreeningCompleted = model.ScreeningCompleted;
+                existingPatientRadiology.ScreeningCompletedDate = model.ScreeningCompletedDate;
+
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Admin";
+                model.lastUpdatedMachine = "Lap";
+                GetlabData.SHPatientRadiology.Add(model);
+            }
+            await GetlabData.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("RadiologyCreation", model);
+        }
+
+        public async Task<IActionResult> GetRadio(string radioID, string clinicID, string patientName, string radioName, string screeingDate, string result, string referralDoctorName, string buttonType)
+        {
+            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(GetlabData);
+
+            if (buttonType == "select")
+            {
+                var Radiologydata = await business.GetRadiologData(radioID , clinicID , patientName, radioName , screeingDate , result , referralDoctorName);
+                
+                if (Radiologydata != null)
+                {
+                    ViewBag.RadiologData = Radiologydata;
+
+                    return View("PrintRadiologyResults",Radiologydata);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "No data found for the entered IDs";
+                    return View();
+                }
+            }
+            return View();
+        }
+            public IActionResult LabTest()
         {
             return View();
         }

@@ -4,6 +4,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class HealthcareContextModelSnapshot : ModelSnapshot
+    [Migration("20240515105104_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,9 +231,6 @@ namespace HealthCare.Migrations
                     b.Property<string>("PatientID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ScreeningDate")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ReferralDoctorID")
                         .HasColumnType("nvarchar(max)");
 
@@ -246,6 +246,9 @@ namespace HealthCare.Migrations
                     b.Property<string>("ScreeningCompletedDate")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ScreeningDate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("lastUpdatedDate")
                         .HasColumnType("nvarchar(max)");
 
@@ -255,7 +258,7 @@ namespace HealthCare.Migrations
                     b.Property<string>("lastUpdatedUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RadioID", "ClinicID", "PatientID", "ScreeningDate");
+                    b.HasKey("RadioID", "ClinicID", "PatientID");
 
                     b.ToTable("SHPatientRadiology");
                 });
@@ -334,31 +337,6 @@ namespace HealthCare.Migrations
                     b.HasKey("PatientID", "ClinicID", "VisitID");
 
                     b.ToTable("PatientVisitIntoDocumentModel");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.RadiologyMasterModel", b =>
-                {
-                    b.Property<string>("RadioID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Cost")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RadioName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedMachine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RadioID");
-
-                    b.ToTable("SHRadioMaster");
                 });
 
             modelBuilder.Entity("HealthCare.Models.TestMasterModel", b =>

@@ -198,6 +198,28 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SHPatientRadiology",
+                columns: table => new
+                {
+                    RadioID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClinicID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReferralDoctorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReferralDoctorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ScreeningDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ScreeningCompleted = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ScreeningCompletedDate = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHPatientRadiology", x => x.RadioID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SHPatientRegistration",
                 columns: table => new
                 {
@@ -372,6 +394,9 @@ namespace HealthCare.Migrations
 
             migrationBuilder.DropTable(
                 name: "SHLogs");
+
+            migrationBuilder.DropTable(
+                name: "SHPatientRadiology");
 
             migrationBuilder.DropTable(
                 name: "SHPatientRegistration");
