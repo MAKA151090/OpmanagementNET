@@ -4,6 +4,7 @@ using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    partial class HealthcareContextModelSnapshot : ModelSnapshot
+    [Migration("20240516035213_MigUpdTestDatePk")]
+    partial class MigUpdTestDatePk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,91 +192,6 @@ namespace HealthCare.Migrations
                     b.HasKey("LogID");
 
                     b.ToTable("SHLogs");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.MedicationCategoryModel", b =>
-                {
-                    b.Property<string>("CategoryID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CategoryID");
-
-                    b.ToTable("SHstkMedCategory");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.MedicationRackModel", b =>
-                {
-                    b.Property<string>("RackID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RackName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Comments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UniqueIdentifier")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RackID", "RackName");
-
-                    b.ToTable("SHstkMedRack");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.MedicationTypeModel", b =>
-                {
-                    b.Property<string>("TypeID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedmachine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TypeID");
-
-                    b.ToTable("SHstkMedType");
                 });
 
             modelBuilder.Entity("HealthCare.Models.PatientFHPHMasterModel", b =>

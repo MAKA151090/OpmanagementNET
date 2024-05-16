@@ -11,7 +11,6 @@
         private String testID;
         private String testDate;
         private String testName;
-
         private String result;
         private String range;
         private String doctorName;

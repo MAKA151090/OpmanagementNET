@@ -18,7 +18,7 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest)
         {
             //PatientTestModel = new PatientTestModel();
-            var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.ClinicID, pPatientTest.TestID);
+            var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.ClinicID, pPatientTest.TestID,pPatientTest.TestDateTime);
             if (existingPatientTest != null)
             {
 
