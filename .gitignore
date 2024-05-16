@@ -365,3 +365,6 @@ FodyWeavers.xsd
 /HealthCare/Migrations/20240514144154_Initial.cs
 /HealthCare/Migrations/20240514144154_Initial.cs
 /HealthCare/appsettings.json
+/HealthCare/Migrations/20240516070309_Initial.cs
+/HealthCare/Migrations/20240516070309_Initial.Designer.cs
+/HealthCare/Migrations/HealthcareContextModelSnapshot.cs
