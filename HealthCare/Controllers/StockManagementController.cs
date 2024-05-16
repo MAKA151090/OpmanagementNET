@@ -41,6 +41,28 @@ namespace HealthCare.Controllers
 
 
         }
+        public async Task<IActionResult> DrugGroup (DrugGroupModel model) 
+        {
+            var existingGrp = await GetDrugData.SHstkDrugGroup.FindAsync(model.GroupTypeName,model.GroupTypeID);
+            if (existingGrp != null)
+            {
+                existingGrp.GroupTypeID = model.GroupTypeID;
+                existingGrp.GroupTypeName = model.GroupTypeName;
+                existingGrp.lastUpdatedDate = DateTime.Now.ToString();
+                existingGrp.lastUpdatedUser = "Myself";
+                existingGrp.LastUpdatedmachine = "Lap";
+            }
+            else
+            {
+                model.lastUpdatedDate= DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.LastUpdatedmachine = "Lap";
+                GetDrugData.SHstkDrugGroup.Add(model);
+            }
+            await GetDrugData.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("DrugGroupMaster", model);
+        }
 
         public async Task<IActionResult> DrugType(DrugTypeModel pType)
         {
