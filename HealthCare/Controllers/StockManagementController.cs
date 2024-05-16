@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
 {
@@ -132,5 +133,53 @@ namespace HealthCare.Controllers
         {
             return View();
         }
+
+
+
+     
+        [HttpPost]
+        public async Task<IActionResult> DrugInventory(DrugInventoryModel model)
+        {
+
+            var existingTest = await GetDrugData.SHstkDrugInventory.FindAsync(model.DrugId);
+            if (existingTest != null)
+            {
+
+                existingTest.DrugId = model.DrugId;
+                existingTest.ModelName = model.ModelName;
+                existingTest.CategoryId = model.CategoryId;
+                existingTest.TypeId = model.TypeId;
+                existingTest.RockId = model.RockId;
+                existingTest.MedicalDescription = model.MedicalDescription;
+                existingTest.Price = model.Price;
+                existingTest.SideEffects = model.SideEffects;
+                existingTest.Therapy = model.Therapy;
+                existingTest.User = model.User;
+                existingTest.Company = model.Company;
+                existingTest.BarCode = model.BarCode;
+                existingTest.GroupName = model.GroupName;
+                existingTest.GroupType = model.GroupType;
+                existingTest.LastupdatedUser = "Myself";
+                existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
+                existingTest.LastUpdatedMachine = "Myself";
+                      }
+            else
+            {
+
+
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = "Myself";
+                model.LastUpdatedMachine = "Myself";
+                GetDrugData.SHstkDrugInventory.Add(model);
+
+            }
+            await GetDrugData.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("DrugInventory", model);
+
+        }
+      
+
+
     }
 }
