@@ -11,9 +11,9 @@
         private string strlastUpdatedmachine;
 
         public string CategoryID { get => categoryID; set => categoryID = value; }
-        public string CategoryName { get => categoryName; set => categoryName = value; }
-        public string lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
-        public string lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
-        public string lastUpdatedmachine { get => strlastUpdatedmachine; set => strlastUpdatedmachine = value; }
+        public string? CategoryName { get => categoryName; set => categoryName = value; }
+        public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
+        public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+        public string? lastUpdatedmachine { get => strlastUpdatedmachine; set => strlastUpdatedmachine = value; }
     }
 }

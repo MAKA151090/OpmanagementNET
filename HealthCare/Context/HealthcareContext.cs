@@ -73,6 +73,14 @@ namespace HealthCare.Context
         
         public DbSet<PatientEPrescriptionPrintModel>SHprsPrescriptionPrint { get; set; }
 
+        public DbSet<OTSchedulingModel>SHotScheduling { get; set; }
+        public DbSet<OTNotes>SHotNotes { get; set; }
+        public DbSet<OtTableMasterModel>SHotTableMaster { get; set; }
+        public DbSet<ClinicSurgeryMasterModel>SHclnSurgeryMaster { get; set; }
+        public DbSet<OtSurgeryMasterModel>SHotSurgerymaster { get; set; }
+
+        public DbSet<OtDepartmentModel>SHotDepartmentMaster { get; set; }
+
         public DbSet<DoctorScheduleModel> SHcllDoctorScheduleModel { get; set; }
 
 
@@ -87,6 +95,9 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+           
+
             modelBuilder.Entity<OpCheckingModel>().HasKey(i => new { i.PatientId });
 
             modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.DoctorID, i.ClinicID, i.SlotsID });
@@ -115,7 +126,15 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID });
             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.ClinicID,i.TestID ,i.TestDateTime});
-                
+
+            modelBuilder.Entity<OTSchedulingModel>().HasKey(i => new { i.OtScheduleID });
+            modelBuilder.Entity<OTNotes>().HasKey(i => new { i.OtScheduleID });
+            modelBuilder.Entity<ClinicSurgeryMasterModel>().HasKey(i => new { i.SurgeryID });
+            modelBuilder.Entity<OtTableMasterModel>().HasKey(i => new { i.TableID });
+            modelBuilder.Entity<OtSurgeryMasterModel>().HasKey(i => new { i.SurgeryTypeID });
+            modelBuilder.Entity<OtDepartmentModel>().HasKey(i => new { i.DepartmentID });
+            modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
+
 
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()

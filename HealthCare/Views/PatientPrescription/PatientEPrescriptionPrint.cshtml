@@ -1,9 +1,117 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<PatientEPrescriptionPrintModel>
+
 @{
     ViewData["Title"] = "PatientEPrescriptionPrint";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div> this page is for PatientEPrescriptionPrint </div>
+
+<h1>PatientEPrescriptionPrint</h1>
+<hr />
+@using (Html.BeginForm("PrescriptionPrint", "PatientPrescription", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="PatientEPrescriptionPrint">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label for="PatientID" class="control-label">Patient ID</label>
+                    <input type="text" id="PatientID" name="PatientID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="CaseVisitID" class="control-label">CaseVisit ID</label>
+                    <input type="text" id="CaseVisitID" name="CaseVisitID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="OrderID" class="control-label">Order ID</label>
+                    <input type="text" id="OrderID" name="OrderID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Get" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    PatientName
+                </th>
+                <th>
+                   Patient ID
+                </th>
+                <th>
+                   Casevisit ID
+                </th>
+                <th>
+                    Order ID
+                </th>
+                <th>
+                    Medication Name
+                </th>
+                <th>
+                    Unit
+                </th>
+                <th>
+                    Unit Category
+                </th>
+                <th>
+                    Frequency
+                </th>
+                <th>
+                    Frequency Unit
+                </th>
+                <th>
+                   Duration
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    End Date
+                </th>
+                <th>
+                    Instruction
+                </th>
+                <th>
+                    Doctor Name
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.PatientName</td>
+                        <td>@item.PatientID</td>
+                        <td>@item.CaseVisitID</td>
+                        <td>@item.OrderID</td>
+                        <td>@item.MedicactionName</td>
+                        <td>@item.Unit</td>
+                        <td>@item.UnitCategory</td>
+                        <td>@item.Frequency</td>
+                        <td>@item.FrequencyUnit</td>
+                        <td>@item.Duration</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.EndDate</td>
+                        <td>@item.Instructions</td>
+                        <td>@item.DoctorName</td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @if (Model != null)
+    {
+        <div class="form-group">
+            <input type="submit" value="Print" class="btn btn-primary" />
+        </div>
+    }
+}
+
