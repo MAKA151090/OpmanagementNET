@@ -1,39 +1,28 @@
-﻿@model HealthCare.Models.OtTableMasterModel
+﻿@model HealthCare.Models.SurgeryDepartmentMasterModel
 
 @{
-    ViewData["Title"] = "OTTableMaster";
+    ViewData["Title"] = "SurgeryDepartmentMasterModel";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>OTTableMaster</h1>
+<h1>SurgeryDepartmentMasterModel</h1>
 
-<h4>OtTableMasterModel</h4>
+<h4>SurgeryDepartmentMasterModel1</h4>
 <hr />
-@using (Html.BeginForm("GetTable", "ClinicAdministration", FormMethod.Post))
-{
+@using (Html.BeginForm("GetSurgeryMaster", "ClinicAdministration", FormMethod.Post)) ;
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="OTTableMaster">
+        <form asp-action="SurgeryDepartmentMasterModel">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TableID" class="control-label"></label>
-                <input asp-for="TableID" class="form-control" />
-                <span asp-validation-for="TableID" class="text-danger"></span>
+                <label asp-for="SurgeryTypeID" class="control-label"></label>
+                <input asp-for="SurgeryTypeID" class="form-control" />
+                <span asp-validation-for="SurgeryTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TableName" class="control-label"></label>
-                <input asp-for="TableName" class="form-control" />
-                <span asp-validation-for="TableName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RoomName" class="control-label"></label>
-                <input asp-for="RoomName" class="form-control" />
-                <span asp-validation-for="RoomName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AdditionalFeature" class="control-label"></label>
-                <input asp-for="AdditionalFeature" class="form-control" />
-                <span asp-validation-for="AdditionalFeature" class="text-danger"></span>
+                <label asp-for="SurgeryTypeName" class="control-label"></label>
+                <input asp-for="SurgeryTypeName" class="form-control" />
+                <span asp-validation-for="SurgeryTypeName" class="text-danger"></span>
             </div>
             @* <div class="form-group">
                 <label asp-for="lastupdatedDate" class="control-label"></label>
@@ -49,11 +38,9 @@
                 <label asp-for="lastUpdatedMachine" class="control-label"></label>
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-            </div> 
-            *@
+            </div> *@
             <div class="form-group">
-       
-                    <input type="submit"  value="Create" class="btn btn-primary" />
+                <input type="submit" asp-action="GetSurgeryMaster" value="Create" class="btn btn-primary" />
             </div>
 
             @if (ViewBag.Message != null)
@@ -65,9 +52,11 @@
                 </div>
 
             }
+            
+
 
         </form>
     </div>
 </div>
 
-}
+

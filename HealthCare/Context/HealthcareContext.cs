@@ -79,9 +79,9 @@ namespace HealthCare.Context
         public DbSet<OTNotesModel>SHotNotes { get; set; }
         public DbSet<OtTableMasterModel>SHotTableMaster { get; set; }
         public DbSet<ClinicSurgeryMasterModel>SHclnSurgeryMaster { get; set; }
-        public DbSet<OtSurgeryMasterModel>SHotSurgerymaster { get; set; }
+        public DbSet<SurgeryDepartmentMasterModel>SHotSurgerymaster { get; set; }
 
-        public DbSet<OtDepartmentModel>SHotDepartmentMaster { get; set; }
+        public DbSet<InternalDepartmentMasterModel>SHotDepartmentMaster { get; set; }
 
         public DbSet<DoctorScheduleModel> SHcllDoctorScheduleModel { get; set; }
 
@@ -133,8 +133,8 @@ namespace HealthCare.Context
             modelBuilder.Entity<OTNotesModel>().HasKey(i => new { i.OtScheduleID });
             modelBuilder.Entity<ClinicSurgeryMasterModel>().HasKey(i => new { i.SurgeryID });
             modelBuilder.Entity<OtTableMasterModel>().HasKey(i => new { i.TableID });
-            modelBuilder.Entity<OtSurgeryMasterModel>().HasKey(i => new { i.SurgeryTypeID });
-            modelBuilder.Entity<OtDepartmentModel>().HasKey(i => new { i.DepartmentID });
+            modelBuilder.Entity<SurgeryDepartmentMasterModel>().HasKey(i => new { i.SurgeryTypeID });
+            modelBuilder.Entity<InternalDepartmentMasterModel>().HasKey(i => new { i.DepartmentID });
             modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
 
 
