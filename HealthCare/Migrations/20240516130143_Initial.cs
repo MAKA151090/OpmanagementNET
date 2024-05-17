@@ -5,7 +5,7 @@
 namespace HealthCare.Migrations
 {
     /// <inheritdoc />
-    public partial class Intial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -300,6 +300,66 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SHprsPrescription",
+                columns: table => new
+                {
+                    PatientID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CaseVisitID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DrugID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EpressID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PrescriptionDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UnitCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Frequency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FrequencyUnit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EndDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RouteAdmin = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FillDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHprsPrescription", x => new { x.PatientID, x.CaseVisitID, x.OrderID, x.DrugID });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHprsPrescriptionPrint",
+                columns: table => new
+                {
+                    PatientID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CaseVisitID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PatientName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MedicactionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UnitCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Frequency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FrequencyUnit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EndDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHprsPrescriptionPrint", x => new { x.PatientID, x.CaseVisitID, x.OrderID });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SHRadioMaster",
                 columns: table => new
                 {
@@ -366,23 +426,23 @@ namespace HealthCare.Migrations
                 columns: table => new
                 {
                     DrugId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ModelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TypeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RockId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SideEffects = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Therapy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    User = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BarCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GroupType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GroupName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastupdatedUser1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastupdatedDate1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastUpdatedMachine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MedicalDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Dosage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModelName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RockId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MedicalDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SideEffects = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Therapy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    User = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BarCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GroupType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastupdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Dosage = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -411,7 +471,7 @@ namespace HealthCare.Migrations
                 columns: table => new
                 {
                     IDNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MedID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DrugID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ManufacturingDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ExpiryDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumberOfStock = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -421,7 +481,7 @@ namespace HealthCare.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHstkDrugStock", x => new { x.IDNumber, x.MedID });
+                    table.PrimaryKey("PK_SHstkDrugStock", x => new { x.IDNumber, x.DrugID });
                 });
 
             migrationBuilder.CreateTable(
@@ -564,6 +624,12 @@ namespace HealthCare.Migrations
 
             migrationBuilder.DropTable(
                 name: "SHPatientTest");
+
+            migrationBuilder.DropTable(
+                name: "SHprsPrescription");
+
+            migrationBuilder.DropTable(
+                name: "SHprsPrescriptionPrint");
 
             migrationBuilder.DropTable(
                 name: "SHRadioMaster");
