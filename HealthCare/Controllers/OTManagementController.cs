@@ -1,6 +1,8 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Business;
+using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace HealthCare.Controllers
 {
@@ -93,7 +95,31 @@ namespace HealthCare.Controllers
 
 
         }
+        public async Task<IActionResult> GetviewOT(OtConfirmViewModel Model , string buttonType,OTSchedulingModel pConfirm)
+        {
+            BusinessClassExamination ObjViewOT = new BusinessClassExamination(Getotschedule);
 
+            var objconfirm = await Getotschedule.SHotScheduling.FindAsync(pConfirm.OtScheduleID);
+
+            if (buttonType == "Confirm")
+            {
+                await ObjViewOT.UpdateOTConfirmation(Model.OtscheduleID, "Confirmed");
+                objconfirm.ConfirmBy=pConfirm.ConfirmBy;
+                objconfirm.ConfirmDate = pConfirm.ConfirmDate;
+                Getotschedule.SHotScheduling.Update(objconfirm);
+                await Getotschedule.SaveChangesAsync();
+            }
+            else if (buttonType == "cancel")
+            {
+                await ObjViewOT.UpdateOTConfirmation(Model.OtscheduleID, "cancel");
+            }
+
+            
+                var result = await ObjViewOT.GetOTConfirmation(Model.OtscheduleID);
+                return View("OTConfirmation", result);
+            
+
+        }
 
 
 

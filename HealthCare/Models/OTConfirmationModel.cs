@@ -5,7 +5,6 @@
         public OTConfirmationModel() { }
 
         private String otScheduleID;
-        private String surgeryName;
         private string teamName;
         private String date;
         private String duration;
@@ -19,7 +18,6 @@
         private List<OtConfirmViewModel> otviewModel;
 
 
-        public string? SurgeryName { get => surgeryName; set => surgeryName = value; }
         public string? TeamName { get => teamName; set => teamName = value; }
         public string? Date { get => date; set => date = value; }
         public string? Duration { get => duration; set => duration = value; }

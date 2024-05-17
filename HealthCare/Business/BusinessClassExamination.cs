@@ -11,6 +11,7 @@ using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Office.Interop.Word;
+using System.Threading.Tasks;
 
 namespace HealthCare.Business
 {
@@ -308,5 +309,92 @@ namespace HealthCare.Business
 
         }
 
+        public async Task<OTConfirmationModel> GetOTConfirmation(string potScheduleID)
+        {
+            OTConfirmationModel oTConfirmation = new OTConfirmationModel();
+
+            oTConfirmation.OtviewModel = GetOtViewdata(potScheduleID);
+
+            var result = await (from ot in objSearchContext.SHotScheduling
+                          join t in objSearchContext.SHotTableMaster on ot.TableID equals t.TableID
+                          select new OTConfirmationModel
+                          {
+                              OtScheduleID = ot.OtScheduleID,
+                              TableName = t.TableName,
+                              TeamName = ot.TeamName,
+                              Date=ot.StartDate,
+                              Duration=ot.Duration,
+                              RoomName=t.RoomName,
+                              ConfirmDate=ot.ConfirmDate,
+                              ConfirmBy=ot.ConfirmBy
+                              
+
+                          }).FirstOrDefaultAsync();
+
+            oTConfirmation.OtScheduleID = result.OtScheduleID;
+            oTConfirmation.TableName=result.TableName;
+            oTConfirmation.TeamName = result.TeamName;
+            oTConfirmation.Date=result.Date;
+            oTConfirmation.Duration=result.Duration;
+            oTConfirmation.RoomName=result.RoomName;
+            oTConfirmation.ConfirmDate=result.ConfirmDate;
+            oTConfirmation.ConfirmBy=result.ConfirmBy;
+
+
+            return oTConfirmation;
+
+
+        }
+
+        public List<OtConfirmViewModel> GetOtViewdata(string potscheduleID)
+        {
+
+            var result = (from ot in objSearchContext.SHotScheduling
+                                 join sm in objSearchContext.OtSurgeryModel on ot.OtScheduleID equals sm.OtScheduleID
+                                 join ots in objSearchContext.SHclnSurgeryMaster on sm.SurgeryID equals ots.SurgeryID
+                               
+                                join t in objSearchContext.SHotTableMaster on ot.TableID equals t.TableID
+                                where ot.OtScheduleID == potscheduleID && ot.IsDeleted!=false && ot.Status!="Confirmed"
+                                select new OtConfirmViewModel
+                                {
+                                    OtscheduleID = ot.OtScheduleID,
+                                    SurgeryName = ots.SurgeryName,
+                                    TeamName = ot.TeamName,
+                                    Date = ot.StartDate,
+                                    Duration = ot.Duration,
+                                    TableName = ot.TeamName,
+                                    RoomName = t.TableName,
+
+
+
+                                }).ToList();
+            return result;
+
+        }
+
+        public async Task<bool> UpdateOTConfirmation(string otScheduleID, string status)
+        {
+            
+            var scheduling = await objSearchContext.SHotScheduling.FirstOrDefaultAsync(x => x.OtScheduleID == otScheduleID);
+
+            if (scheduling != null)
+            {
+                if (status == "Confirmed")
+                {
+                    scheduling.Status = "Confirmed";
+                    scheduling.IsDeleted = true;
+                    
+                }
+                else if (status == "cancel")
+                {
+                    scheduling.Status = "cancel";
+                    scheduling.IsDeleted = false;
+                }
+
+                await objSearchContext.SaveChangesAsync();
+                
+            }
+            return true;
+        }
     }
 }
