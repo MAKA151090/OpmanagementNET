@@ -270,6 +270,46 @@
                             </li>
                         </ul>
             </li>
+                        <ul class="menu-inner py-1">
+
+                            <!-- OT Management -->
+                            <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/OTManagement") ? " active open" : "")'>
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                                    <div>OT Management</div>
+
+                                </a>
+                                <ul class="menu-sub">
+
+                                    <li class='menu-item@(currentPage == "/OTManagement/OTScheduling" ? " active" : "")'>
+                                        <a asp-controller="OTManagement" asp-action="OTScheduling" class="menu-link">
+
+                                            <div>OT Scheduling</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="menu-sub">
+                                    <li class='menu-item@(currentPage == "/OTManagement/OTConformation" ? " active" : "")'>
+                                        <a asp-controller="OTManagement" asp-action="OTConformation" class="menu-link">
+                                            <div>OT Conformation</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="menu-sub">
+                                    <li class='menu-item@(currentPage == "/OTManagement/OTNotes" ? " active" : "")'>
+                                        <a asp-controller="OTManagement" asp-action="OTNotes" class="menu-link">
+                                            <div>OT Notes</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="menu-sub">
+                                    <li class='menu-item@(currentPage == "/OTManagement/OTSummary" ? " active" : "")'>
+                                        <a asp-controller="OTManagement" asp-action="OTSummary" class="menu-link">
+                                            <div>OT Summary</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
                     <ul class="menu-inner py-1">
                     <!-- Patient Prescription -->
