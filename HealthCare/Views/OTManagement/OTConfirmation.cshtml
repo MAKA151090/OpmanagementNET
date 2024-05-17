@@ -1,0 +1,120 @@
+﻿@model OTConfirmationModel
+
+@{
+    ViewData["Title"] = "OTConfirmation";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>OTConfirmation</h1>
+
+<hr />
+@using (Html.BeginForm("ViewResult", " OTManagement", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="OTConfirmation">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="OtScheduleID" class="control-label"></label>
+                    <input asp-for="OtScheduleID" class="form-control" />
+                    <span asp-validation-for="OtScheduleID" class="text-danger"></span>
+                    <input type="submit" value="Get" class="btn btn-primary" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmDate" class="control-label"></label>
+                    <input asp-for="ConfirmDate" class="form-control" />
+                    <span asp-validation-for="ConfirmDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmBy" class="control-label"></label>
+                    <input asp-for="ConfirmBy" class="form-control" />
+                    <span asp-validation-for="ConfirmBy" class="text-danger"></span>
+                </div>
+               @*  <div class="form-group">
+                    <label asp-for="lastupdatedDate" class="control-label"></label>
+                    <input asp-for="lastupdatedDate" class="form-control" />
+                    <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="lastUpdatedUser" class="control-label"></label>
+                    <input asp-for="lastUpdatedUser" class="form-control" />
+                    <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                    <input asp-for="lastUpdatedMachine" class="form-control" />
+                    <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+                </div> *@
+
+                <div class="form-group">
+                    <input type="submit" value="Confirm" class="btn btn-primary" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Cancel" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    OT ScheduleID
+                </th>
+                <th>
+                    Surgery Name
+                </th>
+                <th>
+                    Team Name
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th>
+                    Table Name
+                </th>
+                <th>
+                    Room Name
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model.OtviewModel)
+                {
+                    <tr>
+                        <td>@item.OtscheduleID</td>
+                        <td>@item.SurgeryName</td>
+                        <td>@item.TeamName</td>
+                        <td>@item.Date</td>
+                        <td>@item.Duration</td>
+                        <td>@item.TableName</td>
+                        <td>@item.RoomName</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    @if (Model != null)
+    {
+        <div class="form-group">
+            <input type="submit" value="Confirm" class="btn btn-primary" />
+        </div>
+        @if (Model != null)
+        {
+            <div class="form-group">
+                <input type="submit" value="Cancel" class="btn btn-primary" />
+            </div>
+        }
+    }
+
+
+}

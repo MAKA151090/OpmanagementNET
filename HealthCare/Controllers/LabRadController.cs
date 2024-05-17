@@ -48,7 +48,7 @@ namespace HealthCare.Controllers
             }
             await GetlabData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
-            return View("", pPatientTest);
+            return View("TestCreation", pPatientTest);
 
 
         }

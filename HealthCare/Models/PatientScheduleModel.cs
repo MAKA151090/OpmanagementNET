@@ -13,6 +13,7 @@ public class PatientScheduleModel
 	private String strDescription;
 	private String strlastUpdatedDate;
 	private String strlastUpdatedUser;
+    private String strlastUpdatedMachine;
 
 
 
@@ -24,4 +25,5 @@ public class PatientScheduleModel
 	public string? Description { get => strDescription; set => strDescription = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+    public string StrlastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
 }

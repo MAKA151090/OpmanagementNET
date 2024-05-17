@@ -2,6 +2,7 @@
 using System.IO;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -277,7 +278,7 @@ namespace HealthCare.Business
 
         }
 
-        public async Task<List<PatientEPrescriptionPrintModel>> GetPrescriptionPrint(string patientID,string casevisitID,string orderID)
+        public async Task<List<PatientEPrescriptionPrintModel>> GetPrescriptionPrint(string patientID, string casevisitID, string orderID)
         {
             var prescription = await (
                     from pp in objSearchContext.SHprsPrescription
@@ -304,7 +305,7 @@ namespace HealthCare.Business
 
                     }).ToListAsync();
             return prescription;
-                
+
         }
 
     }

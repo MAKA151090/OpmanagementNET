@@ -1,9 +1,132 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model HealthCare.Models.OTSchedulingModel
+
 @{
     ViewData["Title"] = "OTScheduling";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div> this page is for OTScheduling</div>
+
+<h1>OTScheduling</h1>
+@using (Html.BeginForm("OtSchedule", "OTManagement", FormMethod.Post))
+{
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PatientID" class="control-label"></label>
+                <input asp-for="PatientID" class="form-control" />
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtScheduleID" class="control-label"></label>
+                <input asp-for="OtScheduleID" class="form-control" />
+                <span asp-validation-for="OtScheduleID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TableID" class="control-label"></label>
+                <input asp-for="TableID" class="form-control" />
+                <span asp-validation-for="TableID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OperationType" class="control-label"></label>
+                <input asp-for="OperationType" class="form-control" />
+                <span asp-validation-for="OperationType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <input asp-for="Priority" class="form-control" />
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InchrgDepID" class="control-label"></label>
+                <input asp-for="InchrgDepID" class="form-control" />
+                <span asp-validation-for="InchrgDepID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalNotes" class="control-label"></label>
+                <input asp-for="AdditionalNotes" class="form-control" />
+                <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comments" class="control-label"></label>
+                <input asp-for="Comments" class="form-control" />
+                <span asp-validation-for="Comments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="BookedBy" class="control-label"></label>
+                <input asp-for="BookedBy" class="form-control" />
+                <span asp-validation-for="BookedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamID" class="control-label"></label>
+                <input asp-for="TeamID" class="form-control" />
+                <span asp-validation-for="TeamID" class="text-danger"></span>
+            </div>
+           
+           @*  <div class="form-group">
+                <label asp-for="lastupdatedDate" class="control-label"></label>
+                <input asp-for="lastupdatedDate" class="form-control" />
+                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                @* <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span> 
+            @* </div> *@
+            <div class="form-group">
+                <label asp-for="Confirm" class="control-label"></label>
+                <input asp-for="Confirm" class="form-control" />
+                <span asp-validation-for="Confirm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmDate" class="control-label"></label>
+                <input asp-for="ConfirmDate" class="form-control" />
+                <span asp-validation-for="ConfirmDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmBy" class="control-label"></label>
+                <input asp-for="ConfirmBy" class="form-control" />
+                <span asp-validation-for="ConfirmBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
+    </div>
+</div>
+
+}
+
+
