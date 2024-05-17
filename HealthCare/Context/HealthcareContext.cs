@@ -61,9 +61,7 @@ namespace HealthCare.Context
 
         public DbSet<DrugStockModel> SHstkDrugStock { get; set; }
 
-        public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
-
-      
+        public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }   
 
 
 
@@ -77,13 +75,26 @@ namespace HealthCare.Context
 
         public DbSet<OTSchedulingModel>SHotScheduling { get; set; }
         public DbSet<OTNotesModel>SHotNotes { get; set; }
-        public DbSet<OTTableMasterModel>SHotTableMaster { get; set; }
+        public DbSet<OtTableMasterModel>SHotTableMaster { get; set; }
         public DbSet<ClinicSurgeryMasterModel>SHclnSurgeryMaster { get; set; }
         public DbSet<SurgeryTypeMasterModel>SHotSurgerTypeymaster { get; set; }
 
         public DbSet<InternalDepartmentMasterModel>SHotInternalDepartmentMaster { get; set; }
 
         public DbSet<DoctorScheduleModel> SHcllDoctorScheduleModel { get; set; }
+
+
+        public DbSet<InpatientAdmissionModel> SHInpatientAdmission { get; set; }
+
+        public DbSet<HospitalBedMasterModel> SHclnHospitalBedMaster { get; set; }
+
+
+
+        public DbSet<NurseStationMasterModel> SHclnNurseStationMaster { get; set; }
+
+        public DbSet<IPTypeMasterModel> SHclnIPTypeMaster { get; set; }
+
+        public DbSet<RoomTypeMasterModel> SHclnRoomTypeMaster { get; set; }
 
 
         public DbSet<OpCheckingModel> SHfdOpCheckingModel { get; set; }
@@ -132,7 +143,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<OTSchedulingModel>().HasKey(i => new { i.OtScheduleID });
             modelBuilder.Entity<OTNotesModel>().HasKey(i => new { i.OtScheduleID });
             modelBuilder.Entity<ClinicSurgeryMasterModel>().HasKey(i => new { i.SurgeryID });
-            modelBuilder.Entity<OTTableMasterModel>().HasKey(i => new { i.TableID });
+            modelBuilder.Entity<OtTableMasterModel>().HasKey(i => new { i.TableID });
             modelBuilder.Entity<SurgeryTypeMasterModel>().HasKey(i => new { i.SurgeryTypeID });
             modelBuilder.Entity<InternalDepartmentMasterModel>().HasKey(i => new { i.DepartmentID });
             modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
@@ -194,6 +205,21 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<DrugStockModel>()
                 .HasKey(i => new { i.IDNumber, i.DrugID });
+
+            modelBuilder.Entity<InpatientAdmissionModel>()
+                 .HasKey(i => new { i.PatientID, i.CaseID });
+
+            modelBuilder.Entity<HospitalBedMasterModel>()
+                .HasKey(i => new { i.BedID });
+
+            modelBuilder.Entity<NurseStationMasterModel>()
+                .HasKey(i => new { i.NurseStationID });
+
+            modelBuilder.Entity<IPTypeMasterModel>()
+                .HasKey(i => new { i.IPTypeID });
+
+            modelBuilder.Entity<RoomTypeMasterModel>()
+                .HasKey(i => new { i.RoomTypeID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

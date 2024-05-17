@@ -1,4 +1,4 @@
-﻿/*using HealthCare.Context;
+﻿using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,8 +57,8 @@ namespace HealthCare.Controllers
 
             ViewBag.Message = "Saved Successfully";
             return View("InPatientAdmission", model);
-        
-    }
+
+        }
 
         public IActionResult Index()
         {
@@ -88,4 +88,3 @@ namespace HealthCare.Controllers
     }
 }
 
-*/
