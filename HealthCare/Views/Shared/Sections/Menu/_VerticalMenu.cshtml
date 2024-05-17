@@ -80,6 +80,16 @@
                         <div>SeverityModel</div>
                     </a>
                 </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicSurgeryMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="ClinicSurgeryMaster" class="menu-link">
+                        <div>ClinicSurgeryMaster</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/OTTableMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="OTTableMaster" class="menu-link">
+                        <div>OTTableMaster</div>
+                    </a>
+                </li>
 
                 @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html" target="_blank" class="menu-link">
