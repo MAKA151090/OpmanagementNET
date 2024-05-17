@@ -1,9 +1,81 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model HealthCare.Models.HospitalBedMasterModel
+
 @{
     ViewData["Title"] = "HospitalBedMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div> this page is for HospitalBedMaster</div>
+
+<h1>HospitalBedMaster</h1>
+
+<h4>HospitalBedMasterModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="HospitalBedMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BedID" class="control-label"></label>
+                <input asp-for="BedID" class="form-control" />
+                <span asp-validation-for="BedID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BedName" class="control-label"></label>
+                <input asp-for="BedName" class="form-control" />
+                <span asp-validation-for="BedName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BedType" class="control-label"></label>
+                <input asp-for="BedType" class="form-control" />
+                <span asp-validation-for="BedType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomType" class="control-label"></label>
+                <input asp-for="RoomType" class="form-control" />
+                <span asp-validation-for="RoomType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomFloor" class="control-label"></label>
+                <input asp-for="RoomFloor" class="form-control" />
+                <span asp-validation-for="RoomFloor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NurseStationID" class="control-label"></label>
+                <input asp-for="NurseStationID" class="form-control" />
+                <span asp-validation-for="NurseStationID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CostPerDay" class="control-label"></label>
+                <input asp-for="CostPerDay" class="form-control" />
+                <span asp-validation-for="CostPerDay" class="text-danger"></span>
+            </div>
+        @*     <div class="form-group">
+                <label asp-for="lastupdatedDate" class="control-label"></label>
+                <input asp-for="lastupdatedDate" class="form-control" />
+                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" asp-action="GetHospitalBedMaster" value="Create" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+
+            }
+        </form>
+    </div>
+</div>
+

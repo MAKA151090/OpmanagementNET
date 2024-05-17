@@ -28,7 +28,7 @@
     <!-- Clinic Adminstration -->
     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/ClinicAdministration") ? " active open" : "")'>
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons mdi mdi-hospital"></i>
+                <i class="menu-icon tf-icons mdi-hospital"></i>
         <div>Clinic Administration</div>
       </a>
 
@@ -90,9 +90,9 @@
                         <div>OTTableMaster</div>
                     </a>
                 </li>
-                <li class='menu-item@(currentPage == "/ClinicAdministration/SurgeryDepartmentMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="SurgeryDepartmentMaster" class="menu-link">
-                        <div>SurgeryDepartmentMaster</div>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/SurgeryTypeMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="SurgeryTypeMaster" class="menu-link">
+                        <div>SurgeryTypeMaster</div>
                     </a>
                 </li>
                 <li class='menu-item@(currentPage == "/ClinicAdministration/InternalDepartmentMaster" ? " active" : "")'>
@@ -144,7 +144,7 @@
         <!-- Stock Management -->
         <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StockManagement") ? " active open" : "")'>
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                <i class="menu-icon tf-icons mdi mdi-account-multiple"></i>
                 <div>Stock Management</div>
 
             </a>
@@ -209,7 +209,7 @@
         <!-- Patient Registration -->
             <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Patient Registration") ? " active open" : "")'>
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                        <i class="menu-icon tf-icons mdi mdi-clipboard-text"></i>
                     <div>Patient Registration</div>
 
                 </a>
@@ -237,7 +237,7 @@
                     <!-- Front Desk -->
                     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/FrontDesk") ? " active open" : "")'>
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                            <i class="menu-icon tf-icons mdi mdi-library"></i>
                             <div>FrontDesk</div>
 
                         </a>
@@ -272,7 +272,7 @@
                         <!-- In Patient Modules -->
                         <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/InPatientModules") ? " active open" : "")'>
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                                <i class="menu-icon tf-icons mdi mdi-hospital"></i>
                                 <div>InPatient Modules</div>
 
                             </a>
@@ -405,7 +405,7 @@
                     <!-- Patient Prescription -->
                     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientPrescription") ? " active open" : "")'>
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                                            <i class="menu-icon tf-icons mdi mdi-pill"></i>
                                 <div>Patient Prescription</div>
 
                         </a>

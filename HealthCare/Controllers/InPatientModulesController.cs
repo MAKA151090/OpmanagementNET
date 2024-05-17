@@ -57,8 +57,8 @@ namespace HealthCare.Controllers
 
             ViewBag.Message = "Saved Successfully";
             return View("InPatientAdmission", model);
-        
-    }
+
+        }
 
         public IActionResult Index()
         {

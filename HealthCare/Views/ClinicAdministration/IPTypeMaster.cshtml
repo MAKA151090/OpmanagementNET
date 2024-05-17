@@ -1,9 +1,59 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model HealthCare.Models.IPTypeMasterModel
+
 @{
     ViewData["Title"] = "IPTypeMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div> this page is for IPTypeMaster</div>
+
+<h1>IPTypeMaster</h1>
+
+<h4>IPTypeMasterModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="IPTypeMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IPTypeID" class="control-label"></label>
+                <input asp-for="IPTypeID" class="form-control" />
+                <span asp-validation-for="IPTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IPTypeName" class="control-label"></label>
+                <input asp-for="IPTypeName" class="form-control" />
+                <span asp-validation-for="IPTypeName" class="text-danger"></span>
+            </div>
+@*             <div class="form-group">
+                <label asp-for="lastupdatedDate" class="control-label"></label>
+                <input asp-for="lastupdatedDate" class="form-control" />
+                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" asp-action="GetIpType" value="Create" class="btn btn-primary" />
+            </div>
+
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+
+            }
+        </form>
+    </div>
+</div>
+
+
