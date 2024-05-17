@@ -230,7 +230,7 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        public IActionResult SurgeryDepartmentMaster()
+        public IActionResult SurgeryTypeMaster()
         {
             return View();
         }
@@ -353,7 +353,7 @@ namespace HealthCare.Controllers
         }
 
 
-        public async Task<IActionResult> GetSurgery(ClinicSurgeryMasterModel model)
+        public async Task<IActionResult> GetClinicSurgeryMaster(ClinicSurgeryMasterModel model)
         {
             var existingTest = await _healthcareContext.SHclnSurgeryMaster.FindAsync(model.SurgeryID);
             if (existingTest != null)
@@ -383,7 +383,7 @@ namespace HealthCare.Controllers
         }
 
 
-        public async Task<IActionResult> GetTable (OtTableMasterModel model)
+        public async Task<IActionResult> GetOTTableMaster (OTTableMasterModel model)
         {
             var existingTest = await _healthcareContext.SHotTableMaster.FindAsync(model.TableID);
             if (existingTest != null)
@@ -435,12 +435,15 @@ namespace HealthCare.Controllers
 
             await _healthcareContext.SaveChangesAsync();
 
+        public async Task<IActionResult> GetSurgeryTypeMaster(SurgeryTypeMasterModel model)
             ViewBag.Message = "Saved Successfully";
             return View("RoomTypeMaster", model);
         }
 
         public async Task<IActionResult> GetIpType(IPTypeMasterModel model)
         {
+            var existingTest = await _healthcareContext.SHotSurgerTypeymaster.FindAsync(model.SurgeryTypeID);
+            if (existingTest != null)
             var existingIpType = await _healthcareContext.SHclnIPTypeMaster.FindAsync(model.IPTypeID);
             if(existingIpType != null)
             {
@@ -453,6 +456,9 @@ namespace HealthCare.Controllers
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHotSurgerTypeymaster.Add(model);
                 model.lastUpdatedUser = "Admin";
                 model.lastUpdatedMachine = "Machine";
                 _healthcareContext.SHclnIPTypeMaster.Add(model);
@@ -461,6 +467,8 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
+            return View("SurgeryTypeMaster", model);
+        }
             return View("IPTypeMaster", model);
         }
 
@@ -490,8 +498,11 @@ namespace HealthCare.Controllers
             return View("NurseStationMaster", model);
         }
 
+        public async Task<IActionResult> GetInternalDepartmentMaster(InternalDepartmentMasterModel model)
         public async Task<IActionResult> GetHospitalBedMaster(HospitalBedMasterModel model)
         {
+            var existingTest = await _healthcareContext.SHotInternalDepartmentMaster.FindAsync(model.DepartmentID);
+            if (existingTest != null)
             var existingHospitalBed = await _healthcareContext.SHclnHospitalBedMaster.FindAsync(model.BedID);
             if(existingHospitalBed != null)
             {
@@ -511,6 +522,7 @@ namespace HealthCare.Controllers
                 model.lastupdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = "Myself";
                 model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHotInternalDepartmentMaster.Add(model);
                 _healthcareContext.SHclnHospitalBedMaster.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();

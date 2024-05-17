@@ -1,18 +1,18 @@
-﻿@model HealthCare.Models.SurgeryDepartmentMasterModel
+﻿@model HealthCare.Models.SurgeryTypeMasterModel
 
 @{
-    ViewData["Title"] = "SurgeryDepartmentMasterModel";
+    ViewData["Title"] = "SurgeryTypeMasterModel";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>SurgeryDepartmentMasterModel</h1>
+<h1>SurgeryTypeMasterModel</h1>
 
-<h4>SurgeryDepartmentMasterModel1</h4>
+
 <hr />
-@using (Html.BeginForm("GetSurgeryMaster", "ClinicAdministration", FormMethod.Post)) ;
+@using (Html.BeginForm("GetSurgeryTypeMaster", "ClinicAdministration", FormMethod.Post)) ;
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SurgeryDepartmentMasterModel">
+        <form asp-action="SurgeryTypeMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="SurgeryTypeID" class="control-label"></label>
@@ -40,7 +40,7 @@
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" asp-action="GetSurgeryMaster" value="Create" class="btn btn-primary" />
+                <input type="submit" asp-action="GetSurgeryTypeMaster" value="Create" class="btn btn-primary" />
             </div>
 
             @if (ViewBag.Message != null)
