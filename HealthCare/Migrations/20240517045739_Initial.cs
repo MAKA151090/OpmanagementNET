@@ -138,6 +138,7 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.cs
                 name: "SHclnHospitalBedMaster",
                 columns: table => new
                 {
@@ -205,6 +206,8 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
+========
+>>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.cs
                 name: "SHclnSurgeryMaster",
                 columns: table => new
                 {
@@ -316,6 +319,7 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.cs
                 name: "SHInpatientAdmission",
                 columns: table => new
                 {
@@ -345,6 +349,8 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
+========
+>>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.cs
                 name: "SHLogs",
                 columns: table => new
                 {
@@ -873,6 +879,7 @@ namespace HealthCare.Migrations
                 name: "SHclnDoctorAdmin");
 
             migrationBuilder.DropTable(
+<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.cs
                 name: "SHclnHospitalBedMaster");
 
             migrationBuilder.DropTable(
@@ -885,6 +892,8 @@ namespace HealthCare.Migrations
                 name: "SHclnRoomTypeMaster");
 
             migrationBuilder.DropTable(
+========
+>>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.cs
                 name: "SHclnSurgeryMaster");
 
             migrationBuilder.DropTable(
@@ -903,9 +912,12 @@ namespace HealthCare.Migrations
                 name: "SHfdOpCheckingModel");
 
             migrationBuilder.DropTable(
+<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.cs
                 name: "SHInpatientAdmission");
 
             migrationBuilder.DropTable(
+========
+>>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.cs
                 name: "SHLogs");
 
             migrationBuilder.DropTable(
