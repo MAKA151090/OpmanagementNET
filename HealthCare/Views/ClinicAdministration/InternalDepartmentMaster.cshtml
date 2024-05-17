@@ -7,7 +7,7 @@
 
 <h1>InternalDepartmentMaster</h1>
 
-<h4>InternalDepartmentMasterModel</h4>
+
 <hr />
  @using (Html.BeginForm("GetIntDepMaster", "ClinicAdministration", FormMethod.Post)) ; 
 <div class="row">
@@ -40,7 +40,7 @@
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" asp-action="GetIntDepMaster" value="Create" class="btn btn-primary" />
+                <input type="submit" asp-action="GetInternalDepartmentMaster" value="Create" class="btn btn-primary" />
             </div>
             @if (ViewBag.Message != null)
             {

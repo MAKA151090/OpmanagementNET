@@ -1,8 +1,8 @@
 ﻿namespace HealthCare.Models
 {
-    public class OtTableMasterModel
+    public class OTTableMasterModel
     {
-        public OtTableMasterModel() { }
+        public OTTableMasterModel() { }
 
         private String tableID;
         private String tableName;
