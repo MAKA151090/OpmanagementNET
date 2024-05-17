@@ -5,44 +5,72 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>TestMaster</h1>
 
-<h4>TestMasterModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="TestMaster">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TestID" class="control-label"></label>
-                <input asp-for="TestID" class="form-control" />
-                <span asp-validation-for="TestID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestName" class="control-label"></label>
-                <input asp-for="TestName" class="form-control" />
-                <span asp-validation-for="TestName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cost" class="control-label"></label>
-                <input asp-for="Cost" class="form-control" />
-                <span asp-validation-for="Cost" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Range" class="control-label"></label>
-                <input asp-for="Range" class="form-control" />
-                <span asp-validation-for="Range" class="text-danger"></span>
-            </div>
-           
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1" style="align-items-center">TestMaster</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+    <div class="row">
+
+       
+            <form asp-action="TestMaster">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row" style="height: 500px;">
+                <div class="col-md-12 col-lg-3">
+                    </div>
+                <div class="col-md-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                      
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="TestID" class="form-control" placeholder="TestID" />
+                                <label asp-for="TestID" class="control-label"></label>
+                                <span asp-validation-for="TestID" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="TestName" class="form-control" placeholder="TestName" />
+                                <label asp-for="TestName" class="control-label"></label>
+
+                                <span asp-validation-for="TestName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Cost" class="form-control" placeholder="Cost" />
+                                <label asp-for="Cost" class="control-label"></label>
+
+                                <span asp-validation-for="Cost" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Range" class="form-control" placeholder="Range" />
+                                <label asp-for="Range" class="control-label"></label>
+
+                                <span asp-validation-for="Range" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+
+                    </div>
+                </div>
+                </div>
+                <div class="col-md-12 col-lg-3">
+                </div>
+
+                </div>
+                </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
 
