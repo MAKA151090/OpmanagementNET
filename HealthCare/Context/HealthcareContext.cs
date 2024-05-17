@@ -63,7 +63,15 @@ namespace HealthCare.Context
 
         public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
 
+        public DbSet<InpatientAdmissionModel> SHInpatientAdmission { get; set; }
 
+        public DbSet<HospitalBedMasterModel> SHclnHospitalBedMaster { get; set; }
+
+        public DbSet<NurseStationMasterModel> SHclnNurseStationMaster { get; set; }
+
+        public DbSet<IPTypeMasterModel> SHclnIPTypeMaster {  get; set; }
+
+        public DbSet<RoomTypeMasterModel> SHclnRoomTypeMaster  { get; set; }
 
         public DbSet<DrugRackModel> SHstkDrugRack {  get; set; }
 
@@ -191,6 +199,23 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<DrugStockModel>()
                 .HasKey(i => new { i.IDNumber, i.DrugID });
+
+            modelBuilder.Entity<InpatientAdmissionModel>()
+                .HasKey(i => new { i.PatientID, i.CaseID });
+
+            modelBuilder.Entity<HospitalBedMasterModel>()
+                .HasKey(i => new { i.BedID });
+
+            modelBuilder.Entity<NurseStationMasterModel>()
+                .HasKey(i => new { i.NurseStationID });
+
+            modelBuilder.Entity<IPTypeMasterModel>()
+                .HasKey (i => new { i.IPTypeID });
+
+            modelBuilder.Entity<RoomTypeMasterModel>()
+                .HasKey(i => new { i.RoomTypeID });
+
+
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

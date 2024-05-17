@@ -11,6 +11,21 @@ namespace HealthCare.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "OtSurgeryModel",
+                columns: table => new
+                {
+                    OtScheduleID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SurgeryID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OtSurgeryModel", x => new { x.OtScheduleID, x.SurgeryID });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PatExmFHPH",
                 columns: table => new
                 {
@@ -38,6 +53,28 @@ namespace HealthCare.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PatientVisitIntoDocumentModel", x => new { x.PatientID, x.ClinicID, x.VisitID });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHcllDoctorScheduleModel",
+                columns: table => new
+                {
+                    DoctorID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClinicID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SlotsID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Holiday = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Blocker = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Active = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHcllDoctorScheduleModel", x => new { x.DoctorID, x.ClinicID, x.SlotsID });
                 });
 
             migrationBuilder.CreateTable(
@@ -98,6 +135,90 @@ namespace HealthCare.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SHclnDoctorAdmin", x => x.DoctorID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHclnHospitalBedMaster",
+                columns: table => new
+                {
+                    BedID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BedType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoomType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoomFloor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NurseStationID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CostPerDay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHclnHospitalBedMaster", x => x.BedID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHclnIPTypeMaster",
+                columns: table => new
+                {
+                    IPTypeID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IPTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHclnIPTypeMaster", x => x.IPTypeID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHclnNurseStationMaster",
+                columns: table => new
+                {
+                    NurseStationID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StationName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHclnNurseStationMaster", x => x.NurseStationID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHclnRoomTypeMaster",
+                columns: table => new
+                {
+                    RoomTypeID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoomTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdditionFeature = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdditionalCost = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHclnRoomTypeMaster", x => x.RoomTypeID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHclnSurgeryMaster",
+                columns: table => new
+                {
+                    SurgeryID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SurgeryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cost = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHclnSurgeryMaster", x => x.SurgeryID);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,6 +300,51 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SHfdOpCheckingModel",
+                columns: table => new
+                {
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    VisitId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VisitStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastupdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHfdOpCheckingModel", x => x.PatientId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHInpatientAdmission",
+                columns: table => new
+                {
+                    PatientID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CaseID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConsultDoctorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DutyDoctorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReferredByDoctorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BedID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Purpose = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdditionConsultDoctorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConsultantDepartmentID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AttenderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AttenderContact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AttenderEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DocInstruction = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InpatientType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdmissionDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHInpatientAdmission", x => new { x.PatientID, x.CaseID });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SHLogs",
                 columns: table => new
                 {
@@ -195,6 +361,108 @@ namespace HealthCare.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SHLogs", x => x.LogID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHotDepartmentMaster",
+                columns: table => new
+                {
+                    DepartmentID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHotDepartmentMaster", x => x.DepartmentID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHotNotes",
+                columns: table => new
+                {
+                    OtScheduleID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PatientID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PreOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IntraOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FinalOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PreOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IntraOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ObservationNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OtherComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHotNotes", x => x.OtScheduleID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHotScheduling",
+                columns: table => new
+                {
+                    OtScheduleID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TableID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OperationType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InchrgDepID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AdditionalNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PatientID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BookedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TeamID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Confirm = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConfirmDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConfirmBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHotScheduling", x => x.OtScheduleID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHotSurgerymaster",
+                columns: table => new
+                {
+                    SurgeryTypeID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SurgeryTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHotSurgerymaster", x => x.SurgeryTypeID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SHotTableMaster",
+                columns: table => new
+                {
+                    TableID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TableName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AdditionalFeature = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHotTableMaster", x => x.TableID);
                 });
 
             migrationBuilder.CreateTable(
@@ -309,23 +577,23 @@ namespace HealthCare.Migrations
                     DrugID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EpressID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DoctorID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PrescriptionDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UnitCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Frequency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FrequencyUnit = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EndDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RouteAdmin = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FillDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Result = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DoctorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PrescriptionDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnitCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Frequency = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FrequencyUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EndDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RouteAdmin = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FillDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -339,20 +607,20 @@ namespace HealthCare.Migrations
                     PatientID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CaseVisitID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     OrderID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PatientName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MedicactionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UnitCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Frequency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FrequencyUnit = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EndDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PatientName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MedicactionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnitCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Frequency = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FrequencyUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EndDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -396,10 +664,10 @@ namespace HealthCare.Migrations
                 columns: table => new
                 {
                     CategoryID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedmachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedmachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -455,11 +723,11 @@ namespace HealthCare.Migrations
                 {
                     RackID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RackName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UniqueIdentifier = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedmachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UniqueIdentifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedmachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -489,10 +757,10 @@ namespace HealthCare.Migrations
                 columns: table => new
                 {
                     TypeID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedmachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedmachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -584,10 +852,16 @@ namespace HealthCare.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "OtSurgeryModel");
+
+            migrationBuilder.DropTable(
                 name: "PatExmFHPH");
 
             migrationBuilder.DropTable(
                 name: "PatientVisitIntoDocumentModel");
+
+            migrationBuilder.DropTable(
+                name: "SHcllDoctorScheduleModel");
 
             migrationBuilder.DropTable(
                 name: "SHclnBloodGroup");
@@ -597,6 +871,21 @@ namespace HealthCare.Migrations
 
             migrationBuilder.DropTable(
                 name: "SHclnDoctorAdmin");
+
+            migrationBuilder.DropTable(
+                name: "SHclnHospitalBedMaster");
+
+            migrationBuilder.DropTable(
+                name: "SHclnIPTypeMaster");
+
+            migrationBuilder.DropTable(
+                name: "SHclnNurseStationMaster");
+
+            migrationBuilder.DropTable(
+                name: "SHclnRoomTypeMaster");
+
+            migrationBuilder.DropTable(
+                name: "SHclnSurgeryMaster");
 
             migrationBuilder.DropTable(
                 name: "SHExmInfoDocument");
@@ -611,7 +900,28 @@ namespace HealthCare.Migrations
                 name: "SHExmSeverity");
 
             migrationBuilder.DropTable(
+                name: "SHfdOpCheckingModel");
+
+            migrationBuilder.DropTable(
+                name: "SHInpatientAdmission");
+
+            migrationBuilder.DropTable(
                 name: "SHLogs");
+
+            migrationBuilder.DropTable(
+                name: "SHotDepartmentMaster");
+
+            migrationBuilder.DropTable(
+                name: "SHotNotes");
+
+            migrationBuilder.DropTable(
+                name: "SHotScheduling");
+
+            migrationBuilder.DropTable(
+                name: "SHotSurgerymaster");
+
+            migrationBuilder.DropTable(
+                name: "SHotTableMaster");
 
             migrationBuilder.DropTable(
                 name: "SHPatientRadiology");
