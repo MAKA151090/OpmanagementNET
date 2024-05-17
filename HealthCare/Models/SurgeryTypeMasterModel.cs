@@ -1,8 +1,8 @@
 ﻿namespace HealthCare.Models
 {
-    public class OtSurgeryMasterModel
+    public class SurgeryTypeMasterModel
     {
-        public OtSurgeryMasterModel() { }
+        public SurgeryTypeMasterModel() { }
 
         private String surgeryTypeID;
         private String surgeryTypeName;

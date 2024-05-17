@@ -1,8 +1,8 @@
 ﻿namespace HealthCare.Models
 {
-    public class OtDepartmentModel
+    public class InternalDepartmentMasterModel
     {
-        public OtDepartmentModel() { }
+        public InternalDepartmentMasterModel() { }
 
         private String departmentID;
         private String departmentName;

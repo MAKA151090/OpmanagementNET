@@ -28,7 +28,7 @@
     <!-- Clinic Adminstration -->
     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/ClinicAdministration") ? " active open" : "")'>
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons mdi mdi-hospital"></i>
+                <i class="menu-icon tf-icons mdi-hospital"></i>
         <div>Clinic Administration</div>
       </a>
 
@@ -90,6 +90,36 @@
                         <div>OTTableMaster</div>
                     </a>
                 </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/SurgeryTypeMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="SurgeryTypeMaster" class="menu-link">
+                        <div>SurgeryTypeMaster</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/InternalDepartmentMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="InternalDepartmentMaster" class="menu-link">
+                        <div>InternalDepartmentMaster</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalBedMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="HospitalBedMaster" class="menu-link">
+                        <div>HospitalBedMaster</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/NurseStationMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="NurseStationMaster" class="menu-link">
+                        <div>NurseStationMaster</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/IPTypeMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="IPTypeMaster" class="menu-link">
+                        <div>IPTypeMaster</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/RoomTypeMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="RoomTypeMaster" class="menu-link">
+                        <div>RoomTypeMaster</div>
+                    </a>
+                </li>
 
                 @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html" target="_blank" class="menu-link">
@@ -114,7 +144,7 @@
         <!-- Stock Management -->
         <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StockManagement") ? " active open" : "")'>
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                <i class="menu-icon tf-icons mdi mdi-account-multiple"></i>
                 <div>Stock Management</div>
 
             </a>
@@ -179,7 +209,7 @@
         <!-- Patient Registration -->
             <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Patient Registration") ? " active open" : "")'>
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                        <i class="menu-icon tf-icons mdi mdi-clipboard-text"></i>
                     <div>Patient Registration</div>
 
                 </a>
@@ -207,7 +237,7 @@
                     <!-- Front Desk -->
                     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/FrontDesk") ? " active open" : "")'>
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                            <i class="menu-icon tf-icons mdi mdi-library"></i>
                             <div>FrontDesk</div>
 
                         </a>
@@ -235,51 +265,101 @@
                             </li>
                         </ul>
                     </li>
+
+
+                    <ul class="menu-inner py-1">
+
+                        <!-- In Patient Modules -->
+                        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/InPatientModules") ? " active open" : "")'>
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons mdi mdi-hospital"></i>
+                                <div>InPatient Modules</div>
+
+                            </a>
+                            <ul class="menu-sub">
+
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientAdmission" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientAdmission" class="menu-link">
+
+                                        <div>InPatient Admission</div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="menu-sub">
+                                <li class='menu-item@(currentPage == "/InPatientModules/WardManagement" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="WardManagement" class="menu-link">
+                                        <div>Ward Management</div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="menu-sub">
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientCasesheet" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientCasesheet" class="menu-link">
+                                        <div>InPatient Casesheet</div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="menu-sub">
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientDischarge" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientDischarge" class="menu-link">
+                                        <div>InPatient Discharge</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
             
                 <ul class="menu-inner py-1">
 
-                    <!-- PatientExamination -->
-                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientExamination") ? " active open" : "")'>
+                        <!-- OPD Management -->
+                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/OPDManagement") ? " active open" : "")'>
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons mdi mdi-text-box-plus-outline"></i>
-                            <div>PatientExamination</div>
+                                <div>OPD Management</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class='menu-item@(currentPage == "/PatientExamination/PatientObjectiveData" ? " active" : "")'>
-                                <a asp-controller="PatientExamination" asp-action="PatientObjectiveData" class="menu-link">
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientObjectiveData" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientObjectiveData" class="menu-link">
                                     <div>PatientObjectiveData</div>
                                 </a>
                             </li>
                         </ul>
                         <ul class="menu-sub">
-                            <li class='menu-item@(currentPage == "/PatientExamination/PatientHealthHistory" ? " active" : "")'>
-                                <a asp-controller="PatientExamination" asp-action="PatientHealthHistory" class="menu-link">
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientHealthHistory" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientHealthHistory" class="menu-link">
                                     <div>PatientHealthHistory</div>
                                 </a>
                             </li>
                         </ul>
                         <ul class="menu-sub">
-                            <li class='menu-item@(currentPage == "/PatientExamination/PatientFamilyHistory" ? " active" : "")'>
-                                <a asp-controller="PatientExamination" asp-action="PatientFamilyHistory" class="menu-link">
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientFamilyHistory" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientFamilyHistory" class="menu-link">
                                     <div>PatientFamilyHistory</div>
                                 </a>
                             </li>
                         </ul>
                         <ul class="menu-sub">
-                            <li class='menu-item@(currentPage == "/PatientExamination/PatientVisitIntoDocument" ? " active" : "")'>
-                                <a asp-controller="PatientExamination" asp-action="PatientVisitIntoDocument" class="menu-link">
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientVisitIntoDocument" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientVisitIntoDocument" class="menu-link">
                                     <div>PatientVisitIntoDocument</div>
                                 </a>
                             </li>
                         </ul>
                         <ul class="menu-sub">
-                            <li class='menu-item@(currentPage == "/PatientExamination/PatientExamination" ? " active" : "")'>
-                                <a asp-controller="PatientExamination" asp-action="PatientExamination" class="menu-link">
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientExamination" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientExamination" class="menu-link">
                                     <div>PatientExamination</div>
                                 </a>
                             </li>
                         </ul>
             </li>
+
+
+                  
+                            
+
+
                         <ul class="menu-inner py-1">
 
                             <!-- OT Management -->
@@ -325,7 +405,7 @@
                     <!-- Patient Prescription -->
                     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientPrescription") ? " active open" : "")'>
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                                            <i class="menu-icon tf-icons mdi mdi-pill"></i>
                                 <div>Patient Prescription</div>
 
                         </a>

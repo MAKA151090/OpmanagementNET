@@ -5,7 +5,7 @@
 
         public OpCheckingModel() { }
 
-        private String patientId;
+        private String patientId;       
         private String visitId;
         private String visitStatus;      
         private String lastupdatedUser;
@@ -18,5 +18,6 @@
         public string? LastupdatedUser { get => lastupdatedUser; set => lastupdatedUser = value; }
         public string? LastupdatedDate { get => lastupdatedDate; set => lastupdatedDate = value; }
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
+       
     }
 }

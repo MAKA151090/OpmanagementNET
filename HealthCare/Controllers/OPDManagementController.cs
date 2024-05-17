@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 namespace HealthCare.Controllers
 {
    
-    public class PatientExaminationController : Controller
+    public class OPDManagementController : Controller
     {
             private HealthcareContext getPatientObjective;
 
-        public PatientExaminationController (HealthcareContext getPatientObjective)
+        public OPDManagementController (HealthcareContext getPatientObjective)
         {
             this.getPatientObjective = getPatientObjective;
         }
