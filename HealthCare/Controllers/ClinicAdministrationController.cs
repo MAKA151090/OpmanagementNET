@@ -216,7 +216,15 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-      
+        public IActionResult OTTableMaster()
+        {
+            return View();
+        }
+        public IActionResult ClinicSurgeryMaster()
+        {
+            return View();
+        }
+
         [HttpPost]
 
         public async Task<IActionResult> TestMaster(TestMasterModel model)
