@@ -63,6 +63,8 @@ namespace HealthCare.Context
 
         public DbSet<PatientRadiolodyModel> SHPatientRadiology { get; set; }
 
+      
+
 
 
         public DbSet<DrugRackModel> SHstkDrugRack {  get; set; }
@@ -185,6 +187,7 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<UpdateRadiologyResultsModel>()
                 .HasKey(i => new { i.PatientID, i.ClinicID,i.RadioID });
+
 
             modelBuilder.Entity<DrugGroupModel>()
                 .HasKey(i => new { i.GroupTypeName, i.GroupTypeID });
