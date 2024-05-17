@@ -1,9 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HealthCare.Business;
+using HealthCare.Context;
+using HealthCare.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HealthCare.Controllers
 {
     public class FrontDeskController : Controller
     {
+
+        private HealthcareContext GetFrontDeskData;
+
+        public FrontDeskController(HealthcareContext healthCare) {
+        GetFrontDeskData = healthCare;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -20,6 +30,26 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        
+
+
+
+     
+
+
+        public async Task<IActionResult> ViewResult(OpCheckingModel Model)
+        {
+            BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(GetFrontDeskData);
+
+            if (ObjTestResult != null)
+            {
+                var testResults = await ObjTestResult.GetOpCheckingModel(Model.PatientId);
+                return View("OpChecking", testResults);
+            }
+            return View(Model);
+
+
+        }
+
+
     }
 }

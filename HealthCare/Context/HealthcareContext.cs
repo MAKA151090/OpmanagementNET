@@ -81,6 +81,10 @@ namespace HealthCare.Context
 
         public DbSet<OtDepartmentModel>SHotDepartmentMaster { get; set; }
 
+        public DbSet<DoctorScheduleModel> SHcllDoctorScheduleModel { get; set; }
+
+
+        public DbSet<OpCheckingModel> SHfdOpCheckingModel { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -93,6 +97,10 @@ namespace HealthCare.Context
         {
 
            
+
+            modelBuilder.Entity<OpCheckingModel>().HasKey(i => new { i.PatientId });
+
+            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.DoctorID, i.ClinicID, i.SlotsID });
 
             modelBuilder.Entity<PatientEPrescriptionModel>().HasKey(i => new { i.PatientID, i.CaseVisitID, i.OrderID, i.DrugID });
 

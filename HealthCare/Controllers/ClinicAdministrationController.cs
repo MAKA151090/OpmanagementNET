@@ -211,10 +211,7 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        public IActionResult DoctorSchedule()
-        {
-            return View();
-        }
+      
         public IActionResult TestMaster()
         {
             return View();
@@ -322,7 +319,15 @@ namespace HealthCare.Controllers
         }
 
 
-      
-    }
-}
+        public IActionResult DoctorSchedule()
+        {
+            return View();
+        }
+
+       
+       
+
+
+            }
+        }
         
