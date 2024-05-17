@@ -1,5 +1,9 @@
+
 ﻿using HealthCare.Business;
 using HealthCare.Context;
+
+﻿using HealthCare.Context;
+
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +12,7 @@ namespace HealthCare.Controllers
 {
     public class FrontDeskController : Controller
     {
+
 
         private HealthcareContext GetFrontDeskData;
 

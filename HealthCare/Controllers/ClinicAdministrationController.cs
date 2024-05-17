@@ -1,4 +1,5 @@
 ﻿using Azure;
+using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
@@ -211,12 +212,44 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-      
+
         public IActionResult TestMaster()
         {
             return View();
         }
-      
+        public IActionResult OTTableMaster()
+        {
+            return View();
+        }
+        public IActionResult ClinicSurgeryMaster()
+        {
+            return View();
+        }
+        public IActionResult InternalDepartmentMaster()
+        {
+            return View();
+        }
+        public IActionResult SurgeryDepartmentMaster()
+        {
+            return View();
+        }
+        public IActionResult HospitalBedMaster()
+        {
+            return View();
+        }
+        public IActionResult NurseStationMaster()
+        {
+            return View();
+        }
+        public IActionResult IPTypeMaster()
+        {
+            return View();
+        }
+        public IActionResult RoomTypeMaster()
+        {
+            return View();
+        }
+
         [HttpPost]
 
         public async Task<IActionResult> TestMaster(TestMasterModel model)
@@ -261,14 +294,14 @@ namespace HealthCare.Controllers
                 existingFHPH.QuestionID = model.QuestionID;
                 existingFHPH.Question = model.Question;
                 existingFHPH.Type = model.Type;
-                existingFHPH.LastUpdatedDate = DateTime.Now.ToString(); 
+                existingFHPH.LastUpdatedDate = DateTime.Now.ToString();
                 existingFHPH.LastUpdatedUser = "Myself";
             }
             else
             {
-                
-               model.LastUpdatedDate = DateTime.Now.ToString(); 
-               model.LastUpdatedUser = "Myself";
+
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = "Myself";
                 _healthcareContext.PatExmFHPH.Add(model);
 
             }
@@ -293,10 +326,10 @@ namespace HealthCare.Controllers
 
             if (existingTest != null)
             {
-                existingTest.SeverityID= model.SeverityID;
+                existingTest.SeverityID = model.SeverityID;
                 existingTest.SeverityName = model.SeverityName;
                 existingTest.Active = model.Active;
-               
+
                 existingTest.LastupdatedUser = "Myself";
                 existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
                 existingTest.LastUpdatedMachine = "Myself";
@@ -319,15 +352,133 @@ namespace HealthCare.Controllers
         }
 
 
+        public async Task<IActionResult> GetSurgery(ClinicSurgeryMasterModel model)
+        {
+            var existingTest = await _healthcareContext.SHclnSurgeryMaster.FindAsync(model.SurgeryID);
+            if (existingTest != null)
+            {
+                existingTest.SurgeryID = model.SurgeryID;
+                existingTest.SurgeryName = model.SurgeryName;
+                existingTest.Duration = model.Duration;
+                existingTest.Cost = model.Cost;
+                existingTest.lastupdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "myself";
+            }
+
+            else
+            {
+
+                model.lastupdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHclnSurgeryMaster.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("ClinicSurgeryMaster", model);
+        }
+
+
+        public async Task<IActionResult> GetTable (OtTableMasterModel model)
+        {
+            var existingTest = await _healthcareContext.SHotTableMaster.FindAsync(model.TableID);
+            if (existingTest != null)
+            {
+                existingTest.TableID = model.TableID;
+                existingTest.TableName = model.TableName;
+                existingTest.RoomName = model.RoomName;
+                existingTest.AdditionalFeature = model.AdditionalFeature;
+                existingTest.lastupdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "myself";
+            }
+
+            else
+            {
+                model.lastupdatedDate= DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHotTableMaster.Add(model);
+            }
+
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("OTTableMaster", model);
+         }
+
+
+
+
+        public async Task<IActionResult> GetSurgeryMaster(SurgeryDepartmentMasterModel model)
+        {
+            var existingTest = await _healthcareContext.SHotSurgerymaster.FindAsync(model.SurgeryTypeID);
+            if (existingTest != null)
+            {
+                existingTest.SurgeryTypeID = model.SurgeryTypeID;
+                existingTest.SurgeryTypeName= model.SurgeryTypeName;
+                existingTest.lastupdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "myself";
+            }
+
+            else
+            {
+                model.lastupdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHotSurgerymaster.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("SurgeryDepartmentMaster", model);
+        }
+
+
+
+        public async Task<IActionResult> GetIntDepMaster(InternalDepartmentMasterModel model)
+        {
+            var existingTest = await _healthcareContext.SHotDepartmentMaster.FindAsync(model.DepartmentID);
+            if (existingTest != null)
+            {
+                existingTest.DepartmentID = model.DepartmentID;
+                existingTest.DepartmentName = model.DepartmentName;
+                existingTest.lastupdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "myself";
+            }
+            else
+            {
+                model.lastupdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHotDepartmentMaster.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("InternalDepartmentMaster", model);
+        }
+
+
+
+
+
         public IActionResult DoctorSchedule()
         {
             return View();
         }
 
-       
-       
 
 
-            }
-        }
-        
+
+
+
+    }
+}
+
+

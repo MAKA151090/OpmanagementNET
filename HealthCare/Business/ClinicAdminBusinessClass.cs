@@ -1,7 +1,8 @@
-﻿using HealthCare.Context;
+﻿using DocumentFormat.OpenXml.Drawing;
+using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-
 namespace HealthCare.Business
 {
     public class ClinicAdminBusinessClass
@@ -17,13 +18,13 @@ namespace HealthCare.Business
         {
             var clinicregisterdata = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.ClinicId == clinicid && x.ClinicName == clinicname);
 
-             return clinicregisterdata;
+            return clinicregisterdata;
         }
 
         public async Task<DoctorAdminModel> GetDoctorRegister(string doctorid)
         {
             var doctorregisterdata = await _healthcareContext.SHclnDoctorAdmin.FirstOrDefaultAsync(x => x.DoctorID == doctorid);
-            
+
             return doctorregisterdata;
         }
 
@@ -43,10 +44,38 @@ namespace HealthCare.Business
                                 ScreeningDate = pr.ScreeningDate,
                                 Result = pr.Result,
                                 ReferralDoctorName = pr.ReferralDoctorName
-                            
+
                             }).ToListAsync().Result;
 
             return RadiologyData;
+        }
+
+        public async Task<PharmacyBillingTotalpriceModel> GetPharmacy(string patientID, string visitID,string OrderID, string Medication, string Unit, String Price)
+        {
+            PharmacyBillingTotalpriceModel billingTotalpriceModel = new PharmacyBillingTotalpriceModel();
+
+            billingTotalpriceModel.StrPharmacyBillingModelList = (
+
+                from pr in _healthcareContext.SHstkDrugInventory
+                join rm in _healthcareContext.SHprsPrescription on pr.DrugId equals rm.DrugID
+
+                where (rm.PatientID == patientID && rm.CaseVisitID == visitID) 
+
+               /* where (r.PatientID == patientID || r.FullName == patientName) ||
+                                                     (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
+                                                     (re.ClinicID == clinicID || rec.ClinicName == clinicName || re.ClinicID == null)*/
+                select new PharmacyBillingModel
+                {
+                    Medication = pr.ModelName,
+                    Unit = rm.Unit,
+                    Unitprice = pr.Price,
+
+                }).ToListAsync().Result;
+
+
+            billingTotalpriceModel.TotalPrice = billingTotalpriceModel.StrPharmacyBillingModelList.Sum(t => Convert.ToInt32(t.Totalprice)).ToString(); 
+
+            return billingTotalpriceModel;
         }
     }
 }

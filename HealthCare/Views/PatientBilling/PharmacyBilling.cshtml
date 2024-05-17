@@ -1,10 +1,95 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model PharmacyBillingTotalpriceModel
+
 @{
     ViewData["Title"] = "PharmacyBilling";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div>this page is for PharmacyBilling</div>
+<h1>PharmacyBilling</h1>
+
+@using (Html.BeginForm("GetBill", "PatientBilling", FormMethod.Post))
+{
+
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="PharmacyBilling">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="PatientID" class="control-label"></label>
+                    <input asp-for="PatientID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="VisitID" class="control-label"></label>
+                    <input asp-for="VisitID" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="OrderID" class="control-label"></label>
+                    <input asp-for="OrderID" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" name="buttonType" value="select" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+           
+            <th>
+                Medication
+            </th>
+            <th>
+                Unit
+            </th>
+            <th>
+                Unit Price
+            </th>
+            <th>
+                Total Price
+            </th>
+            <th>
+                Tax
+            </th>
+            <th>
+                Net Price 
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model.StrPharmacyBillingModelList)
+            {
+                <tr>
+                    <td>@item.Medication</td>
+                    <td>@item.Unit</td>
+                    <td>@item.Unitprice</td>
+                    <td>@item.Totalprice</td>
+                    <td>@item.Tax</td>
+                    <td>@item.NetPrice</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<input asp-for="TotalPrice" id="TotalPrice" type="Text" class="form-control"/>
+
+@* <div class="form-group">
+    <label for="Total" class="control-label"  >Total</label>
+    <input for="Total" class="form-control"  />
+</div>
+
+<div class="form-group">
+    <label for="BilledBy" class="control-label" >Billed By</label>
+    <input for="BilledBy" class="form-control"  />
+</div>
+
+ *@

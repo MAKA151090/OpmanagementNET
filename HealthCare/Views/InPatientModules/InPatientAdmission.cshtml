@@ -1,0 +1,129 @@
+﻿@model HealthCare.Models.InpatientAdmissionModel
+
+@{
+    ViewData["Title"] = "InPatientAdmission";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>InPatientAdmission</h1>
+
+<h4>InpatientAdmissionModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="InPatientAdmission">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        
+            <div class="form-group">
+                <label asp-for="PatientID" class="control-label"></label>
+                <input asp-for="PatientID" class="form-control" />
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CaseID" class="control-label"></label>
+                <input asp-for="CaseID" class="form-control" />
+                <span asp-validation-for="CaseID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConsultDoctorID" class="control-label"></label>
+                <input asp-for="ConsultDoctorID" class="form-control" />
+                <span asp-validation-for="ConsultDoctorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DutyDoctorID" class="control-label"></label>
+                <input asp-for="DutyDoctorID" class="form-control" />
+                <span asp-validation-for="DutyDoctorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReferredByDoctorID" class="control-label"></label>
+                <input asp-for="ReferredByDoctorID" class="form-control" />
+                <span asp-validation-for="ReferredByDoctorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BedID" class="control-label"></label>
+                <input asp-for="BedID" class="form-control" />
+                <span asp-validation-for="BedID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purpose" class="control-label"></label>
+                <input asp-for="Purpose" class="form-control" />
+                <span asp-validation-for="Purpose" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionConsultDoctorID" class="control-label"></label>
+                <input asp-for="AdditionConsultDoctorID" class="form-control" />
+                <span asp-validation-for="AdditionConsultDoctorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConsultantDepartmentID" class="control-label"></label>
+                <input asp-for="ConsultantDepartmentID" class="form-control" />
+                <span asp-validation-for="ConsultantDepartmentID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttenderName" class="control-label"></label>
+                <input asp-for="AttenderName" class="form-control" />
+                <span asp-validation-for="AttenderName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttenderContact" class="control-label"></label>
+                <input asp-for="AttenderContact" class="form-control" />
+                <span asp-validation-for="AttenderContact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttenderEmail" class="control-label"></label>
+                <input asp-for="AttenderEmail" class="form-control" />
+                <span asp-validation-for="AttenderEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocInstruction" class="control-label"></label>
+                <input asp-for="DocInstruction" class="form-control" />
+                <span asp-validation-for="DocInstruction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InpatientType" class="control-label"></label>
+                <input asp-for="InpatientType" class="form-control" />
+                <span asp-validation-for="InpatientType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdmissionDate" class="control-label"></label>
+                <input asp-for="AdmissionDate" class="form-control" />
+                <span asp-validation-for="AdmissionDate" class="text-danger"></span>
+            </div>
+         @* 
+            <div class="form-group">
+                <label asp-for="lastupdatedDate" class="control-label"></label>
+                <input asp-for="lastupdatedDate" class="form-control" />
+                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div>
+          *@
+          <div class="form-group">
+                <input type="submit" asp-action="GetPatientAdmission" value="Create" class="btn btn-primary" />
+                <input type="submit" asp-action="GetPatientAdmission" value="Save" class="btn btn-primary" />
+            </div>
+             @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
