@@ -12,11 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.Designer.cs
-    [Migration("20240517091834_Initial")]
-========
-    [Migration("20240517045739_Initial")]
->>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.Designer.cs
+    [Migration("20240517095015_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -142,7 +138,7 @@ namespace HealthCare.Migrations
 
             modelBuilder.Entity("DoctorScheduleModel", b =>
                 {
-                    b.Property<string>("DoctorID")
+                    b.Property<string>("PatientID")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ClinicID")
@@ -160,13 +156,14 @@ namespace HealthCare.Migrations
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DoctorID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Duration")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Holiday")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PatientID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartTime")
@@ -178,7 +175,7 @@ namespace HealthCare.Migrations
                     b.Property<string>("lastUpdatedUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DoctorID", "ClinicID", "SlotsID");
+                    b.HasKey("PatientID", "ClinicID", "SlotsID");
 
                     b.ToTable("SHcllDoctorScheduleModel");
                 });
@@ -550,6 +547,32 @@ namespace HealthCare.Migrations
                     b.ToTable("SHInpatientAdmission");
                 });
 
+            modelBuilder.Entity("HealthCare.Models.InternalDepartmentMasterModel", b =>
+                {
+                    b.Property<string>("DepartmentID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DepartmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedMachine")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastupdatedDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DepartmentID");
+
+                    b.ToTable("SHotDepartmentMaster");
+                });
+
             modelBuilder.Entity("HealthCare.Models.LogsModel", b =>
                 {
                     b.Property<int>("LogID")
@@ -606,29 +629,24 @@ namespace HealthCare.Migrations
                     b.ToTable("SHclnNurseStationMaster");
                 });
 
-            modelBuilder.Entity("HealthCare.Models.OTNotes", b =>
+            modelBuilder.Entity("HealthCare.Models.OTNotesModel", b =>
                 {
                     b.Property<string>("OtScheduleID")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FinalOtNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IntraOtAnesthesiaNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IntraOtNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ObservationNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OtherComments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PatientID")
@@ -636,31 +654,24 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostOtAnesthesiaNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostOtNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PreOtAnesthesiaNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PreOtNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedMachine")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastupdatedDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OtScheduleID");
@@ -674,82 +685,66 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AdditionalNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BookedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Confirm")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConfirmBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConfirmDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Duration")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InchrgDepID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("OperationType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PatientID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Priority")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartTime")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TableID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeamID")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeamName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedMachine")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastupdatedDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OtScheduleID");
@@ -780,58 +775,6 @@ namespace HealthCare.Migrations
                     b.HasKey("PatientId");
 
                     b.ToTable("SHfdOpCheckingModel");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.OtDepartmentModel", b =>
-                {
-                    b.Property<string>("DepartmentID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("DepartmentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedMachine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastupdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DepartmentID");
-
-                    b.ToTable("SHotDepartmentMaster");
-                });
-
-            modelBuilder.Entity("HealthCare.Models.OtSurgeryMasterModel", b =>
-                {
-                    b.Property<string>("SurgeryTypeID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SurgeryTypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedMachine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastupdatedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SurgeryTypeID");
-
-                    b.ToTable("SHotSurgerymaster");
                 });
 
             modelBuilder.Entity("HealthCare.Models.OtSurgeryModel", b =>
@@ -1250,6 +1193,32 @@ namespace HealthCare.Migrations
                     b.ToTable("SHSeverityModel");
                 });
 
+            modelBuilder.Entity("HealthCare.Models.SurgeryDepartmentMasterModel", b =>
+                {
+                    b.Property<string>("SurgeryTypeID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SurgeryTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedMachine")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastUpdatedUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastupdatedDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SurgeryTypeID");
+
+                    b.ToTable("SHotSurgerymaster");
+                });
+
             modelBuilder.Entity("HealthCare.Models.TestMasterModel", b =>
                 {
                     b.Property<string>("TestID")
@@ -1609,6 +1578,10 @@ namespace HealthCare.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DoctorID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StrlastUpdatedMachine")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastUpdatedDate")

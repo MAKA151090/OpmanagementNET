@@ -59,13 +59,13 @@ namespace HealthCare.Migrations
                 name: "SHcllDoctorScheduleModel",
                 columns: table => new
                 {
-                    DoctorID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClinicID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PatientID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SlotsID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DoctorID = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Duration = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PatientID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Holiday = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Blocker = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Active = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -74,7 +74,7 @@ namespace HealthCare.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHcllDoctorScheduleModel", x => new { x.DoctorID, x.ClinicID, x.SlotsID });
+                    table.PrimaryKey("PK_SHcllDoctorScheduleModel", x => new { x.PatientID, x.ClinicID, x.SlotsID });
                 });
 
             migrationBuilder.CreateTable(
@@ -138,7 +138,6 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.cs
                 name: "SHclnHospitalBedMaster",
                 columns: table => new
                 {
@@ -206,8 +205,6 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
-========
->>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.cs
                 name: "SHclnSurgeryMaster",
                 columns: table => new
                 {
@@ -319,7 +316,6 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.cs
                 name: "SHInpatientAdmission",
                 columns: table => new
                 {
@@ -349,8 +345,6 @@ namespace HealthCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
-========
->>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.cs
                 name: "SHLogs",
                 columns: table => new
                 {
@@ -390,18 +384,18 @@ namespace HealthCare.Migrations
                 {
                     OtScheduleID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PatientID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PreOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IntraOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FinalOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PreOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IntraOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ObservationNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OtherComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PreOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IntraOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FinalOtNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PreOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IntraOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostOtAnesthesiaNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ObservationNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OtherComments = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -413,26 +407,27 @@ namespace HealthCare.Migrations
                 columns: table => new
                 {
                     OtScheduleID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TableID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OperationType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InchrgDepID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdditionalNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BookedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeamID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TableID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OperationType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InchrgDepID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdditionalNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BookedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeamID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Confirm = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConfirmDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConfirmBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    lastupdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Confirm = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConfirmDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConfirmBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeamName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -541,7 +536,8 @@ namespace HealthCare.Migrations
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    lastUpdatedUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StrlastUpdatedMachine = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -879,7 +875,6 @@ namespace HealthCare.Migrations
                 name: "SHclnDoctorAdmin");
 
             migrationBuilder.DropTable(
-<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.cs
                 name: "SHclnHospitalBedMaster");
 
             migrationBuilder.DropTable(
@@ -892,8 +887,6 @@ namespace HealthCare.Migrations
                 name: "SHclnRoomTypeMaster");
 
             migrationBuilder.DropTable(
-========
->>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.cs
                 name: "SHclnSurgeryMaster");
 
             migrationBuilder.DropTable(
@@ -912,12 +905,9 @@ namespace HealthCare.Migrations
                 name: "SHfdOpCheckingModel");
 
             migrationBuilder.DropTable(
-<<<<<<<< HEAD:HealthCare/Migrations/20240517091834_Initial.cs
                 name: "SHInpatientAdmission");
 
             migrationBuilder.DropTable(
-========
->>>>>>>> d68d94ae7e61ffe758fbb3f876876574f7b13217:HealthCare/Migrations/20240517045739_Initial.cs
                 name: "SHLogs");
 
             migrationBuilder.DropTable(
