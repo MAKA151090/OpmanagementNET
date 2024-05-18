@@ -290,13 +290,13 @@ namespace HealthCare.Controllers
                 existingHospitalBed.CostPerDay = model.CostPerDay;
                 existingHospitalBed.lastupdatedDate = DateTime.Now.ToString();
                 existingHospitalBed.lastUpdatedUser = "admin";
-                existingHospitalBed.lastUpdatedMachine = "Lap";
+                existingHospitalBed.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnHospitalBedMaster.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();

@@ -22,7 +22,7 @@ namespace HealthCare.Business
 
         public BusinessClassInpatient(HealthcareContext serviceContext)
         {
-            this.objInpatientDb = objInpatientDb;
+            this.objInpatientDb = serviceContext;
         }
 
         public async Task<InpatientObservationViewModel> GetInpatientObs(string potObservationID,string patiendID,string BedNoID)
@@ -59,17 +59,19 @@ namespace HealthCare.Business
                 join Inp in objInpatientDb.SHipmInpatientobservation
                     on e.ObservationTypeID equals Inp.ObservationTypeID into InpGroup
                 from Inp in InpGroup.DefaultIfEmpty()
-                where Inp == null || (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
+                where (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
                 select new InpatientObservationModel
-                          {
-                              ObservationName = e.ObservationName,
-                               Answer = Inp!= null? Inp.Answer : string.Empty,
-                               Unit = e.Unit,
-                              Range = e.Range,
-                              Frequency = e.Frequency,
+                {
+                    ObservationName = e.ObservationName,
+                    Answer = Inp != null ? Inp.Answer : string.Empty,
+                    Unit = e.Unit,
+                    Range = e.Range,
+                    Frequency = e.Frequency,
 
-                          }).ToList();
-            return result;
+                });
+
+
+            return result.ToList();
 
         }
     }

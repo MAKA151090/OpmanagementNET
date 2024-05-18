@@ -61,7 +61,7 @@ namespace HealthCare.Controllers
 
         }
 
-       public async Task<IActionResult> GetInpatientViewResult(InpatientObservationModel Model, string buttonType)
+       public async Task<IActionResult> GetInpatientViewResult(InpatientObservationViewModel Model, string buttonType)
         {
             BusinessClassInpatient ObjViewINP = new BusinessClassInpatient(_healthcareContext);
             
@@ -79,7 +79,7 @@ namespace HealthCare.Controllers
                 objadd.DateTime=Model.DateTime;
                 objadd.lastupdatedDate=DateTime.Now.ToString();
                 objadd.lastUpdatedUser = "Kumar";
-                objadd.lastUpdatedMachine = "Lap";
+                objadd.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 await _healthcareContext.SaveChangesAsync();
             }
           
