@@ -19,7 +19,7 @@ namespace HealthCare.Context
 
         public DbSet<BloodGroupModel> SHclnBloodGroup { get; set; }
 
-        public DbSet<DoctorAdminModel> SHclnDoctorAdmin {  get; set; }
+        public DbSet<StaffAdminModel> SHclnStaffAdminModel {  get; set; }
 
 
         public DbSet<PatientRegistrationModel> SHPatientRegistration { get; set; }
@@ -160,8 +160,8 @@ namespace HealthCare.Context
             modelBuilder.Entity<BloodGroupModel>()
                 .HasKey(i => new { i.IntBg_Id, i.BloodGroup});
 
-            modelBuilder.Entity<DoctorAdminModel>()
-                .HasKey(i => new { i.DoctorID });
+            modelBuilder.Entity<StaffAdminModel>()
+                .HasKey(i => new { i.StrStaffID });
 
             modelBuilder.Entity<PatientRegistrationModel>()
                 .HasKey(i => new { i.PatientID });

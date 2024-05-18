@@ -123,39 +123,50 @@ namespace HealthCare.Controllers
             return View("BloodGroupAdministration", model);
             // Pass the list to the view
         }
-
-        public async Task<IActionResult> AddDoctor(DoctorAdminModel model)
+        [HttpPost]
+        public async Task<IActionResult> AddStaff(StaffAdminModel model)
         {
-            var existingDoctor = await _healthcareContext.SHclnDoctorAdmin.FindAsync(model.DoctorID);
+            var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
 
-            if (existingDoctor != null)
+            if (existingStaffAdmin != null)
             {
-                existingDoctor.DoctorID = model.DoctorID;
-                existingDoctor.FirstName = model.FirstName;
-                existingDoctor.LastName = model.LastName;
-                existingDoctor.FullName = model.FullName;
-                existingDoctor.Gender = model.Gender;
-                existingDoctor.DateofBirth = model.DateofBirth;
-                existingDoctor.Address1 = model.Address1;
-                existingDoctor.Address2 = model.Address2;
-                existingDoctor.PhoneNumber = model.PhoneNumber;
-                existingDoctor.EmailId = model.EmailId;
-                existingDoctor.Nationality = model.Nationality;
-                existingDoctor.MedialLicenseNumber = model.MedialLicenseNumber;
-                existingDoctor.lastUpdatedDate = DateTime.Now.ToString();
-                existingDoctor.lastUpdatedUser = "Admin";
+                existingStaffAdmin.StrStaffID = model.StrStaffID;
+                existingStaffAdmin.StrFirstName = model.StrFirstName;
+                existingStaffAdmin.StrLastName = model.StrLastName;
+                existingStaffAdmin.StrInitial = model.StrInitial;
+                existingStaffAdmin.StrPrefix = model.StrPrefix;
+                existingStaffAdmin.StrAge = model.StrAge;
+                existingStaffAdmin.StrDateofBirth = model.StrDateofBirth;
+                existingStaffAdmin.StrEmailId = model.StrEmailId;
+                existingStaffAdmin.StrAddress1 = model.StrAddress1;
+                existingStaffAdmin.StrAddress2 = model.StrAddress2;
+                existingStaffAdmin.StrCity = model.StrCity;
+                existingStaffAdmin.StrState = model.StrState;
+                existingStaffAdmin.StrPin = model.StrPin;
+                existingStaffAdmin.StrPhoneNumber = model.StrPhoneNumber;
+                existingStaffAdmin.StrEmailId = model.StrEmailId;
+                existingStaffAdmin.StrNationality = model.StrNationality;
+                existingStaffAdmin.StrUserName = model.StrUserName;
+                existingStaffAdmin.StrPassword = model.StrPassword;
+                existingStaffAdmin.StrIdProofId = model.StrIdProofId;
+                existingStaffAdmin.StrIdProofName = model.StrIdProofName;
+                existingStaffAdmin.StrMedialLicenseNumber = model.StrMedialLicenseNumber;
+                existingStaffAdmin.LastupdatedDate = DateTime.Now.ToString();
+                existingStaffAdmin.LastupdatedUser = "Admin";
+                existingStaffAdmin.LastUpdatedMachine = "Lap";
             }
             else
             {
 
-                model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                _healthcareContext.SHclnDoctorAdmin.Add(model);
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = "Admin";
+                model.LastUpdatedMachine = "lap";
+                _healthcareContext.SHclnStaffAdminModel.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-            return View("DoctorRegistration", model);
+            return View("StaffAdmin", model);
 
         }
 
@@ -174,7 +185,7 @@ namespace HealthCare.Controllers
                 var doctor = await businessClass.GetDoctorRegister(doctorid);
                 if (doctor != null)
                 {
-                    doctorid = doctor.DoctorID;
+                    doctorid = doctor.StrStaffID;
 
                     return View("DoctorRegistration", doctor);
                 }
@@ -356,6 +367,10 @@ namespace HealthCare.Controllers
             return View();
         }
 
+        public IActionResult StaffAdminModel()
+        {
+            return View();
+        }
         [HttpPost]
 
         public async Task<IActionResult> TestMaster(TestMasterModel model)
