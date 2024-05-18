@@ -1,44 +1,39 @@
-﻿@model HealthCare.Models.DrugStockModel
+﻿@model HealthCare.Models.StaffAttendanceModel
 
 @{
-    ViewData["Title"] = "DrugStockMaster";
+    ViewData["Title"] = "StaffAttendance";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>DrugStockMaster</h1>
+<h1>StaffAttendance</h1>
 
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="DrugStockMaster">
+        <form asp-action="StaffAttendance">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="IDNumber" class="control-label"></label>
-                <input asp-for="IDNumber" class="form-control" />
-                <span asp-validation-for="IDNumber" class="text-danger"></span>
+                <label asp-for="StaffID" class="control-label"></label>
+                <input asp-for="StaffID" class="form-control" />
+                <span asp-validation-for="StaffID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DrugID" class="control-label"></label>
-                <input asp-for="DrugID" class="form-control" />
-                <span asp-validation-for="DrugID" class="text-danger"></span>
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" type="date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ManufacturingDate" class="control-label"></label>
-                <input asp-for="ManufacturingDate" type="date" class="form-control" />
-                <span asp-validation-for="ManufacturingDate" class="text-danger"></span>
+                <label asp-for="CheckInTime" class="control-label"></label>
+                <input asp-for="CheckInTime" class="form-control" />
+                <span asp-validation-for="CheckInTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ExpiryDate" class="control-label"></label>
-                <input asp-for="ExpiryDate" type="date" class="form-control" />
-                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                <label asp-for="CheckOuTtime" class="control-label"></label>
+                <input asp-for="CheckOuTtime" class="form-control" />
+                <span asp-validation-for="CheckOuTtime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NumberOfStock" class="control-label"></label>
-                <input asp-for="NumberOfStock" class="form-control" />
-                <span asp-validation-for="NumberOfStock" class="text-danger"></span>
-            </div>
-@*             <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="lastUpdatedDate" class="control-label"></label>
                 <input asp-for="lastUpdatedDate" class="form-control" />
                 <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
@@ -54,9 +49,8 @@
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" value="Submit" asp-action="DrugStock" class="btn btn-primary" />
+                <input type="submit" asp-action="StaffAttendance" value="Save" class="btn btn-primary" />
             </div>
-
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">
@@ -69,4 +63,5 @@
         </form>
     </div>
 </div>
+
 

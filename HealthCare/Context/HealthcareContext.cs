@@ -96,6 +96,8 @@ namespace HealthCare.Context
 
         public DbSet<RoomTypeMasterModel> SHclnRoomTypeMaster { get; set; }
 
+        public DbSet<StaffAttendanceModel> SHStaffAttendance { get; set; }
+
 
         public DbSet<OpCheckingModel> SHfdOpCheckingModel { get; set; }
 
@@ -224,6 +226,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<RoomTypeMasterModel>()
                 .HasKey(i => new { i.RoomTypeID });
+
+            modelBuilder.Entity<StaffAttendanceModel>()
+                .HasKey(i => new { i.StaffID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()
