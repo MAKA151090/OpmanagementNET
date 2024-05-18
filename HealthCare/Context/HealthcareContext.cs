@@ -98,6 +98,9 @@ namespace HealthCare.Context
 
 
         public DbSet<OpCheckingModel> SHfdOpCheckingModel { get; set; }
+
+        public DbSet<EWSMasterModel>SHclnEWSMaster { get; set; }
+        public DbSet<InpatientObservationModel> SHipmInpatientobservation {  get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -108,7 +111,8 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<InpatientObservationModel>().HasKey(i => new { i.PatientID, i.ObservationID, i.BedNoID });
+            modelBuilder.Entity<EWSMasterModel>().HasKey(i => new { i.ObservationTypeID });
             modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.PatientID, i.ClinicID, i.SlotsID });
 
             modelBuilder.Entity<OpCheckingModel>().HasKey(i => new { i.PatientId });
