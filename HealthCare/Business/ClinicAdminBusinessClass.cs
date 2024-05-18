@@ -21,11 +21,11 @@ namespace HealthCare.Business
             return clinicregisterdata;
         }
 
-        public async Task<DoctorAdminModel> GetDoctorRegister(string doctorid)
+        public async Task<StaffAdminModel> GetDoctorRegister(string doctorid)
         {
-            var doctorregisterdata = await _healthcareContext.SHclnDoctorAdmin.FirstOrDefaultAsync(x => x.DoctorID == doctorid);
+            var staffregisterdata = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.StrStaffID == doctorid);
 
-            return doctorregisterdata;
+            return staffregisterdata;
         }
 
         public async Task<List<RadiologyViewResultModel>> GetRadiologData(string radioID, string clinicID, string patientID, string radioName, string screeingDate, string result, string referralDoctorName)

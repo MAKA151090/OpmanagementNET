@@ -55,9 +55,9 @@
                         <div>DoctorSchedule</div>
                     </a>
                 </li>
-                    <li class='menu-item@(currentPage == "/PatientExamination/DoctorRegistration" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="DoctorRegistration" class="menu-link">
-                            <div>DoctorRegistration</div>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/StaffAdminModel" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="StaffAdminModel" class="menu-link">
+                        <div>Staff Registration</div>
                         </a>
                     </li>
                 <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccess" ? " active" : "")'>
@@ -248,6 +248,8 @@
                         </a>
                         <ul class="menu-sub">
 
+                            
+
                             <li class='menu-item@(currentPage == "/FrontDesk/OpChecking" ? " active" : "")'>
                                 <a asp-controller="FrontDesk" asp-action="OpChecking" class="menu-link">
 
@@ -266,6 +268,13 @@
                             <li class='menu-item@(currentPage == "/FrontDesk/OpDischarge" ? " active" : "")'>
                                 <a asp-controller="FrontDesk" asp-action="OpDischarge" class="menu-link">
                                     <div>OpDischarge</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/FrontDesk/StaffAttendance" ? " active" : "")'>
+                                <a asp-controller="FrontDesk" asp-action="StaffAttendance" class="menu-link">
+                                    <div>StaffAttendance</div>
                                 </a>
                             </li>
                         </ul>
