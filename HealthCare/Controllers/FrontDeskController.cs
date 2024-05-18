@@ -17,9 +17,7 @@ namespace HealthCare.Controllers
 
         public FrontDeskController(HealthcareContext healthCare)
         {
-
-
-            GetFrontDeskData = healthCare;
+        GetFrontDeskData = healthCare;
         }
 
 
