@@ -32,6 +32,7 @@ namespace HealthCare.Controllers
             {
                 existingClinic.StaffID = model.StaffID;
                 existingClinic.Date = model.Date;
+                existingClinic.Office = model.Office;
                 existingClinic.CheckInTime = model.CheckInTime;
                 existingClinic.CheckOuTtime = model.CheckOuTtime;
                 existingClinic.lastUpdatedDate = DateTime.Now.ToString();
@@ -49,7 +50,7 @@ namespace HealthCare.Controllers
             }
             await GetFrontDeskData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
-            return View("StaffAttendanceModel", model);
+            return View("StaffAttendance", model);
         }
 
 
