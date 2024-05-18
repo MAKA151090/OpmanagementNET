@@ -56,7 +56,7 @@ namespace HealthCare.Controllers
             
                 List<Claim> claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.NameIdentifier, model.StrUserName),
+                    new Claim(ClaimTypes.NameIdentifier, model.StrStaffID),
                     new Claim("OtherProperties", "Example Role")
                 };
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,

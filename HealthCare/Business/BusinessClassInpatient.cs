@@ -25,11 +25,11 @@ namespace HealthCare.Business
             this.objInpatientDb = serviceContext;
         }
 
-        public async Task<InpatientObservationViewModel> GetInpatientObs(string potObservationID,string patiendID,string BedNoID)
+        public async Task<InpatientObservationViewModel> GetInpatientObs(string potObservationID, string patiendID, string BedNoID)
         {
             InpatientObservationViewModel Inconfirmationobs = new InpatientObservationViewModel();
 
-            Inconfirmationobs.SHviewInpatientObs = GetInpatientViewObs(potObservationID,patiendID,BedNoID); 
+            Inconfirmationobs.SHviewInpatientObs = GetInpatientViewObs(potObservationID, patiendID, BedNoID);
 
             var result = await (from Inp in objInpatientDb.SHipmInpatientobservation
                                 join e in objInpatientDb.SHclnEWSMaster on Inp.ObservationID equals e.ObservationTypeID
@@ -47,18 +47,18 @@ namespace HealthCare.Business
             Inconfirmationobs.BedNoID = result.BedNoID;
             Inconfirmationobs.DateTime = result.DateTime;
             Inconfirmationobs.NurseID = result.NurseID;
-            
+
             return Inconfirmationobs;
         }
 
-        public  List<InpatientObservationModel> GetInpatientViewObs(string potObservationID,string patientID,string BedNoID)
+        public List<InpatientObservationModel> GetInpatientViewObs(string potObservationID, string patientID, string BedNoID)
         {
 
 
             var objnew = (objInpatientDb.SHipmInpatientobservation.FirstOrDefaultAsync(x =>
                 x.PatientID == patientID && x.BedNoID == BedNoID && x.ObservationID == potObservationID));
 
-            if (objnew==null)
+            if (objnew == null)
             {
                 var addEWS = objInpatientDb.SHclnEWSMaster
                                 .Where(e => e.ObservationTypeID == potObservationID)
@@ -69,7 +69,7 @@ namespace HealthCare.Business
                     {
                         ObservationTypeID = item.ObservationTypeID,
                         PatientID = patientID,
-                        BedNoID = BedNoID,  
+                        BedNoID = BedNoID,
                     };
                     objInpatientDb.SHipmInpatientobservation.Add(newObservation);
                     objInpatientDb.SaveChanges();
@@ -77,23 +77,11 @@ namespace HealthCare.Business
             }
 
             var result = (
-                from e in objInpatientDb.SHclnEWSMaster
-                join Inp in objInpatientDb.SHipmInpatientobservation
-                    on e.ObservationTypeID equals Inp.ObservationTypeID into InpGroup
-                from Inp in InpGroup.DefaultIfEmpty()
-                where (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
-                select new InpatientObservationModel
-                {
-                    ObservationName = e.ObservationName,
-                    Answer = Inp != null ? Inp.Answer : string.Empty,
-                    Unit = e.Unit,
-                    Range = e.Range,
-                    Frequency = e.Frequency,
                from e in objInpatientDb.SHclnEWSMaster
                join Inp in objInpatientDb.SHipmInpatientobservation
                    on e.ObservationTypeID equals Inp.ObservationTypeID into InpGroup
                from Inp in InpGroup.DefaultIfEmpty()
-               where Inp == null || (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
+               where (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
                select new InpatientObservationModel
                {
                    ObservationName = e.ObservationName,
@@ -102,10 +90,6 @@ namespace HealthCare.Business
                    Range = e.Range,
                    Frequency = e.Frequency,
 
-                });
-
-
-            return result.ToList();
                }).ToList();
 
             return result;

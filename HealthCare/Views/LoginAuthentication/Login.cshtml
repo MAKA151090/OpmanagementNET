@@ -1,4 +1,4 @@
-﻿@model LoginModel
+﻿@model StaffAdminModel
 
 @{
     ViewData["Title"] = "Login";
@@ -16,14 +16,14 @@
         <form asp-controller="LoginAuthentication" asp-action="Login" >
 
                 <div class="form-group" >
-                <label asp-for="Email" class="control-label">User Name</label>
-                <input type="email" asp-for="Email" class="form-control" />
+                <label asp-for="StrStaffID" class="control-label">User Name</label>
+                    <input type="text" asp-for="StrStaffID" class="form-control" />
 
             </div>
 
                 <div class="form-group" >
-                <label asp-for="Password" class="control-label">Password</label>
-                <input type="password" asp-for="Password" class="form-control" />
+                <label asp-for="StrPassword" class="control-label">Password</label>
+                    <input type="password" asp-for="StrPassword" class="form-control" />
             </div>
 
                 <div class="form-group" >
