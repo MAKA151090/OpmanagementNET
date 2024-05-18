@@ -60,7 +60,11 @@ namespace HealthCare.Controllers
 
         }
 
-        public IActionResult Index()
+
+
+        
+
+            public IActionResult Index()
         {
             return View();
         }
@@ -84,7 +88,11 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-
+        public IActionResult InPatientObservation()
+        {
+            return View();
+        }
+        
     }
 }
 
