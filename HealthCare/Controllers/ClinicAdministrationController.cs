@@ -127,39 +127,50 @@ namespace HealthCare.Controllers
             return View("BloodGroupAdministration", model);
             // Pass the list to the view
         }
-
-        public async Task<IActionResult> AddDoctor(DoctorAdminModel model)
+        [HttpPost]
+        public async Task<IActionResult> AddStaff(StaffAdminModel model)
         {
-            var existingDoctor = await _healthcareContext.SHclnDoctorAdmin.FindAsync(model.DoctorID);
+            var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
 
-            if (existingDoctor != null)
+            if (existingStaffAdmin != null)
             {
-                existingDoctor.DoctorID = model.DoctorID;
-                existingDoctor.FirstName = model.FirstName;
-                existingDoctor.LastName = model.LastName;
-                existingDoctor.FullName = model.FullName;
-                existingDoctor.Gender = model.Gender;
-                existingDoctor.DateofBirth = model.DateofBirth;
-                existingDoctor.Address1 = model.Address1;
-                existingDoctor.Address2 = model.Address2;
-                existingDoctor.PhoneNumber = model.PhoneNumber;
-                existingDoctor.EmailId = model.EmailId;
-                existingDoctor.Nationality = model.Nationality;
-                existingDoctor.MedialLicenseNumber = model.MedialLicenseNumber;
-                existingDoctor.lastUpdatedDate = DateTime.Now.ToString();
-                existingDoctor.lastUpdatedUser = "Admin";
+                existingStaffAdmin.StrStaffID = model.StrStaffID;
+                existingStaffAdmin.StrFirstName = model.StrFirstName;
+                existingStaffAdmin.StrLastName = model.StrLastName;
+                existingStaffAdmin.StrInitial = model.StrInitial;
+                existingStaffAdmin.StrPrefix = model.StrPrefix;
+                existingStaffAdmin.StrAge = model.StrAge;
+                existingStaffAdmin.StrDateofBirth = model.StrDateofBirth;
+                existingStaffAdmin.StrEmailId = model.StrEmailId;
+                existingStaffAdmin.StrAddress1 = model.StrAddress1;
+                existingStaffAdmin.StrAddress2 = model.StrAddress2;
+                existingStaffAdmin.StrCity = model.StrCity;
+                existingStaffAdmin.StrState = model.StrState;
+                existingStaffAdmin.StrPin = model.StrPin;
+                existingStaffAdmin.StrPhoneNumber = model.StrPhoneNumber;
+                existingStaffAdmin.StrEmailId = model.StrEmailId;
+                existingStaffAdmin.StrNationality = model.StrNationality;
+                existingStaffAdmin.StrUserName = model.StrUserName;
+                existingStaffAdmin.StrPassword = model.StrPassword;
+                existingStaffAdmin.StrIdProofId = model.StrIdProofId;
+                existingStaffAdmin.StrIdProofName = model.StrIdProofName;
+                existingStaffAdmin.StrMedialLicenseNumber = model.StrMedialLicenseNumber;
+                existingStaffAdmin.LastupdatedDate = DateTime.Now.ToString();
+                existingStaffAdmin.LastupdatedUser = "Admin";
+                existingStaffAdmin.LastUpdatedMachine = "Lap";
             }
             else
             {
 
-                model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                _healthcareContext.SHclnDoctorAdmin.Add(model);
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = "Admin";
+                model.LastUpdatedMachine = "lap";
+                _healthcareContext.SHclnStaffAdminModel.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-            return View("DoctorRegistration", model);
+            return View("StaffAdminModel", model);
 
         }
 
@@ -178,7 +189,7 @@ namespace HealthCare.Controllers
                 var doctor = await businessClass.GetDoctorRegister(doctorid);
                 if (doctor != null)
                 {
-                    doctorid = doctor.DoctorID;
+                    doctorid = doctor.StrStaffID;
 
                     return View("DoctorRegistration", doctor);
                 }
@@ -267,7 +278,7 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("IPTypeMaster", model);
         }
-       
+
 
         public async Task<IActionResult> GetHospitalBedMaster(HospitalBedMasterModel model)
         {
@@ -298,6 +309,34 @@ namespace HealthCare.Controllers
             return View("HospitalBedMaster", model);
         }
 
+        public async Task<IActionResult> GetEWSMaster(EWSMasterModel pEWS)
+        {
+            var existingEWS = await _healthcareContext.SHclnEWSMaster.FindAsync(pEWS.ObservationTypeID);
+            if (existingEWS != null)
+            {
+                existingEWS.ObservationTypeID = pEWS.ObservationTypeID;
+                existingEWS.ObservationName = pEWS.ObservationName;
+                existingEWS.Unit = pEWS.Unit;
+                existingEWS.Range = pEWS.Range;
+                existingEWS.Frequency = pEWS.Frequency;
+                existingEWS.lastupdatedDate = DateTime.Now.ToString();
+                existingEWS.lastUpdatedUser = "admin";
+                existingEWS.lastUpdatedMachine = "Lap";
+            }
+            else
+            {
+                pEWS.lastupdatedDate = DateTime.Now.ToString();
+                pEWS.lastUpdatedUser = "Myself";
+                pEWS.lastUpdatedMachine = "lap";
+                _healthcareContext.SHclnEWSMaster.Add(pEWS);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("EWSMaster", pEWS);
+        }
+
+
         public IActionResult Index()
         {
             return View();
@@ -315,6 +354,10 @@ namespace HealthCare.Controllers
             return View();
         }
         public IActionResult RollAccess()
+        {
+            return View();
+        }
+        public IActionResult ScreenMaster()
         {
             return View();
         }
@@ -359,7 +402,15 @@ namespace HealthCare.Controllers
         {
             return View();
         }
+        public IActionResult EWSMaster()
+        {
+            return View();
+        }
 
+        public IActionResult StaffAdminModel()
+        {
+            return View();
+        }
         [HttpPost]
 
         public async Task<IActionResult> TestMaster(TestMasterModel model)
@@ -573,6 +624,67 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("InternalDepartmentMaster", model);
         }
+
+
+
+        public async Task<IActionResult> GetRollAccess(RollAccessModel model)
+        {
+            var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID);
+            if (existingTest != null)
+            {
+                existingTest.RollID = model.RollID;
+                existingTest.ScreenID = model.ScreenID;
+                existingTest.Access = model.Access;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHClnRollAccess.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("RollAccess", model);
+
+        }
+
+
+
+        public async Task<IActionResult> GetScreenMaster (ScreenMasterModel model)
+        {
+
+            var existingTest = await _healthcareContext.SHClnScreenMaster.FindAsync(model.ScreenId);
+            if (existingTest != null)
+            {
+                existingTest.ScreenId = model.ScreenId;
+                existingTest.ScreenName = model.ScreenName;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHClnScreenMaster.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("ScreenMaster", model);
+        }
+
+
+
+
+
 
 
 

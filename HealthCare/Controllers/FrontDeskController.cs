@@ -15,10 +15,47 @@ namespace HealthCare.Controllers
 
         private HealthcareContext GetFrontDeskData;
 
+        public FrontDeskController(HealthcareContext healthCare) 
+        {
         
         public FrontDeskController(HealthcareContext healthCare) {
         GetFrontDeskData = healthCare;
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> StaffAttendance(StaffAttendanceModel model)
+        {
+            var existingClinic = await GetFrontDeskData.SHStaffAttendance.FindAsync(model.StaffID);
+
+            if (existingClinic != null)
+            {
+                existingClinic.StaffID = model.StaffID;
+                existingClinic.Date = model.Date;
+                existingClinic.CheckInTime = model.CheckInTime;
+                existingClinic.CheckOuTtime = model.CheckOuTtime;
+                existingClinic.lastUpdatedDate = DateTime.Now.ToString();
+                existingClinic.lastUpdatedUser = "Myself";
+                existingClinic.lastUpdatedMachine = "lap";
+
+                GetFrontDeskData.Entry(existingClinic).State = EntityState.Modified;
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "Lap";
+                GetFrontDeskData.SHStaffAttendance.Add(model);
+            }
+            await GetFrontDeskData.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("StaffAttendanceModel", model);
+        }
+
+
+
+
+
 
         public IActionResult Index()
         {
@@ -33,6 +70,10 @@ namespace HealthCare.Controllers
             return View();
         }
         public IActionResult OpDischarge()
+        {
+            return View();
+        }
+        public IActionResult StaffAttendance()
         {
             return View();
         }

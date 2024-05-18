@@ -258,7 +258,7 @@ namespace HealthCare.Business
             var testResults = await (
                 from pt in objSearchContext.SHPatientTest
                 join tm in objSearchContext.SHTestMaster on pt.TestID equals tm.TestID
-                join ca in objSearchContext.SHclnDoctorAdmin on pt.ReferDocID equals ca.DoctorID
+                join ca in objSearchContext.SHclnStaffAdminModel on pt.ReferDocID equals ca.StrStaffID
                 join p in objSearchContext.SHPatientRegistration on pt.PatientID equals p.PatientID
                 join c in objSearchContext.SHclnClinicAdmin on pt.ClinicID equals c.ClinicId
                 where pt.PatientID == patientId && pt.ClinicID == clinicId
@@ -269,7 +269,7 @@ namespace HealthCare.Business
                     Range = tm.Range,
                     TestDate = pt.TestDateTime,
                     Result = pt.TestResult,
-                    DoctorName = ca.FullName,
+                    DoctorName = ca.StrFullName,
                     PatientName = p.FullName,
                     ClinicName = c.ClinicName
 
@@ -285,7 +285,7 @@ namespace HealthCare.Business
                     from pp in objSearchContext.SHprsPrescription
                     join di in objSearchContext.SHstkDrugInventory on pp.DrugID equals di.DrugId
                     join p in objSearchContext.SHPatientRegistration on pp.PatientID equals p.PatientID
-                    join d in objSearchContext.SHclnDoctorAdmin on pp.DoctorID equals d.DoctorID
+                    join d in objSearchContext.SHclnStaffAdminModel on pp.DoctorID equals d.StrStaffID
                     where pp.PatientID == patientID && pp.CaseVisitID == casevisitID && pp.OrderID == orderID
                     select new PatientEPrescriptionPrintModel
                     {
@@ -302,7 +302,7 @@ namespace HealthCare.Business
                         Quantity = pp.Quantity,
                         EndDate = pp.EndDate,
                         Instructions = pp.Instructions,
-                        DoctorName = d.FullName
+                        DoctorName = d.StrFullName
 
                     }).ToListAsync();
             return prescription;

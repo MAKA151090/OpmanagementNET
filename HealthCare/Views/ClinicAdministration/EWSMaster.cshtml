@@ -1,39 +1,44 @@
-﻿@model HealthCare.Models.RoomTypeMasterModel
+﻿@model HealthCare.Models.EWSMasterModel
 
 @{
-    ViewData["Title"] = "RoomTypeMaster";
+    ViewData["Title"] = "EWSMaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>RoomTypeMaster</h1>
-
+<h1>EWSMaster</h1>
 
 <hr />
+@using (Html.BeginForm("GetEWSMaster", "ClinicAdministration", FormMethod.Post))
+    {
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="RoomTypeMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="RoomTypeID" class="control-label"></label>
-                <input asp-for="RoomTypeID" class="form-control" />
-                <span asp-validation-for="RoomTypeID" class="text-danger"></span>
+                <label asp-for="ObservationTypeID" class="control-label"></label>
+                <input asp-for="ObservationTypeID" class="form-control" />
+                <span asp-validation-for="ObservationTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RoomTypeName" class="control-label"></label>
-                <input asp-for="RoomTypeName" class="form-control" />
-                <span asp-validation-for="RoomTypeName" class="text-danger"></span>
+                <label asp-for="ObservationName" class="control-label"></label>
+                <input asp-for="ObservationName" class="form-control" />
+                <span asp-validation-for="ObservationName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdditionFeature" class="control-label"></label>
-                <input asp-for="AdditionFeature" class="form-control" />
-                <span asp-validation-for="AdditionFeature" class="text-danger"></span>
+                <label asp-for="Unit" class="control-label"></label>
+                <input asp-for="Unit" class="form-control" />
+                <span asp-validation-for="Unit" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdditionalCost" class="control-label"></label>
-                <input asp-for="AdditionalCost" class="form-control" />
-                <span asp-validation-for="AdditionalCost" class="text-danger"></span>
+                <label asp-for="Range" class="control-label"></label>
+                <input asp-for="Range" class="form-control" />
+                <span asp-validation-for="Range" class="text-danger"></span>
             </div>
-         @*    <div class="form-group">
+            <div class="form-group">
+                <label asp-for="Frequency" class="control-label"></label>
+                <input asp-for="Frequency" class="form-control" />
+                <span asp-validation-for="Frequency" class="text-danger"></span>
+            </div>
+           @*  <div class="form-group">
                 <label asp-for="lastupdatedDate" class="control-label"></label>
                 <input asp-for="lastupdatedDate" class="form-control" />
                 <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
@@ -49,19 +54,16 @@
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" asp-action="GetRoomType" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">
-
-
                     @ViewBag.Message
                 </div>
-
             }
-        </form>
+       
     </div>
 </div>
 
-
+}

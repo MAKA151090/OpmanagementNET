@@ -19,7 +19,7 @@ namespace HealthCare.Context
 
         public DbSet<BloodGroupModel> SHclnBloodGroup { get; set; }
 
-        public DbSet<DoctorAdminModel> SHclnDoctorAdmin {  get; set; }
+        public DbSet<StaffAdminModel> SHclnStaffAdminModel {  get; set; }
 
 
         public DbSet<PatientRegistrationModel> SHPatientRegistration { get; set; }
@@ -96,8 +96,18 @@ namespace HealthCare.Context
 
         public DbSet<RoomTypeMasterModel> SHclnRoomTypeMaster { get; set; }
 
+        public DbSet<StaffAttendanceModel> SHStaffAttendance { get; set; }
+
+        public DbSet<RollAccessModel> SHClnRollAccess { get; set; }
+
+        public DbSet<ScreenMasterModel>SHClnScreenMaster { get; set; }
+
+
 
         public DbSet<OpCheckingModel> SHfdOpCheckingModel { get; set; }
+
+        public DbSet<EWSMasterModel>SHclnEWSMaster { get; set; }
+        public DbSet<InpatientObservationModel> SHipmInpatientobservation {  get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -108,7 +118,8 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<InpatientObservationModel>().HasKey(i => new { i.PatientID, i.ObservationID, i.BedNoID });
+            modelBuilder.Entity<EWSMasterModel>().HasKey(i => new { i.ObservationTypeID });
             modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.PatientID, i.ClinicID, i.SlotsID });
 
             modelBuilder.Entity<OpCheckingModel>().HasKey(i => new { i.PatientId });
@@ -160,8 +171,8 @@ namespace HealthCare.Context
             modelBuilder.Entity<BloodGroupModel>()
                 .HasKey(i => new { i.IntBg_Id, i.BloodGroup});
 
-            modelBuilder.Entity<DoctorAdminModel>()
-                .HasKey(i => new { i.DoctorID });
+            modelBuilder.Entity<StaffAdminModel>()
+                .HasKey(i => new { i.StrStaffID });
 
             modelBuilder.Entity<PatientRegistrationModel>()
                 .HasKey(i => new { i.PatientID });
@@ -220,6 +231,15 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<RoomTypeMasterModel>()
                 .HasKey(i => new { i.RoomTypeID });
+
+            modelBuilder.Entity<StaffAttendanceModel>()
+                .HasKey(i => new { i.StaffID });
+
+            modelBuilder.Entity<RollAccessModel>()
+                .HasKey(i => new { i.RollID });
+
+            modelBuilder.Entity<ScreenMasterModel>()
+                .HasKey(i => new { i.ScreenId });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

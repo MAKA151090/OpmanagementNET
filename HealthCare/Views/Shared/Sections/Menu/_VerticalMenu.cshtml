@@ -28,7 +28,7 @@
     <!-- Clinic Adminstration -->
     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/ClinicAdministration") ? " active open" : "")'>
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi-hospital"></i>
+                <i class="menu-icon tf-icons mdi mdi-hospital-building"></i>
         <div>Clinic Administration</div>
       </a>
 
@@ -55,9 +55,9 @@
                         <div>DoctorSchedule</div>
                     </a>
                 </li>
-                    <li class='menu-item@(currentPage == "/PatientExamination/DoctorRegistration" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="DoctorRegistration" class="menu-link">
-                            <div>DoctorRegistration</div>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/StaffAdminModel" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="StaffAdminModel" class="menu-link">
+                        <div>Staff Registration</div>
                         </a>
                     </li>
                 <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccess" ? " active" : "")'>
@@ -65,6 +65,11 @@
                <div>RollAccess</div>
              </a>
             </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/ScreenMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="ScreenMaster" class="menu-link">
+                        <div>ScreenMaster</div>
+                    </a>
+                </li>
                 <li class='menu-item@(currentPage == "/ClinicAdministration/TestMaster" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="TestMaster" class="menu-link">
                         <div>TestMaster</div>
@@ -120,6 +125,11 @@
                         <div>RoomTypeMaster</div>
                     </a>
                 </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/EWSMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="EWSMaster" class="menu-link">
+                        <div>EWSMaster</div>
+                    </a>
+                </li>
 
                 @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html" target="_blank" class="menu-link">
@@ -144,7 +154,7 @@
         <!-- Stock Management -->
         <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StockManagement") ? " active open" : "")'>
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-account-multiple"></i>
+                    <i class="menu-icon tf-icons mdi  mdi-store"></i>
                 <div>Stock Management</div>
 
             </a>
@@ -243,6 +253,8 @@
                         </a>
                         <ul class="menu-sub">
 
+                            
+
                             <li class='menu-item@(currentPage == "/FrontDesk/OpChecking" ? " active" : "")'>
                                 <a asp-controller="FrontDesk" asp-action="OpChecking" class="menu-link">
 
@@ -264,6 +276,13 @@
                                 </a>
                             </li>
                         </ul>
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/FrontDesk/StaffAttendance" ? " active" : "")'>
+                                <a asp-controller="FrontDesk" asp-action="StaffAttendance" class="menu-link">
+                                    <div>StaffAttendance</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
 
@@ -272,7 +291,7 @@
                         <!-- In Patient Modules -->
                         <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/InPatientModules") ? " active open" : "")'>
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons mdi mdi-hospital"></i>
+                                <i class="menu-icon tf-icons mdi mdi mdi-bed"></i>
                                 <div>InPatient Modules</div>
 
                             </a>
@@ -306,6 +325,14 @@
                                     </a>
                                 </li>
                             </ul>
+                        
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/InPatientModules/InPatientObservation" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientObservation" class="menu-link">
+                                    <div>InPatientObservation</div>
+                                </a>
+                            </li>
+                        </ul>
                         </li>
 
 
@@ -433,7 +460,7 @@
                     <!-- Laboratory Radiology -->
                     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/LabRad") ? " active open" : "")'>
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-text-box-plus-outline"></i>
+                            <i class="menu-icon tf-icons mdi mdi-beaker-outline"></i>
                             <div>LaboratoryRadiology</div>
                         </a>
                         <ul class="menu-sub">

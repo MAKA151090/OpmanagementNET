@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Business;
+using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +63,34 @@ namespace HealthCare.Controllers
 
         }
 
-        public IActionResult Index()
+       public async Task<IActionResult> GetInpatientViewResult(InpatientObservationModel Model, string buttonType)
+        {
+            BusinessClassInpatient ObjViewINP = new BusinessClassInpatient(_healthcareContext);
+            
+            if(buttonType == "get") 
+            {
+                var result = await ObjViewINP.GetInpatientObs(Model.BedNoID,Model.PatientID,Model.ObservationID);
+                return View("InPatientObservation", result);
+
+            }
+            else if (buttonType == "save")
+            {
+                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID);
+                objadd.ObservationID = Model.ObservationID;
+                objadd.NurseID=Model.NurseID;
+                objadd.DateTime=Model.DateTime;
+                objadd.lastupdatedDate=DateTime.Now.ToString();
+                objadd.lastUpdatedUser = "Kumar";
+                objadd.lastUpdatedMachine = "Lap";
+                await _healthcareContext.SaveChangesAsync();
+            }
+          
+            ViewBag.Message = "Saved Successfully";
+            return View("InPatientObservation", Model);
+
+        }
+
+            public IActionResult Index()
         {
             return View();
         }
@@ -86,7 +114,11 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-
+        public IActionResult InPatientObservation()
+        {
+            return View();
+        }
+        
     }
 }
 
