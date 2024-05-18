@@ -25,6 +25,7 @@ namespace HealthCare.Models
         private String confirm;
         private String confirmDate;
         private String confirmBy;
+        private String caseVisitID;
         private String strlastupdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
@@ -51,5 +52,6 @@ namespace HealthCare.Models
         public string? ConfirmDate { get => confirmDate; set => confirmDate = value; }
         public string? ConfirmBy { get => confirmBy; set => confirmBy = value; }
         public string? TeamName { get => teamName; set => teamName = value; }
+        public string CaseVisitID { get => caseVisitID; set => caseVisitID = value; }
     }
 }

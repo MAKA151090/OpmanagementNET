@@ -25,11 +25,11 @@ namespace HealthCare.Business
             this.objInpatientDb = objInpatientDb;
         }
 
-        public async Task<InpatientObservationViewModel> GetInpatientObs(string potObservationID)
+        public async Task<InpatientObservationViewModel> GetInpatientObs(string potObservationID,string patiendID,string BedNoID)
         {
             InpatientObservationViewModel Inconfirmationobs = new InpatientObservationViewModel();
 
-            Inconfirmationobs.SHviewInpatientObs = GetInpatientViewObs(potObservationID); 
+            Inconfirmationobs.SHviewInpatientObs = GetInpatientViewObs(potObservationID,patiendID,BedNoID); 
 
             var result = await (from Inp in objInpatientDb.SHipmInpatientobservation
                                 join e in objInpatientDb.SHclnEWSMaster on Inp.ObservationID equals e.ObservationTypeID
@@ -51,15 +51,15 @@ namespace HealthCare.Business
             return Inconfirmationobs;
         }
 
-        public List<InpatientObservationModel> GetInpatientViewObs(string potObservationID)
+        public List<InpatientObservationModel> GetInpatientViewObs(string potObservationID,string patientID,string BedNoID)
         {
 
             var result = (
                 from e in objInpatientDb.SHclnEWSMaster
                 join Inp in objInpatientDb.SHipmInpatientobservation
-                    on e.ObservationTypeID equals Inp.ObservationID into InpGroup
+                    on e.ObservationTypeID equals Inp.ObservationTypeID into InpGroup
                 from Inp in InpGroup.DefaultIfEmpty()
-                where Inp == null || (Inp.BedNoID == potObservationID && Inp.PatientID == potObservationID)
+                where Inp == null || (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
                 select new InpatientObservationModel
                           {
                               ObservationName = e.ObservationName,

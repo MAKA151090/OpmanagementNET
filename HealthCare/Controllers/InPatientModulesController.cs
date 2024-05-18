@@ -67,7 +67,7 @@ namespace HealthCare.Controllers
             
             if(buttonType == "get") 
             {
-                var result = await ObjViewINP.GetInpatientObs(Model.BedNoID);
+                var result = await ObjViewINP.GetInpatientObs(Model.BedNoID,Model.PatientID,Model.ObservationID);
                 return View("InPatientObservation", result);
 
             }

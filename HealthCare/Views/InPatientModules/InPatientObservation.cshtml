@@ -77,7 +77,9 @@
                 {
                     <tr>
                         <td>@item.ObservationName</td>
-                        <td>@item.Answer</td>
+                        <td>
+                            <input type="text" class="form-control" name="Question" value="@item.Answer" asp-for="@item.Answer" />
+                        </td>
                         <td>@item.Unit</td>
                         <td>@item.Range</td>
                         <td>@item.Frequency</td>

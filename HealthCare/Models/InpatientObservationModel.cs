@@ -14,6 +14,7 @@
         private String unit;
         private String range;
         private String frequency;
+        private String observationTypeID;
         private String strlastupdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
@@ -33,5 +34,6 @@
         public string? Unit { get => unit; set => unit = value; }
         public string? Range { get => range; set => range = value; }
         public string? Frequency { get => frequency; set => frequency = value; }
+        public string ObservationTypeID { get => observationTypeID; set => observationTypeID = value; }
     }
 }
