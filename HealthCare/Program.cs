@@ -1,5 +1,6 @@
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using HealthCare.Context;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 
@@ -15,6 +16,15 @@ builder.Services.AddDbContext<HealthcareContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(
+    CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/LoginAuthentication/Login";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    });
+
 
 
 var app = builder.Build();
@@ -32,11 +42,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=ClinicAdministration}/{action=Index}/{id?}");
-
+    pattern: "{controller=LoginAuthentication}/{action=Login}/{id?}");
 
 app.Run();

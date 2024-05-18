@@ -2,16 +2,20 @@
 ﻿using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class FrontDeskController : Controller
     {
-
+      
+        
 
         private HealthcareContext GetFrontDeskData;
 
+        
         public FrontDeskController(HealthcareContext healthCare) {
         GetFrontDeskData = healthCare;
         }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
 {
-   
+    [Authorize]
     public class OPDManagementController : Controller
     {
             private HealthcareContext getPatientObjective;

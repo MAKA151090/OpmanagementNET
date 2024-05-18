@@ -3,14 +3,17 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
+using System.Security.Claims;
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class ClinicAdministrationController : Controller
     {
 
@@ -21,6 +24,7 @@ namespace HealthCare.Controllers
         {
             _healthcareContext = healthcareContext;
         }
+
 
 
         [HttpPost]
