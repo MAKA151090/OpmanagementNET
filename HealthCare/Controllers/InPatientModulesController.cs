@@ -1,11 +1,13 @@
 ﻿using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class InPatientModulesController : Controller
     {
 

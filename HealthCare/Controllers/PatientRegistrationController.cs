@@ -5,10 +5,12 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class PatientRegistrationController : Controller
     {
         private HealthcareContext _healthcareContext;

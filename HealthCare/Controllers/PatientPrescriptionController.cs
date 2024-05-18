@@ -2,10 +2,12 @@
 using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class PatientPrescriptionController : Controller
     {
 

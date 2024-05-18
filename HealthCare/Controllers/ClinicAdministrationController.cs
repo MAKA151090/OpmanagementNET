@@ -3,14 +3,17 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
+using System.Security.Claims;
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class ClinicAdministrationController : Controller
     {
 
@@ -21,6 +24,7 @@ namespace HealthCare.Controllers
         {
             _healthcareContext = healthcareContext;
         }
+
 
 
         [HttpPost]
@@ -177,7 +181,7 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Doctoradmin(string doctorid, string buttonType)
+        /*public async Task<ActionResult> Doctoradmin(string doctorid, string buttonType)
         {
             ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
             if (buttonType == "submit")
@@ -185,7 +189,7 @@ namespace HealthCare.Controllers
                 var doctor = await businessClass.GetDoctorRegister(doctorid);
                 if (doctor != null)
                 {
-                    doctorid = doctor.StrStaffID;
+                    doctorid = doctor.DoctorID;
 
                     return View("DoctorRegistration", doctor);
                 }
@@ -197,7 +201,7 @@ namespace HealthCare.Controllers
             }
 
             return View();
-        }
+        }*/
 
         public async Task<IActionResult> GetRoomType(RoomTypeMasterModel model)
         {
@@ -630,7 +634,7 @@ namespace HealthCare.Controllers
             {
                 existingTest.RollID = model.RollID;
                 existingTest.ScreenID = model.ScreenID;
-                existingTest.Access = model.Access;
+                existingTest.Access = model.Access;           
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
                 existingTest.lastUpdatedUser = "myself";
                 existingTest.lastUpdatedMachine = "lap";
@@ -660,6 +664,8 @@ namespace HealthCare.Controllers
             {
                 existingTest.ScreenId = model.ScreenId;
                 existingTest.ScreenName = model.ScreenName;
+                existingTest.ReadWriteAccess = model.ReadWriteAccess;
+                existingTest.Authorized = model.Authorized;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
                 existingTest.lastUpdatedUser = "myself";
                 existingTest.lastUpdatedMachine = "lap";
