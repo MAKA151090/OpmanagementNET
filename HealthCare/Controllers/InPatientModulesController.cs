@@ -60,11 +60,48 @@ namespace HealthCare.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> InPatientCaseSheet(InPatientCaseSheetModel model)
+        {
+            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId,model.StrCaseId);
+
+            if (existingInPatientCaseSheet != null)
+            {
+                existingInPatientCaseSheet.StrPatientId = model.StrPatientId;
+                existingInPatientCaseSheet.StrCaseId = model.StrCaseId;
+                existingInPatientCaseSheet.StrBedId = model.StrBedId;
+                existingInPatientCaseSheet.StrPostMedHistory = model.StrPostMedHistory;
+                existingInPatientCaseSheet.StrAllergicTo = model.StrAllergicTo;
+                existingInPatientCaseSheet.StrHeight = model.StrHeight;
+                existingInPatientCaseSheet.StrWeight = model.StrWeight;
+                existingInPatientCaseSheet.StrDiagnosis = model.StrDiagnosis;
+                existingInPatientCaseSheet.StrTreatment = model.StrTreatment;
+                existingInPatientCaseSheet.LastupdatedDate = DateTime.Now.ToString();
+                existingInPatientCaseSheet.LastupdatedUser = "Admin";
+                existingInPatientCaseSheet.LastUpdatedMachine = "Lap";
+
+                _healthcareContext.Entry(existingInPatientCaseSheet).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = "Admin";
+                model.LastUpdatedMachine = "Lap";
+                _healthcareContext.SHipmInPatientCaseSheet.Add(model);
+            }
+
+            await _healthcareContext.SaveChangesAsync();
 
 
-        
+            ViewBag.Message = "Saved Successfully";
+            return View("InPatientCaseSheet", model);
 
-            public IActionResult Index()
+        }
+
+
+
+
+        public IActionResult Index()
         {
             return View();
         }
@@ -79,7 +116,7 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public IActionResult InpatientCasesheet()
+        public IActionResult InPatientCaseSheet()
         {
             return View();
         }
