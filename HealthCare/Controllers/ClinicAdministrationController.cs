@@ -166,7 +166,7 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-            return View("StaffAdmin", model);
+            return View("StaffAdminModel", model);
 
         }
 
@@ -329,7 +329,7 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-            return View("", pEWS);
+            return View("EWSMaster", pEWS);
         }
 
 
