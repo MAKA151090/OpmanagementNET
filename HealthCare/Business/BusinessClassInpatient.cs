@@ -51,24 +51,47 @@ namespace HealthCare.Business
             return Inconfirmationobs;
         }
 
-        public List<InpatientObservationModel> GetInpatientViewObs(string potObservationID,string patientID,string BedNoID)
+        public  List<InpatientObservationModel> GetInpatientViewObs(string potObservationID,string patientID,string BedNoID)
         {
 
-            var result = (
-                from e in objInpatientDb.SHclnEWSMaster
-                join Inp in objInpatientDb.SHipmInpatientobservation
-                    on e.ObservationTypeID equals Inp.ObservationTypeID into InpGroup
-                from Inp in InpGroup.DefaultIfEmpty()
-                where Inp == null || (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
-                select new InpatientObservationModel
-                          {
-                              ObservationName = e.ObservationName,
-                               Answer = Inp!= null? Inp.Answer : string.Empty,
-                               Unit = e.Unit,
-                              Range = e.Range,
-                              Frequency = e.Frequency,
 
-                          }).ToList();
+            var objnew = (objInpatientDb.SHipmInpatientobservation.FirstOrDefaultAsync(x =>
+                x.PatientID == patientID && x.BedNoID == BedNoID && x.ObservationID == potObservationID));
+
+            if (objnew==null)
+            {
+                var addEWS = objInpatientDb.SHclnEWSMaster
+                                .Where(e => e.ObservationTypeID == potObservationID)
+                                .ToList();
+                foreach (var item in addEWS)
+                {
+                    var newObservation = new InpatientObservationModel
+                    {
+                        ObservationTypeID = item.ObservationTypeID,
+                        PatientID = patientID,
+                        BedNoID = BedNoID,  
+                    };
+                    objInpatientDb.SHipmInpatientobservation.Add(newObservation);
+                    objInpatientDb.SaveChanges();
+                }
+            }
+
+            var result = (
+               from e in objInpatientDb.SHclnEWSMaster
+               join Inp in objInpatientDb.SHipmInpatientobservation
+                   on e.ObservationTypeID equals Inp.ObservationTypeID into InpGroup
+               from Inp in InpGroup.DefaultIfEmpty()
+               where Inp == null || (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
+               select new InpatientObservationModel
+               {
+                   ObservationName = e.ObservationName,
+                   Answer = Inp != null ? Inp.Answer : string.Empty,
+                   Unit = e.Unit,
+                   Range = e.Range,
+                   Frequency = e.Frequency,
+
+               }).ToList();
+
             return result;
 
         }

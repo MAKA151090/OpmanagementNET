@@ -75,7 +75,7 @@ namespace HealthCare.Controllers
             }
             else if (buttonType == "save")
             {
-                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID);
+                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
                 objadd.ObservationID = Model.ObservationID;
                 objadd.NurseID=Model.NurseID;
                 objadd.DateTime=Model.DateTime;
