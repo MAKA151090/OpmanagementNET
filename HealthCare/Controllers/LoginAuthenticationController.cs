@@ -5,12 +5,20 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using System.Security.Claims;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
+using HealthCare.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
 {
    
     public class LoginAuthenticationController : Controller
     {
+        private HealthcareContext _healthcareContext;
+
+        public LoginAuthenticationController(HealthcareContext healthcareContext)
+        {
+            _healthcareContext = healthcareContext;
+        }
         public IActionResult Login()
         {
             ClaimsPrincipal claimUser = HttpContext.User;
@@ -36,14 +44,19 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel modellogin)
+        public async Task<IActionResult> Login(StaffAdminModel model )
         {
-            if (modellogin.Email == "user@example.com" &&
-                modellogin.Password == "1231")
-            {
+            var login = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
+
+            if(login != null)
+            { 
+                login.StrStaffID = model.StrStaffID;
+
+                login.StrPassword = model.StrPassword;
+            
                 List<Claim> claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.NameIdentifier, modellogin.Email),
+                    new Claim(ClaimTypes.NameIdentifier, model.StrUserName),
                     new Claim("OtherProperties", "Example Role")
                 };
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
@@ -58,7 +71,8 @@ namespace HealthCare.Controllers
 
                 return RedirectToAction("Index", "ClinicAdministration");
             }
-            ViewData["ValidateMessage"] = "user not found";
+
+            ViewBag.Message = " Username Not Found";
 
             return View();
 
