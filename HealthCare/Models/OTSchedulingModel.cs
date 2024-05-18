@@ -23,6 +23,7 @@ namespace HealthCare.Models
         private String teamName;
         private bool isDeleted;
         private String confirm;
+
         private String confirmDate;
         private String confirmBy;
         private String caseVisitID;

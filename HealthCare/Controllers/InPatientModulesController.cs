@@ -1,11 +1,13 @@
 ﻿using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class InPatientModulesController : Controller
     {
 
@@ -73,7 +75,7 @@ namespace HealthCare.Controllers
             }
             else if (buttonType == "save")
             {
-                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID);
+                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
                 objadd.ObservationID = Model.ObservationID;
                 objadd.NurseID=Model.NurseID;
                 objadd.DateTime=Model.DateTime;
@@ -87,8 +89,48 @@ namespace HealthCare.Controllers
             return View("InPatientObservation", Model);
 
         }
+        [HttpPost]
+        public async Task<IActionResult> InPatientCaseSheet(InPatientCaseSheetModel model)
+        {
+            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId,model.StrCaseId);
 
-            public IActionResult Index()
+            if (existingInPatientCaseSheet != null)
+            {
+                existingInPatientCaseSheet.StrPatientId = model.StrPatientId;
+                existingInPatientCaseSheet.StrCaseId = model.StrCaseId;
+                existingInPatientCaseSheet.StrBedId = model.StrBedId;
+                existingInPatientCaseSheet.StrPostMedHistory = model.StrPostMedHistory;
+                existingInPatientCaseSheet.StrAllergicTo = model.StrAllergicTo;
+                existingInPatientCaseSheet.StrHeight = model.StrHeight;
+                existingInPatientCaseSheet.StrWeight = model.StrWeight;
+                existingInPatientCaseSheet.StrDiagnosis = model.StrDiagnosis;
+                existingInPatientCaseSheet.StrTreatment = model.StrTreatment;
+                existingInPatientCaseSheet.LastupdatedDate = DateTime.Now.ToString();
+                existingInPatientCaseSheet.LastupdatedUser = "Admin";
+                existingInPatientCaseSheet.LastUpdatedMachine = "Lap";
+
+                _healthcareContext.Entry(existingInPatientCaseSheet).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = "Admin";
+                model.LastUpdatedMachine = "Lap";
+                _healthcareContext.SHipmInPatientCaseSheet.Add(model);
+            }
+
+            await _healthcareContext.SaveChangesAsync();
+
+
+            ViewBag.Message = "Saved Successfully";
+            return View("InPatientCaseSheet", model);
+
+        }
+
+
+
+
+        public IActionResult Index()
         {
             return View();
         }
@@ -103,7 +145,7 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public IActionResult InpatientCasesheet()
+        public IActionResult InPatientCaseSheet()
         {
             return View();
         }

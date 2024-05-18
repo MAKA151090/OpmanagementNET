@@ -107,6 +107,11 @@ namespace HealthCare.Context
         public DbSet<OpCheckingModel> SHfdOpCheckingModel { get; set; }
 
         public DbSet<EWSMasterModel>SHclnEWSMaster { get; set; }
+
+
+        //InPatient
+
+        public DbSet<InPatientCaseSheetModel> SHipmInPatientCaseSheet { get; set; }
         public DbSet<InpatientObservationModel> SHipmInpatientobservation {  get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -121,6 +126,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<InpatientObservationModel>().HasKey(i => new { i.PatientID, i.ObservationID, i.BedNoID });
             modelBuilder.Entity<EWSMasterModel>().HasKey(i => new { i.ObservationTypeID });
             modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.PatientID, i.ClinicID, i.SlotsID });
+            modelBuilder.Entity<InPatientCaseSheetModel>().HasKey(i => new { i.StrPatientId,i.StrCaseId });
 
             modelBuilder.Entity<OpCheckingModel>().HasKey(i => new { i.PatientId });
 
@@ -247,6 +253,12 @@ namespace HealthCare.Context
        .ValueGeneratedOnUpdate()
        .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
+
+        internal async Task FindAsync(string strPatientId, string strCaseId)
+        {
+            throw new NotImplementedException();
+        }
+
         public DbSet<HealthCare.Models.OtSurgeryModel> OtSurgeryModel { get; set; } = default!;
 
 

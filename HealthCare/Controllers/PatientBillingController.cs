@@ -1,9 +1,11 @@
 ﻿using HealthCare.Business;
 using HealthCare.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class PatientBillingController : Controller
     {
         private HealthcareContext _healthcareContext;

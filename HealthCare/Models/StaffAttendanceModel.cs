@@ -8,6 +8,7 @@
 
         private String strStaffID;
         private String strDate;
+        private String strOffice;
         private String strCheckInTime;
         private String strCheckOuTtime;
         private String strlastUpdatedDate;
@@ -21,5 +22,6 @@
         public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+        public string? Office { get => strOffice; set => strOffice = value; }
     }
 }
