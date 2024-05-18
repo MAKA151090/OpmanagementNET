@@ -1,11 +1,13 @@
 ﻿using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class OTManagementController : Controller
     {
 

@@ -24,6 +24,18 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Office:</label><br />
+                <div class="form-check form-check-inline">
+                    <input asp-for="Office" class="form-check-input" type="radio" value="1" id="INRadio" />
+                    <label class="form-check-label" for="INRadio">IN</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="Office" class="form-check-input" type="radio" value="0" id="OUTRadio" />
+                    <label class="form-check-label" for="OUTRadio">OUT</label>
+                </div>
+                <span asp-validation-for="Office" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="CheckInTime" class="control-label"></label>
                 <input asp-for="CheckInTime" class="form-control" />
                 <span asp-validation-for="CheckInTime" class="text-danger"></span>

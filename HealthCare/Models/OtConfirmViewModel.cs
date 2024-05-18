@@ -1,9 +1,11 @@
-﻿namespace HealthCare.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HealthCare.Models
 {
     public class OtConfirmViewModel
     {
         public OtConfirmViewModel() { }
-
+       
         private String otscheduleID;
         private String surgeryName;
         private String teamName;

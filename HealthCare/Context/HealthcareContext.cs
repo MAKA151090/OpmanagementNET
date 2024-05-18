@@ -98,6 +98,11 @@ namespace HealthCare.Context
 
         public DbSet<StaffAttendanceModel> SHStaffAttendance { get; set; }
 
+        public DbSet<RollAccessModel> SHClnRollAccess { get; set; }
+
+        public DbSet<ScreenMasterModel>SHClnScreenMaster { get; set; }
+
+
 
         public DbSet<OpCheckingModel> SHfdOpCheckingModel { get; set; }
 
@@ -235,6 +240,12 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<StaffAttendanceModel>()
                 .HasKey(i => new { i.StaffID });
+
+            modelBuilder.Entity<RollAccessModel>()
+                .HasKey(i => new { i.RollID });
+
+            modelBuilder.Entity<ScreenMasterModel>()
+                .HasKey(i => new { i.ScreenId });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

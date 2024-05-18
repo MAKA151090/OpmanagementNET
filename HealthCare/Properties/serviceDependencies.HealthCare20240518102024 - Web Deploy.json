@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/HealthCare20240518102024/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsClsPatientObjective_56F60103F9",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/healthcaredbserver2024/databases/HealthCare_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:ClsPatientObjective"
+    }
+  }
+}

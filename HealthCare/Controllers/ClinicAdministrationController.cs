@@ -3,14 +3,17 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
+using System.Security.Claims;
 
 namespace HealthCare.Controllers
 {
+    [Authorize]
     public class ClinicAdministrationController : Controller
     {
 
@@ -21,6 +24,7 @@ namespace HealthCare.Controllers
         {
             _healthcareContext = healthcareContext;
         }
+
 
 
         [HttpPost]
@@ -166,7 +170,7 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-            return View("StaffAdmin", model);
+            return View("StaffAdminModel", model);
 
         }
 
@@ -177,7 +181,7 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Doctoradmin(string doctorid, string buttonType)
+        /*public async Task<ActionResult> Doctoradmin(string doctorid, string buttonType)
         {
             ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
             if (buttonType == "submit")
@@ -185,7 +189,7 @@ namespace HealthCare.Controllers
                 var doctor = await businessClass.GetDoctorRegister(doctorid);
                 if (doctor != null)
                 {
-                    doctorid = doctor.StrStaffID;
+                    doctorid = doctor.DoctorID;
 
                     return View("DoctorRegistration", doctor);
                 }
@@ -197,7 +201,7 @@ namespace HealthCare.Controllers
             }
 
             return View();
-        }
+        }*/
 
         public async Task<IActionResult> GetRoomType(RoomTypeMasterModel model)
         {
@@ -274,7 +278,7 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("IPTypeMaster", model);
         }
-       
+
 
         public async Task<IActionResult> GetHospitalBedMaster(HospitalBedMasterModel model)
         {
@@ -329,7 +333,7 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-            return View("", pEWS);
+            return View("EWSMaster", pEWS);
         }
 
 
@@ -350,6 +354,10 @@ namespace HealthCare.Controllers
             return View();
         }
         public IActionResult RollAccess()
+        {
+            return View();
+        }
+        public IActionResult ScreenMaster()
         {
             return View();
         }
@@ -616,6 +624,69 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("InternalDepartmentMaster", model);
         }
+
+
+
+        public async Task<IActionResult> GetRollAccess(RollAccessModel model)
+        {
+            var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID);
+            if (existingTest != null)
+            {
+                existingTest.RollID = model.RollID;
+                existingTest.ScreenID = model.ScreenID;
+                existingTest.Access = model.Access;           
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHClnRollAccess.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("RollAccess", model);
+
+        }
+
+
+
+        public async Task<IActionResult> GetScreenMaster (ScreenMasterModel model)
+        {
+
+            var existingTest = await _healthcareContext.SHClnScreenMaster.FindAsync(model.ScreenId);
+            if (existingTest != null)
+            {
+                existingTest.ScreenId = model.ScreenId;
+                existingTest.ScreenName = model.ScreenName;
+                existingTest.ReadWriteAccess = model.ReadWriteAccess;
+                existingTest.Authorized = model.Authorized;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHClnScreenMaster.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("ScreenMaster", model);
+        }
+
+
+
+
+
 
 
 
