@@ -274,7 +274,7 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("IPTypeMaster", model);
         }
-       
+
 
         public async Task<IActionResult> GetHospitalBedMaster(HospitalBedMasterModel model)
         {
@@ -350,6 +350,10 @@ namespace HealthCare.Controllers
             return View();
         }
         public IActionResult RollAccess()
+        {
+            return View();
+        }
+        public IActionResult ScreenMaster()
         {
             return View();
         }
@@ -616,6 +620,67 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("InternalDepartmentMaster", model);
         }
+
+
+
+        public async Task<IActionResult> GetRollAccess(RollAccessModel model)
+        {
+            var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID);
+            if (existingTest != null)
+            {
+                existingTest.RollID = model.RollID;
+                existingTest.ScreenID = model.ScreenID;
+                existingTest.Access = model.Access;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHClnRollAccess.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("RollAccess", model);
+
+        }
+
+
+
+        public async Task<IActionResult> GetScreenMaster (ScreenMasterModel model)
+        {
+
+            var existingTest = await _healthcareContext.SHClnScreenMaster.FindAsync(model.ScreenId);
+            if (existingTest != null)
+            {
+                existingTest.ScreenId = model.ScreenId;
+                existingTest.ScreenName = model.ScreenName;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHClnScreenMaster.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("ScreenMaster", model);
+        }
+
+
+
+
+
 
 
 
