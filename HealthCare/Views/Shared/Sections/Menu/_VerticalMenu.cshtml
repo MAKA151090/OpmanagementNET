@@ -120,6 +120,11 @@
                         <div>RoomTypeMaster</div>
                     </a>
                 </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/EWSMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="EWSMaster" class="menu-link">
+                        <div>EWSMaster</div>
+                    </a>
+                </li>
 
                 @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html" target="_blank" class="menu-link">
@@ -306,6 +311,14 @@
                                     </a>
                                 </li>
                             </ul>
+                        
+                        <ul class="menu-sub">
+                            <li class='menu-item@(currentPage == "/InPatientModules/InPatientObservation" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientObservation" class="menu-link">
+                                    <div>InPatientObservation</div>
+                                </a>
+                            </li>
+                        </ul>
                         </li>
 
 

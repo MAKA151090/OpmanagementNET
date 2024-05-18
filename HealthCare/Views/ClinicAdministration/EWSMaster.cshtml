@@ -1,0 +1,69 @@
+﻿@model HealthCare.Models.EWSMasterModel
+
+@{
+    ViewData["Title"] = "EWSMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>EWSMaster</h1>
+
+<hr />
+@using (Html.BeginForm("GetEWSMaster", "ClinicAdministration", FormMethod.Post))
+    {
+<div class="row">
+    <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ObservationTypeID" class="control-label"></label>
+                <input asp-for="ObservationTypeID" class="form-control" />
+                <span asp-validation-for="ObservationTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ObservationName" class="control-label"></label>
+                <input asp-for="ObservationName" class="form-control" />
+                <span asp-validation-for="ObservationName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Unit" class="control-label"></label>
+                <input asp-for="Unit" class="form-control" />
+                <span asp-validation-for="Unit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Range" class="control-label"></label>
+                <input asp-for="Range" class="form-control" />
+                <span asp-validation-for="Range" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Frequency" class="control-label"></label>
+                <input asp-for="Frequency" class="form-control" />
+                <span asp-validation-for="Frequency" class="text-danger"></span>
+            </div>
+           @*  <div class="form-group">
+                <label asp-for="lastupdatedDate" class="control-label"></label>
+                <input asp-for="lastupdatedDate" class="form-control" />
+                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
+       
+    </div>
+</div>
+
+}

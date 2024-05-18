@@ -294,6 +294,34 @@ namespace HealthCare.Controllers
             return View("HospitalBedMaster", model);
         }
 
+        public async Task<IActionResult> GetEWSMaster(EWSMasterModel pEWS)
+        {
+            var existingEWS = await _healthcareContext.SHclnEWSMaster.FindAsync(pEWS.ObservationTypeID);
+            if (existingEWS != null)
+            {
+                existingEWS.ObservationTypeID = pEWS.ObservationTypeID;
+                existingEWS.ObservationName = pEWS.ObservationName;
+                existingEWS.Unit = pEWS.Unit;
+                existingEWS.Range = pEWS.Range;
+                existingEWS.Frequency = pEWS.Frequency;
+                existingEWS.lastupdatedDate = DateTime.Now.ToString();
+                existingEWS.lastUpdatedUser = "admin";
+                existingEWS.lastUpdatedMachine = "Lap";
+            }
+            else
+            {
+                pEWS.lastupdatedDate = DateTime.Now.ToString();
+                pEWS.lastUpdatedUser = "Myself";
+                pEWS.lastUpdatedMachine = "lap";
+                _healthcareContext.SHclnEWSMaster.Add(pEWS);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("", pEWS);
+        }
+
+
         public IActionResult Index()
         {
             return View();
@@ -352,6 +380,10 @@ namespace HealthCare.Controllers
             return View();
         }
         public IActionResult RoomTypeMaster()
+        {
+            return View();
+        }
+        public IActionResult EWSMaster()
         {
             return View();
         }
