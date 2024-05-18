@@ -18,16 +18,15 @@ namespace HealthCare.Controllers
         public FrontDeskController(HealthcareContext healthCare)
         {
 
-            public FrontDeskController(HealthcareContext healthCare)
-            {
-                GetFrontDeskData = healthCare;
-            }
+
+            GetFrontDeskData = healthCare;
+        }
 
 
-            [HttpPost]
-            public async Task<IActionResult> StaffAttendance(StaffAttendanceModel model)
-            {
-                var existingClinic = await GetFrontDeskData.SHStaffAttendance.FindAsync(model.StaffID);
+        [HttpPost]
+        public async Task<IActionResult> StaffAttendance(StaffAttendanceModel model)
+        {
+            var existingClinic = await GetFrontDeskData.SHStaffAttendance.FindAsync(model.StaffID);
 
             if (existingClinic != null)
             {
@@ -49,19 +48,6 @@ namespace HealthCare.Controllers
                     existingClinic.lastUpdatedUser = "Myself";
                     existingClinic.lastUpdatedMachine = "lap";
 
-                GetFrontDeskData.Entry(existingClinic).State = EntityState.Modified;
-            }
-            else
-            {
-                model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "Lap";
-                GetFrontDeskData.SHStaffAttendance.Add(model);
-            }
-            await GetFrontDeskData.SaveChangesAsync();
-            ViewBag.Message = "Saved Successfully.";
-            return View("StaffAttendance", model);
-        }
                     GetFrontDeskData.Entry(existingClinic).State = EntityState.Modified;
                 }
                 else
@@ -73,10 +59,11 @@ namespace HealthCare.Controllers
                 }
                 await GetFrontDeskData.SaveChangesAsync();
                 ViewBag.Message = "Saved Successfully.";
-                return View("StaffAttendanceModel", model);
+                return View("StaffAttendance", model);
             }
 
-
+            return View();
+        }
 
 
 
@@ -179,3 +166,4 @@ namespace HealthCare.Controllers
 
         }
     }
+
