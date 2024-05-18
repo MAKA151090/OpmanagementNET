@@ -1,34 +1,29 @@
-﻿@model HealthCare.Models.RollAccessModel
+﻿@model HealthCare.Models.ScreenMasterModel
 
 @{
-    ViewData["Title"] = "RollAccess";
+    ViewData["Title"] = "ScreenMaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>RollAccess</h1>
+<h1>ScreenMaster</h1>
 
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="RollAccess">
+        <form asp-action="ScreenMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="RollID" class="control-label"></label>
-                <input asp-for="RollID" class="form-control" />
-                <span asp-validation-for="RollID" class="text-danger"></span>
+                <label asp-for="ScreenId" class="control-label"></label>
+                <input asp-for="ScreenId" class="form-control" />
+                <span asp-validation-for="ScreenId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ScreenID" class="control-label"></label>
-                <input asp-for="ScreenID" class="form-control" />
-                <span asp-validation-for="ScreenID" class="text-danger"></span>
+                <label asp-for="ScreenName" class="control-label"></label>
+                <input asp-for="ScreenName" class="form-control" />
+                <span asp-validation-for="ScreenName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Access" class="control-label"></label>
-                <input asp-for="Access" class="form-control" />
-                <span asp-validation-for="Access" class="text-danger"></span>
-            </div>
-           @*  <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="lastUpdatedDate" class="control-label"></label>
                 <input asp-for="lastUpdatedDate" class="form-control" />
                 <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
@@ -44,7 +39,7 @@
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" asp-action="GetRollAccess" value="Create" class="btn btn-primary" />
+                <input type="submit" asp-action="GetScreenMaster" value="Create" class="btn btn-primary" />
             </div>
             @if (ViewBag.Message != null)
             {
