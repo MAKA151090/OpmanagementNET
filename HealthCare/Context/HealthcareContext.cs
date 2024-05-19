@@ -115,6 +115,9 @@ namespace HealthCare.Context
 
         public DbSet<InPatientDocVisitModel> SHipmInPatientDocVisit { get; set; }
 
+
+        public DbSet<InPatientTransferUpdateModel> SHipmInPatientTransferUpdate { get; set; }
+
         public DbSet<InpatientObservationModel> SHipmInpatientobservation {  get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -126,6 +129,8 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<InPatientTransferUpdateModel>().HasKey(i => new { i.PatientId, i.CaseId, i.BedId });
+
             modelBuilder.Entity<InpatientObservationModel>().HasKey(i => new { i.PatientID, i.ObservationID, i.BedNoID });
             modelBuilder.Entity<EWSMasterModel>().HasKey(i => new { i.ObservationTypeID });
             modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.PatientID, i.ClinicID, i.SlotsID });
