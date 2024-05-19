@@ -99,10 +99,10 @@
                 <h5 class="card-header">Clinic Details</h5>
                 <div class="card-body demo-vertical-spacing demo-only-element">
                     <div class="input-group">
-                        
-                        <input asp-for="ClinicID" class="form-control" placeholder="ClinicID" />
-                        
-                       @*  <span asp-validation-for="ClinicID" class="text-danger"></span> *@
+
+                        <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
+
+                        @*  <span asp-validation-for="FacilityID" class="text-danger"></span> *@
                         </div>
                     <div class="input-group">
                         
@@ -257,7 +257,7 @@
                             <td><input type="checkbox" name="selectedPatients" value="@item.PatientID" /></td>
                             <td>@item.PatientID</td>
                             <td>@item.VisitID</td>
-                            <td>@item.ClinicID</td>
+                            <td>@item.FacilityID</td>
                             <td>@item.ClinicName</td>
                             <td>@item.FullName</td>
                             <td>@item.VisitDate</td>

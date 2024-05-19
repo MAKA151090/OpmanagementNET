@@ -28,7 +28,7 @@ namespace HealthCare.Controllers
             if (exitingpatient != null)
             {
                 exitingpatient.PatientID = model.PatientID;
-                exitingpatient.ClinicID = model.ClinicID;
+                exitingpatient.FacilityID = model.FacilityID;
                 exitingpatient.FirstName = model.FirstName;
                 exitingpatient.MidName = model.MidName;
                 exitingpatient.LastName = model.LastName;
@@ -78,14 +78,14 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public async Task<ActionResult> HandleReg(string patientID, string clinicID, string buttonType)
+        public async Task<ActionResult> HandleReg(string patientID, string FacilityID, string buttonType)
         {
             BusinessClassRegistration business = new BusinessClassRegistration (_healthcareContext);
 
 
             if (buttonType == "submit")
             {
-                var patientReg = await business.GetPatientObjectiveSubmit(patientID, clinicID);
+                var patientReg = await business.GetPatientObjectiveSubmit(patientID, FacilityID);
 
                 if (patientReg != null)
                 {

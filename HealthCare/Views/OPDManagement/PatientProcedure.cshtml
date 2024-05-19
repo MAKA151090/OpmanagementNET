@@ -1,0 +1,71 @@
+﻿@model PatientProcedureModel
+
+@{
+    ViewData["Title"] = "PatientProcedure";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>PatientProcedure</h1>
+
+@using (Html.BeginForm("getpatientDigpro", "OPDManagementController", FormMethod.Post))
+{
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="PatientID" class="control-label"></label>
+                    <input asp-for="PatientID" class="form-control" />
+                    <span asp-validation-for="PatientID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VisitID" class="control-label"></label>
+                    <input asp-for="VisitID" class="form-control" />
+                    <span asp-validation-for="VisitID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExamID" class="control-label"></label>
+                    <input asp-for="ExamID" class="form-control" />
+                    <span asp-validation-for="ExamID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DoctorID" class="control-label"></label>
+                    <input asp-for="DoctorID" class="form-control" />
+                    <span asp-validation-for="DoctorID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProcedureID" class="control-label"></label>
+                    <input asp-for="ProcedureID" class="form-control" />
+                    <span asp-validation-for="ProcedureID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Notes" class="control-label"></label>
+                    <input asp-for="Notes" class="form-control" />
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Comments" class="control-label"></label>
+                    <input asp-for="Comments" class="form-control" />
+                    <span asp-validation-for="Comments" class="text-danger"></span>
+                </div>
+                @*   <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedDate" class="control-label"></label>
+                <input asp-for="lastUpdatedDate" class="form-control" />
+                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lasrUpdatedMachine" class="control-label"></label>
+                <input asp-for="lasrUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lasrUpdatedMachine" class="text-danger"></span>
+            </div> *@
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+        </div>
+    </div>
+}

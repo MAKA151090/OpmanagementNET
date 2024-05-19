@@ -30,11 +30,11 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> AddClinic(ClinicAdminModel model)
         {
-            var existingClinic = await _healthcareContext.SHclnClinicAdmin.FindAsync(model.ClinicId);
+            var existingClinic = await _healthcareContext.SHclnClinicAdmin.FindAsync(model.FacilityID);
 
             if (existingClinic != null)
             {
-                existingClinic.ClinicId = model.ClinicId;
+                existingClinic.FacilityID = model.FacilityID;
                 existingClinic.ClinicName = model.ClinicName;
                 existingClinic.ClinicAddress = model.ClinicAddress;
                 existingClinic.City = model.City;
@@ -74,18 +74,18 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public async Task<ActionResult> ClinicAdmin(string clinicid, string clinicname, string buttonType)
+        public async Task<ActionResult> ClinicAdmin(string FacilityID, string clinicname, string buttonType)
         {
 
             {
                 ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
                 if (buttonType == "submit")
                 {
-                    var Clinic = await business.GetClinicRegister(clinicid, clinicname);
+                    var Clinic = await business.GetClinicRegister(FacilityID, clinicname);
 
                     if (Clinic != null)
                     {
-                        clinicid = Clinic.ClinicId;
+                        FacilityID = Clinic.FacilityID;
                         clinicname = Clinic.ClinicName;
 
                         return View("ClinicRegistration", Clinic);

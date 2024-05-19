@@ -21,9 +21,9 @@
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClinicID" class="control-label"></label>
-                <input asp-for="ClinicID" class="form-control" />
-                <span asp-validation-for="ClinicID" class="text-danger"></span>
+                <label asp-for="FacilityID" class="control-label"></label>
+                <input asp-for="FacilityID" class="form-control" />
+                <span asp-validation-for="FacilityID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ExaminationID" class="control-label"></label>
@@ -55,7 +55,7 @@
                 <input asp-for="FollowUp" class="form-control" />
                 <span asp-validation-for="FollowUp" class="text-danger"></span>
             </div>
-            <div class="form-group">
+           @*  <div class="form-group">
                 <label asp-for="lastUpdatedDate" class="control-label"></label>
                 <input asp-for="lastUpdatedDate" class="form-control" />
                 <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
@@ -64,7 +64,7 @@
                 <label asp-for="lastUpdatedUser" class="control-label"></label>
                 <input asp-for="lastUpdatedUser" class="form-control" />
                 <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
+            </div> *@
 
             <h4>Symptoms and Severity</h4>
                 <table class="table" id="symptomsTable">
@@ -75,41 +75,27 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                    @if (Model != null && Model.Severity != null && Model.Severity.Count > 0)
-                            {
-                        @(
-                                            Html
-                                                .Grid(Model.Severity)
-                                                .Build(columns =>
-                                                {
-                                                    columns.Add(model => model.Symptoms).Titled("Symptoms");
-                                                    columns.Add(model => model.Severity).Titled("Severity");
-                                                })
-                                                .Filterable(GridFilterCase.Lower)
-                                                .Using(GridFilterMode.Header)
-                                                .Empty("No data found")
-                                                .Pageable(pager =>
-                                                {
-                                                    pager.RowsPerPage = 4;
-                                                })
-                                                .Sortable()
-                                                )
-
-                        @*   @foreach (var item in Model.Severity)
+                        @if (Model != null)
+                     {
+                 
+                        @foreach (var item in Model.Severity)
                         {
                             <tr>
-                                <td><input type="text" class="form-control" name="Symptoms[@item.Symptoms].Name" value="@item.Symptoms" /></td>
-                                <td><input type="text" class="form-control" name="Symptoms[@item.Severity].Severity" value="@item.Severity" /></td>
+                                <td><input type="text" class="form-control" name="Symptom" value="@item.Symptoms" asp-for="@item.Symptoms" /></td>
+                                <td><input type="text" class="form-control" name="Severity" value="@item.Severity" asp-for="@item.Severity" /></td>
+                               
                             </tr>
-                        } *@
+                        }
                     }
-                </tbody>
+
+                    </tbody>
                 </table>
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" asp-action="CreateExm" />
             </div>
+            <button type="submit" name="buttonType" value="patientDiagnosis"  class="btn btn-primary">patientDiagnosis</button>
+            <button type="submit" name="buttonType" value="patientProcedure" class="btn btn-primary">patientProcedure</button>
         </form>
     </div>
 </div>

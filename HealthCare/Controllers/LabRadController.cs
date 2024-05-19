@@ -20,12 +20,12 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest)
         {
             //PatientTestModel = new PatientTestModel();
-            var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.ClinicID, pPatientTest.TestID,pPatientTest.TestDateTime);
+            var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.FacilityID, pPatientTest.TestID,pPatientTest.TestDateTime);
             if (existingPatientTest != null)
             {
 
                 existingPatientTest.PatientID = pPatientTest.PatientID;
-                existingPatientTest.ClinicID = pPatientTest.ClinicID;
+                existingPatientTest.FacilityID = pPatientTest.FacilityID;
                 existingPatientTest.TestID = pPatientTest.TestID;
                 existingPatientTest.TestResult = pPatientTest.TestResult;
                 existingPatientTest.TestDateTime = pPatientTest.TestDateTime;
@@ -60,7 +60,7 @@ namespace HealthCare.Controllers
 
             if (ObjBusTestResult!=null)
             {
-                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.ClinicID);
+                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID);
                 return View("PrintTestResults", testResults);
             }
             return View(Model); 
@@ -71,11 +71,11 @@ namespace HealthCare.Controllers
  
         public async Task<IActionResult>  GetPatientRadio(PatientRadiolodyModel model)
         {
-            var existingPatientRadiology = await GetlabData.SHPatientRadiology.FindAsync(model.RadioID , model.ClinicID , model.PatientID , model.ScreeningDate);
+            var existingPatientRadiology = await GetlabData.SHPatientRadiology.FindAsync(model.RadioID , model.FacilityID , model.PatientID , model.ScreeningDate);
             if (existingPatientRadiology != null)
             {
                     existingPatientRadiology.RadioID = model.RadioID;
-                existingPatientRadiology.ClinicID = model.ClinicID;
+                existingPatientRadiology.FacilityID = model.FacilityID;
                 existingPatientRadiology.PatientID = model.PatientID;
                 existingPatientRadiology.ReferralDoctorID = model.ReferralDoctorID;
                 existingPatientRadiology.ReferralDoctorName = model.ReferralDoctorName;
@@ -100,13 +100,13 @@ namespace HealthCare.Controllers
             return View("RadiologyCreation", model);
         }
 
-        public async Task<IActionResult> GetRadio(string radioID, string clinicID, string patientName, string radioName, string screeingDate, string result, string referralDoctorName, string buttonType)
+        public async Task<IActionResult> GetRadio(string radioID, string FacilityID, string patientName, string radioName, string screeingDate, string result, string referralDoctorName, string buttonType)
         {
             ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(GetlabData);
 
             if (buttonType == "select")
             {
-                var Radiologydata = await business.GetRadiologData(radioID , clinicID , patientName, radioName , screeingDate , result , referralDoctorName);
+                var Radiologydata = await business.GetRadiologData(radioID , FacilityID, patientName, radioName , screeingDate , result , referralDoctorName);
                 
                 if (Radiologydata != null)
                 {
@@ -173,11 +173,11 @@ namespace HealthCare.Controllers
                     }
                 }
 
-                var existingUpdateRadiologyResult = await GetlabData.SHUpdateRadiologyResult.FindAsync(model.ClinicID, model.PatientID, model.RadioID);
+                var existingUpdateRadiologyResult = await GetlabData.SHUpdateRadiologyResult.FindAsync(model.FacilityID, model.PatientID, model.RadioID);
                 if (existingUpdateRadiologyResult != null)
                 {
                     existingUpdateRadiologyResult.PatientID = model.PatientID;
-                    existingUpdateRadiologyResult.ClinicID = model.ClinicID;
+                    existingUpdateRadiologyResult.FacilityID = model.FacilityID;
                     existingUpdateRadiologyResult.RadioID = model.RadioID;
                     existingUpdateRadiologyResult.ImageID = model.ImageID;
                     existingUpdateRadiologyResult.ImageData = model.ImageData;

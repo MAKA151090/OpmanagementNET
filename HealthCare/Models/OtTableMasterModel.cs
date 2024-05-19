@@ -4,6 +4,7 @@
     {
         public OtTableMasterModel() { }
 
+        private String strFacilityID;
         private String tableID;
         private String tableName;
         private String roomName;
@@ -19,5 +20,6 @@
         public string lastupdatedDate { get => strlastupdatedDate; set => strlastupdatedDate = value; }
         public string lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+        public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
     }
 }
