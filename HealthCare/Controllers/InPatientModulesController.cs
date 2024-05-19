@@ -232,8 +232,7 @@ namespace HealthCare.Controllers
             return View("InPatientDocVisit", model);
 
         }
-
-        [HttpPost]
+         [HttpPost]                                                                                      
         public async Task<IActionResult> InPatientTransfer(InPatientTransferUpdateModel Model, string buttonType)
         {
 

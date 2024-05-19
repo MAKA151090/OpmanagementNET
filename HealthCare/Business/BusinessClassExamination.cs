@@ -331,7 +331,8 @@ namespace HealthCare.Business
 
                           }).FirstOrDefaultAsync();
 
-            oTConfirmation.OtScheduleID = result.OtScheduleID;
+            oTConfirmation.OtScheduleID = 
+                result.OtScheduleID;
             oTConfirmation.TableName=result.TableName;
             oTConfirmation.TeamName = result.TeamName;
             oTConfirmation.Date=result.Date;
