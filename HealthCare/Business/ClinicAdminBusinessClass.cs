@@ -14,9 +14,9 @@ namespace HealthCare.Business
             _healthcareContext = healthcareContext;
         }
 
-        public async Task<ClinicAdminModel> GetClinicRegister(string clinicid, string clinicname)
+        public async Task<ClinicAdminModel> GetClinicRegister(string FacilityID, string clinicname)
         {
-            var clinicregisterdata = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.ClinicId == clinicid && x.ClinicName == clinicname);
+            var clinicregisterdata = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.FacilityID == FacilityID && x.ClinicName == clinicname);
 
             return clinicregisterdata;
         }
@@ -28,7 +28,7 @@ namespace HealthCare.Business
             return staffregisterdata;
         }
 
-        public async Task<List<RadiologyViewResultModel>> GetRadiologData(string radioID, string clinicID, string patientID, string radioName, string screeingDate, string result, string referralDoctorName)
+        public async Task<List<RadiologyViewResultModel>> GetRadiologData(string radioID, string FacilityID, string patientID, string radioName, string screeingDate, string result, string referralDoctorName)
         {
             var RadiologyData = (
                             from pr in _healthcareContext.SHPatientRadiology
@@ -39,7 +39,7 @@ namespace HealthCare.Business
                             {
                                 PatentName = p.FullName,
                                 RadioID = rm.RadioID,
-                                ClinicID = pr.ClinicID,
+                                FacilityID = pr.FacilityID,
                                 RadioName = rm.RadioName,
                                 ScreeningDate = pr.ScreeningDate,
                                 Result = pr.Result,
@@ -59,11 +59,11 @@ namespace HealthCare.Business
                 from pr in _healthcareContext.SHstkDrugInventory
                 join rm in _healthcareContext.SHprsPrescription on pr.DrugId equals rm.DrugID
 
-                where (rm.PatientID == patientID && rm.CaseVisitID == visitID) 
+                where (rm.PatientID == patientID && rm.CaseVisitID == visitID)
 
-               /* where (r.PatientID == patientID || r.FullName == patientName) ||
-                                                     (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
-                                                     (re.ClinicID == clinicID || rec.ClinicName == clinicName || re.ClinicID == null)*/
+                /* where (r.PatientID == patientID || r.FullName == patientName) ||
+                                                      (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
+                                                      (re.FacilityID == FacilityID || rec.ClinicName == clinicName || re.FacilityID == null)*/
                 select new PharmacyBillingModel
                 {
                     Medication = pr.ModelName,

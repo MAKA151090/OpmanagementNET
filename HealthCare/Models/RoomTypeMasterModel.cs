@@ -4,6 +4,7 @@
     {
         public RoomTypeMasterModel() { }
 
+        private String strFacilityID;
         private String strRoomTypeID;
         private String strRoomTypeName;
         private String strAdditionFeature;
@@ -19,5 +20,6 @@
         public string? lastupdatedDate { get => strlastupdatedDate; set => strlastupdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+        public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
     }
 }

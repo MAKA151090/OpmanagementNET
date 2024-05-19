@@ -13,8 +13,8 @@ public class PatExmSymptomsSeverity
     private String strExaminationID;
 	private String strPatientID;
 	private String strVisitID;
-    private String strClinicID;
-	private String strSymptoms;
+    private String strFacilityID;
+    private String strSymptoms;
 	private String strSeverity;
     private String strlastUpdatedDate;
     private String strlastUpdatedUser;
@@ -28,6 +28,6 @@ public class PatExmSymptomsSeverity
     public string Severity { get => strSeverity; set => strSeverity = value; }
     public string lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
-    public string ClinicID { get => strClinicID; set => strClinicID = value; }
+    public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
 }
 

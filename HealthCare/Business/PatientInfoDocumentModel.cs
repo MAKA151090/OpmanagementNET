@@ -10,14 +10,14 @@ namespace HealthCare.Business
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         private String patientID;
         private String visitID;
-        private String clinicID;
+        private String facilityID;
         private String strlastUpdatedDate;
         private String strlastUpdatedUser;
 
         public string PatientID { get => patientID; set => patientID = value; }
         public string VisitID { get => visitID; set => visitID = value; }
-        public string ClinicID { get => clinicID; set => clinicID = value; }
         public string StrlastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
         public string StrlastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

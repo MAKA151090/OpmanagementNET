@@ -6,8 +6,8 @@ public class PatientRegistrationModel
 	{
 	}
 	private String strPatientID;
-	private String strClinicID;
-	private String strFirstName;
+    private String strFacilityID;
+    private String strFirstName;
 	private String strMidName;
 	private String strLastName;
 	private String strFullName;
@@ -39,7 +39,6 @@ public class PatientRegistrationModel
 
 
     public string PatientID { get => strPatientID; set => strPatientID = value; }
-    public string? ClinicID { get => strClinicID; set => strClinicID = value; }
     public string? FirstName { get => strFirstName; set => strFirstName = value; }
     public string? MidName { get => strMidName; set => strMidName = value; }
     public string? LastName { get => strLastName; set => strLastName = value; }
@@ -66,4 +65,5 @@ public class PatientRegistrationModel
     public string? DateTime { get => strDateTime; set => strDateTime = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+    public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
 }
