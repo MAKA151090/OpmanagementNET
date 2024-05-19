@@ -8,8 +8,8 @@ public class PatientObjectiveModel
 	{
 	}
     private String strPatientID;
-	private String strClinicID;
-	private String strVisitID;
+    private String strFacilityID;
+    private String strVisitID;
 	private String strHeight;
 	private String strWeight;
 	private String strBloodPressure;
@@ -30,7 +30,7 @@ public class PatientObjectiveModel
 
 
     public string PatientID { get => strPatientID; set => strPatientID = value; }
-    public string ClinicID { get => strClinicID; set => strClinicID = value; }
+
     public string VisitID { get => strVisitID; set => strVisitID = value; }
     public string? Height { get => strHeight; set => strHeight = value; }
     public string? Weight { get => strWeight; set => strWeight = value; }
@@ -45,4 +45,5 @@ public class PatientObjectiveModel
     public string? CheifComplaint { get => strCheifComplaint; set => strCheifComplaint = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+    public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
 }

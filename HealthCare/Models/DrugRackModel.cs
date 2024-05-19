@@ -4,6 +4,7 @@
     {
         public DrugRackModel() { }
 
+        private String facilityID;
         private String rackID;
         private String rackName;
         private String uniqueIdentifier;
@@ -19,5 +20,6 @@
         public string? lastUpdatedDate { get => strLastUpdatedDate; set => strLastUpdatedDate = value; }
         public string? lastUpdatedUser { get => strLastUpdatedUser; set => strLastUpdatedUser = value; }
         public string? lastUpdatedmachine { get => strLastUpdatedmachine; set => strLastUpdatedmachine = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

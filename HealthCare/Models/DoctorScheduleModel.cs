@@ -8,7 +8,7 @@ public class DoctorScheduleModel
     }
 
     private String strDoctorID;
-    private String strClinicID;
+    private String strFacilityID;
     private String strDate;
     private String strDuration;
     private String strStartTime;
@@ -21,7 +21,6 @@ public class DoctorScheduleModel
     private String strlastUpdatedUser;
 
     public string DoctorID { get => strDoctorID; set => strDoctorID = value; }
-    public string ClinicID { get => strClinicID; set => strClinicID = value; }
     public string? Date { get => strDate; set => strDate = value; }
     public string? Duration { get => strDuration; set => strDuration = value; }
     public string? StartTime { get => strStartTime; set => strStartTime = value; }
@@ -32,4 +31,5 @@ public class DoctorScheduleModel
     public string? Active { get => strActive; set => strActive = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+    public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
 }

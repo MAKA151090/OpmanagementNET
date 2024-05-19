@@ -4,6 +4,7 @@
     {
         public HospitalBedMasterModel() { }
 
+        private String strFacilityID;
         private String strBedID;
         private String strBedName;
         private String strBedType;
@@ -25,5 +26,6 @@
         public string? lastupdatedDate { get => strlastupdatedDate; set => strlastupdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+        public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
     }
 }

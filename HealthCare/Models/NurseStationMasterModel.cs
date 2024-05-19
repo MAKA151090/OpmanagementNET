@@ -4,6 +4,7 @@
     {
         public NurseStationMasterModel() { }
 
+        private String strFacilityID;
         private String strNurseStationID;
         private String strStationName;
         private String strlastupdatedDate;
@@ -15,5 +16,6 @@
         public string? lastupdatedDate { get => strlastupdatedDate; set => strlastupdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+        public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
     }
 }

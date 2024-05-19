@@ -20,10 +20,10 @@ namespace HealthCare.Business
         {
             objDbContext = serviceContext;
         }
-        public async Task<PatientRegistrationModel> GetPatientObjectiveSubmit(string patientID,  string clinicID)
+        public async Task<PatientRegistrationModel> GetPatientObjectiveSubmit(string patientID,  string FacilityID)
         {
             var patitentRegDataSubmit = await objDbContext.SHPatientRegistration.FirstOrDefaultAsync(x =>
-                    x.PatientID == patientID && x.ClinicID == clinicID);
+                    x.PatientID == patientID && x.FacilityID == FacilityID);
 
             return patitentRegDataSubmit;
         }

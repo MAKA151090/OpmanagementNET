@@ -7,7 +7,7 @@
         }
 
         private String strRadioID;
-        private String strClinicID;
+        private String strFacilityID;
         private String strPatientID;
         private String strReferralDoctorID;
         private String strReferralDoctorName;
@@ -22,7 +22,6 @@
 
 
         public string RadioID { get => strRadioID; set => strRadioID = value; }
-        public string ClinicID { get => strClinicID; set => strClinicID = value; }
         public string PatientID { get => strPatientID; set => strPatientID = value; }
         public string? ReferralDoctorID { get => strReferralDoctorID; set => strReferralDoctorID = value; }
         public string? ReferralDoctorName { get => strReferralDoctorName; set => strReferralDoctorName = value; }
@@ -33,5 +32,6 @@
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
         public string? ScreeningCompleted { get => strScreeningCompleted; set => strScreeningCompleted = value; }
         public string? ScreeningCompletedDate { get => strScreeningCompletedDate; set => strScreeningCompletedDate = value; }
+        public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
     }
 }

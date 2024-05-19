@@ -6,6 +6,7 @@ namespace HealthCare.Models
     {
         public class OTScheduling { }
 
+        private String strFacilityID;
         private String otScheduleID;
         private String tableID;
         private String operationType;
@@ -54,5 +55,6 @@ namespace HealthCare.Models
         public string? ConfirmBy { get => confirmBy; set => confirmBy = value; }
         public string? TeamName { get => teamName; set => teamName = value; }
         public string CaseVisitID { get => caseVisitID; set => caseVisitID = value; }
+        public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
     }
 }
