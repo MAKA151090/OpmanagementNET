@@ -69,7 +69,6 @@ namespace HealthCare.Controllers
  
             if (buttonType == "get")
             {
-               
                 var result = await ObjViewINP.GetInpatientObs(Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationID);
                 return View("InPatientObservation", result);
 
@@ -132,7 +131,8 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> InPatientCaseSheet(InPatientCaseSheetModel model)
         {
-            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId, model.StrCaseId);
+          
+            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId,model.StrCaseId);
             if (existingInPatientCaseSheet != null)
             {
                 existingInPatientCaseSheet.StrPatientId = model.StrPatientId;
