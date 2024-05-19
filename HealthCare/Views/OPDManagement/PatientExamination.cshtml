@@ -1,4 +1,5 @@
 ﻿@using HealthCare.Models
+@using NonFactors.Mvc.Grid
 @model PatientExaminationModel
 
 @{
@@ -74,16 +75,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                 
-                        @foreach (var item in Model.Severity)
+
+                    @if (Model != null && Model.Severity != null && Model.Severity.Count > 0)
+                            {
+                        @(
+                                            Html
+                                                .Grid(Model.Severity)
+                                                .Build(columns =>
+                                                {
+                                                    columns.Add(model => model.Symptoms).Titled("Symptoms");
+                                                    columns.Add(model => model.Severity).Titled("Severity");
+                                                })
+                                                .Filterable(GridFilterCase.Lower)
+                                                .Using(GridFilterMode.Header)
+                                                .Empty("No data found")
+                                                .Pageable(pager =>
+                                                {
+                                                    pager.RowsPerPage = 4;
+                                                })
+                                                .Sortable()
+                                                )
+
+                        @*   @foreach (var item in Model.Severity)
                         {
                             <tr>
                                 <td><input type="text" class="form-control" name="Symptoms[@item.Symptoms].Name" value="@item.Symptoms" /></td>
                                 <td><input type="text" class="form-control" name="Symptoms[@item.Severity].Severity" value="@item.Severity" /></td>
                             </tr>
-                        }
-
-                    </tbody>
+                        } *@
+                    }
+                </tbody>
                 </table>
 
             <div class="form-group">
