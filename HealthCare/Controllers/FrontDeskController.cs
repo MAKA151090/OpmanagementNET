@@ -36,31 +36,19 @@ namespace HealthCare.Controllers
                 existingClinic.lastUpdatedDate = DateTime.Now.ToString();
                 existingClinic.lastUpdatedUser = "Myself";
                 existingClinic.lastUpdatedMachine = "lap";
-                if (existingClinic != null)
-                {
-                    existingClinic.StaffID = model.StaffID;
-                    existingClinic.Date = model.Date;
-                    existingClinic.CheckInTime = model.CheckInTime;
-                    existingClinic.CheckOuTtime = model.CheckOuTtime;
-                    existingClinic.lastUpdatedDate = DateTime.Now.ToString();
-                    existingClinic.lastUpdatedUser = "Myself";
-                    existingClinic.lastUpdatedMachine = "lap";
 
-                    GetFrontDeskData.Entry(existingClinic).State = EntityState.Modified;
-                }
-                else
-                {
-                    model.lastUpdatedDate = DateTime.Now.ToString();
-                    model.lastUpdatedUser = "Myself";
-                    model.lastUpdatedMachine = "Lap";
-                    GetFrontDeskData.SHStaffAttendance.Add(model);
-                }
+
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "Lap";
+                GetFrontDeskData.SHStaffAttendance.Add(model);
+            }
                 await GetFrontDeskData.SaveChangesAsync();
                 ViewBag.Message = "Saved Successfully.";
                 return View("StaffAttendance", model);
-            }
-
-            return View();
         }
 
 
