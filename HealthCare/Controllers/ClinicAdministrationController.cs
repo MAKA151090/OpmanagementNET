@@ -293,7 +293,7 @@ namespace HealthCare.Controllers
                 existingHospitalBed.NurseStationID = model.NurseStationID;
                 existingHospitalBed.CostPerDay = model.CostPerDay;
                 existingHospitalBed.lastupdatedDate = DateTime.Now.ToString();
-                existingHospitalBed.lastUpdatedUser = User.Identity.Name.ToString();
+                existingHospitalBed.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingHospitalBed.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
             }
