@@ -842,7 +842,44 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        
+        public IActionResult StaffFacilityMapping()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetStaffFacilityMap(StaffFacilityMappingModel model)
+        {
+            var existingStafff = await _healthcareContext.SHclnStaffFacilityMapping.FindAsync(model.StaffId, model.FacilityID);
+            if (existingStafff != null)
+            {
+                existingStafff.StaffId = model.StaffId;
+                existingStafff.FacilityID = model.FacilityID;
+                existingStafff.FromHour = model.FromHour;
+                existingStafff.ToHour = model.ToHour;
+                existingStafff.lastupdatedDate = DateTime.Now.ToString();
+                existingStafff.lastUpdatedUser = "Admin";
+                existingStafff.lastUpdatedMachine = "Lap";
+
+                _healthcareContext.Entry(existingStafff).State = EntityState.Modified;
+            }
+            else
+            {
+                model.lastupdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Admin";
+                model.lastUpdatedMachine = "Lap";
+                _healthcareContext.SHclnStaffFacilityMapping.Add(model);
+            }
+
+            await _healthcareContext.SaveChangesAsync();
+
+
+            ViewBag.Message = "Saved Successfully";
+            return View("StaffFacilityMapping", model);
+
+
+        }
+
+
 
 
 
