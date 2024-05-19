@@ -7,6 +7,7 @@
 
         }
 
+        private String strVisitcaseID;
         private String strPatentName;
         private String strRadioID;
         private String strClinicID;
@@ -23,6 +24,6 @@
         public string ScreeningDate { get => strScreeningDate; set => strScreeningDate = value; }
         public string Result { get => strResult; set => strResult = value; }
         public string ReferralDoctorName { get => strReferralDoctorName; set => strReferralDoctorName = value; }
-    
+        public string VisitcaseID { get => strVisitcaseID; set => strVisitcaseID = value; }
     }
 }

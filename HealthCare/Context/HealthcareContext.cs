@@ -86,6 +86,10 @@ namespace HealthCare.Context
 
         public DbSet<InpatientAdmissionModel> SHInpatientAdmission { get; set; }
 
+        public DbSet<InpatientDischargeModel> SHInpatientDischarge { get; set; }
+
+        public DbSet<StaffFacilityMappingModel> SHclnStaffFacilityMapping { get; set; }
+
         public DbSet<HospitalBedMasterModel> SHclnHospitalBedMaster { get; set; }
 
 
@@ -246,6 +250,12 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<ScreenMasterModel>()
                 .HasKey(i => new { i.ScreenId });
+
+            modelBuilder.Entity<InpatientDischargeModel>()
+                .HasKey(i => new { i.PatientID, i.CaseID });
+
+            modelBuilder.Entity<StaffFacilityMappingModel>()
+                .HasKey(i => new { i.StaffId, i.FacilityID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

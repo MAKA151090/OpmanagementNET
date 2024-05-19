@@ -27,6 +27,7 @@ namespace HealthCare.Controllers
                 existingPatientTest.PatientID = pPatientTest.PatientID;
                 existingPatientTest.ClinicID = pPatientTest.ClinicID;
                 existingPatientTest.TestID = pPatientTest.TestID;
+                existingPatientTest.VisitcaseID1 = pPatientTest.VisitcaseID1;
                 existingPatientTest.TestResult = pPatientTest.TestResult;
                 existingPatientTest.TestDateTime = pPatientTest.TestDateTime;
                 existingPatientTest.TsampleCltDateTime = pPatientTest.TsampleCltDateTime;
@@ -65,7 +66,6 @@ namespace HealthCare.Controllers
             }
             return View(Model); 
 
-
         }
 
  
@@ -77,6 +77,7 @@ namespace HealthCare.Controllers
                     existingPatientRadiology.RadioID = model.RadioID;
                 existingPatientRadiology.ClinicID = model.ClinicID;
                 existingPatientRadiology.PatientID = model.PatientID;
+                existingPatientRadiology.VisitcaseID = model.VisitcaseID;
                 existingPatientRadiology.ReferralDoctorID = model.ReferralDoctorID;
                 existingPatientRadiology.ReferralDoctorName = model.ReferralDoctorName;
                 existingPatientRadiology.ScreeningDate = model.ScreeningDate;

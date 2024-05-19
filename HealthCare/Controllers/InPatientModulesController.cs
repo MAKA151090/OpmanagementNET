@@ -1,4 +1,5 @@
-﻿using HealthCare.Business;
+﻿
+using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,34 @@ namespace HealthCare.Controllers
             _healthcareContext = healthcareContext;
         }
 
+        public async Task<IActionResult> GetPatientDischarge(InpatientDischargeModel model)
+        {
+            var existingPatientDischarge = await _healthcareContext.SHInpatientDischarge.FindAsync(model.PatientID , model.CaseID);
+            if(existingPatientDischarge != null)
+            {
+                existingPatientDischarge.PatientID = model.PatientID;
+                existingPatientDischarge.CaseID = model.CaseID;
+                existingPatientDischarge.DischargeNotes = model.DischargeNotes;
+                existingPatientDischarge.DoctorID = model.DoctorID;
+                existingPatientDischarge.lastUpdatedDate = DateTime.Now.ToString();
+                existingPatientDischarge.lastUpdatedUser = "Admin";
+                existingPatientDischarge.lastUpdatedMachine = "Lap";
+
+                _healthcareContext.Entry(existingPatientDischarge).State = EntityState.Modified;
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Admin";
+                model.lastUpdatedMachine = "Lap";
+                _healthcareContext.SHInpatientDischarge.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+
+            ViewBag.Message = "Saved Successfully";
+            return View("InPatientDischarge", model);
+        }
 
         public async Task<IActionResult> GetPatientAdmission(InpatientAdmissionModel model)
         {
@@ -127,8 +156,7 @@ namespace HealthCare.Controllers
 
         }
 
-
-
+   
 
         public IActionResult Index()
         {
@@ -159,6 +187,10 @@ namespace HealthCare.Controllers
             return View();
         }
         
+        public IActionResult InPatientDischargeSummary()
+        {
+            return View();
+        }
     }
 }
 

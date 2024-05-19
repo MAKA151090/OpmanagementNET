@@ -67,6 +67,12 @@
 
                 <div class="card">
                     <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="VisitcaseID1" class="form-control" placeholder="VisitcaseID" />
+                            <label asp-for="VisitcaseID1" class="control-label">VisitCaseID</label>
+
+                            <span asp-validation-for="VisitcaseID1" class="text-danger"></span>
+                        </div>
                             <div class="form-floating form-floating-outline mb-4">
                            <input asp-for="TestDateTime" class="form-control" placeholder="TestDateTime" />
                 <label asp-for="TestDateTime" class="control-label"></label>

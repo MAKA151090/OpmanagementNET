@@ -37,6 +37,7 @@ namespace HealthCare.Business
 
                             select new RadiologyViewResultModel
                             {
+
                                 PatentName = p.FullName,
                                 RadioID = rm.RadioID,
                                 ClinicID = pr.ClinicID,
@@ -50,7 +51,7 @@ namespace HealthCare.Business
             return RadiologyData;
         }
 
-        public async Task<PharmacyBillingTotalpriceModel> GetPharmacy(string patientID, string visitID,string OrderID, string Medication, string Unit, String Price)
+        public async Task<PharmacyBillingTotalpriceModel> GetPharmacy(string patientID, string VisitcaseID,string OrderID, string Medication, string Unit, String Price)
         {
             PharmacyBillingTotalpriceModel billingTotalpriceModel = new PharmacyBillingTotalpriceModel();
 
@@ -59,7 +60,7 @@ namespace HealthCare.Business
                 from pr in _healthcareContext.SHstkDrugInventory
                 join rm in _healthcareContext.SHprsPrescription on pr.DrugId equals rm.DrugID
 
-                where (rm.PatientID == patientID && rm.CaseVisitID == visitID) 
+                where (rm.PatientID == patientID && rm.CaseVisitID == VisitcaseID) 
 
                /* where (r.PatientID == patientID || r.FullName == patientName) ||
                                                      (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
