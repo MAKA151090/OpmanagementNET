@@ -59,10 +59,8 @@ namespace HealthCare.Business
 
                 from pr in _healthcareContext.SHstkDrugInventory
                 join rm in _healthcareContext.SHprsPrescription on pr.DrugId equals rm.DrugID
-
                 where (rm.PatientID == patientID && rm.CaseVisitID == VisitcaseID) 
-                where (rm.PatientID == patientID && rm.CaseVisitID == visitID)
-
+               
                 /* where (r.PatientID == patientID || r.FullName == patientName) ||
                                                       (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
                                                       (re.FacilityID == FacilityID || rec.ClinicName == clinicName || re.FacilityID == null)*/
