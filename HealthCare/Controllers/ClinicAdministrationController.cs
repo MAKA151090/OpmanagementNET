@@ -293,7 +293,7 @@ namespace HealthCare.Controllers
                 existingHospitalBed.NurseStationID = model.NurseStationID;
                 existingHospitalBed.CostPerDay = model.CostPerDay;
                 existingHospitalBed.lastupdatedDate = DateTime.Now.ToString();
-                existingHospitalBed.lastUpdatedUser = User.Identity.Name.ToString();
+                existingHospitalBed.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingHospitalBed.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
             }
@@ -684,10 +684,130 @@ namespace HealthCare.Controllers
             return View("ScreenMaster", model);
         }
 
+        public async Task<IActionResult>GetHospitalRegistration(HospitalRegistrationModel model)
+        {
+            var existingTest = await _healthcareContext.SHHospitalRegistration.FindAsync(model.HospitalID);
+            if (existingTest != null)
+            {
+                existingTest.HospitalID = model.HospitalID;
+                existingTest.HospitalName = model.HospitalName;
+                existingTest.Address = model.Address;
+                existingTest.City = model.City;
+                existingTest.State = model.State;
+                existingTest.Phone1 = model.Phone1;
+                existingTest.Phone2 = model.Phone2;
+                existingTest.Phone3 = model.Phone3;
+                existingTest.Email = model.Email;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+                _healthcareContext.Entry(existingTest).State = EntityState.Modified;
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHHospitalRegistration.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
 
+            ViewBag.Message = "Saved Successfully";
+            return View("HospitalRegistration", model);
+        }
 
+        public async Task<IActionResult> GetHospitalFacilityMapping(HospitalFacilityMappingModel model)
+        {
+            var existingTest = await _healthcareContext.SHHospitalFacilityMapping.FindAsync(model.HospitalID, model.FacilityID);
+            if (existingTest != null)
+            {
+                existingTest.HospitalID = model.HospitalID;
+                existingTest.FacilityID = model.FacilityID;
+                existingTest.FacilityStatus = model.FacilityStatus;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+                _healthcareContext.Entry(existingTest).State = EntityState.Modified;
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHHospitalFacilityMapping.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
 
+            ViewBag.Message = "Saved Successfully";
+            return View("HospitalFacilityMapping", model);
+        }
 
+        public async Task<IActionResult> GetDiagnosisMaster(DiagnosisMasterModel model)
+        {
+            var existingTest = await _healthcareContext.SHclnDiagnosisMaster.FindAsync(model.DiagnosisID);
+            if (existingTest != null)
+            {
+                existingTest.DiagnosisID = model.DiagnosisID;
+                existingTest.DiagnosisCode = model.DiagnosisCode;
+                existingTest.DiagnosisName = model.DiagnosisName;
+                existingTest.ICDCode = model.ICDCode;
+                existingTest.OtherCodeName = model.OtherCodeName;
+                existingTest.OtherCode = model.OtherCode;
+                existingTest.DiagnosisDescription = model.DiagnosisDescription;
+                existingTest.WHODescription = model.WHODescription;
+                existingTest.DiagnosisStatus = model.DiagnosisStatus;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+                _healthcareContext.Entry(existingTest).State = EntityState.Modified;
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHclnDiagnosisMaster.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("DiagnosisMaster", model);
+
+        }
+        public async Task<IActionResult> GetProcedureCodeMaster(ProcedureCodeMasterModel model)
+        {
+            var existingTest = await _healthcareContext.SHclnProcedureCodeMaster.FindAsync(model.ProcedureID);
+            if (existingTest != null)
+            {
+                existingTest.ProcedureID = model.ProcedureID;
+                existingTest.ProcedureName = model.ProcedureName;
+                existingTest.ProcedureCode = model.ProcedureCode;
+                existingTest.CPTCode = model.CPTCode;
+                existingTest.OtherCodeName = model.OtherCodeName;
+                existingTest.OtherCode = model.OtherCode;
+                existingTest.ProcedureCodeDescription = model.ProcedureCodeDescription;
+                existingTest.WHODescription = model.WHODescription;
+                existingTest.ProcedureCodeStatus = model.ProcedureCodeStatus;
+                existingTest.Cost = model.Cost;
+                existingTest.TaxPercentage = model.TaxPercentage;
+                existingTest.NetCost = model.NetCost;
+                existingTest.lastUpdatedDate = DateTime.Now.ToString();
+                existingTest.lastUpdatedUser = "myself";
+                existingTest.lastUpdatedMachine = "lap";
+                _healthcareContext.Entry(existingTest).State = EntityState.Modified;
+            }
+            else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "lap";
+                _healthcareContext.SHclnProcedureCodeMaster.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("ProcedureCodeMaster", model);
+        }
 
 
 
@@ -698,8 +818,26 @@ namespace HealthCare.Controllers
             return View();
         }
 
+        public IActionResult HospitalRegistration()
+        {
+            return View();
+        }
+        
+        public IActionResult HospitalFacilityMapping()
+        {
+            return View();
+        }
+        
+        public IActionResult DiagnosisMaster()
+        {
+            return View();
+        }
 
-
+        public IActionResult ProcedureCodeMaster()
+        {
+            return View();
+        }
+        
 
 
 
