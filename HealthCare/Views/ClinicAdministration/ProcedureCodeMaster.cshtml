@@ -1,0 +1,115 @@
+﻿@model HealthCare.Models.ProcedureCodeMasterModel
+
+@{
+    ViewData["Title"] = "ProcedureCodeMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>ProcedureCodeMaster</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ProcedureCodeMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProcedureID" class="control-label"></label>
+                <input asp-for="ProcedureID" class="form-control" />
+                <span asp-validation-for="ProcedureID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcedureCode" class="control-label"></label>
+                <input asp-for="ProcedureCode" class="form-control" />
+                <span asp-validation-for="ProcedureCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcedureName" class="control-label"></label>
+                <input asp-for="ProcedureName" class="form-control" />
+                <span asp-validation-for="ProcedureName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CPTCode" class="control-label"></label>
+                <input asp-for="CPTCode" class="form-control" />
+                <span asp-validation-for="CPTCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherCodeName" class="control-label"></label>
+                <input asp-for="OtherCodeName" class="form-control" />
+                <span asp-validation-for="OtherCodeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherCode" class="control-label"></label>
+                <input asp-for="OtherCode" class="form-control" />
+                <span asp-validation-for="OtherCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcedureCodeDescription" class="control-label"></label>
+                <input asp-for="ProcedureCodeDescription" class="form-control" />
+                <span asp-validation-for="ProcedureCodeDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WHODescription" class="control-label"></label>
+                <input asp-for="WHODescription" class="form-control" />
+                <span asp-validation-for="WHODescription" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label class="control-label">ProcedureCodeStatus:</label><br />
+                <div class="form-check form-check-inline">
+                    <input asp-for="ProcedureCodeStatus" class="form-check-input" type="radio" value="Active" id="ActiveRadio" />
+                    <label class="form-check-label" for="ActiveRadio">Active</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="ProcedureCodeStatus" class="form-check-input" type="radio" value="InActive" id="InActiveRadio" />
+                    <label class="form-check-label" for="InActiveRadio">InActive</label>
+                </div>
+                <span asp-validation-for="ProcedureCodeStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxPercentage" class="control-label"></label>
+                <input asp-for="TaxPercentage" class="form-control" />
+                <span asp-validation-for="TaxPercentage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NetCost" class="control-label"></label>
+                <input asp-for="NetCost" class="form-control" />
+                <span asp-validation-for="NetCost" class="text-danger"></span>
+            </div>
+@*             <div class="form-group">
+                <label asp-for="lastUpdatedDate" class="control-label"></label>
+                <input asp-for="lastUpdatedDate" class="form-control" />
+                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" asp-action="GetProcedureCodeMaster" value="Save" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+
+            }
+        </form>
+    </div>
+</div>
+
+
