@@ -406,12 +406,7 @@ namespace HealthCare.Controllers
         public IActionResult EWSMaster()
         {
             return View();
-        }
-
-        public IActionResult StaffFacilityMapping()
-        {
-            return View();
-        }
+        } 
 
         public IActionResult StaffAdminModel()
         {
