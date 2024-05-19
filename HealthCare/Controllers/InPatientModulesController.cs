@@ -63,28 +63,28 @@ namespace HealthCare.Controllers
 
         }
 
-       public async Task<IActionResult> GetInpatientViewResult(InpatientObservationViewModel Model, string buttonType)
+        public async Task<IActionResult> GetInpatientViewResult(InpatientObservationViewModel Model, string buttonType)
         {
             BusinessClassInpatient ObjViewINP = new BusinessClassInpatient(_healthcareContext);
-            
-            if(buttonType == "get") 
+
+            if (buttonType == "get")
             {
-                var result = await ObjViewINP.GetInpatientObs(Model.BedNoID,Model.PatientID,Model.ObservationID);
+                var result = await ObjViewINP.GetInpatientObs(Model.BedNoID, Model.PatientID, Model.ObservationID);
                 return View("InPatientObservation", result);
 
             }
             else if (buttonType == "save")
             {
-                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
+                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID, Model.ObservationID);
                 objadd.ObservationID = Model.ObservationID;
-                objadd.NurseID=Model.NurseID;
-                objadd.DateTime=Model.DateTime;
-                objadd.lastupdatedDate=DateTime.Now.ToString();
+                objadd.NurseID = Model.NurseID;
+                objadd.DateTime = Model.DateTime;
+                objadd.lastupdatedDate = DateTime.Now.ToString();
                 objadd.lastUpdatedUser = "Kumar";
                 objadd.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 await _healthcareContext.SaveChangesAsync();
             }
-          
+
             ViewBag.Message = "Saved Successfully";
             return View("InPatientObservation", Model);
 
@@ -92,7 +92,7 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> InPatientCaseSheet(InPatientCaseSheetModel model)
         {
-            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId,model.StrCaseId);
+            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId, model.StrCaseId);
 
             if (existingInPatientCaseSheet != null)
             {
@@ -128,9 +128,49 @@ namespace HealthCare.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> InPatientDocVisit(InPatientDocVisitModel model)
+        {
+            var existingInPatientDocVisit = await _healthcareContext.SHipmInPatientDocVisit.FindAsync(model.PatientId, model.CaseId);
+
+            if (existingInPatientDocVisit != null)
+            {
+                existingInPatientDocVisit.PatientId = model.PatientId;
+                existingInPatientDocVisit.CaseId = model.CaseId;
+                existingInPatientDocVisit.BedId = model.BedId;
+                existingInPatientDocVisit.VisitID = model.VisitID;
+                existingInPatientDocVisit.NurseID = model.NurseID;
+                existingInPatientDocVisit.NurseNote = model.NurseNote;
+                existingInPatientDocVisit.DocId = model.DocId;
+                existingInPatientDocVisit.DocNotes = model.DocNotes;
+                existingInPatientDocVisit.LastupdatedDate = DateTime.Now.ToString();
+                existingInPatientDocVisit.LastupdatedUser = "Admin";
+                existingInPatientDocVisit.LastUpdatedMachine = "Lap";
+
+                _healthcareContext.Entry(existingInPatientDocVisit).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = "Admin";
+                model.LastUpdatedMachine = "Lap";
+                _healthcareContext.SHipmInPatientDocVisit.Add(model);
+            }
+
+            await _healthcareContext.SaveChangesAsync();
 
 
-        public IActionResult Index()
+            ViewBag.Message = "Saved Successfully";
+            return View("InPatientAdmission", model);
+
+        }
+
+    
+
+
+
+
+    public IActionResult Index()
         {
             return View();
         }
@@ -158,7 +198,16 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        
-    }
-}
+        public IActionResult InPatientCaseSheetModel()
+        {
+            return View();
+        }
 
+        public IActionResult InPatientDocVisit()
+        {
+            return View();
+        }
+
+    }
+
+}
