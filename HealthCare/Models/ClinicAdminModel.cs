@@ -8,9 +8,9 @@ public class ClinicAdminModel
 	{
 
 	}
-	
-	private String strClinicID ;
-	private String strClinicName ;
+
+    private String facilityID;
+    private String strClinicName ;
 	private String strClinicAddress;
 	private String strCity;
 	private String strState;
@@ -24,7 +24,7 @@ public class ClinicAdminModel
 
 
 
-    public string ClinicId { get => strClinicID; set => strClinicID = value; }
+   
     public string? ClinicName { get => strClinicName; set => strClinicName = value; }
     public string? ClinicAddress { get => strClinicAddress; set => strClinicAddress = value; }
     public string? City { get => strCity; set => strCity = value; }
@@ -36,4 +36,5 @@ public class ClinicAdminModel
     public string? ToHour { get => strToHour; set => strToHour = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
+    public string FacilityID { get => facilityID; set => facilityID = value; }
 }

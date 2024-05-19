@@ -22,12 +22,12 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> PatientObjectiveData(PatientObjectiveModel pPatientIDCreate)
         {
-            var existingPatientobjective= await getPatientObjective.SHExmPatientObjective.FindAsync(pPatientIDCreate.PatientID,pPatientIDCreate.ClinicID,pPatientIDCreate.VisitID);
+            var existingPatientobjective= await getPatientObjective.SHExmPatientObjective.FindAsync(pPatientIDCreate.PatientID,pPatientIDCreate.FacilityID,pPatientIDCreate.VisitID);
             if (existingPatientobjective != null)
             {
 
                 existingPatientobjective.PatientID = pPatientIDCreate.PatientID;
-                existingPatientobjective.ClinicID = pPatientIDCreate.ClinicID;
+                existingPatientobjective.FacilityID = pPatientIDCreate.FacilityID;
                 existingPatientobjective.VisitID = pPatientIDCreate.VisitID;
                 existingPatientobjective.Height = pPatientIDCreate.Height;
                 existingPatientobjective.Weight = pPatientIDCreate.Weight;
@@ -188,14 +188,14 @@ namespace HealthCare.Controllers
 
      
 
-        public IActionResult GeneratePatientExaminationDocument(string patientId, string visitId, string clinicId)
+        public IActionResult GeneratePatientExaminationDocument(string patientId, string visitId, string FacilityID)
         {
             try
             {
                 BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
 
                 // Generate the document using the business class method-
-                byte[] generatedDocument = business.GenerateDocument(patientId, visitId, clinicId);
+                byte[] generatedDocument = business.GenerateDocument(patientId, visitId, FacilityID);
 
                 // Return the document as a downloadable file
                 return File(generatedDocument, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "PatientExaminationDocument.docx");
@@ -207,13 +207,13 @@ namespace HealthCare.Controllers
             }
         }
       
-        public async Task<ActionResult> HandleForm(string patientID, string visitID, string clinicID,string visitDate,string patientName,string clinicName, string buttonType)
+        public async Task<ActionResult> HandleForm(string patientID, string visitID, string FacilityID, string visitDate,string patientName,string clinicName, string buttonType)
         {
             BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
 
             if (buttonType == "select")
             {
-                var patientObjective = await business.GetPatientObjectiveData(patientID, visitID, clinicID, visitDate,patientName,clinicName);
+                var patientObjective = await business.GetPatientObjectiveData(patientID, visitID, FacilityID, visitDate,patientName,clinicName);
 
                 if (patientObjective != null)
                 {
@@ -231,13 +231,13 @@ namespace HealthCare.Controllers
             }
             else if (buttonType == "submit")
             {
-                var patientObjective = await business.GetPatientObjectiveSubmit(patientID, visitID,clinicID); 
+                var patientObjective = await business.GetPatientObjectiveSubmit(patientID, visitID, FacilityID); 
 
                 if (patientObjective != null)
                 {
                     patientID = patientObjective.PatientID;
                     visitID = patientObjective.VisitID;
-                    clinicID = patientObjective.ClinicID;
+                    FacilityID = patientObjective.FacilityID;
                     return View("PatientObjectiveData", patientObjective);
                 }
                 else
@@ -252,6 +252,33 @@ namespace HealthCare.Controllers
             }
 
            
+            return View();
+        }
+
+
+        public async Task<ActionResult> getpatientDigpro(PatientDiagnosisModel pDig,PatientProcedureModel pPro, string buttonType)
+        {
+            BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
+
+            if (buttonType == "patientDiagnosis")
+            {
+                var patientDiagnosis = await business.PatientviewDiagnosis(pDig);
+
+                if (patientDiagnosis != null)
+                {
+
+                    return View("PatientviewDiagnosis",patientDiagnosis);
+                }
+                else if (buttonType == "patientProcedure")
+                {
+                    var patientprocedure = await business.PatientviewProcedure(pPro);
+
+
+                    return View("PatientProcedure",patientprocedure);
+                }
+            }
+            
+
             return View();
         }
 
@@ -274,38 +301,38 @@ namespace HealthCare.Controllers
             default:
                 return View();
         }*/
-    
 
-       /* private async Task<ActionResult> HandleSelectButton(string patientID, string visitID, string clinicID)
-        {
-            // Retrieve relevant patient objective details from the database based on the IDs
-            var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x =>
-                x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
 
-            if (patientObjective == null)
-            {
-                ViewBag.Message = "No data found for the provided IDs.";
-                ViewBag.PatientObjectiveData = null;
-                return View();
-            }
+        /* private async Task<ActionResult> HandleSelectButton(string patientID, string visitID, string clinicID)
+         {
+             // Retrieve relevant patient objective details from the database based on the IDs
+             var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x =>
+                 x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
 
-            ViewBag.PatientObjectiveData = patientObjective;
-            // Enable the Submit button
-            ViewBag.SubmitButtonDisabled = false;
-            return View("PatientObjectiveData",patientObjective);
-        }
+             if (patientObjective == null)
+             {
+                 ViewBag.Message = "No data found for the provided IDs.";
+                 ViewBag.PatientObjectiveData = null;
+                 return View();
+             }
 
-        private ActionResult HandleCreateButton()
-        {
-            // Handle Create button click logic here
-            return RedirectToAction("PatientObjectivePage");
-        }
+             ViewBag.PatientObjectiveData = patientObjective;
+             // Enable the Submit button
+             ViewBag.SubmitButtonDisabled = false;
+             return View("PatientObjectiveData",patientObjective);
+         }
 
-        private ActionResult HandleSubmitButton()
-        {
-            // Handle Submit button click logic here
-            return RedirectToAction("PatientObjectivePage");
-        }*/
+         private ActionResult HandleCreateButton()
+         {
+             // Handle Create button click logic here
+             return RedirectToAction("PatientObjectivePage");
+         }
+
+         private ActionResult HandleSubmitButton()
+         {
+             // Handle Submit button click logic here
+             return RedirectToAction("PatientObjectivePage");
+         }*/
 
 
         public IActionResult Index()
@@ -324,7 +351,7 @@ namespace HealthCare.Controllers
         public IActionResult PatientFamilyHistory()
         {
             String PatientID = "101";
-            String ClinicID = "1000";
+            String FacilityID = "1000";
 
             List<PatientExamFHViewModel> patientExamFH = new List<PatientExamFHViewModel>();
 
@@ -335,7 +362,7 @@ namespace HealthCare.Controllers
 
             foreach (PatientFHPHMasterModel Question in Questions)
             {
-                patientExamFH.Add(new PatientExamFHViewModel { PatientID = PatientID, Question = Question.Question,ClinicID=ClinicID ,QuestionID=Question.QuestionID});
+                patientExamFH.Add(new PatientExamFHViewModel { PatientID = PatientID, Question = Question.Question,FacilityID=FacilityID ,QuestionID=Question.QuestionID});
             }
 
             return View("PatientExamFamilyHealthHxView",patientExamFH);
@@ -355,7 +382,7 @@ namespace HealthCare.Controllers
                         Answer = Patient.Answer,
                         QuestionID = Patient.QuestionID,
                         PatientID = Patient.PatientID,
-                        ClinicID = Patient.ClinicID
+                        FacilityID = Patient.FacilityID
 
                     });
                 }

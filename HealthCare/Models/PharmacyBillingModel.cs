@@ -5,7 +5,7 @@
        public PharmacyBillingModel() 
         {
         }
-
+        private String facilityModel;
         private String strPatientID;
         private String strVisitID;
         private String strOrderID;
@@ -26,6 +26,7 @@
         public string Tax { get => strTax; set => strTax = value; }
         public string OrderID { get => strOrderID; set => strOrderID = value; }
         public string NetPrice { get => strNetPrice; set => strNetPrice = value; }
+        public string FacilityModel { get => facilityModel; set => facilityModel = value; }
         public string VisitcaseID { get => strVisitcaseID; set => strVisitcaseID = value; }
     }
 }

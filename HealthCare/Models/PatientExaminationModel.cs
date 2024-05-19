@@ -8,8 +8,8 @@ public class PatientExaminationModel
 	}
 
 	private String strPatientID;
-	private String strClinicID;
-	private String strExaminationID;
+    private String strFacilityID;
+    private String strExaminationID;
 	private String strVisitID;
 	private String strComplaint;
 	private String strDiagnosis;
@@ -22,7 +22,6 @@ public class PatientExaminationModel
 
 
     public string PatientID { get => strPatientID; set => strPatientID = value; }
-    public string ClinicID { get => strClinicID; set => strClinicID = value; }
     public string ExaminationID { get => strExaminationID; set => strExaminationID = value; }
     public string VisitID { get => strVisitID; set => strVisitID = value; }
     public string Complaint { get => strComplaint; set => strComplaint = value; }
@@ -32,7 +31,5 @@ public class PatientExaminationModel
     public string lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
     public List<PatExmSymptomsSeverity> Severity { get => severity; set => severity = value; }
-
-    
-
+    public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
 }

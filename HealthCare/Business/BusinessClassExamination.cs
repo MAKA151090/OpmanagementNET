@@ -42,20 +42,20 @@ namespace HealthCare.Business
             return true;
         }
 
-        public byte[] GenerateDocument(string patientId, string visitId, string clinicId)
+        public byte[] GenerateDocument(string patientId, string visitId, string FacilityID)
         {
             // Retrieve data from database
             using (var dbContext = new HealthcareContext())
             {
                 var patientObjective = dbContext.SHExmPatientObjective
-                   .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
+                   .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.FacilityID == FacilityID);
 
                 if (patientObjective == null)
                 {
                     throw new Exception("Patient information not found.");
                 }
                 var patientInfo = dbContext.SHPatientRegistration
-                   .FirstOrDefault(p => p.PatientID == patientId && p.ClinicID == clinicId);
+                   .FirstOrDefault(p => p.PatientID == patientId && p.FacilityID == FacilityID);
 
                 var patientFamilyHistory = dbContext.SHExmPatientFHPH
                     .FirstOrDefault(p => p.PatientID == patientId);
@@ -63,10 +63,10 @@ namespace HealthCare.Business
 
 
                 var patientExamination = dbContext.SHExmPatientExamination
-                    .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
+                    .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.FacilityID == FacilityID);
 
                 var patExmSymptomsSeverity = dbContext.SHExmSeverity
-                    .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.ClinicID == clinicId);
+                    .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.FacilityID == FacilityID);
 
                 // Generate the populated document
                 byte[] generatedDocument = PopulateWordTemplate(patientInfo,
@@ -84,7 +84,7 @@ namespace HealthCare.Business
             // Load the existing template document
             byte[] templateBytes = File.ReadAllBytes("C:\\Users\\admin\\Downloads\\PatientChartTemplate.docx");
 
-            using (MemoryStream mem = new MemoryStream())
+            using (MemoryStream mem = new MemoryStream()) 
             {
                 mem.Write(templateBytes, 0, templateBytes.Length);
 
@@ -156,18 +156,18 @@ namespace HealthCare.Business
             return patExmQuestion;
 
         }
-        public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string clinicID, string patientName, string visitDate, string clinicName)
+        public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string FacilityID, string patientName, string visitDate, string clinicName)
         {
             var patExamSearch = (from r in objSearchContext.SHPatientRegistration
                                  join e in objSearchContext.SHExmPatientObjective
                                  on r.PatientID equals e.PatientID into PatReg
                                  from re in PatReg.DefaultIfEmpty()
                                  join c in objSearchContext.SHclnClinicAdmin
-                                 on re.ClinicID equals c.ClinicId into PatClinc
+                                 on re.FacilityID equals c.FacilityID into PatClinc
                                  from rec in PatClinc.DefaultIfEmpty()
                                  where (r.PatientID == patientID || r.FullName == patientName) ||
                                                       (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
-                                                      (re.ClinicID == clinicID || rec.ClinicName == clinicName || re.ClinicID == null)
+                                                      (re.FacilityID == FacilityID || rec.ClinicName == clinicName || re.FacilityID == null)
                                  select new PatExamSearchModel
                                  {
 
@@ -179,7 +179,7 @@ namespace HealthCare.Business
 
                                      VisitDate = re != null ? re.VisitDate : null,
 
-                                     ClinicID = rec != null ? rec.ClinicId : null,
+                                     FacilityID = rec != null ? rec.FacilityID : null,
 
                                      ClinicName = rec != null ? rec.ClinicName : null,
 
@@ -216,9 +216,9 @@ namespace HealthCare.Business
                 return maxId + 1;
             }
         }
-        public async Task<PatientObjectiveModel> GetPatientObjectiveSubmit(string patientID, string visitID, string clinicID)
+        public async Task<PatientObjectiveModel> GetPatientObjectiveSubmit(string patientID, string visitID, string FacilityID)
         {
-            String strNewCliniid = clinicID;
+            String strNewCliniid = FacilityID;
 
             if (string.IsNullOrEmpty(visitID))
             {
@@ -227,13 +227,13 @@ namespace HealthCare.Business
 
                 strNewCliniid = await objSearchContext.SHclnClinicAdmin
             .Where(x => x.ClinicName == "Stellar")
-            .Select(x => x.ClinicId)
+            .Select(x => x.FacilityID)
             .FirstOrDefaultAsync();
 
                 var newPatientObjective = new PatientObjectiveModel
                 {
                     PatientID = patientID,
-                    ClinicID = strNewCliniid,
+                    FacilityID = strNewCliniid,
                     VisitID = visitID,
 
                 };
@@ -247,21 +247,21 @@ namespace HealthCare.Business
 
 
             var patientObjectiveDataSubmit = await objSearchContext.SHExmPatientObjective.FirstOrDefaultAsync(x =>
-                x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == strNewCliniid);
+                x.PatientID == patientID && x.VisitID == visitID && x.FacilityID == strNewCliniid);
 
             return patientObjectiveDataSubmit;
 
         }
 
-        public async Task<List<PatientViewResultModel>> GetTestResults(string patientId, string clinicId)
+        public async Task<List<PatientViewResultModel>> GetTestResults(string patientId, string FacilityID)
         {
             var testResults = await (
                 from pt in objSearchContext.SHPatientTest
                 join tm in objSearchContext.SHTestMaster on pt.TestID equals tm.TestID
                 join ca in objSearchContext.SHclnStaffAdminModel on pt.ReferDocID equals ca.StrStaffID
                 join p in objSearchContext.SHPatientRegistration on pt.PatientID equals p.PatientID
-                join c in objSearchContext.SHclnClinicAdmin on pt.ClinicID equals c.ClinicId
-                where pt.PatientID == patientId && pt.ClinicID == clinicId
+                join c in objSearchContext.SHclnClinicAdmin on pt.FacilityID equals c.FacilityID
+                where pt.PatientID == patientId && pt.FacilityID == FacilityID
                 select new PatientViewResultModel
                 {
                     TestID = pt.TestID,
@@ -394,6 +394,64 @@ namespace HealthCare.Business
                 await objSearchContext.SaveChangesAsync();
                 
             }
+            return true;
+        }
+
+        public async Task<bool> PatientviewDiagnosis(PatientDiagnosisModel pPatientDig)
+        {
+            var existingDig = await objSearchContext.SHEXMdiagnosis.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID,pPatientDig.DiagnosisID);
+            if (existingDig != null)
+            {
+
+                existingDig.PatientID = pPatientDig.PatientID;
+                existingDig.VisitID = pPatientDig.VisitID;
+                existingDig.ExamID = pPatientDig.ExamID;
+                existingDig.DiagnosisID = pPatientDig.DiagnosisID;
+                existingDig.Notes = pPatientDig.Notes;
+                existingDig.Comments = pPatientDig.Comments;
+                existingDig.DoctorID = pPatientDig.DoctorID;
+                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
+                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
+                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
+            }
+            else
+            {
+                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
+                pPatientDig.lastUpdatedUser = "Myself";
+                pPatientDig.lasrUpdatedMachine = "Lap";
+                objSearchContext.SHEXMdiagnosis.Add(pPatientDig);
+
+            }
+            await objSearchContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> PatientviewProcedure(PatientProcedureModel pPatientDig)
+        {
+            var existingDig = await objSearchContext.SHEXMprocedure.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID, pPatientDig.ProcedureID);
+            if (existingDig != null)
+            {
+
+                existingDig.PatientID = pPatientDig.PatientID;
+                existingDig.VisitID = pPatientDig.VisitID;
+                existingDig.ExamID = pPatientDig.ExamID;
+                existingDig.ProcedureID = pPatientDig.ProcedureID;
+                existingDig.Notes = pPatientDig.Notes;
+                existingDig.Comments = pPatientDig.Comments;
+                existingDig.DoctorID = pPatientDig.DoctorID;
+                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
+                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
+                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
+            }
+            else
+            {
+                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
+                pPatientDig.lastUpdatedUser = "Myself";
+                pPatientDig.lasrUpdatedMachine = "Lap";
+                objSearchContext.SHEXMprocedure.Add(pPatientDig);
+
+            }
+            await objSearchContext.SaveChangesAsync();
             return true;
         }
     }

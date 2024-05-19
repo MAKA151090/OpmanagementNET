@@ -5,7 +5,7 @@
         public RadiologyMasterModel() 
         { 
         }
-
+        private String facilityID;
         private String strRadioID;
         private String strRadioName;
         private String strCost;
@@ -19,6 +19,7 @@
         public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 
 }

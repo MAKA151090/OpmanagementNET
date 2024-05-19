@@ -9,7 +9,7 @@ namespace HealthCare.Models
 
         private String patientID;
         private String testID;
-        private String clinicID;
+        private String facilityID;
         private String VisitcaseID;
         private String testDateTime;
         private String testResult;
@@ -26,8 +26,7 @@ namespace HealthCare.Models
 
 
         public string PatientID { get => patientID; set => patientID = value; }
-        public string TestID { get => testID; set => testID = value; }
-        public string ClinicID { get => clinicID; set => clinicID = value; }
+        public string TestID { get => testID; set => testID = value; }        
 
         public string VisitcaseID1 { get => VisitcaseID; set => VisitcaseID = value; }
         public string? TestDateTime { get => testDateTime; set => testDateTime = value; }
@@ -43,6 +42,7 @@ namespace HealthCare.Models
         public string? lastUpdatedDate { get => LastupdatedDate; set => LastupdatedDate = value; }
         public string? lastUpdatedMachine { get => LastUpdatedMachine; set => LastUpdatedMachine = value; }
 
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 
 }

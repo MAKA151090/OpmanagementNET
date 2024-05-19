@@ -29,7 +29,7 @@
     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/ClinicAdministration") ? " active open" : "")'>
       <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-hospital-building"></i>
-        <div>Clinic Administration</div>
+        <div>Hospital Administration</div>
       </a>
 
       <ul class="menu-sub">
@@ -41,9 +41,30 @@
 
         <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicRegistration" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="ClinicRegistration" class="menu-link">
-            <div>Clinic Registration</div>
+            <div>Facility Registration</div>
           </a>
         </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalRegistration" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="HospitalRegistration" class="menu-link">
+                        <div>Hospital Registration</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalFacilityMapping" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="HospitalFacilityMapping" class="menu-link">
+                        <div>HospitalFacilityMapping</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/DiagnosisMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="DiagnosisMaster" class="menu-link">
+                        <div>DiagnosisMaster</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/ProcedureCodeMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="ProcedureCodeMaster" class="menu-link">
+                        <div>ProcedureCodeMaster</div>
+                    </a>
+                </li>
+
 
         <li class='menu-item@(currentPage == "/ClinicAdministration/BloodGroupMaster" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="BloodGroupAdministration" class="menu-link">
@@ -307,6 +328,16 @@
                                     <a asp-controller="InPatientModules" asp-action="InPatientAdmission" class="menu-link">
 
                                         <div>InPatient Admission</div>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <ul class="menu-sub">
+
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientDocVisit" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientDocVisit" class="menu-link">
+
+                                        <div>InPatientDocVisit</div>
                                     </a>
                                 </li>
                             </ul>
