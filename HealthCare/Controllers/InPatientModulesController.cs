@@ -21,8 +21,8 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetPatientDischarge(InpatientDischargeModel model)
         {
-            var existingPatientDischarge = await _healthcareContext.SHInpatientDischarge.FindAsync(model.PatientID , model.CaseID);
-            if(existingPatientDischarge != null)
+            var existingPatientDischarge = await _healthcareContext.SHInpatientDischarge.FindAsync(model.PatientID, model.CaseID);
+            if (existingPatientDischarge != null)
             {
                 existingPatientDischarge.PatientID = model.PatientID;
                 existingPatientDischarge.CaseID = model.CaseID;
@@ -94,8 +94,8 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetInpatientViewResult(InpatientObservationViewModel Model, string buttonType)
         {
-           BusinessClassInpatient ObjViewINP = new BusinessClassInpatient(_healthcareContext);
- 
+            BusinessClassInpatient ObjViewINP = new BusinessClassInpatient(_healthcareContext);
+
             if (buttonType == "get")
             {
                 var result = await ObjViewINP.GetInpatientObs(Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationID);
@@ -144,24 +144,24 @@ namespace HealthCare.Controllers
             return View("InpatientObservationViewModel", Model);
 
         }
-               /* var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
-                objadd.NurseID = Model.NurseID ?? objadd.NurseID; 
-                objadd.DateTime = Model.DateTime ?? objadd.DateTime;
-                objadd.lastupdatedDate=DateTime.Now.ToString();
-                objadd.lastUpdatedUser = "Kumar";
-                objadd.lastUpdatedMachine = "Lap";
-                await _healthcareContext.SaveChangesAsync();
-            }
+        /* var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
+         objadd.NurseID = Model.NurseID ?? objadd.NurseID; 
+         objadd.DateTime = Model.DateTime ?? objadd.DateTime;
+         objadd.lastupdatedDate=DateTime.Now.ToString();
+         objadd.lastUpdatedUser = "Kumar";
+         objadd.lastUpdatedMachine = "Lap";
+         await _healthcareContext.SaveChangesAsync();
+     }
 
-            ViewBag.Message = "Saved Successfully";
-            return View("InPatientObservation", Model);
+     ViewBag.Message = "Saved Successfully";
+     return View("InPatientObservation", Model);
 */
 
         [HttpPost]
         public async Task<IActionResult> InPatientCaseSheet(InPatientCaseSheetModel model)
         {
-          
-            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId,model.StrCaseId);
+
+            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId, model.StrCaseId);
             if (existingInPatientCaseSheet != null)
             {
                 existingInPatientCaseSheet.StrPatientId = model.StrPatientId;
@@ -232,7 +232,7 @@ namespace HealthCare.Controllers
             return View("InPatientDocVisit", model);
 
         }
-         [HttpPost]                                                                                      
+        [HttpPost]
         public async Task<IActionResult> InPatientTransfer(InPatientTransferUpdateModel Model, string buttonType)
         {
 
@@ -256,7 +256,7 @@ namespace HealthCare.Controllers
                     admission.lastUpdatedMachine = "test";
                     admission.lastUpdatedUser = "test";
 
-   
+
                     _healthcareContext.Entry(admission).State = EntityState.Modified;
                 }
 
@@ -307,8 +307,6 @@ namespace HealthCare.Controllers
 
 
 
-
-            public IActionResult Index()
         public IActionResult Index()
         {
             return View();
@@ -347,13 +345,12 @@ namespace HealthCare.Controllers
             return View();
         }
 
-    }
-        
         public IActionResult InPatientDischargeSummary()
         {
             return View();
         }
+
     }
 }
 
-}
+

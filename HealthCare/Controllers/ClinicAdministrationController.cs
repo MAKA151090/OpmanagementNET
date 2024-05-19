@@ -842,10 +842,7 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        public IActionResult StaffFacilityMapping()
-        {
-            return View();
-        }
+
 
         public async Task<IActionResult> GetStaffFacilityMap(StaffFacilityMappingModel model)
         {

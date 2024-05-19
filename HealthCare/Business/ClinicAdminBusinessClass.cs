@@ -61,7 +61,7 @@ namespace HealthCare.Business
                 join rm in _healthcareContext.SHprsPrescription on pr.DrugId equals rm.DrugID
 
                 where (rm.PatientID == patientID && rm.CaseVisitID == VisitcaseID) 
-                where (rm.PatientID == patientID && rm.CaseVisitID == visitID)
+           
 
                 /* where (r.PatientID == patientID || r.FullName == patientName) ||
                                                       (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
