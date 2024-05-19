@@ -1,0 +1,99 @@
+﻿@model HealthCare.Models.DiagnosisMasterModel
+
+@{
+    ViewData["Title"] = "DiagnosisMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>DiagnosisMaster</h1>
+
+<h4>DiagnosisMasterModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DiagnosisMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DiagnosisID" class="control-label"></label>
+                <input asp-for="DiagnosisID" class="form-control" />
+                <span asp-validation-for="DiagnosisID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiagnosisCode" class="control-label"></label>
+                <input asp-for="DiagnosisCode" class="form-control" />
+                <span asp-validation-for="DiagnosisCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiagnosisName" class="control-label"></label>
+                <input asp-for="DiagnosisName" class="form-control" />
+                <span asp-validation-for="DiagnosisName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ICDCode" class="control-label"></label>
+                <input asp-for="ICDCode" class="form-control" />
+                <span asp-validation-for="ICDCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherCodeName" class="control-label"></label>
+                <input asp-for="OtherCodeName" class="form-control" />
+                <span asp-validation-for="OtherCodeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherCode" class="control-label"></label>
+                <input asp-for="OtherCode" class="form-control" />
+                <span asp-validation-for="OtherCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiagnosisDescription" class="control-label"></label>
+                <input asp-for="DiagnosisDescription" class="form-control" />
+                <span asp-validation-for="DiagnosisDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WHODescription" class="control-label"></label>
+                <input asp-for="WHODescription" class="form-control" />
+                <span asp-validation-for="WHODescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">DiagnosisStatus:</label><br />
+                <div class="form-check form-check-inline">
+                    <input asp-for="DiagnosisStatus" class="form-check-input" type="radio" value="Active" id="ActiveRadio" />
+                    <label class="form-check-label" for="ActiveRadio">Active</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="DiagnosisStatus" class="form-check-input" type="radio" value="InActive" id="InActiveRadio" />
+                    <label class="form-check-label" for="InActiveRadio">InActive</label>
+                </div>
+                <span asp-validation-for="DiagnosisStatus" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="lastUpdatedDate" class="control-label"></label>
+                <input asp-for="lastUpdatedDate" class="form-control" />
+                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" asp-action="GetDiagnosisMaster" value="Save" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+
+            }
+        </form>
+    </div>
+</div>
+
+
