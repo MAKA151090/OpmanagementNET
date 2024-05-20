@@ -122,10 +122,34 @@ namespace HealthCare.Controllers
             
 
         }
+        public async Task<IActionResult> OtsummaryView(OTSummaryModel Model, string buttonType)
+        {
+            BusinessClassExamination ObjViewOTSum = new BusinessClassExamination(Getotschedule);
+
+            var objSumm = await Getotschedule.SHOTsummary.FindAsync(Model.OtscheduleID);
+
+            if (buttonType == "Save")
+            {
+                ObjViewOTSum.GetOtSummaryviewList();
+                objSumm.Answer = Model.Answer;
+                Getotschedule.SHOTsummary.Update(objSumm);
+                Getotschedule.SaveChangesAsync();
+            }
+            else if (buttonType == "Print")
+            {
+               
+            }
+
+
+            var result = ObjViewOTSum.GetOtSummaryviewList();
+            return View("OTConfirmation", result);
+
+
+        }
 
 
 
-            public IActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }

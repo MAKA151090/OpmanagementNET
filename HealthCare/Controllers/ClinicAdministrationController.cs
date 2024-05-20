@@ -476,6 +476,35 @@ namespace HealthCare.Controllers
 
         }
 
+        public async Task<IActionResult> SummaryMaster(OTSummaryMasterModel model)
+        {
+            var summary = await _healthcareContext.SHclnOtSummaryMaster.FindAsync(model.QuestionID);
+            if (summary != null)
+            {
+                summary.QuestionID = model.QuestionID;
+                summary.Question = model.Question;
+                summary.lastUpdatedDate = DateTime.Now.ToString();
+                summary.lastUpdatedUser = "Myself";
+                summary.lastUpdatedMachine = "Lap";
+            }
+            else
+            {
+
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "Lap";
+                _healthcareContext.SHclnOtSummaryMaster.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("OTSummaryMaster", model);
+
+
+
+        }
+
         public IActionResult SeverityModel()
         {
             return View();
@@ -838,6 +867,10 @@ namespace HealthCare.Controllers
             return View();
         }
         
+        public IActionResult OTSummaryMaster()
+        {
+            return View();
+        }
 
 
 
