@@ -5,22 +5,38 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>OTSummaryMaster</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">SummaryMaster</h2>
+            <small class="text-muted float-end"></small>
 
-<hr />
+        </div>
+    </div>
+
+
 @using (Html.BeginForm("SummaryMaster", "ClinicAdministration", FormMethod.Post))
 {
-<div class="row">
-    <div class="col-md-4">
+
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="QuestionID" class="form-control" placeholder="QuestionID" />
                 <label asp-for="QuestionID" class="control-label"></label>
-                <input asp-for="QuestionID" class="form-control" />
                 <span asp-validation-for="QuestionID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Question" class="form-control" placeholder="Question" />
                 <label asp-for="Question" class="control-label"></label>
-                <input asp-for="Question" class="form-control" />
                 <span asp-validation-for="Question" class="text-danger"></span>
             </div>
            @*  <div class="form-group">
@@ -40,14 +56,14 @@
             </div> *@
             <div class="form-group">
                 <input type="submit" value="Get" class="btn btn-primary" />
-            </div>
+            </div></div></div></div></div>
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">
                     @ViewBag.Message
                 </div>
             }
-    </div>
-</div>
+
 }
 
+</div>

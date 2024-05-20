@@ -5,37 +5,52 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>StaffFacilityMapping</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">Staff Facility Map</h2>
+            <small class="text-muted float-end"></small>
 
-<h4>StaffFacilityMappingModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        </div>
+    </div>
+
         <form asp-action="GetStaffFacilityMap">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="StaffId" class="form-control" placeholder="Staff ID" />
                 <label asp-for="StaffId" class="control-label"></label>
-                <input asp-for="StaffId" class="form-control" />
                 <span asp-validation-for="StaffId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
                 <label asp-for="FacilityID" class="control-label"></label>
-                <input asp-for="FacilityID" class="form-control" />
                 <span asp-validation-for="FacilityID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="FromHour" class="form-control" placeholder="FromHour" />
                 <label asp-for="FromHour" class="control-label"></label>
-                <input asp-for="FromHour" class="form-control" />
                 <span asp-validation-for="FromHour" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ToHour" class="form-control" placeholder="ToHour" />
                 <label asp-for="ToHour" class="control-label"></label>
-                <input asp-for="ToHour" class="form-control" />
                 <span asp-validation-for="ToHour" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Active" class="form-control" placeholder="Active" />
                 <label asp-for="Active" class="control-label"></label>
-                <input asp-for="Active" class="form-control" />
                 <span asp-validation-for="Active" class="text-danger"></span>
             </div>
 @*             <div class="form-group">
@@ -55,6 +70,7 @@
             </div> *@
             <div class="form-group">
                 <input type="submit" asp-action="GetStaffFacilityMap" value="Save" class="btn btn-primary" />
+            </div>
             </div>
             @if (ViewBag.Message != null)
             {

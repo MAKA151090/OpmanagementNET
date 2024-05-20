@@ -5,37 +5,53 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>DrugStockMaster</h1>
+
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">DrugStockMaster</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
 
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="DrugStockMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="IDNumber" class="form-control" placeholder="IDNumber" />
                 <label asp-for="IDNumber" class="control-label"></label>
-                <input asp-for="IDNumber" class="form-control" />
                 <span asp-validation-for="IDNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="DrugID" class="form-control" placeholder="DrugID" />
                 <label asp-for="DrugID" class="control-label"></label>
-                <input asp-for="DrugID" class="form-control" />
                 <span asp-validation-for="DrugID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ManufacturingDate" type="date" class="form-control" placeholder="ManufacturingDate" />
                 <label asp-for="ManufacturingDate" class="control-label"></label>
-                <input asp-for="ManufacturingDate" type="date" class="form-control" />
                 <span asp-validation-for="ManufacturingDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ExpiryDate" type="date" class="form-control" placeholder="ExpiryDate" />
                 <label asp-for="ExpiryDate" class="control-label"></label>
-                <input asp-for="ExpiryDate" type="date" class="form-control" />
                 <span asp-validation-for="ExpiryDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="NumberOfStock" class="form-control" placeholder="NumberOfStock" />
                 <label asp-for="NumberOfStock" class="control-label"></label>
-                <input asp-for="NumberOfStock" class="form-control" />
                 <span asp-validation-for="NumberOfStock" class="text-danger"></span>
             </div>
 @*             <div class="form-group">
@@ -55,7 +71,8 @@
             </div> *@
             <div class="form-group">
                 <input type="submit" value="Submit" asp-action="DrugStock" class="btn btn-primary" />
-            </div>
+                            @* <button type="submit" asp-action="DrugStock" class="babge bg-label-primary rounded-pill">Save</button>
+ *@            </div>
 
             @if (ViewBag.Message != null)
             {

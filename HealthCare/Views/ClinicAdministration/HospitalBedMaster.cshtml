@@ -5,47 +5,73 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>HospitalBedMaster</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">Hospital Bed Master</h2>
+            <small class="text-muted float-end"></small>
 
+        </div>
+    </div>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="HospitalBedMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+            <div class="col-md-12 col-lg-1"></div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="BedID" class="form-control" placeholder="BedID" />
                 <label asp-for="BedID" class="control-label"></label>
-                <input asp-for="BedID" class="form-control" />
                 <span asp-validation-for="BedID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="BedName" class="form-control" placeholder="BedName" />
                 <label asp-for="BedName" class="control-label"></label>
-                <input asp-for="BedName" class="form-control" />
                 <span asp-validation-for="BedName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="BedType" class="form-control" placeholder="BedType" />
                 <label asp-for="BedType" class="control-label"></label>
-                <input asp-for="BedType" class="form-control" />
                 <span asp-validation-for="BedType" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="RoomType" class="form-control" placeholder="RoomType" />
                 <label asp-for="RoomType" class="control-label"></label>
-                <input asp-for="RoomType" class="form-control" />
                 <span asp-validation-for="RoomType" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            </div></div></div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="RoomFloor" class="form-control" placeholder="RoomFloor" />
                 <label asp-for="RoomFloor" class="control-label"></label>
-                <input asp-for="RoomFloor" class="form-control" />
                 <span asp-validation-for="RoomFloor" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="NurseStationID" class="form-control" placeholder="NurseStationID" />
                 <label asp-for="NurseStationID" class="control-label"></label>
-                <input asp-for="NurseStationID" class="form-control" />
                 <span asp-validation-for="NurseStationID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="CostPerDay" class="form-control" placeholder="CostPerDay" />
                 <label asp-for="CostPerDay" class="control-label"></label>
-                <input asp-for="CostPerDay" class="form-control" />
                 <span asp-validation-for="CostPerDay" class="text-danger"></span>
             </div>
         @*     <div class="form-group">
@@ -77,5 +103,5 @@
             }
         </form>
     </div>
-</div>
+
 
