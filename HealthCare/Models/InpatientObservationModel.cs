@@ -1,8 +1,17 @@
-﻿namespace HealthCare.Models
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+
+namespace HealthCare.Models
 {
     public class InpatientObservationModel
     {
+    
+
+    
         public InpatientObservationModel() { }
+
+
 
         private String bedNoID;
         private String patientID;
@@ -35,5 +44,8 @@
         public string? Range { get => range; set => range = value; }
         public string? Frequency { get => frequency; set => frequency = value; }
         public string ObservationTypeID { get => observationTypeID; set => observationTypeID = value; }
+   
+        
+    
     }
 }

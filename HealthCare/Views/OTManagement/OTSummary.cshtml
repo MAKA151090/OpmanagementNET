@@ -1,4 +1,4 @@
-﻿@model OTSummaryModel
+﻿@model OTSummaryViewModel
 
 @{
     ViewData["Title"] = "OTSummary";
@@ -8,7 +8,7 @@
 <h1>OTSummary</h1>
 
 <hr />
-@using (Html.BeginForm("OtsummaryView", "OTManagement", FormMethod.Post))
+@using (Html.BeginForm("OtsummaryView","OTManagement", FormMethod.Post))
 {
     <div class="row">
         <div class="col-md-4">
@@ -70,13 +70,26 @@
         <tbody>
             @if (Model != null)
             {
-                @foreach (var item in Model.SHotsumm)
+                    @for (int i = 0; i < Model.SHotsumm.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.SHotsumm[i].Question</td>
+                            
+                            <td>
+                            <input type="hidden" asp-for="@Model.SHotsumm[i].QuestionID" />
+                                <textarea asp-for="SHotsumm[i].Answer" class="form-control" rows="3"></textarea>
+                            </td>
+                        </tr>
+                    }
+                
+
+                @* @foreach (var item in Model.SHotsumm)
                 {
                     <tr>
                         <td>@item.Question</td>
                         <td>@item.Answer</td>
                     </tr>
-                }
+                } *@
             }
         </tbody>
     </table>

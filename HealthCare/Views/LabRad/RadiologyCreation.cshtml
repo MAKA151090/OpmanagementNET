@@ -5,52 +5,76 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>RadiologyCreation</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">RadiologyCreation</h2>
+            <small class="text-muted float-end"></small>
 
-<h4>PatientRadiolodyModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        </div>
+    </div>
         <form asp-action="RadiologyCreation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+            <div class="col-md-12 col-lg-1">
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="RadioID" class="form-control" placeholder="RadioID" />
                 <label asp-for="RadioID" class="control-label"></label>
-                <input asp-for="RadioID" class="form-control" />
+                
                 <span asp-validation-for="RadioID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
                 <label asp-for="FacilityID" class="control-label"></label>
-                <input asp-for="FacilityID" class="form-control" />
+               
                 <span asp-validation-for="FacilityID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                 <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
+               
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="VisitcaseID" class="form-control" placeholder="VisitcaseID" />
                 <label asp-for="VisitcaseID" class="control-label"></label>
-                <input asp-for="VisitcaseID" class="form-control" />
+               
                 <span asp-validation-for="VisitcaseID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ReferralDoctorID" class="form-control" placeholder="ReferralDoctorID" />
                 <label asp-for="ReferralDoctorID" class="control-label"></label>
-                <input asp-for="ReferralDoctorID" class="form-control" />
+               
                 <span asp-validation-for="ReferralDoctorID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ReferralDoctorName" class="form-control" placeholder="ReferralDoctorName" />
                 <label asp-for="ReferralDoctorName" class="control-label"></label>
-                <input asp-for="ReferralDoctorName" class="form-control" />
+                
                 <span asp-validation-for="ReferralDoctorName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ScreeningDate" class="control-label"></label>
-                <input asp-for="ScreeningDate" class="form-control" type="date" />
-                <span asp-validation-for="ScreeningDate" class="text-danger"></span>
             </div>
+            </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                       
             <div class="form-group">
+                           
+                <label asp-for="ScreeningDate" class="control-label"></label>
+                            <input asp-for="ScreeningDate" class="form-control" type="date"  />
+                <span asp-validation-for="ScreeningDate" class="text-danger"></span>
+            </div><br />
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Result" class="form-control" placeholder="Result" />
                 <label asp-for="Result" class="control-label"></label>
-                <input asp-for="Result" class="form-control" />
+               
                 <span asp-validation-for="Result" class="text-danger"></span>
             </div>
             @* <div class="form-group">
@@ -68,18 +92,23 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ScreeningCompleted" class="form-control" placeholder="ScreeningCompleted" />
                 <label asp-for="ScreeningCompleted" class="control-label"></label>
-                <input asp-for="ScreeningCompleted" class="form-control" />
+                
                 <span asp-validation-for="ScreeningCompleted" class="text-danger"></span>
             </div>
             <div class="form-group">
+                           
                 <label asp-for="ScreeningCompletedDate" class="control-label"></label>
-                <input asp-for="ScreeningCompletedDate" class="form-control" type="date" />
+                            <input asp-for="ScreeningCompletedDate" class="form-control" type="date" />
                 <span asp-validation-for="ScreeningCompletedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" asp-action="GetPatientRadio" class="btn btn-primary" />
+            </div>
+            </div>
+            </div>
             </div>
 
             @if (ViewBag.Message != null)

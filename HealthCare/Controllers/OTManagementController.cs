@@ -122,18 +122,45 @@ namespace HealthCare.Controllers
             
 
         }
-        public async Task<IActionResult> OtsummaryView(OTSummaryModel Model, string buttonType)
+        public async Task<IActionResult>OtsummaryView(OTSummaryViewModel Model, string buttonType)
         {
             BusinessClassExamination ObjViewOTSum = new BusinessClassExamination(Getotschedule);
 
-            var objSumm = await Getotschedule.SHOTsummary.FindAsync(Model.OtscheduleID);
+
+           // var objSumm = await Getotschedule.SHOTsummary.FindAsync(Model.OtscheduleID);
 
             if (buttonType == "Save")
             {
-                ObjViewOTSum.GetOtSummaryviewList();
-                objSumm.Answer = Model.Answer;
-                Getotschedule.SHOTsummary.Update(objSumm);
-                Getotschedule.SaveChangesAsync();
+                foreach (var summary in Model.SHotsumm)
+                {
+                    var objadd = await Getotschedule.SHOTsummary.FindAsync(Model.OtscheduleID,summary.QuestionID);
+                    if (objadd != null)
+                    {
+                        objadd.Answer = summary.Answer;
+                        objadd.lastUpdatedDate = DateTime.Now.ToString();
+                        objadd.OtscheduleID = Model.OtscheduleID;
+                        objadd.lastUpdatedUser = "Kumar";
+                        objadd.lastUpdatedMachine = "Lap";
+                        Getotschedule.SHOTsummary.Update(objadd);
+
+                    }
+                    else
+                    {
+                        objadd = new OTSummaryModel
+                        {
+                            QuestionID = summary.QuestionID,
+                            Question = summary.Question,
+                            Answer = summary.Answer,
+                            OtscheduleID = Model.OtscheduleID,
+                            lastUpdatedDate = DateTime.Now.ToString(),
+                            lastUpdatedUser = "Kumar",
+                            lastUpdatedMachine = "Lap"
+                        };
+                        Getotschedule.SHOTsummary.Add(objadd);
+                    }
+                }
+
+                await Getotschedule.SaveChangesAsync();
             }
             else if (buttonType == "Print")
             {
@@ -141,8 +168,15 @@ namespace HealthCare.Controllers
             }
 
 
-            var result = ObjViewOTSum.GetOtSummaryviewList();
-            return View("OTConfirmation", result);
+            var result = ObjViewOTSum.GetOtSummaryview(Model.OtscheduleID,Model.Answer);
+            var viewModel = new OTSummaryViewModel
+            {
+                OtscheduleID = Model.OtscheduleID,
+                Answer = Model.Answer,
+                SHotsumm = result
+            };
+
+            return View("OTSummary", viewModel);
 
 
         }
