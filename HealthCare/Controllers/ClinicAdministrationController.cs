@@ -277,6 +277,7 @@ namespace HealthCare.Controllers
 
             ViewBag.Message = "Saved Successfully";
             return View("IPTypeMaster", model);
+
         }
 
 
@@ -838,6 +839,10 @@ namespace HealthCare.Controllers
             return View();
         }
 
+        public IActionResult StaffFacilityMapping()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> GetStaffFacilityMap(StaffFacilityMappingModel model)
         {
