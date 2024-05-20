@@ -20,7 +20,7 @@ namespace HealthCare.Models
         private String frequency;
         private String observationName;
         private String range;
-
+        private String observationTypeID;
 
         private List<InpatientObservationModel> sHviewInpatientObs;
 
@@ -36,7 +36,6 @@ namespace HealthCare.Models
         public string Frequency { get => frequency; set => frequency = value; }
         public string ObservationName { get => observationName; set => observationName = value; }
         public string Range { get => range; set => range = value; }
-
-     
+        public string ObservationTypeID { get => observationTypeID; set => observationTypeID = value; }
     }
 }

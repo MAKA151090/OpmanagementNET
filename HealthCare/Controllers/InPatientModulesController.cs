@@ -105,12 +105,13 @@ namespace HealthCare.Controllers
 
              if (buttonType == "save")
             {
-                
-                
-                    var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID, Model.ObservationID);
+                foreach (var summary in Model.SHviewInpatientObs)
+                {
+
+                    var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationTypeID);
                     if (objadd != null)
                     {
-                        objadd.Answer = Model.Answer;
+                        objadd.Answer = summary.Answer;
                         objadd.ObservationID = Model.ObservationID;
                         objadd.NurseID = Model.NurseID;
                         objadd.DateTime = Model.DateTime;
@@ -119,13 +120,17 @@ namespace HealthCare.Controllers
                     }
                     else
                     {
-                    objadd = new InpatientObservationModel
-                    {
-                        BedNoID = Model.BedNoID,
-                        PatientID = Model.PatientID,
-                        ObservationID = Model.ObservationID,
-                        ObservationTypeID = "1",
-                            Answer = Model.Answer,
+                        objadd = new InpatientObservationModel
+                        {
+                            BedNoID = Model.BedNoID,
+                            PatientID = Model.PatientID,
+                            ObservationID = Model.ObservationID,
+                            ObservationTypeID = summary.ObservationTypeID,
+                            ObservationName=summary.ObservationName,
+                            Answer = summary.Answer,
+                            Frequency=summary.Frequency,
+                            Unit=summary.Unit,
+                            Range=summary.Range,
                             NurseID = Model.NurseID,
                             DateTime = Model.DateTime,
                             lastupdatedDate = DateTime.Now.ToString(),
@@ -134,14 +139,14 @@ namespace HealthCare.Controllers
                         };
                         _healthcareContext.SHipmInpatientobservation.Update(objadd);
                     }
-                
+                }
 
                 await _healthcareContext.SaveChangesAsync();
 
                 //ViewBag.Message = "Saved Successfully";
                 //return View("InPatientObservation", Model);
             }
-            var result = ObjViewINP.GetInpatientViewObs(Model.ObservationID, Model.BedNoID, Model.PatientID,Model.ObservationID);
+            var result = ObjViewINP.GetInpatientViewObs(Model.ObservationID, Model.BedNoID, Model.PatientID,Model.ObservationID,Model.ObservationTypeID);
             var viewModel = new InpatientObservationViewModel
             {
                 Unit = Model.Unit,
@@ -152,7 +157,7 @@ namespace HealthCare.Controllers
                 SHviewInpatientObs = result
             };
             ViewBag.Message = "Saved Successfully";
-            return View("InpatientObservationViewModel", viewModel);
+            return View("InPatientObservation", viewModel);
 
         }
         /* var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);

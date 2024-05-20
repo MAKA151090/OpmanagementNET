@@ -5,60 +5,85 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>InPatientDocVisit</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">InPatientDocVisit</h2>
+            <small class="text-muted float-end"></small>
 
-<h4>InPatientDocVisitModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        </div>
+    </div>
         <form asp-action="InPatientDocVisit" asp-controller="InPatientModules" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+            <div class="col-md-12 col-lg-1">
+                </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="PatientId" class="form-control" placeholder="PatientId" />
                 <label asp-for="PatientId" class="control-label"></label>
-                <input asp-for="PatientId" class="form-control" />
+               
                 <span asp-validation-for="PatientId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="CaseId" class="form-control" placeholder="CaseId" />
                 <label asp-for="CaseId" class="control-label"></label>
-                <input asp-for="CaseId" class="form-control" />
+                
                 <span asp-validation-for="CaseId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="BedId" class="form-control" placeholder="BedId" />
                 <label asp-for="BedId" class="control-label"></label>
-                <input asp-for="BedId" class="form-control" />
+                
                 <span asp-validation-for="BedId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="VisitID" class="form-control" placeholder="VisitID" />
                 <label asp-for="VisitID" class="control-label"></label>
-                <input asp-for="VisitID" class="form-control" />
+               
                 <span asp-validation-for="VisitID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="VisitDateTime" class="form-control" placeholder="VisitDateTime" />
                 <label asp-for="VisitDateTime" class="control-label"></label>
-                <input asp-for="VisitDateTime" class="form-control" />
+               
                 <span asp-validation-for="VisitDateTime" class="text-danger"></span>
             </div>
-              <div class="form-group">
+            </div>
+            </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="NurseID" class="form-control" placeholder="NurseID" />
                 <label asp-for="NurseID" class="control-label"></label>
-                <input asp-for="NurseID" class="form-control" />
+               
                 <span asp-validation-for="NurseID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="NurseNote" class="form-control" placeholder="NurseNote" />
                 <label asp-for="NurseNote" class="control-label"></label>
-                <input asp-for="NurseNote" class="form-control" />
+                
                 <span asp-validation-for="NurseNote" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="DocId" class="form-control" placeholder="DocId" />
                 <label asp-for="DocId" class="control-label"></label>
-                <input asp-for="DocId" class="form-control" />
+               
                 <span asp-validation-for="DocId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="DocNotes" class="form-control" placeholder="DocNotes" />
                 <label asp-for="DocNotes" class="control-label"></label>
-                <input asp-for="DocNotes" class="form-control" />
+                
                 <span asp-validation-for="DocNotes" class="text-danger"></span>
             </div>
-            <div class="form-group">
+           @*  <div class="form-group">
                 <label asp-for="LastupdatedUser" class="control-label"></label>
                 <input asp-for="LastupdatedUser" class="form-control" />
                 <span asp-validation-for="LastupdatedUser" class="text-danger"></span>
@@ -72,14 +97,15 @@
                 <label asp-for="LastUpdatedMachine" class="control-label"></label>
                 <input asp-for="LastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="LastUpdatedMachine" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            </div>
+            </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+

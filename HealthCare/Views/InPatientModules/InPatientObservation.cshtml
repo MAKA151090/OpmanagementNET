@@ -76,11 +76,15 @@
                 @for (int i = 0; i < Model.SHviewInpatientObs.Count; i++)
                 {
                     <tr>
-                        <td>@Model.SHviewInpatientObs[i].ObservationName</td>
-                        <td><input type="text" name="answer" value="@Model.Answer" /></td>
-                        <td>@Model.SHviewInpatientObs[i].Unit</td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].ObservationName"/> <input type="hidden" asp-for="@Model.SHviewInpatientObs[i].ObservationTypeID" /></td>
+                        
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Answer" /></td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Unit" /></td>
+                         <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Frequency" /></td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Range" /></td>
+                       @*  <td>@Model.SHviewInpatientObs[i].Unit</td>
                         <td>@Model.SHviewInpatientObs[i].Range</td>
-                        <td>@Model.SHviewInpatientObs[i].Frequency</td>
+                        <td>@Model.SHviewInpatientObs[i].Frequency</td> *@
                     </tr>
                 } 
             }
