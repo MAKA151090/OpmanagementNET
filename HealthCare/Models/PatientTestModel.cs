@@ -10,6 +10,7 @@ namespace HealthCare.Models
         private String patientID;
         private String testID;
         private String facilityID;
+        private String VisitcaseID;
         private String testDateTime;
         private String testResult;
         private String tsampleClt;
@@ -25,7 +26,9 @@ namespace HealthCare.Models
 
 
         public string PatientID { get => patientID; set => patientID = value; }
-        public string TestID { get => testID; set => testID = value; }
+        public string TestID { get => testID; set => testID = value; }        
+
+        public string VisitcaseID1 { get => VisitcaseID; set => VisitcaseID = value; }
         public string? TestDateTime { get => testDateTime; set => testDateTime = value; }
         public string? TestResult { get => testResult; set => testResult = value; }
         public string? TsampleClt { get => tsampleClt; set => tsampleClt = value; }
@@ -38,6 +41,7 @@ namespace HealthCare.Models
         public string? lastUpdatedUser { get => LastupdatedUser; set => LastupdatedUser = value; }
         public string? lastUpdatedDate { get => LastupdatedDate; set => LastupdatedDate = value; }
         public string? lastUpdatedMachine { get => LastUpdatedMachine; set => LastUpdatedMachine = value; }
+
         public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 

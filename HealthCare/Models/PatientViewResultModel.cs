@@ -14,6 +14,7 @@
         private String result;
         private String range;
         private String doctorName;
+        private String visitcaseID;
 
         public string PatientID { get => patientID; set => patientID = value; }
         public string TestID { get => testID; set => testID = value; }
@@ -25,5 +26,6 @@
         public string PatientName { get => patientName; set => patientName = value; }
         public string ClinicName { get => clinicName; set => clinicName = value; }
         public string FacilityID { get => facilityID; set => facilityID = value; }
+        public string VisitcaseID { get => visitcaseID; set => visitcaseID = value; }
     }
 }
