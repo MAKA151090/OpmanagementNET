@@ -1,10 +1,87 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model HealthCare.Models.InpatientDischargeModel
+
 @{
     ViewData["Title"] = "InPatientDischarge";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div> this page is for InPatientDischarge</div>
+
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">PatientDischarge</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
+        <form asp-action="GetPatientDischarge">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
+                <label asp-for="PatientID" class="control-label"></label>
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div>
+                        <div class=" form-floating form-floating-outline mb-4">
+                            <input asp-for="CaseID" class="form-control" placeholder="CaseID" />
+                <label asp-for="CaseID" class="control-label"></label>
+      
+                <span asp-validation-for="CaseID" class="text-danger"></span>
+            </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="DischargeNotes" class="form-control" placeholder="DischargeNotes" />
+                <label asp-for="DischargeNotes" class="control-label"></label>
+               
+                <span asp-validation-for="DischargeNotes" class="text-danger"></span>
+            </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="DoctorID" class="form-control" placeholder="DoctorID" />
+                <label asp-for="DoctorID" class="control-label"></label>
+                
+                <span asp-validation-for="DoctorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div>
+                    <input type="radio" id="operationRead" name="operation" value="read" checked>
+                    <label class="control-label">Read</label>
+                </div>
+                <div>
+                    <input type="radio" id="operationWrite" name="operation" value="write">
+                    <label class="control-label">Write</label>
+                </div>
+            </div>
+@*             <div class="form-group">
+                <label asp-for="lastUpdatedDate" class="control-label"></label>
+                <input asp-for="lastUpdatedDate" class="form-control" />
+                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+
+            <div class="form-group">
+                <input type="submit" asp-action="GetPatientDischarge" value="Create" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+            }
+        </form>
+    </div>
+</div>
 

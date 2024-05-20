@@ -156,6 +156,52 @@ namespace HealthCare.Business
             return patExmQuestion;
 
         }
+        public List<OTSummaryModel> GetOtSummaryview(string potScheduleID, string answer)
+        {
+
+
+            var objnew = (objSearchContext.SHOTsummary.Where(x =>
+                x.OtscheduleID == potScheduleID).Count());
+
+            if (objnew <= 0)
+            {
+                var addSumm = objSearchContext.SHclnOtSummaryMaster.Select(e => e).ToList();
+
+                foreach (var item in addSumm)
+                {
+                    var newObservation = new OTSummaryModel
+                    {
+                        QuestionID = item.QuestionID,
+                        Question = item.Question,
+                        Answer = answer,
+                        OtscheduleID = potScheduleID
+                    };
+                    objSearchContext.SHOTsummary.Add(newObservation);
+
+                }
+                objSearchContext.SaveChanges();
+            }
+
+            var result = (
+           from e in objSearchContext.SHclnOtSummaryMaster
+           join o in objSearchContext.SHOTsummary
+               on e.QuestionID equals o.QuestionID into otGroup
+           from o in otGroup.DefaultIfEmpty()
+           where (o.OtscheduleID == potScheduleID)
+           select new OTSummaryModel
+           {
+               Question = e.Question,
+               QuestionID=e.QuestionID,
+               Answer = o != null ? o.Answer : string.Empty,
+
+           }).ToList();
+
+            return result;
+        }
+
+       
+
+
         public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string FacilityID, string patientName, string visitDate, string clinicName)
         {
             var patExamSearch = (from r in objSearchContext.SHPatientRegistration
@@ -331,7 +377,8 @@ namespace HealthCare.Business
 
                           }).FirstOrDefaultAsync();
 
-            oTConfirmation.OtScheduleID = result.OtScheduleID;
+            oTConfirmation.OtScheduleID = 
+                result.OtScheduleID;
             oTConfirmation.TableName=result.TableName;
             oTConfirmation.TeamName = result.TeamName;
             oTConfirmation.Date=result.Date;
@@ -394,64 +441,6 @@ namespace HealthCare.Business
                 await objSearchContext.SaveChangesAsync();
                 
             }
-            return true;
-        }
-
-        public async Task<bool> PatientviewDiagnosis(PatientDiagnosisModel pPatientDig)
-        {
-            var existingDig = await objSearchContext.SHEXMdiagnosis.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID,pPatientDig.DiagnosisID);
-            if (existingDig != null)
-            {
-
-                existingDig.PatientID = pPatientDig.PatientID;
-                existingDig.VisitID = pPatientDig.VisitID;
-                existingDig.ExamID = pPatientDig.ExamID;
-                existingDig.DiagnosisID = pPatientDig.DiagnosisID;
-                existingDig.Notes = pPatientDig.Notes;
-                existingDig.Comments = pPatientDig.Comments;
-                existingDig.DoctorID = pPatientDig.DoctorID;
-                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
-                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
-                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
-            }
-            else
-            {
-                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
-                pPatientDig.lastUpdatedUser = "Myself";
-                pPatientDig.lasrUpdatedMachine = "Lap";
-                objSearchContext.SHEXMdiagnosis.Add(pPatientDig);
-
-            }
-            await objSearchContext.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> PatientviewProcedure(PatientProcedureModel pPatientDig)
-        {
-            var existingDig = await objSearchContext.SHEXMprocedure.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID, pPatientDig.ProcedureID);
-            if (existingDig != null)
-            {
-
-                existingDig.PatientID = pPatientDig.PatientID;
-                existingDig.VisitID = pPatientDig.VisitID;
-                existingDig.ExamID = pPatientDig.ExamID;
-                existingDig.ProcedureID = pPatientDig.ProcedureID;
-                existingDig.Notes = pPatientDig.Notes;
-                existingDig.Comments = pPatientDig.Comments;
-                existingDig.DoctorID = pPatientDig.DoctorID;
-                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
-                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
-                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
-            }
-            else
-            {
-                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
-                pPatientDig.lastUpdatedUser = "Myself";
-                pPatientDig.lasrUpdatedMachine = "Lap";
-                objSearchContext.SHEXMprocedure.Add(pPatientDig);
-
-            }
-            await objSearchContext.SaveChangesAsync();
             return true;
         }
     }

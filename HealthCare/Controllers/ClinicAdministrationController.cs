@@ -277,6 +277,7 @@ namespace HealthCare.Controllers
 
             ViewBag.Message = "Saved Successfully";
             return View("IPTypeMaster", model);
+
         }
 
 
@@ -406,7 +407,7 @@ namespace HealthCare.Controllers
         public IActionResult EWSMaster()
         {
             return View();
-        }
+        } 
 
         public IActionResult StaffAdminModel()
         {
@@ -471,6 +472,35 @@ namespace HealthCare.Controllers
 
             ViewBag.Message = "Saved Successfully";
             return View("PatientFHPHMaster", model);
+
+
+
+        }
+
+        public async Task<IActionResult> SummaryMaster(OTSummaryMasterModel model)
+        {
+            var summary = await _healthcareContext.SHclnOtSummaryMaster.FindAsync(model.QuestionID);
+            if (summary != null)
+            {
+                summary.QuestionID = model.QuestionID;
+                summary.Question = model.Question;
+                summary.lastUpdatedDate = DateTime.Now.ToString();
+                summary.lastUpdatedUser = "Myself";
+                summary.lastUpdatedMachine = "Lap";
+            }
+            else
+            {
+
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedMachine = "Lap";
+                _healthcareContext.SHclnOtSummaryMaster.Add(model);
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("OTSummaryMaster", model);
 
 
 
@@ -837,7 +867,50 @@ namespace HealthCare.Controllers
         {
             return View();
         }
+
         
+        public IActionResult OTSummaryMaster()
+        {
+            return View();
+        }
+        public IActionResult StaffFacilityMapping()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetStaffFacilityMap(StaffFacilityMappingModel model)
+        {
+            var existingStafff = await _healthcareContext.SHclnStaffFacilityMapping.FindAsync(model.StaffId, model.FacilityID);
+            if (existingStafff != null)
+            {
+                existingStafff.StaffId = model.StaffId;
+                existingStafff.FacilityID = model.FacilityID;
+                existingStafff.FromHour = model.FromHour;
+                existingStafff.ToHour = model.ToHour;
+                existingStafff.lastupdatedDate = DateTime.Now.ToString();
+                existingStafff.lastUpdatedUser = "Admin";
+                existingStafff.lastUpdatedMachine = "Lap";
+
+                _healthcareContext.Entry(existingStafff).State = EntityState.Modified;
+            }
+            else
+            {
+                model.lastupdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = "Admin";
+                model.lastUpdatedMachine = "Lap";
+                _healthcareContext.SHclnStaffFacilityMapping.Add(model);
+            }
+
+            await _healthcareContext.SaveChangesAsync();
+
+
+            ViewBag.Message = "Saved Successfully";
+            return View("StaffFacilityMapping", model);
+
+
+        }
+
+
 
 
 

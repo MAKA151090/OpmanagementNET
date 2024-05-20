@@ -5,33 +5,52 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>DrugRackMaster</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">DrugRackMaster</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
 
 
-<hr />
 @using (Html.BeginForm("DrugRack", "StockManagement", FormMethod.Post))
 {
-    <div class="row">
-        <div class="col-md-4">
+   
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
+
+                <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="RackID" class="form-control" placeholder="RackID" />
                     <label asp-for="RackID" class="control-label"></label>
-                    <input asp-for="RackID" class="form-control" />
                     <span asp-validation-for="RackID" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="RackName" class="form-control" placeholder="RackName" />
                     <label asp-for="RackName" class="control-label"></label>
-                    <input asp-for="RackName" class="form-control" />
                     <span asp-validation-for="RackName" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="UniqueIdentifier" class="form-control" placeholder="UniqueIdentifier" />
                     <label asp-for="UniqueIdentifier" class="control-label"></label>
-                    <input asp-for="UniqueIdentifier" class="form-control" />
                     <span asp-validation-for="UniqueIdentifier" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Comments" class="form-control" placeholder="Comments" />
                     <label asp-for="Comments" class="control-label"></label>
-                    <input asp-for="Comments" class="form-control" />
                     <span asp-validation-for="Comments" class="text-danger"></span>
                 </div>
                 @*  <div class="form-group">
@@ -51,15 +70,14 @@
             </div> *@
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
+                </div></div></div></div></div>
                 @if (ViewBag.Message != null)
                 {
                     <div class="alert alert-success">
                         @ViewBag.Message
                     </div>
                 }
-        </div>
-    </div>
+      
 }
 
             

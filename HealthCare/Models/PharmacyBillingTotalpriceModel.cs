@@ -10,6 +10,7 @@
         private String strPatientID;
         private String strVisitID;
         private String strOrderID;
+        private String strVisitcaseID;
         private List<PharmacyBillingModel> strPharmacyBillingModelList;
         private String strTotalPrice;
         private String strTax;
@@ -20,5 +21,6 @@
         public List<PharmacyBillingModel> StrPharmacyBillingModelList { get => strPharmacyBillingModelList; set => strPharmacyBillingModelList = value; }
         public string TotalPrice { get => strTotalPrice; set => strTotalPrice = value; }
         public string StrTax { get => strTax; set => strTax = value; }
+        public string StrVisitcaseID { get => strVisitcaseID; set => strVisitcaseID = value; }
     }
 }

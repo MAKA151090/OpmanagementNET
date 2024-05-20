@@ -5,23 +5,34 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>HospitalFacilityMapping</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">HospitalFacilityMapping</h2>
+            <small class="text-muted float-end"></small>
+    
+        </div>
+    </div>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="HospitalFacilityMapping">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="HospitalID" class="control-label"></label>
-                <input asp-for="HospitalID" class="form-control" />
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                 <input asp-for="HospitalID" class="form-control" placeholder="HospitalID" />
+                <label asp-for="HospitalID" class="control-label" ></label>
                 <span asp-validation-for="HospitalID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
                 <label asp-for="FacilityID" class="control-label"></label>
-                <input asp-for="FacilityID" class="form-control" />
                 <span asp-validation-for="FacilityID" class="text-danger"></span>
-            </div>
+            </div>  
             <div class="form-group">
                 <label class="control-label">FacilityStatus:</label><br />
                 <div class="form-check form-check-inline">
@@ -34,6 +45,7 @@
                 </div>
                 <span asp-validation-for="FacilityStatus" class="text-danger"></span>
             </div>
+         
            @*  <div class="form-group">
                 <label asp-for="lastUpdatedDate" class="control-label"></label>
                 <input asp-for="lastUpdatedDate" class="form-control" />
@@ -50,7 +62,7 @@
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" asp-action="GetHospitalFacilityMapping" value="Create" class="btn btn-primary" />
+                            <input type="submit" asp-action="GetHospitalFacilityMapping" value="Save" class="btn btn-primary" />
             </div>
             @if (ViewBag.Message != null)
             {

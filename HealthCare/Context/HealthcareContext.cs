@@ -86,6 +86,10 @@ namespace HealthCare.Context
 
         public DbSet<InpatientAdmissionModel> SHInpatientAdmission { get; set; }
 
+        public DbSet<InpatientDischargeModel> SHInpatientDischarge { get; set; }
+
+        public DbSet<StaffFacilityMappingModel> SHclnStaffFacilityMapping { get; set; }
+
         public DbSet<HospitalBedMasterModel> SHclnHospitalBedMaster { get; set; }
 
 
@@ -133,6 +137,11 @@ namespace HealthCare.Context
         public DbSet<InPatientTransferUpdateModel> SHipmInPatientTransferUpdate { get; set; }
 
         public DbSet<InpatientObservationModel> SHipmInpatientobservation {  get; set; }
+
+        public DbSet<OTSummaryMasterModel>SHclnOtSummaryMaster { get; set; }
+
+        public DbSet<OTSummaryModel>SHOTsummary { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -143,11 +152,14 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID , i.QuestionID});
+            modelBuilder.Entity<OTSummaryMasterModel>().HasKey(i => new { i.QuestionID });
+
             modelBuilder.Entity<InPatientTransferUpdateModel>().HasKey(i => new { i.PatientId, i.CaseId, i.BedId });
 
             modelBuilder.Entity<PatientProcedureModel>().HasKey(i => new { i.PatientID, i.VisitID, i.ExamID,i.ProcedureID });
             modelBuilder.Entity<PatientDiagnosisModel>().HasKey(i => new { i.PatientID, i.VisitID, i.ExamID,i.DiagnosisID });
-            modelBuilder.Entity<InpatientObservationModel>().HasKey(i => new { i.PatientID, i.ObservationID, i.BedNoID });
+            modelBuilder.Entity<InpatientObservationModel>().HasKey(i => new { i.PatientID, i.ObservationID, i.BedNoID,i.ObservationTypeID });
             modelBuilder.Entity<EWSMasterModel>().HasKey(i => new { i.ObservationTypeID });
             modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.PatientID, i.FacilityID, i.SlotsID });
             modelBuilder.Entity<InPatientCaseSheetModel>().HasKey(i => new { i.StrPatientId,i.StrCaseId });
@@ -293,6 +305,12 @@ namespace HealthCare.Context
 
 
 
+
+            modelBuilder.Entity<InpatientDischargeModel>()
+                .HasKey(i => new { i.PatientID, i.CaseID });
+
+            modelBuilder.Entity<StaffFacilityMappingModel>()
+                .HasKey(i => new { i.StaffId, i.FacilityID });
 
 
             modelBuilder.Entity<PatientObjectiveModel>()

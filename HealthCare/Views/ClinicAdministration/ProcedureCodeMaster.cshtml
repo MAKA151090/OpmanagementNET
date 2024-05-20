@@ -5,52 +5,75 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>ProcedureCodeMaster</h1>
 
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">ProcedureCodeMaster</h2>
+            <small class="text-muted float-end"></small>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        </div>
+    </div>
+
         <form asp-action="ProcedureCodeMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="ProcedureID" class="form-control" placeholder="Procedure ID" />
                 <label asp-for="ProcedureID" class="control-label"></label>
-                <input asp-for="ProcedureID" class="form-control" />
                 <span asp-validation-for="ProcedureID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ProcedureCode" class="form-control" placeholder="Procedure Code" />
                 <label asp-for="ProcedureCode" class="control-label"></label>
-                <input asp-for="ProcedureCode" class="form-control" />
                 <span asp-validation-for="ProcedureCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ProcedureName" class="form-control" placeholder="Procedure Name" />
                 <label asp-for="ProcedureName" class="control-label"></label>
-                <input asp-for="ProcedureName" class="form-control" />
                 <span asp-validation-for="ProcedureName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="CPTCode" class="form-control" placeholder="CPT Code" />
                 <label asp-for="CPTCode" class="control-label"></label>
-                <input asp-for="CPTCode" class="form-control" />
                 <span asp-validation-for="CPTCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="OtherCodeName" class="form-control" placeholder="Other Code Name" />
                 <label asp-for="OtherCodeName" class="control-label"></label>
-                <input asp-for="OtherCodeName" class="form-control" />
                 <span asp-validation-for="OtherCodeName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="OtherCode" class="form-control" placeholder="Other Code" />
                 <label asp-for="OtherCode" class="control-label"></label>
-                <input asp-for="OtherCode" class="form-control" />
                 <span asp-validation-for="OtherCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            </div>
+            </div>
+            </div>
+                        <div class="col-md-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ProcedureCodeDescription" class="form-control" placeholder="ProcedureCode Description" />
                 <label asp-for="ProcedureCodeDescription" class="control-label"></label>
-                <input asp-for="ProcedureCodeDescription" class="form-control" />
                 <span asp-validation-for="ProcedureCodeDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="WHODescription" class="form-control" placeholder="WHO Description" />
                 <label asp-for="WHODescription" class="control-label"></label>
-                <input asp-for="WHODescription" class="form-control" />
                 <span asp-validation-for="WHODescription" class="text-danger"></span>
             </div>
             
@@ -66,19 +89,22 @@
                 </div>
                 <span asp-validation-for="ProcedureCodeStatus" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Cost" class="form-control" placeholder="Cost" />
                 <label asp-for="Cost" class="control-label"></label>
-                <input asp-for="Cost" class="form-control" />
                 <span asp-validation-for="Cost" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="TaxPercentage" class="form-control" placeholder="Tax Percentage" />
                 <label asp-for="TaxPercentage" class="control-label"></label>
-                <input asp-for="TaxPercentage" class="form-control" />
                 <span asp-validation-for="TaxPercentage" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="NetCost" class="form-control" placeholder="Net Cost" />
                 <label asp-for="NetCost" class="control-label"></label>
-                <input asp-for="NetCost" class="form-control" />
                 <span asp-validation-for="NetCost" class="text-danger"></span>
             </div>
 @*             <div class="form-group">
@@ -99,6 +125,7 @@
             <div class="form-group">
                 <input type="submit" asp-action="GetProcedureCodeMaster" value="Save" class="btn btn-primary" />
             </div>
+           
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">

@@ -5,25 +5,42 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>Clinic Details</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">Get Clinic</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
+
 
 @using (Html.BeginForm("ClinicAdmin", "ClinicAdministration", FormMethod.Post))
 {
 
-    <div class="form-group">
+    <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
         <label asp-for="FacilityID" class="control-label"></label>
-        <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
         <span asp-validation-for="FacilityID" class="text-danger"></span>
     </div>
-    <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ClinicName" class="form-control" placeholder="ClinicName"/>
         <label asp-for="ClinicName" class="control-label"></label>
-        <input asp-for="ClinicName" class="form-control" />
         <span asp-validation-for="ClinicName" class="text-danger"></span>
     </div>
 
     <button type="submit" name="buttonType" value="submit" class="btn btn-danger" >Submit</button> 
+    </div></div></div></div>
 }
 
-
+</div>
 
 

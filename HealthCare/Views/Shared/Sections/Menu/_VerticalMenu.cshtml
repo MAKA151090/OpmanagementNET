@@ -71,6 +71,12 @@
             <div>Blood Group Administration</div>
           </a>
         </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/StaffFacilityMapping" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="StaffFacilityMapping" class="menu-link">
+                        <div>Staff Facility Mapping</div>
+                    </a>
+                </li>
+
                 <li class='menu-item@(currentPage == "/ClinicAdministration/DoctorSchedule" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="DoctorSchedule" class="menu-link">
                         <div>DoctorSchedule</div>
@@ -149,6 +155,11 @@
                 <li class='menu-item@(currentPage == "/ClinicAdministration/EWSMaster" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="EWSMaster" class="menu-link">
                         <div>EWSMaster</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/ClinicAdministration/OTSummaryMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="OTSummaryMaster" class="menu-link">
+                        <div>OTSummaryMaster</div>
                     </a>
                 </li>
 
@@ -361,6 +372,13 @@
                                 <li class='menu-item@(currentPage == "/InPatientModules/InPatientDischarge" ? " active" : "")'>
                                     <a asp-controller="InPatientModules" asp-action="InPatientDischarge" class="menu-link">
                                         <div>InPatient Discharge</div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="menu-sub">
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientDischargeSummary" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientDischargeSummary" class="menu-link">
+                                        <div>InPatient Discharge Summary</div>
                                     </a>
                                 </li>
                             </ul>

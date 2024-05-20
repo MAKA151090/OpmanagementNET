@@ -1,9 +1,100 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model OTSummaryViewModel
+
 @{
     ViewData["Title"] = "OTSummary";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div> this page is for OTSummary</div>
+
+<h1>OTSummary</h1>
+
+<hr />
+@using (Html.BeginForm("OtsummaryView","OTManagement", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-4">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OtscheduleID" class="control-label"></label>
+                <input asp-for="OtscheduleID" class="form-control" />
+                <span asp-validation-for="OtscheduleID" class="text-danger"></span>
+                <input type="submit" value="Get" class="btn btn-primary" />
+            </div>
+            @*  <div class="form-group">
+                <label asp-for="QuestionID" class="control-label"></label>
+                <input asp-for="QuestionID" class="form-control" />
+                <span asp-validation-for="QuestionID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question" class="control-label"></label>
+                <input asp-for="Question" class="form-control" />
+                <span asp-validation-for="Question" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Answer" class="control-label"></label>
+                <input asp-for="Answer" class="form-control" />
+                <span asp-validation-for="Answer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedDate" class="control-label"></label>
+                <input asp-for="lastUpdatedDate" class="form-control" />
+                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+           
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    Question 
+                </th>
+                <th>
+                    Answer
+                </th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                    @for (int i = 0; i < Model.SHotsumm.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.SHotsumm[i].Question</td>
+                            
+                            <td>
+                            <input type="hidden" asp-for="@Model.SHotsumm[i].QuestionID" />
+                                <textarea asp-for="SHotsumm[i].Answer" class="form-control" rows="3"></textarea>
+                            </td>
+                        </tr>
+                    }
+                
+
+                @* @foreach (var item in Model.SHotsumm)
+                {
+                    <tr>
+                        <td>@item.Question</td>
+                        <td>@item.Answer</td>
+                    </tr>
+                } *@
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" name="buttonType" value="Save" class="btn btn-primary">Save</button>
+    <button type="submit" name="buttonType" value="Print" class="btn btn-success">Print</button>
+
+}

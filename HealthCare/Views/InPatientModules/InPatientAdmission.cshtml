@@ -4,94 +4,127 @@
     ViewData["Title"] = "InPatientAdmission";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">ClinicAdminModel</h2>
+            <small class="text-muted float-end"></small>
 
-<h1>InPatientAdmission</h1>
+        </div>
+    </div>
 
-<h4>InpatientAdmissionModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="InPatientAdmission">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        
-            <div class="form-group">
+
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                 <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="CaseID" class="form-control" placeholder="CaseID" />
                 <label asp-for="CaseID" class="control-label"></label>
-                <input asp-for="CaseID" class="form-control" />
                 <span asp-validation-for="CaseID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Location" class="form-control"  placeholder="Location" />
                 <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ConsultDoctorID" class="form-control" placeholder="ConsultDoctorID" />
                 <label asp-for="ConsultDoctorID" class="control-label"></label>
-                <input asp-for="ConsultDoctorID" class="form-control" />
                 <span asp-validation-for="ConsultDoctorID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="DutyDoctorID" class="form-control" placeholder="DutyDoctorID" />
                 <label asp-for="DutyDoctorID" class="control-label"></label>
-                <input asp-for="DutyDoctorID" class="form-control" />
                 <span asp-validation-for="DutyDoctorID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ReferredByDoctorID" class="form-control" placeholder="ReferredByDoctorID" />
                 <label asp-for="ReferredByDoctorID" class="control-label"></label>
-                <input asp-for="ReferredByDoctorID" class="form-control" />
                 <span asp-validation-for="ReferredByDoctorID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            </div></div></div>
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="BedID" class="form-control" placeholder="BedID" />
                 <label asp-for="BedID" class="control-label"></label>
-                <input asp-for="BedID" class="form-control" />
                 <span asp-validation-for="BedID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Purpose" class="form-control" placeholder="Purpose" />
                 <label asp-for="Purpose" class="control-label"></label>
-                <input asp-for="Purpose" class="form-control" />
                 <span asp-validation-for="Purpose" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="AdditionConsultDoctorID" class="form-control" placeholder="AdditionConsultDoctorID" />
                 <label asp-for="AdditionConsultDoctorID" class="control-label"></label>
-                <input asp-for="AdditionConsultDoctorID" class="form-control" />
                 <span asp-validation-for="AdditionConsultDoctorID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ConsultantDepartmentID" class="form-control" placeholder="ConsultantDepartmentID" />
                 <label asp-for="ConsultantDepartmentID" class="control-label"></label>
-                <input asp-for="ConsultantDepartmentID" class="form-control" />
                 <span asp-validation-for="ConsultantDepartmentID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="AttenderName" class="form-control" placeholder="AttenderName" />
                 <label asp-for="AttenderName" class="control-label"></label>
-                <input asp-for="AttenderName" class="form-control" />
                 <span asp-validation-for="AttenderName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            </div></div></div>
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="AttenderContact" class="form-control" placeholder="AttenderContact" />
                 <label asp-for="AttenderContact" class="control-label"></label>
-                <input asp-for="AttenderContact" class="form-control" />
                 <span asp-validation-for="AttenderContact" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="AttenderEmail" class="form-control" placeholder="AttenderEmail" />
                 <label asp-for="AttenderEmail" class="control-label"></label>
-                <input asp-for="AttenderEmail" class="form-control" />
                 <span asp-validation-for="AttenderEmail" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="DocInstruction" class="form-control" placeholder="DocInstruction" />
                 <label asp-for="DocInstruction" class="control-label"></label>
-                <input asp-for="DocInstruction" class="form-control" />
                 <span asp-validation-for="DocInstruction" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="InpatientType" class="form-control" placeholder="InpatientType" />
                 <label asp-for="InpatientType" class="control-label"></label>
-                <input asp-for="InpatientType" class="form-control" />
                 <span asp-validation-for="InpatientType" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="AdmissionDate" class="form-control" placeholder="AdmissionDate" />
                 <label asp-for="AdmissionDate" class="control-label"></label>
-                <input asp-for="AdmissionDate" class="form-control" />
                 <span asp-validation-for="AdmissionDate" class="text-danger"></span>
             </div>
          @* 
@@ -114,7 +147,7 @@
           <div class="form-group">
                 <input type="submit" asp-action="GetPatientAdmission" value="Create" class="btn btn-primary" />
                 <input type="submit" asp-action="GetPatientAdmission" value="Save" class="btn btn-primary" />
-            </div>
+            </div></div></div></div></div>
              @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">

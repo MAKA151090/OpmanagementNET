@@ -256,86 +256,137 @@ namespace HealthCare.Controllers
         }
 
 
-        public async Task<ActionResult> getpatientDigpro(PatientDiagnosisModel pDig,PatientProcedureModel pPro, string buttonType)
+        [HttpPost]
+        public async Task<ActionResult> PatientExamination(PatientExaminationModel patient, string buttonType)
         {
-            BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
 
             if (buttonType == "patientDiagnosis")
+            { 
+                return View("PatientDiagnosis");
+            }
+            else if (buttonType == "patientProcedure")
             {
-                var patientDiagnosis = await business.PatientviewDiagnosis(pDig);
-
-                if (patientDiagnosis != null)
-                {
-
-                    return View("PatientviewDiagnosis",patientDiagnosis);
-                }
-                else if (buttonType == "patientProcedure")
-                {
-                    var patientprocedure = await business.PatientviewProcedure(pPro);
-
-
-                    return View("PatientProcedure",patientprocedure);
-                }
+               
+                return View("PatientProcedure");
+           
             }
             
-
             return View();
         }
 
-
-        /*// Check which button was clicked
-        switch (buttonType)
+        public async Task<IActionResult> PatientviewDiagnosis(PatientDiagnosisModel pPatientDig)
         {
-            case "select":
-                // Handle Select button click
-                return await HandleSelectButton(patientID, visitID, clinicID);
+            var existingDig = await getPatientObjective.SHEXMdiagnosis.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID, pPatientDig.DiagnosisID);
+            if (existingDig != null)
+            {
 
-            case "create":
-                // Handle Create button click
-                return HandleCreateButton();
+                existingDig.PatientID = pPatientDig.PatientID;
+                existingDig.VisitID = pPatientDig.VisitID;
+                existingDig.ExamID = pPatientDig.ExamID;
+                existingDig.DiagnosisID = pPatientDig.DiagnosisID;
+                existingDig.Notes = pPatientDig.Notes;
+                existingDig.Comments = pPatientDig.Comments;
+                existingDig.DoctorID = pPatientDig.DoctorID;
+                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
+                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
+                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
+            }
+            else
+            {
+                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
+                pPatientDig.lastUpdatedUser = "Myself";
+                pPatientDig.lasrUpdatedMachine = "Lap";
+                getPatientObjective.SHEXMdiagnosis.Add(pPatientDig);
 
-            case "submit":
-                // Handle Submit button click
-                return HandleSubmitButton();
+            }
+            await getPatientObjective.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("PatientDiagnosis", pPatientDig);
+        }
 
-            default:
-                return View();
-        }*/
+        public async Task<IActionResult> PatientviewProcedure(PatientProcedureModel pPatientDig)
+        {
+            var existingDig = await getPatientObjective.SHEXMprocedure.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID, pPatientDig.ProcedureID);
+            if (existingDig != null)
+            {
+
+                existingDig.PatientID = pPatientDig.PatientID;
+                existingDig.VisitID = pPatientDig.VisitID;
+                existingDig.ExamID = pPatientDig.ExamID;
+                existingDig.ProcedureID = pPatientDig.ProcedureID;
+                existingDig.Notes = pPatientDig.Notes;
+                existingDig.Comments = pPatientDig.Comments;
+                existingDig.DoctorID = pPatientDig.DoctorID;
+                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
+                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
+                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
+            }
+            else
+            {
+                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
+                pPatientDig.lastUpdatedUser = "Myself";
+                pPatientDig.lasrUpdatedMachine = "Lap";
+                getPatientObjective.SHEXMprocedure.Add(pPatientDig);
+
+            }
+            await getPatientObjective.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("PatientProcedure", pPatientDig);
+        }
+
+    /*// Check which button was clicked
+    switch (buttonType)
+    {
+        case "select":
+            // Handle Select button click
+            return await HandleSelectButton(patientID, visitID, clinicID);
+
+        case "create":
+            // Handle Create button click
+            return HandleCreateButton();
+
+        case "submit":
+            // Handle Submit button click
+            return HandleSubmitButton();
+
+        default:
+            return View();
+    }*/
 
 
-        /* private async Task<ActionResult> HandleSelectButton(string patientID, string visitID, string clinicID)
+    /* private async Task<ActionResult> HandleSelectButton(string patientID, string visitID, string clinicID)
+     {
+         // Retrieve relevant patient objective details from the database based on the IDs
+         var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x =>
+             x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
+
+         if (patientObjective == null)
          {
-             // Retrieve relevant patient objective details from the database based on the IDs
-             var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x =>
-                 x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
-
-             if (patientObjective == null)
-             {
-                 ViewBag.Message = "No data found for the provided IDs.";
-                 ViewBag.PatientObjectiveData = null;
-                 return View();
-             }
-
-             ViewBag.PatientObjectiveData = patientObjective;
-             // Enable the Submit button
-             ViewBag.SubmitButtonDisabled = false;
-             return View("PatientObjectiveData",patientObjective);
+             ViewBag.Message = "No data found for the provided IDs.";
+             ViewBag.PatientObjectiveData = null;
+             return View();
          }
 
-         private ActionResult HandleCreateButton()
-         {
-             // Handle Create button click logic here
-             return RedirectToAction("PatientObjectivePage");
-         }
+         ViewBag.PatientObjectiveData = patientObjective;
+         // Enable the Submit button
+         ViewBag.SubmitButtonDisabled = false;
+         return View("PatientObjectiveData",patientObjective);
+     }
 
-         private ActionResult HandleSubmitButton()
-         {
-             // Handle Submit button click logic here
-             return RedirectToAction("PatientObjectivePage");
-         }*/
+     private ActionResult HandleCreateButton()
+     {
+         // Handle Create button click logic here
+         return RedirectToAction("PatientObjectivePage");
+     }
+
+     private ActionResult HandleSubmitButton()
+     {
+         // Handle Submit button click logic here
+         return RedirectToAction("PatientObjectivePage");
+     }*/
 
 
-        public IActionResult Index()
+    public IActionResult Index()
         {
             return View();
         }
@@ -404,7 +455,16 @@ namespace HealthCare.Controllers
             return View();
 
         }
-        
+        public IActionResult PatientProcedure()
+        {
+            return View();
+        }
+
+        public IActionResult PatientDiagnosis()
+        {
+            return View();
+        }
+
 
     }
 }
