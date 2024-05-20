@@ -53,7 +53,7 @@ namespace HealthCare.Controllers
                 exitingpatient.Rlnpatient = model.Rlnpatient;
                 exitingpatient.EmgcyCntNum = model.EmgcyCntNum;
                 exitingpatient.lastUpdatedDate = DateTime.Now.ToString();
-                exitingpatient.lastUpdatedUser = "Myself";
+                exitingpatient.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.Entry(exitingpatient).State = EntityState.Modified;
 
 
@@ -62,7 +62,7 @@ namespace HealthCare.Controllers
             {
 
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.SHPatientRegistration.Add(model);
             }
                 await _healthcareContext.SaveChangesAsync();
@@ -102,7 +102,7 @@ namespace HealthCare.Controllers
         public async Task<PatientScheduleModel> PatientScedule(PatientScheduleModel model)
         {
             model.lastUpdatedDate = DateTime.Now.ToString() ;
-            model.lastUpdatedUser = "Admin";
+            model.lastUpdatedUser = User.Claims.First().Value.ToString();
             _healthcareContext.SHPatientSchedule.Add(model);
             await _healthcareContext.SaveChangesAsync();
 

@@ -29,16 +29,16 @@ namespace HealthCare.Controllers
                 existingPatientDischarge.DischargeNotes = model.DischargeNotes;
                 existingPatientDischarge.DoctorID = model.DoctorID;
                 existingPatientDischarge.lastUpdatedDate = DateTime.Now.ToString();
-                existingPatientDischarge.lastUpdatedUser = "Admin";
-                existingPatientDischarge.lastUpdatedMachine = "Lap";
+                existingPatientDischarge.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingPatientDischarge.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                 _healthcareContext.Entry(existingPatientDischarge).State = EntityState.Modified;
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                model.lastUpdatedMachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHInpatientDischarge.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -71,16 +71,16 @@ namespace HealthCare.Controllers
                 existingPatientAdmission.InpatientType = model.InpatientType;
                 existingPatientAdmission.AdmissionDate = model.AdmissionDate;
                 existingPatientAdmission.lastupdatedDate = DateTime.Now.ToString();
-                existingPatientAdmission.lastUpdatedUser = "Admin";
-                existingPatientAdmission.lastUpdatedMachine = "Lap";
+                existingPatientAdmission.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingPatientAdmission.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                 _healthcareContext.Entry(existingPatientAdmission).State = EntityState.Modified;
             }
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                model.lastUpdatedMachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHInpatientAdmission.Add(model);
             }
 
@@ -106,6 +106,34 @@ namespace HealthCare.Controllers
 
              if (buttonType == "save")
             {
+                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID, Model.ObservationID);
+                objadd.ObservationID = Model.ObservationID;
+                objadd.NurseID = Model.NurseID;
+                objadd.DateTime = Model.DateTime;
+                objadd.lastupdatedDate = DateTime.Now.ToString();
+                if (objadd == null)
+                {
+                    objadd = new InpatientObservationModel
+                    {
+                        BedNoID = Model.BedNoID,
+                        PatientID = Model.PatientID,
+                        ObservationID = Model.ObservationID,
+                        ObservationTypeID = "1",
+                        NurseID = Model.NurseID,
+                        DateTime = Model.DateTime,
+                        lastupdatedDate = DateTime.Now.ToString(),
+                        lastUpdatedUser = User.Claims.First().Value.ToString(),
+                    lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                };
+                    _healthcareContext.SHipmInpatientobservation.Update(objadd);
+                }
+                else
+                {
+                    objadd.NurseID = Model.NurseID;
+                    objadd.DateTime = Model.DateTime;
+                    objadd.lastupdatedDate = DateTime.Now.ToString();
+                    objadd.lastUpdatedUser = User.Claims.First().Value.ToString();
+                    objadd.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 foreach (var summary in Model.SHviewInpatientObs)
                 {
 
@@ -191,16 +219,16 @@ namespace HealthCare.Controllers
                 existingInPatientCaseSheet.StrDiagnosis = model.StrDiagnosis;
                 existingInPatientCaseSheet.StrTreatment = model.StrTreatment;
                 existingInPatientCaseSheet.LastupdatedDate = DateTime.Now.ToString();
-                existingInPatientCaseSheet.LastupdatedUser = "Admin";
-                existingInPatientCaseSheet.LastUpdatedMachine = "Lap";
+                existingInPatientCaseSheet.LastupdatedUser = User.Claims.First().Value.ToString();
+                existingInPatientCaseSheet.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                 _healthcareContext.Entry(existingInPatientCaseSheet).State = EntityState.Modified;
             }
             else
             {
                 model.LastupdatedDate = DateTime.Now.ToString();
-                model.LastupdatedUser = "Admin";
-                model.LastUpdatedMachine = "Lap";
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHipmInPatientCaseSheet.Add(model);
             }
 
@@ -229,16 +257,16 @@ namespace HealthCare.Controllers
                 existingInPatientDocVisit.DocId = model.DocId;
                 existingInPatientDocVisit.DocNotes = model.DocNotes;
                 existingInPatientDocVisit.LastupdatedDate = DateTime.Now.ToString();
-                existingInPatientDocVisit.LastupdatedUser = "Admin";
-                existingInPatientDocVisit.LastUpdatedMachine = "Lap";
+                existingInPatientDocVisit.LastupdatedUser = User.Claims.First().Value.ToString();
+                existingInPatientDocVisit.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                 _healthcareContext.Entry(existingInPatientDocVisit).State = EntityState.Modified;
             }
             else
             {
                 model.LastupdatedDate = DateTime.Now.ToString();
-                model.LastupdatedUser = "Admin";
-                model.LastUpdatedMachine = "Lap";
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHipmInPatientDocVisit.Add(model);
             }
 
@@ -269,8 +297,8 @@ namespace HealthCare.Controllers
 
                     admission.BedID = Model.BedId;
                     admission.lastupdatedDate = DateTime.Now.ToString();
-                    admission.lastUpdatedMachine = "test";
-                    admission.lastUpdatedUser = "test";
+                    admission.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    admission.lastUpdatedUser = User.Claims.First().Value.ToString();
 
 
                     _healthcareContext.Entry(admission).State = EntityState.Modified;
@@ -293,8 +321,8 @@ namespace HealthCare.Controllers
                     existingInPatientTransfer.DocId = Model.DocId;
                     existingInPatientTransfer.ChangeDate = Model.ChangeDate;
                     existingInPatientTransfer.LastupdatedDate = DateTime.Now.ToString();
-                    existingInPatientTransfer.LastupdatedUser = "Admin";
-                    existingInPatientTransfer.LastUpdatedMachine = "Lap";
+                    existingInPatientTransfer.LastupdatedUser = User.Claims.First().Value.ToString();
+                    existingInPatientTransfer.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                     _healthcareContext.Entry(existingInPatientTransfer).State = EntityState.Modified;
 
@@ -302,8 +330,8 @@ namespace HealthCare.Controllers
                 else
                 {
                     Model.LastupdatedDate = DateTime.Now.ToString();
-                    Model.LastupdatedUser = "Admin";
-                    Model.LastUpdatedMachine = "Lap";
+                    Model.LastupdatedUser = User.Claims.First().Value.ToString();
+                    Model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                     _healthcareContext.SHipmInPatientTransferUpdate.Add(Model);
 
                 }

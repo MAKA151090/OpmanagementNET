@@ -5,22 +5,36 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>IPTypeMaster</h1>
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> IPTypeMaster</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
 
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="IPTypeMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+                <div class="row gy-4">
+
+                    <div class="col-md-12 col-lg-1">
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="IPTypeID" class="form-control" placeholder="IPTypeID" />
                 <label asp-for="IPTypeID" class="control-label"></label>
-                <input asp-for="IPTypeID" class="form-control" />
+                
                 <span asp-validation-for="IPTypeID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="IPTypeName" class="form-control" placeholder="IPTypeName" />
                 <label asp-for="IPTypeName" class="control-label"></label>
-                <input asp-for="IPTypeName" class="form-control" />
+               
                 <span asp-validation-for="IPTypeName" class="text-danger"></span>
             </div>
 @*             <div class="form-group">
@@ -38,9 +52,12 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
+            <br />
             <div class="form-group">
                 <input type="submit" asp-action="GetIpType" value="Create" class="btn btn-primary" />
             </div>
+            
+            
 
 
             @if (ViewBag.Message != null)
@@ -54,6 +71,6 @@
             }
         </form>
     </div>
-</div>
+    
 
 

@@ -38,14 +38,14 @@ namespace HealthCare.Controllers
                 existingPatientTest.ReferDocID = pPatientTest.ReferDocID;
                 existingPatientTest.ResultDate = pPatientTest.ResultDate;
                 existingPatientTest.lastUpdatedDate = DateTime.Now.ToString();
-                existingPatientTest.lastUpdatedUser = "Myself";
-                existingPatientTest.lastUpdatedMachine = "Lap";
+                existingPatientTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingPatientTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 pPatientTest.lastUpdatedDate = DateTime.Now.ToString();
-                pPatientTest.lastUpdatedUser = "Myself";
-                pPatientTest.lastUpdatedMachine = "Lap";
+                pPatientTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                pPatientTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetlabData.SHPatientTest.Add(pPatientTest);
 
             }
@@ -83,8 +83,8 @@ namespace HealthCare.Controllers
                 existingPatientRadiology.ScreeningDate = model.ScreeningDate;
                 existingPatientRadiology.Result = model.Result;
                 existingPatientRadiology.lastUpdatedDate = DateTime.Now.ToString();
-                existingPatientRadiology.lastUpdatedUser = "Admin";
-                existingPatientRadiology.lastUpdatedMachine = "Lap";
+                existingPatientRadiology.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingPatientRadiology.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 existingPatientRadiology.ScreeningCompleted = model.ScreeningCompleted;
                 existingPatientRadiology.ScreeningCompletedDate = model.ScreeningCompletedDate;
 
@@ -92,8 +92,8 @@ namespace HealthCare.Controllers
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                model.lastUpdatedMachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetlabData.SHPatientRadiology.Add(model);
             }
             await GetlabData.SaveChangesAsync();
@@ -183,12 +183,12 @@ namespace HealthCare.Controllers
                     existingUpdateRadiologyResult.ImageID = model.ImageID;
                     existingUpdateRadiologyResult.ImageData = model.ImageData;
                     existingUpdateRadiologyResult.lastUpdatedDate = DateTime.Now.ToString();
-                    existingUpdateRadiologyResult.lastUpdatedUser = "myself";
+                    existingUpdateRadiologyResult.lastUpdatedUser = User.Claims.First().Value.ToString();
                 }
                 else
                 {
                     model.lastUpdatedDate = DateTime.Now.ToString();
-                    model.lastUpdatedUser = "myself";
+                    model.lastUpdatedUser = User.Claims.First().Value.ToString();
                     GetlabData.SHUpdateRadiologyResult.Add(model);
                 }
 

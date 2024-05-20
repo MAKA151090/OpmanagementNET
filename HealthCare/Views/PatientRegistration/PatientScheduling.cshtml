@@ -5,40 +5,58 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>PatientScheduling</h1>
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> PatientScheduling </h2>
+            <small class="text-muted float-end"></small>
 
-<h4>PatientScheduleModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        </div>
+    </div>
+
+
+
         <form asp-action="PatientScheduling">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-1">
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                 <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
+                
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
                 <label asp-for="FacilityID" class="control-label"></label>
-                <input asp-for="FacilityID" class="form-control" />
+                
                 <span asp-validation-for="FacilityID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="DoctorID" class="form-control" placeholder="DoctorID" />
                 <label asp-for="DoctorID" class="control-label"></label>
-                <input asp-for="DoctorID" class="form-control" />
+                
                 <span asp-validation-for="DoctorID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Date" class="form-control" type="date" placeholder="Date" />
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" type="date" />
+                
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Description" class="form-control" placeholder="Description" />
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-
+            <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -48,8 +66,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 

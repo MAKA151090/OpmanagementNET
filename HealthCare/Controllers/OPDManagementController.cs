@@ -47,7 +47,7 @@ namespace HealthCare.Controllers
             else
             {
                 pPatientIDCreate.lastUpdatedDate = DateTime.Now.ToString();
-                pPatientIDCreate.lastUpdatedUser = "Myself";
+                pPatientIDCreate.lastUpdatedUser = User.Claims.First().Value.ToString();
                 getPatientObjective.SHExmPatientObjective.Add(pPatientIDCreate);
            
             }
@@ -142,7 +142,7 @@ namespace HealthCare.Controllers
         {
             BusinessClassExamination objBusinessclass = new BusinessClassExamination(getPatientObjective);
             pPatientExmCreate.lastUpdatedDate = DateTime.Now.ToString();
-            pPatientExmCreate.lastUpdatedUser = "Myself";
+            pPatientExmCreate.lastUpdatedUser = User.Claims.First().Value.ToString();
 
             await objBusinessclass.SavePatientExaminationAndSeverity(patientExamination,severity);
             
@@ -167,7 +167,7 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> GetDocument(string objPatientID, PatientVisitIntoDocumentModel pPatientDocument)
         {
             pPatientDocument.lastUpdatedDate = DateTime.Now.ToString();
-            pPatientDocument.lastUpdatedUser = "Myself";
+            pPatientDocument.lastUpdatedUser = User.Claims.First().Value.ToString();
             //getPatientObjective.SHExmPatientDocument.Add(pPatientDocument);
             await getPatientObjective.SaveChangesAsync();
             //return RedirectToAction("Index");
@@ -179,7 +179,7 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> FHPH1 (string objPatientID, PatientFHPHModel pPatientFHPH)
         {
             pPatientFHPH.lastUpdatedDate = DateTime.Now.ToString();
-            pPatientFHPH.lastUpdatedUser = "Myself";
+            pPatientFHPH.lastUpdatedUser = User.Claims.First().Value.ToString();
             getPatientObjective.SHExmPatientFHPH.Add(pPatientFHPH);
             await getPatientObjective.SaveChangesAsync();
             //return RedirectToAction("Index");

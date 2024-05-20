@@ -4,33 +4,50 @@
     ViewData["Title"] = "ClinicSurgeryMaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> ClinicSurgeryMaster</h2>
+            <small class="text-muted float-end"></small>
 
-<h1>ClinicSurgeryMaster</h1>
+        </div>
+    </div>
 
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+
         <form asp-action="ClinicSurgeryMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+                <div class="row gy-4">
+
+                    <div class="col-md-12 col-lg-1">
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="SurgeryName" class="form-control" placeholder="SurgeryName" />
                 <label asp-for="SurgeryName" class="control-label"></label>
-                <input asp-for="SurgeryName" class="form-control" />
+                
                 <span asp-validation-for="SurgeryName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="SurgeryID" class="form-control" placeholder="SurgeryID" />
                 <label asp-for="SurgeryID" class="control-label"></label>
-                <input asp-for="SurgeryID" class="form-control" />
+                
                 <span asp-validation-for="SurgeryID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Cost" class="form-control" placeholder="Cost" />
                 <label asp-for="Cost" class="control-label"></label>
-                <input asp-for="Cost" class="form-control" />
+                
                 <span asp-validation-for="Cost" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Duration" class="form-control" placeholder="Duration" />
                 <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
+                
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
           @*   <div class="form-group">
@@ -48,6 +65,7 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
+            <br />
             <div class="form-group">
                 <input type="submit" asp-action="GetClinicSurgeryMaster" value="Create" class="btn btn-primary" />
             </div>
