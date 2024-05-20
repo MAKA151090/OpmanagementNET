@@ -93,7 +93,8 @@ namespace HealthCare.Business
                         ObservationID=ObservationID
                     };
                     objInpatientDb.SHipmInpatientobservation.Add(newObservation);
-                   
+
+                    
                 }
                 objInpatientDb.SaveChanges();
             }
@@ -113,6 +114,7 @@ namespace HealthCare.Business
                    Frequency = e.Frequency,
 
                }).ToList();
+
 
             return result;
 
