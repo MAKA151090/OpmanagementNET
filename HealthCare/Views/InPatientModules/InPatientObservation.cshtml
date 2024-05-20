@@ -73,16 +73,14 @@
         <tbody>
             @if (Model != null)
             {
-                @foreach (var item in Model.SHviewInpatientObs)
+                @for (int i = 0; i < Model.SHviewInpatientObs.Count; i++)
                 {
                     <tr>
-                        <td>@item.ObservationName</td>
-                        <td>
-                            <input type="text" class="form-control" name="Question" value="@item.Answer" asp-for="@item.Answer" /> 
-                        </td>
-                        <td>@item.Unit</td>
-                        <td>@item.Range</td>
-                        <td>@item.Frequency</td>
+                        <td>@Model.SHviewInpatientObs[i].ObservationName</td>
+                        <td><input type="text" name="answer" value="@Model.Answer" /></td>
+                        <td>@Model.SHviewInpatientObs[i].Unit</td>
+                        <td>@Model.SHviewInpatientObs[i].Range</td>
+                        <td>@Model.SHviewInpatientObs[i].Frequency</td>
                     </tr>
                 }
             }

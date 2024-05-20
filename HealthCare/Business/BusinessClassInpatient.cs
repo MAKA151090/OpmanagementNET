@@ -92,7 +92,7 @@ namespace HealthCare.Business
                         BedNoID = BedNoID,
                         ObservationID=ObservationID
                     };
-                    objInpatientDb.SHipmInpatientobservation.Add(newObservation);
+                    objInpatientDb.SHipmInpatientobservation.Update(newObservation);
                    
                 }
                 objInpatientDb.SaveChanges();
