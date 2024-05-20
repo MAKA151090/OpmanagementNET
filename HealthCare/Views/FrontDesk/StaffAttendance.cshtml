@@ -5,75 +5,106 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>StaffAttendance</h1>
 
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="StaffAttendance">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StaffID" class="control-label"></label>
-                <input asp-for="StaffID" class="form-control" />
-                <span asp-validation-for="StaffID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" type="date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Office:</label><br />
-                <div class="form-check form-check-inline">
-                    <input asp-for="Office" class="form-check-input" type="radio" value="1" id="INRadio" />
-                    <label class="form-check-label" for="INRadio">IN</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input asp-for="Office" class="form-check-input" type="radio" value="0" id="OUTRadio" />
-                    <label class="form-check-label" for="OUTRadio">OUT</label>
-                </div>
-                <span asp-validation-for="Office" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CheckInTime" class="control-label"></label>
-                <input asp-for="CheckInTime" class="form-control" />
-                <span asp-validation-for="CheckInTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CheckOuTtime" class="control-label"></label>
-                <input asp-for="CheckOuTtime" class="form-control" />
-                <span asp-validation-for="CheckOuTtime" class="text-danger"></span>
-            </div>
-            @* <div class="form-group">
-                <label asp-for="lastUpdatedDate" class="control-label"></label>
-                <input asp-for="lastUpdatedDate" class="form-control" />
-                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                <input asp-for="lastUpdatedMachine" class="form-control" />
-                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <input type="submit" asp-action="StaffAttendance" value="Save" class="btn btn-primary" />
-            </div>
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
 
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">StaffAttendance</h2>
+            <small class="text-muted float-end"></small>
 
-                    @ViewBag.Message
-                </div>
-
-            }
-        </form>
+        </div>
     </div>
+
+
+    <form asp-action="StaffAttendance" style="height:100%">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row gy-4">
+            <div class="col-md-12 col-lg-1">
+            </div>
+
+            <div class="col-md-12 col-lg-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StaffID" class="form-control" placeholder="StaffID" />
+                            <label asp-for="StaffID" class="control-label">StaffID</label>
+                            <span asp-validation-for="StaffID" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Date" type="date" class="form-control" placeholder="Date" />
+                            <label asp-for="Date" class="control-label">Date</label>
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Office:</label>
+
+                       
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Office" class="form-check-input" type="radio" value="1" id="INRadio" />
+                            <label class="form-check-label" for="INRadio">IN</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Office" class="form-check-input" type="radio" value="0" id="OUTRadio" />
+                            <label class="form-check-label" for="OUTRadio">OUT</label>
+                        </div>
+                        <span asp-validation-for="Office" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="CheckInTime" class="form-control" placeholder="CheckInTime" />
+                            <label asp-for="CheckInTime" class="control-label">CheckInTime</label>
+
+                            <span asp-validation-for="CheckInTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="CheckOuTtime" class="form-control" placeholder="CheckOuTtime" />
+                            <label asp-for="CheckOuTtime" class="control-label">CheckOuTtime</label>
+
+                            <span asp-validation-for="CheckOuTtime" class="text-danger"></span>
+                        </div>
+                        @* <div class="form-group">
+                        <label asp-for="lastUpdatedDate" class="control-label"></label>
+                        <input asp-for="lastUpdatedDate" class="form-control" />
+                        <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                        <label asp-for="lastUpdatedUser" class="control-label"></label>
+                        <input asp-for="lastUpdatedUser" class="form-control" />
+                        <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                        <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                        <input asp-for="lastUpdatedMachine" class="form-control" />
+                        <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+                        </div> *@
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="submit" asp-action="StaffAttendance" value="Save" class="btn btn-primary" />
+                        </div>
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-success">
+
+
+                                @ViewBag.Message
+                            </div>
+
+                        }
+
+                        <div class="col-md-12 col-lg-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row gy-4">
+            <div class="form-floating form-floating-outline mb-4">
+            </div>
+        </div>
+    </form>
 </div>
+
 
 

@@ -63,6 +63,7 @@ namespace HealthCare.Controllers
 
         }
 
+        [HttpPost]
         public async Task<IActionResult> GetInpatientViewResult(InpatientObservationViewModel Model, string buttonType)
         {
            BusinessClassInpatient ObjViewINP = new BusinessClassInpatient(_healthcareContext);
@@ -205,14 +206,13 @@ namespace HealthCare.Controllers
         }
          [HttpPost]                                                                                      
         public async Task<IActionResult> InPatientTransfer(InPatientTransferUpdateModel Model, string buttonType)
-        {
-
-            BusinessClassInpatient ObjView = new BusinessClassInpatient(_healthcareContext);
-            if (buttonType == "Get")
             {
 
-                var result = await ObjView.InPatientTransfer(Model.PatientId, Model.CaseId, Model.BedId);
-
+            BusinessClassInpatient ObjView = new BusinessClassInpatient(_healthcareContext);
+            if (buttonType == "get")
+            {
+                var result = ObjView.InPatientTransfer(Model.PatientId, Model.CaseId, Model.BedId).Result;
+                return View("InPatientTransfer", result);
             }
             else if (buttonType == "Save")
             {
@@ -262,27 +262,41 @@ namespace HealthCare.Controllers
 
                 }
 
+                await _healthcareContext.SaveChangesAsync();
 
+                ViewBag.Message = "Saved Successfully";
+
+                return View("InPatientTransfer", Model);
 
 
             }
+            else
+            {
+                ViewBag.Message = "Saved Successfully";
 
-            await _healthcareContext.SaveChangesAsync();
+                return View("InPatientTransfer", Model);
 
-            ViewBag.Message = "Saved Successfully";
+            }
 
-            return View("InPatientCaseSheet", Model);
+
         }
 
 
-
-
-
-            public IActionResult Index()
+        public IActionResult InPatientTransferUpdateModel()
         {
             return View();
         }
 
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult InPatientTransfer()
+        {
+            return View();
+        }
         public IActionResult InPatientAdmission()
         {
             return View();

@@ -1,12 +1,13 @@
-﻿namespace HealthCare.Models
+﻿
+namespace HealthCare.Models
 {
     public class InPatientTransferUpdateModel
     {
 
         public InPatientTransferUpdateModel() { }
 
-
-        private String strPatientId;
+                                                                                                                                                                           
+        private string strPatientId;
         private string strCaseId;
         private string strBedId;
         private string strRoomTypeFrom;
@@ -16,9 +17,9 @@
         private string strTransferNotes;
         private string strDocId;
         private string strChangeDate;
-        private String lastupdatedUser;
-        private String lastupdatedDate;
-        private String lastUpdatedMachine;
+        private string lastupdatedUser;
+        private string lastupdatedDate;
+        private string lastUpdatedMachine;
 
         public string PatientId { get => strPatientId; set => strPatientId = value; }
         public string CaseId { get => strCaseId; set => strCaseId = value; }
@@ -33,5 +34,6 @@
         public string? LastupdatedUser { get => lastupdatedUser; set => lastupdatedUser = value; }
         public string? LastupdatedDate { get => lastupdatedDate; set => lastupdatedDate = value; }
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
+        
     }
 }

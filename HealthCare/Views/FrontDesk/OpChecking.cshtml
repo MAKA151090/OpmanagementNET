@@ -5,81 +5,125 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">OpChecking</h2>
+            <small class="text-muted float-end"></small>
 
-
-<h1>OpChecking</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="ViewResult" asp-controller="FrontDesk">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label for="PatientID" class="control-label">Patient ID</label>
-                <input type="text" id="PatientID" name="PatientID" class="form-control" />
-            </div>
-
-            <div class="form-group">
-                <label for="CurrentDate" class="control-label">CurrentDate</label>
-                <input type="text" id="CurrentDate" name="CurrentDate" class="form-control" />
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="GetReport" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-@using (Html.BeginForm("OpChecking", "FrontDesk", FormMethod.Post))
 
-{
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
 
-<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    PatientName
-                </th>
-                <th>
-                    DoctorName
-                </th>
-                <th>
-                    AppoinmentDate
-                </th>
-                <th>
-                    AppoinmentTime
-                </th>
 
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
 
-          
-        @if (Model !=null)
-        {
-            @foreach (var item in Model.Results)
-            {
+    <form asp-action="ViewResult" asp-controller="FrontDesk" style="height:100%">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row gy-4">
+                    <div class="col-md-12 col-lg-1">
+                        </div>
+                    
+                    <div class="col-md-12 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="text" id="PatientID" name="PatientID" class="form-control" placeholder="Patient ID" />
+                            <label for="PatientID" class="control-label">PatientID</label>                                                      
+                     
+                        </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="text" id="CurrentDate" name="CurrentDate" class="form-control" placeholder="CurrentDate" />
+
+                            <label for="CurrentDate" class="control-label">CurrentDate</label>
+                        </div>
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="submit" value="GetReport" class="btn btn-outline-dark waves-effect" />
+                        </div>
+
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-12 col-lg-7">
+                        </div>
+                   
+                </div>
+         
+    </form>
+    <div class="row gy-4">
+        <div class="form-floating form-floating-outline mb-4">
+        </div>
+        </div>
+    <div class="row gy-4">
+        <div class="col-md-12 col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+
+    @using (Html.BeginForm("OpChecking", "FrontDesk", FormMethod.Post))
+
+    {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@item.PatientName</td>
+                    <th>
+                        PatientName
+                    </th>
+                    <th>
+                        DoctorName
+                    </th>
+                    <th>
+                        AppoinmentDate
+                    </th>
+                    <th>
+                        AppoinmentTime
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @if (Model != null)
+                {
+                    @foreach (var item in Model.Results)
+                    {
+                        <tr>
+                            <td>@item.PatientName</td>
                             <td>@item.DoctorName</td>
                             <td>@item.AppoinmentDate</td>
                             <td>@item.AppoinmentTime</td>
-                   
-                </tr>
-            }            
-        }
+
+                        </tr>
+                    }
+                }
             </tbody>
-            </table>
-    @if (Model != null)
-    {
-      <div class="form-group">
-            <input type="submit" value="check in" class="btn btn-primary" />
-      </div>
+        </table>
+        @if (Model != null)
+        {
+            <div class="form-group">
+                <input type="submit" value="check in" class="btn btn-primary" />
+            </div>
+        }
+
+
     }
+    
 
+    </div>
+    </div>
+    </div>
+    </div>
 
-}
+    <div class="row gy-4">
+        <div class="form-floating form-floating-outline mb-4">
+        </div>
+    </div>
+
+</div>
