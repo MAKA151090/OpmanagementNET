@@ -48,30 +48,33 @@ namespace HealthCare.Controllers
         {
             var login = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
 
-            if(login != null)
-            { 
-                login.StrStaffID = model.StrStaffID;
+            if (login != null)
+            {
+                if (login.StrPassword == model.StrPassword)
+                {
+                    login.StrStaffID = model.StrStaffID;
 
-                login.StrPassword = model.StrPassword;
-            
-                List<Claim> claims = new List<Claim>()
+                    login.StrPassword = model.StrPassword;
+
+                    List<Claim> claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.NameIdentifier, model.StrStaffID),
                     new Claim("OtherProperties", "Example Role")
                 };
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
-            CookieAuthenticationDefaults.AuthenticationScheme
-            );
-                AuthenticationProperties properties = new AuthenticationProperties()
-                {
-                    AllowRefresh = true
-                };
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity), properties);
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
+                CookieAuthenticationDefaults.AuthenticationScheme
+                );
+                    AuthenticationProperties properties = new AuthenticationProperties()
+                    {
+                        AllowRefresh = true
+                    };
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity), properties);
 
-                return RedirectToAction("Index", "ClinicAdministration");
+                    return RedirectToAction("Index", "ClinicAdministration");
+                }
+
             }
-
             ViewBag.Message = " Username Not Found";
             
             return View();

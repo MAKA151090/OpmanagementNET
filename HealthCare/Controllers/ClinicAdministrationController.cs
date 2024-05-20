@@ -277,6 +277,7 @@ namespace HealthCare.Controllers
 
             ViewBag.Message = "Saved Successfully";
             return View("IPTypeMaster", model);
+
         }
 
 
@@ -869,6 +870,10 @@ namespace HealthCare.Controllers
 
         
         public IActionResult OTSummaryMaster()
+        {
+            return View();
+        }
+        public IActionResult StaffFacilityMapping()
         {
             return View();
         }
