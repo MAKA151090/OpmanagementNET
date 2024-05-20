@@ -137,6 +137,11 @@ namespace HealthCare.Context
         public DbSet<InPatientTransferUpdateModel> SHipmInPatientTransferUpdate { get; set; }
 
         public DbSet<InpatientObservationModel> SHipmInpatientobservation {  get; set; }
+
+        public DbSet<OTSummaryMasterModel>SHclnOtSummaryMaster { get; set; }
+
+        public DbSet<OTSummaryModel>SHOTsummary { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -147,6 +152,9 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID });
+            modelBuilder.Entity<OTSummaryMasterModel>().HasKey(i => new { i.QuestionID });
+
             modelBuilder.Entity<InPatientTransferUpdateModel>().HasKey(i => new { i.PatientId, i.CaseId, i.BedId });
 
             modelBuilder.Entity<PatientProcedureModel>().HasKey(i => new { i.PatientID, i.VisitID, i.ExamID,i.ProcedureID });

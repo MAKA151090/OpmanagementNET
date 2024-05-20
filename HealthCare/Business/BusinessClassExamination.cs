@@ -156,6 +156,16 @@ namespace HealthCare.Business
             return patExmQuestion;
 
         }
+
+        public List<OTSummaryViewModel>GetOtSummaryviewList()
+        {
+            var ViewOt = (from o in objSearchContext.SHOTsummary
+                          select new OTSummaryViewModel { Question = o.Question, Answer = o.Answer }).ToList(); 
+               
+            return ViewOt;
+        }
+
+
         public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string FacilityID, string patientName, string visitDate, string clinicName)
         {
             var patExamSearch = (from r in objSearchContext.SHPatientRegistration
@@ -395,64 +405,6 @@ namespace HealthCare.Business
                 await objSearchContext.SaveChangesAsync();
                 
             }
-            return true;
-        }
-
-        public async Task<bool> PatientviewDiagnosis(PatientDiagnosisModel pPatientDig)
-        {
-            var existingDig = await objSearchContext.SHEXMdiagnosis.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID,pPatientDig.DiagnosisID);
-            if (existingDig != null)
-            {
-
-                existingDig.PatientID = pPatientDig.PatientID;
-                existingDig.VisitID = pPatientDig.VisitID;
-                existingDig.ExamID = pPatientDig.ExamID;
-                existingDig.DiagnosisID = pPatientDig.DiagnosisID;
-                existingDig.Notes = pPatientDig.Notes;
-                existingDig.Comments = pPatientDig.Comments;
-                existingDig.DoctorID = pPatientDig.DoctorID;
-                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
-                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
-                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
-            }
-            else
-            {
-                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
-                pPatientDig.lastUpdatedUser = "Myself";
-                pPatientDig.lasrUpdatedMachine = "Lap";
-                objSearchContext.SHEXMdiagnosis.Add(pPatientDig);
-
-            }
-            await objSearchContext.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> PatientviewProcedure(PatientProcedureModel pPatientDig)
-        {
-            var existingDig = await objSearchContext.SHEXMprocedure.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID, pPatientDig.ProcedureID);
-            if (existingDig != null)
-            {
-
-                existingDig.PatientID = pPatientDig.PatientID;
-                existingDig.VisitID = pPatientDig.VisitID;
-                existingDig.ExamID = pPatientDig.ExamID;
-                existingDig.ProcedureID = pPatientDig.ProcedureID;
-                existingDig.Notes = pPatientDig.Notes;
-                existingDig.Comments = pPatientDig.Comments;
-                existingDig.DoctorID = pPatientDig.DoctorID;
-                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
-                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
-                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
-            }
-            else
-            {
-                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
-                pPatientDig.lastUpdatedUser = "Myself";
-                pPatientDig.lasrUpdatedMachine = "Lap";
-                objSearchContext.SHEXMprocedure.Add(pPatientDig);
-
-            }
-            await objSearchContext.SaveChangesAsync();
             return true;
         }
     }
