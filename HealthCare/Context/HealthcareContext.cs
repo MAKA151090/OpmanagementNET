@@ -152,7 +152,7 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID });
+            modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID , i.QuestionID});
             modelBuilder.Entity<OTSummaryMasterModel>().HasKey(i => new { i.QuestionID });
 
             modelBuilder.Entity<InPatientTransferUpdateModel>().HasKey(i => new { i.PatientId, i.CaseId, i.BedId });

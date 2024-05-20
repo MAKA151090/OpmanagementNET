@@ -156,14 +156,50 @@ namespace HealthCare.Business
             return patExmQuestion;
 
         }
-
-        public List<OTSummaryViewModel>GetOtSummaryviewList()
+        public List<OTSummaryModel> GetOtSummaryview(string potScheduleID, string answer)
         {
-            var ViewOt = (from o in objSearchContext.SHOTsummary
-                          select new OTSummaryViewModel { Question = o.Question, Answer = o.Answer }).ToList(); 
-               
-            return ViewOt;
+
+
+            var objnew = (objSearchContext.SHOTsummary.Where(x =>
+                x.OtscheduleID == potScheduleID).Count());
+
+            if (objnew <= 0)
+            {
+                var addSumm = objSearchContext.SHclnOtSummaryMaster.Select(e => e).ToList();
+
+                foreach (var item in addSumm)
+                {
+                    var newObservation = new OTSummaryModel
+                    {
+                        QuestionID = item.QuestionID,
+                        Question = item.Question,
+                        Answer = answer,
+                        OtscheduleID = potScheduleID
+                    };
+                    objSearchContext.SHOTsummary.Add(newObservation);
+
+                }
+                objSearchContext.SaveChanges();
+            }
+
+            var result = (
+           from e in objSearchContext.SHclnOtSummaryMaster
+           join o in objSearchContext.SHOTsummary
+               on e.QuestionID equals o.QuestionID into otGroup
+           from o in otGroup.DefaultIfEmpty()
+           where (o.OtscheduleID == potScheduleID)
+           select new OTSummaryModel
+           {
+               Question = e.Question,
+               QuestionID=e.QuestionID,
+               Answer = o != null ? o.Answer : string.Empty,
+
+           }).ToList();
+
+            return result;
         }
+
+       
 
 
         public async Task<List<PatExamSearchModel>> GetPatientObjectiveData(string patientID, string visitID, string FacilityID, string patientName, string visitDate, string clinicName)
