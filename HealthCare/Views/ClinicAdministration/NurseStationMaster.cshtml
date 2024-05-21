@@ -55,20 +55,22 @@
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" asp-action="GetNurseStation" value="Save" class="btn btn-primary" />
-                <input type="submit"  value="Add Nurse" class="btn btn-primary" />
-                <input type="submit" value="Remove Nurse" class="btn btn-primary" />
+                <center>
+                <button type="submit" asp-action="GetNurseStation" value="Save" class="btn btn-primary" >Save</button>
+                <button type="submit"  value="Add Nurse" class="btn btn-primary" >Add Nurse</button>
+                <button type="submit" value="Remove Nurse" class="btn btn-primary" >Remove Nurse</button>
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-success">
+
+
+                                            @ViewBag.Message
+                                        </div>
+
+                                    }
+                                    </center>
             </div>
             </div>
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-
-
-                    @ViewBag.Message
-                </div>
-
-            }
         </form>
     </div>
 </div>

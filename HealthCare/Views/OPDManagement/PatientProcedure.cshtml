@@ -5,47 +5,76 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>PatientProcedure</h1>
+
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> Patient Procedure</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
+
 
 @using (Html.BeginForm("PatientviewProcedure", "OPDManagement", FormMethod.Post))
 {
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
+   
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
+                <div class="row gy-4">
+
+                    <div class="col-md-12 col-lg-1">
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                     <label asp-for="PatientID" class="control-label"></label>
-                    <input asp-for="PatientID" class="form-control" />
                     <span asp-validation-for="PatientID" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="VisitID" class="form-control" placeholder="VisitID" />
                     <label asp-for="VisitID" class="control-label"></label>
-                    <input asp-for="VisitID" class="form-control" />
                     <span asp-validation-for="VisitID" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ExamID" class="form-control" placeholder="ExamID" />
                     <label asp-for="ExamID" class="control-label"></label>
-                    <input asp-for="ExamID" class="form-control" />
                     <span asp-validation-for="ExamID" class="text-danger"></span>
-                </div>
-                <div class="form-group">
+                        </div>
+                        
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="DoctorID" class="form-control" placeholder="DoctorID" />
                     <label asp-for="DoctorID" class="control-label"></label>
-                    <input asp-for="DoctorID" class="form-control" />
                     <span asp-validation-for="DoctorID" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                </div>
+                </div>
+                </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ProcedureID" class="form-control" placeholder="ProcedureID" />
                     <label asp-for="ProcedureID" class="control-label"></label>
-                    <input asp-for="ProcedureID" class="form-control" />
                     <span asp-validation-for="ProcedureID" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Notes" class="form-control" placeholder="Notes" />
                     <label asp-for="Notes" class="control-label"></label>
-                    <input asp-for="Notes" class="form-control" />
                     <span asp-validation-for="Notes" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Comments" class="form-control" placeholder="Comments" />
                     <label asp-for="Comments" class="control-label"></label>
-                    <input asp-for="Comments" class="form-control" />
                     <span asp-validation-for="Comments" class="text-danger"></span>
                 </div>
                 @*   <div class="form-group">
@@ -64,15 +93,19 @@
                 <span asp-validation-for="lasrUpdatedMachine" class="text-danger"></span>
             </div> *@
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <center>
+                                <button type="submit" value="Create" class="btn btn-primary" >Save</button>
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-success">
+                                        @ViewBag.Message
+                                    </div>
+                                }
+                    </center>
+                   
                 </div>
-        @if (ViewBag.Message != null)
-        {
-            <div class="alert alert-success">
-                @ViewBag.Message
-            </div>
-        }
+                </div></div></div></div>
+     
 
-        </div>
-    </div>
+
 }

@@ -4,27 +4,46 @@
     ViewData["Title"] = "InPatientObservation";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> InpatientViewResult</h2>
+            <small class="text-muted float-end"></small>
 
-<h1>InPatientObservation</h1>
+        </div>
+    </div>
+
+
 @using (Html.BeginForm("GetInpatientViewResult", "InPatientModules", FormMethod.Post))
 {
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
+
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
+                <div class="row gy-4">
+
+                    <div class="col-md-12 col-lg-1">
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="BedNoID" class="form-control" placeholder="BedNoID" />
                     <label asp-for="BedNoID" class="control-label"></label>
-                    <input asp-for="BedNoID" class="form-control" />
                     <span asp-validation-for="BedNoID" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                     <label asp-for="PatientID" class="control-label"></label>
-                    <input asp-for="PatientID" class="form-control" />
                     <span asp-validation-for="PatientID" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ObservationID" class="form-control" placeholder="ObservationID" />
                     <label asp-for="ObservationID" class="control-label"></label>
-                    <input asp-for="ObservationID" class="form-control" />
                     <span asp-validation-for="ObservationID" class="text-danger"></span>
                 </div>
                
@@ -43,9 +62,13 @@
                     <input asp-for="lastUpdatedMachine" class="form-control" />
                     <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
                 </div> *@
-
-            <button type="submit" name="buttonType" value="get" class="btn btn-success">get</button>
-           
+               <div>
+                   <center>
+                <button type="submit" name="buttonType" value="get" class="btn btn-primary">Get</button>    
+                </center>
+            </div>
+           </div>
+           </div>
         </div>
     </div>
 
@@ -106,7 +129,10 @@
                 <input asp-for="NurseID" class="form-control" />
                 <span asp-validation-for="NurseID" class="text-danger"></span>
             </div>
-            <button type="submit" name="buttonType" value="save" class="btn btn-primary">save</button>
+            <div>
+
+                <button type="submit" name="buttonType" value="save" class="btn btn-primary">save</button>
+            </div>
            
         }
     }

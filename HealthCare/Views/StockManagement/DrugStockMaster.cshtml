@@ -20,6 +20,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row gy-4">
 
+            <div class="col-md-12 col-lg-1"></div>
             <div class="col-md-12 col-lg-4">
                 <div class="card">
                     <div class="card-body">
@@ -69,20 +70,23 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
+
             <div class="form-group">
-                <input type="submit" value="Submit" asp-action="DrugStock" class="btn btn-primary" />
-                            @* <button type="submit" asp-action="DrugStock" class="babge bg-label-primary rounded-pill">Save</button>
+                <center>
+                <button type="submit" value="Submit" asp-action="DrugStock" class="btn btn-primary" >Save</button>
+                            @if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-success">
+
+
+                                    @ViewBag.Message
+                                </div>
+
+                            }
+                     </center>       @* <button type="submit" asp-action="DrugStock" class="babge bg-label-primary rounded-pill">Save</button>
  *@            </div>
 
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-
-
-                    @ViewBag.Message
-                </div>
-
-            }
+      
         </form>
     </div>
 </div>
