@@ -359,7 +359,6 @@ namespace HealthCare.Controllers
         }
 
 
-
         public IActionResult Index()
         {
             return View();

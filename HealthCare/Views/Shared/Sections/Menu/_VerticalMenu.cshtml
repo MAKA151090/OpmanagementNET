@@ -25,7 +25,7 @@
 
   @* ! Full version menu-items *@
   <ul class="menu-inner py-1">
-    <!-- Clinic Adminstration -->
+        <!-- Hospital Administration -->
     <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/ClinicAdministration") ? " active open" : "")'>
       <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-hospital-building"></i>
@@ -39,11 +39,7 @@
           </a>
         </li> *@
 
-        <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicRegistration" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="ClinicRegistration" class="menu-link">
-            <div>Facility Registration</div>
-          </a>
-        </li>
+        
                 <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalRegistration" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="HospitalRegistration" class="menu-link">
                         <div>Hospital Registration</div>
@@ -181,6 +177,27 @@
             </ul>
     </li>
 
+
+
+        <ul class="menu-inner py-1">
+            <!-- Facility Administration -->
+            <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/FacilityAdministration") ? " active open" : "")'>
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons mdi  mdi-store"></i>
+                    <div>Facility Administration</div>
+
+                </a>
+
+                <ul class="menu-sub">
+
+                    <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicRegistration" ? " active" : "")'>
+                        <a asp-controller="ClinicAdministration" asp-action="ClinicRegistration" class="menu-link">
+                            <div>Facility Registration</div>
+                        </a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
        
         <ul class="menu-inner py-1">
         <!-- Stock Management -->
