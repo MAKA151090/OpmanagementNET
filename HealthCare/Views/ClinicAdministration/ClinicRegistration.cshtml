@@ -10,7 +10,7 @@
     <div class="card xl-8">
         <div class="card-body pt-2 mt-1">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h2 class="text-primary mb-1">ClinicAdminModel</h2>
+                <h2 class="text-primary mb-1">Facility Registration</h2>
                 <small class="text-muted float-end"></small>
 
             </div>
@@ -46,7 +46,9 @@
                         </div>*@
 
                         <div>
-                            <input type="submit" class=" btn btn-outline-dark waves-effect" asp-action="GetClinic" value="Search" />
+                           @*  <input type="submit" class=" btn btn-outline-dark waves-effect" asp-action="GetClinic" value="Search" /> *@
+
+                            <button type="submit" class="btn btn-primary" asp-action="GetClinic" value="Search">Search</button>
                           
                         </div>
 
@@ -135,8 +137,9 @@
                 
             </div> *@
                         <div>
-                            <input type="submit" class="btn btn-outline-dark waves-effect " asp-action="AddClinic" value="Create" />
-                            
+                           @*  <input type="submit" class="btn btn-outline-dark waves-effect " asp-action="AddClinic" value="Create" /> *@
+
+                            <button type="submit" class="btn btn-primary" asp-action="AddClinic" value="Create">Save</button>
                         </div>
 
                         @if(ViewBag.Message!=null)
@@ -152,9 +155,8 @@
         </div>
         </div>
        
-    
+    </div>
     </div>
         </form>
     </div>
-</div>
 
