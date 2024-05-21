@@ -401,22 +401,23 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientFamilyHistory()
         {
-            String PatientID = "101";
-            String FacilityID = "1000";
+            /* String PatientID = "101";
+             String FacilityID = "1000";
 
-            List<PatientExamFHViewModel> patientExamFH = new List<PatientExamFHViewModel>();
+             List<PatientExamFHViewModel> patientExamFH = new List<PatientExamFHViewModel>();
 
-            //Code here to take questions
-            BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
+             //Code here to take questions
+             BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
 
-            var Questions = business.GetHistoryQuestions("FH");
+             var Questions = business.GetHistoryQuestions("FH");
 
-            foreach (PatientFHPHMasterModel Question in Questions)
-            {
-                patientExamFH.Add(new PatientExamFHViewModel { PatientID = PatientID, Question = Question.Question,FacilityID=FacilityID ,QuestionID=Question.QuestionID});
-            }
+             foreach (PatientFHPHMasterModel Question in Questions)
+             {
+                 patientExamFH.Add(new PatientExamFHViewModel { PatientID = PatientID, Question = Question.Question,QuestionID=Question.QuestionID});
+             }
 
-            return View("PatientExamFamilyHealthHxView",patientExamFH);
+             return View("PatientExamFamilyHealthHxView",patientExamFH);*/
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> SaveFHPH(List<PatientExamFHViewModel> patientExamFH)
@@ -433,8 +434,7 @@ namespace HealthCare.Controllers
                         Answer = Patient.Answer,
                         QuestionID = Patient.QuestionID,
                         PatientID = Patient.PatientID,
-                        FacilityID = Patient.FacilityID
-
+                       
                     });
                 }
                 getPatientObjective.SaveChanges();
