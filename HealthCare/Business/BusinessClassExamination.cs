@@ -144,12 +144,12 @@ namespace HealthCare.Business
 
 
         }
-        public List<PatientFHPHMasterModel> GetHistoryQuestions(String Type)
+        public List<PatientFHPHModel> GetHistoryQuestions(String Type)
         {
 
             var patExmQuestion = (from q in objSearchContext.PatExmFHPH
                                   where q.Type == Type
-                                  select new PatientFHPHMasterModel { Question = q.Question, QuestionID = q.QuestionID }).ToList();
+                                  select new PatientFHPHModel { Question = q.Question, QuestionID = q.QuestionID }).ToList();
 
 
 

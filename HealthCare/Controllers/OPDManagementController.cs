@@ -420,28 +420,54 @@ namespace HealthCare.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> SaveFHPH(List<PatientExamFHViewModel> patientExamFH)
+        public async Task<IActionResult> SaveFHPH(PatientExamFHViewModel Model, string buttonType)
         {
-            //Save FH PH 
 
-            foreach(PatientExamFHViewModel Patient in patientExamFH)
+            BusinessClassExamination ViewFHPH = new BusinessClassExamination(getPatientObjective);
+
+            if (buttonType == "Save")
             {
-                if (!string.IsNullOrEmpty(Patient.Answer))
+
+                foreach (var summary in Model.SHlistFHPH)
                 {
-                    getPatientObjective.SHExmPatientFHPH.Add(new PatientFHPHModel
+                    var SelectFHPH = await getPatientObjective.SHExmPatientFHPH.FindAsync(Model.PatientID,Model.QuestionID,Model.Type);
+                    if (SelectFHPH != null)
                     {
+                        SelectFHPH.Answer = summary.Answer;
+                        SelectFHPH.PatientID = Model.PatientID;
+                        getPatientObjective.SHExmPatientFHPH.Update(SelectFHPH);
+                    }
+                    else
+                    {
+                        SelectFHPH = new PatientFHPHModel
+                        {
 
-                        Answer = Patient.Answer,
-                        QuestionID = Patient.QuestionID,
-                        PatientID = Patient.PatientID,
-                       
-                    });
+                            PatientID = Model.PatientID,
+                            Answer = summary.Answer,
+                            QuestionID=summary.QuestionID,
+                            Type = Model.Type,
+                            lastUpdatedDate = DateTime.Now.ToString(),
+                            lastUpdatedUser = User.Claims.First().Value.ToString(),
+                            lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                        };
+
+                        getPatientObjective.Entry(SelectFHPH).State = EntityState.Modified;
+                    }
+
                 }
-                getPatientObjective.SaveChanges();
+                await getPatientObjective.SaveChangesAsync();
             }
-          
 
-            return View("PatientExamFamilyHealthHxView", patientExamFH);
+            var FHPHresult = ViewFHPH.GetHistoryQuestions(Model.Type);
+            var FHPHviewModel = new PatientExamFHViewModel
+            {
+                Answer = Model.Answer,
+                SHlistFHPH = FHPHresult
+            };
+            ViewBag.Message = "Saved Successfully";
+            return View("PatientFamilyHistory", FHPHviewModel);
+
+            
         }
         
        

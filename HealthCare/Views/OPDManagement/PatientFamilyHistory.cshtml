@@ -1,4 +1,88 @@
-﻿@model PatientFHPHModel
+﻿@model PatientExamFHViewModel
+
+@{
+    ViewData["Title"] = "PatientExamFHView";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>PatientExamFHViewl</h1>
+@using (Html.BeginForm("SaveFHPH", "OPDManagement", FormMethod.Post))
+{
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PatientID" class="control-label"></label>
+                <input asp-for="PatientID" class="form-control" />
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" class="form-control" asp-items="@(new SelectList(new List<string> { "FH", "PH" }))">
+                    <option value="">Select Type</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <button type="submit" name="buttonType" value="Get" class="btn btn-success">Get</button>
+            
+
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    Question
+                </th>
+                <th>
+                    Answer
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @for (int i = 0; i < Model.SHlistFHPH.Count; i++)
+                {
+                    <tr>
+                        <td><input type="text" asp-for="@Model.SHlistFHPH[i].Question" /> <input type="hidden" asp-for="@Model.SHlistFHPH[i].QuestionID" /></td>
+
+                        <td><input type="text" asp-for="@Model.SHlistFHPH[i].Answer" /> <input type="hidden" asp-for="@Model.SHlistFHPH[i].Type" /></td>
+
+
+                    </tr>
+                }
+                <button type="submit" name="buttonType" value="Save" class="btn btn-success">Save</button>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @model PatientExamFHViewModel
 
 @{
     ViewData["Title"] = "View";
@@ -6,51 +90,69 @@
 }
 
 <h1>View</h1>
+@using (Html.BeginForm("GetInpatientViewResult", "InPatientModules", FormMethod.Post))
+{
+    <hr/>
 
-<h4>PatientFHPHModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="FHPH1" asp-controller="PatientExamination">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
-                <span asp-validation-for="PatientID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="QuestionID" class="control-label"></label>
-                <input asp-for="QuestionID" class="form-control" />
-                <span asp-validation-for="QuestionID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Answer" class="control-label"></label>
-                <input asp-for="Answer" class="form-control" />
-                <span asp-validation-for="Answer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            @* <div class="form-group">
-                <label asp-for="lastUpdatedDate" class="control-label"></label>
-                <input asp-for="lastUpdatedDate" class="form-control" />
-                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+    <div class="row">
+        <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label "
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+                    <label asp-for="" class="control-label"></label>
+                    <input asp-for="BedNoID" class="form-control" />
+                    <span asp-validation-for="BedNoID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PatientID" class="control-label"></label>
+                    <input asp-for="PatientID" class="form-control" />
+                    <span asp-validation-for="PatientID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ObservationID" class="control-label"></label>
+                    <input asp-for="ObservationID" class="form-control" />
+                    <span asp-validation-for="ObservationID" class="text-danger"></span>
+                </div>
+               </div>
+               </div>
 
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    QuestionID
+                </th>
+                <th>
+                    Question
+                </th>
+                <th>
+                    Answer
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" name="QuestionID" value="@item.QuestionID" asp-for="@item.QuestionID" />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="Question" value="@item.Question" asp-for="@item.Question" />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="Answer" value="@item.Answer" asp-for="@item.Answer" />
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Save</button>
+} *@
