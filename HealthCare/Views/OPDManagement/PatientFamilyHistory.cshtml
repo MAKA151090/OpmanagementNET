@@ -56,7 +56,16 @@
 
                     </tr>
                 }
-                <button type="submit" name="buttonType" value="Save" class="btn btn-success">Save</button>
+                @if (Model != null)
+                {
+                    <button type="submit" name="buttonType" value="Save" class="btn btn-success">Save</button>
+                }
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-success">
+                        @ViewBag.Message
+                    </div>
+                }
             }
         </tbody>
     </table>

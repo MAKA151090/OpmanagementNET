@@ -81,7 +81,7 @@ namespace HealthCare.Business
 
             return Inconfirmationobs;
         }
-        public List<InpatientObservationModel> GetInpatientViewObs(string potObservationID, string patientID, string BedNoID, string ObservationID, string observationtypeID)
+        public List<InpatientObservationModel> GetInpatientViewObs(string potObservationID, string BedNoID, string patientID, string ObservationID, string observationtypeID)
         {
 
 
@@ -94,7 +94,7 @@ namespace HealthCare.Business
             foreach (var item in addEWS)
             {
                 var objnew = (objInpatientDb.SHipmInpatientobservation.FirstOrDefault(x =>
-                x.PatientID == patientID && x.BedNoID == BedNoID && x.ObservationID == potObservationID));
+                x.BedNoID == BedNoID && x.PatientID == patientID && x.ObservationID == potObservationID));
 
                 if (objnew == null)
                 {
