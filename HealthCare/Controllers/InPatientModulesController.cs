@@ -106,103 +106,75 @@ namespace HealthCare.Controllers
 
             if (buttonType == "save")
             {
-                var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID, Model.ObservationID);
-                objadd.ObservationID = Model.ObservationID;
-                objadd.NurseID = Model.NurseID;
-                objadd.DateTime = Model.DateTime;
-                objadd.lastupdatedDate = DateTime.Now.ToString();
-                if (objadd == null)
+                foreach (var summary in Model.SHviewInpatientObs)
                 {
-                    objadd = new InpatientObservationModel
-                    {
-                        BedNoID = Model.BedNoID,
-                        PatientID = Model.PatientID,
-                        ObservationID = Model.ObservationID,
-                        ObservationTypeID = "1",
-                        NurseID = Model.NurseID,
-                        DateTime = Model.DateTime,
-                        lastupdatedDate = DateTime.Now.ToString(),
-                        lastUpdatedUser = User.Claims.First().Value.ToString(),
-                        lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
-                    };
-                    _healthcareContext.SHipmInpatientobservation.Update(objadd);
-                }
-                else
-                {
-                    objadd.NurseID = Model.NurseID;
-                    objadd.DateTime = Model.DateTime;
-                    objadd.lastupdatedDate = DateTime.Now.ToString();
-                    objadd.lastUpdatedUser = User.Claims.First().Value.ToString();
-                    objadd.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                    foreach (var summary in Model.SHviewInpatientObs)
-                    {
 
-                        var objaddobj = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationTypeID);
-                        if (objaddobj != null)
+                    var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationTypeID);
+                    if (objadd != null)
+                    {
+                        objadd.Answer = summary.Answer;
+                        objadd.ObservationID = Model.ObservationID;
+                        objadd.NurseID = Model.NurseID;
+                        objadd.DateTime = Model.DateTime;
+                        objadd.lastupdatedDate = DateTime.Now.ToString();
+                        _healthcareContext.SHipmInpatientobservation.Update(objadd);
+                    }
+                    else
+                    {
+                        objadd = new InpatientObservationModel
                         {
-                            objaddobj.Answer = summary.Answer;
-                            objaddobj.ObservationID = Model.ObservationID;
-                            objaddobj.NurseID = Model.NurseID;
-                            objaddobj.DateTime = Model.DateTime;
-                            objaddobj.lastupdatedDate = DateTime.Now.ToString();
-                            _healthcareContext.SHipmInpatientobservation.Update(objaddobj);
-                        }
-                        else
-                        {
-                            objaddobj = new InpatientObservationModel
-                            {
-                                BedNoID = Model.BedNoID,
-                                PatientID = Model.PatientID,
-                                ObservationID = Model.ObservationID,
-                                ObservationTypeID = summary.ObservationTypeID,
-                                ObservationName = summary.ObservationName,
-                                Answer = summary.Answer,
-                                Frequency = summary.Frequency,
-                                Unit = summary.Unit,
-                                Range = summary.Range,
-                                NurseID = Model.NurseID,
-                                DateTime = Model.DateTime,
-                                lastupdatedDate = DateTime.Now.ToString(),
-                                lastUpdatedUser = "Kumar",
-                                lastUpdatedMachine = "Lap"
-                            };
-                            _healthcareContext.SHipmInpatientobservation.Update(objaddobj);
-                        }
+                            BedNoID = Model.BedNoID,
+                            PatientID = Model.PatientID,
+                            ObservationID = Model.ObservationID,
+                            ObservationTypeID = summary.ObservationTypeID,
+                            ObservationName = summary.ObservationName,
+                            Answer = summary.Answer,
+                            Frequency = summary.Frequency,
+                            Unit = summary.Unit,
+                            Range = summary.Range,
+                            NurseID = Model.NurseID,
+                            DateTime = Model.DateTime,
+                            lastupdatedDate = DateTime.Now.ToString(),
+                            lastUpdatedUser = "Kumar",
+                            lastUpdatedMachine = "Lap"
+                        };
+                        _healthcareContext.Entry(objadd).State= EntityState.Modified;
                     }
                 }
-                    await _healthcareContext.SaveChangesAsync();
 
-                    //ViewBag.Message = "Saved Successfully";
-                    //return View("InPatientObservation", Model);
-                }
-                var result = ObjViewINP.GetInpatientViewObs(Model.ObservationID, Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationTypeID);
-                var viewModel = new InpatientObservationViewModel
-                {
-                    Unit = Model.Unit,
-                    Answer = Model.Answer,
-                    Range = Model.Range,
-                    Frequency = Model.Frequency,
-                    ObservationName = Model.ObservationName,
-                    SHviewInpatientObs = result
-                };
-                ViewBag.Message = "Saved Successfully";
-                return View("InPatientObservation", viewModel);
+                await _healthcareContext.SaveChangesAsync();
 
+                //ViewBag.Message = "Saved Successfully";
+                //return View("InPatientObservation", Model);
             }
-            /* var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
-             objadd.NurseID = Model.NurseID ?? objadd.NurseID; 
-             objadd.DateTime = Model.DateTime ?? objadd.DateTime;
-             objadd.lastupdatedDate=DateTime.Now.ToString();
-             objadd.lastUpdatedUser = "Kumar";
-             objadd.lastUpdatedMachine = "Lap";
-             await _healthcareContext.SaveChangesAsync();
-         }
+            var result = ObjViewINP.GetInpatientViewObs(Model.ObservationID, Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationTypeID);
+            var viewModel = new InpatientObservationViewModel
+            {
+                Unit = Model.Unit,
+                Answer = Model.Answer,
+                Range = Model.Range,
+                Frequency = Model.Frequency,
+                ObservationName = Model.ObservationName,
+                SHviewInpatientObs = result
+            };
+            ViewBag.Message = "Saved Successfully";
+            return View("InPatientObservation", viewModel);
 
-         ViewBag.Message = "Saved Successfully";
-         return View("InPatientObservation", Model);
-    */
+        }
+        /* var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
+         objadd.NurseID = Model.NurseID ?? objadd.NurseID; 
+         objadd.DateTime = Model.DateTime ?? objadd.DateTime;
+         objadd.lastupdatedDate=DateTime.Now.ToString();
+         objadd.lastUpdatedUser = "Kumar";
+         objadd.lastUpdatedMachine = "Lap";
+         await _healthcareContext.SaveChangesAsync();
+     }
 
-            [HttpPost]
+     ViewBag.Message = "Saved Successfully";
+     return View("InPatientObservation", Model);
+*/
+
+        [HttpPost]
             public async Task<IActionResult> InPatientCaseSheet(InPatientCaseSheetModel model)
             {
 
@@ -277,65 +249,67 @@ namespace HealthCare.Controllers
                 return View("InPatientDocVisit", model);
 
             }
-            [HttpPost]
-            public async Task<IActionResult> InPatientTransfer(InPatientTransferUpdateModel Model, string buttonType)
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> InPatientTransfer(InPatientTransferUpdateModel Model, string buttonType)
+        {
+
+            BusinessClassInpatient ObjView = new BusinessClassInpatient(_healthcareContext);
+            if (buttonType == "get")
+            {
+                var result = ObjView.InPatientTransfer(Model.PatientId, Model.CaseId, Model.BedId).Result;
+                return View("InPatientTransfer", result);
+            }
+            else if (buttonType == "Save")
             {
 
-                BusinessClassInpatient ObjView = new BusinessClassInpatient(_healthcareContext);
-                if (buttonType == "Get")
+                // Update on ADmission Table
+                var admission = await _healthcareContext.SHInpatientAdmission.FindAsync(Model.PatientId, Model.CaseId);
+                if (admission != null)
                 {
 
-                    var result = await ObjView.InPatientTransfer(Model.PatientId, Model.CaseId, Model.BedId);
+                    admission.BedID = Model.BedId;
+                    admission.lastupdatedDate = DateTime.Now.ToString();
+                    admission.lastUpdatedMachine = "test";
+                    admission.lastUpdatedUser = "test";
+
+
+                    _healthcareContext.Entry(admission).State = EntityState.Modified;
+                }
+
+
+                //Saving history
+                var existingInPatientTransfer = await _healthcareContext.SHipmInPatientTransferUpdate.FindAsync(Model.PatientId, Model.CaseId, Model.BedId);
+
+                if (existingInPatientTransfer != null)
+                {
+                    existingInPatientTransfer.PatientId = Model.PatientId;
+                    existingInPatientTransfer.CaseId = Model.CaseId;
+                    existingInPatientTransfer.BedId = Model.BedId;
+                    existingInPatientTransfer.RoomTypeFrom = Model.RoomTypeFrom;
+                    existingInPatientTransfer.RoomTypeTo = Model.RoomTypeTo;
+                    existingInPatientTransfer.BedIdFrom = Model.BedIdFrom;
+                    existingInPatientTransfer.BedIdTo = Model.BedIdTo;
+                    existingInPatientTransfer.TransferNotes = Model.TransferNotes;
+                    existingInPatientTransfer.DocId = Model.DocId;
+                    existingInPatientTransfer.ChangeDate = Model.ChangeDate;
+                    existingInPatientTransfer.LastupdatedDate = DateTime.Now.ToString();
+                    existingInPatientTransfer.LastupdatedUser = "Admin";
+                    existingInPatientTransfer.LastUpdatedMachine = "Lap";
+
+                    _healthcareContext.Entry(existingInPatientTransfer).State = EntityState.Modified;
 
                 }
-                else if (buttonType == "Save")
+                else
                 {
+                    Model.LastupdatedDate = DateTime.Now.ToString();
+                    Model.LastupdatedUser = "Admin";
+                    Model.LastUpdatedMachine = "Lap";
+                    _healthcareContext.SHipmInPatientTransferUpdate.Add(Model);
 
-                    // Update on ADmission Table
-                    var admission = await _healthcareContext.SHInpatientAdmission.FindAsync(Model.PatientId, Model.CaseId);
-                    if (admission != null)
-                    {
-
-                        admission.BedID = Model.BedId;
-                        admission.lastupdatedDate = DateTime.Now.ToString();
-                        admission.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                        admission.lastUpdatedUser = User.Claims.First().Value.ToString();
-
-
-                        _healthcareContext.Entry(admission).State = EntityState.Modified;
-                    }
-
-
-                    //Saving history
-                    var existingInPatientTransfer = await _healthcareContext.SHipmInPatientTransferUpdate.FindAsync(Model.PatientId, Model.CaseId, Model.BedId);
-
-                    if (existingInPatientTransfer != null)
-                    {
-                        existingInPatientTransfer.PatientId = Model.PatientId;
-                        existingInPatientTransfer.CaseId = Model.CaseId;
-                        existingInPatientTransfer.BedId = Model.BedId;
-                        existingInPatientTransfer.RoomTypeFrom = Model.RoomTypeFrom;
-                        existingInPatientTransfer.RoomTypeTo = Model.RoomTypeTo;
-                        existingInPatientTransfer.BedIdFrom = Model.BedIdFrom;
-                        existingInPatientTransfer.BedIdTo = Model.BedIdTo;
-                        existingInPatientTransfer.TransferNotes = Model.TransferNotes;
-                        existingInPatientTransfer.DocId = Model.DocId;
-                        existingInPatientTransfer.ChangeDate = Model.ChangeDate;
-                        existingInPatientTransfer.LastupdatedDate = DateTime.Now.ToString();
-                        existingInPatientTransfer.LastupdatedUser = User.Claims.First().Value.ToString();
-                        existingInPatientTransfer.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-
-                        _healthcareContext.Entry(existingInPatientTransfer).State = EntityState.Modified;
-
-                    }
-                    else
-                    {
-                        Model.LastupdatedDate = DateTime.Now.ToString();
-                        Model.LastupdatedUser = User.Claims.First().Value.ToString();
-                        Model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                        _healthcareContext.SHipmInPatientTransferUpdate.Add(Model);
-
-                    }
+                }
 
                 await _healthcareContext.SaveChangesAsync();
 
@@ -343,20 +317,31 @@ namespace HealthCare.Controllers
 
                 return View("InPatientTransfer", Model);
 
-                }
 
-                await _healthcareContext.SaveChangesAsync();
-
+            }
+            else
+            {
                 ViewBag.Message = "Saved Successfully";
 
-                return View("InPatientCaseSheet", Model);
+                return View("InPatientTransfer", Model);
+
             }
 
 
-        public IActionResult InPatientTransferUpdateModel()
+        }
+
+
+        public IActionResult InPatientTransfer()
         {
             return View();
         }
+
+
+
+
+
+
+       
 
 
         public IActionResult Index()

@@ -81,23 +81,22 @@ namespace HealthCare.Business
 
             return Inconfirmationobs;
         }
-
-        public List<InpatientObservationModel> GetInpatientViewObs(string potObservationID, string patientID, string BedNoID,string ObservationID,string observationtypeID)
+        public List<InpatientObservationModel> GetInpatientViewObs(string potObservationID, string patientID, string BedNoID, string ObservationID, string observationtypeID)
         {
 
 
-           /* var objnew = (objInpatientDb.SHipmInpatientobservation.Where(x =>
-                x.PatientID == patientID && x.BedNoID == BedNoID && x.ObservationID == potObservationID).Count());*/
+            /* var objnew = (objInpatientDb.SHipmInpatientobservation.Where(x =>
+                 x.PatientID == patientID && x.BedNoID == BedNoID && x.ObservationID == potObservationID).Count());*/
 
-            
-                var addEWS = objInpatientDb.SHclnEWSMaster.Select(e => e).ToList();
 
-                foreach (var item in addEWS)
-                {
+            var addEWS = objInpatientDb.SHclnEWSMaster.Select(e => e).ToList();
+
+            foreach (var item in addEWS)
+            {
                 var objnew = (objInpatientDb.SHipmInpatientobservation.FirstOrDefault(x =>
-                x.PatientID == patientID && x.BedNoID == BedNoID && x.ObservationID == potObservationID && x.ObservationTypeID==observationtypeID));
+                x.PatientID == patientID && x.BedNoID == BedNoID && x.ObservationID == potObservationID));
 
-                if (objnew != null)
+                if (objnew == null)
                 {
                     var newObservation = new InpatientObservationModel
                     {
@@ -109,8 +108,8 @@ namespace HealthCare.Business
                     objInpatientDb.SHipmInpatientobservation.Add(newObservation);
                     objInpatientDb.SaveChanges();
                 }
-               
-                
+
+
             }
 
             var result = (
@@ -126,7 +125,7 @@ namespace HealthCare.Business
                    Unit = e.Unit,
                    Range = e.Range,
                    Frequency = e.Frequency,
-                   ObservationTypeID=e.ObservationTypeID,
+                   ObservationTypeID = e.ObservationTypeID,
 
                }).ToList();
 
@@ -135,4 +134,5 @@ namespace HealthCare.Business
 
         }
     }
+
 }
