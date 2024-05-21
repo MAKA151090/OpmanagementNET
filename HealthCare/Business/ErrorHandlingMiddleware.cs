@@ -2,6 +2,8 @@
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Business
@@ -28,15 +30,13 @@ namespace HealthCare.Business
                 // Log the exception
                 // Handle the exception
                 // Return an appropriate response
-                WebErrorsModel webErrors = new WebErrorsModel();
-                webErrors.ErrDateTime = DateTime.Now.ToString();
-                webErrors.ErrodDesc=ex.Message.ToString();
-                webErrors.Username = "Admin";
-                webErrors.ScreenName= ex.Message.ToString();
+               
 
-             
 
-                context.Response.Redirect("/Shared/ErrorView.cshtml");
+                context.Session.SetString("ErrorMessage",ex.Message.ToString());
+                context.Session.SetString("ScreenName", context.GetEndpoint().DisplayName.ToString());
+
+                context.Response.Redirect("/Error");
                 
             }
         }
