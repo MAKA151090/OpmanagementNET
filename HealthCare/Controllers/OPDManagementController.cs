@@ -5,6 +5,7 @@ using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
@@ -420,22 +421,28 @@ namespace HealthCare.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> SaveFHPH(PatientExamFHViewModel Model, string buttonType)
+        public async Task<IActionResult> SaveFHPH(PatientFHPHViewModel Model, string buttonType)
         {
 
             BusinessClassExamination ViewFHPH = new BusinessClassExamination(getPatientObjective);
 
             if (buttonType == "Save")
             {
+               
 
-                foreach (var summary in Model.SHlistFHPH)
+                foreach (var summary in Model.SHFHPHviewlist)
                 {
-                    var SelectFHPH = await getPatientObjective.SHExmPatientFHPH.FindAsync(Model.PatientID,Model.QuestionID,Model.Type);
+                    var SelectFHPH = await getPatientObjective.SHExmPatientFHPH.FindAsync(Model.PatientID, summary.QuestionID, Model.Type);
+
                     if (SelectFHPH != null)
                     {
                         SelectFHPH.Answer = summary.Answer;
-                        SelectFHPH.PatientID = Model.PatientID;
+                        SelectFHPH.lastUpdatedDate = DateTime.Now.ToString();
+                        SelectFHPH.lastUpdatedUser = User.Claims.First().Value.ToString();
+                        SelectFHPH.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                         getPatientObjective.SHExmPatientFHPH.Update(SelectFHPH);
+                        getPatientObjective.Entry(SelectFHPH).State = EntityState.Modified;
+
                     }
                     else
                     {
@@ -450,22 +457,28 @@ namespace HealthCare.Controllers
                             lastUpdatedUser = User.Claims.First().Value.ToString(),
                             lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
                         };
-
-                        getPatientObjective.Entry(SelectFHPH).State = EntityState.Modified;
+                       // getPatientObjective.SHExmPatientFHPH.Update(SelectFHPH);
+                       
                     }
-
+                   
                 }
+               
                 await getPatientObjective.SaveChangesAsync();
             }
 
-            var FHPHresult = ViewFHPH.GetHistoryQuestions(Model.Type);
-            var FHPHviewModel = new PatientExamFHViewModel
+            if (buttonType == "Get")
             {
-                Answer = Model.Answer,
-                SHlistFHPH = FHPHresult
-            };
+                var FHPHresult = ViewFHPH.GetHistoryQuestions(Model.Type, Model.PatientID, Model.QuestionID);
+                var FHPHviewModel = new PatientFHPHViewModel
+                {
+                    Answer = Model.Answer,
+                    SHFHPHviewlist = FHPHresult
+                };
+                return View("PatientFamilyHistory", FHPHviewModel);
+            }
             ViewBag.Message = "Saved Successfully";
-            return View("PatientFamilyHistory", FHPHviewModel);
+            // return View("PatientFamilyHistory", FHPHviewModel);
+            return View("PatientFamilyHistory");
 
             
         }

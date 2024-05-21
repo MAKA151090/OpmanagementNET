@@ -54,7 +54,7 @@
 
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="CheckInTime" class="form-control" placeholder="CheckInTime" />
+                            <input asp-for="CheckInTime"  class="form-control" placeholder="CheckInTime" />
                             <label asp-for="CheckInTime" class="control-label">CheckInTime</label>
 
                             <span asp-validation-for="CheckInTime" class="text-danger"></span>
@@ -81,17 +81,20 @@
                         <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
                         </div> *@
                         <div class="form-floating form-floating-outline mb-4">
-                            <input type="submit" asp-action="StaffAttendance" value="Save" class="btn btn-primary" />
+                            <center>
+                            <button type="submit" asp-action="StaffAttendance" value="Save" class="btn btn-primary" >Save</button>
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-success">
+
+
+                                        @ViewBag.Message
+                                    </div>
+
+                                }
+                                </center>
                         </div>
-                        @if (ViewBag.Message != null)
-                        {
-                            <div class="alert alert-success">
-
-
-                                @ViewBag.Message
-                            </div>
-
-                        }
+                    
 
                         <div class="col-md-12 col-lg-6">
                         </div>

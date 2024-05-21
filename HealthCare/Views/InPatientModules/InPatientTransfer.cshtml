@@ -28,7 +28,21 @@
                 <input asp-for="BedId" class="form-control" />
                 <span asp-validation-for="BedId" class="text-danger"></span>
             </div>
-            @if (@Model != null)
+
+            <div class="col-md-12 col-lg-6">
+
+                <div>
+
+                    <input type="submit" name="buttonType" value="get" class="btn btn-primary" />
+                  @*   <input type="submit" value="Get" asp-action="GetPatient" class="btn btn-outline-dark waves-effect" />
+                 *@
+                
+                
+                </div>
+
+
+
+                @if (@Model != null)
             {
                 <div class="form-group">
                     <label asp-for="RoomTypeFrom" class="control-label"></label>
@@ -69,12 +83,11 @@
 
             }
             
+          
             <div class="form-group">
-                <input type="submit"  name="buttonType" value="Create" class="btn btn-primary" />
+                <input type="submit" name="buttonType" value="Save" class="btn btn-primary" />
             </div>
-            <div class="form-group">
-                <input type="submit" name="buttonType" value="get" class="btn btn-primary" />
-            </div>
+          
         </form>
     </div>
 </div>

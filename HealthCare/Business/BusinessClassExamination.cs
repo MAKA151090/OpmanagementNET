@@ -144,12 +144,37 @@ namespace HealthCare.Business
 
 
         }
-        public List<PatientFHPHModel> GetHistoryQuestions(String Type)
+        public List<PatientExamListModel> GetHistoryQuestions(String Type,string patientID,string QuestionID)
         {
 
+            var addQus = objSearchContext.PatExmFHPH.Select(e => e).Where(e=>e.Type==Type).ToList();
+            foreach (var item in addQus)
+            {
+                var objFHPH = (objSearchContext.SHExmPatientFHPH.FirstOrDefault(x =>
+                x.PatientID == patientID && x.Type==Type &&x.QuestionID==QuestionID));
+
+                if (objFHPH == null)
+                {
+                    var newFHPH = new PatientFHPHModel
+                    {
+                        QuestionID= item.QuestionID,
+                        PatientID = patientID,
+                        Type=Type
+                       
+                    };
+                    objSearchContext.SHExmPatientFHPH.Add(newFHPH);
+                    
+                }
+
+             
+            }
+            objSearchContext.SaveChanges();
+
             var patExmQuestion = (from q in objSearchContext.PatExmFHPH
-                                  where q.Type == Type
-                                  select new PatientFHPHModel { Question = q.Question, QuestionID = q.QuestionID }).ToList();
+                                  join a in objSearchContext.SHExmPatientFHPH
+                  on q.QuestionID equals a.QuestionID 
+                                  where q.Type == Type && a.PatientID==patientID
+                                  select new PatientExamListModel{ Question = q.Question, QuestionID = q.QuestionID, Answer = a.Answer }).ToList();
 
 
 

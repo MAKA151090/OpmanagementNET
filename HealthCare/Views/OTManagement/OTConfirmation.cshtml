@@ -5,21 +5,37 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>OTConfirmation</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
 
-<hr />
+        <h2 class="text-primary mb-1">OTConfirmation</h2>
+
+        <hr />
+    </div>
 @using (Html.BeginForm("GetviewOT","OTManagement",FormMethod.Post))
 {
-    <div class="row">
-        <div class="col-md-4">
+    
    
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
+
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-1"></div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="OtScheduleID" class="form-control" placeholder="OtScheduleID" />
                     <label asp-for="OtScheduleID" class="control-label"></label>
-                    <input asp-for="OtScheduleID" class="form-control" />
+                    
                     <span asp-validation-for="OtScheduleID" class="text-danger"></span>
-                    <input type="submit" value="Get" class="btn btn-primary" />
-                </div>
+
+                        </div>
+                            <center>
+                                <button type="submit" value="Get" class="btn btn-primary">Get</button>
+                            </center>
+                        </div>
                @*  <div class="form-group">
                     <label asp-for="lastupdatedDate" class="control-label"></label>
                     <input asp-for="lastupdatedDate" class="form-control" />
@@ -36,9 +52,12 @@
                     <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
                 </div> *@
 
-         
+         </div>
+         </div>
+         </div>
+         <div>
         </div>
-    </div>
+    
 
 
     <table class="table">
@@ -106,6 +125,12 @@
             <button type="submit" name="buttonType" value="Confirm" class="btn btn-primary">Confirm</button>
             <button type="submit" name="buttonType" value="cancel" class="btn btn-success">cancel</button>
 
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
             @* <div class="form-group">
             <input type="submit" name="buttonType" value="Confirm" class="btn btn-primary" />
         </div>

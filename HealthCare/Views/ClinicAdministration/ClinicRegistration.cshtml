@@ -46,10 +46,11 @@
                         </div>*@
 
                         <div>
+                            <center>
                            @*  <input type="submit" class=" btn btn-outline-dark waves-effect" asp-action="GetClinic" value="Search" /> *@
 
                             <button type="submit" class="btn btn-primary" asp-action="GetClinic" value="Search">Search</button>
-                          
+                          </center>
                         </div>
 
                     </div>
@@ -137,10 +138,12 @@
                 
             </div> *@
                         <div>
+                            <center>
                            @*  <input type="submit" class="btn btn-outline-dark waves-effect " asp-action="AddClinic" value="Create" /> *@
 
                             <button type="submit" class="btn btn-primary" asp-action="AddClinic" value="Create">Save</button>
-                        </div>
+                            
+                       
 
                         @if(ViewBag.Message!=null)
                         {
@@ -151,6 +154,7 @@
                             </div>
                             
                         }
+                        </center></div>
                     
         </div>
         </div>

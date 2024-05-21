@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare.Models;
+using System;
 
 public class PatientFHPHModel
 {
@@ -12,7 +13,8 @@ public class PatientFHPHModel
     private String strlastUpdatedDate;
     private String strlastUpdatedUser;
     private String strlastUpdatedMachine;
-    private String strQuestion;
+ 
+
 
 
 
@@ -23,5 +25,5 @@ public class PatientFHPHModel
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; } 
     public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
-    public string Question { get => strQuestion; set => strQuestion = value; }
+  
 }

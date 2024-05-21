@@ -37,15 +37,13 @@
             <div class="col-md-12 col-lg-5">
                
             <div>
-
-                            <input type="submit" value="Get" asp-action="Getdoctor" class="btn btn-outline-dark waves-effect" />
-           
-                
+                <center>
+                     <button type="submit" class="btn btn-primary" asp-action="Getdoctor" value="Create">Get</button>
+                        
+                </center>
                     </div>
                 </div>
            </div>
-
-       
 
              <div class="row">
            <div class="col-1">
@@ -172,6 +170,7 @@
                 <span asp-validation-for="MedialLicenseNumber" class="text-danger"></span>                  
                 </div>
          <div class="form-group">
+
                 <input type="submit" asp-action="AddDoctor" value="Create" class="btn btn-outline-dark waves-effect"  style="height: 10px;" />
             </div>
         
