@@ -1,4 +1,4 @@
-﻿@model PatientExamFHViewModel
+﻿@model PatientFHPHViewModel
 
 @{
     ViewData["Title"] = "PatientExamFHView";
@@ -46,12 +46,12 @@
         <tbody>
             @if (Model != null)
             {
-                @for (int i = 0; i < Model.SHlistFHPH.Count; i++)
+                @for (int i = 0; i < Model.SHFHPHviewlist.Count; i++)
                 {
                     <tr>
-                        <td><input type="text" asp-for="@Model.SHlistFHPH[i].Question" /> <input type="hidden" asp-for="@Model.SHlistFHPH[i].QuestionID" /></td>
+                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Question" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].QuestionID" /></td>
 
-                        <td><input type="text" asp-for="@Model.SHlistFHPH[i].Answer" /> <input type="hidden" asp-for="@Model.SHlistFHPH[i].Type" /></td>
+                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Answer" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].Type" /></td>
 
 
                     </tr>
