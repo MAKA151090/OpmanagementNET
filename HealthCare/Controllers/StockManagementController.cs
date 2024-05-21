@@ -26,14 +26,14 @@ namespace HealthCare.Controllers
                 existingCat.CategoryID = pCategory.CategoryID;
                 existingCat.CategoryName = pCategory.CategoryName;
                 existingCat.lastUpdatedDate = DateTime.Now.ToString();
-                existingCat.lastUpdatedUser = "Myself";
-                existingCat.lastUpdatedmachine = "Lap";
+                existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingCat.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 pCategory.lastUpdatedDate = DateTime.Now.ToString();
-                pCategory.lastUpdatedUser = "Myself";
-                pCategory.lastUpdatedmachine = "Lap";
+                pCategory.lastUpdatedUser = User.Claims.First().Value.ToString();
+                pCategory.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetDrugData.SHstkDrugCategory.Add(pCategory);
 
             }
@@ -51,14 +51,14 @@ namespace HealthCare.Controllers
                 existingGrp.GroupTypeID = model.GroupTypeID;
                 existingGrp.GroupTypeName = model.GroupTypeName;
                 existingGrp.lastUpdatedDate = DateTime.Now.ToString();
-                existingGrp.lastUpdatedUser = "Myself";
-                existingGrp.LastUpdatedmachine = "Lap";
+                existingGrp.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingGrp.LastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 model.lastUpdatedDate= DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.LastUpdatedmachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetDrugData.SHstkDrugGroup.Add(model);
             }
             await GetDrugData.SaveChangesAsync();
@@ -76,14 +76,14 @@ namespace HealthCare.Controllers
                 existingType.TypeID = pType.TypeID;
                 existingType.TypeName = pType.TypeName;
                 existingType.lastUpdatedDate = DateTime.Now.ToString();
-                existingType.lastUpdatedUser = "Myself";
-                existingType.lastUpdatedmachine = "Lap";
+                existingType.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingType.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 pType.lastUpdatedDate = DateTime.Now.ToString();
-                pType.lastUpdatedUser = "Myself";
-                pType.lastUpdatedmachine = "Lap";
+                pType.lastUpdatedUser = User.Claims.First().Value.ToString();
+                pType.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetDrugData.SHstkDrugType.Add(pType);
 
             }
@@ -106,14 +106,14 @@ namespace HealthCare.Controllers
                 existingRack.UniqueIdentifier = pRack.UniqueIdentifier;
                 existingRack.Comments = pRack.Comments;
                 existingRack.lastUpdatedDate = DateTime.Now.ToString();
-                existingRack.lastUpdatedUser = "Myself";
-                existingRack.lastUpdatedmachine = "Lap";
+                existingRack.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingRack.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 pRack.lastUpdatedDate = DateTime.Now.ToString();
-                pRack.lastUpdatedUser = "Myself";
-                pRack.lastUpdatedmachine = "Lap";
+                pRack.lastUpdatedUser = User.Claims.First().Value.ToString();
+                pRack.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetDrugData.SHstkDrugRack.Add(pRack);
 
             }
@@ -133,16 +133,16 @@ namespace HealthCare.Controllers
                 existingStk.ExpiryDate = model.ExpiryDate;
                 existingStk.NumberOfStock  = model.NumberOfStock;
                 existingStk.lastUpdatedDate = DateTime.Now.ToString();
-                existingStk.lastUpdatedUser = "Myself";
-                existingStk.lastUpdatedMachine = "Lap";
-        
+                existingStk.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingStk.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
 
             }
                 else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetDrugData.SHstkDrugStock.Add(model);
 
             }
@@ -205,17 +205,17 @@ namespace HealthCare.Controllers
                 existingTest.BarCode = model.BarCode;
                 existingTest.GroupName = model.GroupName;
                 existingTest.GroupType = model.GroupType;
-                existingTest.LastupdatedUser = "Myself";
+                existingTest.LastupdatedUser = User.Claims.First().Value.ToString();
                 existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
-                existingTest.LastUpdatedMachine = "Myself";
-                      }
+                existingTest.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+            }
             else
             {
 
 
                 model.LastupdatedDate = DateTime.Now.ToString();
-                model.LastupdatedUser = "Myself";
-                model.LastUpdatedMachine = "Myself";
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetDrugData.SHstkDrugInventory.Add(model);
 
             }

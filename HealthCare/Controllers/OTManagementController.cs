@@ -43,14 +43,14 @@ namespace HealthCare.Controllers
                 existingSchedule.ConfirmBy = pSchedule.ConfirmBy;
                 existingSchedule.IsDeleted =pSchedule.IsDeleted;
                 existingSchedule.lastupdatedDate = DateTime.Now.ToString();
-                existingSchedule.lastUpdatedUser = "Myself";
-                existingSchedule.lastUpdatedMachine = "Lap";
+                existingSchedule.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingSchedule.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 pSchedule.lastupdatedDate = DateTime.Now.ToString();
-                pSchedule.lastUpdatedUser = "Myself";
-                pSchedule.lastUpdatedMachine = "Lap";
+                pSchedule.lastUpdatedUser = User.Claims.First().Value.ToString();
+                pSchedule.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 Getotschedule.SHotScheduling.Add(pSchedule);
 
             }
@@ -80,14 +80,14 @@ namespace HealthCare.Controllers
                 existingNotes.ObservationNotes = pNotes.ObservationNotes;
                 existingNotes.OtherComments = pNotes.OtherComments;
                 existingNotes.lastupdatedDate = DateTime.Now.ToString();
-                existingNotes.lastUpdatedUser = "Myself";
-                existingNotes.lastUpdatedMachine = "Lap";
+                existingNotes.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingNotes.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 pNotes.lastupdatedDate = DateTime.Now.ToString();
-                pNotes.lastUpdatedUser = "Myself";
-                pNotes.lastUpdatedMachine = "Lap";
+                pNotes.lastUpdatedUser = User.Claims.First().Value.ToString();
+                pNotes.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 Getotschedule.SHotNotes.Add(pNotes);
 
             }

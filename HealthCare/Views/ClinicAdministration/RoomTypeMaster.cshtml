@@ -5,32 +5,48 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>RoomTypeMaster</h1>
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> RoomTypeMaster</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
 
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="RoomTypeMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-1">
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="RoomTypeID" class="form-control" placeholder="RoomTypeID" />
                 <label asp-for="RoomTypeID" class="control-label"></label>
-                <input asp-for="RoomTypeID" class="form-control" />
+                
                 <span asp-validation-for="RoomTypeID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="RoomTypeName" class="form-control" placeholder="RoomTypeName" />
                 <label asp-for="RoomTypeName" class="control-label"></label>
-                <input asp-for="RoomTypeName" class="form-control" />
+                
                 <span asp-validation-for="RoomTypeName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="AdditionFeature" class="form-control" placeholder="AdditionFeature" />
                 <label asp-for="AdditionFeature" class="control-label"></label>
-                <input asp-for="AdditionFeature" class="form-control" />
+               
                 <span asp-validation-for="AdditionFeature" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="AdditionalCost" class="form-control" placeholder="AdditionalCost" />
                 <label asp-for="AdditionalCost" class="control-label"></label>
-                <input asp-for="AdditionalCost" class="form-control" />
+               
                 <span asp-validation-for="AdditionalCost" class="text-danger"></span>
             </div>
          @*    <div class="form-group">
@@ -48,9 +64,11 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
+            <br />
             <div class="form-group">
                 <input type="submit" asp-action="GetRoomType" value="Create" class="btn btn-primary" />
             </div>
+            
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">
