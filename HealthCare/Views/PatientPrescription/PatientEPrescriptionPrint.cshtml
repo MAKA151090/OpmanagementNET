@@ -5,33 +5,55 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>PatientEPrescriptionPrint</h1>
-<hr />
-@using (Html.BeginForm("PrescriptionPrint", "PatientPrescription", FormMethod.Post))
-{
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="PatientEPrescriptionPrint">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label for="PatientID" class="control-label">Patient ID</label>
-                    <input type="text" id="PatientID" name="PatientID" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="CaseVisitID" class="control-label">CaseVisit ID</label>
-                    <input type="text" id="CaseVisitID" name="CaseVisitID" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="OrderID" class="control-label">Order ID</label>
-                    <input type="text" id="OrderID" name="OrderID" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Get" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>
+<div class="card xl-12">
+    <div class="card-body pt-2 mt-1">
 
+        <h2 class="text-primary mb-1">PatientEPrescriptionPrint</h2>
+
+
+    </div>
+@using (Html.BeginForm("PrescriptionPrint", "PatientPrescription", FormMethod.Post))
+    {
+
+        <form asp-action="PatientEPrescriptionPrint">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row gy-4">
+
+                <div class="col-md-12 col-lg-1"></div>
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input type="text" id="PatientID" name="PatientID" class="form-control" placeholder="PatientID" />
+                    <label for="PatientID" class="control-label">Patient ID</label>
+                    
+                </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input type="text" id="CaseVisitID" name="CaseVisitID" class="form-control" placeholder="CaseVisitID" />
+                    <label for="CaseVisitID" class="control-label">CaseVisit ID</label>
+                    
+                </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input type="text" id="OrderID" name="OrderID" class="form-control" placeholder="OrderID" />
+                    <label for="OrderID" class="control-label">Order ID</label>
+                   
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <center>
+                    <button type="submit" value="Get" class="btn btn-primary">Get</button>
+                                </center>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+                
+         
+            
+      
     <table class="table">
         <thead>
             <tr>
@@ -112,6 +134,8 @@
         <div class="form-group">
             <input type="submit" value="Print" class="btn btn-primary" />
         </div>
+       
     }
+        </form>
 }
-
+        

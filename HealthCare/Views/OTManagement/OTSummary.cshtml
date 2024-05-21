@@ -5,21 +5,40 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>OTSummary</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
 
-<hr />
+        <h2 class="text-primary mb-1">OTSummary</h2>
+
+        <hr />
+    </div>
 @using (Html.BeginForm("OtsummaryView","OTManagement", FormMethod.Post))
 {
-    <div class="row">
-        <div class="col-md-4">
+   
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="row gy-4">
+
+                <div class="col-md-12 col-lg-1"></div>
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="OtscheduleID" class="form-control" placeholder="OtscheduleID" />
                 <label asp-for="OtscheduleID" class="control-label"></label>
-                <input asp-for="OtscheduleID" class="form-control" />
-                <span asp-validation-for="OtscheduleID" class="text-danger"></span>
-                <input type="submit" value="Get" class="btn btn-primary" />
-            </div>
+                
+                <br />
+                            <div>
+                                <center>
+                                    <button type="submit" value="Get" class="btn btn-primary">Get</button>
+                                    <button type="submit" name="buttonType" value="Save" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="buttonType" value="Print" class="btn btn-success">Print</button>
+                                </center>
+                               
+                            </div>
+                        
+                        </div>
             @*  <div class="form-group">
                 <label asp-for="QuestionID" class="control-label"></label>
                 <input asp-for="QuestionID" class="form-control" />
@@ -50,7 +69,9 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
-           
+           </div>
+           </div>
+          
         </div>
     </div>
 

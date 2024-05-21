@@ -45,11 +45,7 @@
                         <div>Hospital Registration</div>
                     </a>
                 </li>
-                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalFacilityMapping" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="HospitalFacilityMapping" class="menu-link">
-                        <div>HospitalFacilityMapping</div>
-                    </a>
-                </li>
+                
                 <li class='menu-item@(currentPage == "/ClinicAdministration/DiagnosisMaster" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="DiagnosisMaster" class="menu-link">
                         <div>DiagnosisMaster</div>
@@ -67,11 +63,7 @@
             <div>Blood Group Administration</div>
           </a>
         </li>
-                <li class='menu-item@(currentPage == "/ClinicAdministration/StaffFacilityMapping" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="StaffFacilityMapping" class="menu-link">
-                        <div>Staff Facility Mapping</div>
-                    </a>
-                </li>
+                
 
                 <li class='menu-item@(currentPage == "/ClinicAdministration/DoctorSchedule" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="DoctorSchedule" class="menu-link">
@@ -195,9 +187,19 @@
                             <div>Facility Registration</div>
                         </a>
                     </li>
+                    <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalFacilityMapping" ? " active" : "")'>
+                        <a asp-controller="ClinicAdministration" asp-action="HospitalFacilityMapping" class="menu-link">
+                            <div>HospitalFacilityMapping</div>
+                        </a>
+                    </li>
+                    <li class='menu-item@(currentPage == "/ClinicAdministration/StaffFacilityMapping" ? " active" : "")'>
+                        <a asp-controller="ClinicAdministration" asp-action="StaffFacilityMapping" class="menu-link">
+                            <div>Staff Facility Mapping</div>
+                        </a>
+                    </li>
                 </ul>
-                </li>
-                </ul>
+           </li>
+                
        
         <ul class="menu-inner py-1">
         <!-- Stock Management -->

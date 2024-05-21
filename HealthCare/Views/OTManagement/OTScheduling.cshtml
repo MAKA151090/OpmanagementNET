@@ -5,83 +5,124 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>OTScheduling</h1>
+<div class="card xl-12">
+    <div class="card-body pt-2 mt-1">
+
+        <h2 class="text-primary mb-1">OTScheduling</h2>
+
+
+    </div>
 @using (Html.BeginForm("OtSchedule", "OTManagement", FormMethod.Post))
 {
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
         
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="row gy-4">
+           
+           
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                 <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
+                
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="OtScheduleID" class="form-control" placeholder="OtScheduleID" />
                 <label asp-for="OtScheduleID" class="control-label"></label>
-                <input asp-for="OtScheduleID" class="form-control" />
+
                 <span asp-validation-for="OtScheduleID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="TableID" class="form-control" placeholder="TableID" />
                 <label asp-for="TableID" class="control-label"></label>
-                <input asp-for="TableID" class="form-control" />
+               
                 <span asp-validation-for="TableID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="OperationType" class="form-control" placeholder="OperationType" />
                 <label asp-for="OperationType" class="control-label"></label>
-                <input asp-for="OperationType" class="form-control" />
+               
                 <span asp-validation-for="OperationType" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Priority" class="form-control" placeholder="Priority" />
                 <label asp-for="Priority" class="control-label"></label>
-                <input asp-for="Priority" class="form-control" />
+               
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="InchrgDepID" class="form-control" placeholder="InchrgDepID" />
                 <label asp-for="InchrgDepID" class="control-label"></label>
-                <input asp-for="InchrgDepID" class="form-control" />
+              
                 <span asp-validation-for="InchrgDepID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            </div>
+            </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="AdditionalNotes" class="form-control" placeholder="AdditionalNotes" />
                 <label asp-for="AdditionalNotes" class="control-label"></label>
-                <input asp-for="AdditionalNotes" class="form-control" />
+               
                 <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Comments" class="form-control" placeholder="Comments" />
                 <label asp-for="Comments" class="control-label"></label>
-                <input asp-for="Comments" class="form-control" />
+                
                 <span asp-validation-for="Comments" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StartDate" class="form-control" placeholder="StartDate" />
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+               
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StartTime" class="form-control" placeholder="StartTime" />
                 <label asp-for="StartTime" class="control-label"></label>
-                <input asp-for="StartTime" class="form-control" />
+               
                 <span asp-validation-for="StartTime" class="text-danger"></span>
             </div>
-           
-            <div class="form-group">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="BookedBy" class="form-control" placeholder="BookedBy" />
                 <label asp-for="BookedBy" class="control-label"></label>
-                <input asp-for="BookedBy" class="form-control" />
+               
                 <span asp-validation-for="BookedBy" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Status" class="form-control" placeholder="Status" />
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            </div>
+            </div>
+            </div>
+           
+
+            <div class="col-md-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Duration" class="form-control" placeholder="Duration" />
+                        <label asp-for="Duration" class="control-label"></label>
+                        
                 <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
+               
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="TeamID" class="form-control" placeholder="TeamID" />
                 <label asp-for="TeamID" class="control-label"></label>
-                <input asp-for="TeamID" class="form-control" />
+               
                 <span asp-validation-for="TeamID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -105,38 +146,55 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 @* <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span> 
             @* </div> *@
-            <div class="form-group">
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Confirm" class="form-control" placeholder="Confirm" />
                 <label asp-for="Confirm" class="control-label"></label>
-                <input asp-for="Confirm" class="form-control" />
+               
                 <span asp-validation-for="Confirm" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="ConfirmDate" class="form-control" placeholder="ConfirmDate" />
                 <label asp-for="ConfirmDate" class="control-label"></label>
-                <input asp-for="ConfirmDate" class="form-control" />
+                
                 <span asp-validation-for="ConfirmDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="ConfirmBy" class="form-control" placeholder="ConfirmBy" />
                 <label asp-for="ConfirmBy" class="control-label"></label>
-                <input asp-for="ConfirmBy" class="form-control" />
+                
                 <span asp-validation-for="ConfirmBy" class="text-danger"></span>
+          
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Add/Remove Surgery" class="btn btn-primary" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Add/remove Team" class="btn btn-primary" />
-            </div>
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-                    @ViewBag.Message
+                    </div>
                 </div>
-            }
-    </div>
-</div>
+            </div>
+
+        </div>
+        <br />
+            <div class="form-group">
+                <center>
+                <button type="submit" value="Create" class="btn btn-primary" >Create</button>
+
+              
+                                <button type="submit" value="Add/Remove Surgery" class="btn btn-primary">Add/Remove Surgery</button>
+                               
+                                <button type="submit" value="Add/remove Team" class="btn btn-primary">Add/remove Team</button>
+                                
+                         
+                        @if (ViewBag.Message != null)
+                        {
+                        <div class="alert alert-success">
+                                @ViewBag.Message
+                        </div>
+                        }
+            </center>
+                                </div>
+                            
+   
+        
+          
+        
+   
 
 }
 

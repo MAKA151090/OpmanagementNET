@@ -5,96 +5,110 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>OTNotes</h1>
 
 
-<hr />
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+
+        <h2 class="text-primary mb-1">OTNotes</h2>
+
+        <hr />
+    </div>
 @using (Html.BeginForm("OtNotespatient", "OTManagement", FormMethod.Post))
 {
-    <div class="row">
-        <div class="col-md">
+    
             <form asp-action="OTNotes">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row gy-4">
+            <div class="row gy-4">
 
-                            <div class="col-md-12 col-lg-6">
-                <div class="form-group">
+                <div class="col-md-12 col-lg-1"></div>
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                     <label asp-for="PatientID" class="control-label"></label>
-                    <input asp-for="PatientID" class="form-control" />
+                   
                     <span asp-validation-for="PatientID" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="OtScheduleID" class="form-control" placeholder="OtScheduleID" />
                     <label asp-for="OtScheduleID" class="control-label"></label>
-                    <input asp-for="OtScheduleID" class="form-control" />
+                   
                     <span asp-validation-for="OtScheduleID" class="text-danger"></span>
                 </div>
-                                <div class="form-group">
-                                    </div>
-                                <div class="form-group">
+
+                            <div class="form-floating form-floating-outline mb-4">
+
+                                <textarea asp-for="PreOtNotes" id="PreOtNotes" class="form-control" placeholder="PreOtNotes" style="height: 90px;"></textarea>
                                     <label asp-for="PreOtNotes" class="control-label"></label>
-                                    <textarea asp-for="PreOtNotes" id="PreOtNotes" class="form-control" aria-label="PreOtNotes" placeholder="PreOtNotes" style="height: 90px;"></textarea>
                   
                     <span asp-validation-for="PreOtNotes" class="text-danger"></span>
                 </div>
-                                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <textarea asp-for="IntraOtNotes" id="IntraOtNotes" class="form-control" placeholder="IntraOtNotes" style="height: 90px;"></textarea>
                                     <label asp-for="IntraOtNotes" class="control-label"></label>
 
-                                    <textarea asp-for="IntraOtNotes" id="IntraOtNotes" class="form-control" aria-label="IntraOtNotes" placeholder="IntraOtNotes" style="height: 90px;"></textarea>
+                                   
                     <span asp-validation-for="IntraOtNotes" class="text-danger"></span>
                 </div>
-                                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <textarea asp-for="PostOtNotes" id="PostOtNotes" class="form-control"  placeholder="PostOtNotes" style="height: 90px;"></textarea>
                                     <label asp-for="PostOtNotes" class="control-label"></label>
 
-                                    <textarea asp-for="PostOtNotes" id="PostOtNotes" class="form-control" aria-label="PostOtNotes" placeholder="PostOtNotes" style="height: 90px;"></textarea>
+                                    
                     <span asp-validation-for="PostOtNotes" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-
+                            <div class="form-floating form-floating-outline mb-4">
+                                <textarea asp-for="FinalOtNotes" id="FinalOtNotes" class="form-control"  placeholder="FinalOtNotes" style="height: 90px;"></textarea>
                                     <label asp-for="FinalOtNotes" class="control-label"></label>
 
-                                    <textarea asp-for="FinalOtNotes" id="FinalOtNotes" class="form-control" aria-label="FinalOtNotes" placeholder="FinalOtNotes" style="height: 90px;"></textarea>
+                                   
                     <span asp-validation-for="FinalOtNotes" class="text-danger"></span>
                 </div>
                             </div>
                         </div>
                     </div>
-                
-                                <div class="card">
-                                    <div class="card-body">
-                                  
-                                            <div class="col-md-12 col-lg-6">
-                <div class="form-group">
+
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <textarea asp-for="PreOtAnesthesiaNotes" id="PreOtAnesthesiaNotes" class="form-control"  placeholder="PreOtAnesthesiaNotes" style="height: 90px;"></textarea>
                                     <label asp-for="PreOtAnesthesiaNotes" class="control-label"></label>
 
-                                    <textarea asp-for="PreOtAnesthesiaNotes" id="PreOtAnesthesiaNotes" class="form-control" aria-label="PreOtAnesthesiaNotes" placeholder="PreOtAnesthesiaNotes" style="height: 90px;"></textarea>
+                                   
                     <span asp-validation-for="PreOtAnesthesiaNotes" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <textarea asp-for="IntraOtAnesthesiaNotes" id="IntraOtAnesthesiaNotes" class="form-control"  placeholder="IntraOtAnesthesiaNotes" style="height: 90px;"></textarea>
                                     <label asp-for="IntraOtAnesthesiaNotes" class="control-label"></label>
 
-                                    <textarea asp-for="IntraOtAnesthesiaNotes" id="IntraOtAnesthesiaNotes" class="form-control" aria-label="IntraOtAnesthesiaNotes" placeholder="IntraOtAnesthesiaNotes" style="height: 90px;"></textarea>
+                                   
                     <span asp-validation-for="IntraOtAnesthesiaNotes" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <textarea asp-for="PostOtAnesthesiaNotes" id="PostOtAnesthesiaNotes" class="form-control" placeholder="PostOtAnesthesiaNotes" style="height: 90px;"></textarea>
                                     <label asp-for="PostOtAnesthesiaNotes" class="control-label"></label>
 
-                                    <textarea asp-for="PostOtAnesthesiaNotes" id="PostOtAnesthesiaNotes" class="form-control" aria-label="PostOtAnesthesiaNotes" placeholder="PostOtAnesthesiaNotes" style="height: 90px;"></textarea>
+                                    
                     <span asp-validation-for="PostOtAnesthesiaNotes" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <textarea asp-for="ObservationNotes" id="ObservationNotes" class="form-control"  placeholder="ObservationNotes" style="height: 90px;"></textarea>
                                     <label asp-for="ObservationNotes" class="control-label"></label>
 
-                                    <textarea asp-for="ObservationNotes" id="ObservationNotes" class="form-control" aria-label="ObservationNotes" placeholder="ObservationNotes" style="height: 90px;"></textarea>
+                                   
                   
                     <span asp-validation-for="ObservationNotes" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <textarea asp-for="OtherComments" id="OtherComments" class="form-control"  placeholder="OtherComments" style="height: 90px;"></textarea>
                                     <label asp-for="OtherComments" class="control-label"></label>
 
-                                    <textarea asp-for="OtherComments" id="OtherComments" class="form-control" aria-label="OtherComments" placeholder="OtherComments" style="height: 90px;"></textarea>
+                                   
                     <span asp-validation-for="OtherComments" class="text-danger"></span>
                 </div>
                 @*   <div class="form-group">
@@ -112,21 +126,25 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+            <br />
+                <div class="form-group"> 
+                    <center>
+                    <button type="submit" value="Create" class="btn btn-primary">Create</button>
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-success">
+                                        @ViewBag.Message
+                                    </div>
+                                }
+                                </center>
                 </div>
 
                             </div>
                              </div>
                 </div>    
                              </div>
-                @if (ViewBag.Message != null)
-                {
-                    <div class="alert alert-success">
-                        @ViewBag.Message
-                    </div>
-                }
+               
+
             </form>
-        </div>
-    </div>
+     
 }

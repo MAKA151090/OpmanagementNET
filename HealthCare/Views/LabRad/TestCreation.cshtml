@@ -10,7 +10,7 @@
 <div class="card xl-8">
     <div class="card-body pt-2 mt-1">
 
-<h2 class="text-primary mb-1">Create Test</h2>
+        <h2 class="text-primary mb-1">TestCreation</h2>
 
 <hr />
 </div>
@@ -48,7 +48,7 @@
 
             <div class="col-md-12 col-lg-3">
                         <div>
-                            <input type="submit" value="Get" class="btn btn-outline-dark waves-effect" />
+                            <button type="submit" value="Get" class="btn btn-primary">Get</button>
                         </div>
 
                             </div>
@@ -133,9 +133,18 @@
                          
                 <span asp-validation-for="ResultDate" class="text-danger"></span>
             </div>
-
+            <br />
             <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-outline-dark waves-effect" />
+                <center>
+                                <button type="submit" value="Create" class="btn btn-primary">Create</button>
+
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-success">
+                                        @ViewBag.Message
+                                    </div>
+                                }
+                            </center>
             </div>
                     </div>
                 </div>
@@ -144,12 +153,6 @@
             </div>
             </div>
        
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-                    @ViewBag.Message
-                </div>
-            }
 
            
 

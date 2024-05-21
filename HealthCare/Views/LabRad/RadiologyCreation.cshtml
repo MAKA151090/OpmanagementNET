@@ -104,22 +104,27 @@
                             <input asp-for="ScreeningCompletedDate" class="form-control" type="date" />
                 <span asp-validation-for="ScreeningCompletedDate" class="text-danger"></span>
             </div>
+            <br />
+
             <div class="form-group">
-                <input type="submit" value="Create" asp-action="GetPatientRadio" class="btn btn-primary" />
+                <center>
+                <button type="submit" value="Create" asp-action="GetPatientRadio" class="btn btn-primary">Create</button>
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-success">
+
+
+                                        @ViewBag.Message
+                                    </div>
+
+                                }
+                </center>
             </div>
             </div>
             </div>
             </div>
 
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-
-
-                    @ViewBag.Message
-                </div>
-
-            }
+            
         </form>
     </div>
 </div>
