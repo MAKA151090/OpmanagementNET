@@ -5,27 +5,43 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>RollAccess</h1>
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> RollAccess</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
 
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
         <form asp-action="RollAccess">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-1">
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="RollID" class="form-control" placeholder="RollID" />
                 <label asp-for="RollID" class="control-label"></label>
-                <input asp-for="RollID" class="form-control" />
+                
                 <span asp-validation-for="RollID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ScreenID" class="form-control" placeholder="ScreenID" />
                 <label asp-for="ScreenID" class="control-label"></label>
-                <input asp-for="ScreenID" class="form-control" />
+                
                 <span asp-validation-for="ScreenID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Access" class="form-control" placeholder="Access" />
                 <label asp-for="Access" class="control-label"></label>
-                <input asp-for="Access" class="form-control" />
+                
                 <span asp-validation-for="Access" class="text-danger"></span>
             </div>
             
@@ -45,6 +61,7 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
+            <br />
             <div class="form-group">
                 <input type="submit" asp-action="GetRollAccess" value="Save" class="btn btn-primary" />
             </div>
@@ -57,6 +74,7 @@
                 </div>
 
             }
+            
         </form>
     </div>
 </div>

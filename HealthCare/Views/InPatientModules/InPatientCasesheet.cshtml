@@ -5,66 +5,83 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div class="card xl-8">
+<div class="card xl-6">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h2 class="text-primary mb-1">InPatientCaseSheet</h2>
             <small class="text-muted float-end"></small>
-
+            <div class="row"></div>
         </div>
     </div>
-
+    
     <form asp-action="InPatientCaseSheet" asp-controller="InPatientModules" method="post">
-        <div class="card">
-            <div class="card-body">
-                <div class="row gy-4">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row gy-4">
+            <div class="col-md-12 col-lg-1"></div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
 
-                    <div class="col-md-12 col-lg-3">
-
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
+                                <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrPatientId" class="form-control" placeholder="StrPatientId" />
                             <label asp-for="StrPatientId" class="control-label"></label>
-                            <input asp-for="StrPatientId" class="form-control" />
+                           
                             <span asp-validation-for="StrPatientId" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrCaseId" class="form-control" placeholder="StrCaseId" />
                             <label asp-for="StrCaseId" class="control-label"></label>
-                            <input asp-for="StrCaseId" class="form-control" />
+                            
                             <span asp-validation-for="StrCaseId" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrBedId" class="form-control" placeholder="StrBedId" />
                             <label asp-for="StrBedId" class="control-label"></label>
-                            <input asp-for="StrBedId" class="form-control" />
+                            
                             <span asp-validation-for="StrBedId" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrPostMedHistory" class="form-control" placeholder="StrPostMedHistory" />
                             <label asp-for="StrPostMedHistory" class="control-label"></label>
-                            <input asp-for="StrPostMedHistory" class="form-control" />
+                            
                             <span asp-validation-for="StrPostMedHistory" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrAllergicTo" class="form-control" placeholder="StrAllergicTo" />
                             <label asp-for="StrAllergicTo" class="control-label"></label>
-                            <input asp-for="StrAllergicTo" class="form-control" />
+                            
                             <span asp-validation-for="StrAllergicTo" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                    </div>
+                    </div>
+                    </div>
+                    
+                    
+                    <div class="col-md-12 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrHeight" class="form-control" placeholder="StrHeight" />
                             <label asp-for="StrHeight" class="control-label"></label>
-                            <input asp-for="StrHeight" class="form-control" />
+                            
                             <span asp-validation-for="StrHeight" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                                <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrWeight" class="form-control" placeholder="StrWeight" />
                             <label asp-for="StrWeight" class="control-label"></label>
-                            <input asp-for="StrWeight" class="form-control" />
+                            
                             <span asp-validation-for="StrWeight" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                                <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrDiagnosis" class="form-control" placeholder="StrDiagnosis" />
                             <label asp-for="StrDiagnosis" class="control-label"></label>
-                            <input asp-for="StrDiagnosis" class="form-control" />
+                           
                             <span asp-validation-for="StrDiagnosis" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                                <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrTreatment" class="form-control" placeholder="StrTreatment" />
                             <label asp-for="StrTreatment" class="control-label"></label>
-                            <input asp-for="StrTreatment" class="form-control" />
+                            
                             <span asp-validation-for="StrTreatment" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -73,8 +90,8 @@
                         </div>
                         </div>
                         </div>
-                        </div>
+                        
                        
     </form>
-</div>
+    </div>
 

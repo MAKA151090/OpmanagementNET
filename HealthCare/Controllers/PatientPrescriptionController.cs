@@ -46,14 +46,14 @@ namespace HealthCare.Controllers
                 existingCat.FillDate=pPres.FillDate;
                 existingCat.Result=pPres.Result;
                 existingCat.lastupdatedDate = DateTime.Now.ToString();
-                existingCat.lastUpdatedUser = "Myself";
-                existingCat.lastUpdatedMachine = "Lap";
+                existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingCat.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 pPres.lastupdatedDate = DateTime.Now.ToString();
-                pPres.lastUpdatedUser = "Myself";
-                pPres.lastUpdatedMachine = "Lap";
+                pPres.lastUpdatedUser = User.Claims.First().Value.ToString();
+                pPres.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetPrescription.SHprsPrescription.Add(pPres);
 
             }

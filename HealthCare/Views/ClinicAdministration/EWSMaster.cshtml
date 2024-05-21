@@ -5,37 +5,56 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>EWSMaster</h1>
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> EWSMaster</h2>
+            <small class="text-muted float-end"></small>
 
-<hr />
+        </div>
+    </div>
+
+
 @using (Html.BeginForm("GetEWSMaster", "ClinicAdministration", FormMethod.Post))
     {
-<div class="row">
-    <div class="col-md-4">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+           <div class="row gy-4">
+
+                    <div class="col-md-12 col-lg-1">
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ObservationTypeID" class="form-control" placeholder="ObservationTypeID" />
                 <label asp-for="ObservationTypeID" class="control-label"></label>
-                <input asp-for="ObservationTypeID" class="form-control" />
+                
                 <span asp-validation-for="ObservationTypeID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="ObservationName" class="form-control" placeholder="ObservationName" />
                 <label asp-for="ObservationName" class="control-label"></label>
-                <input asp-for="ObservationName" class="form-control" />
+               
                 <span asp-validation-for="ObservationName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Unit" class="form-control" placeholder="Unit" />
                 <label asp-for="Unit" class="control-label"></label>
-                <input asp-for="Unit" class="form-control" />
+                
                 <span asp-validation-for="Unit" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Range" class="form-control" placeholder="Range" />
                 <label asp-for="Range" class="control-label"></label>
-                <input asp-for="Range" class="form-control" />
+                
                 <span asp-validation-for="Range" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="Frequency" class="form-control" placeholder="Frequency" />
                 <label asp-for="Frequency" class="control-label"></label>
-                <input asp-for="Frequency" class="form-control" />
+                
                 <span asp-validation-for="Frequency" class="text-danger"></span>
             </div>
            @*  <div class="form-group">
@@ -53,8 +72,13 @@
                 <input asp-for="lastUpdatedMachine" class="form-control" />
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            </div>
+            </div>
+            </div>
             </div>
             @if (ViewBag.Message != null)
             {
@@ -63,7 +87,8 @@
                 </div>
             }
        
-    </div>
-</div>
+    
+
 
 }
+</div>

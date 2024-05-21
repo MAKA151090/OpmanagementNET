@@ -34,16 +34,16 @@ namespace HealthCare.Controllers
                 existingClinic.CheckInTime = model.CheckInTime;
                 existingClinic.CheckOuTtime = model.CheckOuTtime;
                 existingClinic.lastUpdatedDate = DateTime.Now.ToString();
-                existingClinic.lastUpdatedUser = "Myself";
-                existingClinic.lastUpdatedMachine = "lap";
+                existingClinic.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingClinic.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
 
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetFrontDeskData.SHStaffAttendance.Add(model);
             }
                 await GetFrontDeskData.SaveChangesAsync();
@@ -131,10 +131,10 @@ namespace HealthCare.Controllers
                     VisitId = visitID,
                     VisitStatus = "CheckedIn",
                     LastupdatedDate = DateTime.Now.ToString(),
-                    LastupdatedUser = "Admin",
-                    LastUpdatedMachine = "My"
+                    LastupdatedUser = User.Claims.First().Value.ToString(),
+                    LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
 
-                });
+        });
 
 
                 await GetFrontDeskData.SaveChangesAsync();

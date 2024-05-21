@@ -45,7 +45,7 @@ namespace HealthCare.Controllers
                 existingClinic.FromHour = model.FromHour;
                 existingClinic.ToHour = model.ToHour;
                 existingClinic.lastUpdatedDate = DateTime.Now.ToString();
-                existingClinic.lastUpdatedUser = "Myself";
+                existingClinic.lastUpdatedUser = User.Claims.First().Value.ToString();
 
                 _healthcareContext.Entry(existingClinic).State = EntityState.Modified;
             }
@@ -57,7 +57,7 @@ namespace HealthCare.Controllers
                 //{
 
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.SHclnClinicAdmin.Add(model);
 
             }
@@ -108,13 +108,13 @@ namespace HealthCare.Controllers
             {
                 existingBloodGroup.IntBg_Id = model.IntBg_Id;
                 existingBloodGroup.BloodGroup = model.BloodGroup;
-                existingBloodGroup.lastUpdatedUser = "Admin";
+                existingBloodGroup.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingBloodGroup.lastUpdatedDate = DateTime.Now.ToString();
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 // Retrieve the list of blood groups from the database
 
                 _healthcareContext.SHclnBloodGroup.Add(model);
@@ -156,15 +156,15 @@ namespace HealthCare.Controllers
                 existingStaffAdmin.StrIdProofName = model.StrIdProofName;
                 existingStaffAdmin.StrMedialLicenseNumber = model.StrMedialLicenseNumber;
                 existingStaffAdmin.LastupdatedDate = DateTime.Now.ToString();
-                existingStaffAdmin.LastupdatedUser = "Admin";
-                existingStaffAdmin.LastUpdatedMachine = "Lap";
+                existingStaffAdmin.LastupdatedUser = User.Claims.First().Value.ToString();
+                existingStaffAdmin.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
 
                 model.LastupdatedDate = DateTime.Now.ToString();
-                model.LastupdatedUser = "Admin";
-                model.LastUpdatedMachine = "lap";
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnStaffAdminModel.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -213,14 +213,14 @@ namespace HealthCare.Controllers
                 existingRoomType.AdditionFeature = model.AdditionFeature;
                 existingRoomType.AdditionalCost = model.AdditionalCost;
                 existingRoomType.lastupdatedDate = DateTime.Now.ToString();
-                existingRoomType.lastUpdatedUser = "Admin";
-                existingRoomType.lastUpdatedMachine = "Lap";
+                existingRoomType.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingRoomType.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                model.lastUpdatedMachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnRoomTypeMaster.Add(model);
             }
 
@@ -237,14 +237,14 @@ namespace HealthCare.Controllers
                 existingNurseStation.NurseStationID = model.NurseStationID;
                 existingNurseStation.StationName = model.StationName;
                 existingNurseStation.lastupdatedDate = DateTime.Now.ToString();
-                existingNurseStation.lastUpdatedUser = "Admin";
-                existingNurseStation.lastUpdatedMachine = "Lap";
+                existingNurseStation.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingNurseStation.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                model.lastUpdatedMachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnNurseStationMaster.Add(model);
             }
 
@@ -262,14 +262,14 @@ namespace HealthCare.Controllers
                 existingIpType.IPTypeID = model.IPTypeID;
                 existingIpType.IPTypeName = model.IPTypeName;
                 existingIpType.lastupdatedDate = DateTime.Now.ToString();
-                existingIpType.lastUpdatedUser = "Admin";
-                existingIpType.lastUpdatedMachine = "Machine";
+                existingIpType.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingIpType.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                model.lastUpdatedMachine = "Machine";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnIPTypeMaster.Add(model);
 
             }
@@ -322,14 +322,14 @@ namespace HealthCare.Controllers
                 existingEWS.Range = pEWS.Range;
                 existingEWS.Frequency = pEWS.Frequency;
                 existingEWS.lastupdatedDate = DateTime.Now.ToString();
-                existingEWS.lastUpdatedUser = "admin";
-                existingEWS.lastUpdatedMachine = "Lap";
+                existingEWS.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingEWS.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 pEWS.lastupdatedDate = DateTime.Now.ToString();
-                pEWS.lastUpdatedUser = "Myself";
-                pEWS.lastUpdatedMachine = "lap";
+                pEWS.lastUpdatedUser = User.Claims.First().Value.ToString();
+                pEWS.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnEWSMaster.Add(pEWS);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -425,9 +425,9 @@ namespace HealthCare.Controllers
                 existingTest.TestName = model.TestName;
                 existingTest.Cost = model.Cost;
                 existingTest.Range = model.Range;
-                existingTest.lastUpdatedUser = "Myself";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTest.lastUpdatedDate = DateTime.Now.ToString(); ;
-                existingTest.lastUpdatedMachine = "Myself";
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.Entry(existingTest).State = EntityState.Modified;
             }
             else
@@ -435,7 +435,7 @@ namespace HealthCare.Controllers
 
 
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.SHTestMaster.Add(model);
 
             }
@@ -458,13 +458,13 @@ namespace HealthCare.Controllers
                 existingFHPH.Question = model.Question;
                 existingFHPH.Type = model.Type;
                 existingFHPH.LastUpdatedDate = DateTime.Now.ToString();
-                existingFHPH.LastUpdatedUser = "Myself";
+                existingFHPH.LastUpdatedUser = User.Claims.First().Value.ToString();
             }
             else
             {
 
                 model.LastUpdatedDate = DateTime.Now.ToString();
-                model.LastUpdatedUser = "Myself";
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.PatExmFHPH.Add(model);
 
             }
@@ -522,9 +522,9 @@ namespace HealthCare.Controllers
                 existingTest.SeverityName = model.SeverityName;
                 existingTest.Active = model.Active;
 
-                existingTest.LastupdatedUser = "Myself";
+                existingTest.LastupdatedUser = User.Claims.First().Value.ToString();
                 existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
-                existingTest.LastUpdatedMachine = "Myself";
+                existingTest.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.Entry(existingTest).State = EntityState.Modified;
             }
             else
@@ -532,8 +532,8 @@ namespace HealthCare.Controllers
 
 
                 model.LastupdatedDate = DateTime.Now.ToString();
-                model.LastupdatedUser = "Myself";
-                model.LastUpdatedMachine = "Myself";
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHSeverityModel.Add(model);
 
             }
@@ -554,16 +554,16 @@ namespace HealthCare.Controllers
                 existingTest.Duration = model.Duration;
                 existingTest.Cost = model.Cost;
                 existingTest.lastupdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "myself";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
 
             else
             {
 
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnSurgeryMaster.Add(model);
 
             }
@@ -584,15 +584,15 @@ namespace HealthCare.Controllers
                 existingTest.RoomName = model.RoomName;
                 existingTest.AdditionalFeature = model.AdditionalFeature;
                 existingTest.lastupdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "myself";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
 
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHotTableMaster.Add(model);
             }
 
@@ -613,15 +613,15 @@ namespace HealthCare.Controllers
                 existingTest.SurgeryTypeID = model.SurgeryTypeID;
                 existingTest.SurgeryTypeName = model.SurgeryTypeName;
                 existingTest.lastupdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "myself";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
 
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHotSurgerTypeymaster.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -640,14 +640,14 @@ namespace HealthCare.Controllers
                 existingTest.DepartmentID = model.DepartmentID;
                 existingTest.DepartmentName = model.DepartmentName;
                 existingTest.lastupdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "myself";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHotInternalDepartmentMaster.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -667,15 +667,15 @@ namespace HealthCare.Controllers
                 existingTest.ScreenID = model.ScreenID;
                 existingTest.Access = model.Access;           
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "lap";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHClnRollAccess.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -698,14 +698,14 @@ namespace HealthCare.Controllers
                 existingTest.ReadWriteAccess = model.ReadWriteAccess;
                 existingTest.Authorized = model.Authorized;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "lap";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHClnScreenMaster.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -729,15 +729,15 @@ namespace HealthCare.Controllers
                 existingTest.Phone3 = model.Phone3;
                 existingTest.Email = model.Email;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "lap";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.Entry(existingTest).State = EntityState.Modified;
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHHospitalRegistration.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -755,15 +755,15 @@ namespace HealthCare.Controllers
                 existingTest.FacilityID = model.FacilityID;
                 existingTest.FacilityStatus = model.FacilityStatus;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "lap";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.Entry(existingTest).State = EntityState.Modified;
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHHospitalFacilityMapping.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -787,15 +787,15 @@ namespace HealthCare.Controllers
                 existingTest.WHODescription = model.WHODescription;
                 existingTest.DiagnosisStatus = model.DiagnosisStatus;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "lap";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.Entry(existingTest).State = EntityState.Modified;
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnDiagnosisMaster.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -822,15 +822,15 @@ namespace HealthCare.Controllers
                 existingTest.TaxPercentage = model.TaxPercentage;
                 existingTest.NetCost = model.NetCost;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
-                existingTest.lastUpdatedUser = "myself";
-                existingTest.lastUpdatedMachine = "lap";
+                existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.Entry(existingTest).State = EntityState.Modified;
             }
             else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Myself";
-                model.lastUpdatedMachine = "lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnProcedureCodeMaster.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -888,16 +888,16 @@ namespace HealthCare.Controllers
                 existingStafff.FromHour = model.FromHour;
                 existingStafff.ToHour = model.ToHour;
                 existingStafff.lastupdatedDate = DateTime.Now.ToString();
-                existingStafff.lastUpdatedUser = "Admin";
-                existingStafff.lastUpdatedMachine = "Lap";
+                existingStafff.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingStafff.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                 _healthcareContext.Entry(existingStafff).State = EntityState.Modified;
             }
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = "Admin";
-                model.lastUpdatedMachine = "Lap";
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnStaffFacilityMapping.Add(model);
             }
 
