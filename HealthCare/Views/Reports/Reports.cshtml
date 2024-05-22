@@ -1,0 +1,22 @@
+﻿@using System.Data
+@using NonFactors.Mvc.Grid
+@model System.Data.DataTable
+
+
+@(Html
+    .Grid(Model.Rows.Cast<DataRow>())
+    .Build(columns =>
+    {
+        foreach (DataColumn? column in Model.Columns)
+        {
+            String name = column!.ColumnName;
+
+            columns.Add(model => model[name] as String).Filterable(true).Sortable(true).Named(name).Titled(column.Caption);
+        }
+    })
+    .Empty("No data found")
+    .Pageable(pager =>
+    {
+        pager.RowsPerPage = 4;
+    })
+)
