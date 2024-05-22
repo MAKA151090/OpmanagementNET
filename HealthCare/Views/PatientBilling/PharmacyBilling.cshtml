@@ -5,43 +5,66 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>PharmacyBilling</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">PharmacyBilling</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
 
 @using (Html.BeginForm("GetBill", "PatientBilling", FormMethod.Post))
 {
 
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
+   
             <form asp-action="PharmacyBilling">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
+            <div class="row gy-4">
+                <div class="col-md-12 col-lg-1"></div>
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                     <label asp-for="PatientID" class="control-label"></label>
-                    <input asp-for="PatientID" class="form-control" />
+                    
                 </div>
-                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="VisitID" class="form-control" placeholder="VisitID" />
                     <label asp-for="VisitID" class="control-label"></label>
-                    <input asp-for="VisitID" class="form-control" />
+                   
                 </div>
 
-                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="OrderID" class="form-control" placeholder="OrderID" />
                     <label asp-for="OrderID" class="control-label"></label>
-                    <input asp-for="OrderID" class="form-control" />
+                    
                 </div>
 
-                <div class="form-group">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="StrVisitcaseID" class="form-control" placeholder="StrVisitcaseID" />
                     <label asp-for="StrVisitcaseID" class="control-label">VisitcaseID</label>
-                    <input asp-for="StrVisitcaseID" class="form-control" />
+                    
                 </div>
+                <br />
 
                 <div class="form-group">
-                    <input type="submit" name="buttonType" value="select" class="btn btn-primary" />
+                    <center> 
+                    <button type="submit" name="buttonType" value="select" class="btn btn-primary" >select</button>
+                                </center>
                 </div>
+                </div>
+                </div>
+                </div>
+                </div>
+                
             </form>
-        </div>
-    </div>
+        
+    
 }
-
+<br />
 
 
 <table class="table">

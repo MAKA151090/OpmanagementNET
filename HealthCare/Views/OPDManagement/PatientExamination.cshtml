@@ -7,52 +7,76 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>PatientExamination</h1>
 
-<h4>PatientExaminationModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> Patient Examination</h2>
+            <small class="text-muted float-end"></small>
+        </div>
+    </div>
+
+
         <form asp-action="PatientExamination" method="post" asp-controller="OPDManagement">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+
+         
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                 <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
                 
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
                 <label asp-for="FacilityID" class="control-label"></label>
-                <input asp-for="FacilityID" class="form-control" />
                 
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ExaminationID" class="form-control" placeholder="ExaminationID" />
                 <label asp-for="ExaminationID" class="control-label"></label>
-                <input asp-for="ExaminationID" class="form-control" />
                 
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="VisitID" class="form-control" placeholder="VisitID" />
                 <label asp-for="VisitID" class="control-label"></label>
-                <input asp-for="VisitID" class="form-control" />
                
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Complaint" class="form-control" placeholder="Complaint" />
                 <label asp-for="Complaint" class="control-label"></label>
-                <input asp-for="Complaint" class="form-control" />
                
             </div>
-            <div class="form-group">
+            </div>
+            </div></div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Diagnosis" class="form-control" placeholder="Diagnosis" />
                 <label asp-for="Diagnosis" class="control-label"></label>
-                <input asp-for="Diagnosis" class="form-control" />
                
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="Prescription" class="form-control" placeholder="Prescription" />
                 <label asp-for="Prescription" class="control-label"></label>
-                <input asp-for="Prescription" class="form-control" />
                
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="FollowUp" class="form-control" placeholder="FollowUp" />
                 <label asp-for="FollowUp" class="control-label"></label>
-                <input asp-for="FollowUp" class="form-control" />
                 
             </div>
            @*  <div class="form-group">
@@ -90,19 +114,22 @@
 
                     </tbody>
                 </table>
-
+                    </div>
+                </div>
+            </div>
+        </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <center>
+                <button type="submit" value="Create" class="btn btn-primary" >Save</button>
+          
+            <button type="submit" name="buttonType" value="patientDiagnosis" class="btn btn-primary">Patient Diagnosis</button>
+           
+            <button type="submit" name="buttonType" value="patientProcedure" class="btn btn-primary">Patient Procedure</button>
+            </center>
             </div>
-            <div>
-            <input type="submit" name="buttonType" value="patientDiagnosis" class="btn btn-primary">patientDiagnosis</input>
-            </div>
-            <div>
-            <input type="submit" name="buttonType" value="patientProcedure" class="btn btn-primary">patientProcedure</input>
-            </div>
+            
         </form>
-    </div>
-</div>
+        </div>
 
 
 

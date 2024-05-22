@@ -107,8 +107,9 @@
             </div> *@
             <br />
                         <div class="form-floating form-floating-outline mb-4">
-                <input type="submit" asp-action="GetHospitalRegistration" value="Save" class="btn btn-primary" />
-            </div>
+                            <center>
+                                <button type="submit" asp-action="GetHospitalRegistration" value="Save" class="btn btn-primary">  Save </button>
+           
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">
@@ -117,6 +118,7 @@
                     @ViewBag.Message
                 </div>
             }
+            </center></div>
         </form>
     </div>
 </div>

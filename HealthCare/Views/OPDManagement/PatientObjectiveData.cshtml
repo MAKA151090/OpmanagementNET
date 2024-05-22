@@ -48,7 +48,10 @@
                         </div>
 
                         <div>
-                            <a asp-action="CreateGet" class="btn btn-primary btn-lg">SEARCH</a>
+                            <center>
+
+                                <a asp-action="CreateGet" class="btn btn-primary btn-lg">SEARCH</a>
+                            </center>
                         </div>
                     </div>
                 </div>
@@ -128,16 +131,18 @@
                             <span asp-validation-for="CheifComplaint" class="text-danger"></span>
                         </div>
                         <div>
-                            <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                            <center>
+                            <button type="submit" value="Save" class="btn btn-primary btn-lg" >Save</button>
+                            @if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-success">
+                                    @ViewBag.Message
+                                </div>
+                            }
+                            </center>
                             @* <a asp-action="Create" class="btn btn-primary btn-lg" asp-route-PatientObjectData="Model">SAVE</a> *@
                         </div>
-                        @if (ViewBag.Message != null)
-                        {
-                            <div class="alert alert-success">
-                                @ViewBag.Message
-                            </div>
-                        }
-
+                    
 
                     </div>
                 </div>

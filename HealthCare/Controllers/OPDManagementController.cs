@@ -5,6 +5,7 @@ using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
@@ -441,6 +442,7 @@ namespace HealthCare.Controllers
                         SelectFHPH.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                         getPatientObjective.SHExmPatientFHPH.Update(SelectFHPH);
                         getPatientObjective.Entry(SelectFHPH).State = EntityState.Modified;
+
                     }
                     else
                     {

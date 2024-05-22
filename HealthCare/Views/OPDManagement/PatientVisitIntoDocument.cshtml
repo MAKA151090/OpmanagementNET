@@ -5,27 +5,42 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>View</h1>
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> Patient Visit Document</h2>
+            <small class="text-muted float-end"></small>
 
-<h4>PatientInfoDocumentModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        </div>
+    </div>
+
+
         <form asp-action="GeneratePatientExaminationDocument" asp-controller="PatientExamination">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-1">
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
                 <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="VisitID" class="form-control" placeholder="VisitID" />
                 <label asp-for="VisitID" class="control-label"></label>
-                <input asp-for="VisitID" class="form-control" />
                 <span asp-validation-for="VisitID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
                 <label asp-for="FacilityID" class="control-label"></label>
-                <input asp-for="FacilityID" class="form-control" />
                 <span asp-validation-for="FacilityID" class="text-danger"></span>
             </div>
            @*  <div class="form-group">
@@ -39,13 +54,13 @@
                 <span asp-validation-for="StrlastUpdatedUser" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" value="GetDocument" class="btn btn-primary" />
+                <center>
+                                <button type="submit" value="GetDocument" class="btn btn-primary" >Get Document</button>
+                </center>
+                
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
