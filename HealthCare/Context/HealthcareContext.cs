@@ -142,6 +142,10 @@ namespace HealthCare.Context
 
         public DbSet<OTSummaryModel>SHOTsummary { get; set; }
 
+        public DbSet<DoctorScheduleModel> SHClnDocSchedule {  get; set; }
+
+        public DbSet<ResourceScheduleModel> SHclnViewResourceSchedule { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -152,6 +156,8 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID });
+            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID });
             modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID , i.QuestionID});
             modelBuilder.Entity<OTSummaryMasterModel>().HasKey(i => new { i.QuestionID });
 

@@ -7,29 +7,33 @@ public class DoctorScheduleModel
     {
     }
 
-    private String strDoctorID;
+    private String strStaffID;
     private String strFacilityID;
-    private String strDate;
-    private String strDuration;
-    private String strStartTime;
+    private string strDate;
+    private string strDuration;
+    private string strStartTime;
     private String strPatientID;
     private String strSlotsID;
-    private String strHoliday;
-    private String strBlocker;
-    private String strActive;
+    private bool strHoliday;
+    private bool strBlocker;
+    private bool strActive;
     private String strlastUpdatedDate;
     private String strlastUpdatedUser;
+    private string strlastUpdatedMachine;
 
-    public string DoctorID { get => strDoctorID; set => strDoctorID = value; }
-    public string? Date { get => strDate; set => strDate = value; }
-    public string? Duration { get => strDuration; set => strDuration = value; }
-    public string? StartTime { get => strStartTime; set => strStartTime = value; }
+  
     public string? PatientID { get => strPatientID; set => strPatientID = value; }
-    public string SlotsID { get => strSlotsID; set => strSlotsID = value; }
-    public string? Holiday { get => strHoliday; set => strHoliday = value; }
-    public string? Blocker { get => strBlocker; set => strBlocker = value; }
-    public string? Active { get => strActive; set => strActive = value; }
+    public string? SlotsID { get => strSlotsID; set => strSlotsID = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
     public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
+  
+    public string lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+    public bool Holiday { get => strHoliday; set => strHoliday = value; }
+    public bool Blocker { get => strBlocker; set => strBlocker = value; }
+    public bool Active { get => strActive; set => strActive = value; }
+    public string Date { get => strDate; set => strDate = value; }
+    public string Duration { get => strDuration; set => strDuration = value; }
+    public string StartTime { get => strStartTime; set => strStartTime = value; }
+    public string? StaffID { get => strStaffID; set => strStaffID = value; }
 }
