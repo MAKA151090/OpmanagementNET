@@ -3,11 +3,28 @@ using System.Data.Common;
 using System.Data;
 using System.Web;
 using Microsoft.Data.SqlClient;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 namespace HealthCare.Business
 {
     public static class BusinessClassCommon
     {
+        public static String AddParameter(String FromDate,String ToDate,String ColName,String DateColumn, String Colvalue)
+        {
+            String Where= String.Empty;
+            if(!FromDate.Equals(String.Empty)  || !ToDate.Equals(String.Empty) || !Colvalue.Equals(String.Empty))
+            {
+                Where = " Where ";
+            }
+
+            if (!Colvalue.Equals(string.Empty))
+                Where = Where + String.Format(" {0} between '{1}' and {2} ", DateColumn, FromDate,ToDate);
+
+            if (!Colvalue.Equals(string.Empty))
+                Where = Where + String.Format(" {0} ='{1}' ", ColName, Colvalue);
+
+            return Where;
+        }
         public static DataTable DataTable(DbContext context, string sqlQuery,
                                         params DbParameter[] parameters)
         {

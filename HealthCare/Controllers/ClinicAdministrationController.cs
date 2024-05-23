@@ -1009,7 +1009,7 @@ namespace HealthCare.Controllers
                 _healthcareContext.SaveChanges();
 
                 var slots = GenerateDoctorSlots(StaffID, FacilityID, FromDate, ToDate, duration, FromTime, ToTime);
-                _healthcareContext.SHcllDoctorScheduleModel.AddRange(slots);
+                _healthcareContext.SHclnResourceSchedule.AddRange(slots);
                 await _healthcareContext.SaveChangesAsync();
 
 

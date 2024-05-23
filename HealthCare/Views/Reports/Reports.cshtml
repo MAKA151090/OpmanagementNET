@@ -2,11 +2,34 @@
 @using NonFactors.Mvc.Grid
 @model DataTable
 
-
+<form asp-action="GetReports" asp-controller="Reports" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="control-label">ReportId</label>
+        <input value=@ViewData["ReportId"] class="form-control" />        
+    </div>
+    <div class="form-group">
+        <label class="control-label">FromDate</label>
+        <input value=@ViewData["FromDate"] class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">ToDate</label>
+        <input value=@ViewData["ToDate"] class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">FacilityID</label>
+        <input value=@ViewData["FacilityID"] class="form-control" />
+    </div>
+    <div class="form-group">
+        <center>
+            <button type="submit" name="buttonType" value="submit" class="btn btn-primary">GetReport</button>
+        </center>
+    </div>
+</form>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Display DataTable as HTML Table</title>
+    <title>ReportOutput</title>
     <style>
         table {
             border-collapse: collapse;
