@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Business;
+using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -157,6 +158,11 @@ namespace HealthCare.Controllers
         }
         public IActionResult DrugInventory()
         {
+
+            BusinessClassStockManagement clinicAdmin = new BusinessClassStockManagement(GetDrugData);
+            ViewData["Categoryid"] = clinicAdmin.GetCategoryid();
+            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid();
+            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
             return View();
         }
         public IActionResult DrugCategoryMaster()
@@ -221,6 +227,11 @@ namespace HealthCare.Controllers
             }
             await GetDrugData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
+
+            BusinessClassStockManagement clinicAdmin = new BusinessClassStockManagement(GetDrugData);
+            ViewData["Categoryid"] = clinicAdmin.GetCategoryid();
+            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid();
+            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
             return View("DrugInventory", model);
 
         }

@@ -39,6 +39,13 @@
             </div>
                         <div class="form-floating form-floating-outline mb-4">
 
+                            <input asp-for="RackID" class="form-control" placeholder="DrugID" />
+                            <label asp-for="RackID" class="control-label"></label>
+                            <span asp-validation-for="RackID" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating form-floating-outline mb-4">
+
                             <input asp-for="ManufacturingDate" type="date" class="form-control" placeholder="ManufacturingDate" />
                 <label asp-for="ManufacturingDate" class="control-label"></label>
                 <span asp-validation-for="ManufacturingDate" class="text-danger"></span>

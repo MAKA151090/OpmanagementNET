@@ -66,13 +66,28 @@
                 <label asp-for="RoomFloor" class="control-label"></label>
                 <span asp-validation-for="RoomFloor" class="text-danger"></span>
             </div>
-
                         <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenList = ((IEnumerable<NurseStationMasterModel>)ViewData["nurseid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.NurseStationID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.NurseStationID}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.NurseStationID, screenList, "Select Nurse Station ID", new { @class = "form-control" })
+                            <label asp-for="NurseStationID" class="control-label"></label>
+                            <span asp-validation-for="NurseStationID" class="text-danger"></span>
+                        </div>
+
+
+                       @*  <div class="form-floating form-floating-outline mb-4">
 
                             <input asp-for="NurseStationID" class="form-control" placeholder="NurseStationID" />
                 <label asp-for="NurseStationID" class="control-label"></label>
                 <span asp-validation-for="NurseStationID" class="text-danger"></span>
-            </div>
+            </div> *@
 
                         <div class="form-floating form-floating-outline mb-4">
 

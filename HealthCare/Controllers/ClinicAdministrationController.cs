@@ -237,6 +237,7 @@ namespace HealthCare.Controllers
             var existingNurseStation = await _healthcareContext.SHclnNurseStationMaster.FindAsync(model.NurseStationID);
             if (existingNurseStation != null)
             {
+                existingNurseStation.FacilityID = model.FacilityID;
                 existingNurseStation.NurseStationID = model.NurseStationID;
                 existingNurseStation.StationName = model.StationName;
                 existingNurseStation.lastupdatedDate = DateTime.Now.ToString();
@@ -255,6 +256,10 @@ namespace HealthCare.Controllers
 
 
             ViewBag.Message = "Saved Successfully";
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["facid"] = clinicAdmin.GetFacid();
+
             return View("NurseStationMaster", model);
         }
         public async Task<IActionResult> GetIpType(IPTypeMasterModel model)
@@ -311,6 +316,10 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["nurseid"] = clinicAdmin.GetNurseid();
+
             return View("HospitalBedMaster", model);
         }
 
@@ -399,10 +408,14 @@ namespace HealthCare.Controllers
         }
         public IActionResult HospitalBedMaster()
         {
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["nurseid"] = clinicAdmin.GetNurseid();
             return View();
         }
         public IActionResult NurseStationMaster()
         {
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["facid"] = clinicAdmin.GetFacid();
             return View();
         }
         public IActionResult IPTypeMaster()
@@ -686,6 +699,7 @@ namespace HealthCare.Controllers
                 existingTest.RollID = model.RollID;
                 existingTest.ScreenID = model.ScreenID;
                 existingTest.Access = model.Access;
+                existingTest.Authorized = model.Authorized;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
                 existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -793,6 +807,13 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["hospitalid"] = clinicAdmin.GetHospitalid();
+            ViewData["facid"] = clinicAdmin.GetFacId();
+
+
+
             return View("HospitalFacilityMapping", model);
         }
 
@@ -887,6 +908,9 @@ namespace HealthCare.Controllers
 
         public IActionResult HospitalFacilityMapping()
         {
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["hospitalid"] = clinicAdmin.GetHospitalid();
+            ViewData["facid"] = clinicAdmin.GetFacId();
             return View();
         }
 
@@ -907,6 +931,9 @@ namespace HealthCare.Controllers
         }
         public IActionResult StaffFacilityMapping()
         {
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["staffid"] = clinicAdmin.GetStaffID();
+            ViewData["stafffacid"] = clinicAdmin.GetFacidStaff();
             return View();
         }
 
@@ -937,6 +964,11 @@ namespace HealthCare.Controllers
 
 
             ViewBag.Message = "Saved Successfully";
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["staffid"] = clinicAdmin.GetStaffID();
+            ViewData["stafffacid"] = clinicAdmin.GetFacidStaff();
+
             return View("StaffFacilityMapping", model);
 
 
