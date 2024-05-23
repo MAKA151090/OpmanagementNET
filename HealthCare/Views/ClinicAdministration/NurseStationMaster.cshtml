@@ -6,30 +6,26 @@
 }
 
 
-@section PageStyles {
-    <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
-}
-<div class="row">
 
-    <div class="col-md-12 col-lg-7 ">
-        <div class="card">
-            <div class="card-body ">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="container">
-                        <h2 class="centered text-primary mb-1">NurseStationMaster</h2>
 
-                    </div>
-                </div>
-            </div>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1" style="align-items-center">NurseStationMaster</h2>
+            <small class="text-muted float-end"></small>
+
         </div>
 
-        <div class="row" style="height:8%">
-        </div>
         <div class="row">
 
-            <div class="col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="card-body">
+            <form asp-action="NurseStationMaster">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row gy-4">
+
+                    <div class="col-md-12 col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
 
                                 <div class="form-floating form-floating-outline mb-4">
                                     @{
@@ -45,65 +41,58 @@
                                     <label asp-for="FacilityID" class="control-label"></label>
                                     <span asp-validation-for="FacilityID" class="text-danger"></span>
                                 </div>
-                               @*  <div class="form-floating form-floating-outline mb-4">
+                                @*  <div class="form-floating form-floating-outline mb-4">
 
-                                    <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
-                                    <label asp-for="FacilityID" class="control-label"></label>
-                                    <span asp-validation-for="FacilityID" class="text-danger"></span>
+                                <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
+                                <label asp-for="FacilityID" class="control-label"></label>
+                                <span asp-validation-for="FacilityID" class="text-danger"></span>
                                 </div> *@
+                                <div class="form-floating form-floating-outline mb-4">
 
-                        <div class="form-floating form-floating-outline mb-4">
+                                    <input asp-for="NurseStationID" class="form-control" placeholder="NurseStationID" />
+                                    <label asp-for="NurseStationID" class="control-label"></label>
+                                    <span asp-validation-for="NurseStationID" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="NurseStationID" class="form-control" placeholder="NurseStationID" />
-                <label asp-for="NurseStationID" class="control-label"></label>
-                <span asp-validation-for="NurseStationID" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
+                                    <input asp-for="StationName" class="form-control" placeholder="StationName" />
+                                    <label asp-for="StationName" class="control-label"></label>
+                                    <span asp-validation-for="StationName" class="text-danger"></span>
+                                </div>
 
-                            <input asp-for="StationName" class="form-control" placeholder="StationName" />
-                <label asp-for="StationName" class="control-label"></label>
-                <span asp-validation-for="StationName" class="text-danger"></span>
-            </div>
-
-         @*    <div class="form-group">
-                <label asp-for="lastupdatedDate" class="control-label"></label>
-                <input asp-for="lastupdatedDate" class="form-control" />
-                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                <input asp-for="lastUpdatedMachine" class="form-control" />
-                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <center>
-                <button type="submit" asp-action="GetNurseStation" value="Save" class="btn btn-primary" >Save</button>
-                <button type="submit"  value="Add Nurse" class="btn btn-primary" >Add Nurse</button>
-                <button type="submit" value="Remove Nurse" class="btn btn-primary" >Remove Nurse</button>
-                                    @if (ViewBag.Message != null)
-                                    {
-                                        <div class="alert alert-success">
+                                @*    <div class="form-group">
+                                <label asp-for="lastupdatedDate" class="control-label"></label>
+                                <input asp-for="lastupdatedDate" class="form-control" />
+                                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                                <input asp-for="lastUpdatedUser" class="form-control" />
+                                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                                <input asp-for="lastUpdatedMachine" class="form-control" />
+                                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+                                </div> *@
+                                <div class="form-group">
+                                    <center>
+                                        <button type="submit" asp-action="GetNurseStation" value="Save" class="btn btn-primary">Save</button>
+                                        <button type="submit" value="Add Nurse" class="btn btn-primary">Add Nurse</button>
+                                        <button type="submit" value="Remove Nurse" class="btn btn-primary">Remove Nurse</button>
+                                        @if (ViewBag.Message != null)
+                                        {
+                                            <div class="alert alert-success">
 
 
-                                            @ViewBag.Message
-                                        </div>
+                                                @ViewBag.Message
+                                            </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-        </div>
-    </div>
-    <div class="col-md-12 col-lg-5">
-        <div class="form-floating form-floating-outline mb-4">
-            <img src="~/img/illustrations/Doc.png" class="authentication-image d-none d-lg-block" data-app-light-img="illustrations/auth-basic-mask-light.png" data-app-dark-img="illustrations/auth-basic-mask-dark.png">
+                                        }
+                                    </center>
+                                </div>
+                            </div>
+            </form>
         </div>
     </div>
 </div>
