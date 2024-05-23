@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class DoctorScheduleModel
 {
@@ -23,6 +24,7 @@ public class DoctorScheduleModel
 
   
     public string? PatientID { get => strPatientID; set => strPatientID = value; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string? SlotsID { get => strSlotsID; set => strSlotsID = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }

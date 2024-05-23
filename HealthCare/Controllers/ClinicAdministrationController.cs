@@ -998,7 +998,7 @@ namespace HealthCare.Controllers
                     };
 
                     // Assuming _healthcareContext is your DbContext
-                    _healthcareContext.SHcllDoctorScheduleModel.Add(docSchedule);
+                    _healthcareContext.SHclnResourceSchedule.Add(docSchedule);
                 }
             }
 
