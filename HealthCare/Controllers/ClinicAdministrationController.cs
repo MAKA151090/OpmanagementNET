@@ -1041,7 +1041,14 @@ namespace HealthCare.Controllers
                 _healthcareContext.SaveChanges();
 
                 var slots = GenerateDoctorSlots(StaffID, FacilityID, FromDate, ToDate, duration, FromTime, ToTime);
-                _healthcareContext.SHcllDoctorScheduleModel.AddRange(slots);
+                foreach(var slot in slots )
+                {
+                    slot.lastUpdatedDate = DateTime.Now.ToString();
+                    slot.lastUpdatedUser = User.Claims.First().Value.ToString();
+                    slot.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    _healthcareContext.SHclnResourceSchedule.Add(slot);
+                }
+                
                 await _healthcareContext.SaveChangesAsync();
 
 
