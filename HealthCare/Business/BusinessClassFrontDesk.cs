@@ -29,7 +29,7 @@ namespace HealthCare.Business
                           join pr in _healthcareContext.SHPatientRegistration on op.PatientId equals pr.PatientID
                           where op.PatientId == PatienId
                           select new OpCheckingModelResult
-                          {
+                          {   
                               PatientName = pr.FullName,
                               DoctorName = dr.StrFullName,
                               AppoinmentDate = ds.Date,
@@ -67,6 +67,17 @@ namespace HealthCare.Business
 
 
 
+        public async Task UpdateOpChecking(String OpChecking, String VisitStatus)
+        {
+            var OpCheking = await _healthcareContext.SHfdOpCheckingModel.FirstOrDefaultAsync(x => VisitStatus == VisitStatus);
+            if (OpCheking != null)
+            {
+                VisitStatus = "CheckedOut";
+            }
+            _healthcareContext.SHfdOpCheckingModel.Update(OpCheking);
+            await _healthcareContext.SaveChangesAsync();
+
+        }
 
 
 

@@ -40,12 +40,16 @@
                             <span asp-validation-for="QuestionID" class="text-danger"></span>
                         </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Question" class="form-control" placeholder="Question" />
-                            <label asp-for="Question" class="control-label"></label>
 
-                            <span asp-validation-for="Question" class="text-danger"></span>
-                        </div>
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="Question" class="form-control" placeholder="Question" aria-describedby="text-to-speech-addon"></textarea>
+                <label asp-for="Question" class="control-label"></label>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+                
+                <span asp-validation-for="Question" class="text-danger"></span>
+            </div>
                         <div class="form-floating form-floating-outline mb-4">
                             <select asp-for="Type" class="form-control" placeholder="Type">
                                 <option value="FH">FH</option>
