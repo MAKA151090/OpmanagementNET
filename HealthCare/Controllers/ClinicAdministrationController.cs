@@ -11,8 +11,10 @@ using Microsoft.Data.SqlClient;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
+using System;
 using System.Globalization;
 using System.Security.Claims;
+using System.Timers;
 
 namespace HealthCare.Controllers
 {
@@ -133,51 +135,51 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStaff(StaffAdminModel model)
         {
-          
-           
-                var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
 
-                if (existingStaffAdmin != null)
-                {
-                    existingStaffAdmin.StrStaffID = model.StrStaffID;
-                    existingStaffAdmin.StrFirstName = model.StrFirstName;
-                    existingStaffAdmin.StrLastName = model.StrLastName;
-                    existingStaffAdmin.StrInitial = model.StrInitial;
-                    existingStaffAdmin.StrPrefix = model.StrPrefix;
-                    existingStaffAdmin.StrAge = model.StrAge;
-                    existingStaffAdmin.StrDateofBirth = model.StrDateofBirth;
-                    existingStaffAdmin.StrEmailId = model.StrEmailId;
-                    existingStaffAdmin.StrAddress1 = model.StrAddress1;
-                    existingStaffAdmin.StrAddress2 = model.StrAddress2;
-                    existingStaffAdmin.StrCity = model.StrCity;
-                    existingStaffAdmin.StrState = model.StrState;
-                    existingStaffAdmin.StrPin = model.StrPin;
-                    existingStaffAdmin.StrPhoneNumber = model.StrPhoneNumber;
-                    existingStaffAdmin.StrEmailId = model.StrEmailId;
-                    existingStaffAdmin.StrNationality = model.StrNationality;
-                    existingStaffAdmin.StrUserName = model.StrUserName;
-                    existingStaffAdmin.StrPassword = model.StrPassword;
-                    existingStaffAdmin.StrIdProofId = model.StrIdProofId;
-                    existingStaffAdmin.StrIdProofName = model.StrIdProofName;
-                    existingStaffAdmin.StrMedialLicenseNumber = model.StrMedialLicenseNumber;
-                    existingStaffAdmin.LastupdatedDate = DateTime.Now.ToString();
-                    existingStaffAdmin.LastupdatedUser = User.Claims.First().Value.ToString();
-                    existingStaffAdmin.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                }
-                else
-                {
 
-                    model.LastupdatedDate = DateTime.Now.ToString();
-                    model.LastupdatedUser = User.Claims.First().Value.ToString();
-                    model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                    _healthcareContext.SHclnStaffAdminModel.Add(model);
-                }
-                await _healthcareContext.SaveChangesAsync();
+            var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
 
-                ViewBag.Message = "Saved Successfully";
-                return View("StaffAdminModel", model);
-            
-            
+            if (existingStaffAdmin != null)
+            {
+                existingStaffAdmin.StrStaffID = model.StrStaffID;
+                existingStaffAdmin.StrFirstName = model.StrFirstName;
+                existingStaffAdmin.StrLastName = model.StrLastName;
+                existingStaffAdmin.StrInitial = model.StrInitial;
+                existingStaffAdmin.StrPrefix = model.StrPrefix;
+                existingStaffAdmin.StrAge = model.StrAge;
+                existingStaffAdmin.StrDateofBirth = model.StrDateofBirth;
+                existingStaffAdmin.StrEmailId = model.StrEmailId;
+                existingStaffAdmin.StrAddress1 = model.StrAddress1;
+                existingStaffAdmin.StrAddress2 = model.StrAddress2;
+                existingStaffAdmin.StrCity = model.StrCity;
+                existingStaffAdmin.StrState = model.StrState;
+                existingStaffAdmin.StrPin = model.StrPin;
+                existingStaffAdmin.StrPhoneNumber = model.StrPhoneNumber;
+                existingStaffAdmin.StrEmailId = model.StrEmailId;
+                existingStaffAdmin.StrNationality = model.StrNationality;
+                existingStaffAdmin.StrUserName = model.StrUserName;
+                existingStaffAdmin.StrPassword = model.StrPassword;
+                existingStaffAdmin.StrIdProofId = model.StrIdProofId;
+                existingStaffAdmin.StrIdProofName = model.StrIdProofName;
+                existingStaffAdmin.StrMedialLicenseNumber = model.StrMedialLicenseNumber;
+                existingStaffAdmin.LastupdatedDate = DateTime.Now.ToString();
+                existingStaffAdmin.LastupdatedUser = User.Claims.First().Value.ToString();
+                existingStaffAdmin.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+            }
+            else
+            {
+
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.SHclnStaffAdminModel.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("StaffAdminModel", model);
+
+
         }
 
         [HttpPost]
@@ -190,20 +192,20 @@ namespace HealthCare.Controllers
         public async Task<ActionResult> Doctoradmin(string doctorid)
         {
             ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
-          
-                var doctor = await businessClass.GetDoctorRegister(doctorid);
-                if (doctor != null)
-                {
-                    doctorid = doctor.StrStaffID;
 
-                    return View("StaffAdminModel", doctor);
-                }
-                else
-                {
-                    ViewBag.ErrorMessage = "No data found for the entered IDs.";
-                    return View("GetDoctor");
-                }
-            
+            var doctor = await businessClass.GetDoctorRegister(doctorid);
+            if (doctor != null)
+            {
+                doctorid = doctor.StrStaffID;
+
+                return View("StaffAdminModel", doctor);
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "No data found for the entered IDs.";
+                return View("GetDoctor");
+            }
+
         }
 
         public async Task<IActionResult> GetRoomType(RoomTypeMasterModel model)
@@ -362,7 +364,7 @@ namespace HealthCare.Controllers
         {
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["screenid"] =clinicAdmin.GetScreenid();
+            ViewData["screenid"] = clinicAdmin.GetScreenid();
             return View();
         }
         public IActionResult ScreenMaster()
@@ -583,7 +585,7 @@ namespace HealthCare.Controllers
         }
 
 
-        public async Task<IActionResult> GetOTTableMaster(OtTableMasterModel model)   
+        public async Task<IActionResult> GetOTTableMaster(OtTableMasterModel model)
         {
             ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
             var existingTest = await _healthcareContext.SHotTableMaster.FindAsync(model.TableID);
@@ -614,7 +616,7 @@ namespace HealthCare.Controllers
             ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["facilityid"] = business.GetFacilityid();
 
-          
+
             return View("OTTableMaster", model);
         }
 
@@ -676,9 +678,9 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetRollAccess(RollAccessModel model)
         {
-            ClinicAdminBusinessClass businessClass =  new ClinicAdminBusinessClass(_healthcareContext);
+            ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
 
-          //  var bus = await businessClass.GetScreenid(model.ScreenID);
+            //  var bus = await businessClass.GetScreenid(model.ScreenID);
 
             var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID);
             if (existingTest != null)
@@ -733,7 +735,7 @@ namespace HealthCare.Controllers
             }
             await _healthcareContext.SaveChangesAsync();
 
-            
+
             ViewBag.Message = "Saved Successfully";
             return View("ScreenMaster", model);
         }
@@ -866,7 +868,7 @@ namespace HealthCare.Controllers
 
 
 
-     
+
         public IActionResult DoctorSchedule()
         {
             return View();
@@ -942,37 +944,37 @@ namespace HealthCare.Controllers
 
         }
 
-      
+
 
         [HttpPost]
         public ActionResult AddSlot()
         {
             return View(new ResourceScheduleModel());
         }
-       
-       /* [HttpPost]
-        public IActionResult DoctorSchedule()
-        {
-            // Initialize the ViewBag with empty strings to avoid null reference exceptions
-            ViewBag.StaffID = "";
-            ViewBag.FacilityID = "";
-            ViewBag.FromDate = "";
-            ViewBag.ToDate = "";
-            ViewBag.Duration = "";
-            ViewBag.Slots = new List<ResourceScheduleModel>();
 
-            return View();
-        }
-*/
-        public async Task <IActionResult> SaveSlots()
+        /* [HttpPost]
+         public IActionResult DoctorSchedule()
+         {
+             // Initialize the ViewBag with empty strings to avoid null reference exceptions
+             ViewBag.StaffID = "";
+             ViewBag.FacilityID = "";
+             ViewBag.FromDate = "";
+             ViewBag.ToDate = "";
+             ViewBag.Duration = "";
+             ViewBag.Slots = new List<ResourceScheduleModel>();
+
+             return View();
+         }
+ */
+        public async Task<IActionResult> SaveSlots(string action,string[] selectedSlots)
         {
 
-             var StaffID = Request.Form["StaffID"].ToString();
+            var StaffID = Request.Form["StaffID"].ToString();
             var FacilityID = Request.Form["FacilityID"].ToString();
             var FromDate = Request.Form["FromDate"].ToString();
             var ToDate = Request.Form["ToDate"].ToString();
             var duration = Request.Form["Duration"].ToString();
-            var FromTime = Request.Form["FromTime"].ToString(); 
+            var FromTime = Request.Form["FromTime"].ToString();
             var ToTime = Request.Form["ToTime"].ToString();
 
 
@@ -988,10 +990,21 @@ namespace HealthCare.Controllers
             bool isFromTimeValid = TimeSpan.TryParse(FromTime, out fromTime);
             bool isToTimeValid = TimeSpan.TryParse(ToTime, out toTime);
 
+
+            if (action == "Get Slots")
+            {
+                return await GetSlots(StaffID, FacilityID);
+            }
+            else if (action == "Delete Selected")
+            {
+                await DeleteSelectedSlots(selectedSlots, StaffID);
+                return await GetSlots(StaffID, FacilityID);
+            }
+
             var existingSlot = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID);
 
-           
-            if (existingSlot != null)
+
+            if (existingSlot != null && action == "Save")
             {
                 // The record already exists, proceed to the slot condition
                 var exslots = await _healthcareContext.SHclnViewResourceSchedule
@@ -1004,25 +1017,32 @@ namespace HealthCare.Controllers
                 ViewBag.Duration = duration;
                 ViewBag.FromDate = FromDate;
                 ViewBag.ToDate = ToDate;
-                existingSlot.FromTime=FromTime;
-                existingSlot.ToTime=ToTime;
+                existingSlot.FromTime = FromTime;
+                existingSlot.ToTime = ToTime;
                 _healthcareContext.SaveChanges();
 
                 var slots = GenerateDoctorSlots(StaffID, FacilityID, FromDate, ToDate, duration, FromTime, ToTime);
-                _healthcareContext.SHcllDoctorScheduleModel.AddRange(slots);
+                foreach (var slot in slots)
+                {
+                    slot.lastUpdatedDate = DateTime.Now.ToString();
+                    slot.lastUpdatedUser = User.Claims.First().Value.ToString();
+                    slot.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                    _healthcareContext.SHclnResourceSchedule.Add(slot);
+                }
+
                 await _healthcareContext.SaveChangesAsync();
 
 
                 return View("DoctorSchedule");
 
             }
+            else
+            {
 
-            
+                var slotUpd = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID);
 
-
-
-            // Assuming ResourceScheduleModel is your model class
-            var model = new ResourceScheduleModel
+                var model = new ResourceScheduleModel
             {
                 StaffID = StaffID,
                 FacilityID = FacilityID,
@@ -1033,8 +1053,8 @@ namespace HealthCare.Controllers
 
 
             _healthcareContext.SHclnViewResourceSchedule.Add(model);
-                                
-                           
+}
+
             _healthcareContext.SaveChanges();
 
 
@@ -1049,16 +1069,51 @@ namespace HealthCare.Controllers
             ViewBag.Duration = duration;
             ViewBag.FromDate = FromDate;
             ViewBag.ToDate = ToDate;
-            
 
 
-                        return View("DoctorSchedule");
+
+            return View("DoctorSchedule");
 
 
-          
+
         }
 
+        //save slot
+        public async Task<IActionResult> GetSlots(string StaffID, string FacilityID)
+        {
+            var exslots = await _healthcareContext.SHclnViewResourceSchedule
+                                                .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID)
+                                                .ToListAsync();
 
+            ViewBag.Slots = exslots;
+            ViewBag.StaffID = StaffID;
+            ViewBag.FacilityID = FacilityID;
+
+            return View("DoctorSchedule");
+        }
+//delete slot
+        private async Task DeleteSelectedSlots(string[] selectedSlots, string StaffID)
+        {
+            if (selectedSlots != null && selectedSlots.Length > 0)
+            {
+                foreach (var slotId in selectedSlots)
+                {
+                    var slot = await _healthcareContext.SHclnResourceSchedule.FindAsync(slotId);
+                    if (slot != null)
+                    {
+                        _healthcareContext.SHclnResourceSchedule.Remove(slot);
+                    }
+                }
+
+                var doctor = await _healthcareContext.SHclnResourceSchedule.FindAsync(StaffID);
+                if (doctor != null)
+                {
+                    doctor.Active = true;
+                }
+
+                await _healthcareContext.SaveChangesAsync();
+            }
+        } 
         private List<DoctorScheduleModel> GenerateDoctorSlots(string staffID, string facilityID, string fromDate, string toDate, string duration, string fromTime, string toTime)
         {
             var slots = new List<DoctorScheduleModel>();
@@ -1090,91 +1145,14 @@ namespace HealthCare.Controllers
         }
 
 
-
-
-        /* public ActionResult Save(List<DoctorScheduleModel> slots)
-         {
-             foreach (var slot in slots)
-             {
-                 foreach (var doctorSlot in slot.SlotsID)
-                 {
-                     var docSchedule = new DoctorScheduleModel
-                     {
-                         StaffID = slot.StaffID,
-                         FacilityID = slot.FacilityID,
-                         Date = slot.Date,
-                         Duration = slot.Duration,
-                         StartTime = slot.StartTime,
-                         PatientID = slot.PatientID,
-                         SlotsID = slot.SlotsID,
-                         Holiday = slot.Holiday,
-                         Blocker = slot.Blocker,
-                         Active = slot.Active,
-                         lastUpdatedDate = slot.lastUpdatedDate,
-                         lastUpdatedUser = slot.lastUpdatedUser,
-                         lastUpdatedMachine = slot.lastUpdatedMachine
-                     };
-
-                     // Assuming _healthcareContext is your DbContext
-                     _healthcareContext.SHcllDoctorScheduleModel.Add(docSchedule);
-                 }
-             }
-                    // Assuming _healthcareContext is your DbContext
-                    _healthcareContext.SHclnResourceSchedule.Add(docSchedule);
-                }
-            }
-
-             // Save changes to persist the added slots in the database
-             _healthcareContext.SaveChanges();
-
-             return RedirectToAction("DoctorSchedule");
-         }
-         private List<ResourceScheduleModel> GenerateSlots(string fromDate, string toDate, string fromTime, string toTime, string duration)
-         {
-             var slots = new List<ResourceScheduleModel>();
-             DateTime startDate = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-             DateTime endDate = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-             TimeSpan slotDuration = TimeSpan.FromMinutes(int.Parse(duration));
-
-             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
-             {
-                 DateTime startTime = DateTime.ParseExact(fromTime, "HH:mm", CultureInfo.InvariantCulture);
-                 DateTime endTime = DateTime.ParseExact(toTime, "HH:mm", CultureInfo.InvariantCulture);
-
-                 while (startTime < endTime)
-                 {
-                     var slot = new ResourceScheduleModel
-                     {
-                         FromDate = date.ToString("yyyy-MM-dd"),
-                         FromTime = startTime.ToString("HH:mm"),
-                         ToTime = startTime.Add(slotDuration).ToString("HH:mm")
-                     };
-                     slots.Add(slot);
-                     startTime = startTime.Add(slotDuration);
-                 }
-             }
-
-             return slots;
-         }*/
-        /* public ActionResult Holiday(DoctorScheduleModel model)
-         {
-             if (ModelState.IsValid)
-             {
-                 // Logic to mark the selected dates as holidays
-                 MarkHolidays(model);
-
-                 return RedirectToAction("ScheduleHoliday");
-             }
-
-             return View(model);
-         }
+        
 
 
          private void MarkHolidays(DoctorScheduleModel model)
          {
 
-             var doctorSchedulesUpdate = _healthcareContext.SHcllDoctorScheduleModel
-        .Where(ds => ds.DoctorID == model.DoctorID &&
+             var doctorSchedulesUpdate = _healthcareContext.SHclnResourceSchedule
+        .Where(ds => ds.StaffID == model.StaffID &&
                       ds.FacilityID == model.FacilityID &&
                       ds.Date == model.Date);
 
@@ -1189,26 +1167,14 @@ namespace HealthCare.Controllers
              _healthcareContext.SaveChanges();
          }
 
-         [HttpPost]
-         public ActionResult Blocker(DoctorScheduleModel model)
-         {
-             if (ModelState.IsValid)
-             {
-                 //  mark the selected time slot as blocker
-                 MarkBlockers(model);
-
-                 return RedirectToAction("ScheduleBlocker");
-             }
-
-             return View(model); 
-         }
+        
 
          private void MarkBlockers(DoctorScheduleModel model)
          {
-             // Assuming you have a DbContext named _healthcareContext and DoctorSchedules table in your database
+            
 
-             var blocker = _healthcareContext.SHClnDocSchedule
-          .SingleOrDefault(ds => ds.DoctorID == model.DoctorID &&
+             var blocker = _healthcareContext.SHclnResourceSchedule
+          .SingleOrDefault(ds => ds.StaffID == model.StaffID &&
                                   ds.FacilityID == model.FacilityID &&
                                   ds.Date == model.Date &&
                                   ds.StartTime == model.StartTime &&
@@ -1223,9 +1189,26 @@ namespace HealthCare.Controllers
 
              _healthcareContext.SaveChanges();
          }
-     }*/
+
+        [HttpPost]
+        public IActionResult DoctorSchedule(DoctorScheduleModel model, string buttonType)
+        {
+            if (buttonType == "Holiday")
+            {
+                return View("Holiday");
+            }
+            else if (buttonType == "Blocker")
+            {
+
+                return View("Blocker");
+
+            }
+            return View();
+        }
+
     }
 }
+
 
 
 

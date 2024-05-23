@@ -1,0 +1,89 @@
+﻿@model DoctorScheduleModel
+
+@{
+    ViewData["Title"] = "Holiday";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>Holiday</h1>
+
+<h4>DoctorScheduleModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Holiday">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PatientID" class="control-label"></label>
+                <input asp-for="PatientID" class="form-control" />
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedDate" class="control-label"></label>
+                <input asp-for="lastUpdatedDate" class="form-control" />
+                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FacilityID" class="control-label"></label>
+                <input asp-for="FacilityID" class="form-control" />
+                <span asp-validation-for="FacilityID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Holiday" /> @Html.DisplayNameFor(model => model.Holiday)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Blocker" /> @Html.DisplayNameFor(model => model.Blocker)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StaffID" class="control-label"></label>
+                <input asp-for="StaffID" class="form-control" />
+                <span asp-validation-for="StaffID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
