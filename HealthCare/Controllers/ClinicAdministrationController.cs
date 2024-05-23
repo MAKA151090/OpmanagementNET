@@ -720,8 +720,6 @@ namespace HealthCare.Controllers
             {
                 existingTest.ScreenId = model.ScreenId;
                 existingTest.ScreenName = model.ScreenName;
-                existingTest.ReadWriteAccess = model.ReadWriteAccess;
-                existingTest.Authorized = model.Authorized;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
                 existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
