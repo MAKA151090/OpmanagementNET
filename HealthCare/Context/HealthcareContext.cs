@@ -81,7 +81,7 @@ namespace HealthCare.Context
 
         public DbSet<InternalDepartmentMasterModel>SHotInternalDepartmentMaster { get; set; }
 
-        public DbSet<DoctorScheduleModel> SHcllDoctorScheduleModel { get; set; }
+     
 
 
         public DbSet<InpatientAdmissionModel> SHInpatientAdmission { get; set; }
@@ -142,7 +142,7 @@ namespace HealthCare.Context
 
         public DbSet<OTSummaryModel>SHOTsummary { get; set; }
 
-        public DbSet<DoctorScheduleModel> SHClnDocSchedule {  get; set; }
+        public DbSet<DoctorScheduleModel>SHclnResourceSchedule { get; set; }    
 
         public DbSet<ResourceScheduleModel> SHclnViewResourceSchedule { get; set; }
 
@@ -157,7 +157,7 @@ namespace HealthCare.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID });
-            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID });
+
             modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID , i.QuestionID});
             modelBuilder.Entity<OTSummaryMasterModel>().HasKey(i => new { i.QuestionID });
 
@@ -167,14 +167,13 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientDiagnosisModel>().HasKey(i => new { i.PatientID, i.VisitID, i.ExamID,i.DiagnosisID });
             modelBuilder.Entity<InpatientObservationModel>().HasKey(i => new { i.PatientID, i.ObservationID, i.BedNoID,i.ObservationTypeID });
             modelBuilder.Entity<EWSMasterModel>().HasKey(i => new { i.ObservationTypeID });
-            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.PatientID, i.FacilityID, i.SlotsID });
+
             modelBuilder.Entity<InPatientCaseSheetModel>().HasKey(i => new { i.StrPatientId,i.StrCaseId });
 
             modelBuilder.Entity<InPatientDocVisitModel>().HasKey(i => new { i.PatientId,i.CaseId });
             modelBuilder.Entity<OpCheckingModel>().HasKey(i => new { i.PatientId });
 
-            // modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.DoctorID, i.ClinicID, i.SlotsID });
-
+           
             modelBuilder.Entity<PatientEPrescriptionModel>().HasKey(i => new { i.PatientID, i.CaseVisitID, i.OrderID, i.DrugID });
 
             modelBuilder.Entity<PatientEPrescriptionModel>().Property(p => p.EpressID).ValueGeneratedOnAdd();
@@ -210,7 +209,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<InternalDepartmentMasterModel>().HasKey(i => new { i.DepartmentID });
             modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
 
-
+            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID, i.SlotsID });
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()
         .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID });
