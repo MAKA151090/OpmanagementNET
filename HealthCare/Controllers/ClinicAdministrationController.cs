@@ -1063,6 +1063,7 @@ namespace HealthCare.Controllers
                     _healthcareContext.SHclnResourceSchedule.Add(slot);
                 }
 
+                _healthcareContext.SHclnResourceSchedule.AddRange(slots);
                 await _healthcareContext.SaveChangesAsync();
 
 
