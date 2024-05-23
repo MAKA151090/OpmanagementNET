@@ -27,6 +27,27 @@
                 <div class="card">
                     <div class="card-body">
 
+                                <div class="form-floating form-floating-outline mb-4">
+                                    @{
+                                        var screenList = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
+                                        .Select(m => new SelectListItem
+            {
+                Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.FacilityID} - {m.ClinicName}"
+            });
+                                    }
+
+                                    @Html.DropDownListFor(model => model.FacilityID, screenList, "Select Facility ID", new { @class = "form-control" })
+                                    <label asp-for="FacilityID" class="control-label"></label>
+                                    <span asp-validation-for="FacilityID" class="text-danger"></span>
+                                </div>
+                               @*  <div class="form-floating form-floating-outline mb-4">
+
+                                    <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
+                                    <label asp-for="FacilityID" class="control-label"></label>
+                                    <span asp-validation-for="FacilityID" class="text-danger"></span>
+                                </div> *@
+
                         <div class="form-floating form-floating-outline mb-4">
 
                             <input asp-for="NurseStationID" class="form-control" placeholder="NurseStationID" />
@@ -39,6 +60,7 @@
                 <label asp-for="StationName" class="control-label"></label>
                 <span asp-validation-for="StationName" class="text-danger"></span>
             </div>
+
          @*    <div class="form-group">
                 <label asp-for="lastupdatedDate" class="control-label"></label>
                 <input asp-for="lastupdatedDate" class="form-control" />

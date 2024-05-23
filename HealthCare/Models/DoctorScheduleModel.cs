@@ -30,7 +30,7 @@ public class DoctorScheduleModel
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
     public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
   
-    public string lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+    public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
     public bool Holiday { get => strHoliday; set => strHoliday = value; }
     public bool Blocker { get => strBlocker; set => strBlocker = value; }
     public bool Active { get => strActive; set => strActive = value; }

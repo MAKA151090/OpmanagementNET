@@ -26,17 +26,49 @@
                     <div class="card-body">
 
                         <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenList = ((IEnumerable<StaffAdminModel>)ViewData["staffid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.StaffId, screenList, "Select Staff ID", new { @class = "form-control" })
+                            <label asp-for="StaffId" class="control-label"></label>
+                            <span asp-validation-for="StaffId" class="text-danger"></span>
+                        </div>
+
+                       @*  <div class="form-floating form-floating-outline mb-4">
 
                             <input asp-for="StaffId" class="form-control" placeholder="Staff ID" />
                 <label asp-for="StaffId" class="control-label"></label>
                 <span asp-validation-for="StaffId" class="text-danger"></span>
-            </div>
+            </div> *@
+
+
                         <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["stafffacid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.FacilityID}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.FacilityID, screenlist, "Select Facility ID", new { @class = "form-control" })
+                            <label asp-for="FacilityID" class="control-label"></label>
+                            <span asp-validation-for="FacilityID" class="text-danger"></span>
+                        </div>
+
+                        @* <div class="form-floating form-floating-outline mb-4">
 
                             <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
                 <label asp-for="FacilityID" class="control-label"></label>
                 <span asp-validation-for="FacilityID" class="text-danger"></span>
-            </div>
+            </div> *@
                         <div class="form-floating form-floating-outline mb-4">
 
                             <input asp-for="FromHour" class="form-control" placeholder="FromHour" />
