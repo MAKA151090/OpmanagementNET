@@ -40,31 +40,44 @@
                     <span asp-validation-for="OtScheduleID" class="text-danger"></span>
                 </div>
 
-                            <div class="form-floating form-floating-outline mb-4">
 
-                                <textarea asp-for="PreOtNotes" id="PreOtNotes" class="form-control" placeholder="PreOtNotes" style="height: 90px;"></textarea>
+
+
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+
+                                <textarea asp-for="PreOtNotes" class="form-control" placeholder="PreOtNotes" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="PreOtNotes" class="control-label"></label>
-                  
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                     <span asp-validation-for="PreOtNotes" class="text-danger"></span>
                 </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                                <textarea asp-for="IntraOtNotes" id="IntraOtNotes" class="form-control" placeholder="IntraOtNotes" style="height: 90px;"></textarea>
-                                    <label asp-for="IntraOtNotes" class="control-label"></label>
 
+
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="IntraOtNotes" class="form-control" placeholder="IntraOtNotes" aria-describedby="text-to-speech-addon"></textarea>
+                                    <label asp-for="IntraOtNotes" class="control-label"></label>
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                                    
                     <span asp-validation-for="IntraOtNotes" class="text-danger"></span>
                 </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                                <textarea asp-for="PostOtNotes" id="PostOtNotes" class="form-control"  placeholder="PostOtNotes" style="height: 90px;"></textarea>
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="PostOtNotes" class="form-control" placeholder="PostOtNotes" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="PostOtNotes" class="control-label"></label>
 
-                                    
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                     <span asp-validation-for="PostOtNotes" class="text-danger"></span>
                 </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                                <textarea asp-for="FinalOtNotes" id="FinalOtNotes" class="form-control"  placeholder="FinalOtNotes" style="height: 90px;"></textarea>
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="FinalOtNotes" class="form-control" placeholder="FinalOtNotes" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="FinalOtNotes" class="control-label"></label>
-
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                                    
                     <span asp-validation-for="FinalOtNotes" class="text-danger"></span>
                 </div>
@@ -75,40 +88,50 @@
                 <div class="col-md-12 col-lg-4">
                     <div class="card">
                         <div class="card-body">
-                            <div class="form-floating form-floating-outline mb-4">
-                                <textarea asp-for="PreOtAnesthesiaNotes" id="PreOtAnesthesiaNotes" class="form-control"  placeholder="PreOtAnesthesiaNotes" style="height: 90px;"></textarea>
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="PreOtAnesthesiaNotes" class="form-control" placeholder="PreOtAnesthesiaNotes" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="PreOtAnesthesiaNotes" class="control-label"></label>
-
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                                    
                     <span asp-validation-for="PreOtAnesthesiaNotes" class="text-danger"></span>
                 </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                                <textarea asp-for="IntraOtAnesthesiaNotes" id="IntraOtAnesthesiaNotes" class="form-control"  placeholder="IntraOtAnesthesiaNotes" style="height: 90px;"></textarea>
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="IntraOtAnesthesiaNotes" class="form-control" placeholder="IntraOtAnesthesiaNotes" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="IntraOtAnesthesiaNotes" class="control-label"></label>
-
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                                    
                     <span asp-validation-for="IntraOtAnesthesiaNotes" class="text-danger"></span>
                 </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                                <textarea asp-for="PostOtAnesthesiaNotes" id="PostOtAnesthesiaNotes" class="form-control" placeholder="PostOtAnesthesiaNotes" style="height: 90px;"></textarea>
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="PostOtAnesthesiaNotes" class="form-control" placeholder="PostOtAnesthesiaNotes" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="PostOtAnesthesiaNotes" class="control-label"></label>
-
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                                     
                     <span asp-validation-for="PostOtAnesthesiaNotes" class="text-danger"></span>
                 </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                                <textarea asp-for="ObservationNotes" id="ObservationNotes" class="form-control"  placeholder="ObservationNotes" style="height: 90px;"></textarea>
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="ObservationNotes" class="form-control" placeholder="ObservationNotes" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="ObservationNotes" class="control-label"></label>
 
-                                   
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                   
                     <span asp-validation-for="ObservationNotes" class="text-danger"></span>
                 </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                                <textarea asp-for="OtherComments" id="OtherComments" class="form-control"  placeholder="OtherComments" style="height: 90px;"></textarea>
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="OtherComments" class="form-control" placeholder="OtherComments" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="OtherComments" class="control-label"></label>
 
-                                   
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
                     <span asp-validation-for="OtherComments" class="text-danger"></span>
                 </div>
                 @*   <div class="form-group">

@@ -27,32 +27,36 @@
                     <div class="col-md-12 col-lg-4">
                         <div class="card">
                             <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input type="text" id="PatientID" name="PatientID" class="form-control" placeholder="Patient ID" />
-                            <label for="PatientID" class="control-label">PatientID</label>                                                      
-                     
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input type="date" id="CurrentDate" name="CurrentDate" class="form-control" placeholder="CurrentDate" />
 
-                            <label for="CurrentDate" class="control-label">CurrentDate</label>
-                        </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input type="text" id="PatientID" name="PatientID" value="@Model.PatientId" class="form-control" placeholder="Patient ID" />
+                                <label for="PatientID" class="control-label">PatientID</label>                                                      
 
+                            </div>
+                        
                         <div class="form-floating form-floating-outline mb-4">
-                            <center>
-                            <button type="submit" value="GetReport" class="btn btn-primary" >Get Report</button>
-                            </center>
-                        </div>
+                                <input type="date" id="CurrentDate" name="CurrentDate" class="form-control" placeholder="CurrentDate" />
 
-                        </div>
-                        </div>
-                        </div>
-                        <div class="col-md-12 col-lg-7">
-                        </div>
-                   
-                </div>
-         
-   
+                                <label for="CurrentDate" class="control-label">CurrentDate</label>
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <center>
+                                    <button type="submit" value="GetReport" class="btn btn-primary" >Get Report</button>
+                                </center>
+                            </div>
+
+
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-md-12 col-lg-7">
+                            </div>
+
+                            </div>
+                        
+
+    </form>
     <div class="row gy-4">
         <div class="form-floating form-floating-outline mb-4">
         </div>
@@ -62,7 +66,11 @@
 
             <div class="card">
                 <div class="card-body">
+                    
 
+    @using (Html.BeginForm("OpChecking", "FrontDesk", FormMethod.Post))
+
+    {
         <p>
             <a asp-action="Create">Create New</a>
         </p>
@@ -107,8 +115,13 @@
         @if (Model != null)
         {
             <div class="form-group">
-                <input type="submit" value="check in" class="btn btn-primary" />
+                                <button type="submit" name="buttonType" value="checkIn" class="btn btn-primary">checkIn</button>
             </div>
+            <br />
+                            <div class="form-group">
+                                <button type="submit" name="buttonType" value="checkOut" class="btn btn-primary">checkOut</button>
+                            </div>
+
         }
 
 
