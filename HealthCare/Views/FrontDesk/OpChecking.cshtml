@@ -1,4 +1,4 @@
-﻿@model OpCheckingViewModel
+﻿@model List< OpCheckingViewModel>
 
 @{
     ViewData["Title"] = "OpChecking";
@@ -52,7 +52,7 @@
                    
                 </div>
          
-    </form>
+   
     <div class="row gy-4">
         <div class="form-floating form-floating-outline mb-4">
         </div>
@@ -63,9 +63,6 @@
             <div class="card">
                 <div class="card-body">
 
-    @using (Html.BeginForm("OpChecking", "FrontDesk", FormMethod.Post))
-
-    {
         <p>
             <a asp-action="Create">Create New</a>
         </p>
@@ -92,7 +89,7 @@
             <tbody>
 
 
-                @if (Model != null)
+               @*  @if (Model != null)
                 {
                     @foreach (var item in Model.Results)
                     {
@@ -104,7 +101,7 @@
 
                         </tr>
                     }
-                }
+                } *@
             </tbody>
         </table>
         @if (Model != null)
@@ -115,7 +112,7 @@
         }
 
 
-    }
+    
     
 
     </div>
@@ -127,5 +124,7 @@
         <div class="form-floating form-floating-outline mb-4">
         </div>
     </div>
+
+    </form>
 
 </div>

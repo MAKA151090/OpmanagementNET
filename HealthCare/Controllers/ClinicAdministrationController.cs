@@ -177,12 +177,12 @@ namespace HealthCare.Controllers
 
         }
 
-        [HttpPost]
+        //[HttpPost]
 
-        public async Task<IActionResult> GetDoctor()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> GetDoctor()
+        //{
+        //    return View();
+        //}
 
         /*public async Task<ActionResult> Doctoradmin(string doctorid, string buttonType)
         {
@@ -929,7 +929,7 @@ namespace HealthCare.Controllers
         {
             return View(new ResourceScheduleModel());
         }
-
+        
         public async Task <IActionResult> SaveSlots(List<ResourceScheduleModel> models)
         {
            

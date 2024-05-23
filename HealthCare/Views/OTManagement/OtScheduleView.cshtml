@@ -1,0 +1,140 @@
+﻿
+@model List<OtScheduleViewModel>
+
+@{
+    ViewData["Title"] = "OtScheduleView";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">OtScheduleView</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
+
+
+
+    <form asp-action="GetReport" asp-controller="OTManagement" style="height:100%">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row gy-4">
+            <div class="col-md-12 col-lg-1">
+            </div>
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="text" id="FacilityID" name="FacilityID" class="form-control" placeholder="FacilityID" />
+                            <label for="FacilityID" class="control-label">FacilityID</label>
+
+                        </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="date" id="CurrentDate" name="CurrentDate" class="form-control" placeholder="CurrentDate" />
+
+                            <label for="CurrentDate" class="control-label">CurrentDate</label>
+                        </div>
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            <center>
+                                <button type="submit" value="GetReport" class="btn btn-primary">GetReport</button>
+                            </center>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-7">
+            </div>
+
+        </div>
+        
+  
+    <div class="row gy-4">
+        <div class="form-floating form-floating-outline mb-4">
+        </div>
+    </div>
+    <div class="row gy-4">
+        <div class="col-md-12 col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+
+                    
+                        <p>
+                            <a asp-action="Create">Create New</a>
+                        </p>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        otSchedulingId
+                                    </th>
+                                    <th>
+                                        patientName
+                                    </th>
+                                    <th>
+                                        scheduleDateTime
+                                    </th>
+                                    <th>
+                                        duration
+                                    </th>
+                                    <th>
+                                        operationType
+                                    </th>
+                                        <th>
+                                        IncharegeDeparment
+                                    </th>
+                                        <th>
+                                        isConformed
+                                    </th>
+                                    <th>
+                                        teamName
+                                    </th>
+                                   
+                                  
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @if (Model != null)
+                                {
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.OtSchedulingId</td>
+                                            <td>@item.PatientName</td>
+                                            <td>@item.ScheduleDateTime</td>
+                                            <td>@item.Duration</td>
+                                            <td>@item.OperationType</td>
+                                            <td>@item.IncharegeDeparment1</td>
+                                            <td>@item.IsConformed</td>
+                                            <td>@item.TeamName</td>
+
+                                        </tr>
+                                    }
+                                } 
+                            </tbody>
+                        </table>
+    
+
+                    
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row gy-4">
+        <div class="form-floating form-floating-outline mb-4">
+        </div>
+    </div>
+    </form>
+</div>
+ 
