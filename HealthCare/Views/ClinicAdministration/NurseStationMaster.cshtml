@@ -18,14 +18,14 @@
 
         <div class="row">
 
-        <form asp-action="NurseStationMaster">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form asp-action="NurseStationMaster">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="row gy-4">
+                <div class="row gy-4">
 
-            <div class="col-md-12 col-lg-8">
-                <div class="card">
-                    <div class="card-body">
+                    <div class="col-md-12 col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
 
                                 <div class="form-floating form-floating-outline mb-4">
                                     @{
@@ -41,59 +41,58 @@
                                     <label asp-for="FacilityID" class="control-label"></label>
                                     <span asp-validation-for="FacilityID" class="text-danger"></span>
                                 </div>
-                               @*  <div class="form-floating form-floating-outline mb-4">
+                                @*  <div class="form-floating form-floating-outline mb-4">
 
-                                    <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
-                                    <label asp-for="FacilityID" class="control-label"></label>
-                                    <span asp-validation-for="FacilityID" class="text-danger"></span>
+                                <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
+                                <label asp-for="FacilityID" class="control-label"></label>
+                                <span asp-validation-for="FacilityID" class="text-danger"></span>
                                 </div> *@
+                                <div class="form-floating form-floating-outline mb-4">
 
-                        <div class="form-floating form-floating-outline mb-4">
+                                    <input asp-for="NurseStationID" class="form-control" placeholder="NurseStationID" />
+                                    <label asp-for="NurseStationID" class="control-label"></label>
+                                    <span asp-validation-for="NurseStationID" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="NurseStationID" class="form-control" placeholder="NurseStationID" />
-                <label asp-for="NurseStationID" class="control-label"></label>
-                <span asp-validation-for="NurseStationID" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
+                                    <input asp-for="StationName" class="form-control" placeholder="StationName" />
+                                    <label asp-for="StationName" class="control-label"></label>
+                                    <span asp-validation-for="StationName" class="text-danger"></span>
+                                </div>
 
-                            <input asp-for="StationName" class="form-control" placeholder="StationName" />
-                <label asp-for="StationName" class="control-label"></label>
-                <span asp-validation-for="StationName" class="text-danger"></span>
-            </div>
-
-         @*    <div class="form-group">
-                <label asp-for="lastupdatedDate" class="control-label"></label>
-                <input asp-for="lastupdatedDate" class="form-control" />
-                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                <input asp-for="lastUpdatedMachine" class="form-control" />
-                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <center>
-                <button type="submit" asp-action="GetNurseStation" value="Save" class="btn btn-primary" >Save</button>
-                <button type="submit"  value="Add Nurse" class="btn btn-primary" >Add Nurse</button>
-                <button type="submit" value="Remove Nurse" class="btn btn-primary" >Remove Nurse</button>
-                                    @if (ViewBag.Message != null)
-                                    {
-                                        <div class="alert alert-success">
+                                @*    <div class="form-group">
+                                <label asp-for="lastupdatedDate" class="control-label"></label>
+                                <input asp-for="lastupdatedDate" class="form-control" />
+                                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                                <input asp-for="lastUpdatedUser" class="form-control" />
+                                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                                <input asp-for="lastUpdatedMachine" class="form-control" />
+                                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+                                </div> *@
+                                <div class="form-group">
+                                    <center>
+                                        <button type="submit" asp-action="GetNurseStation" value="Save" class="btn btn-primary">Save</button>
+                                        <button type="submit" value="Add Nurse" class="btn btn-primary">Add Nurse</button>
+                                        <button type="submit" value="Remove Nurse" class="btn btn-primary">Remove Nurse</button>
+                                        @if (ViewBag.Message != null)
+                                        {
+                                            <div class="alert alert-success">
 
 
-                                            @ViewBag.Message
-                                        </div>
+                                                @ViewBag.Message
+                                            </div>
 
-                                    }
+                                        }
                                     </center>
-            </div>
-            </div>
-        </form>
+                                </div>
+                            </div>
+            </form>
+        </div>
     </div>
-</div>
 </div>

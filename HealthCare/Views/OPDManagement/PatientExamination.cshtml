@@ -67,10 +67,14 @@
                 <label asp-for="Diagnosis" class="control-label"></label>
                
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="Prescription" class="form-control" placeholder="Prescription" />
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+
+                            <textarea asp-for="Prescription" class="form-control" placeholder="Prescription" aria-describedby="text-to-speech-addon"></textarea>
                 <label asp-for="Prescription" class="control-label"></label>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
                
             </div>
                         <div class="form-floating form-floating-outline mb-4">

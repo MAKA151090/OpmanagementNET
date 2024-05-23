@@ -120,18 +120,32 @@
                 
                 <span asp-validation-for="RouteAdmin" class="text-danger"></span>
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Instructions" class="form-control" placeholder="Instructions" />
+
+
+                        
+
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="Instructions" class="form-control" placeholder="Instructions" aria-describedby="text-to-speech-addon"></textarea>
                 <label asp-for="Instructions" class="control-label"></label>
-                
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+
                 <span asp-validation-for="Instructions" class="text-danger"></span>
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Comments" class="form-control" placeholder="Comments" />
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="Comments" class="form-control" placeholder="Comments" aria-describedby="text-to-speech-addon"></textarea>
                 <label asp-for="Comments" class="control-label"></label>
-                
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
                 <span asp-validation-for="Comments" class="text-danger"></span>
             </div>
+
+
+
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="FillDate" class="form-control" placeholder="FillDate" />
                 <label asp-for="FillDate" class="control-label"></label>
