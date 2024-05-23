@@ -22,6 +22,8 @@ namespace HealthCare.Controllers
         public IActionResult Reports()
         {
 
+
+
             var query = BusinessClassCommon.DataTable(_healthcareContext, "Select * from SHTestMaster");
 
 

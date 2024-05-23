@@ -181,6 +181,19 @@ namespace HealthCare.Controllers
 
         }
 
+        public async Task<IActionResult> GetReport(OtScheduleViewModel Model)
+        {
+
+            BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(Getotschedule);
+
+            if (ObjTestResult != null)
+            {
+                var testResults = ObjTestResult.GetOtScheduleViews(Model.FacilityID);
+                return View("OtScheduleView", testResults);
+            }
+            return View(Model);
+
+        }
 
 
         public IActionResult Index()
@@ -200,6 +213,11 @@ namespace HealthCare.Controllers
             return View();
         }
         public IActionResult OTSummary()
+        {
+            return View();
+        }
+
+        public IActionResult OtScheduleView()
         {
             return View();
         }

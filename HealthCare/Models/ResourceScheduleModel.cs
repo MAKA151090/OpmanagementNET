@@ -1,4 +1,5 @@
 ﻿using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealthCare.Models
 {
@@ -29,6 +30,7 @@ namespace HealthCare.Models
         public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
-        public string? Slots { get => strSlots; set => strSlots = value; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string? SlotsID { get => strSlots; set => strSlots = value; }
     }
 }

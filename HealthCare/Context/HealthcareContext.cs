@@ -146,6 +146,8 @@ namespace HealthCare.Context
 
         public DbSet<ResourceScheduleModel> SHclnViewResourceSchedule { get; set; }
 
+        public DbSet<GenericReportsModel> SHRepGenericReports { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -303,20 +305,15 @@ namespace HealthCare.Context
             modelBuilder.Entity<ProcedureCodeMasterModel>()
                 .HasKey(i => new { i.ProcedureID });
 
-
-
-
-
-
-
-
-
             modelBuilder.Entity<InpatientDischargeModel>()
                 .HasKey(i => new { i.PatientID, i.CaseID });
 
             modelBuilder.Entity<StaffFacilityMappingModel>()
                 .HasKey(i => new { i.StaffId, i.FacilityID });
 
+
+            modelBuilder.Entity<GenericReportsModel>()
+                .HasKey(i => new { i.ReportId });
 
             modelBuilder.Entity<PatientObjectiveModel>()
        .Property(i => i.lastUpdatedDate)
