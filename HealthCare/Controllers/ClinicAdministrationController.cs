@@ -133,48 +133,51 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStaff(StaffAdminModel model)
         {
-            var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
+          
+           
+                var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
 
-            if (existingStaffAdmin != null)
-            {
-                existingStaffAdmin.StrStaffID = model.StrStaffID;
-                existingStaffAdmin.StrFirstName = model.StrFirstName;
-                existingStaffAdmin.StrLastName = model.StrLastName;
-                existingStaffAdmin.StrInitial = model.StrInitial;
-                existingStaffAdmin.StrPrefix = model.StrPrefix;
-                existingStaffAdmin.StrAge = model.StrAge;
-                existingStaffAdmin.StrDateofBirth = model.StrDateofBirth;
-                existingStaffAdmin.StrEmailId = model.StrEmailId;
-                existingStaffAdmin.StrAddress1 = model.StrAddress1;
-                existingStaffAdmin.StrAddress2 = model.StrAddress2;
-                existingStaffAdmin.StrCity = model.StrCity;
-                existingStaffAdmin.StrState = model.StrState;
-                existingStaffAdmin.StrPin = model.StrPin;
-                existingStaffAdmin.StrPhoneNumber = model.StrPhoneNumber;
-                existingStaffAdmin.StrEmailId = model.StrEmailId;
-                existingStaffAdmin.StrNationality = model.StrNationality;
-                existingStaffAdmin.StrUserName = model.StrUserName;
-                existingStaffAdmin.StrPassword = model.StrPassword;
-                existingStaffAdmin.StrIdProofId = model.StrIdProofId;
-                existingStaffAdmin.StrIdProofName = model.StrIdProofName;
-                existingStaffAdmin.StrMedialLicenseNumber = model.StrMedialLicenseNumber;
-                existingStaffAdmin.LastupdatedDate = DateTime.Now.ToString();
-                existingStaffAdmin.LastupdatedUser = User.Claims.First().Value.ToString();
-                existingStaffAdmin.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            }
-            else
-            {
+                if (existingStaffAdmin != null)
+                {
+                    existingStaffAdmin.StrStaffID = model.StrStaffID;
+                    existingStaffAdmin.StrFirstName = model.StrFirstName;
+                    existingStaffAdmin.StrLastName = model.StrLastName;
+                    existingStaffAdmin.StrInitial = model.StrInitial;
+                    existingStaffAdmin.StrPrefix = model.StrPrefix;
+                    existingStaffAdmin.StrAge = model.StrAge;
+                    existingStaffAdmin.StrDateofBirth = model.StrDateofBirth;
+                    existingStaffAdmin.StrEmailId = model.StrEmailId;
+                    existingStaffAdmin.StrAddress1 = model.StrAddress1;
+                    existingStaffAdmin.StrAddress2 = model.StrAddress2;
+                    existingStaffAdmin.StrCity = model.StrCity;
+                    existingStaffAdmin.StrState = model.StrState;
+                    existingStaffAdmin.StrPin = model.StrPin;
+                    existingStaffAdmin.StrPhoneNumber = model.StrPhoneNumber;
+                    existingStaffAdmin.StrEmailId = model.StrEmailId;
+                    existingStaffAdmin.StrNationality = model.StrNationality;
+                    existingStaffAdmin.StrUserName = model.StrUserName;
+                    existingStaffAdmin.StrPassword = model.StrPassword;
+                    existingStaffAdmin.StrIdProofId = model.StrIdProofId;
+                    existingStaffAdmin.StrIdProofName = model.StrIdProofName;
+                    existingStaffAdmin.StrMedialLicenseNumber = model.StrMedialLicenseNumber;
+                    existingStaffAdmin.LastupdatedDate = DateTime.Now.ToString();
+                    existingStaffAdmin.LastupdatedUser = User.Claims.First().Value.ToString();
+                    existingStaffAdmin.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                }
+                else
+                {
 
-                model.LastupdatedDate = DateTime.Now.ToString();
-                model.LastupdatedUser = User.Claims.First().Value.ToString();
-                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                _healthcareContext.SHclnStaffAdminModel.Add(model);
-            }
-            await _healthcareContext.SaveChangesAsync();
+                    model.LastupdatedDate = DateTime.Now.ToString();
+                    model.LastupdatedUser = User.Claims.First().Value.ToString();
+                    model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    _healthcareContext.SHclnStaffAdminModel.Add(model);
+                }
+                await _healthcareContext.SaveChangesAsync();
 
-            ViewBag.Message = "Saved Successfully";
-            return View("StaffAdminModel", model);
-
+                ViewBag.Message = "Saved Successfully";
+                return View("StaffAdminModel", model);
+            
+            
         }
 
         [HttpPost]
@@ -184,27 +187,24 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        /*public async Task<ActionResult> Doctoradmin(string doctorid, string buttonType)
+        public async Task<ActionResult> Doctoradmin(string doctorid)
         {
             ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
-            if (buttonType == "submit")
-            {
+          
                 var doctor = await businessClass.GetDoctorRegister(doctorid);
                 if (doctor != null)
                 {
-                    doctorid = doctor.DoctorID;
+                    doctorid = doctor.StrStaffID;
 
-                    return View("DoctorRegistration", doctor);
+                    return View("StaffAdminModel", doctor);
                 }
                 else
                 {
                     ViewBag.ErrorMessage = "No data found for the entered IDs.";
-                    return View(GetDoctor);
+                    return View("GetDoctor");
                 }
-            }
-
-            return View();
-        }*/
+            
+        }
 
         public async Task<IActionResult> GetRoomType(RoomTypeMasterModel model)
         {
@@ -304,7 +304,7 @@ namespace HealthCare.Controllers
             else
             {
                 model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = User.Identity.Name.ToString();
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHclnHospitalBedMaster.Add(model);
             }
@@ -360,6 +360,9 @@ namespace HealthCare.Controllers
         }
         public IActionResult RollAccess()
         {
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["screenid"] =clinicAdmin.GetScreenid();
             return View();
         }
         public IActionResult ScreenMaster()
@@ -377,6 +380,9 @@ namespace HealthCare.Controllers
         }
         public IActionResult OTTableMaster()
         {
+            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["facilityid"] = business.GetFacilityid();
+
             return View();
         }
         public IActionResult ClinicSurgeryMaster()
@@ -577,8 +583,9 @@ namespace HealthCare.Controllers
         }
 
 
-        public async Task<IActionResult> GetOTTableMaster(OtTableMasterModel model)
+        public async Task<IActionResult> GetOTTableMaster(OtTableMasterModel model)   
         {
+            ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
             var existingTest = await _healthcareContext.SHotTableMaster.FindAsync(model.TableID);
             if (existingTest != null)
             {
@@ -586,6 +593,7 @@ namespace HealthCare.Controllers
                 existingTest.TableName = model.TableName;
                 existingTest.RoomName = model.RoomName;
                 existingTest.AdditionalFeature = model.AdditionalFeature;
+                existingTest.FacilityID = model.FacilityID;
                 existingTest.lastupdatedDate = DateTime.Now.ToString();
                 existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -602,6 +610,11 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
+
+            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["facilityid"] = business.GetFacilityid();
+
+          
             return View("OTTableMaster", model);
         }
 
@@ -663,6 +676,10 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetRollAccess(RollAccessModel model)
         {
+            ClinicAdminBusinessClass businessClass =  new ClinicAdminBusinessClass(_healthcareContext);
+
+          //  var bus = await businessClass.GetScreenid(model.ScreenID);
+
             var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID);
             if (existingTest != null)
             {
@@ -684,6 +701,11 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["screenid"] = clinicAdmin.GetScreenid();
+
+
             return View("RollAccess", model);
 
         }
@@ -698,8 +720,6 @@ namespace HealthCare.Controllers
             {
                 existingTest.ScreenId = model.ScreenId;
                 existingTest.ScreenName = model.ScreenName;
-                existingTest.ReadWriteAccess = model.ReadWriteAccess;
-                existingTest.Authorized = model.Authorized;
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
                 existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -713,6 +733,7 @@ namespace HealthCare.Controllers
             }
             await _healthcareContext.SaveChangesAsync();
 
+            
             ViewBag.Message = "Saved Successfully";
             return View("ScreenMaster", model);
         }
