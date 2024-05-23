@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing;
+﻿
+using DocumentFormat.OpenXml.Drawing;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -49,6 +50,36 @@ namespace HealthCare.Business
                             }).ToListAsync().Result;
 
             return RadiologyData;
+        }
+
+    
+        public  List<ScreenMasterModel> GetScreenid()
+
+        {
+            var screenid = (
+                        from pr in _healthcareContext.SHClnScreenMaster                        
+                        select new ScreenMasterModel
+                        {
+                            ScreenId = pr.ScreenId
+                            , ScreenName = pr.ScreenName
+
+                        }).ToList();
+            return screenid;
+        }
+
+        public List<ClinicAdminModel> GetFacilityid()
+        {
+            var facilityid = (
+                    from pr in _healthcareContext.SHclnClinicAdmin
+                    select new ClinicAdminModel
+                    {
+                        FacilityID = pr.FacilityID , 
+                        ClinicName = pr.ClinicName
+
+
+                    }).ToList();
+
+            return facilityid;         
         }
 
         public async Task<PharmacyBillingTotalpriceModel> GetPharmacy(string patientID, string VisitcaseID,string OrderID, string Medication, string Unit, String Price)

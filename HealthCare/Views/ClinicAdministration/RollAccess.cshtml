@@ -1,4 +1,5 @@
-﻿@model HealthCare.Models.RollAccessModel
+﻿@using System.Collections
+@model HealthCare.Models.RollAccessModel
 
 @{
     ViewData["Title"] = "RollAccess";
@@ -32,12 +33,32 @@
                 
                 <span asp-validation-for="RollID" class="text-danger"></span>
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="ScreenID" class="form-control" placeholder="ScreenID" />
-                <label asp-for="ScreenID" class="control-label"></label>
-                
-                <span asp-validation-for="ScreenID" class="text-danger"></span>
-            </div>
+            <div class="form-floating form-floating-outline mb-4">
+    @{
+        var screenList = ((IEnumerable<ScreenMasterModel>)ViewData["screenid"])
+                            .Select(m => new SelectListItem
+                            {
+                                Value = m.ScreenId.ToString(), // Assuming ScreenId is of type int
+                                Text = $"{m.ScreenId} - {m.ScreenName}" 
+                            });
+    }
+
+    @Html.DropDownListFor(model => model.ScreenID, screenList, "Select Screen", new { @class = "form-control" })
+    <label asp-for="ScreenID" class="control-label"></label>
+    <span asp-validation-for="ScreenID" class="text-danger"></span>
+</div>
+                       @*  <div class="form-floating form-floating-outline mb-4">
+                           @{ var screenList = ((IEnumerable<ScreenMasterModel>
+                                )ViewData["screenid"])
+                                .Select(m => new SelectListItem
+                                {
+                                Value = m.ScreenId.ToString(), // Assuming ScreenId is of type int
+                                Text = $"{m.ScreenId}- {m.ScreenName}" 
+                                });
+                                @Html.DropDownListFor(model => model.ScreenID, screenList, "Select Screen")
+                            }
+                            <span asp-validation-for="ScreenID" class="text-danger"></span>
+            </div> *@
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="Access" class="form-control" placeholder="Access" />
                 <label asp-for="Access" class="control-label"></label>
