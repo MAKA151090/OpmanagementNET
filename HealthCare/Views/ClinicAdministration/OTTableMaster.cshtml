@@ -58,7 +58,23 @@
                 
                 <span asp-validation-for="AdditionalFeature" class="text-danger"></span>
             </div>
+ 
                             <div class="form-floating form-floating-outline mb-4">
+                                @{
+                                    var facilityList = ((IEnumerable<ClinicAdminModel>)ViewData["facilityid"])
+                                    .Select(m => new SelectListItem
+                {
+                    Value = m.FacilityID.ToString(), // Assuming FacilityID is of type int
+                    Text = $"{m.FacilityID} - {m.ClinicName}"
+                });
+                                }
+
+                                @Html.DropDownListFor(model => model.FacilityID, facilityList, "Select Facility ID", new { @class = "form-control" })
+                                <label asp-for="FacilityID" class="control-label"></label>
+                                <span asp-validation-for="FacilityID" class="text-danger"></span>
+                            </div>
+                         
+                            @* <div class="form-floating form-floating-outline mb-4">
 
                                 <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
                                 <label asp-for="FacilityID" class="control-label"></label>
@@ -75,6 +91,28 @@
                 <div class="row">
 
                     <div class="col-md-12 col-lg-12">
+                            </div> *@
+            @* <div class="form-group">
+                <label asp-for="lastupdatedDate" class="control-label"></label>
+                <input asp-for="lastupdatedDate" class="form-control" />
+                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> 
+            *@
+            <br />
+            <div class="form-group">
+                <center>
+       
+                    <button type="submit"  value="Create" class="btn btn-primary" >Save</button>
 
                         <div class="form-group">
                             <div class="container">

@@ -7,6 +7,7 @@
 
         private String strIDNumber;
         private String strDrugID;
+        private String strRackID;
         private String strManufacturingDate;
         private String strExpiryDate;
         private String strNumberOfStock;
@@ -22,6 +23,6 @@
         public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
-    
+        public string? RackID { get => strRackID; set => strRackID = value; }
     }
 }

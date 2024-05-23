@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing;
+﻿
+using DocumentFormat.OpenXml.Drawing;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -49,6 +50,124 @@ namespace HealthCare.Business
                             }).ToListAsync().Result;
 
             return RadiologyData;
+        }
+
+        
+        ///dropdown for rollaccess 
+        public  List<ScreenMasterModel> GetScreenid()
+
+        {
+            var screenid = (
+                        from pr in _healthcareContext.SHClnScreenMaster                        
+                        select new ScreenMasterModel
+                        {
+                            ScreenId = pr.ScreenId
+                            , ScreenName = pr.ScreenName
+
+                        }).ToList();
+            return screenid;
+        }
+
+        ///dropdown for  OT table master
+        public List<ClinicAdminModel> GetFacilityid()
+        {
+            var facilityid = (
+                    from pr in _healthcareContext.SHclnClinicAdmin
+                    select new ClinicAdminModel
+                    {
+                        FacilityID = pr.FacilityID , 
+                        ClinicName = pr.ClinicName
+
+
+                    }).ToList();
+
+            return facilityid;         
+        }
+
+        ///Dropdown for Hospital bed master
+        public List<NurseStationMasterModel> GetNurseid()
+        {
+            var nurseid = (
+                from pr in _healthcareContext.SHclnNurseStationMaster
+                select new NurseStationMasterModel
+                {
+                    NurseStationID = pr.NurseStationID
+                }).ToList();
+                
+            return nurseid;
+        }
+
+        ///dropdown for nurse station
+        public List<ClinicAdminModel> GetFacid()
+        {
+            var facid = (
+                from pr in _healthcareContext.SHclnClinicAdmin
+                select new ClinicAdminModel
+                {
+                    FacilityID = pr.FacilityID ,
+                    ClinicName = pr.ClinicName
+                }).ToList();
+
+            return facid;       
+        }
+
+        ///dropdown for hospitalfacilitymapping
+        public List<HospitalRegistrationModel> GetHospitalid()
+        {
+            var hospitalid = (
+                from pr in _healthcareContext.SHHospitalRegistration
+                select new HospitalRegistrationModel
+                {
+                    HospitalID = pr.HospitalID,
+                    HospitalName = pr.HospitalName
+                }).ToList();
+
+            return hospitalid;
+                
+        }
+
+        public List<ClinicAdminModel> GetFacId()
+        {
+            var facid = (
+                from pr in _healthcareContext.SHclnClinicAdmin
+                select new ClinicAdminModel
+                {
+                    FacilityID = pr.FacilityID,
+                    ClinicName = pr.ClinicName
+
+                }).ToList();
+
+            return facid;    
+        }
+
+
+        ///dropdown for staffmapping
+
+        public List<StaffAdminModel> GetStaffID()
+        {
+            var staffid = (
+                    from pr in _healthcareContext.SHclnStaffAdminModel
+                    select new StaffAdminModel
+                    {
+                        StrStaffID = pr.StrStaffID
+                    }
+                ).ToList();
+
+            return staffid;
+        }
+
+        public List<ClinicAdminModel> GetFacidStaff()
+        {
+            var stafffacid = (
+                    from pr in _healthcareContext.SHclnClinicAdmin
+                    select new ClinicAdminModel
+                    {
+                        FacilityID = pr.FacilityID,
+                        ClinicName = pr.ClinicName
+                    }
+                ).ToList();
+
+            return stafffacid;
         }
 
         public async Task<PharmacyBillingTotalpriceModel> GetPharmacy(string patientID, string VisitcaseID,string OrderID, string Medication, string Unit, String Price)

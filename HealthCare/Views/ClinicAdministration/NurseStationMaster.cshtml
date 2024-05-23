@@ -31,7 +31,26 @@
                 <div class="card">
                     <div class="card-body">
 
+                                <div class="form-floating form-floating-outline mb-4">
+                                    @{
+                                        var screenList = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
+                                        .Select(m => new SelectListItem
+            {
+                Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.FacilityID} - {m.ClinicName}"
+            });
+                                    }
 
+                                    @Html.DropDownListFor(model => model.FacilityID, screenList, "Select Facility ID", new { @class = "form-control" })
+                                    <label asp-for="FacilityID" class="control-label"></label>
+                                    <span asp-validation-for="FacilityID" class="text-danger"></span>
+                                </div>
+                               @*  <div class="form-floating form-floating-outline mb-4">
+
+                                    <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
+                                    <label asp-for="FacilityID" class="control-label"></label>
+                                    <span asp-validation-for="FacilityID" class="text-danger"></span>
+                                </div> *@
 
                         <div class="form-floating form-floating-outline mb-4">
 
@@ -46,31 +65,33 @@
                 <span asp-validation-for="StationName" class="text-danger"></span>
             </div>
 
+         @*    <div class="form-group">
+                <label asp-for="lastupdatedDate" class="control-label"></label>
+                <input asp-for="lastupdatedDate" class="form-control" />
+                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <center>
+                <button type="submit" asp-action="GetNurseStation" value="Save" class="btn btn-primary" >Save</button>
+                <button type="submit"  value="Add Nurse" class="btn btn-primary" >Add Nurse</button>
+                <button type="submit" value="Remove Nurse" class="btn btn-primary" >Remove Nurse</button>
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-success">
 
-                    </div>
 
-                </div>
-
-                <div class="row" style="height:12%">
-                </div>
-                <div class="row">
-
-                    <div class="col-md-12 col-lg-12">
-
-                        <div class="form-group">
-                            <div class="container">
-
-                                <button type="submit" style="centered" asp-action="GetNurseStation" value="Save" class="btn btn-primary">Save</button>
-                                <button type="submit" style="centered" value="Add Nurse" class="btn btn-primary">Add Nurse</button>
-                                <button type="submit" style="centered" value="Remove Nurse" class="btn btn-primary">Remove Nurse</button>
-
-                                 @if (ViewBag.Message != null)
-                                {
-                                    <div class="alert alert-success">
-                                        @ViewBag.Message
-                                    </div>
-                                }
-                            </div>
+                                            @ViewBag.Message
+                                        </div>
 
                         </div>
                     </div>

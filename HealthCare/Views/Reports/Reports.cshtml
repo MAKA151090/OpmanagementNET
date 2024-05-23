@@ -1,22 +1,109 @@
 ﻿@using System.Data
 @using NonFactors.Mvc.Grid
-@model System.Data.DataTable
+@model DataTable
 
-
-@(Html
-    .Grid(Model.Rows.Cast<DataRow>())
-    .Build(columns =>
-    {
-        foreach (DataColumn? column in Model.Columns)
-        {
-            String name = column!.ColumnName;
-
-            columns.Add(model => model[name] as String).Filterable(true).Sortable(true).Named(name).Titled(column.Caption);
+<form asp-action="GetReports" asp-controller="Reports" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="control-label">ReportId</label>
+        <input value=@ViewData["ReportId"] class="form-control" />        
+    </div>
+    <div class="form-group">
+        <label class="control-label">FromDate</label>
+        <input value=@ViewData["FromDate"] class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">ToDate</label>
+        <input value=@ViewData["ToDate"] class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">FacilityID</label>
+        <input value=@ViewData["FacilityID"] class="form-control" />
+    </div>
+    <div class="form-group">
+        <center>
+            <button type="submit" name="buttonType" value="submit" class="btn btn-primary">GetReport</button>
+        </center>
+    </div>
+</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ReportOutput</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
         }
-    })
-    .Empty("No data found")
-    .Pageable(pager =>
-    {
-        pager.RowsPerPage = 4;
-    })
-)
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>HTML Table Generated from DataTable</h2>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                @foreach (DataColumn column in Model.Columns)
+                {
+                    <th>@column.ColumnName</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    @foreach (var cell in row.ItemArray)
+                    {
+                        <td>@cell</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button onclick="exportToExcel()">Export to Excel</button>
+
+    <script>
+        function exportToExcel() {
+            try {
+                // Select the table element
+                var table = document.getElementById('dataTable');
+
+                // Create a new Excel instance
+                var excel = new ExcelJS.Workbook();
+                var sheet = excel.addWorksheet('Sheet 1');
+
+                // Iterate over each row and column in the table to add data to Excel sheet
+                for (var i = 0; i < table.rows.length; i++) {
+                    var row = sheet.addRow();
+                    var cells = table.rows[i].cells;
+                    for (var j = 0; j < cells.length; j++) {
+                        row.getCell(j + 1).value = cells[j].innerText;
+                    }
+                }
+
+                // Save the workbook as an Excel file
+                excel.xlsx.writeBuffer().then(function (buffer) {
+                    saveAs(new Blob([buffer], { type: "application/octet-stream" }), 'table_data.xlsx');
+                });
+            } catch (error) {
+                console.error('Export to Excel failed:', error);
+                alert('Export to Excel failed. Please try again.' + error);
+            }
+        }
+    </script>
+    <!-- Include ExcelJS library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+    <!-- Include FileSaver.js library for saving Blob objects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</body>
+</html>

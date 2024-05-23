@@ -9,81 +9,86 @@
 @using (Html.BeginForm("SaveSlots", "ClinicAdministration", FormMethod.Post))
 {
     <hr />
- 
-            <div class="row">
-                <div class="col-md-4">
 
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                       <label for="StaffID" class="control-label">StaffID</label>
-                <input type="StaffID" class="form-control" id="StaffID"  name="models[0].StaffID" />
-                       
-                    </div>
+    <div class="row">
+        <div class="col-md-4">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="StaffID" class="control-label">StaffID</label>
+                <input type="text" class="form-control" id="StaffID" name="StaffID" value="@ViewBag.StaffID" />
+            </div>
             <div class="form-group">
                 <label for="FacilityID" class="control-label">FacilityID</label>
-                <input type="FacilityID" class="form-control" id="FacilityID" name="models[0].FacilityID" />
-
+                <input type="text" class="form-control" id="FacilityID" name="FacilityID" value="@ViewBag.FacilityID" />
             </div>
             <div class="form-group">
                 <label for="Duration" class="control-label">Duration</label>
-                <input type="Duration" class="form-control" id="Duration" name="models[0].Duration" />
-
+                <input type="text" class="form-control" id="Duration" name="Duration" value="@ViewBag.Duration" />
             </div>
             <div class="form-group">
                 <label for="FromDate" class="control-label">FromDate</label>
-                <input type="date" class="form-control" id="FromDate" name="models[0].FromDate" />
+                <input type="date" class="form-control" id="FromDate" name="FromDate" value="@ViewBag.FromDate" />
             </div>
-
             <div class="form-group">
                 <label for="ToDate" class="control-label">ToDate</label>
-                <input type="date" class="form-control" id="ToDate" name="models[0].ToDate" />
+                <input type="date" class="form-control" id="ToDate" name="ToDate" value="@ViewBag.ToDate" />
             </div>
-                   
-                </div>
-            </div>
-        
+        </div>
+    </div>
+
     <div class="form-group">
         <input type="submit" value="Add Slot" class="btn btn-primary" />
+        <input type="submit" value="Get Slots" name="action" class="btn btn-primary" />
     </div>
 
-}
 
 
-<div id="slotsTable">
-    <h3>Slots</h3>
-    <table id="SlotTable" class="table">
-        <thead>
-            <tr>
-                <th>From Time</th>
-                <th>To Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (ViewBag.Slots != null)
-            {
-                @foreach (var slot in ViewBag.Slots)
+
+    <div id="slotsTable">
+        <h3>Slots</h3>
+        <table id="SlotTable" class="table">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>From Time</th>
+                    <th>To Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Slots != null)
                 {
-                    <tr>
-                        <td><input type="text" class="form-control" name="FromTime" value="@slot.FromTime" /></td>
-                        <td><input type="text" class="form-control" name="ToTime" value="@slot.ToTime" /></td>
-                    </tr>
+                   // @foreach (var slot in ViewBag.Slots)
+                    @for (int i = 0; i < ViewBag.Slots.Count; i++)
+                    {
+                        <tr>
+                           
+                           <td><input type="radio" name="selectedSlots" value="@ViewBag.Slots[i].Slots" /></td>
+                            <td><input type="text" class="form-control" name="FromTime" value="@ViewBag.Slots[i].FromTime" /></td>
+                            <td><input type="text" class="form-control" name="ToTime" value="@ViewBag.Slots[i].ToTime" /></td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
-</div>
-
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Holiday" class="btn btn-primary" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Blocker" class="btn btn-primary" />
+            </tbody>
+        </table>
     </div>
 
-    
+
+    <div class="form-group">
+    <input type="submit" value="Delete Selected" name="action" class="btn btn-danger" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" name ="action" class="btn btn-primary" />
+    </div>
+    <div class="form-group">
+        <button type="submit" name="buttonType" value="Holiday" class="btn btn-primary">Holiday</button>
+    </div>
+    <div class="form-group">
+        <button type="submit" name="buttonType" value="Blocker" class="btn btn-primary">Blocker</button>
+    </div>
+
+    }
 
 
     @*  <div class="form-group form-check">
