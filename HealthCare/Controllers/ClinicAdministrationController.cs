@@ -866,7 +866,7 @@ namespace HealthCare.Controllers
 
 
 
-
+     
         public IActionResult DoctorSchedule()
         {
             return View();
@@ -942,98 +942,220 @@ namespace HealthCare.Controllers
 
         }
 
-        //Doctor Scheduling
-        [HttpPost]
+      
 
         [HttpPost]
         public ActionResult AddSlot()
         {
             return View(new ResourceScheduleModel());
         }
-
-        public async Task <IActionResult> SaveSlots(List<ResourceScheduleModel> models)
+       
+       /* [HttpPost]
+        public IActionResult DoctorSchedule()
         {
+            // Initialize the ViewBag with empty strings to avoid null reference exceptions
+            ViewBag.StaffID = "";
+            ViewBag.FacilityID = "";
+            ViewBag.FromDate = "";
+            ViewBag.ToDate = "";
+            ViewBag.Duration = "";
+            ViewBag.Slots = new List<ResourceScheduleModel>();
+
+            return View();
+        }
+*/
+        public async Task <IActionResult> SaveSlots()
+        {
+
+             var StaffID = Request.Form["StaffID"].ToString();
+            var FacilityID = Request.Form["FacilityID"].ToString();
+            var FromDate = Request.Form["FromDate"].ToString();
+            var ToDate = Request.Form["ToDate"].ToString();
+            var duration = Request.Form["Duration"].ToString();
+            var FromTime = Request.Form["FromTime"].ToString(); 
+            var ToTime = Request.Form["ToTime"].ToString();
+
+
+
+            DateTime fromDate;
+            DateTime toDate;
+            TimeSpan fromTime;
+            TimeSpan toTime;
+
+            // Attempt to parse the date strings to DateTime objects
+            bool isFromDateValid = DateTime.TryParse(FromDate, out fromDate);
+            bool isToDateValid = DateTime.TryParse(ToDate, out toDate);
+            bool isFromTimeValid = TimeSpan.TryParse(FromTime, out fromTime);
+            bool isToTimeValid = TimeSpan.TryParse(ToTime, out toTime);
+
+            var existingSlot = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID);
+
            
-                foreach (var model in models)
-                {
+            if (existingSlot != null)
+            {
+                // The record already exists, proceed to the slot condition
+                var exslots = await _healthcareContext.SHclnViewResourceSchedule
+                                                    .Where(slot => slot.StaffID == StaffID)
+                                                    .ToListAsync();
 
-                    _healthcareContext.SHclnViewResourceSchedule.Add(model);
-                }
-
-
+                ViewBag.Slots = exslots;
+                ViewBag.StaffID = StaffID;
+                ViewBag.FacilityID = FacilityID;
+                ViewBag.Duration = duration;
+                ViewBag.FromDate = FromDate;
+                ViewBag.ToDate = ToDate;
+                existingSlot.FromTime=FromTime;
+                existingSlot.ToTime=ToTime;
                 _healthcareContext.SaveChanges();
 
-            var slots = await _healthcareContext.SHclnViewResourceSchedule.Where(slot => slot.StaffID == models[0].StaffID).ToListAsync();
+                var slots = GenerateDoctorSlots(StaffID, FacilityID, FromDate, ToDate, duration, FromTime, ToTime);
+                _healthcareContext.SHcllDoctorScheduleModel.AddRange(slots);
+                await _healthcareContext.SaveChangesAsync();
 
-            // Pass the slots count to the view
-            ViewBag.Slots = slots.Count;
 
-            ViewBag.Slots = slots;
+                return View("DoctorSchedule");
 
-            
-            return View("DoctorSchedule", models);
-        }
-
-        public ActionResult Save(List<DoctorScheduleModel> slots)
-        {
-            foreach (var slot in slots)
-            {
-                foreach (var doctorSlot in slot.SlotsID)
-                {
-                    var docSchedule = new DoctorScheduleModel
-                    {
-                        StaffID = slot.StaffID,
-                        FacilityID = slot.FacilityID,
-                        Date = slot.Date,
-                        Duration = slot.Duration,
-                        StartTime = slot.StartTime,
-                        PatientID = slot.PatientID,
-                        SlotsID = slot.SlotsID,
-                        Holiday = slot.Holiday,
-                        Blocker = slot.Blocker,
-                        Active = slot.Active,
-                        lastUpdatedDate = slot.lastUpdatedDate,
-                        lastUpdatedUser = slot.lastUpdatedUser,
-                        lastUpdatedMachine = slot.lastUpdatedMachine
-                    };
-
-                    // Assuming _healthcareContext is your DbContext
-                    _healthcareContext.SHclnResourceSchedule.Add(docSchedule);
-                }
             }
 
-            // Save changes to persist the added slots in the database
+            
+
+
+
+            // Assuming ResourceScheduleModel is your model class
+            var model = new ResourceScheduleModel
+            {
+                StaffID = StaffID,
+                FacilityID = FacilityID,
+                FromDate = FromDate,
+                ToDate = ToDate,
+                Duration = duration
+            };
+
+
+            _healthcareContext.SHclnViewResourceSchedule.Add(model);
+                                
+                           
             _healthcareContext.SaveChanges();
 
-            return RedirectToAction("DoctorSchedule");
+
+
+            var allSlots = await _healthcareContext.SHclnViewResourceSchedule
+                                         .Where(slot => slot.StaffID == StaffID)
+                                         .ToListAsync();
+
+            ViewBag.Slots = allSlots;
+            ViewBag.StaffID = StaffID;
+            ViewBag.FacilityID = FacilityID;
+            ViewBag.Duration = duration;
+            ViewBag.FromDate = FromDate;
+            ViewBag.ToDate = ToDate;
+            
+
+
+                        return View("DoctorSchedule");
+
+
+          
         }
-        private List<ResourceScheduleModel> GenerateSlots(string fromDate, string toDate, string fromTime, string toTime, string duration)
+
+
+        private List<DoctorScheduleModel> GenerateDoctorSlots(string staffID, string facilityID, string fromDate, string toDate, string duration, string fromTime, string toTime)
         {
-            var slots = new List<ResourceScheduleModel>();
+            var slots = new List<DoctorScheduleModel>();
             DateTime startDate = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime endDate = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             TimeSpan slotDuration = TimeSpan.FromMinutes(int.Parse(duration));
+            TimeSpan startTime = TimeSpan.Parse(string.Format(fromTime,"HH:mm"));
+            TimeSpan endTime = TimeSpan.Parse(toTime);
 
             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
-                DateTime startTime = DateTime.ParseExact(fromTime, "HH:mm", CultureInfo.InvariantCulture);
-                DateTime endTime = DateTime.ParseExact(toTime, "HH:mm", CultureInfo.InvariantCulture);
-
-                while (startTime < endTime)
+                DateTime currentTime = date + startTime;
+                while (currentTime.Add(slotDuration) <= date + endTime)
                 {
-                    var slot = new ResourceScheduleModel
+                    var slot = new DoctorScheduleModel
                     {
-                        FromDate = date.ToString("yyyy-MM-dd"),
-                        FromTime = startTime.ToString("HH:mm"),
-                        ToTime = startTime.Add(slotDuration).ToString("HH:mm")
+                        StaffID = staffID,
+                        FacilityID = facilityID,
+                        Date = date.ToString("yyyy-MM-dd"),
+                        Duration = duration,
+                        StartTime = currentTime.ToString(@"hh\:mm")
                     };
                     slots.Add(slot);
-                    startTime = startTime.Add(slotDuration);
+                    currentTime = currentTime.Add(slotDuration);
                 }
             }
 
             return slots;
         }
+
+
+
+
+        /* public ActionResult Save(List<DoctorScheduleModel> slots)
+         {
+             foreach (var slot in slots)
+             {
+                 foreach (var doctorSlot in slot.SlotsID)
+                 {
+                     var docSchedule = new DoctorScheduleModel
+                     {
+                         StaffID = slot.StaffID,
+                         FacilityID = slot.FacilityID,
+                         Date = slot.Date,
+                         Duration = slot.Duration,
+                         StartTime = slot.StartTime,
+                         PatientID = slot.PatientID,
+                         SlotsID = slot.SlotsID,
+                         Holiday = slot.Holiday,
+                         Blocker = slot.Blocker,
+                         Active = slot.Active,
+                         lastUpdatedDate = slot.lastUpdatedDate,
+                         lastUpdatedUser = slot.lastUpdatedUser,
+                         lastUpdatedMachine = slot.lastUpdatedMachine
+                     };
+
+                     // Assuming _healthcareContext is your DbContext
+                     _healthcareContext.SHcllDoctorScheduleModel.Add(docSchedule);
+                 }
+             }
+                    // Assuming _healthcareContext is your DbContext
+                    _healthcareContext.SHclnResourceSchedule.Add(docSchedule);
+                }
+            }
+
+             // Save changes to persist the added slots in the database
+             _healthcareContext.SaveChanges();
+
+             return RedirectToAction("DoctorSchedule");
+         }
+         private List<ResourceScheduleModel> GenerateSlots(string fromDate, string toDate, string fromTime, string toTime, string duration)
+         {
+             var slots = new List<ResourceScheduleModel>();
+             DateTime startDate = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+             DateTime endDate = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+             TimeSpan slotDuration = TimeSpan.FromMinutes(int.Parse(duration));
+
+             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+             {
+                 DateTime startTime = DateTime.ParseExact(fromTime, "HH:mm", CultureInfo.InvariantCulture);
+                 DateTime endTime = DateTime.ParseExact(toTime, "HH:mm", CultureInfo.InvariantCulture);
+
+                 while (startTime < endTime)
+                 {
+                     var slot = new ResourceScheduleModel
+                     {
+                         FromDate = date.ToString("yyyy-MM-dd"),
+                         FromTime = startTime.ToString("HH:mm"),
+                         ToTime = startTime.Add(slotDuration).ToString("HH:mm")
+                     };
+                     slots.Add(slot);
+                     startTime = startTime.Add(slotDuration);
+                 }
+             }
+
+             return slots;
+         }*/
         /* public ActionResult Holiday(DoctorScheduleModel model)
          {
              if (ModelState.IsValid)
