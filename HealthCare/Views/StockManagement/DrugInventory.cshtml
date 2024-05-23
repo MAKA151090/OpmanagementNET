@@ -37,15 +37,46 @@
                 <span asp-validation-for="ModelName" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenList = ((IEnumerable<DrugCategoryModel>)ViewData["Categoryid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.CategoryID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.CategoryID}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.CategoryId, screenList, "Select Category ID", new { @class = "form-control" })
+                            <label asp-for="CategoryId" class="control-label"></label>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+@*                         <div class="form-floating form-floating-outline mb-4">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <input asp-for="CategoryId" class="form-control" />
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
+            </div> *@
+
                         <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenlist = ((IEnumerable<DrugTypeModel>)ViewData["DrugTypeid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.TypeID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.TypeID}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.TypeId, screenlist, "Select Type ID", new { @class = "form-control" })
+                            <label asp-for="TypeId" class="control-label"></label>
+                            <span asp-validation-for="TypeId" class="text-danger"></span>
+                        </div>
+
+
+                       @*  <div class="form-floating form-floating-outline mb-4">
                 <label asp-for="TypeId" class="control-label"></label>
                 <input asp-for="TypeId" class="form-control" />
                 <span asp-validation-for="TypeId" class="text-danger"></span>
-            </div>
+            </div> *@
                         <div class="form-floating form-floating-outline mb-4">
                 <label asp-for="RockId" class="control-label"></label>
                 <input asp-for="RockId" class="form-control" />
@@ -103,15 +134,50 @@
                 <span asp-validation-for="BarCode" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenLIst = ((IEnumerable<DrugGroupModel>)ViewData["DurgGroup"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.GroupTypeID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.GroupTypeID}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.GroupType, screenLIst, "Select GroupType ID", new { @class = "form-control" })
+                            <label asp-for="GroupType" class="control-label"></label>
+                            <span asp-validation-for="GroupType" class="text-danger"></span>
+                        </div>
+
+
+                        
+@*                         <div class="form-floating form-floating-outline mb-4">
                 <label asp-for="GroupType" class="control-label"></label>
                 <input asp-for="GroupType" class="form-control" />
                 <span asp-validation-for="GroupType" class="text-danger"></span>
-            </div>
+            </div> *@
+
                         <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenLISt = ((IEnumerable<DrugGroupModel>)ViewData["DurgGroup"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.GroupTypeName.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.GroupTypeName}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.GroupName, screenLISt, "Select GroupType ID", new { @class = "form-control" })
+                            <label asp-for="GroupName" class="control-label"></label>
+                            <span asp-validation-for="GroupName" class="text-danger"></span>
+                        </div>
+
+
+
+                        @* <div class="form-floating form-floating-outline mb-4">
                 <label asp-for="GroupName" class="control-label"></label>
                 <input asp-for="GroupName" class="form-control" />
                 <span asp-validation-for="GroupName" class="text-danger"></span>
-            </div>
+            </div> *@
           @*  <div class="form-group">
                 <label asp-for="LastupdatedUser" class="control-label"></label>
                 <input asp-for="LastupdatedUser" class="form-control" />
