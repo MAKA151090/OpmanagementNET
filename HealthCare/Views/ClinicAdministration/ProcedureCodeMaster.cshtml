@@ -24,7 +24,7 @@
 <div class="row" style="height:8%">
 </div>
 
-
+<form>
 <div class="row">
 
     <div class="col-md-12 col-lg-5">
@@ -75,16 +75,24 @@
         <div class="card">
             <div class="card-body">
 
-                        <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="ProcedureCodeDescription" class="form-control" placeholder="ProcedureCode Description" />
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+
+                            <textarea asp-for="ProcedureCodeDescription" class="form-control" placeholder="ProcedureCode Description"></textarea>
                 <label asp-for="ProcedureCodeDescription" class="control-label"></label>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
                 <span asp-validation-for="ProcedureCodeDescription" class="text-danger"></span>
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
 
-                            <input asp-for="WHODescription" class="form-control" placeholder="WHO Description" />
+                            <textarea asp-for="WHODescription" class="form-control" placeholder="WHO Description"></textarea>
                 <label asp-for="WHODescription" class="control-label"></label>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
                 <span asp-validation-for="WHODescription" class="text-danger"></span>
             </div>
             
@@ -165,5 +173,5 @@
     <div class="row">
     </div>
 </div>
-
+</form>
 

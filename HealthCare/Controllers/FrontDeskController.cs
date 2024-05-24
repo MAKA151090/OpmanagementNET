@@ -5,6 +5,7 @@ using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static HealthCare.Models.OTSchedulingModel;
 namespace HealthCare.Controllers
 {
     [Authorize]
@@ -66,10 +67,7 @@ namespace HealthCare.Controllers
             {
                 return View();
             }
-            public IActionResult OpDischarge()
-            {
-                return View();
-            }
+           
             public IActionResult StaffAttendance()
             {
                 return View();
@@ -118,14 +116,18 @@ namespace HealthCare.Controllers
                 }
             }
 
+
+
             [HttpPost]
-            public async Task<IActionResult> OpChecking(OpCheckingViewModel model)
+            public async Task<IActionResult> OpChecking(OpCheckingViewModel model,string buttonType)
             {
                 //var existingTest = await GetFrontDeskData.SHcllDoctorScheduleModel.FindAsync(model.PatientId,model.CurrentDate);
 
                 var visitID = GetNextVisitIdForPatient(model.PatientId).ToString();
 
-                GetFrontDeskData.SHfdOpCheckingModel.Add(new OpCheckingModel
+            if (buttonType == "checkIn")
+            {
+                var newOpCheckIn = new OpCheckingModel
                 {
                     PatientId = model.PatientId,
                     VisitId = visitID,
@@ -133,17 +135,40 @@ namespace HealthCare.Controllers
                     LastupdatedDate = DateTime.Now.ToString(),
                     LastupdatedUser = User.Claims.First().Value.ToString(),
                     LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                };
 
-        });
+                GetFrontDeskData.SHfdOpCheckingModel.Add(newOpCheckIn);
+            }
 
+            else if (buttonType=="checkOut")
+            {
+                var existingOpChecking = await GetFrontDeskData.SHfdOpCheckingModel
+            .FirstOrDefaultAsync(x => x.PatientId == model.PatientId && x.VisitId == visitID);
 
+                if (existingOpChecking != null)
+                {
+                    existingOpChecking.VisitStatus = "CheckedOut";
+                    existingOpChecking.LastupdatedDate = DateTime.Now.ToString();
+                    existingOpChecking.LastupdatedUser = User.Claims.First().Value.ToString();
+                    existingOpChecking.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                    GetFrontDeskData.SHfdOpCheckingModel.Update(existingOpChecking);
+                }
+                
+
+            }  
                 await GetFrontDeskData.SaveChangesAsync();
 
+            
+
                 ViewBag.Message = "Saved Successfully";
-                return View("TestMaster", model);
+                return View("OpChecking", model);
 
 
             }
+
+
+       
 
 
 

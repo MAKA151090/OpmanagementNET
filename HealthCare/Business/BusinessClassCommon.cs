@@ -17,8 +17,15 @@ namespace HealthCare.Business
                 Where = " Where ";
             }
 
-            if (!Colvalue.Equals(string.Empty))
+            if (!FromDate.Equals(string.Empty) && !ToDate.Equals(String.Empty))
                 Where = Where + String.Format(" {0} between '{1}' and {2} ", DateColumn, FromDate,ToDate);
+            else if (!FromDate.Equals(string.Empty))
+                Where = Where + String.Format(" {0} = '{1}' ", DateColumn, FromDate);
+            else if (!ToDate.Equals(string.Empty))
+                Where = Where + String.Format(" {0} = '{1}' ", DateColumn, ToDate);
+
+            if (Where.Contains("between") || Where.Contains("="))
+                Where = Where + " and ";
 
             if (!Colvalue.Equals(string.Empty))
                 Where = Where + String.Format(" {0} ='{1}' ", ColName, Colvalue);

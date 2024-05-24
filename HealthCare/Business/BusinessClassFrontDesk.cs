@@ -29,7 +29,7 @@ namespace HealthCare.Business
                           join pr in _healthcareContext.SHPatientRegistration on op.PatientId equals pr.PatientID
                           where op.PatientId == PatienId
                           select new OpCheckingModelResult
-                          {
+                          {   
                               PatientName = pr.FullName,
                               DoctorName = dr.StrFullName,
                               AppoinmentDate = ds.Date,
@@ -40,9 +40,44 @@ namespace HealthCare.Business
 
         }
 
+        public List<OtScheduleViewModel> GetOtScheduleViews(string FacilityID)
+        {
+            var OpCheckingData = (
+                          from op in _healthcareContext.SHPatientRegistration 
+                          join ds in _healthcareContext.SHotScheduling on op.PatientID equals ds.PatientID
+                          join dc in _healthcareContext.SHotInternalDepartmentMaster on ds.InchrgDepID equals dc.DepartmentID
+                         where ds.FacilityID == FacilityID
+                          select new OtScheduleViewModel
+                           {
+                               OtSchedulingId= ds.OtScheduleID,
+                               PatientName=op.FullName,
+                               ScheduleDateTime=ds.StartDate,
+                               StartTime=ds.StartTime,
+                               Duration=ds.Duration,
+                               IncharegeDeparment1=dc.DepartmentName,
+                               IsConformed=ds.Confirm,
+                               TeamName=ds.TeamName
+                          }).ToListAsync().Result;
 
-    
+            return OpCheckingData;
 
+        }
+
+
+
+
+
+        public async Task UpdateOpChecking(String OpChecking, String VisitStatus)
+        {
+            var OpCheking = await _healthcareContext.SHfdOpCheckingModel.FirstOrDefaultAsync(x => VisitStatus == VisitStatus);
+            if (OpCheking != null)
+            {
+                VisitStatus = "CheckedOut";
+            }
+            _healthcareContext.SHfdOpCheckingModel.Update(OpCheking);
+            await _healthcareContext.SaveChangesAsync();
+
+        }
 
 
 

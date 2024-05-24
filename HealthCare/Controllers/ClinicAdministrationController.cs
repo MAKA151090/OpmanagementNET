@@ -182,12 +182,12 @@ namespace HealthCare.Controllers
 
         }
 
-        [HttpPost]
+        //[HttpPost]
 
-        public async Task<IActionResult> GetDoctor()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> GetDoctor()
+        //{
+        //    return View();
+        //}
 
         public async Task<ActionResult> Doctoradmin(string doctorid)
         {
@@ -1063,6 +1063,7 @@ namespace HealthCare.Controllers
                     _healthcareContext.SHclnResourceSchedule.Add(slot);
                 }
 
+                _healthcareContext.SHclnResourceSchedule.AddRange(slots);
                 await _healthcareContext.SaveChangesAsync();
 
 

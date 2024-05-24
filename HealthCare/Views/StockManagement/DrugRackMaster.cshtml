@@ -47,10 +47,14 @@
                     <span asp-validation-for="UniqueIdentifier" class="text-danger"></span>
                 </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="Comments" class="form-control" placeholder="Comments" />
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+
+                            <textarea asp-for="Comments" class="form-control" placeholder="Comments" aria-describedby="text-to-speech-addon"></textarea>
                     <label asp-for="Comments" class="control-label"></label>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
                     <span asp-validation-for="Comments" class="text-danger"></span>
                 </div>
                 @*  <div class="form-group">

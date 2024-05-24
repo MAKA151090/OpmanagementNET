@@ -1,5 +1,6 @@
 ﻿using HealthCare.Business;
 using HealthCare.Context;
+using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -19,25 +20,30 @@ namespace HealthCare.Controllers
             _healthcareContext = healthcareContext;
 
         }
-        public IActionResult Reports()
+        [HttpPost]
+        public IActionResult GetReports(String inputValue)
         {
 
+            var reportQuery = (from rep in _healthcareContext.SHRepGenericReports
+                              where(rep.ReportName == inputValue)
+                              select new GenericReportsModel
+                              {
+                                  ReportName = rep.ReportName,
+                                  ReportQuery= rep.ReportQuery,
+                                  ReportDescription = rep.ReportDescription
+                              }).First();
+                              
+            
 
-
-            var query = BusinessClassCommon.DataTable(_healthcareContext, "Select * from SHTestMaster");
+            var query = BusinessClassCommon.DataTable(_healthcareContext, reportQuery.ReportQuery);
 
 
             return View("Reports", query);
         }
-        [HttpPost]
-        public IActionResult GetReports()
+
+        public IActionResult Reports()
         {
-
-
-            var query = BusinessClassCommon.DataTable(_healthcareContext, "Select * from SHTestMaster");
-               
-
-            return View("Reports",query);
+            return View();
         }
 
 

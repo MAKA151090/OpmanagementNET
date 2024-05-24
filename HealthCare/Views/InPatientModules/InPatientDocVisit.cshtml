@@ -65,24 +65,37 @@
                
                 <span asp-validation-for="NurseID" class="text-danger"></span>
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="NurseNote" class="form-control" placeholder="NurseNote" />
+
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="NurseNote" class="form-control" placeholder="NurseNote" aria-describedby="text-to-speech-addon"></textarea>
                 <label asp-for="NurseNote" class="control-label"></label>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
                 
                 <span asp-validation-for="NurseNote" class="text-danger"></span>
             </div>
+
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="DocId" class="form-control" placeholder="DocId" />
                 <label asp-for="DocId" class="control-label"></label>
                
                 <span asp-validation-for="DocId" class="text-danger"></span>
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="DocNotes" class="form-control" placeholder="DocNotes" />
+
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="DocNotes" class="form-control" placeholder="DocNotes" aria-describedby="text-to-speech-addon"></textarea>
                 <label asp-for="DocNotes" class="control-label"></label>
-                
-                <span asp-validation-for="DocNotes" class="text-danger"></span>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+
+
+                            <span asp-validation-for="DocNotes" class="text-danger"></span>
             </div>
+
            @*  <div class="form-group">
                 <label asp-for="LastupdatedUser" class="control-label"></label>
                 <input asp-for="LastupdatedUser" class="form-control" />
