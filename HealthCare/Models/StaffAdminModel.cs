@@ -5,6 +5,7 @@
         public StaffAdminModel() { }
 
         private String strStaffID;
+        private String strResourceTypeID;
         private String strFirstName;
         private String strLastName;
         private String strFullName;
@@ -31,6 +32,8 @@
         private String lastUpdatedMachine;
 
         public string StrStaffID { get => strStaffID; set => strStaffID = value; }
+
+        public string? ResourceTypeID { get => strResourceTypeID; set => strResourceTypeID = value; }
         public string? StrFirstName { get => strFirstName; set => strFirstName = value; }
         public string? StrLastName { get => strLastName; set => strLastName = value; }
         public string? StrFullName { get => strFullName; set => strFullName = value; }

@@ -63,7 +63,14 @@
             <div>Blood Group Administration</div>
           </a>
         </li>
-                
+
+                <li class='menu-item@(currentPage == "/ClinicAdministration/ResourceTypeMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="ResourceTypeMaster" class="menu-link">
+                        <div>Resource Type Master</div>
+                    </a>
+                </li>
+
+
 
                 <li class='menu-item@(currentPage == "/ClinicAdministration/DoctorSchedule" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="DoctorSchedule" class="menu-link">

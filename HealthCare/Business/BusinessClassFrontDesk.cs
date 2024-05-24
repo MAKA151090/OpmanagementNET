@@ -80,6 +80,20 @@ namespace HealthCare.Business
         }
 
 
+            public List<StaffAdminModel> GetStaffid()
+        {
+            var staffid = (
+                    from pr in _healthcareContext.SHclnStaffAdminModel
+                    select new StaffAdminModel
+                    {
+                        StrStaffID = pr.StrStaffID,
+                        StrFullName = pr.StrFullName,
+
+                    }
+                ).ToList();
+
+            return staffid;
+        }
 
 
     }

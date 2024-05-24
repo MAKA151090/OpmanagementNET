@@ -51,6 +51,13 @@ namespace HealthCare.Controllers
             }
             await GetlabData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
+            
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid();
+            ViewData["patid"] = business.Getpatid();
+            ViewData["facid"] = business.GetFacid();
+
+
             return View("TestCreation", pPatientTest);
 
 
@@ -98,12 +105,20 @@ namespace HealthCare.Controllers
             }
             await GetlabData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
+
+            BusinessClassLabRad businessClass = new BusinessClassLabRad(GetlabData);
+            ViewData["radioid"] = businessClass.GetRadioid();
+            ViewData["facilityid"] = businessClass.Getfacilityid();
+            ViewData["refdocid"] = businessClass.Getrefdocid();
+            ViewData["patientid"] = businessClass.Getpatiientid();
+
+
             return View("RadiologyCreation", model);
         }
 
         public async Task<IActionResult> GetRadio(string radioID, string FacilityID, string patientName, string radioName, string screeingDate, string result, string referralDoctorName, string buttonType)
         {
-            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(GetlabData);
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
 
             if (buttonType == "select")
             {
@@ -118,6 +133,11 @@ namespace HealthCare.Controllers
                 else
                 {
                     ViewBag.ErrorMessage = "No data found for the entered IDs";
+
+                    ViewData["patid"] = business.Getpid();
+                    ViewData["facid"] = business.Getfacid();
+                    ViewData["visitcaseid"] = business.Getvisitcaseid();
+
                     return View();
                 }
             }
@@ -228,6 +248,11 @@ namespace HealthCare.Controllers
         }
         public IActionResult TestCreation()
         {
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid();
+            ViewData["patid"] = business.Getpatid();
+            ViewData["facid"] = business.GetFacid();
+
             return View();
         }
         public IActionResult UpdateTestResults()
@@ -241,6 +266,11 @@ namespace HealthCare.Controllers
         }
         public IActionResult RadiologyCreation()
         {
+            BusinessClassLabRad businessClass = new BusinessClassLabRad(GetlabData);
+            ViewData["radioid"] = businessClass.GetRadioid();
+            ViewData["facilityid"] = businessClass.Getfacilityid();
+            ViewData["refdocid"] = businessClass.Getrefdocid();
+            ViewData["patientid"] = businessClass.Getpatiientid();
             return View();
         }
         public IActionResult UpdateRadiologyResults()
@@ -249,6 +279,10 @@ namespace HealthCare.Controllers
         }
         public IActionResult PrintRadiologyResults()
         {
+             BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["patid"] = business.Getpid();
+            ViewData["facid"] = business.Getfacid();
+            ViewData["visitcaseid"] = business.Getvisitcaseid();
             return View();
         }
     }

@@ -7,7 +7,6 @@
         }
         private String facilityModel;
         private String strPatientID;
-        private String strVisitID;
         private String strOrderID;
         private String strVisitcaseID;
         private String strMedication;
@@ -18,7 +17,6 @@
         private String strNetPrice;
 
         public string PatientID { get => strPatientID; set => strPatientID = value; }
-        public string VisitID { get => strVisitID; set => strVisitID = value; }
         public string Medication { get => strMedication; set => strMedication = value; }
         public string Unit { get => strUnit; set => strUnit = value; }
         public string Unitprice { get => strUnitprice; set => strUnitprice = value; }

@@ -22,23 +22,53 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="form-floating form-floating-outline mb-4">
-                            <input for="PatientID" class="form-control" placeholder="PatientID" />
-                <label for="PatientID" class="control-label">PatientID</label>
-                
-            </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                            }
+
+                            @Html.DropDownList( "patid" , screenList, "Select Patient ID", new { @class = "form-control" })
+                            <label for="PatientID" class="control-label">PatientID</label>
+                            <span for="PatientID" class="text-danger"></span>
+                        </div>
+
 
                         <div class="form-floating form-floating-outline mb-4">
-                            <input for="FacilityID" class="form-control" placeholder="FacilityID" />
-                <label for="FacilityID" class="control-label">FacilityID</label>
-               
-            </div>
+                            @{
+                                var screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.FacilityID} - {m.ClinicName}"
+                });
+                            }
+
+                            @Html.DropDownList("facid", screenlist, "Select Facility ID", new { @class = "form-control" })
+                            <label for="FacilityID" class="control-label">FacilityID</label>
+                            <span for="FacilityID" class="text-danger"></span>
+                        </div>
+
 
                         <div class="form-floating form-floating-outline mb-4">
-                            <input for="VisitcaseID" class="form-control" placeholder="VisitcaseID" />
-                <label for="VisitcaseID" class="control-label">VisitcaseID</label>
-               
-            </div>
+                            @{
+                                var Screenlist = ((IEnumerable<PatientEPrescriptionModel>)ViewData["visitcaseid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.CaseVisitID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.CaseVisitID}"
+                });
+                            }
+
+                            @Html.DropDownList("visitcaseid", Screenlist, "Select CaseVisit ID", new { @class = "form-control" })
+                            <label for="CaseVisitID" class="control-label">CaseVisitID</label>
+                            <span for="CaseVisitID" class="text-danger"></span>
+                        </div>
+
             <br />
             <center>
             <div class="form-group">

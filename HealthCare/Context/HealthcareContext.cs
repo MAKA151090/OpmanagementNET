@@ -148,6 +148,7 @@ namespace HealthCare.Context
 
         public DbSet<GenericReportsModel> SHRepGenericReports { get; set; }
 
+        public DbSet<ResourceTypeMasterModel> SHclnResourseTypeMaster { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -311,6 +312,8 @@ namespace HealthCare.Context
             modelBuilder.Entity<StaffFacilityMappingModel>()
                 .HasKey(i => new { i.StaffId, i.FacilityID });
 
+            modelBuilder.Entity<ResourceTypeMasterModel>()
+                .HasKey(i => new { i.ResourceTypeID });
 
             modelBuilder.Entity<GenericReportsModel>()
                 .HasKey(i => new { i.ReportId });
