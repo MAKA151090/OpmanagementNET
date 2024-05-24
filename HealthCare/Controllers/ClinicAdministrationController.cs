@@ -819,6 +819,32 @@ namespace HealthCare.Controllers
             return View("HospitalFacilityMapping", model);
         }
 
+        public async Task<IActionResult> SaveResourceTypeID(ResourceTypeMasterModel model)
+        {
+            var existingTypeID = await _healthcareContext.SHclnResourseTypeMaster.FindAsync(model.ResourceTypeID);
+                if(existingTypeID != null)
+            {
+                existingTypeID.ResourceTypeID = model.ResourceTypeID;
+                existingTypeID.ResourceTypeName = model.ResourceTypeName;
+                existingTypeID.lastUpdatedDate = DateTime.Now.ToString();
+                existingTypeID.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTypeID.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.Entry(existingTypeID).State = EntityState.Modified;
+            }
+                else
+            {
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.SHclnResourseTypeMaster.Add(model);
+            }
+                await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+
+            return View("ResourceTypeMaster" ,model);
+        }
+
         public async Task<IActionResult> GetDiagnosisMaster(DiagnosisMasterModel model)
         {
             var existingTest = await _healthcareContext.SHclnDiagnosisMaster.FindAsync(model.DiagnosisID);
@@ -925,7 +951,10 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-
+        public IActionResult ResourceTypeMaster()
+        {
+            return View();
+        }
 
         public IActionResult OTSummaryMaster()
         {
