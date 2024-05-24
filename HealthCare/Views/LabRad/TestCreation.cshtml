@@ -25,22 +25,51 @@
     <div class="row" style="height: 80px;">
 
         <div class="col-md-12 col-lg-3">
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                    <label asp-for="PatientID" class="control-label"></label>
-                    <span asp-validation-for="PatientID" class="text-danger"></span>
-                </div>
+
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenList = ((IEnumerable<TestMasterModel>)ViewData["testid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.TestID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.TestID} - {m.TestName}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.TestID, screenList, "Select Test ID", new { @class = "form-control" })
+                            <label asp-for="TestID" class="control-label"></label>
+                            <span asp-validation-for="TestID" class="text-danger"></span>
+                        </div>
         </div>
             <div class="col-md-12 col-lg-3">
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="TestID" class="form-control" placeholder="TestID" />
-                        <label asp-for="TestID" class="control-label"></label>
-                        <span asp-validation-for="TestID" class="text-danger"></span>
-                    </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenlist = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.PatientID, screenlist, "Select Patient ID", new { @class = "form-control" })
+                            <label asp-for="PatientID" class="control-label"></label>
+                            <span asp-validation-for="PatientID" class="text-danger"></span>
+                        </div>
         </div>
                     <div class="col-md-12 col-lg-3">
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
+                            @{
+                                var Screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.FacilityID} - {m.ClinicName}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control" })
                             <label asp-for="FacilityID" class="control-label"></label>
                             <span asp-validation-for="FacilityID" class="text-danger"></span>
                         </div>

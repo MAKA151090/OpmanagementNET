@@ -49,6 +49,10 @@ namespace HealthCare.Controllers
             }
                 await GetFrontDeskData.SaveChangesAsync();
                 ViewBag.Message = "Saved Successfully.";
+                
+            BusinessClassFrontDesk business = new BusinessClassFrontDesk(GetFrontDeskData);
+            ViewData["staffid"] = business.GetStaffid();
+
                 return View("StaffAttendance", model);
         }
 
@@ -70,7 +74,9 @@ namespace HealthCare.Controllers
            
             public IActionResult StaffAttendance()
             {
-                return View();
+            BusinessClassFrontDesk business = new BusinessClassFrontDesk(GetFrontDeskData);
+            ViewData["staffid"] = business.GetStaffid();
+            return View();
             }
 
 

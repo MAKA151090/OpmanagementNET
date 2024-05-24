@@ -61,6 +61,21 @@
         <div class="card">
             <div class="card-body">
 
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var screenList = ((IEnumerable<ResourceTypeMasterModel>)ViewData["resoruseid"])
+                            .Select(m => new SelectListItem
+            {
+                Value = m.ResourceTypeID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.ResourceTypeID} - {m.ResourceTypeName}"
+            });
+                        }
+
+                        @Html.DropDownListFor(model => model.ResourceTypeID, screenList, "Select Resource ID", new { @class = "form-control" })
+                        <label asp-for="ResourceTypeID" class="control-label"></label>
+                        <span asp-validation-for="ResourceTypeID" class="text-danger"></span>
+                    </div>
+
                 <div class="form-floating form-floating-outline mb-4">
                     <input asp-for="StrFirstName" class="form-control" placeholder="FirstName" />
                     <label asp-for="StrFirstName" class="control-label">FirstName</label>

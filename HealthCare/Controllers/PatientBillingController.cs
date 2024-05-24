@@ -17,7 +17,7 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetBill(string patientID, string visitID, string OrderID, string Medication, string Unit, String Price)
         {
-            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
+            BusinessClassPharmacybilling business = new BusinessClassPharmacybilling(_healthcareContext);
 
             
                 var PharmacyData = await business.GetPharmacy(patientID , visitID , Medication, Unit , Price , OrderID);
@@ -30,7 +30,13 @@ namespace HealthCare.Controllers
                 else
                 {
                     ViewBag.ErrorMessage = "No data found for the entered IDs";
-                    return View();
+
+                ViewData["patientid"] = business.GetPatientId();
+                ViewData["orderid"] = business.Getorderid();
+                ViewData["visitcaseid"] = business.Getvisitcaseid();
+
+
+                return View();
                 }
             
         }
@@ -45,8 +51,13 @@ namespace HealthCare.Controllers
         }
         public IActionResult PharmacyBilling()
         {
+            BusinessClassPharmacybilling clinicAdmin = new BusinessClassPharmacybilling(_healthcareContext);
+            ViewData["patientid"] = clinicAdmin.GetPatientId();
+            ViewData["orderid"] = clinicAdmin.Getorderid();
+            ViewData["visitcaseid"] = clinicAdmin.Getvisitcaseid();
             return View();
         }
         
     }
 }
+

@@ -29,32 +29,10 @@ namespace HealthCare.Business
             return staffregisterdata;
         }
 
-        public async Task<List<RadiologyViewResultModel>> GetRadiologData(string radioID, string FacilityID, string patientID, string radioName, string screeingDate, string result, string referralDoctorName)
-        {
-            var RadiologyData = (
-                            from pr in _healthcareContext.SHPatientRadiology
-                            join rm in _healthcareContext.SHRadioMaster on pr.RadioID equals rm.RadioID
-                            join p in _healthcareContext.SHPatientRegistration on pr.PatientID equals p.PatientID
 
-                            select new RadiologyViewResultModel
-                            {
 
-                                PatentName = p.FullName,
-                                RadioID = rm.RadioID,
-                                FacilityID = pr.FacilityID,
-                                RadioName = rm.RadioName,
-                                ScreeningDate = pr.ScreeningDate,
-                                Result = pr.Result,
-                                ReferralDoctorName = pr.ReferralDoctorName
-
-                            }).ToListAsync().Result;
-
-            return RadiologyData;
-        }
-
-        
         ///dropdown for rollaccess 
-        public  List<ScreenMasterModel> GetScreenid()
+        public List<ScreenMasterModel> GetScreenid()
 
         {
             var screenid = (
@@ -170,31 +148,21 @@ namespace HealthCare.Business
             return stafffacid;
         }
 
-        public async Task<PharmacyBillingTotalpriceModel> GetPharmacy(string patientID, string VisitcaseID,string OrderID, string Medication, string Unit, String Price)
+
+        ///dropdown for clinicregister
+        public List<ResourceTypeMasterModel> GetResourceid()
         {
-            PharmacyBillingTotalpriceModel billingTotalpriceModel = new PharmacyBillingTotalpriceModel();
+            var resoruseid = (
+                    from pr in _healthcareContext.SHclnResourseTypeMaster
+                    select new ResourceTypeMasterModel
+                    {
+                        ResourceTypeID = pr.ResourceTypeID,
+                        ResourceTypeName = pr.ResourceTypeName
+                    }
+               ).ToList();
 
-            billingTotalpriceModel.StrPharmacyBillingModelList = (
-
-                from pr in _healthcareContext.SHstkDrugInventory
-                join rm in _healthcareContext.SHprsPrescription on pr.DrugId equals rm.DrugID
-                where (rm.PatientID == patientID && rm.CaseVisitID == VisitcaseID) 
-               
-                /* where (r.PatientID == patientID || r.FullName == patientName) ||
-                                                      (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
-                                                      (re.FacilityID == FacilityID || rec.ClinicName == clinicName || re.FacilityID == null)*/
-                select new PharmacyBillingModel
-                {
-                    Medication = pr.ModelName,
-                    Unit = rm.Unit,
-                    Unitprice = pr.Price,
-
-                }).ToListAsync().Result;
-
-
-            billingTotalpriceModel.TotalPrice = billingTotalpriceModel.StrPharmacyBillingModelList.Sum(t => Convert.ToInt32(t.Totalprice)).ToString(); 
-
-            return billingTotalpriceModel;
+            return resoruseid;
         }
+
     }
 }

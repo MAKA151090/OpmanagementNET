@@ -142,6 +142,7 @@ namespace HealthCare.Controllers
             if (existingStaffAdmin != null)
             {
                 existingStaffAdmin.StrStaffID = model.StrStaffID;
+                existingStaffAdmin.ResourceTypeID = model.ResourceTypeID;
                 existingStaffAdmin.StrFirstName = model.StrFirstName;
                 existingStaffAdmin.StrLastName = model.StrLastName;
                 existingStaffAdmin.StrInitial = model.StrInitial;
@@ -177,6 +178,10 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["resoruseid"] = clinicAdmin.GetResourceid();
+
             return View("StaffAdminModel", model);
 
 
@@ -435,6 +440,8 @@ namespace HealthCare.Controllers
 
         public IActionResult StaffAdminModel()
         {
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["resoruseid"] = clinicAdmin.GetResourceid();
             return View();
         }
         [HttpPost]
