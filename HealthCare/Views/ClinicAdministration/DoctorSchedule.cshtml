@@ -56,7 +56,33 @@
                 </tr>
             </thead>
             <tbody>
-                @if (ViewBag.Slots != null)
+
+                @{
+                    var slots = ViewBag.Slots as List<ResourceScheduleModel>;
+                }
+
+                @if (slots != null)
+                {
+                    for (int i = 0; i < slots.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="radio" name="selectedSlots" value="@slots[i].SlotsID" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" name="FromTime" value="@slots[i].FromTime" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" name="ToTime" value="@slots[i].ToTime" />
+                            </td>
+                        </tr>
+                    }
+                }
+
+
+
+
+              @*   @if (ViewBag.Slots != null)
                 {
                    // @foreach (var slot in ViewBag.Slots)
                     @for (int i = 0; i < ViewBag.Slots.Count; i++)
@@ -68,7 +94,7 @@
                             <td><input type="text" class="form-control" name="ToTime" value="@ViewBag.Slots[i].ToTime" /></td>
                         </tr>
                     }
-                }
+                } *@
             </tbody>
         </table>
     </div>

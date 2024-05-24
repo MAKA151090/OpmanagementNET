@@ -1075,22 +1075,25 @@ namespace HealthCare.Controllers
 
                 var slotUpd = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID);
 
-                var model = new ResourceScheduleModel
-            {
-                StaffID = StaffID,
-                FacilityID = FacilityID,
-                FromDate = FromDate,
-                ToDate = ToDate,
-                Duration = duration
-            };
+                if (slotUpd == null)
+                {
+
+                    var model = new ResourceScheduleModel
+                    {
+                        
+                        StaffID = StaffID,
+                        FacilityID = FacilityID,
+                        FromDate = FromDate,
+                        ToDate = ToDate,
+                        Duration = duration
+                    };
 
 
-            _healthcareContext.SHclnViewResourceSchedule.Add(model);
-}
+                    _healthcareContext.SHclnViewResourceSchedule.Add(model);
+                    _healthcareContext.SaveChanges();
+                }
 
-            _healthcareContext.SaveChanges();
-
-
+            }
 
             var allSlots = await _healthcareContext.SHclnViewResourceSchedule
                                          .Where(slot => slot.StaffID == StaffID)
