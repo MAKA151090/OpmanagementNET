@@ -1,0 +1,37 @@
+﻿@model DoctorScheduleModel
+
+@{
+    ViewData["Title"] = "ScheduleBlocker";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>ScheduleBlocker</h1>
+
+<h4>DoctorScheduleModel</h4>
+<hr />
+<form asp-action="ScheduleBlocker" method="post" asp-controller="ClinicAdministration">
+
+    <div class="row">
+        <div class="col-md-4">
+
+
+            <div class="form-group">
+                <label for="StaffID" class="control-label">StaffID</label>
+                <input type="text" class="form-control" id="StaffID" name="StaffID" value="@ViewBag.StaffID" />
+            </div>
+            <div class="form-group">
+                <label for="FacilityID" class="control-label">FacilityID</label>
+                <input type="text" class="form-control" id="FacilityID" name="FacilityID" value="@ViewBag.FacilityID" />
+            </div>
+            <div class="form-group">
+                <label for="ToDate" class="control-label">Date</label>
+                <input type="date" class="form-control" id="ToDate" name="ToDate" value="@ViewBag.ToDate" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
+        </div>
+    </div>
+</form>

@@ -68,6 +68,7 @@
                         <tr>
                             <td>
                                 <input type="radio" name="selectedSlots" value="@slots[i].SlotsID" />
+                                <input type="hidden" name="SlotsID" value="@slots[i].SlotsID" />
                             </td>
                             <td>
                                 <input type="text" class="form-control" name="FromTime" value="@slots[i].FromTime" />
@@ -79,42 +80,30 @@
                     }
                 }
 
-
-
-
-              @*   @if (ViewBag.Slots != null)
-                {
-                   // @foreach (var slot in ViewBag.Slots)
-                    @for (int i = 0; i < ViewBag.Slots.Count; i++)
-                    {
-                        <tr>
-
-                            <td><input type="radio" name="selectedSlots" value="@ViewBag.Slots[i].Slots" /></td>
-                            <td><input type="text" class="form-control" name="FromTime" value="@ViewBag.Slots[i].FromTime" /></td>
-                            <td><input type="text" class="form-control" name="ToTime" value="@ViewBag.Slots[i].ToTime" /></td>
-                        </tr>
-                    }
-                } *@
             </tbody>
         </table>
     </div>
 
 
     <div class="form-group">
-    <input type="submit" value="Delete Selected" name="action" class="btn btn-danger" />
+        <input type="submit" value="Delete Selected" name="action" class="btn btn-danger" />
     </div>
 
     <div class="form-group">
         <input type="submit" value="Save" name ="action" class="btn btn-primary" />
     </div>
+ }
+
+
+<form asp-action="DoctorSchedule" method="post" asp-controller="ClinicAdministration">
     <div class="form-group">
-        <button type="submit" name="buttonType" value="Holiday" class="btn btn-primary">Holiday</button>
+        <button type="submit" name="buttonType"  value="Holiday" class="btn btn-primary">Holiday</button>
     </div>
     <div class="form-group">
         <button type="submit" name="buttonType" value="Blocker" class="btn btn-primary">Blocker</button>
     </div>
-
-    }
+    </form>
+    
 
 
     @*  <div class="form-group form-check">
