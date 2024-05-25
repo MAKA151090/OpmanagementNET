@@ -71,6 +71,13 @@ namespace HealthCare.Controllers
                 var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID);
                 return View("PrintTestResults", testResults);
             }
+
+            BusinessClassLabRad businessClassLabRad = new BusinessClassLabRad(GetlabData);
+            ViewData["visitid"] = businessClassLabRad.GetVisitid();
+
+            ViewData["Patientid"] = businessClassLabRad.GetPatID();
+            ViewData["Facilityid"] = businessClassLabRad.GetFacilityid();
+
             return View(Model); 
 
         }
@@ -262,6 +269,10 @@ namespace HealthCare.Controllers
         public IActionResult PrintTestResults()
 
         {
+            BusinessClassLabRad businessClassLabRad = new BusinessClassLabRad(GetlabData);
+            ViewData["visitid"] = businessClassLabRad.GetVisitid();
+            ViewData["Patientid"] = businessClassLabRad.GetPatID();
+            ViewData["Facilityid"] = businessClassLabRad.GetFacilityid();
             return View();
         }
         public IActionResult RadiologyCreation()

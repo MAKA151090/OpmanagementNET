@@ -16,8 +16,6 @@
 
 @using (Html.BeginForm("ViewResult", "LabRad", FormMethod.Post))
 {
-    
-            <form asp-action="PrintTestResults">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row gy-4">
                 <div class="col-md-12 col-lg-1">
@@ -26,22 +24,52 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="form-floating form-floating-outline mb-4">
-                                <input type="text" id="PatientID" name="PatientID" class="form-control" placeholder="PatientID" />
-                    <label for="PatientID" class="control-label">Patient ID</label>
-                    
-                </div>
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["Patientid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                            }
+
+                            @Html.DropDownList("patid", screenList, "Select Patient ID", new { @class = "form-control" })
+                            <label for="PatientID" class="control-label">PatientID</label>
+                            <span for="PatientID" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["Facilityid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.FacilityID} - {m.ClinicName}"
+                });
+                            }
+
+                            @Html.DropDownList("facid", screenlist, "Select Facility ID", new { @class = "form-control" })
+                            <label for="FacilityID" class="control-label">FacilityID</label>
+                            <span for="FacilityID" class="text-danger"></span>
+                        </div>
 
                             <div class="form-floating form-floating-outline mb-4">
-                                <input type="text" id="FacilityID" name="FacilityID" class="form-control" placeholder="FacilityID" />
-                    <label for="FacilityID" class="control-label">Clinic ID</label>
-                    
-                </div>
+                                @{
+                                var Screenlist = ((IEnumerable<PatientTestModel>)ViewData["visitid"])
+                                    .Select(m => new SelectListItem
+                {
+                    Value = m.VisitcaseID1.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.VisitcaseID1}"
+                });
+                                }
 
-                            <div class="form-floating form-floating-outline mb-4">
-                                <input type="text" id="VisitcaseID" name="VisitcaseID" class="form-control" placeholder="VisitcaseID" />
-                    <label for="VisitcaseID" class="control-label">VisitcaseID</label>
-                   
+                                @Html.DropDownList("visitcaseid", Screenlist, "Select Visitcase ID", new { @class = "form-control" })
+                            <label for="VisitcaseID1" class="control-label">CaseVisitID</label>
+                            <span for="VisitcaseID1" class="text-danger"></span>
+                            </div>
+
                 </div>
                 <br />
 
@@ -53,9 +81,7 @@
                 </div>
                 </div>
                 </div>
-                </div>
-               
-            </form>
+         
         
 
             <br />

@@ -56,15 +56,15 @@
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
-                                var Screenlist = ((IEnumerable<PatientEPrescriptionModel>)ViewData["visitcaseid"])
+                                var Screenlist = ((IEnumerable<PatientRadiolodyModel>)ViewData["visitcaseid"])
                                 .Select(m => new SelectListItem
                 {
-                    Value = m.CaseVisitID.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.CaseVisitID}"
+                    Value = m.VisitcaseID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.VisitcaseID}"
                 });
                             }
 
-                            @Html.DropDownList("visitcaseid", Screenlist, "Select CaseVisit ID", new { @class = "form-control" })
+                            @Html.DropDownList("visitcaseid", Screenlist, "Select Visitcase ID", new { @class = "form-control" })
                             <label for="CaseVisitID" class="control-label">CaseVisitID</label>
                             <span for="CaseVisitID" class="text-danger"></span>
                         </div>
