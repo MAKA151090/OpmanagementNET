@@ -54,7 +54,7 @@ namespace HealthCare.Controllers
 
             if (existingPatientAdmission != null)
             {
-                existingPatientAdmission.StrFacilityID = model.StrFacilityID;
+                existingPatientAdmission.FacilityID = model.FacilityID;
                 existingPatientAdmission.PatientID = model.PatientID;
                 existingPatientAdmission.CaseID = model.CaseID;
                 existingPatientAdmission.ConsultDoctorID = model.ConsultDoctorID;

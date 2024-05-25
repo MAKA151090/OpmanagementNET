@@ -149,6 +149,8 @@ namespace HealthCare.Context
         public DbSet<GenericReportsModel> SHRepGenericReports { get; set; }
 
         public DbSet<ResourceTypeMasterModel> SHclnResourseTypeMaster { get; set; }
+
+        public DbSet<WebLogsModel> SHWebLogs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -213,6 +215,9 @@ namespace HealthCare.Context
             modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
 
             modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID, i.SlotsID });
+
+            modelBuilder.Entity<WebLogsModel>().HasKey(i => new { i.Id });
+
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()
         .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID });
