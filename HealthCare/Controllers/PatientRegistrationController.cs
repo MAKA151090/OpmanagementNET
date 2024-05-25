@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 
 namespace HealthCare.Controllers
@@ -99,16 +100,36 @@ namespace HealthCare.Controllers
             }
             return View();
         }
-        public async Task<PatientScheduleModel> PatientScedule(PatientScheduleModel model)
-        {
-            model.lastUpdatedDate = DateTime.Now.ToString() ;
-            model.lastUpdatedUser = User.Claims.First().Value.ToString();
-            _healthcareContext.SHPatientSchedule.Add(model);
-            await _healthcareContext.SaveChangesAsync();
 
-            return model;
+        [HttpPost]
+        public async Task<IActionResult> PatientScheduling(DoctorScheduleModel model, string action, List<string> selectedSchedules)
+        {
+            BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
+            ViewData["FacDPD"] = schedule.GetFacilityID();
+            ViewData["patIDDPD"] = schedule.GetpatientIDDPD();
+            ViewData["staffDPD"] = schedule.GetStaffDropDown();
+
+
+            if (action == "GetSchedule")
+            {
+                var availableSchedules = schedule.GetAvailableSchedules(model.StaffID, model.FacilityID, model.Date);
+                ViewBag.Schedules = availableSchedules;
+                return View(model);
+            }
+            else if (action == "SaveSchedule" && selectedSchedules != null && selectedSchedules.Any())
+            {
+                schedule.SaveSelectedSchedules(model.PatientID, selectedSchedules);
+                return RedirectToAction("PatientScheduling");
+            }
+
+            return View(model);
+
+           
 
         }
+
+
+
         
 
        public IActionResult Index()
@@ -119,8 +140,14 @@ namespace HealthCare.Controllers
         {
             return View();
         }
+
+        
         public IActionResult PatientScheduling()
         {
+            BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
+            ViewData["FacDPD"] = schedule.GetFacilityID();
+            ViewData["patIDDPD"] = schedule.GetpatientIDDPD();
+            ViewData["staffDPD"] = schedule.GetStaffDropDown();
             return View();
         }
     }

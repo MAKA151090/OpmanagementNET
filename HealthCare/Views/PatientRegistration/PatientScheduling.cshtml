@@ -1,4 +1,4 @@
-﻿@model PatientScheduleModel
+﻿@model DoctorScheduleModel
 
 @{
     ViewData["Title"] = "PatientScheduling";
@@ -16,54 +16,106 @@
 
 
 
-        <form asp-action="PatientScheduling">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row gy-4">
+    <form asp-action="PatientScheduling" method="post" asp-controller="PatientRegistration">
+        
+        <div class="row">
+            <div class="col-md-4">
 
-            <div class="col-md-12 col-lg-1">
-            </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
+                <div class="form-floating form-floating-outline mb-4">
+                    @{
+                        var patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patIDDPD"])
+                        .Select(m => new SelectListItem
+            {
+                Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.PatientID} - {m.FullName}"
+            });
+                    }
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                <label asp-for="PatientID" class="control-label"></label>
-                
-                <span asp-validation-for="PatientID" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
-                <label asp-for="FacilityID" class="control-label"></label>
-                
-                <span asp-validation-for="FacilityID" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="DoctorID" class="form-control" placeholder="DoctorID" />
-                <label asp-for="DoctorID" class="control-label"></label>
-                
-                <span asp-validation-for="DoctorID" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Date" class="form-control" type="date" placeholder="Date" />
-                <label asp-for="Date" class="control-label"></label>
-                
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Description" class="form-control" placeholder="Description" />
-                <label asp-for="Description" class="control-label"></label>
-                
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <center>
-                <button type="submit" value="Save" class="btn btn-primary" >Save</button>
-                </center>
+                    @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control" })
+                    <label asp-for="PatientID" class="control-label"></label>
+                    <span asp-validation-for="PatientID" class="text-danger"></span>
+                </div>
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                        var Screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["FacDPD"])
+                            .Select(m => new SelectListItem
+            {
+                Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.FacilityID} - {m.ClinicName}"
+            });
+                        }
+
+                        @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control" })
+                        <label asp-for="FacilityID" class="control-label"></label>
+                        <span asp-validation-for="FacilityID" class="text-danger"></span>
+                    </div>
+               
+
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                        var screenList = ((IEnumerable<StaffAdminModel>)ViewData["staffDPD"])
+                    .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
+            });
+                }
+
+                @Html.DropDownListFor(model => model.StaffID, screenList, "Select Staff ID", new { @class = "form-control" })
+                <label asp-for="StaffID" class="control-label"></label>
+                <span asp-validation-for="StaffID" class="text-danger"></span>
             </div>
 
-        </form>
+
+                <div class="form-group">
+                    <label for="Date" class="control-label">Date</label>
+                    <input type="date" class="form-control" id="Date" name="Date" value="@ViewBag.ToDate" />
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" name="action" value="GetSchedule" class="btn btn-primary">Get Schedule</button>
+                </div>
+            </div>
+        </div>
+
+
+         @if (ViewBag.Schedules != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Staff ID</th>
+                    <th>Staff Name</th>
+                    <th>Facility Name</th>
+                    <th>Start Time</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var schedule in ViewBag.Schedules)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selectedSchedules" value="@schedule.ScheduleID" />
+                        </td>
+                        <td>@schedule.StaffID</td>
+                        <td>@schedule.StaffName</td>
+                        <td>@schedule.FacilityName</td>
+                        <td>@schedule.StartTime</td>
+                        <td>@schedule.Duration</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <input type="hidden" name="PatientID" value="@Model.PatientID" />
+        <div class="form-group">
+            <input type="submit" name="action" value="SaveSchedule" class="btn btn-primary" />
+        </div>
+        }
+    </form>
     </div>
 </div>
 

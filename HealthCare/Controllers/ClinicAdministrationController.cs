@@ -1109,7 +1109,8 @@ namespace HealthCare.Controllers
                     s.lastUpdatedDate = DateTime.Now.ToString();
                     s.lastUpdatedUser = User.Claims.First().Value.ToString();
                     s.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-
+                    s.Viewslot = DetermineViewslotValue(StaffID,FacilityID);
+                   
                     _healthcareContext.SHclnResourceSchedule.Add(s);
                 }
 
@@ -1163,6 +1164,22 @@ namespace HealthCare.Controllers
 
         }
 
+
+        private string DetermineViewslotValue(string staffId,string facilityId)
+        {
+           
+            var relatedEntity = _healthcareContext.SHclnViewResourceSchedule.FirstOrDefault(entity => entity.StaffID == staffId && entity.FacilityID == facilityId);
+            if (relatedEntity != null)
+            {
+                return relatedEntity.Viewslot;
+            }
+            else
+            {
+                
+                return "DefaultViewslotValue";
+            }
+        }
+
         //get slot
         public async Task<IActionResult> GetSlots(string StaffID, string FacilityID,string Duration,string FromDate, string ToDate)
         {
@@ -1183,17 +1200,9 @@ namespace HealthCare.Controllers
    //delete slot
         private async Task DeleteSelectedSlots(string staffID, string facilityID, string slotID)
         {
-            
-          
 
-                    var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(staffID,facilityID,slotID);
-                    if (slot != null)
-                    {
-                        _healthcareContext.SHclnViewResourceSchedule.Remove(slot);
-                    }
-
-
-            var doctors = await _healthcareContext.SHclnResourceSchedule.Where(e => e.StaffID == staffID && e.FacilityID == facilityID && e.SlotsID == slotID)
+                 
+            var doctors = await _healthcareContext.SHclnResourceSchedule.Where(e => e.StaffID == staffID && e.FacilityID == facilityID && e.Viewslot == slotID)
                  .Select(e => new DoctorScheduleModel
                  {
      
@@ -1204,15 +1213,19 @@ namespace HealthCare.Controllers
                       })
                          .ToListAsync();
 
-            /* var doctors = await _healthcareContext.SHclnResourceSchedule.Where(e => e.StaffID == staffID && e.FacilityID == facilityID && e.SlotsID == slotID).ToListAsync();
-
-             foreach (var doctor in doctors)
-             {
-                 doctor.Active = true;
-             }*/
+           
 
             await _healthcareContext.SaveChangesAsync();
-            
+
+
+            var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(staffID, facilityID, slotID);
+            if (slot != null)
+            {
+                _healthcareContext.SHclnViewResourceSchedule.Remove(slot);
+
+                await _healthcareContext.SaveChangesAsync();
+            }
+
         } 
         private List<DoctorScheduleModel> GenerateDoctorSlots(string staffID, string facilityID, string fromDate, string toDate, string duration, string fromTime, string toTime)
         {
