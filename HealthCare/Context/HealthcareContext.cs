@@ -272,7 +272,7 @@ namespace HealthCare.Context
         .HasKey(i => new { i.LogID });
 
             modelBuilder.Entity<UpdateRadiologyResultsModel>()
-                .HasKey(i => new { i.PatientID, i.FacilityID,i.RadioID });
+                .HasKey(i => new { i.PatientID, i.FacilityID,i.RadioID,i.ImageID });
 
 
             modelBuilder.Entity<DrugGroupModel>()
@@ -304,6 +304,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<ScreenMasterModel>()
                 .HasKey(i => new { i.ScreenId });
+
+            modelBuilder.Entity<ScreenMasterModel>()
+              .ToTable(tb => tb.HasTrigger("dbo.Trigger_shclnscreenmaster"));
 
             modelBuilder.Entity<HospitalRegistrationModel>()
                 .HasKey(i => new { i.HospitalID });

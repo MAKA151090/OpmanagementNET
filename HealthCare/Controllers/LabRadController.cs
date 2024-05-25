@@ -1,4 +1,5 @@
-﻿using HealthCare.Business;
+﻿using DocumentFormat.OpenXml.Vml.Office;
+using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -71,6 +72,13 @@ namespace HealthCare.Controllers
                 var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID);
                 return View("PrintTestResults", testResults);
             }
+
+            BusinessClassLabRad businessClassLabRad = new BusinessClassLabRad(GetlabData);
+            ViewData["visitid"] = businessClassLabRad.GetVisitid();
+
+            ViewData["Patientid"] = businessClassLabRad.GetPatID();
+            ViewData["Facilityid"] = businessClassLabRad.GetFacilityid();
+
             return View(Model); 
 
         }
@@ -161,15 +169,17 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TestRadiologyResults(UpdateRadiologyResultsModel model, IFormFile imageData)
+        public async Task<IActionResult> TestRadiologyResult(UpdateRadiologyResultsModel model, IFormFile imageFile,string buttontype)
         {
-            if (ModelState.IsValid)
+            
+            var UpdatingRadRecord = await GetlabData.SHUpdateRadiologyResult.FindAsync(model.PatientID, model.FacilityID, model.RadioID, model.ImageID);
+            if (buttontype == "Create")
             {
                 // Process the uploaded image
-                if (imageData != null && imageData.Length > 0)
+                if (imageFile != null && imageFile.Length > 0)
                 {
                     // Validate that the uploaded file is an image (optional)
-                    if (!IsImage(imageData))
+                    if (!IsImage(imageFile))
                     {
                         ModelState.AddModelError(string.Empty, "Uploaded file is not an image.");
                         return View(model);
@@ -179,11 +189,30 @@ namespace HealthCare.Controllers
                     {
                         using (var memoryStream = new MemoryStream())
                         {
-                            await imageData.CopyToAsync(memoryStream);
-                            // Convert memory stream to byte array
-                            model.ImageData = memoryStream.ToString();
+
+                            await imageFile.CopyToAsync(memoryStream);
+
+                            if (UpdatingRadRecord != null)
+                            {
+                                // Convert memory stream to byte array
+                                UpdatingRadRecord.lastUpdatedDate = DateTime.Now.ToString();
+                                UpdatingRadRecord.lastUpdatedUser = User.Claims.First().Value.ToString();
+                                UpdatingRadRecord.ResultImage = memoryStream.ToArray();
+                            }
+                            else
+                            {
+                                model.lastUpdatedDate = DateTime.Now.ToString();
+                                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                                model.ResultImage = memoryStream.ToArray();
+                                GetlabData.SHUpdateRadiologyResult.Add(model);
+                            }
+
+
+                            await GetlabData.SaveChangesAsync();
                         }
+
                     }
+
                     catch (Exception ex)
                     {
                         // Handle any exceptions (e.g., file upload or database saving errors)
@@ -194,27 +223,9 @@ namespace HealthCare.Controllers
                     }
                 }
 
-                var existingUpdateRadiologyResult = await GetlabData.SHUpdateRadiologyResult.FindAsync(model.FacilityID, model.PatientID, model.RadioID);
-                if (existingUpdateRadiologyResult != null)
-                {
-                    existingUpdateRadiologyResult.PatientID = model.PatientID;
-                    existingUpdateRadiologyResult.FacilityID = model.FacilityID;
-                    existingUpdateRadiologyResult.RadioID = model.RadioID;
-                    existingUpdateRadiologyResult.ImageID = model.ImageID;
-                    existingUpdateRadiologyResult.ImageData = model.ImageData;
-                    existingUpdateRadiologyResult.lastUpdatedDate = DateTime.Now.ToString();
-                    existingUpdateRadiologyResult.lastUpdatedUser = User.Claims.First().Value.ToString();
-                }
-                else
-                {
-                    model.lastUpdatedDate = DateTime.Now.ToString();
-                    model.lastUpdatedUser = User.Claims.First().Value.ToString();
-                    GetlabData.SHUpdateRadiologyResult.Add(model);
-                }
-
                 try
                 {
-                    await GetlabData.SaveChangesAsync();
+
                     ViewBag.Message = "Saved Successfully.";
                     return View("UpdateRadiologyResults", model);
                 }
@@ -227,8 +238,15 @@ namespace HealthCare.Controllers
                     return View(model);
                 }
             }
-            // If ModelState is not valid, return the view with errors
-            return View(model);
+            else
+            {
+              
+               return File(UpdatingRadRecord.ResultImage, "image/jpeg", "image.jpg");
+                
+
+              
+            }
+            
         }
     
 
@@ -262,6 +280,10 @@ namespace HealthCare.Controllers
         public IActionResult PrintTestResults()
 
         {
+            BusinessClassLabRad businessClassLabRad = new BusinessClassLabRad(GetlabData);
+            ViewData["visitid"] = businessClassLabRad.GetVisitid();
+            ViewData["Patientid"] = businessClassLabRad.GetPatID();
+            ViewData["Facilityid"] = businessClassLabRad.GetFacilityid();
             return View();
         }
         public IActionResult RadiologyCreation()

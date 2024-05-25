@@ -70,14 +70,14 @@ namespace HealthCare.Business
 
         }
 
-        public List<PatientEPrescriptionModel> Getvisitcaseid()
+        public List<PatientRadiolodyModel> Getvisitcaseid()
 
         {
             var visitcaseid = (
-                        from pr in _healthcareContext.SHprsPrescription
-                        select new PatientEPrescriptionModel
+                        from pr in _healthcareContext.SHPatientRadiology
+                        select new PatientRadiolodyModel
                         {
-                            CaseVisitID = pr.CaseVisitID,
+                           VisitcaseID = pr.VisitcaseID 
 
                         }).ToList();
             return visitcaseid;
@@ -191,6 +191,52 @@ namespace HealthCare.Business
 
         }
 
+
+        ///print test result
+
+        public List<PatientTestModel> GetVisitid()
+        {
+            var visitid = (
+                from pr in _healthcareContext.SHPatientTest
+                select new PatientTestModel
+                {
+                   VisitcaseID1 = pr.VisitcaseID1,
+
+                }).ToList();
+            return visitid;
+
+        }
+        public List<PatientRegistrationModel> GetPatID()
+        {
+            var Patientid = (
+                from pr in _healthcareContext.SHPatientRegistration
+                select new PatientRegistrationModel
+                {
+                    PatientID = pr.PatientID,
+                    FullName = pr.FullName
+
+
+                }).ToList();
+            return Patientid;
+
+        }
+
+
+
+        public List<ClinicAdminModel> GetFacilityid()
+        {
+            var Facilityid = (
+                from pr in _healthcareContext.SHclnClinicAdmin
+                select new ClinicAdminModel
+                {
+                    FacilityID = pr.FacilityID,
+                    ClinicName = pr.ClinicName
+
+
+                }).ToList();
+            return Facilityid;
+
+        }
 
     }
 }
