@@ -23,12 +23,24 @@
                 <div class="card">
                     <div class="card-body">
 
+
+
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                <label asp-for="PatientID" class="control-label"></label>
-               
-                <span asp-validation-for="PatientID" class="text-danger"></span>
-            </div>
+                            @{
+                                var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.PatientID, screenList, "Select Patient ID", new { @class = "form-control" })
+                            <label asp-for="PatientID" class="control-label"></label>
+                            <span asp-validation-for="PatientID" class="text-danger"></span>
+                        </div>
+
+
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="CaseVisitID" class="form-control" placeholder="CaseVisitID" />
                 <label asp-for="CaseVisitID" class="control-label"></label>
@@ -41,18 +53,40 @@
                 
                 <span asp-validation-for="OrderID" class="text-danger"></span>
             </div>
+
+
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="DoctorID" class="form-control" placeholder="DoctorID" />
-                <label asp-for="DoctorID" class="control-label"></label>
-                
-                <span asp-validation-for="DoctorID" class="text-danger"></span>
-            </div>
+                            @{
+                                var screenlist = ((IEnumerable<ResourceTypeMasterModel>)ViewData["docid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.ResourceTypeID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.ResourceTypeID} - {m.ResourceTypeName}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.DoctorID, screenlist, "Select Doctor ID", new { @class = "form-control" })
+                            <label asp-for="DoctorID" class="control-label"></label>
+                            <span asp-validation-for="DoctorID" class="text-danger"></span>
+                        </div>
+
+
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="DrugID" class="form-control" placeholder="DrugID" />
-                <label asp-for="DrugID" class="control-label"></label>
-                
-                <span asp-validation-for="DrugID" class="text-danger"></span>
-            </div>
+                            @{
+                                var Screenlist = ((IEnumerable<DrugInventoryModel>)ViewData["drugid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.DrugId.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.DrugId}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.DrugID, Screenlist, "Select Drug ID", new { @class = "form-control" })
+                            <label asp-for="DrugID" class="control-label"></label>
+                            <span asp-validation-for="DrugID" class="text-danger"></span>
+                        </div>
+
+
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="PrescriptionDate" class="form-control" placeholder="PrescriptionDate" />
                 <label asp-for="PrescriptionDate" class="control-label"></label>

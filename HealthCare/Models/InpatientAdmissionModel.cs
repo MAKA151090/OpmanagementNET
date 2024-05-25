@@ -5,7 +5,7 @@
         public InpatientAdmissionModel() { 
         }
 
-        private String strLocation;
+        private String strFacilityID;
         private String strPatientID;
         private String strCaseID;
         private String strConsultDoctorID;
@@ -26,7 +26,7 @@
         private String strlastUpdatedMachine;
 
 
-        public string? Location { get => strLocation; set => strLocation = value; }
+        public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
         public string PatientID { get => strPatientID; set => strPatientID = value; }
         public string? ConsultDoctorID { get => strConsultDoctorID; set => strConsultDoctorID = value; }
         public string? DutyDoctorID { get => strDutyDoctorID; set => strDutyDoctorID = value; }
@@ -45,5 +45,6 @@
         public string? lastupdatedDate { get => strlastupdatedDate; set => strlastupdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+    
     }
 }

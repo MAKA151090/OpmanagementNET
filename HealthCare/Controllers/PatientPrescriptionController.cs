@@ -59,6 +59,14 @@ namespace HealthCare.Controllers
             }
             await GetPrescription.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
+
+            BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
+            ViewData["patientid"]  = prescription.GetPatientId();
+            ViewData["drugid"] = prescription.GetDrugid();
+            ViewData["docid"] = prescription.Getdocid();
+
+
+
             return View("PatientEPrescription", pPres);
 
 
@@ -66,7 +74,7 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> PrescriptionPrint (PatientEPrescriptionPrintModel Model)
         {
-            BusinessClassExamination ObjPrintResult = new BusinessClassExamination(GetPrescription);
+            BusinessClassPatientPrescription ObjPrintResult = new BusinessClassPatientPrescription(GetPrescription);
 
             if (ObjPrintResult != null)
             {
@@ -86,6 +94,10 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientEPrescription()
         {
+            BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
+            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["drugid"] = prescription.GetDrugid();
+            ViewData["docid"] = prescription.Getdocid();
             return View();
         }
         public IActionResult PatientEPrescriptionPrint()
