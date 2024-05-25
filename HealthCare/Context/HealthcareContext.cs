@@ -161,7 +161,13 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID,i.SlotsID });
+            //ForeignKey for DoctorShcedule
+           // modelBuilder.Entity<DoctorScheduleModel>()
+           //.HasOne(d => d.SlotsID)
+           //.WithMany()
+           //.HasForeignKey(d => d.Viewslot,);
+
+            modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID,i.Viewslot });
 
             modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID , i.QuestionID});
             modelBuilder.Entity<OTSummaryMasterModel>().HasKey(i => new { i.QuestionID });
@@ -214,7 +220,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<InternalDepartmentMasterModel>().HasKey(i => new { i.DepartmentID });
             modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
 
-            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID, i.SlotsID });
+            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID, i.SlotsID,i.Viewslot });
 
             modelBuilder.Entity<WebLogsModel>().HasKey(i => new { i.Id });
 
@@ -298,6 +304,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<ScreenMasterModel>()
                 .HasKey(i => new { i.ScreenId });
+
+            modelBuilder.Entity<ScreenMasterModel>()
+              .ToTable(tb => tb.HasTrigger("dbo.Trigger_shclnscreenmaster"));
 
             modelBuilder.Entity<HospitalRegistrationModel>()
                 .HasKey(i => new { i.HospitalID });

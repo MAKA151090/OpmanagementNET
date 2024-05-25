@@ -31,6 +31,6 @@ namespace HealthCare.Models
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string? SlotsID { get => strSlots; set => strSlots = value; }
+        public string? Viewslot { get => strSlots; set => strSlots = value; }
     }
 }
