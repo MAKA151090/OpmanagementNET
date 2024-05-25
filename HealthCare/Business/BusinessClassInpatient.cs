@@ -133,6 +133,137 @@ namespace HealthCare.Business
             return result;
 
         }
+
+        ///inpatient admission dropdown.
+ 
+        public List<PatientRegistrationModel> Getpatid()
+        {
+            var patid = (
+                    from pr in objInpatientDb.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID = pr.PatientID,
+                        FullName = pr.FullName
+                    }
+                ).ToList();
+
+            return patid;
+        }
+
+        public List<ClinicAdminModel> Getfaid()
+        {
+            var faid = (
+                    from pr in objInpatientDb.SHclnClinicAdmin
+                    select new ClinicAdminModel
+                    {
+                        FacilityID = pr.FacilityID,
+                        ClinicName = pr.ClinicName,
+                    }
+                ).ToList();
+
+            return faid;
+        }
+
+        public List<ResourceTypeMasterModel> GetConDocId()
+        {
+            var condocid = (
+                    from pr in objInpatientDb.SHclnResourseTypeMaster
+                    select new ResourceTypeMasterModel
+                    {
+                        ResourceTypeID = pr.ResourceTypeID,
+                        ResourceTypeName = pr.ResourceTypeName
+                    }
+                ).ToList();
+
+            return condocid;
+        }
+
+
+        public List<ResourceTypeMasterModel> Getdutydocid()
+        {
+            var dutydocid = (
+                    from pr in objInpatientDb.SHclnResourseTypeMaster
+                    select new ResourceTypeMasterModel
+                    {
+                        ResourceTypeID = pr.ResourceTypeID,
+                        ResourceTypeName = pr.ResourceTypeName
+                    }
+                ).ToList();
+
+            return dutydocid;
+        }
+
+
+        public List<ResourceTypeMasterModel> GetRefDocId()
+        {
+            var refocid = (
+                    from pr in objInpatientDb.SHclnResourseTypeMaster
+                    select new ResourceTypeMasterModel
+                    {
+                        ResourceTypeID = pr.ResourceTypeID,
+                        ResourceTypeName = pr.ResourceTypeName
+                    }
+                ).ToList();
+
+            return refocid;
+        }
+
+        public List<ResourceTypeMasterModel> GetAddcondocid()
+        {
+            var addcondocid = (
+                    from pr in objInpatientDb.SHclnResourseTypeMaster
+                    select new ResourceTypeMasterModel
+                    {
+                        ResourceTypeID = pr.ResourceTypeID,
+                        ResourceTypeName = pr.ResourceTypeName
+                    }
+                ).ToList();
+
+            return addcondocid;
+        }
+
+
+        public List<HospitalBedMasterModel> GetBedid()
+        {
+            var bedid = (
+                    from pr in objInpatientDb.SHclnHospitalBedMaster
+                    select new HospitalBedMasterModel
+                    {
+                        BedID = pr.BedID,
+                        BedName = pr.BedName
+                    }
+                ).ToList();
+
+            return bedid;
+        }
+
+        public List<InternalDepartmentMasterModel> Getcondepid()
+        {
+            var condepid = (
+                    from pr in objInpatientDb.SHotInternalDepartmentMaster
+                    select new InternalDepartmentMasterModel
+                    {
+                        DepartmentID = pr.DepartmentID,
+                        DepartmentName  = pr.DepartmentName
+                    }
+                ).ToList();
+
+            return condepid;
+        }
+
+        public List<IPTypeMasterModel> Getinpattype()
+        {
+            var pattypeid = (
+                    from pr in objInpatientDb.SHclnIPTypeMaster
+                    select new IPTypeMasterModel
+                    {
+                        IPTypeID = pr.IPTypeID,
+                        IPTypeName = pr.IPTypeName
+                    }
+                ).ToList();
+
+            return pattypeid;
+        }
     }
 
 }
