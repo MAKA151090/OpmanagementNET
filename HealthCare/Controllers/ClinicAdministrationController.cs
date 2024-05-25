@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Azure.Core;
+using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
@@ -927,14 +928,9 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        public ActionResult ScheduleHoliday()
-        {
-            return View();
-        }
-        public ActionResult ScheduleBlocker()
-        {
-            return View();
-        }
+        
+       
+        
 
         public IActionResult HospitalRegistration()
         {
@@ -1034,7 +1030,7 @@ namespace HealthCare.Controllers
              return View();
          }
  */
-        public async Task<IActionResult> SaveSlots(string action,string[] selectedSlots)
+        public async Task<IActionResult> SaveSlots(string action,string selectedSlots, string FromTime, string ToTime)
         {
 
             var StaffID = Request.Form["StaffID"].ToString();
@@ -1042,9 +1038,12 @@ namespace HealthCare.Controllers
             var FromDate = Request.Form["FromDate"].ToString();
             var ToDate = Request.Form["ToDate"].ToString();
             var duration = Request.Form["Duration"].ToString();
-            var FromTime = Request.Form["FromTime"].ToString();
-            var ToTime = Request.Form["ToTime"].ToString();
+            var SlotsIDs = new string[] { selectedSlots };
 
+            /* var FromTime = Request.Form["FromTime"].ToString();
+             var ToTime = Request.Form["ToTime"].ToString();
+             var SlotsIDs = Request.Form["SlotsID"].ToString().Split(',');
+ */
 
 
             DateTime fromDate;
@@ -1061,23 +1060,38 @@ namespace HealthCare.Controllers
 
             if (action == "Get Slots")
             {
-                return await GetSlots(StaffID, FacilityID);
+                return await GetSlots(StaffID, FacilityID,duration,FromDate,ToDate);
             }
             else if (action == "Delete Selected")
             {
-                await DeleteSelectedSlots(selectedSlots, StaffID);
-                return await GetSlots(StaffID, FacilityID);
+                await DeleteSelectedSlots(selectedSlots);
+
             }
 
-            var existingSlot = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID);
+          //  var existingSlot = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID,SlotsID);
 
 
-            if (existingSlot != null && action == "Save")
+            if ( action == "Save")
             {
-                // The record already exists, proceed to the slot condition
+
+                for (int i = 0; i < SlotsIDs.Length; i++)
+                {
+                    var slotID = SlotsIDs[i];
+                    var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,slotID);
+                    if (slot != null)
+                    { 
+
+                            slot.FromTime = FromTime;
+                            slot.ToTime = ToTime;
+                        
+                    }
+                }
+
+                await _healthcareContext.SaveChangesAsync();
+
                 var exslots = await _healthcareContext.SHclnViewResourceSchedule
-                                                    .Where(slot => slot.StaffID == StaffID)
-                                                    .ToListAsync();
+                                                      .Where(slot => slot.StaffID == StaffID)
+                                                      .ToListAsync();
 
                 ViewBag.Slots = exslots;
                 ViewBag.StaffID = StaffID;
@@ -1085,8 +1099,8 @@ namespace HealthCare.Controllers
                 ViewBag.Duration = duration;
                 ViewBag.FromDate = FromDate;
                 ViewBag.ToDate = ToDate;
-                existingSlot.FromTime = FromTime;
-                existingSlot.ToTime = ToTime;
+                ViewBag.FromTime = FromTime;
+                ViewBag.ToTime = ToTime;
                 _healthcareContext.SaveChanges();
 
                 var slots = GenerateDoctorSlots(StaffID, FacilityID, FromDate, ToDate, duration, FromTime, ToTime);
@@ -1099,34 +1113,36 @@ namespace HealthCare.Controllers
                     _healthcareContext.SHclnResourceSchedule.Add(slot);
                 }
 
-                _healthcareContext.SHclnResourceSchedule.AddRange(slots);
                 await _healthcareContext.SaveChangesAsync();
 
-
                 return View("DoctorSchedule");
+
 
             }
             else
             {
 
-                var slotUpd = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID);
 
-                if (slotUpd == null)
+                for (int i = 0; i < SlotsIDs.Length; i++)
                 {
+                    var slotID = SlotsIDs[i];
+                    var slotUpd = _healthcareContext.SHclnViewResourceSchedule.Find(slotID,StaffID,FacilityID);
 
-                    var model = new ResourceScheduleModel
+                    if (slotUpd == null)
                     {
-                        
-                        StaffID = StaffID,
-                        FacilityID = FacilityID,
-                        FromDate = FromDate,
-                        ToDate = ToDate,
-                        Duration = duration
-                    };
+                        var model = new ResourceScheduleModel
+                        {
+                            StaffID = StaffID,
+                            FacilityID = FacilityID,
+                            FromDate = FromDate,
+                            ToDate = ToDate,
+                            Duration = duration,
+                           
+                        };
 
-
-                    _healthcareContext.SHclnViewResourceSchedule.Add(model);
-                    _healthcareContext.SaveChanges();
+                        _healthcareContext.SHclnViewResourceSchedule.Add(model);
+                        _healthcareContext.SaveChanges();
+                    }
                 }
 
             }
@@ -1141,6 +1157,8 @@ namespace HealthCare.Controllers
             ViewBag.Duration = duration;
             ViewBag.FromDate = FromDate;
             ViewBag.ToDate = ToDate;
+            ViewBag.FromTime = FromTime;
+            ViewBag.ToTime = ToTime;
 
 
 
@@ -1150,8 +1168,8 @@ namespace HealthCare.Controllers
 
         }
 
-        //save slot
-        public async Task<IActionResult> GetSlots(string StaffID, string FacilityID)
+        //get slot
+        public async Task<IActionResult> GetSlots(string StaffID, string FacilityID,string Duration,string FromDate, string ToDate)
         {
             var exslots = await _healthcareContext.SHclnViewResourceSchedule
                                                 .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID)
@@ -1160,24 +1178,32 @@ namespace HealthCare.Controllers
             ViewBag.Slots = exslots;
             ViewBag.StaffID = StaffID;
             ViewBag.FacilityID = FacilityID;
+            ViewBag.Duration = Duration; 
+            ViewBag.FromDate = FromDate; 
+            ViewBag.ToDate = ToDate;
+
 
             return View("DoctorSchedule");
         }
-//delete slot
-        private async Task DeleteSelectedSlots(string[] selectedSlots, string StaffID)
+   //delete slot
+        private async Task DeleteSelectedSlots(string selectedSlots)
         {
+            var StaffID = Request.Form["StaffID"].ToString();
+            var FacilityID = Request.Form["FacilityID"].ToString();
+         
             if (selectedSlots != null && selectedSlots.Length > 0)
             {
-                foreach (var slotId in selectedSlots)
+                foreach (var SlotsID in selectedSlots)
                 {
-                    var slot = await _healthcareContext.SHclnResourceSchedule.FindAsync(slotId);
+                    var slotID = SlotsID.ToString();
+                    var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,slotID);
                     if (slot != null)
                     {
-                        _healthcareContext.SHclnResourceSchedule.Remove(slot);
+                        _healthcareContext.SHclnViewResourceSchedule.Remove(slot);
                     }
                 }
 
-                var doctor = await _healthcareContext.SHclnResourceSchedule.FindAsync(StaffID);
+                var doctor = await _healthcareContext.SHclnResourceSchedule.FindAsync(StaffID,FacilityID);
                 if (doctor != null)
                 {
                     doctor.Active = true;
@@ -1198,6 +1224,12 @@ namespace HealthCare.Controllers
             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
                 DateTime currentTime = date + startTime;
+
+                // Handle the case where endTime is smaller than startTime
+                if (endTime < startTime)
+                {
+                    endTime = endTime.Add(new TimeSpan(1, 0, 0, 0)); // Add one day
+                }
                 while (currentTime.Add(slotDuration) <= date + endTime)
                 {
                     var slot = new DoctorScheduleModel
@@ -1217,62 +1249,101 @@ namespace HealthCare.Controllers
         }
 
 
-        
+        public IActionResult ScheduleHoliday(string staffID, string facilityID, string fromDate, string toDate)
+        {
+
+            var slotsToDelete = _healthcareContext.SHclnViewResourceSchedule
+         .Where(ds => ds.StaffID == staffID &&
+                      ds.FacilityID == facilityID &&
+                      ds.FromDate == fromDate &&
+                      ds.ToDate == toDate)
+         .ToList();
+
+            foreach (var slot in slotsToDelete)
+            {
+                _healthcareContext.SHclnViewResourceSchedule.Remove(slot);
+            }
 
 
-         private void MarkHolidays(DoctorScheduleModel model)
-         {
+            DateTime startDate = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-             var doctorSchedulesUpdate = _healthcareContext.SHclnResourceSchedule
-        .Where(ds => ds.StaffID == model.StaffID &&
-                      ds.FacilityID == model.FacilityID &&
-                      ds.Date == model.Date);
+            // checl update here
+            // Define parameters for the stored procedure if needed
+            var parameter1 = new SqlParameter("@pStrStaffId", staffID);
+            var parameter2 = new SqlParameter("@pStrFacility", facilityID);
+            var parameter3 = new SqlParameter("@pStrFromDate", fromDate);
+            var parameter4 = new SqlParameter("@pStrToDate", toDate);
 
-             foreach (var holiday in doctorSchedulesUpdate)
-             {
-                 holiday.Holiday = true;
-                 holiday.Active = false;
-                 _healthcareContext.Entry(holiday).State = EntityState.Modified;
 
-             }
+            // Execute the stored procedure
+            var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate", parameter1, parameter2,parameter3,parameter4);
 
-             _healthcareContext.SaveChanges();
-         }
+            _healthcareContext.SaveChanges();
 
-        
+            return View("ScheduleHoliday");
 
-         private void MarkBlockers(DoctorScheduleModel model)
+
+
+        }
+
+        [HttpPost] 
+        private IActionResult ScheduleHoliday(DoctorScheduleModel model)
+        {
+          
+
+            return View("ScheduleHoliday");
+          
+        }
+
+        [HttpPost]
+        private void MarkBlockers(DoctorScheduleModel model)
          {
             
-
-             var blocker = _healthcareContext.SHclnResourceSchedule
-          .SingleOrDefault(ds => ds.StaffID == model.StaffID &&
-                                  ds.FacilityID == model.FacilityID &&
-                                  ds.Date == model.Date &&
-                                  ds.StartTime == model.StartTime &&
-                                  ds.Active);
-
-             if (blocker != null)
-             {
-                 blocker.Blocker = true;
-                 blocker.Active = false;
-                 _healthcareContext.Entry(blocker).State = EntityState.Modified;
-             }
-
-             _healthcareContext.SaveChanges();
          }
+
+        public IActionResult ScheduleBlocker(string staffID, string facilityID, string date)
+        {
+          
+            DateTime endDate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+
+            var parameter1 = new SqlParameter("@pStrStaffId", staffID);
+            var parameter2 = new SqlParameter("@pStrFacility", facilityID);
+            var parameter3 = new SqlParameter("@pStrFromDate", date);
+            var parameter4 = new SqlParameter("@pStrToDate", date);
+
+
+            /*var blocker = _healthcareContext.SHclnResourceSchedule
+         .SingleOrDefault(ds => ds.StaffID == staffID &&
+                                 ds.FacilityID == facilityID &&
+                                 ds.Date == date);
+
+            if (blocker != null)
+            {
+                blocker.Blocker = true;
+                blocker.Active = false;
+                _healthcareContext.Entry(blocker).State = EntityState.Modified;
+            }*/
+
+            var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate", parameter1, parameter2, parameter3, parameter4);
+
+            _healthcareContext.SaveChanges();
+
+            return View("ScheduleBlocker");
+        }
 
         [HttpPost]
         public IActionResult DoctorSchedule(DoctorScheduleModel model, string buttonType)
         {
             if (buttonType == "Holiday")
             {
-                return View("Holiday");
+                return View("ScheduleHoliday");
             }
             else if (buttonType == "Blocker")
             {
 
-                return View("Blocker");
+                return View("ScheduleBlocker");
 
             }
             return View();
