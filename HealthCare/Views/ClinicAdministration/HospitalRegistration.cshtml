@@ -9,112 +9,151 @@
     <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
 }
 <form>
-<div class="row">
-    <div class="col-md-12 col-lg-10">
-        <div class="card">
-            <div class="card-body ">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="container">
-                        <h2 class="centered text-primary mb-1">Hospital Registration</h2>
+    <div class="row">
+        <div class="col-md-12 col-lg-10">
+            <div class="card">
+                <div class="card-body ">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                            <h2 class="centered text-primary mb-1">Hospital Registration</h2>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row" style="height:8%">
-</div>
-
-<div class="row">
-
-    <div class="col-md-12 col-lg-5">
-        <div class="card">
-            <div class="card-body">
-
-
-
+    <div class="row" style="height:8%">
     </div>
-    <div class="col-md-12 col-lg-5">
-        <div class="card">
-            <div class="card-body">
-                <div class="form-floating form-floating-outline mb-4">
-
-
-                    <input asp-for="Phone1" class="form-control" placeholder="Phone1" />
-                    <label asp-for="Phone1" class="control-label"></label>
-
-                    <span asp-validation-for="Phone1" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating form-floating-outline mb-4">
-                    <input asp-for="Phone2" class="form-control" placeholder="Phone2" />
-                    <label asp-for="Phone2" class="control-label"></label>
-
-                    <span asp-validation-for="Phone2" class="text-danger"></span>
-                </div>
-                <div class="form-floating form-floating-outline mb-4">
-                    <input asp-for="Phone3" class="form-control" placeholder="Phone3" />
-                    <label asp-for="Phone3" class="control-label"></label>
-
-                    <span asp-validation-for="Phone3" class="text-danger"></span>
-                </div>
-                <div class="form-floating form-floating-outline mb-4">
-                    <input asp-for="Email" class="form-control" placeholder="Email" />
-                    <label asp-for="Email" class="control-label"></label>
-
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                @* <div class="form-group">
-                <label asp-for="lastUpdatedDate" class="control-label"></label>
-                <input asp-for="lastUpdatedDate" class="form-control" />
-                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                <input asp-for="lastUpdatedMachine" class="form-control" />
-                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-                </div> *@
-                <br />
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-floating form-floating-outline mb-4">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-floating form-floating-outline mb-4">
-                <div class="container">
-
-                    <button type="submit" style="centered" asp-action="GetHospitalRegistration" value="Save" class="btn btn-primary waves-effect waves-light">  Save </button>
-
-                    @if (ViewBag.Message != null)
-                    {
-                        <div class="alert alert-success">
-
-
-                            @ViewBag.Message
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-
-
-
-    </div>
-
-    </form>
 
     <div class="row">
-    </div>
+
+        <div class="col-md-12 col-lg-5">
+            <div class="card">
+                <div class="card-body">
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="HospitalID" class="form-control" placeholder="HospitalID" />
+                        <label asp-for="HospitalID" class="control-label"></label>
+
+                        <span asp-validation-for="HospitalID" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="HospitalName" class="form-control" placeholder="HospitalName" />
+                        <label asp-for="HospitalName" class="control-label"></label>
+
+                        <span asp-validation-for="HospitalName" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                        <textarea asp-for="Address" class="form-control" placeholder="Address" aria-describedby="text-to-speech-addon"></textarea>
+                        <label asp-for="Address" class="control-label"></label>
+                        <span class="input-group-text" id="text-to-speech-addon">
+                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                        </span>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="City" class="form-control" placeholder="City" />
+                        <label asp-for="City" class="control-label"></label>
+
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="State" class="form-control" placeholder="State" />
+                        <label asp-for="State" class="control-label"></label>
+
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-12 col-lg-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-floating form-floating-outline mb-4">
+
+
+                        <input asp-for="Phone1" class="form-control" placeholder="Phone1" />
+                        <label asp-for="Phone1" class="control-label"></label>
+
+                        <span asp-validation-for="Phone1" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Phone2" class="form-control" placeholder="Phone2" />
+                        <label asp-for="Phone2" class="control-label"></label>
+
+                        <span asp-validation-for="Phone2" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Phone3" class="form-control" placeholder="Phone3" />
+                        <label asp-for="Phone3" class="control-label"></label>
+
+                        <span asp-validation-for="Phone3" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Email" class="form-control" placeholder="Email" />
+                        <label asp-for="Email" class="control-label"></label>
+
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    @* <div class="form-group">
+                    <label asp-for="lastUpdatedDate" class="control-label"></label>
+                    <input asp-for="lastUpdatedDate" class="form-control" />
+                    <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="lastUpdatedUser" class="control-label"></label>
+                    <input asp-for="lastUpdatedUser" class="form-control" />
+                    <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                    <input asp-for="lastUpdatedMachine" class="form-control" />
+                    <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+                    </div> *@
+                    <br />
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating form-floating-outline mb-4">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating form-floating-outline mb-4">
+                    <div class="container">
+
+                        <button type="submit" style="centered" asp-action="GetHospitalRegistration" value="Save" class="btn btn-primary waves-effect waves-light">  Save </button>
+
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-success">
+
+
+                                @ViewBag.Message
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+</form>
+
+<div class="row">
 </div>
+</div>
+
 
 
