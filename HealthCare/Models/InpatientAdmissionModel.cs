@@ -26,7 +26,7 @@
         private String strlastUpdatedMachine;
 
 
-        public string StrFacilityID { get => strFacilityID; set => strFacilityID = value; }
+        public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
         public string PatientID { get => strPatientID; set => strPatientID = value; }
         public string? ConsultDoctorID { get => strConsultDoctorID; set => strConsultDoctorID = value; }
         public string? DutyDoctorID { get => strDutyDoctorID; set => strDutyDoctorID = value; }
