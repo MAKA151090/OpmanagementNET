@@ -350,35 +350,7 @@ namespace HealthCare.Business
 
         }
 
-        public async Task<List<PatientEPrescriptionPrintModel>> GetPrescriptionPrint(string patientID, string casevisitID, string orderID)
-        {
-            var prescription = await (
-                    from pp in objSearchContext.SHprsPrescription
-                    join di in objSearchContext.SHstkDrugInventory on pp.DrugID equals di.DrugId
-                    join p in objSearchContext.SHPatientRegistration on pp.PatientID equals p.PatientID
-                    join d in objSearchContext.SHclnStaffAdminModel on pp.DoctorID equals d.StrStaffID
-                    where pp.PatientID == patientID && pp.CaseVisitID == casevisitID && pp.OrderID == orderID
-                    select new PatientEPrescriptionPrintModel
-                    {
-                        PatientID = pp.PatientID,
-                        CaseVisitID = pp.CaseVisitID,
-                        OrderID = pp.OrderID,
-                        PatientName = p.FullName,
-                        MedicactionName = di.ModelName,
-                        Unit = pp.Unit,
-                        UnitCategory = pp.UnitCategory,
-                        Frequency = pp.Frequency,
-                        FrequencyUnit = pp.FrequencyUnit,
-                        Duration = pp.Duration,
-                        Quantity = pp.Quantity,
-                        EndDate = pp.EndDate,
-                        Instructions = pp.Instructions,
-                        DoctorName = d.StrFullName
-
-                    }).ToListAsync();
-            return prescription;
-
-        }
+      
 
         public async Task<OTConfirmationModel> GetOTConfirmation(string potScheduleID)
         {
