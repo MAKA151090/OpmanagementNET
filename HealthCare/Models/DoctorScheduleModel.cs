@@ -18,6 +18,7 @@ public class DoctorScheduleModel
     private bool strHoliday;
     private bool strBlocker;
     private bool strActive;
+    private string viewslot;
     private String strlastUpdatedDate;
     private String strlastUpdatedUser;
     private string strlastUpdatedMachine;
@@ -38,4 +39,5 @@ public class DoctorScheduleModel
     public string Duration { get => strDuration; set => strDuration = value; }
     public string StartTime { get => strStartTime; set => strStartTime = value; }
     public string? StaffID { get => strStaffID; set => strStaffID = value; }
+    public string Viewslot { get => viewslot; set => viewslot = value; }
 }

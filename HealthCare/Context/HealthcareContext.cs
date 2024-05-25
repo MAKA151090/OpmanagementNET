@@ -149,6 +149,7 @@ namespace HealthCare.Context
         public DbSet<GenericReportsModel> SHRepGenericReports { get; set; }
 
         public DbSet<ResourceTypeMasterModel> SHclnResourseTypeMaster { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -159,6 +160,12 @@ namespace HealthCare.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //ForeignKey for DoctorShcedule
+            modelBuilder.Entity<DoctorScheduleModel>()
+           .HasOne(d => d.SlotsID)
+           .WithMany()
+           .HasForeignKey(d => d.Viewslot);
+
             modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID,i.SlotsID });
 
             modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID , i.QuestionID});
@@ -212,7 +219,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<InternalDepartmentMasterModel>().HasKey(i => new { i.DepartmentID });
             modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
 
-            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID, i.SlotsID });
+            modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID, i.SlotsID ,i.Viewslot});
             // Configure primary key for Login
             modelBuilder.Entity<PatientObjectiveModel>()
         .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID });

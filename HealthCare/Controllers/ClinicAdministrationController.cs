@@ -1038,7 +1038,8 @@ namespace HealthCare.Controllers
             var FromDate = Request.Form["FromDate"].ToString();
             var ToDate = Request.Form["ToDate"].ToString();
             var duration = Request.Form["Duration"].ToString();
-            var SlotsIDs = new string[] { selectedSlots };
+            //var SlotsIDs = new string[] { selectedSlots };
+            var SlotsIDs = selectedSlots;
 
             /* var FromTime = Request.Form["FromTime"].ToString();
              var ToTime = Request.Form["ToTime"].ToString();
@@ -1054,8 +1055,8 @@ namespace HealthCare.Controllers
             // Attempt to parse the date strings to DateTime objects
             bool isFromDateValid = DateTime.TryParse(FromDate, out fromDate);
             bool isToDateValid = DateTime.TryParse(ToDate, out toDate);
-            bool isFromTimeValid = TimeSpan.TryParse(FromTime, out fromTime);
-            bool isToTimeValid = TimeSpan.TryParse(ToTime, out toTime);
+            bool isFromTimeValid = TimeSpan.TryParse(Request.Form[$"FromTime_{SlotsIDs}"], out fromTime);
+            bool isToTimeValid = TimeSpan.TryParse(Request.Form[$"ToTime_{SlotsIDs}"], out toTime);
 
 
             if (action == "Get Slots")
@@ -1064,8 +1065,7 @@ namespace HealthCare.Controllers
             }
             else if (action == "Delete Selected")
             {
-                await DeleteSelectedSlots(selectedSlots);
-
+                await DeleteSelectedSlots(StaffID, FacilityID, SlotsIDs);
             }
 
           //  var existingSlot = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID,SlotsID);
@@ -1074,18 +1074,18 @@ namespace HealthCare.Controllers
             if ( action == "Save")
             {
 
-                for (int i = 0; i < SlotsIDs.Length; i++)
-                {
-                    var slotID = SlotsIDs[i];
-                    var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,slotID);
+               // for (int i = 0; i < SlotsIDs.Length; i++)
+                //{
+                    //var slotID = SlotsIDs[i];
+                    var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,SlotsIDs);
                     if (slot != null)
                     { 
 
-                            slot.FromTime = FromTime;
-                            slot.ToTime = ToTime;
+                            slot.FromTime = fromTime.ToString(@"hh\:mm");
+                            slot.ToTime = toTime.ToString(@"hh\:mm");
                         
                     }
-                }
+                //}
 
                 await _healthcareContext.SaveChangesAsync();
 
@@ -1099,18 +1099,18 @@ namespace HealthCare.Controllers
                 ViewBag.Duration = duration;
                 ViewBag.FromDate = FromDate;
                 ViewBag.ToDate = ToDate;
-                ViewBag.FromTime = FromTime;
-                ViewBag.ToTime = ToTime;
+                ViewBag.FromTime = fromTime.ToString(@"hh\:mm");
+                ViewBag.ToTime = toTime.ToString(@"hh\:mm");
                 _healthcareContext.SaveChanges();
 
-                var slots = GenerateDoctorSlots(StaffID, FacilityID, FromDate, ToDate, duration, FromTime, ToTime);
-                foreach (var slot in slots)
+                var slots = GenerateDoctorSlots(StaffID, FacilityID, FromDate, ToDate, duration, fromTime.ToString(@"hh\:mm"), toTime.ToString(@"hh\:mm"));
+                foreach (var s in slots)
                 {
-                    slot.lastUpdatedDate = DateTime.Now.ToString();
-                    slot.lastUpdatedUser = User.Claims.First().Value.ToString();
-                    slot.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    s.lastUpdatedDate = DateTime.Now.ToString();
+                    s.lastUpdatedUser = User.Claims.First().Value.ToString();
+                    s.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
-                    _healthcareContext.SHclnResourceSchedule.Add(slot);
+                    _healthcareContext.SHclnResourceSchedule.Add(s);
                 }
 
                 await _healthcareContext.SaveChangesAsync();
@@ -1119,14 +1119,9 @@ namespace HealthCare.Controllers
 
 
             }
-            else
+            if(action== "Add Slot")
             {
-
-
-                for (int i = 0; i < SlotsIDs.Length; i++)
-                {
-                    var slotID = SlotsIDs[i];
-                    var slotUpd = _healthcareContext.SHclnViewResourceSchedule.Find(slotID,StaffID,FacilityID);
+                    var slotUpd = _healthcareContext.SHclnViewResourceSchedule.Find(SlotsIDs,StaffID,FacilityID);
 
                     if (slotUpd == null)
                     {
@@ -1143,7 +1138,7 @@ namespace HealthCare.Controllers
                         _healthcareContext.SHclnViewResourceSchedule.Add(model);
                         _healthcareContext.SaveChanges();
                     }
-                }
+                //}
 
             }
 
@@ -1157,8 +1152,8 @@ namespace HealthCare.Controllers
             ViewBag.Duration = duration;
             ViewBag.FromDate = FromDate;
             ViewBag.ToDate = ToDate;
-            ViewBag.FromTime = FromTime;
-            ViewBag.ToTime = ToTime;
+            ViewBag.FromTime = fromTime.ToString();
+            ViewBag.ToTime = toTime.ToString();
 
 
 
@@ -1186,31 +1181,38 @@ namespace HealthCare.Controllers
             return View("DoctorSchedule");
         }
    //delete slot
-        private async Task DeleteSelectedSlots(string selectedSlots)
+        private async Task DeleteSelectedSlots(string staffID, string facilityID, string slotID)
         {
-            var StaffID = Request.Form["StaffID"].ToString();
-            var FacilityID = Request.Form["FacilityID"].ToString();
-         
-            if (selectedSlots != null && selectedSlots.Length > 0)
-            {
-                foreach (var SlotsID in selectedSlots)
-                {
-                    var slotID = SlotsID.ToString();
-                    var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,slotID);
+            
+          
+
+                    var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(staffID,facilityID,slotID);
                     if (slot != null)
                     {
                         _healthcareContext.SHclnViewResourceSchedule.Remove(slot);
                     }
-                }
 
-                var doctor = await _healthcareContext.SHclnResourceSchedule.FindAsync(StaffID,FacilityID);
-                if (doctor != null)
-                {
-                    doctor.Active = true;
-                }
 
-                await _healthcareContext.SaveChangesAsync();
-            }
+            var doctors = await _healthcareContext.SHclnResourceSchedule.Where(e => e.StaffID == staffID && e.FacilityID == facilityID && e.SlotsID == slotID)
+                 .Select(e => new DoctorScheduleModel
+                 {
+     
+                      StaffID = e.StaffID,
+                       FacilityID = e.FacilityID,
+                       SlotsID = e.SlotsID,
+                      Active = true
+                      })
+                         .ToListAsync();
+
+            /* var doctors = await _healthcareContext.SHclnResourceSchedule.Where(e => e.StaffID == staffID && e.FacilityID == facilityID && e.SlotsID == slotID).ToListAsync();
+
+             foreach (var doctor in doctors)
+             {
+                 doctor.Active = true;
+             }*/
+
+            await _healthcareContext.SaveChangesAsync();
+            
         } 
         private List<DoctorScheduleModel> GenerateDoctorSlots(string staffID, string facilityID, string fromDate, string toDate, string duration, string fromTime, string toTime)
         {
@@ -1218,8 +1220,10 @@ namespace HealthCare.Controllers
             DateTime startDate = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime endDate = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             TimeSpan slotDuration = TimeSpan.FromMinutes(int.Parse(duration));
-            TimeSpan startTime = TimeSpan.Parse(string.Format(fromTime,"HH:mm"));
+            TimeSpan startTime = TimeSpan.Parse(fromTime);
             TimeSpan endTime = TimeSpan.Parse(toTime);
+            /* TimeSpan startTime = TimeSpan.Parse(string.Format(fromTime,"HH:mm"));
+             TimeSpan endTime = TimeSpan.Parse(toTime);*/
 
             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {

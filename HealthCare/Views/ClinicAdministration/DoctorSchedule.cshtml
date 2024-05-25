@@ -71,10 +71,10 @@
                                 <input type="hidden" name="SlotsID" value="@slots[i].SlotsID" />
                             </td>
                             <td>
-                                <input type="text" class="form-control" name="FromTime" value="@slots[i].FromTime" />
+                                <input type="text" class="form-control" name="FromTime_@slots[i].SlotsID" value="@slots[i].FromTime" />
                             </td>
                             <td>
-                                <input type="text" class="form-control" name="ToTime" value="@slots[i].ToTime" />
+                                <input type="text" class="form-control" name="ToTime_@slots[i].SlotsID" value="@slots[i].ToTime" />
                             </td>
                         </tr>
                     }
