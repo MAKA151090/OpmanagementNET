@@ -162,12 +162,12 @@ namespace HealthCare.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ForeignKey for DoctorShcedule
-            modelBuilder.Entity<DoctorScheduleModel>()
-           .HasOne(d => d.SlotsID)
-           .WithMany()
-           .HasForeignKey(d => d.Viewslot);
+           // modelBuilder.Entity<DoctorScheduleModel>()
+           //.HasOne(d => d.SlotsID)
+           //.WithMany()
+           //.HasForeignKey(d => d.Viewslot,);
 
-            modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID,i.SlotsID });
+            modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID,i.Viewslot });
 
             modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID , i.QuestionID});
             modelBuilder.Entity<OTSummaryMasterModel>().HasKey(i => new { i.QuestionID });

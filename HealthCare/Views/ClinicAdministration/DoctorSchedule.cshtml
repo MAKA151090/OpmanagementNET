@@ -67,14 +67,14 @@
                     {
                         <tr>
                             <td>
-                                <input type="radio" name="selectedSlots" value="@slots[i].SlotsID" />
-                                <input type="hidden" name="SlotsID" value="@slots[i].SlotsID" />
+                                <input type="radio" name="selectedSlots" value="@slots[i].Viewslot" />
+                                <input type="hidden" name="SlotsID" value="@slots[i].Viewslot" />
                             </td>
                             <td>
-                                <input type="text" class="form-control" name="FromTime_@slots[i].SlotsID" value="@slots[i].FromTime" />
+                                <input type="text" class="form-control" name="FromTime_@slots[i].Viewslot" value="@slots[i].FromTime" />
                             </td>
                             <td>
-                                <input type="text" class="form-control" name="ToTime_@slots[i].SlotsID" value="@slots[i].ToTime" />
+                                <input type="text" class="form-control" name="ToTime_@slots[i].Viewslot" value="@slots[i].ToTime" />
                             </td>
                         </tr>
                     }

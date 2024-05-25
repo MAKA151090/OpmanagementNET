@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using HealthCare.Models;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class DoctorScheduleModel
@@ -40,4 +42,7 @@ public class DoctorScheduleModel
     public string StartTime { get => strStartTime; set => strStartTime = value; }
     public string? StaffID { get => strStaffID; set => strStaffID = value; }
     public string Viewslot { get => viewslot; set => viewslot = value; }
+
+    [ForeignKey("StaffID,FacilityID,Viewslot")]
+    public virtual ResourceScheduleModel Resource { get; set; }
 }
