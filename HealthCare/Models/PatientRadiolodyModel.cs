@@ -22,6 +22,7 @@
 
 
 
+
         public string RadioID { get => strRadioID; set => strRadioID = value; }
         public string PatientID { get => strPatientID; set => strPatientID = value; }
         public string? VisitcaseID { get => strVisitcaseID; set => strVisitcaseID = value; }

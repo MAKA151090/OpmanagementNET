@@ -272,7 +272,7 @@ namespace HealthCare.Context
         .HasKey(i => new { i.LogID });
 
             modelBuilder.Entity<UpdateRadiologyResultsModel>()
-                .HasKey(i => new { i.PatientID, i.FacilityID,i.RadioID });
+                .HasKey(i => new { i.PatientID, i.FacilityID,i.RadioID,i.ImageID });
 
 
             modelBuilder.Entity<DrugGroupModel>()
