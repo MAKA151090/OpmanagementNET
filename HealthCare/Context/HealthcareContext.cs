@@ -305,6 +305,9 @@ namespace HealthCare.Context
             modelBuilder.Entity<ScreenMasterModel>()
                 .HasKey(i => new { i.ScreenId });
 
+            modelBuilder.Entity<ScreenMasterModel>()
+              .ToTable(tb => tb.HasTrigger("dbo.Trigger_shclnscreenmaster"));
+
             modelBuilder.Entity<HospitalRegistrationModel>()
                 .HasKey(i => new { i.HospitalID });
             
