@@ -29,25 +29,23 @@
                     <div class="card-body">
 
 
-
-
                         <div class="form-floating form-floating-outline mb-4">
                             @{
-                                var staffList = ((IEnumerable<StaffAdminModel>)ViewData["staffid"]);
+                                var Facid = ((IEnumerable<StaffAdminModel>)ViewData["staffid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
+            });
                             }
 
-                            <input list="staffList" name="StaffID" class="form-control" required="required" />
-                            <datalist id="staffList">
-                                @foreach (var item in staffList)
-                                {
-                                    <option value="@item.StrStaffID">@item.StrStaffID - @item.StrFullName</option>
-                                }
-                            </datalist>
+                            @Html.DropDownListFor(model => model.StaffID, Facid, "Select Facility ID", new { @class = "form-control", required = "required" })
                             <label asp-for="StaffID" class="control-label"></label>
                             <span asp-validation-for="StaffID" class="text-danger"></span>
                         </div>
 
-
+                      
+ 
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="Date" type="date" class="form-control" placeholder="Date" />
                             <label asp-for="Date" class="control-label">Date</label>
