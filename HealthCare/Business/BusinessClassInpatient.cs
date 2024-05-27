@@ -265,6 +265,58 @@ namespace HealthCare.Business
             return pattypeid;
         }
 
+
+
+///inpaient case sheet 
+///
+
+        public List<PatientRegistrationModel> GetpateintID()
+        {
+            var patientID = (
+                    from pr in objInpatientDb.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID = pr.PatientID,
+                        FullName = pr.FullName,
+                    }
+                ).ToList();
+
+            return patientID;
+        }
+
+        public List<InpatientAdmissionModel> GetCaseid()
+        {
+            var caseid = (
+                    from pr in objInpatientDb.SHInpatientAdmission
+                    select new InpatientAdmissionModel
+                    {
+                       CaseID = pr.CaseID,
+                    }
+                ).ToList();
+
+            return caseid;
+        }
+
+        public List<HospitalBedMasterModel> GetBedID()
+        {
+            var bedid = (
+                    from pr in objInpatientDb.SHclnHospitalBedMaster
+                    select new HospitalBedMasterModel
+                    {
+                        BedID = pr.BedID,
+                        BedName = pr.BedName,
+
+                    }
+                ).ToList();
+
+            return bedid;
+        }
+
+
+
+
+
+
         public List<NurseStationMasterModel>GetnurseDWID()
         {
             var nurseDWid = (
