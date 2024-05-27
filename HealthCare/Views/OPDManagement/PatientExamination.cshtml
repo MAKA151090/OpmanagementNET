@@ -142,32 +142,7 @@
                 <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
             </div> *@
 
-            <h4>Symptoms and Severity</h4>
-                <table class="table" id="symptomsTable">
-                    <thead>
-                        <tr>
-                            <th>Symptom</th>
-                            <th>Severity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null)
-                     {
-                 
-                        @foreach (var item in Model.Severity)
-                        {
-                            <tr>
-                                <td><input type="text" class="form-control" name="Symptom" value="@item.Symptoms" asp-for="@item.Symptoms" /></td>
-                                            <td>
-                                                <select class="form-control" asp-for="@item.Severity" asp-items="Model.Severity"></select>
-                                            </td>
-                               
-                            </tr>
-                        }
-                    }
-
-                    </tbody>
-                </table>
+            
                     </div>
                 </div>
             </div>

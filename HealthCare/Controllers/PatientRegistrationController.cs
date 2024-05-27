@@ -84,6 +84,12 @@ namespace HealthCare.Controllers
             return View();
         }
 
+        public async Task<IActionResult> PatSearch(String PatientId, String PatientName, String pDOB)
+        {
+            
+            return View("PatientRegister");
+        }
+
         public async Task<ActionResult> HandleReg(string patientID, string FacilityID, string buttonType)
         {
             BusinessClassRegistration business = new BusinessClassRegistration (_healthcareContext);
