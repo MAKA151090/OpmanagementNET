@@ -3,6 +3,7 @@ using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace HealthCare.Controllers
@@ -45,6 +46,8 @@ namespace HealthCare.Controllers
                 existingSchedule.lastupdatedDate = DateTime.Now.ToString();
                 existingSchedule.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingSchedule.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                Getotschedule.Entry(existingSchedule).State = EntityState.Modified;
             }
             else
             {
@@ -82,6 +85,9 @@ namespace HealthCare.Controllers
                 existingNotes.lastupdatedDate = DateTime.Now.ToString();
                 existingNotes.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingNotes.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                Getotschedule.Entry(existingNotes).State = EntityState.Modified;
+
             }
             else
             {

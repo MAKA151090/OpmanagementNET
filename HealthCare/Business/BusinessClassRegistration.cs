@@ -107,6 +107,42 @@ namespace HealthCare.Business
             }
             objDbContext.SaveChanges();
         }
+
+
+
+        ///blood group  
+        ///
+
+        public List<BloodGroupModel> GetBloodGroup()
+        {
+            var bldgrpid = (
+                    from pr in objDbContext.SHclnBloodGroup
+                    select new BloodGroupModel
+                    {
+                        BloodGroup = pr.BloodGroup
+                    }
+               ).ToList();
+
+            return bldgrpid;
+        }
+
+
+        public List<ClinicAdminModel> GetFacilityid()
+        {
+            var Facid = (
+                    from pr in objDbContext.SHclnClinicAdmin
+                    select new ClinicAdminModel
+                    {
+                        FacilityID = pr.FacilityID,
+                        ClinicName = pr.ClinicName,
+                    }
+                ).ToList();
+
+            return Facid;
+
+
+
+        }
     }
 
 

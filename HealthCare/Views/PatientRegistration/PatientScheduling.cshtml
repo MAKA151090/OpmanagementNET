@@ -31,7 +31,7 @@
             });
                     }
 
-                    @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", required = "required" })
                     <label asp-for="PatientID" class="control-label"></label>
                     <span asp-validation-for="PatientID" class="text-danger"></span>
                 </div>
@@ -46,7 +46,7 @@
             });
                         }
 
-                        @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control", required = "required" })
                         <label asp-for="FacilityID" class="control-label"></label>
                         <span asp-validation-for="FacilityID" class="text-danger"></span>
                     </div>
@@ -62,7 +62,7 @@
             });
                 }
 
-                @Html.DropDownListFor(model => model.StaffID, screenList, "Select Staff ID", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.StaffID, screenList, "Select Staff ID", new { @class = "form-control", required = "required" })
                 <label asp-for="StaffID" class="control-label"></label>
                 <span asp-validation-for="StaffID" class="text-danger"></span>
             </div>
@@ -98,7 +98,7 @@
                 {
                     <tr>
                         <td>
-                            <input type="checkbox" name="selectedSchedules" value="@schedule.ScheduleID" />
+                            <input type="checkbox" name="selectedSchedules" value="@schedule.ScheduleID"  />
                         </td>
                         <td>@schedule.StaffID</td>
                         <td>@schedule.StaffName</td>

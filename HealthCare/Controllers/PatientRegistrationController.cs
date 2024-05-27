@@ -68,6 +68,11 @@ namespace HealthCare.Controllers
             }
                 await _healthcareContext.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully";
+
+              BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
+            ViewData["bldgrpid"] = schedule.GetBloodGroup();
+            ViewData["Facid"] = schedule.GetFacilityid();
+
             return View("PatientRegister" , model);
 
             
@@ -138,6 +143,10 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientRegister()
         {
+            BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
+            ViewData["bldgrpid"] = schedule.GetBloodGroup();
+
+            ViewData["Facid"] = schedule.GetFacilityid();
             return View();
         }
 

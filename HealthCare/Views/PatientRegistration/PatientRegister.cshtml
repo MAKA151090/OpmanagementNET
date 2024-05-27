@@ -26,17 +26,27 @@
            
             <div class="col-md-12 col-lg-3">
                  <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" required />
                             <label asp-for="PatientID" class="control-label"></label>
                                   <span asp-validation-for="PatientID" class="text-danger"></span>
                         </div>                   
             </div>
-                        <div class="col-md-12 col-lg-3">                          
+                        <div class="col-md-12 col-lg-3">
+
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
-                <label asp-for="FacilityID" class="control-label"></label>                            
-                <span asp-validation-for="FacilityID" class="text-danger"></span>
-            </div>
+                            @{
+                                var Facid = ((IEnumerable<ClinicAdminModel>)ViewData["Facid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.FacilityID} - {m.ClinicName}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.FacilityID, Facid, "Select Facility ID", new { @class = "form-control", required = "required" })
+                            <label asp-for="FacilityID" class="control-label"></label>
+                            <span asp-validation-for="FacilityID" class="text-danger"></span>
+                        </div>
                    
             </div>
             <div class="col-md-12 col-lg-6">
@@ -61,31 +71,31 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="FirstName" class="form-control" placeholder="FirstName" />
-                <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                            <label asp-for="FirstName" class="control-label">First Name</label>
                            
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="MidName" class="form-control" placeholder="MidName" />
-                <label asp-for="MidName" class="control-label"></label>
+                        <input asp-for="MidName" class="form-control" placeholder="Mid Name" />
+                            <label asp-for="MidName" class="control-label">Mid Name</label>
                            
                 <span asp-validation-for="MidName" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="LastName" class="form-control" placeholder="LastName" />
-                <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                            <label asp-for="LastName" class="control-label">Last Name</label>
                             
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="FullName" class="form-control" placeholder="FullName" x-webkit-speech />
-                <label asp-for="FullName" class="control-label"></label>
+                            <input asp-for="FullName" class="form-control" placeholder="Full Name" pattern="^[A-Za-z\s]+$" title="Only letters and spaces are allowed." required />
+                            <label asp-for="FullName" class="control-label">Full Name</label>
                           
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Initial" class="form-control" placeholder="Initial" />
+                            <input asp-for="Initial" class="form-control" placeholder="Initial" />
                 <label asp-for="Initial" class="control-label"></label>
                            
                 <span asp-validation-for="Initial" class="text-danger"></span>
@@ -97,7 +107,7 @@
                 <span asp-validation-for="Prefix" class="text-danger"></span>
             </div>                          
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Dob" class="form-control" placeholder="Dob" />
+                            <input asp-for="Dob" class="form-control" placeholder="DOB" type="date"  />
                             <label asp-for="Dob" class="control-label"></label>
 
                             <span asp-validation-for="Dob" class="text-danger"></span>
@@ -110,23 +120,23 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Age" class="form-control" placeholder="Age" />
+                            <input asp-for="Age" class="form-control" placeholder="Age"  required />
                             <label asp-for="Age" class="control-label"></label>
 
                             <span asp-validation-for="Age" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating form-floating-outline mb-4">
-                            <select asp-for="BloodGroup" class="form-control">
-                                <option value="">Select Blood Group</option>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                            </select>
+                            @{
+                                var bldgrpid = ((IEnumerable<BloodGroupModel>)ViewData["bldgrpid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.BloodGroup.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.BloodGroup}"
+            });
+                            }
+
+                            @Html.DropDownListFor(model => model.BloodGroup, bldgrpid, "Select Blood Group", new { @class = "form-control", required = "required" })
                             <label asp-for="BloodGroup" class="control-label"></label>
                             <span asp-validation-for="BloodGroup" class="text-danger"></span>
                         </div>
@@ -135,39 +145,33 @@
                         <div class="form-group">
                             <label class="control-label">Gender:</label><br />
                             <div class="form-check form-check-inline">
-                                <input asp-for="Gender" class="form-check-input" type="radio" value="Male" id="maleRadio" />
+                                <input asp-for="Gender" class="form-check-input" type="radio" value="Male" id="maleRadio" required />
                                 <label class="form-check-label" for="maleRadio">Male</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input asp-for="Gender" class="form-check-input" type="radio" value="Female" id="femaleRadio" />
+                                <input asp-for="Gender" class="form-check-input" type="radio" value="Female" id="femaleRadio" required />
                                 <label class="form-check-label" for="femaleRadio">Female</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input asp-for="Gender" class="form-check-input" type="radio" value="Other" id="otherRadio" />
+                                <input asp-for="Gender" class="form-check-input" type="radio" value="Other" id="otherRadio" required />
                                 <label class="form-check-label" for="otherRadio">Other</label>
                             </div>
                             <span asp-validation-for="Gender" class="text-danger"></span>
                         </div>
 
-          
-           
-
 
 
                         <div class="form-group">
-                            <label class="control-label">Marital Status:</label><br />
-                            <div class="form-check form-check-inline">
-                                <input asp-for="MaritalStatus" class="form-check-input" type="radio" value="Single" id="singleRadio" />
-                                <label class="form-check-label" for="singleRadio">Single</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input asp-for="MaritalStatus" class="form-check-input" type="radio" value="Married" id="marriedRadio" />
-                                <label class="form-check-label" for="marriedRadio">Married</label>
-                            </div>
+                            <label asp-for="MaritalStatus" class="control-label">Marital Status:</label>
+                            <select asp-for="MaritalStatus" class="form-control">
+                                <option value="">Select Marital Status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                            </select>
                             <span asp-validation-for="MaritalStatus" class="text-danger"></span>
                         </div>
 
-
+                        <br />
 
                         <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
                             <textarea asp-for="Address1" class="form-control" placeholder="Address1" aria-describedby="text-to-speech-addon"></textarea>
@@ -196,8 +200,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PhoneNumber" class="form-control" placeholder="PhoneNumber" />
-                            <label asp-for="PhoneNumber" class="control-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." required />
+                            <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
                             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                         <div class="form-floating form-floating-outline mb-4">
@@ -220,19 +224,19 @@
             </div>
 
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Pin" class="form-control" placeholder="Pin" />
-                <label asp-for="Pin" class="control-label"></label>
+                            <input asp-for="Pin" class="form-control" placeholder="Pin Number" />
+                            <label asp-for="Pin" class="control-label">Pin Number</label>
                           
                 <span asp-validation-for="Pin" class="text-danger"></span>
            </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="IDPrfName" class="form-control" placeholder="IDProofName" />
-                <label asp-for="IDPrfName"  class="control-label">IDProofName</label>
+                            <input asp-for="IDPrfName" class="form-control" placeholder="IDProof Name" />
+                <label asp-for="IDPrfName"  class="control-label">IDProof Name</label>
                 <span asp-validation-for="IDPrfName" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="IDPrfNumber" class="form-control" placeholder="IDProofNumber" />
-                <label asp-for="IDPrfNumber" class="control-label">IDProofNumber</label>
+                            <input asp-for="IDPrfNumber" class="form-control" placeholder="IDProof Number" />
+                <label asp-for="IDPrfNumber" class="control-label">IDProof Number</label>
                          
                 <span asp-validation-for="IDPrfNumber" class="text-danger"></span>
             </div>
@@ -247,26 +251,26 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CnctPrsnName" class="form-control" placeholder="CnctPrsnName" />
-                <label asp-for="CnctPrsnName" class="control-label">ContactPersonName</label>
+                            <input asp-for="CnctPrsnName" class="form-control" placeholder="Contact Person Name" />
+                <label asp-for="CnctPrsnName" class="control-label">Contact Person Name</label>
                         
                 <span asp-validation-for="CnctPrsnName" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Rlnpatient" class="form-control" placeholder="Rlnpatient" />
+                            <input asp-for="Rlnpatient" class="form-control" placeholder="Patient Relation" />
                 <label asp-for="Rlnpatient" class="control-label">Patient Relation</label>
                           
                 <span asp-validation-for="Rlnpatient" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="EmgcyCntNum" class="form-control" placeholder="EmgcyCntNum" />
+                            <input asp-for="EmgcyCntNum" class="form-control" placeholder="Emergency Contact Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." required />
                 <label asp-for="EmgcyCntNum" class="control-label">Emergency Contact Number</label>
                           
                 <span asp-validation-for="EmgcyCntNum" class="text-danger"></span>
             </div>
                         
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="DateTime" class="form-control" type="date" placeholder="DateTime" />
+                            <input asp-for="DateTime" class="form-control" type="datetime-local" placeholder="DateTime" />
                 <label asp-for="DateTime" class="control-label"></label>
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
@@ -306,6 +310,4 @@
    
 </div>
 
-@* <div>
-    <a asp-action="Index">Back to List</a>
-</div> *@
+
