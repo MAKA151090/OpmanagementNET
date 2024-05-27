@@ -6,32 +6,30 @@
 }
 
 
-
-
 <div class="card xl-8">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1" >Patient Registration</h2>
+            <h2 class="text-primary mb-1">Patient Registration</h2>
             <small class="text-muted float-end"></small>
 
         </div>
     </div>
 
 
-        <form asp-action="Create" asp-controller="PatientRegistration">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create" asp-controller="PatientRegistration" novalidate>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="card">
             <div class="card-body">
-        <div class="row gy-4">
-           
-            <div class="col-md-12 col-lg-3">
-                 <div class="form-floating form-floating-outline mb-4">
+                <div class="row gy-4">
+
+                    <div class="col-md-12 col-lg-3">
+                        <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="PatientID" class="form-control" placeholder="PatientID" required />
                             <label asp-for="PatientID" class="control-label"></label>
-                                  <span asp-validation-for="PatientID" class="text-danger"></span>
-                        </div>                   
-            </div>
-                        <div class="col-md-12 col-lg-3">
+                            <span asp-validation-for="PatientID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-3">
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
@@ -47,267 +45,355 @@
                             <label asp-for="FacilityID" class="control-label"></label>
                             <span asp-validation-for="FacilityID" class="text-danger"></span>
                         </div>
-                   
-            </div>
-            <div class="col-md-12 col-lg-6">
-               
-            <div>
-                
-                            <button type="submit" value="Get" asp-action="GetPatient" class="btn btn-primary">Get</button>
-                           
-            </div>
+
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+
+                        <div>
+                            <button type="submit" value="Get" id ="GetPatient" asp-action="GetPatient" class="btn btn-primary">Get</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCenter">
+                                Search
+                            </button>
+                            <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="modalCenterTitle">Modal title</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col mb-4 mt-2">
+                                                    <div class="form-floating form-floating-outline">
+                                                        <input type="text" id="nameWithTitle" class="form-control" value="@ViewData["PatientId"]" ="Enter Name">
+                                                        <label for="nameWithTitle">Patient Name</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col mb-2">
+                                                    <div class="form-floating form-floating-outline">
+                                                        <input type="text" id="IdWithTitle" class="form-control" placeholder="xxxx&#64;xxx.xx">
+                                                        <label for="emailWithTitle">Patient ID</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col mb-2">
+                                                    <div class="form-floating form-floating-outline">
+                                                        <input type="date" id="dobWithTitle" class="form-control">
+                                                        <label for="dobWithTitle">DOB</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit"  value="Get" class="btn btn-primary" asp-action="PatSearch">Search</button>
+                                        </div>
+                                        <div id="slotsTable">
+                                            <h3>Slots</h3>
+                                            <table id="SlotTable" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Select</th>
+                                                        <th>PatientId</th>
+                                                        <th>PatientName</th>
+                                                        <th>PatientDob</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @{
+                                                        var PatSearchlist = ViewBag.PatSearch as List<PatientRegistrationModel>;
+                                                    }
+
+                                                    @if (PatSearchlist != null)
+                                                    {
+                                                        for (int i = 0; i < PatSearchlist.Count; i++)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="radio" name="selectedSlots" value="@PatSearchlist[i].PatientID" />
+                                                                    <input type="hidden" name="SlotsID" value="@PatSearchlist[i].PatientID" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="FromTime_@PatSearchlist[i].PatientID" value="@PatSearchlist[i].PatientID" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="ToTime_@PatSearchlist[i].FullName" value="@PatSearchlist[i].FullName" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="ToTime_@PatSearchlist[i].Dob" value="@PatSearchlist[i].Dob" />
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-         </div>
 
-        <div class="row gy-4">
-            <div class="form-floating form-floating-outline mb-4">
+            <div class="row gy-4">
+                <div class="form-floating form-floating-outline mb-4">
                 </div>
             </div>
-        <div class="row gy-4">
+            <div class="row gy-4">
 
-            <div class="col-md-12 col-lg-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="FirstName" class="form-control" placeholder="First Name" />
-                            <label asp-for="FirstName" class="control-label">First Name</label>
-                           
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="MidName" class="form-control" placeholder="Mid Name" />
-                            <label asp-for="MidName" class="control-label">Mid Name</label>
-                           
-                <span asp-validation-for="MidName" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="LastName" class="form-control" placeholder="Last Name" />
-                            <label asp-for="LastName" class="control-label">Last Name</label>
-                            
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="FullName" class="form-control" placeholder="Full Name" pattern="^[A-Za-z\s]+$" title="Only letters and spaces are allowed." required />
-                            <label asp-for="FullName" class="control-label">Full Name</label>
-                          
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Initial" class="form-control" placeholder="Initial" />
-                <label asp-for="Initial" class="control-label"></label>
-                           
-                <span asp-validation-for="Initial" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Prefix" class="form-control" placeholder="Prefix" />
-                <label asp-for="Prefix" class="control-label"></label>
-                           
-                <span asp-validation-for="Prefix" class="text-danger"></span>
-            </div>                          
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Dob" class="form-control" placeholder="DOB" type="date"  />
-                            <label asp-for="Dob" class="control-label"></label>
+                <div class="col-md-12 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                                <label asp-for="FirstName" class="control-label">First Name</label>
 
-                            <span asp-validation-for="Dob" class="text-danger"></span>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="MidName" class="form-control" placeholder="Mid Name" />
+                                <label asp-for="MidName" class="control-label">Mid Name</label>
+
+                                <span asp-validation-for="MidName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                                <label asp-for="LastName" class="control-label">Last Name</label>
+
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="FullName" class="form-control" placeholder="Full Name" pattern="^[A-Za-z\s]+$" title="Only letters and spaces are allowed." required />
+                                <label asp-for="FullName" class="control-label">Full Name</label>
+
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Initial" class="form-control" placeholder="Initial" />
+                                <label asp-for="Initial" class="control-label"></label>
+
+                                <span asp-validation-for="Initial" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Prefix" class="form-control" placeholder="Prefix" />
+                                <label asp-for="Prefix" class="control-label"></label>
+
+                                <span asp-validation-for="Prefix" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Dob" class="form-control" placeholder="DOB" type="date" />
+                                <label asp-for="Dob" class="control-label"></label>
+
+                                <span asp-validation-for="Dob" class="text-danger"></span>
+                            </div>
+
                         </div>
-                      
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 col-lg-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Age" class="form-control" placeholder="Age"  required />
-                            <label asp-for="Age" class="control-label"></label>
+                <div class="col-md-12 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Age" class="form-control" placeholder="Age" required />
+                                <label asp-for="Age" class="control-label"></label>
 
-                            <span asp-validation-for="Age" class="text-danger"></span>
-                        </div>
+                                <span asp-validation-for="Age" class="text-danger"></span>
+                            </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var bldgrpid = ((IEnumerable<BloodGroupModel>)ViewData["bldgrpid"])
-                                .Select(m => new SelectListItem
+                            <div class="form-floating form-floating-outline mb-4">
+                                @{
+                                    var bldgrpid = ((IEnumerable<BloodGroupModel>)ViewData["bldgrpid"])
+                                    .Select(m => new SelectListItem
             {
                 Value = m.BloodGroup.ToString(), // Assuming ScreenId is of type int
                 Text = $"{m.BloodGroup}"
             });
-                            }
+                                }
 
-                            @Html.DropDownListFor(model => model.BloodGroup, bldgrpid, "Select Blood Group", new { @class = "form-control", required = "required" })
-                            <label asp-for="BloodGroup" class="control-label"></label>
-                            <span asp-validation-for="BloodGroup" class="text-danger"></span>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="control-label">Gender:</label><br />
-                            <div class="form-check form-check-inline">
-                                <input asp-for="Gender" class="form-check-input" type="radio" value="Male" id="maleRadio" required />
-                                <label class="form-check-label" for="maleRadio">Male</label>
+                                @Html.DropDownListFor(model => model.BloodGroup, bldgrpid, "Select Blood Group", new { @class = "form-control", required = "required" })
+                                <label asp-for="BloodGroup" class="control-label"></label>
+                                <span asp-validation-for="BloodGroup" class="text-danger"></span>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input asp-for="Gender" class="form-check-input" type="radio" value="Female" id="femaleRadio" required />
-                                <label class="form-check-label" for="femaleRadio">Female</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input asp-for="Gender" class="form-check-input" type="radio" value="Other" id="otherRadio" required />
-                                <label class="form-check-label" for="otherRadio">Other</label>
-                            </div>
-                            <span asp-validation-for="Gender" class="text-danger"></span>
-                        </div>
 
 
-
-                        <div class="form-group">
-                            <label asp-for="MaritalStatus" class="control-label">Marital Status:</label>
-                            <select asp-for="MaritalStatus" class="form-control">
-                                <option value="">Select Marital Status</option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                            </select>
-                            <span asp-validation-for="MaritalStatus" class="text-danger"></span>
-                        </div>
-
-                        <br />
-
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="Address1" class="form-control" placeholder="Address1" aria-describedby="text-to-speech-addon"></textarea>
-                            <label asp-for="Address1" class="control-label"></label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-                            <span asp-validation-for="Address1" class="text-danger"></span>
-             </div>               
-
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="Address2" class="form-control"  placeholder="Address2" aria-describedby="text-to-speech-addon"></textarea>
-                            <label asp-for="Address2" class="control-label"></label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-                            <span asp-validation-for="Address2" class="text-danger"></span>
-
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-lg-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." required />
-                            <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Country" class="form-control" placeholder="Country" />
-                <label asp-for="Country" class="control-label"></label>
-                
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="City" class="form-control" placeholder="City" />
-                <label asp-for="City" class="control-label"></label>
-              
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="State" class="form-control" placeholder="State" />
-                <label asp-for="State" class="control-label"></label>
-                         
-                <span asp-validation-for="State" class="text-danger"></span>
-            </div>
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Pin" class="form-control" placeholder="Pin Number" />
-                            <label asp-for="Pin" class="control-label">Pin Number</label>
-                          
-                <span asp-validation-for="Pin" class="text-danger"></span>
-           </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="IDPrfName" class="form-control" placeholder="IDProof Name" />
-                <label asp-for="IDPrfName"  class="control-label">IDProof Name</label>
-                <span asp-validation-for="IDPrfName" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="IDPrfNumber" class="form-control" placeholder="IDProof Number" />
-                <label asp-for="IDPrfNumber" class="control-label">IDProof Number</label>
-                         
-                <span asp-validation-for="IDPrfNumber" class="text-danger"></span>
-            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            
-            <div class="col-md-12 col-lg-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CnctPrsnName" class="form-control" placeholder="Contact Person Name" />
-                <label asp-for="CnctPrsnName" class="control-label">Contact Person Name</label>
-                        
-                <span asp-validation-for="CnctPrsnName" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Rlnpatient" class="form-control" placeholder="Patient Relation" />
-                <label asp-for="Rlnpatient" class="control-label">Patient Relation</label>
-                          
-                <span asp-validation-for="Rlnpatient" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="EmgcyCntNum" class="form-control" placeholder="Emergency Contact Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." required />
-                <label asp-for="EmgcyCntNum" class="control-label">Emergency Contact Number</label>
-                          
-                <span asp-validation-for="EmgcyCntNum" class="text-danger"></span>
-            </div>
-                        
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="DateTime" class="form-control" type="datetime-local" placeholder="DateTime" />
-                <label asp-for="DateTime" class="control-label"></label>
-                <span asp-validation-for="DateTime" class="text-danger"></span>
-            </div>
-                        <div class="row gy-4">
-                            <div class="form-floating form-floating-outline mb-4">
-                            </div>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <center>
-                            <button type="submit" value="Create" asp-action="Create" class="btn btn-primary">Save</button>
-                            @if (ViewBag.Message != null)
-                            {
-                                <div class="alert alert-success">
-                                    @ViewBag.Message
+                            <div class="form-group">
+                                <label class="control-label">Gender:</label><br />
+                                <div class="form-check form-check-inline">
+                                    <input asp-for="Gender" class="form-check-input" type="radio" value="Male" id="maleRadio" required />
+                                    <label class="form-check-label" for="maleRadio">Male</label>
                                 </div>
-                            }
-                            </center>
-            </div>
-                    
+                                <div class="form-check form-check-inline">
+                                    <input asp-for="Gender" class="form-check-input" type="radio" value="Female" id="femaleRadio" required />
+                                    <label class="form-check-label" for="femaleRadio">Female</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input asp-for="Gender" class="form-check-input" type="radio" value="Other" id="otherRadio" required />
+                                    <label class="form-check-label" for="otherRadio">Other</label>
+                                </div>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label asp-for="MaritalStatus" class="control-label">Marital Status:</label>
+                                <select asp-for="MaritalStatus" class="form-control">
+                                    <option value="">Select Marital Status</option>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                </select>
+                                <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+                            </div>
+
+                            <br />
+
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="Address1" class="form-control" placeholder="Address1" aria-describedby="text-to-speech-addon"></textarea>
+                                <label asp-for="Address1" class="control-label"></label>
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
+                                <span asp-validation-for="Address1" class="text-danger"></span>
+                            </div>
+
+                            <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                                <textarea asp-for="Address2" class="form-control" placeholder="Address2" aria-describedby="text-to-speech-addon"></textarea>
+                                <label asp-for="Address2" class="control-label"></label>
+                                <span class="input-group-text" id="text-to-speech-addon">
+                                    <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                                </span>
+                                <span asp-validation-for="Address2" class="text-danger"></span>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." required />
+                                <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Country" class="form-control" placeholder="Country" />
+                                <label asp-for="Country" class="control-label"></label>
+
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="City" class="form-control" placeholder="City" />
+                                <label asp-for="City" class="control-label"></label>
+
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="State" class="form-control" placeholder="State" />
+                                <label asp-for="State" class="control-label"></label>
+
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Pin" class="form-control" placeholder="Pin Number" />
+                                <label asp-for="Pin" class="control-label">Pin Number</label>
+
+                                <span asp-validation-for="Pin" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="IDPrfName" class="form-control" placeholder="IDProof Name" />
+                                <label asp-for="IDPrfName" class="control-label">IDProof Name</label>
+                                <span asp-validation-for="IDPrfName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="IDPrfNumber" class="form-control" placeholder="IDProof Number" />
+                                <label asp-for="IDPrfNumber" class="control-label">IDProof Number</label>
+
+                                <span asp-validation-for="IDPrfNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-12 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="CnctPrsnName" class="form-control" placeholder="Contact Person Name" />
+                                <label asp-for="CnctPrsnName" class="control-label">Contact Person Name</label>
+
+                                <span asp-validation-for="CnctPrsnName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="Rlnpatient" class="form-control" placeholder="Patient Relation" />
+                                <label asp-for="Rlnpatient" class="control-label">Patient Relation</label>
+
+                                <span asp-validation-for="Rlnpatient" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="EmgcyCntNum" class="form-control" placeholder="Emergency Contact Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." required />
+                                <label asp-for="EmgcyCntNum" class="control-label">Emergency Contact Number</label>
+
+                                <span asp-validation-for="EmgcyCntNum" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="DateTime" class="form-control" type="datetime-local" placeholder="DateTime" />
+                                <label asp-for="DateTime" class="control-label"></label>
+                                <span asp-validation-for="DateTime" class="text-danger"></span>
+                            </div>
+                            <div class="row gy-4">
+                                <div class="form-floating form-floating-outline mb-4">
+                                </div>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                <center>
+                                    <button type="submit" value="Create" asp-action="Create" class="btn btn-primary">Save</button>
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-success">
+                                            @ViewBag.Message
+                                        </div>
+                                    }
+                                </center>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-        </div>
-        @* <div class="row gy-4">
+            @* <div class="row gy-4">
             <div class="form-floating form-floating-outline mb-4">
             </div>
             <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div> 
+            <label asp-for="lastUpdatedUser" class="control-label"></label>
+            <input asp-for="lastUpdatedUser" class="form-control" />
+            <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+            </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <input type="submit" value="Create" class="btn btn-primary" />
             </div> *@
 
-        </form>
-   
+    </form>
+
+        <script>
+            document.getElementById("GetPatient").addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default form submission
+                // Perform any other actions if needed
+            });
+        </script>
+    
+
 </div>
 
 

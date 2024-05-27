@@ -219,8 +219,14 @@ namespace HealthCare.Controllers
                 await _healthcareContext.SaveChangesAsync();
 
 
-                ViewBag.Message = "Saved Successfully";
-                return View("InPatientCaseSheet", model);
+            ViewBag.Message = "Saved Successfully";
+
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["patientID"] = inpatient.GetpateintID();
+            ViewData["caseid"] = inpatient.GetCaseid();
+            ViewData["bedid"] = inpatient.GetBedID();
+
+            return View("InPatientCaseSheet", model);
 
             }
 
@@ -397,7 +403,11 @@ namespace HealthCare.Controllers
 
             public IActionResult InPatientCaseSheet()
             {
-                return View();
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["patientID"] = inpatient.GetpateintID();
+
+            ViewData["caseid"] = inpatient.GetCaseid();
+            return View();
             }
 
             public IActionResult InPatientDischarge()
@@ -410,7 +420,8 @@ namespace HealthCare.Controllers
             }
             public IActionResult InPatientCaseSheetModel()
             {
-                return View();
+           
+            return View();
             }
 
             public IActionResult InPatientDocVisit()

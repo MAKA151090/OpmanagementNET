@@ -151,7 +151,7 @@ namespace HealthCare.Business
             foreach (var item in addQus)
             {
                 var objFHPH = (objSearchContext.SHExmPatientFHPH.FirstOrDefault(x =>
-                x.PatientID == patientID && x.Type==Type &&x.QuestionID==QuestionID));
+                x.PatientID == patientID && x.Type==Type && x.QuestionID==QuestionID));
 
                 if (objFHPH == null)
                 {
@@ -468,6 +468,20 @@ namespace HealthCare.Business
                 ).ToList();
 
             return faid;
+        }
+
+        public List<PatientObjectiveModel> GetvisitDW()
+        {
+            var VisitDW = (
+                    from v in objSearchContext.SHExmPatientObjective
+                    select new PatientObjectiveModel
+                    {
+                        VisitID = v.VisitID,
+                        VisitDate = v.VisitDate,
+                    }
+                ).ToList();
+
+            return VisitDW;
         }
 
 
