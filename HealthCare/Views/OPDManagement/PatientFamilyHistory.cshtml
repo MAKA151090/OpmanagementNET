@@ -5,16 +5,31 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>PatientExamFHViewl</h1>
+<h1>Patient History and Familyhistory</h1>
 @using (Html.BeginForm("SaveFHPH", "OPDManagement", FormMethod.Post))
 {
     <hr />
     <div class="row">
         <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+          @*   <div class="form-group">
                 <label asp-for="PatientID" class="control-label"></label>
                 <input asp-for="PatientID" class="form-control" />
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div> *@
+
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                    var patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
+                    .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                }
+
+                @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", @required = "required" })
+                <label asp-for="PatientID" class="control-label"></label>
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
 
@@ -25,7 +40,7 @@
                 </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
-            <button type="submit" name="buttonType" value="Get" class="btn btn-success">Get</button>
+            <button type="submit" name="buttonType" value="Get" class="btn btn-primary btn-lg">Get</button>
             
 
         </div>
@@ -56,9 +71,14 @@
 
                     </tr>
                 }
+            }
+        </tbody>
+       </table>
+
+
                 @if (Model != null)
                 {
-                    <button type="submit" name="buttonType" value="Save" class="btn btn-success">Save</button>
+                    <button type="submit" name="buttonType" value="Save" class="btn btn-primary btn-lg">Save</button>
                 }
                 @if (ViewBag.Message != null)
                 {
@@ -67,9 +87,9 @@
                     </div>
                 }
             }
-        </tbody>
-    </table>
-}
+     
+       
+
 
 
 

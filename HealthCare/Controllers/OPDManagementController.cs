@@ -197,6 +197,11 @@ namespace HealthCare.Controllers
 
         public IActionResult GeneratePatientExaminationDocument(string patientId, string visitId, string FacilityID)
         {
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
+            ViewData["VisitDW"] = DPDW.GetvisitDW();
+
             try
             {
                 BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
@@ -273,21 +278,37 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> PatientExamination(PatientExaminationModel patient, string buttonType)
+        public async Task<ActionResult> PatientExamination(string objPatientID, PatientExaminationModel pPatientExmCreate,PatExmSymptomsSeverity severity,PatientExaminationModel patientExamination, string buttonType)
         {
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
+            ViewData["VisitDW"] = DPDW.GetvisitDW();
+
 
             if (buttonType == "patientDiagnosis")
-            { 
+            {
                 return View("PatientDiagnosis");
             }
             else if (buttonType == "patientProcedure")
             {
-               
+
                 return View("PatientProcedure");
-           
+
             }
-            
-            return View();
+
+            BusinessClassExamination objBusinessclass = new BusinessClassExamination(getPatientObjective);
+            pPatientExmCreate.lastUpdatedDate = DateTime.Now.ToString();
+            pPatientExmCreate.lastUpdatedUser = User.Claims.First().Value.ToString();
+
+            await objBusinessclass.SavePatientExaminationAndSeverity(patientExamination, severity);
+
+
+            //getPatientObjective.SHExmPatientExamination.Add(pPatientExmCreate);
+            //await getPatientObjective.SaveChangesAsync();
+            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientExmCreate.PatientID }, pPatientExmCreate);
+
+
         }
 
         public async Task<IActionResult> PatientviewDiagnosis(PatientDiagnosisModel pPatientDig)
@@ -420,22 +441,9 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientFamilyHistory()
         {
-            /* String PatientID = "101";
-             String FacilityID = "1000";
-
-             List<PatientExamFHViewModel> patientExamFH = new List<PatientExamFHViewModel>();
-
-             //Code here to take questions
-             BusinessClassExamination business = new BusinessClassExamination(getPatientObjective);
-
-             var Questions = business.GetHistoryQuestions("FH");
-
-             foreach (PatientFHPHMasterModel Question in Questions)
-             {
-                 patientExamFH.Add(new PatientExamFHViewModel { PatientID = PatientID, Question = Question.Question,QuestionID=Question.QuestionID});
-             }
-
-             return View("PatientExamFamilyHealthHxView",patientExamFH);*/
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
             return View();
         }
         [HttpPost]
@@ -459,11 +467,18 @@ namespace HealthCare.Controllers
                         SelectFHPH.lastUpdatedUser = User.Claims.First().Value.ToString();
                         SelectFHPH.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                         getPatientObjective.SHExmPatientFHPH.Update(SelectFHPH);
-                        getPatientObjective.Entry(SelectFHPH).State = EntityState.Modified;
+                        getPatientObjective.Entry(SelectFHPH).State = EntityState.Modified; 
+                        
 
+                        BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+                        ViewData["patid"] = DPDW.Getpatid();
+                       
                     }
                     else
                     {
+                        BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+                        ViewData["patid"] = DPDW.Getpatid();
+                        
                         SelectFHPH = new PatientFHPHModel
                         {
 
@@ -474,6 +489,7 @@ namespace HealthCare.Controllers
                             lastUpdatedDate = DateTime.Now.ToString(),
                             lastUpdatedUser = User.Claims.First().Value.ToString(),
                             lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+
                         };
                        // getPatientObjective.SHExmPatientFHPH.Update(SelectFHPH);
                        
@@ -482,16 +498,22 @@ namespace HealthCare.Controllers
                 }
                
                 await getPatientObjective.SaveChangesAsync();
+                ViewBag.Message = "Saved Successfully.";
             }
 
             if (buttonType == "Get")
             {
                 var FHPHresult = ViewFHPH.GetHistoryQuestions(Model.Type, Model.PatientID, Model.QuestionID);
+                BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+                ViewData["patid"] = DPDW.Getpatid();
                 var FHPHviewModel = new PatientFHPHViewModel
                 {
                     Answer = Model.Answer,
                     SHFHPHviewlist = FHPHresult
+
                 };
+
+                
                 return View("PatientFamilyHistory", FHPHviewModel);
             }
             ViewBag.Message = "Saved Successfully";
@@ -504,11 +526,21 @@ namespace HealthCare.Controllers
        
         public IActionResult PatientVisitIntoDocument()
         {
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
+            ViewData["VisitDW"] = DPDW.GetvisitDW();
+
+
             return View();
         }
         public IActionResult PatientExamination()
         {
-           
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
+            ViewData["VisitDW"] = DPDW.GetvisitDW();
+
 
             return View();
 
