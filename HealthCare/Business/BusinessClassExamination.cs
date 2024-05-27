@@ -236,8 +236,8 @@ namespace HealthCare.Business
                                  join c in objSearchContext.SHclnClinicAdmin
                                  on re.FacilityID equals c.FacilityID into PatClinc
                                  from rec in PatClinc.DefaultIfEmpty()
-                                 where (r.PatientID == patientID || r.FullName == patientName) ||
-                                                      (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) ||
+                                 where (r.PatientID == patientID || r.FullName == patientName) &&
+                                                      (re.VisitID == visitID || re.VisitDate == visitDate || re.VisitID == null) &&
                                                       (re.FacilityID == FacilityID || rec.ClinicName == clinicName || re.FacilityID == null)
                                  select new PatExamSearchModel
                                  {
@@ -440,5 +440,36 @@ namespace HealthCare.Business
             }
             return true;
         }
+
+
+        public List<PatientRegistrationModel> Getpatid()
+        {
+            var patid = (
+                    from pr in objSearchContext.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID = pr.PatientID,
+                        FullName = pr.FullName
+                    }
+                ).ToList();
+
+            return patid;
+        }
+
+        public List<ClinicAdminModel> Getfaid()
+        {
+            var faid = (
+                    from pr in objSearchContext.SHclnClinicAdmin
+                    select new ClinicAdminModel
+                    {
+                        FacilityID = pr.FacilityID,
+                        ClinicName = pr.ClinicName,
+                    }
+                ).ToList();
+
+            return faid;
+        }
+
+
     }
 }

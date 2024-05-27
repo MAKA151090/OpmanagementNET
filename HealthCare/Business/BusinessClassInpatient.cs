@@ -264,6 +264,20 @@ namespace HealthCare.Business
 
             return pattypeid;
         }
+
+        public List<NurseStationMasterModel>GetnurseDWID()
+        {
+            var nurseDWid = (
+                      from nr in objInpatientDb.SHclnNurseStationMaster
+                      select new NurseStationMasterModel
+                      {
+                          NurseStationID = nr.NurseStationID,
+                          StationName = nr.StationName
+                      }
+
+                ).ToList();
+            return nurseDWid;
+        }
     }
 
 }
