@@ -258,7 +258,21 @@ namespace HealthCare.Controllers
 
 
                 ViewBag.Message = "Saved Successfully";
-                return View("InPatientDocVisit", model);
+
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["patid"] = inpatient.Getpatid();
+            ViewData["faid"] = inpatient.Getfaid();
+            ViewData["condocid"] = inpatient.GetConDocId();
+            ViewData["dutydocid"] = inpatient.Getdutydocid();
+            ViewData["refocid"] = inpatient.GetRefDocId();
+            ViewData["addcondocid"] = inpatient.GetAddcondocid();
+            ViewData["bedid"] = inpatient.GetBedid();
+            ViewData["condepid"] = inpatient.Getcondepid();
+            ViewData["pattypeid"] = inpatient.Getinpattype();
+            ViewData["nurseDWid"] = inpatient.GetnurseDWID();
+
+            return View("InPatientDocVisit", model);
+
 
             }
 
@@ -401,7 +415,18 @@ namespace HealthCare.Controllers
 
             public IActionResult InPatientDocVisit()
             {
-                return View();
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["patid"] = inpatient.Getpatid();
+            ViewData["faid"] = inpatient.Getfaid();
+            ViewData["condocid"] = inpatient.GetConDocId();
+            ViewData["dutydocid"] = inpatient.Getdutydocid();
+            ViewData["refocid"] = inpatient.GetRefDocId();
+            ViewData["addcondocid"] = inpatient.GetAddcondocid();
+            ViewData["bedid"] = inpatient.GetBedid();
+            ViewData["condepid"] = inpatient.Getcondepid();
+            ViewData["pattypeid"] = inpatient.Getinpattype();
+            ViewData["nurseDWid"] = inpatient.GetnurseDWID();
+            return View();
             }
 
             public IActionResult InPatientDischargeSummary()

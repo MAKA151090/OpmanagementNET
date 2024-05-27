@@ -7,7 +7,7 @@
 <div class="card xl-8">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">ClinicAdminModel</h2>
+            <h2 class="text-primary mb-1">InPatientAdmission</h2>
             <small class="text-muted float-end"></small>
 
         </div>
@@ -32,13 +32,13 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", @required = "required" })
                             <label asp-for="PatientID" class="control-label"></label>
                             <span asp-validation-for="PatientID" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CaseID" class="form-control" placeholder="CaseID" />
+                            <input asp-for="CaseID" class="form-control" placeholder="CaseID" required />
                 <label asp-for="CaseID" class="control-label"></label>
                 <span asp-validation-for="CaseID" class="text-danger"></span>
             </div>
@@ -54,7 +54,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.FacilityID, facilityid, "Select Facility ID", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.FacilityID, facilityid, "Select Facility ID", new { @class = "form-control", @required = "required" })
                             <label asp-for="FacilityID" class="control-label"></label>
                             <span asp-validation-for="FacilityID" class="text-danger"></span>
                         </div>
@@ -70,7 +70,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.ConsultDoctorID, condocotorid, "Select Consult Doctor Id", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.ConsultDoctorID, condocotorid, "Select Consult Doctor Id", new { @class = "form-control", @required = "required" })
                             <label asp-for="ConsultDoctorID" class="control-label"></label>
                             <span asp-validation-for="ConsultDoctorID" class="text-danger"></span>
                         </div>
@@ -90,7 +90,7 @@
 
                             @Html.DropDownListFor(model => model.DutyDoctorID, dutydoctorid, "Select Duty Doctor Id", new { @class = "form-control" })
                             <label asp-for="DutyDoctorID" class="control-label"></label>
-                            <span asp-validation-for="DutyDoctorID" class="text-danger"></span>
+                            
                         </div>
 
 
@@ -107,7 +107,7 @@
 
                             @Html.DropDownListFor(model => model.ReferredByDoctorID, refdoctorid, "Select Referral Doctor Id", new { @class = "form-control" })
                             <label asp-for="ReferredByDoctorID" class="control-label"></label>
-                            <span asp-validation-for="ReferredByDoctorID" class="text-danger"></span>
+                           
                         </div>
 
             </div></div></div>
@@ -126,7 +126,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.BedID, bedid, "Select Bed Id", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.BedID, bedid, "Select Bed Id", new { @class = "form-control", @required = "required" })
                             <label asp-for="BedID" class="control-label"></label>
                             <span asp-validation-for="BedID" class="text-danger"></span>
                         </div>
@@ -135,7 +135,7 @@
 
                             <input asp-for="Purpose" class="form-control" placeholder="Purpose" />
                 <label asp-for="Purpose" class="control-label"></label>
-                <span asp-validation-for="Purpose" class="text-danger"></span>
+               
             </div>
 
                         <div class="form-floating form-floating-outline mb-4">
@@ -150,7 +150,7 @@
 
                             @Html.DropDownListFor(model => model.AdditionConsultDoctorID, addcondoctorid, "Select Additional Consult Doctor Id", new { @class = "form-control" })
                             <label asp-for="AdditionConsultDoctorID" class="control-label"></label>
-                            <span asp-validation-for="AdditionConsultDoctorID" class="text-danger"></span>
+                           
                         </div>
 
 
@@ -168,14 +168,14 @@
 
                             @Html.DropDownListFor(model => model.ConsultantDepartmentID, condepartmentid, "Select Consult Department Id", new { @class = "form-control" })
                             <label asp-for="ConsultantDepartmentID" class="control-label"></label>
-                            <span asp-validation-for="ConsultantDepartmentID" class="text-danger"></span>
+                           
                         </div>
 
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="AttenderName" class="form-control" placeholder="AttenderName" />
+                            <input asp-for="AttenderName" class="form-control" placeholder="Attender Name" pattern="^[A-Za-z\s]+$" title="Only letters and spaces are allowed." />
                 <label asp-for="AttenderName" class="control-label"></label>
-                <span asp-validation-for="AttenderName" class="text-danger"></span>
+               
             </div>
             </div></div></div>
 
@@ -184,21 +184,26 @@
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="AttenderContact" class="form-control" placeholder="AttenderContact" />
+                            <input asp-for="AttenderContact" class="form-control" placeholder="Attender Contact" pattern="^\d{10}$" title="Please enter exactly 10 digits."  />
                 <label asp-for="AttenderContact" class="control-label"></label>
-                <span asp-validation-for="AttenderContact" class="text-danger"></span>
+               
             </div>
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="AttenderEmail" class="form-control" placeholder="AttenderEmail" />
+                            <input type="email" class="form-control" placeholder="Attender Email"  />
                 <label asp-for="AttenderEmail" class="control-label"></label>
-                <span asp-validation-for="AttenderEmail" class="text-danger"></span>
+                
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="DocInstruction" class="form-control" placeholder="DocInstruction" />
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+
+                            <textarea asp-for="DocInstruction" class="form-control" placeholder="Doctor Instruction" aria-describedby="text-to-speech-addon"></textarea>
                 <label asp-for="DocInstruction" class="control-label">Doctor Instruction</label>
-                <span asp-validation-for="DocInstruction" class="text-danger"></span>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+              
             </div>
 
                         <div class="form-floating form-floating-outline mb-4">
@@ -213,12 +218,12 @@
 
                             @Html.DropDownListFor(model => model.InpatientType, patienttypeid, "Select Inpatient Type Id", new { @class = "form-control" })
                             <label asp-for="InpatientType" class="control-label"></label>
-                            <span asp-validation-for="InpatientType" class="text-danger"></span>
+                           
                         </div>
 
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input type="date" asp-for="AdmissionDate" class="form-control" placeholder="AdmissionDate" />
+                            <input type="date" asp-for="AdmissionDate" class="form-control" placeholder="AdmissionDate" required />
                 <label asp-for="AdmissionDate" class="control-label"></label>
                 <span asp-validation-for="AdmissionDate" class="text-danger"></span>
             </div>

@@ -1016,20 +1016,7 @@ namespace HealthCare.Controllers
             return View(new ResourceScheduleModel());
         }
 
-        /* [HttpPost]
-         public IActionResult DoctorSchedule()
-         {
-             // Initialize the ViewBag with empty strings to avoid null reference exceptions
-             ViewBag.StaffID = "";
-             ViewBag.FacilityID = "";
-             ViewBag.FromDate = "";
-             ViewBag.ToDate = "";
-             ViewBag.Duration = "";
-             ViewBag.Slots = new List<ResourceScheduleModel>();
-
-             return View();
-         }
- */
+       
         public async Task<IActionResult> SaveSlots(string action,string selectedSlots, string FromTime, string ToTime)
         {
 
@@ -1038,13 +1025,9 @@ namespace HealthCare.Controllers
             var FromDate = Request.Form["FromDate"].ToString();
             var ToDate = Request.Form["ToDate"].ToString();
             var duration = Request.Form["Duration"].ToString();
-            //var SlotsIDs = new string[] { selectedSlots };
+           
             var SlotsIDs = selectedSlots;
 
-            /* var FromTime = Request.Form["FromTime"].ToString();
-             var ToTime = Request.Form["ToTime"].ToString();
-             var SlotsIDs = Request.Form["SlotsID"].ToString().Split(',');
- */
 
 
             DateTime fromDate;
@@ -1068,15 +1051,10 @@ namespace HealthCare.Controllers
                 await DeleteSelectedSlots(StaffID, FacilityID, SlotsIDs);
             }
 
-          //  var existingSlot = _healthcareContext.SHclnViewResourceSchedule.Find(StaffID, FacilityID,SlotsID);
-
 
             if ( action == "Save")
             {
 
-               // for (int i = 0; i < SlotsIDs.Length; i++)
-                //{
-                    //var slotID = SlotsIDs[i];
                     var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,SlotsIDs);
                     if (slot != null)
                     { 
@@ -1085,7 +1063,7 @@ namespace HealthCare.Controllers
                             slot.ToTime = toTime.ToString(@"hh\:mm");
                         
                     }
-                //}
+               
 
                 await _healthcareContext.SaveChangesAsync();
 
@@ -1139,7 +1117,7 @@ namespace HealthCare.Controllers
                         _healthcareContext.SHclnViewResourceSchedule.Add(model);
                         _healthcareContext.SaveChanges();
                     }
-                //}
+                
 
             }
 
@@ -1330,18 +1308,6 @@ namespace HealthCare.Controllers
             var parameter3 = new SqlParameter("@pStrFromDate", date);
             var parameter4 = new SqlParameter("@pStrToDate", date);
 
-
-            /*var blocker = _healthcareContext.SHclnResourceSchedule
-         .SingleOrDefault(ds => ds.StaffID == staffID &&
-                                 ds.FacilityID == facilityID &&
-                                 ds.Date == date);
-
-            if (blocker != null)
-            {
-                blocker.Blocker = true;
-                blocker.Active = false;
-                _healthcareContext.Entry(blocker).State = EntityState.Modified;
-            }*/
 
             var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate", parameter1, parameter2, parameter3, parameter4);
 

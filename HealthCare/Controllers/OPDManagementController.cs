@@ -54,7 +54,10 @@ namespace HealthCare.Controllers
             }
             await getPatientObjective.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
-            return View(pPatientIDCreate);
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
+            return View("PatientObjectiveData",pPatientIDCreate);
         }
 
         /* public async Task<ActionResult> CreateGet(PatientObjectiveModel patient)
@@ -78,8 +81,11 @@ namespace HealthCare.Controllers
 
         public async Task<ActionResult<PatientObjectiveModel>> CreateGet()
         {
-            
-                return View();
+
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
+            return View();
              
            
         }
@@ -220,6 +226,9 @@ namespace HealthCare.Controllers
                 {
                        
                     ViewBag.PatientObjectiveData = patientObjective;
+                    BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+                    ViewData["patid"] = DPDW.Getpatid();
+                    ViewData["faid"] = DPDW.Getfaid();
                     
                     return View("CreateGet");
                 }
@@ -239,12 +248,18 @@ namespace HealthCare.Controllers
                     patientID = patientObjective.PatientID;
                     visitID = patientObjective.VisitID;
                     FacilityID = patientObjective.FacilityID;
+                    BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+                    ViewData["patid"] = DPDW.Getpatid();
+                    ViewData["faid"] = DPDW.Getfaid();
                     return View("PatientObjectiveData", patientObjective);
                 }
                 else
                 {
+                    BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+                    ViewData["patid"] = DPDW.Getpatid();
+                    ViewData["faid"] = DPDW.Getfaid();
                     ViewBag.ErrorMessage = "No data found for the entered IDs.";
-                    return View("CreateGet");
+                    return View("PatientObjectiveData");
                 }
             }
             else if (buttonType == "create")
@@ -393,7 +408,10 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientObjectiveData()
         {
-           
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
+
             return View();
         }
         public IActionResult PatientHealthHistory()
@@ -490,6 +508,7 @@ namespace HealthCare.Controllers
         }
         public IActionResult PatientExamination()
         {
+           
 
             return View();
 
@@ -504,6 +523,6 @@ namespace HealthCare.Controllers
             return View();
         }
 
-
+       
     }
 }
