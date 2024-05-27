@@ -8,7 +8,7 @@
 <div class="card xl-6">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">In Patient CaseSheet</h2>
+            <h2 class="text-primary mb-1">In Patient Case Sheet</h2>
             <small class="text-muted float-end"></small>
             <div class="row"></div>
         </div>
@@ -32,7 +32,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.StrPatientId, patientid, "Select Patient ID", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.StrPatientId, patientid, "Select Patient ID", new { @class = "form-control", required = "required" })
                             <label asp-for="StrPatientId" class="control-label">PatientID</label>
                             <span asp-validation-for="StrPatientId" class="text-danger"></span>
                         </div>
@@ -47,7 +47,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.StrCaseId, caseid, "Select Case ID", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.StrCaseId, caseid, "Select Case ID", new { @class = "form-control", required = "required" })
                             <label asp-for="StrCaseId" class="control-label">Case ID</label>
                             <span asp-validation-for="StrCaseId" class="text-danger"></span>
 
@@ -57,7 +57,7 @@
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
-                                var bedid = ((IEnumerable<InpatientAdmissionModel>)ViewData["bedid"])
+                                var bedid = ((IEnumerable<HospitalBedMasterModel>)ViewData["bedid"])
                                 .Select(m => new SelectListItem
             {
                 Value = m.BedID.ToString(), // Assuming ScreenId is of type int
@@ -65,29 +65,25 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.StrBedId, bedid, "Select Case ID", new { @class = "form-control" })
-                            <label asp-for="StrBedId" class="control-label">Case ID</label>
-                            <span asp-validation-for="StrBedId" class="text-danger"></span>
-
-                        </div>
-
-
-
-
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StrBedId" class="form-control" placeholder="Bed ID" />
+                            @Html.DropDownListFor(model => model.StrBedId, bedid, "Select Bed ID", new { @class = "form-control", required = "required" })
                             <label asp-for="StrBedId" class="control-label">Bed ID</label>
-                            
                             <span asp-validation-for="StrBedId" class="text-danger"></span>
+
                         </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StrPostMedHistory" class="form-control" placeholder="Post Medical History" />
+
+
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="StrPostMedHistory" class="form-control" placeholder="Post Medical History" aria-describedby="text-to-speech-addon" required></textarea>
                             <label asp-for="StrPostMedHistory" class="control-label">Post Medical History</label>
-                            
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+
                             <span asp-validation-for="StrPostMedHistory" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="StrAllergicTo" class="form-control" placeholder="Allergic To" />
                             <label asp-for="StrAllergicTo" class="control-label">Allergic To</label>
@@ -114,18 +110,31 @@
                             
                             <span asp-validation-for="StrWeight" class="text-danger"></span>
                         </div>
-                                <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StrDiagnosis" class="form-control" placeholder="Diagnosis" />
+
+
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="StrDiagnosis" class="form-control" placeholder="Diagnosis" aria-describedby="text-to-speech-addon" required></textarea>
                             <label asp-for="StrDiagnosis" class="control-label">Diagnosis</label>
-                           
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+
                             <span asp-validation-for="StrDiagnosis" class="text-danger"></span>
                         </div>
-                                <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StrTreatment" class="form-control" placeholder="Treatment" />
+
+
+
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="StrTreatment" class="form-control" placeholder="Treatment" aria-describedby="text-to-speech-addon" required></textarea>
                             <label asp-for="StrTreatment" class="control-label">Treatment</label>
-                            
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+
                             <span asp-validation-for="StrTreatment" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
                             <center>
                             <button type="submit" value="Create" class="btn btn-primary" >Save</button>

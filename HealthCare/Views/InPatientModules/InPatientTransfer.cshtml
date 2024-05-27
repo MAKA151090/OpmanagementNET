@@ -5,26 +5,36 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>InPatientTransfer</h1>
 
-<h4>InPatientTransferUpdateModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">In Patient Transfer</h2>
+            <small class="text-muted float-end"></small>
+            <div class="row"></div>
+        </div>
+    </div>
         <form asp-action="InPatientTransfer" asp-controller="InPatientModules" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PatientId" class="control-label"></label>
+        <div class="row gy-4">
+            <div class="col-md-12 col-lg-1"></div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+        <div class="form-floating form-floating-outline mb-4">
+                            <label asp-for="PatientId" class="control-label" placeholder="PatientId" ></label>
                 <input asp-for="PatientId" class="form-control" />
                 <span asp-validation-for="PatientId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CaseId" class="control-label"></label>
+        <div class="form-floating form-floating-outline mb-4">
+                            <label asp-for="CaseId" class="control-label" placeholder="CaseId"></label>
                 <input asp-for="CaseId" class="form-control" />
                 <span asp-validation-for="CaseId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BedId" class="control-label"></label>
+        <div class="form-floating form-floating-outline mb-4">
+                            <label asp-for="BedId" class="control-label" placeholder="BedId"></label>
                 <input asp-for="BedId" class="form-control" />
                 <span asp-validation-for="BedId" class="text-danger"></span>
             </div>
@@ -42,46 +52,75 @@
 
 
 
-                @if (@Model != null)
+            @if (@Model != null)
             {
-                <div class="form-group">
-                    <label asp-for="RoomTypeFrom" class="control-label"></label>
-                <input asp-for="RoomTypeFrom" value="@Model.RoomTypeFrom" class="form-control" />
-                <span asp-validation-for="RoomTypeFrom" class="text-danger"></span>
-            </div>
-                <div class="form-group">
-                    <label asp-for="RoomTypeTo" class="control-label"></label>
-                    <input asp-for="RoomTypeTo" value="@Model.RoomTypeTo" `class="form-control" />
-                    <span asp-validation-for="RoomTypeTo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BedIdFrom" class="control-label"></label>
-                    <input asp-for="BedIdFrom" value="@Model.BedIdFrom" class="form-control" />
-                    <span asp-validation-for="BedIdFrom" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BedIdTo" class="control-label"></label>
-                    <input asp-for="BedIdTo" value="@Model.BedIdTo" class="form-control" />
-                    <span asp-validation-for="BedIdTo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TransferNotes" class="control-label"></label>
-                    <input asp-for="TransferNotes" value="@Model.TransferNotes" class="form-control" />
-                    <span asp-validation-for="TransferNotes" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DocId" class="control-label"></label>
-                    <input asp-for="DocId" value="@Model.DocId" class="form-control" />
-                    <span asp-validation-for="DocId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ChangeDate" class="control-label"></label>
-                    <input asp-for="ChangeDate" value="@Model.ChangeDate" class="form-control" />
-                    <span asp-validation-for="ChangeDate" class="text-danger"></span>
-                </div>
-               
-
+                <table class="table">
+                    <tr>
+                        <td>
+                            <label asp-for="RoomTypeFrom" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="RoomTypeFrom" value="@Model.RoomTypeFrom" class="form-control" />
+                            <span asp-validation-for="RoomTypeFrom" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="RoomTypeTo" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="RoomTypeTo" value="@Model.RoomTypeTo" class="form-control" />
+                            <span asp-validation-for="RoomTypeTo" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="BedIdFrom" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="BedIdFrom" value="@Model.BedIdFrom" class="form-control" />
+                            <span asp-validation-for="BedIdFrom" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="BedIdTo" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="BedIdTo" value="@Model.BedIdTo" class="form-control" />
+                            <span asp-validation-for="BedIdTo" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="TransferNotes" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="TransferNotes" value="@Model.TransferNotes" class="form-control" />
+                            <span asp-validation-for="TransferNotes" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="DocId" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="DocId" value="@Model.DocId" class="form-control" />
+                            <span asp-validation-for="DocId" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="ChangeDate" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="ChangeDate" value="@Model.ChangeDate" class="form-control" />
+                            <span asp-validation-for="ChangeDate" class="text-danger"></span>
+                        </td>
+                    </tr>
+                </table>
             }
+
             
           
             <div class="form-group">
