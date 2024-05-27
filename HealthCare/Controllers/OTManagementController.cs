@@ -26,6 +26,8 @@ namespace HealthCare.Controllers
             {
 
                 existingSchedule.PatientID = pSchedule.PatientID;
+                existingSchedule.FacilityID = pSchedule.FacilityID;
+                existingSchedule.CaseVisitID = pSchedule.CaseVisitID;
                 existingSchedule.OtScheduleID = pSchedule.OtScheduleID;
                 existingSchedule.TableID = pSchedule.TableID;
                 existingSchedule.OperationType = pSchedule.OperationType;
@@ -59,6 +61,11 @@ namespace HealthCare.Controllers
             }
             await Getotschedule.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
+
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["patientid"] = classOT.GetPatientID();
+            ViewData["facilityid"] = classOT.GetFacilityid();
+            ViewData["tableid"] = classOT.gettableid();
             return View("OTScheduling", pSchedule);
 
 
@@ -99,6 +106,10 @@ namespace HealthCare.Controllers
             }
             await Getotschedule.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["patientID"] = classOT.getpatid();
+            ViewData["getscheduleid"] = classOT.getschedluid();
+
             return View("OTNotes", pNotes);
 
 
@@ -124,7 +135,11 @@ namespace HealthCare.Controllers
 
             
                 var result = await ObjViewOT.GetOTConfirmation(Model.OtscheduleID);
-                return View("OTConfirmation", result);
+
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["getscheduleid"] = classOT.getscheduleid();
+
+            return View("OTConfirmation", result);
             
 
         }
@@ -181,7 +196,8 @@ namespace HealthCare.Controllers
                 Answer = Model.Answer,
                 SHotsumm = result
             };
-
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["getscheduleID"] = classOT.getscheduleID();
             return View("OTSummary", viewModel);
 
 
@@ -197,6 +213,10 @@ namespace HealthCare.Controllers
                 var testResults = ObjTestResult.GetOtScheduleViews(Model.FacilityID);
                 return View("OtScheduleView", testResults);
             }
+
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["facilityid"] = classOT.Getfacid();
+
             return View(Model);
 
         }
@@ -208,23 +228,39 @@ namespace HealthCare.Controllers
         }
         public IActionResult OTScheduling()
         {
+
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["patientid"] = classOT.GetPatientID();
+            ViewData["facilityid"] = classOT.GetFacilityid();
+            ViewData["tableid"] = classOT.gettableid();
             return View();
         }
         public IActionResult OTConfirmation()
         {
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["getscheduleid"] = classOT.getscheduleid();
             return View();
         }
         public IActionResult OTNotes()
         {
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["patientID"] = classOT.getpatid();
+            ViewData["getscheduleid"] = classOT.getschedluid();
             return View();
         }
         public IActionResult OTSummary()
         {
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["getscheduleID"] = classOT.getscheduleID();
+
             return View();
         }
 
         public IActionResult OtScheduleView()
         {
+
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["facilityid"] = classOT.Getfacid();
             return View();
         }
     }

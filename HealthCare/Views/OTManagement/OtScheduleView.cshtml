@@ -27,11 +27,22 @@
             <div class="col-md-12 col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input type="text" id="FacilityID" name="FacilityID" class="form-control" placeholder="FacilityID" />
-                            <label for="FacilityID" class="control-label">FacilityID</label>
 
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenList = ((IEnumerable<ClinicAdminModel>)ViewData["facilityid"])
+                                .Select(m => new SelectListItem
+            {
+                Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.FacilityID} - {m.ClinicName}"
+            });
+                            }
+
+                            @Html.DropDownList("facilityid", screenList, "Select Facility ID", new { @class = "form-control" })
+                            <label for="FacilityID" class="control-label">Facility ID</label>
+                            <span for="FacilityID" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating form-floating-outline mb-4">
                             <input type="date" id="CurrentDate" name="CurrentDate" class="form-control" placeholder="CurrentDate" />
 
