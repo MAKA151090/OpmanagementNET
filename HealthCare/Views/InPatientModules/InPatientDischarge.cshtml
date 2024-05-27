@@ -8,7 +8,7 @@
 <div class="card xl-8">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">PatientDischarge</h2>
+            <h2 class="text-primary mb-1">Patient Discharge</h2>
             <small class="text-muted float-end"></small>
 
         </div>
@@ -24,20 +24,20 @@
 
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                <label asp-for="PatientID" class="control-label"></label>
+                            <label asp-for="PatientID" class="control-label">Patient ID</label>
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
                         <div class=" form-floating form-floating-outline mb-4">
-                            <input asp-for="CaseID" class="form-control" placeholder="CaseID" />
-                <label asp-for="CaseID" class="control-label"></label>
+                            <input asp-for="CaseID" class="form-control" placeholder="Case ID" />
+                            <label asp-for="CaseID" class="control-label">Case ID</label>
       
                 <span asp-validation-for="CaseID" class="text-danger"></span>
             </div>
 
 
                         <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="DischargeNotes" class="form-control" placeholder="DischargeNotes" aria-describedby="text-to-speech-addon"></textarea>
-                <label asp-for="DischargeNotes" class="control-label"></label>
+                            <textarea asp-for="DischargeNotes" class="form-control" placeholder="Discharge Notes" aria-describedby="text-to-speech-addon"></textarea>
+                            <label asp-for="DischargeNotes" class="control-label">Discharge Notes</label>
                             <span class="input-group-text" id="text-to-speech-addon">
                                 <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
                             </span>
@@ -45,21 +45,12 @@
                 <span asp-validation-for="DischargeNotes" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="DoctorID" class="form-control" placeholder="DoctorID" />
-                <label asp-for="DoctorID" class="control-label"></label>
+                            <input asp-for="DoctorID" class="form-control" placeholder="Doctor ID" />
+                            <label asp-for="DoctorID" class="control-label">Doctor ID</label>
                 
                 <span asp-validation-for="DoctorID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <div>
-                    <input type="radio" id="operationRead" name="operation" value="read" checked>
-                    <label class="control-label">Read</label>
-                </div>
-                <div>
-                    <input type="radio" id="operationWrite" name="operation" value="write">
-                    <label class="control-label">Write</label>
-                </div>
-            </div>
+           
 @*             <div class="form-group">
                 <label asp-for="lastUpdatedDate" class="control-label"></label>
                 <input asp-for="lastUpdatedDate" class="form-control" />

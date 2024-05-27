@@ -7,7 +7,7 @@
 <div class="card xl-6">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
-            <h2 class="text-primary mb-1"> InpatientViewResult</h2>
+            <h2 class="text-primary mb-1"> In-Patient Observation</h2>
             <small class="text-muted float-end"></small>
 
         </div>
@@ -28,22 +28,22 @@
 
                                 <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="BedNoID" class="form-control" placeholder="BedNoID" />
-                    <label asp-for="BedNoID" class="control-label"></label>
+                            <input asp-for="BedNoID" class="form-control" placeholder="Bed Number ID" />
+                            <label asp-for="BedNoID" class="control-label">Bed Number ID</label>
                     <span asp-validation-for="BedNoID" class="text-danger"></span>
                 </div>
 
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                    <label asp-for="PatientID" class="control-label"></label>
+                            <input asp-for="PatientID" class="form-control" placeholder="Patient ID" />
+                            <label asp-for="PatientID" class="control-label">Patient ID</label>
                     <span asp-validation-for="PatientID" class="text-danger"></span>
                 </div>
 
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="ObservationID" class="form-control" placeholder="ObservationID" />
-                    <label asp-for="ObservationID" class="control-label"></label>
+                            <input asp-for="ObservationID" class="form-control" placeholder="Observation ID" />
+                            <label asp-for="ObservationID" class="control-label">Observation ID</label>
                     <span asp-validation-for="ObservationID" class="text-danger"></span>
                 </div>
                
@@ -134,9 +134,19 @@
                 <input asp-for="NurseID" class="form-control" />
                 <span asp-validation-for="NurseID" class="text-danger"></span>
             </div>
-            <div>
-
+            
+                    <div class="form-group">
+                <center>
                 <button type="submit" name="buttonType" value="save" class="btn btn-primary">save</button>
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-success">
+
+
+                            @ViewBag.Message
+                        </div>
+                    }
+                    </center>
             </div>
            
         }

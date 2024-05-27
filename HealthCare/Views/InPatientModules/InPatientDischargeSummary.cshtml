@@ -8,7 +8,7 @@
 <div class="card xl-8">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">InPatientDischargeSummary</h2>
+            <h2 class="text-primary mb-1">In-Patient Discharge Summary</h2>
             <small class="text-muted float-end"></small>
 
         </div>
@@ -24,14 +24,14 @@
                     <div class="card-body">
 
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                <label asp-for="PatientID" class="control-label"></label>
+                            <input asp-for="PatientID" class="form-control" placeholder="Patient ID" />
+                            <label asp-for="PatientID" class="control-label">Patient ID</label>
                 
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CaseID" class="form-control" placeholder="CaseID" />
-                <label asp-for="CaseID" class="control-label"></label>
+                            <input asp-for="CaseID" class="form-control" placeholder="Case ID" />
+                            <label asp-for="CaseID" class="control-label">Case ID</label>
                 
                 <span asp-validation-for="CaseID" class="text-danger"></span>
             </div>
@@ -63,7 +63,15 @@
             </div> *@
             <div class="form-group">
                 <center>
-                <button type="submit" value="Print Summary" class="btn btn-primary" >Save</button>
+                                <button type="submit" value="Print Summary" class="btn btn-primary">Print Summary</button>
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-success">
+
+
+                                        @ViewBag.Message
+                                    </div>
+                                }
                 </center>
             </div>
         </form>
