@@ -312,6 +312,71 @@ namespace HealthCare.Business
             return bedid;
         }
 
+        //In Patient Discharge
+
+        public List<PatientRegistrationModel> GetPatientID()
+        {
+            var PatientID = (
+                    from pr in objInpatientDb.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID = pr.PatientID,
+                        FullName = pr.FullName,
+
+                    }
+                ).ToList();
+
+            return PatientID;
+        }
+
+        public List<InpatientAdmissionModel> GetCaseID()
+        {
+            var CaseID = (
+                    from pr in objInpatientDb.SHInpatientAdmission
+                    select new InpatientAdmissionModel
+                    {
+                       CaseID = pr.CaseID,
+
+                    }
+                ).ToList();
+
+            return CaseID;
+        }
+
+       public List<ResourceTypeMasterModel> GetDoctorID()
+        {
+            var DoctorID = (
+                    from pr in objInpatientDb.SHclnResourseTypeMaster
+                    select new ResourceTypeMasterModel
+                    {
+                        ResourceTypeID = pr.ResourceTypeID,
+                        ResourceTypeName = pr.ResourceTypeID,
+
+                    }
+                ).ToList();
+
+            return DoctorID;
+        }
+
+
+        // In Patient Discharge summary
+
+        public List<PatientRegistrationModel> getPatientID()
+        {
+            var PatientId = (
+                    from pr in objInpatientDb.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID = pr.PatientID,
+                        FullName = pr.FullName,
+
+                    }
+                ).ToList();
+
+            return PatientId;
+        }
+
+
 
 
 

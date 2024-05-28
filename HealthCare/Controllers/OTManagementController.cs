@@ -26,6 +26,8 @@ namespace HealthCare.Controllers
             {
 
                 existingSchedule.PatientID = pSchedule.PatientID;
+                existingSchedule.FacilityID = pSchedule.FacilityID;
+                existingSchedule.CaseVisitID = pSchedule.CaseVisitID;
                 existingSchedule.OtScheduleID = pSchedule.OtScheduleID;
                 existingSchedule.TableID = pSchedule.TableID;
                 existingSchedule.OperationType = pSchedule.OperationType;
@@ -59,6 +61,11 @@ namespace HealthCare.Controllers
             }
             await Getotschedule.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
+
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["patientid"] = classOT.GetPatientID();
+            ViewData["facilityid"] = classOT.GetFacilityid();
+            ViewData["tableid"] = classOT.gettableid();
             return View("OTScheduling", pSchedule);
 
 
@@ -99,13 +106,17 @@ namespace HealthCare.Controllers
             }
             await Getotschedule.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["patientID"] = classOT.getpatid();
+            ViewData["getscheduleid"] = classOT.getschedluid();
+
             return View("OTNotes", pNotes);
 
 
         }
         public async Task<IActionResult> GetviewOT(OtConfirmViewModel Model , string buttonType,OTSchedulingModel pConfirm)
         {
-            BusinessClassExamination ObjViewOT = new BusinessClassExamination(Getotschedule);
+            BusinessClassOT ObjViewOT = new BusinessClassOT(Getotschedule);
 
             var objconfirm = await Getotschedule.SHotScheduling.FindAsync(pConfirm.OtScheduleID);
 
@@ -124,13 +135,16 @@ namespace HealthCare.Controllers
 
             
                 var result = await ObjViewOT.GetOTConfirmation(Model.OtscheduleID);
-                return View("OTConfirmation", result);
+
+            ViewData["getscheduleid"] = ObjViewOT.getscheduleid();
+
+            return View("OTConfirmation", result);
             
 
         }
         public async Task<IActionResult>OtsummaryView(OTSummaryViewModel Model, string buttonType)
         {
-            BusinessClassExamination ObjViewOTSum = new BusinessClassExamination(Getotschedule);
+            BusinessClassOT ObjViewOTSum = new BusinessClassOT(Getotschedule);
 
 
            // var objSumm = await Getotschedule.SHOTsummary.FindAsync(Model.OtscheduleID);
@@ -181,7 +195,8 @@ namespace HealthCare.Controllers
                 Answer = Model.Answer,
                 SHotsumm = result
             };
-
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["getscheduleID"] = classOT.getscheduleID();
             return View("OTSummary", viewModel);
 
 
@@ -190,14 +205,18 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> GetReport(OtScheduleViewModel Model)
         {
 
-            BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(Getotschedule);
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
 
-            if (ObjTestResult != null)
+            ViewData["facilityid"] = classOT.Getfacid();
+
+            if (classOT != null)
             {
-                var testResults = ObjTestResult.GetOtScheduleViews(Model.FacilityID);
+                var testResults = classOT.GetOtScheduleViews(Model.FacilityID);
                 return View("OtScheduleView", testResults);
             }
-            return View(Model);
+
+
+            return View("OtScheduleView",Model);
 
         }
 
@@ -208,23 +227,39 @@ namespace HealthCare.Controllers
         }
         public IActionResult OTScheduling()
         {
+
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["patientid"] = classOT.GetPatientID();
+            ViewData["facilityid"] = classOT.GetFacilityid();
+            ViewData["tableid"] = classOT.gettableid();
             return View();
         }
         public IActionResult OTConfirmation()
         {
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["getscheduleid"] = classOT.getscheduleid();
             return View();
         }
         public IActionResult OTNotes()
         {
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["patientID"] = classOT.getpatid();
+            ViewData["getscheduleid"] = classOT.getschedluid();
             return View();
         }
         public IActionResult OTSummary()
         {
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["getscheduleID"] = classOT.getscheduleID();
+
             return View();
         }
 
         public IActionResult OtScheduleView()
         {
+
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
+            ViewData["facilityid"] = classOT.Getfacid();
             return View();
         }
     }

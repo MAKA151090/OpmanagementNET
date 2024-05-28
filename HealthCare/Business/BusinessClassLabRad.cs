@@ -128,6 +128,21 @@ namespace HealthCare.Business
             return facid;
         }
 
+
+        public List<ResourceTypeMasterModel> getrefdocid()
+        {
+            var refdocid = (
+                from pr in _healthcareContext.SHclnResourseTypeMaster
+                select new ResourceTypeMasterModel
+                {
+                    ResourceTypeID = pr.ResourceTypeID,
+                    ResourceTypeName = pr.ResourceTypeName,
+
+                }).ToList();
+            return refdocid;
+
+        }
+
         ///Radilogy creation 
         ///
 
@@ -235,6 +250,83 @@ namespace HealthCare.Business
 
                 }).ToList();
             return Facilityid;
+
+        }
+
+
+        public async Task<List<PatientViewResultModel>> GetTestResults(string patientId, string FacilityID)
+        {
+            var testResults = await (
+                from pt in _healthcareContext.SHPatientTest
+                join tm in _healthcareContext.SHTestMaster on pt.TestID equals tm.TestID
+                join ca in _healthcareContext.SHclnStaffAdminModel on pt.ReferDocID equals ca.StrStaffID
+                join p in _healthcareContext.SHPatientRegistration on pt.PatientID equals p.PatientID
+                join c in _healthcareContext.SHclnClinicAdmin on pt.FacilityID equals c.FacilityID
+                where pt.PatientID == patientId && pt.FacilityID == FacilityID
+                select new PatientViewResultModel
+                {
+                    TestID = pt.TestID,
+                    TestName = tm.TestName,
+                    Range = tm.Range,
+                    TestDate = pt.TestDateTime,
+                    Result = pt.TestResult,
+                    DoctorName = ca.StrFullName,
+                    PatientName = p.FullName,
+                    ClinicName = c.ClinicName
+
+                }).ToListAsync();
+
+            return testResults;
+
+        }
+
+
+        ///update radiology result   
+        ///
+
+        public List<PatientRegistrationModel> Getupdpatid()
+        {
+            var updpatid = (
+                from pr in _healthcareContext.SHPatientRegistration
+                select new PatientRegistrationModel
+                {
+                    PatientID = pr.PatientID,
+                    FullName = pr.FullName
+
+
+                }).ToList();
+            return updpatid;
+
+        }
+
+
+        public List<ClinicAdminModel> Getupdfacid()
+        {
+            var updfacid = (
+                from pr in _healthcareContext.SHclnClinicAdmin
+                select new ClinicAdminModel
+                {
+                    FacilityID = pr.FacilityID,
+                    ClinicName = pr.ClinicName
+
+
+                }).ToList();
+            return updfacid;
+
+        }
+
+        public List<RadiologyMasterModel> Getupdradid()
+        {
+            var updradid = (
+                from pr in _healthcareContext.SHRadioMaster
+                select new RadiologyMasterModel
+                {
+                    RadioID = pr.RadioID,
+                    RadioName = pr.RadioName,
+
+
+                }).ToList();
+            return updradid;
 
         }
 

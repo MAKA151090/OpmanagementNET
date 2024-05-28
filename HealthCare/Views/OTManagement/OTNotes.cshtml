@@ -28,18 +28,35 @@
                         <div class="card-body">
 
                             <div class="form-floating form-floating-outline mb-4">
-                                <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                    <label asp-for="PatientID" class="control-label"></label>
-                   
-                    <span asp-validation-for="PatientID" class="text-danger"></span>
-                </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                                <input asp-for="OtScheduleID" class="form-control" placeholder="OtScheduleID" />
-                    <label asp-for="OtScheduleID" class="control-label"></label>
-                   
-                    <span asp-validation-for="OtScheduleID" class="text-danger"></span>
-                </div>
+                                @{
+                                    var patientID = ((IEnumerable<PatientRegistrationModel>)ViewData["patientID"])
+                                    .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                                }
 
+                                @Html.DropDownListFor(model => model.PatientID, patientID, "Select Patient ID", new { @class = "form-control", required = "required" })
+                                <label asp-for="PatientID" class="control-label">OtSchedule ID</label>
+                                <span asp-validation-for="PatientID" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                @{
+                                    var getscheduleid = ((IEnumerable<OtScheduleViewModel>)ViewData["getscheduleid"])
+                                    .Select(m => new SelectListItem
+                {
+                    Value = m.OtSchedulingId.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.OtSchedulingId}"
+                });
+                                }
+
+                                @Html.DropDownListFor(model => model.OtScheduleID, getscheduleid, "Select OtSchedule ID", new { @class = "form-control", required = "required" })
+                                <label asp-for="OtScheduleID" class="control-label">OtSchedule ID</label>
+                                <span asp-validation-for="OtScheduleID" class="text-danger"></span>
+                            </div>
 
 
 

@@ -37,7 +37,7 @@
                 });
                             }
 
-                            @Html.DropDownListFor(model => model.TestID, screenList, "Select Test ID", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.TestID, screenList, "Select Test ID", new { @class = "form-control", required = "required" })
                             <label asp-for="TestID" class="control-label"></label>
                             <span asp-validation-for="TestID" class="text-danger"></span>
                         </div>
@@ -53,7 +53,7 @@
                 });
                             }
 
-                            @Html.DropDownListFor(model => model.PatientID, screenlist, "Select Patient ID", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.PatientID, screenlist, "Select Patient ID", new { @class = "form-control", required = "required" })
                             <label asp-for="PatientID" class="control-label"></label>
                             <span asp-validation-for="PatientID" class="text-danger"></span>
                         </div>
@@ -69,7 +69,7 @@
                 });
                             }
 
-                            @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control", required = "required" })
                             <label asp-for="FacilityID" class="control-label"></label>
                             <span asp-validation-for="FacilityID" class="text-danger"></span>
                         </div>
@@ -97,19 +97,19 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="VisitcaseID1" class="form-control" placeholder="VisitcaseID" />
+                            <input asp-for="VisitcaseID1" class="form-control" placeholder="VisitcaseID" required />
                             <label asp-for="VisitcaseID1" class="control-label">VisitCaseID</label>
 
                             <span asp-validation-for="VisitcaseID1" class="text-danger"></span>
                         </div>
                             <div class="form-floating form-floating-outline mb-4">
-                           <input asp-for="TestDateTime" class="form-control" placeholder="TestDateTime" />
+                           <input asp-for="TestDateTime" class="form-control" type="datetime-local" placeholder="TestDateTime" required />
                 <label asp-for="TestDateTime" class="control-label"></label>
                         
                 <span asp-validation-for="TestDateTime" class="text-danger"></span>
             </div>
                             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="TestResult" class="form-control" placeholder="TestResult" />
+                            <input asp-for="TestResult" class="form-control" placeholder="TestResult" required />
                 <label asp-for="TestResult" class="control-label"></label>
                           
                 <span asp-validation-for="TestResult" class="text-danger"></span>
@@ -120,13 +120,13 @@
                           
             </div>
                             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="TsampleCltDateTime" class="form-control" placeholder="SampleCollectDateTime" />
+                            <input asp-for="TsampleCltDateTime" class="form-control" type="datetime-local" placeholder="SampleCollectDateTime" />
                             <label asp-for="TsampleCltDateTime" class="control-label">SampleCollectDateTime</label>
                           
                 <span asp-validation-for="TsampleCltDateTime" class="text-danger"></span>
             </div>
                             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="ExptRsltDateTime" class="form-control" placeholder="ExpectedResultDateTime" />
+                            <input asp-for="ExptRsltDateTime" class="form-control" type="datetime-local" placeholder="ExpectedResultDateTime" />
                             <label asp-for="ExptRsltDateTime" class="control-label">ExpectedResultDateTime</label>
                           
                 <span asp-validation-for="ExptRsltDateTime" class="text-danger"></span>
@@ -143,21 +143,30 @@
                          
                 <span asp-validation-for="ResultPublish" class="text-danger"></span>
             </div>
-                            <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="ReferDocID" class="form-control" placeholder="ReferDocterID" />
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var refdocid = ((IEnumerable<ResourceTypeMasterModel>)ViewData["refdocid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.ResourceTypeID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.ResourceTypeID} - {m.ResourceTypeName}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.ReferDocID, refdocid, "Select Referral Doctor ID", new { @class = "form-control"})
                             <label asp-for="ReferDocID" class="control-label"></label>
                             <span asp-validation-for="ReferDocID" class="text-danger"></span>
-
                         </div>
+
                     
                             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="ReferDate" class="form-control" placeholder="ReferDate" />
+                            <input asp-for="ReferDate" class="form-control" placeholder="ReferDate" type="date" />
                 <label asp-for="ReferDate" class="control-label"></label>
                            
                 <span asp-validation-for="ReferDate" class="text-danger"></span>
             </div>
                             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="ResultDate" class="form-control" placeholder="ResultDate" />
+                            <input asp-for="ResultDate" class="form-control" placeholder="ResultDate" type="date" />
                 <label asp-for="ResultDate" class="control-label"></label>
                          
                 <span asp-validation-for="ResultDate" class="text-danger"></span>

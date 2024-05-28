@@ -45,7 +45,12 @@ namespace HealthCare.Controllers
 
 
             ViewBag.Message = "Saved Successfully";
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["PatientID"] = inpatient.GetPatientID();
+            ViewData["CaseID"] = inpatient.GetCaseID();
+            ViewData["DoctorID"] = inpatient.GetDoctorID();
             return View("InPatientDischarge", model);
+          
         }
 
         public async Task<IActionResult> GetPatientAdmission(InpatientAdmissionModel model)
@@ -407,12 +412,20 @@ namespace HealthCare.Controllers
             ViewData["patientID"] = inpatient.GetpateintID();
 
             ViewData["caseid"] = inpatient.GetCaseid();
+
+            ViewData["bedid"] = inpatient.GetBedID();
+
             return View();
             }
 
             public IActionResult InPatientDischarge()
             {
-                return View();
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["PatientID"] = inpatient.GetPatientID();
+            ViewData["CaseID"]= inpatient.GetCaseID();
+            ViewData["DoctorID"] = inpatient.GetDoctorID();
+
+            return View();
             }
             public IActionResult InPatientObservation()
             {
