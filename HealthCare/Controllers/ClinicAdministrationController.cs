@@ -1309,7 +1309,7 @@ namespace HealthCare.Controllers
             var parameter4 = new SqlParameter("@pStrToDate", date);
 
 
-            var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate", parameter1, parameter2, parameter3, parameter4);
+                var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate", parameter1, parameter2, parameter3, parameter4);
 
             _healthcareContext.SaveChanges();
 

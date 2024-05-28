@@ -116,7 +116,7 @@ namespace HealthCare.Controllers
         }
         public async Task<IActionResult> GetviewOT(OtConfirmViewModel Model , string buttonType,OTSchedulingModel pConfirm)
         {
-            BusinessClassExamination ObjViewOT = new BusinessClassExamination(Getotschedule);
+            BusinessClassOT ObjViewOT = new BusinessClassOT(Getotschedule);
 
             var objconfirm = await Getotschedule.SHotScheduling.FindAsync(pConfirm.OtScheduleID);
 
@@ -136,8 +136,7 @@ namespace HealthCare.Controllers
             
                 var result = await ObjViewOT.GetOTConfirmation(Model.OtscheduleID);
 
-            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
-            ViewData["getscheduleid"] = classOT.getscheduleid();
+            ViewData["getscheduleid"] = ObjViewOT.getscheduleid();
 
             return View("OTConfirmation", result);
             
@@ -145,7 +144,7 @@ namespace HealthCare.Controllers
         }
         public async Task<IActionResult>OtsummaryView(OTSummaryViewModel Model, string buttonType)
         {
-            BusinessClassExamination ObjViewOTSum = new BusinessClassExamination(Getotschedule);
+            BusinessClassOT ObjViewOTSum = new BusinessClassOT(Getotschedule);
 
 
            // var objSumm = await Getotschedule.SHOTsummary.FindAsync(Model.OtscheduleID);
@@ -206,18 +205,18 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> GetReport(OtScheduleViewModel Model)
         {
 
-            BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(Getotschedule);
+            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
 
-            if (ObjTestResult != null)
+            ViewData["facilityid"] = classOT.Getfacid();
+
+            if (classOT != null)
             {
-                var testResults = ObjTestResult.GetOtScheduleViews(Model.FacilityID);
+                var testResults = classOT.GetOtScheduleViews(Model.FacilityID);
                 return View("OtScheduleView", testResults);
             }
 
-            BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
-            ViewData["facilityid"] = classOT.Getfacid();
 
-            return View(Model);
+            return View("OtScheduleView",Model);
 
         }
 
