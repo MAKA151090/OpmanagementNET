@@ -10,39 +10,39 @@ namespace HealthCare.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_SHclnResourceSchedule",
-                table: "SHclnResourceSchedule");
+            //migrationBuilder.DropPrimaryKey(
+            //    name: "PK_SHclnResourceSchedule",
+            //    table: "SHclnResourceSchedule");
 
-            migrationBuilder.RenameColumn(
-                name: "SlotsID",
-                table: "SHclnViewResourceSchedule",
-                newName: "Viewslot");
+            ////migrationBuilder.RenameColumn(
+            ////    name: "SlotsID",
+            ////    table: "SHclnViewResourceSchedule",
+            ////    newName: "Viewslot");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Viewslot",
-                table: "SHclnResourceSchedule",
-                type: "nvarchar(450)",
-                nullable: false,
-                defaultValue: "");
+            //migrationBuilder.AddColumn<string>(
+            //    name: "Viewslot",
+            //    table: "SHclnResourceSchedule",
+            //    type: "nvarchar(450)",
+            //    nullable: false,
+            //    defaultValue: "");
 
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_SHclnResourceSchedule",
-                table: "SHclnResourceSchedule",
-                columns: new[] { "StaffID", "FacilityID", "SlotsID", "Viewslot" });
+            //migrationBuilder.AddPrimaryKey(
+            //    name: "PK_SHclnResourceSchedule",
+            //    table: "SHclnResourceSchedule",
+            //    columns: new[] { "StaffID", "FacilityID", "SlotsID", "Viewslot" });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_SHclnResourceSchedule_StaffID_FacilityID_Viewslot",
-                table: "SHclnResourceSchedule",
-                columns: new[] { "StaffID", "FacilityID", "Viewslot" });
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_SHclnResourceSchedule_StaffID_FacilityID_Viewslot",
+            //    table: "SHclnResourceSchedule",
+            //    columns: new[] { "StaffID", "FacilityID", "Viewslot" });
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_SHclnResourceSchedule_SHclnViewResourceSchedule_StaffID_FacilityID_Viewslot",
-                table: "SHclnResourceSchedule",
-                columns: new[] { "StaffID", "FacilityID", "Viewslot" },
-                principalTable: "SHclnViewResourceSchedule",
-                principalColumns: new[] { "StaffID", "FacilityID", "Viewslot" },
-                onDelete: ReferentialAction.Cascade);
+            //migrationBuilder.AddForeignKey(
+            //    name: "FK_SHclnResourceSchedule_SHclnViewResourceSchedule_StaffID_FacilityID_Viewslot",
+            //    table: "SHclnResourceSchedule",
+            //    columns: new[] { "StaffID", "FacilityID", "Viewslot" },
+            //    principalTable: "SHclnViewResourceSchedule",
+            //    principalColumns: new[] { "StaffID", "FacilityID", "Viewslot" },
+            //    onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />

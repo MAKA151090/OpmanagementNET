@@ -484,6 +484,36 @@ namespace HealthCare.Business
             return VisitDW;
         }
 
+        public List<SeverityModel> GetseverityDW() 
+        {
+            var SevDW = (
+                from s in objSearchContext.SHSeverityModel
+                select new SeverityModel
+                {
+                    SeverityID = s.SeverityID,
+                    SeverityName = s.SeverityName,
+                    Active = s.Active,
+                }
+
+
+                ).ToList();
+
+            return SevDW;
+        }
+
+        public List<PatientExaminationModel>GetExmDW()
+        {
+            var ExmDw = (
+                from e in objSearchContext.SHExmPatientExamination
+                select new PatientExaminationModel
+                {
+                    ExaminationID = e.ExaminationID
+                }
+
+                ).ToList();
+            return ExmDw;
+
+        }
 
     }
 }
