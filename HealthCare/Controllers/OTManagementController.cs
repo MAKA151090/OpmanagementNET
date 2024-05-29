@@ -65,7 +65,8 @@ namespace HealthCare.Controllers
             BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
             ViewData["patientid"] = classOT.GetPatientID();
             ViewData["facilityid"] = classOT.GetFacilityid();
-            ViewData["tableid"] = classOT.gettableid();
+            ViewData["Depid"] = classOT.GetDepid();
+            ViewData["tableid"] = classOT.Gettableid();
             return View("OTScheduling", pSchedule);
 
 
@@ -202,16 +203,17 @@ namespace HealthCare.Controllers
 
         }
 
-        public async Task<IActionResult> GetReport(OtScheduleViewModel Model)
+        public async Task<IActionResult> GetReport(OtScheduleViewModel Model,string Date)
         {
 
             BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
 
             ViewData["facilityid"] = classOT.Getfacid();
+            
 
             if (classOT != null)
             {
-                var testResults = classOT.GetOtScheduleViews(Model.FacilityID);
+                var testResults = classOT.GetOtScheduleViews(Model.FacilityID , Model.Date);
                 return View("OtScheduleView", testResults);
             }
 
@@ -231,7 +233,8 @@ namespace HealthCare.Controllers
             BusinessClassOT classOT = new BusinessClassOT(Getotschedule);
             ViewData["patientid"] = classOT.GetPatientID();
             ViewData["facilityid"] = classOT.GetFacilityid();
-            ViewData["tableid"] = classOT.gettableid();
+            ViewData["Depid"] = classOT.GetDepid();
+            ViewData["tableid"] = classOT.Gettableid();
             return View();
         }
         public IActionResult OTConfirmation()
