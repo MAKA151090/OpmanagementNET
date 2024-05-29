@@ -5,6 +5,7 @@ using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
@@ -60,25 +61,7 @@ namespace HealthCare.Controllers
             return View("PatientObjectiveData",pPatientIDCreate);
         }
 
-        /* public async Task<ActionResult> CreateGet(PatientObjectiveModel patient)
-         {
-             return View();
-         }*/
-
-        /* [HttpGet("PatientID")]
-         public async Task<ActionResult<PatientObjectiveModel>> CreateGet(string pPatientID)
-         {
-             var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x => x.PatientID == pPatientID);
-
-             if (patientObjective == null)
-             {
-                 return NotFound();
-             }
-
-             return patientObjective;
-         }*/
-
-
+       
         public async Task<ActionResult<PatientObjectiveModel>> CreateGet()
         {
 
@@ -88,34 +71,7 @@ namespace HealthCare.Controllers
             return View();
              
            
-        }
-
-       
-        /*public async Task<ActionResult> View(string patientID, string visitID, string clinicID)
-        {
-            // Retrieve relevant patient objective details from the database based on the IDs
-            var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x =>
-                x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
-
-            if (patientObjective == null)
-            {
-                return NotFound(); 
-            }
-
-            return Json(new
-            {
-                patientID = patientObjective.PatientID,
-                visitID = patientObjective.VisitID,
-                clinicID = patientObjective.ClinicID,
-                PatientObjectiveData = patientObjective
-            });
-
-            //return Json(new { patientID = patientObjective.PatientID, visitID = patientObjective.VisitID, clinicID = patientObjective.ClinicID,patientObjective});
-
-            //return RedirectToAction("PatientObjectiveData");
-            //return Json ("PatientObjectiveData",patientObjective);
-        }
-        
+        } 
 
             [HttpPost]
         public async Task<IActionResult> Create(string objPatientID, PatientObjectiveModel pPatientIDCreate)
@@ -128,25 +84,87 @@ namespace HealthCare.Controllers
             return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientIDCreate.PatientID }, pPatientIDCreate);
         }
 
-        [HttpPut("{pPatientID}")]
-        public async Task<IActionResult> Put(string pPatientID, [FromBody] PatientObjectiveModel pPatientIDData)
+        [HttpPost]
+        public async Task<IActionResult> PatientExamination(PatientExaminationModel pexmmodel, string buttonType)
         {
-            var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x => x.PatientID == pPatientID);
-
-            if (patientObjective == null)
+            if (buttonType == "patientDiagnosis")
             {
-                return NotFound();
+                TempData["PatientID"] = pexmmodel.PatientID;
+                TempData["ExaminationID"] = pexmmodel.ExaminationID;
+                TempData["VisitID"] = pexmmodel.VisitID;
+                TempData["FacilityID"] = pexmmodel.FacilityID;
+
+                TempData.Keep("PatientID");
+                TempData.Keep("ExaminationID");
+                TempData.Keep("VisitID");
+                TempData.Keep("FacilityID");
+
+
+                return RedirectToAction("PatientDiagnosis");
+            }
+            else if (buttonType == "patientProcedure")
+            {
+                TempData["PatientID"] = pexmmodel.PatientID;
+                TempData["ExaminationID"] = pexmmodel.ExaminationID;
+                TempData["VisitID"] = pexmmodel.VisitID;
+                TempData["FacilityID"] = pexmmodel.FacilityID;
+
+                TempData.Keep("PatientID");
+                TempData.Keep("ExaminationID");
+                TempData.Keep("VisitID");
+                TempData.Keep("FacilityID");
+
+                return RedirectToAction("PatientProcedure");
+
+            }
+            else if(buttonType== "Symptoms Severity")
+            {
+
+                TempData["PatientID"] = pexmmodel.PatientID;
+                TempData["ExaminationID"] = pexmmodel.ExaminationID;
+                TempData["VisitID"] = pexmmodel.VisitID;
+                TempData["FacilityID"] = pexmmodel.FacilityID;
+              
+                TempData.Keep("PatientID");
+                TempData.Keep("ExaminationID");
+                TempData.Keep("VisitID");
+                TempData.Keep("FacilityID");
+
+                return RedirectToAction("SymptomsSeverity");
+
+              
             }
 
-            getPatientObjective.Entry(patientObjective).CurrentValues.SetValues(pPatientIDData);
-            await getPatientObjective.SaveChangesAsync();
-            
-            return NoContent();
-        }*/
+            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+            ViewData["patid"] = DPDW.Getpatid();
+            ViewData["faid"] = DPDW.Getfaid();
+            ViewData["VisitDW"] = DPDW.GetvisitDW();
 
-      
-        public async Task<IActionResult> CreateExm(string objPatientID, PatientExaminationModel pPatientExmCreate,PatExmSymptomsSeverity severity,PatientExaminationModel patientExamination)
-        {
+            var existingExm = await getPatientObjective.SHExmPatientExamination.FindAsync(pexmmodel.PatientID, pexmmodel.FacilityID, pexmmodel.VisitID,pexmmodel.ExaminationID);
+            if (existingExm != null)
+            {
+                existingExm.PatientID=pexmmodel.PatientID;
+                existingExm.FacilityID=pexmmodel.FacilityID;
+                existingExm.ExaminationID = pexmmodel.ExaminationID;
+                existingExm.VisitID= pexmmodel.VisitID;
+                existingExm.Complaint=pexmmodel.Complaint;
+                existingExm.Diagnosis= pexmmodel.Diagnosis;
+                existingExm.Prescription= pexmmodel.Prescription;
+                existingExm.FollowUp= pexmmodel.FollowUp;
+            }
+            else
+            {
+                pexmmodel.lastUpdatedDate = DateTime.Now.ToString();
+                pexmmodel.lastUpdatedUser = User.Claims.First().Value.ToString();
+                getPatientObjective.SHExmPatientExamination.Add(pexmmodel);
+
+            }
+            await getPatientObjective.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully.";
+            return View("PatientExamination", pexmmodel);
+
+
+            /*
             BusinessClassExamination objBusinessclass = new BusinessClassExamination(getPatientObjective);
             pPatientExmCreate.lastUpdatedDate = DateTime.Now.ToString();
             pPatientExmCreate.lastUpdatedUser = User.Claims.First().Value.ToString();
@@ -158,18 +176,9 @@ namespace HealthCare.Controllers
             //await getPatientObjective.SaveChangesAsync();
             return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientExmCreate.PatientID }, pPatientExmCreate);
 
-           // return RedirectToAction("Index");
+           // return RedirectToAction("Index");*/
         }
-        //PatientVisitDocument
-        /*public async Task<IActionResult> GetDocument(string objPatientID, PatientVisitIntoDocumentModel pPatientDocument)
-        {
-            pPatientDocument.lastUpdatedDate = DateTime.Now.ToString();
-            pPatientDocument.lastUpdatedUser = "Myself";
-            //getPatientObjective.SHExmPatientDocument.Add(pPatientDocument);
-            await getPatientObjective.SaveChangesAsync();
-            //return RedirectToAction("Index");
-            return CreatedAtAction(nameof(Get), new { pPatientID = pPatientDocument.PatientID }, pPatientDocument);
-        }*/
+       
 
         public async Task<IActionResult> GetDocument(string objPatientID, PatientVisitIntoDocumentModel pPatientDocument)
         {
@@ -277,153 +286,252 @@ namespace HealthCare.Controllers
         }
 
 
+
+        /* public async Task<ActionResult> PatientExamination(string objPatientID, PatientExaminationModel pPatientExmCreate,PatExmSymptomsSeverity severity,PatientExaminationModel patientExamination, string buttonType)
+         {
+             BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
+             ViewData["patid"] = DPDW.Getpatid();
+             ViewData["faid"] = DPDW.Getfaid();
+             ViewData["VisitDW"] = DPDW.GetvisitDW();
+
+
+             if (buttonType == "patientDiagnosis")
+             {
+                 return View("PatientDiagnosis");
+             }
+             else if (buttonType == "patientProcedure")
+             {
+
+                 return View("PatientProcedure");
+
+             }
+
+             BusinessClassExamination objBusinessclass = new BusinessClassExamination(getPatientObjective);
+             pPatientExmCreate.lastUpdatedDate = DateTime.Now.ToString();
+             pPatientExmCreate.lastUpdatedUser = User.Claims.First().Value.ToString();
+
+             await objBusinessclass.SavePatientExaminationAndSeverity(patientExamination, severity);
+
+
+             //getPatientObjective.SHExmPatientExamination.Add(pPatientExmCreate);
+             //await getPatientObjective.SaveChangesAsync();
+             return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientExmCreate.PatientID }, pPatientExmCreate);
+
+
+         }*/
+
         [HttpPost]
-        public async Task<ActionResult> PatientExamination(string objPatientID, PatientExaminationModel pPatientExmCreate,PatExmSymptomsSeverity severity,PatientExaminationModel patientExamination, string buttonType)
+        public async Task<IActionResult> PatientviewDiagnosis(List<PatientDiagnosisModel> pPatientDig, string action)
         {
-            BusinessClassExamination DPDW = new BusinessClassExamination(getPatientObjective);
-            ViewData["patid"] = DPDW.Getpatid();
-            ViewData["faid"] = DPDW.Getfaid();
-            ViewData["VisitDW"] = DPDW.GetvisitDW();
-
-
-            if (buttonType == "patientDiagnosis")
+            if (action == "Save")
             {
-                return View("PatientDiagnosis");
-            }
-            else if (buttonType == "patientProcedure")
-            {
-
-                return View("PatientProcedure");
-
-            }
-
-            BusinessClassExamination objBusinessclass = new BusinessClassExamination(getPatientObjective);
-            pPatientExmCreate.lastUpdatedDate = DateTime.Now.ToString();
-            pPatientExmCreate.lastUpdatedUser = User.Claims.First().Value.ToString();
-
-            await objBusinessclass.SavePatientExaminationAndSeverity(patientExamination, severity);
+                foreach (var pDiagnosis in pPatientDig)
+                {
+                    var existingEntry = await getPatientObjective.SHEXMdiagnosis.FindAsync(
+                       pDiagnosis.PatientID,
+                        pDiagnosis.VisitID,
+                        pDiagnosis.ExamID,
+                        pDiagnosis.DiagnosisID);
 
 
-            //getPatientObjective.SHExmPatientExamination.Add(pPatientExmCreate);
-            //await getPatientObjective.SaveChangesAsync();
-            return CreatedAtAction(nameof(CreateGet), new { pPatientID = pPatientExmCreate.PatientID }, pPatientExmCreate);
+                    if (existingEntry == null)
+                    {
+                        pDiagnosis.lastUpdatedDate = DateTime.Now.ToString();
+                        pDiagnosis.lastUpdatedUser = User.Claims.First().Value.ToString();
+                        pDiagnosis.lasrUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
+                        getPatientObjective.SHEXMdiagnosis.Add(pDiagnosis);
+                    }
+                    else
+                    {
+                        existingEntry.lastUpdatedDate = DateTime.Now.ToString();
+                        existingEntry.lastUpdatedUser = User.Claims.First().Value.ToString();
+                        existingEntry.lasrUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                        existingEntry.Notes = pDiagnosis.Notes;
+                        existingEntry.Comments = pDiagnosis.Comments;
+                        getPatientObjective.SHEXMdiagnosis.Update(existingEntry);
+                    }
+                }
 
-        }
-
-        public async Task<IActionResult> PatientviewDiagnosis(PatientDiagnosisModel pPatientDig)
-        {
-            var existingDig = await getPatientObjective.SHEXMdiagnosis.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID, pPatientDig.DiagnosisID);
-            if (existingDig != null)
-            {
-
-                existingDig.PatientID = pPatientDig.PatientID;
-                existingDig.VisitID = pPatientDig.VisitID;
-                existingDig.ExamID = pPatientDig.ExamID;
-                existingDig.DiagnosisID = pPatientDig.DiagnosisID;
-                existingDig.Notes = pPatientDig.Notes;
-                existingDig.Comments = pPatientDig.Comments;
-                existingDig.DoctorID = pPatientDig.DoctorID;
-                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
-                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
-                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
-            }
-            else
-            {
-                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
-                pPatientDig.lastUpdatedUser = "Myself";
-                pPatientDig.lasrUpdatedMachine = "Lap";
-                getPatientObjective.SHEXMdiagnosis.Add(pPatientDig);
+                await getPatientObjective.SaveChangesAsync();
+                ViewBag.Message = "Saved Successfully.";
 
             }
-            await getPatientObjective.SaveChangesAsync();
-            ViewBag.Message = "Saved Successfully.";
+            else if (action == "Add Row")
+            {
+                if (pPatientDig.Count > 0)
+                {
+                    // Copy the values from the last entry to a new entry
+                    var lastEntry = pPatientDig.Last();
+                    var newEntry = new PatientDiagnosisModel
+                    {
+                        PatientID = lastEntry.PatientID,
+                        ExamID = lastEntry.ExamID,
+                        VisitID = lastEntry.VisitID,
+
+                    };
+
+                    pPatientDig.Add(newEntry); ;
+                }
+                else
+                {
+                    var newEntry = new PatientDiagnosisModel
+                    {
+                        PatientID = TempData["PatientID"] as string,
+                        ExamID = TempData["ExaminationID"] as string,
+                        VisitID = TempData["VisitID"] as string,
+
+                    };
+
+                    pPatientDig.Add(newEntry);
+                }
+
+            }
+
             return View("PatientDiagnosis", pPatientDig);
         }
 
-        public async Task<IActionResult> PatientviewProcedure(PatientProcedureModel pPatientDig)
+        [HttpPost]
+        public async Task<IActionResult> PatientviewProcedure(List<PatientProcedureModel> pPatientPro, string action)
         {
-            var existingDig = await getPatientObjective.SHEXMprocedure.FindAsync(pPatientDig.PatientID, pPatientDig.VisitID, pPatientDig.ExamID, pPatientDig.ProcedureID);
-            if (existingDig != null)
+            if (action == "Save")
             {
+                foreach (var pProcedure in pPatientPro)
+                {
+                    var existingEntry = await getPatientObjective.SHEXMprocedure.FindAsync(
+                        pProcedure.PatientID,
+                        pProcedure.VisitID,
+                        pProcedure.ExamID,
+                        pProcedure.ProcedureID);
 
-                existingDig.PatientID = pPatientDig.PatientID;
-                existingDig.VisitID = pPatientDig.VisitID;
-                existingDig.ExamID = pPatientDig.ExamID;
-                existingDig.ProcedureID = pPatientDig.ProcedureID;
-                existingDig.Notes = pPatientDig.Notes;
-                existingDig.Comments = pPatientDig.Comments;
-                existingDig.DoctorID = pPatientDig.DoctorID;
-                existingDig.lastUpdatedDate = pPatientDig.lastUpdatedDate;
-                existingDig.lastUpdatedUser = pPatientDig.lastUpdatedUser;
-                existingDig.lasrUpdatedMachine = pPatientDig.lasrUpdatedMachine;
+
+                    if (existingEntry == null)
+                    {
+                        pProcedure.lastUpdatedDate = DateTime.Now.ToString();
+                        pProcedure.lastUpdatedUser = User.Claims.First().Value.ToString();
+                        pProcedure.lasrUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                        getPatientObjective.SHEXMprocedure.Add(pProcedure);
+                    }
+                    else
+                    {
+                        existingEntry.lastUpdatedDate = DateTime.Now.ToString();
+                        existingEntry.lastUpdatedUser = User.Claims.First().Value.ToString();
+                        existingEntry.lasrUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                        existingEntry.Notes = pProcedure.Notes;
+                        existingEntry.Comments = pProcedure.Comments;
+                        getPatientObjective.SHEXMprocedure.Update(existingEntry);
+                    }
+                }
+
+                await getPatientObjective.SaveChangesAsync();
+                ViewBag.Message = "Saved Successfully.";
+
             }
-            else
+            else if (action == "Add Row")
             {
-                pPatientDig.lastUpdatedDate = DateTime.Now.ToString();
-                pPatientDig.lastUpdatedUser = "Myself";
-                pPatientDig.lasrUpdatedMachine = "Lap";
-                getPatientObjective.SHEXMprocedure.Add(pPatientDig);
+                if (pPatientPro.Count > 0)
+                {
+                    // Copy the values from the last entry to a new entry
+                    var lastEntry = pPatientPro.Last();
+                    var newEntry = new PatientProcedureModel
+                    {
+                        PatientID = lastEntry.PatientID,
+                        ExamID = lastEntry.ExamID,
+                        VisitID = lastEntry.VisitID,
+                       
+                    };
+
+                    pPatientPro.Add(newEntry); ;
+                }
+                else
+                {
+                    var newEntry = new PatientProcedureModel
+                    {
+                        PatientID = TempData["PatientID"] as string,
+                        ExamID = TempData["ExaminationID"] as string,
+                        VisitID = TempData["VisitID"] as string,
+                      
+                    };
+
+                    pPatientPro.Add(newEntry);
+                }
 
             }
-            await getPatientObjective.SaveChangesAsync();
-            ViewBag.Message = "Saved Successfully.";
-            return View("PatientProcedure", pPatientDig);
+
+            return View("PatientProcedure", pPatientPro);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> PatientviewSeverity(List<PatExmSymptomsSeverity> pseverityList, string action)
+        {
+            if (action == "Save")
+            {
+                foreach (var pseverity in pseverityList)
+                {
+                    var existingEntry = await getPatientObjective.SHExmSeverity.FindAsync(
+                        pseverity.PatientID,
+                        pseverity.FacilityID,
+                        pseverity.VisitID,
+                        pseverity.ExaminationID,
+                        pseverity.Severity);
+
+
+                    if (existingEntry == null)
+                    {   
+                       pseverity.lastUpdatedDate= DateTime.Now.ToString();
+                        pseverity.lastUpdatedUser = User.Claims.First().Value.ToString();
+
+                        getPatientObjective.SHExmSeverity.Add(pseverity);
+                    }
+                    else
+                    {
+                        existingEntry.lastUpdatedDate = DateTime.Now.ToString();
+                        existingEntry.lastUpdatedUser = User.Claims.First().Value.ToString();
+                        existingEntry.Symptoms = pseverity.Symptoms;
+                        getPatientObjective.SHExmSeverity.Update(existingEntry);
+                    }
+                }
+                
+                await getPatientObjective.SaveChangesAsync();
+                ViewBag.Message = "Saved Successfully.";
+
+            }
+            else if (action == "Add Row")
+            {
+                if (pseverityList.Count > 0)
+                {
+                    // Copy the values from the last entry to a new entry
+                    var lastEntry = pseverityList.Last();
+                    var newEntry = new PatExmSymptomsSeverity
+                    {
+                        PatientID = lastEntry.PatientID,
+                        ExaminationID = lastEntry.ExaminationID,
+                        VisitID = lastEntry.VisitID,
+                        FacilityID = lastEntry.FacilityID
+                    };
+
+                    pseverityList.Add(newEntry); ;
+                }
+                else
+                {
+                    var newEntry = new PatExmSymptomsSeverity
+                    {
+                        PatientID = TempData["PatientID"] as string,
+                        ExaminationID = TempData["ExaminationID"] as string,
+                        VisitID = TempData["VisitID"] as string,
+                        FacilityID = TempData["FacilityID"] as string
+                    };
+
+                    pseverityList.Add(newEntry);
+                }
+
+            }
+           
+            return View("SymptomsSeverity", pseverityList);
         }
 
-    /*// Check which button was clicked
-    switch (buttonType)
-    {
-        case "select":
-            // Handle Select button click
-            return await HandleSelectButton(patientID, visitID, clinicID);
-
-        case "create":
-            // Handle Create button click
-            return HandleCreateButton();
-
-        case "submit":
-            // Handle Submit button click
-            return HandleSubmitButton();
-
-        default:
-            return View();
-    }*/
-
-
-    /* private async Task<ActionResult> HandleSelectButton(string patientID, string visitID, string clinicID)
-     {
-         // Retrieve relevant patient objective details from the database based on the IDs
-         var patientObjective = await getPatientObjective.SHExmPatientObjective.FirstOrDefaultAsync(x =>
-             x.PatientID == patientID && x.VisitID == visitID && x.ClinicID == clinicID);
-
-         if (patientObjective == null)
-         {
-             ViewBag.Message = "No data found for the provided IDs.";
-             ViewBag.PatientObjectiveData = null;
-             return View();
-         }
-
-         ViewBag.PatientObjectiveData = patientObjective;
-         // Enable the Submit button
-         ViewBag.SubmitButtonDisabled = false;
-         return View("PatientObjectiveData",patientObjective);
-     }
-
-     private ActionResult HandleCreateButton()
-     {
-         // Handle Create button click logic here
-         return RedirectToAction("PatientObjectivePage");
-     }
-
-     private ActionResult HandleSubmitButton()
-     {
-         // Handle Submit button click logic here
-         return RedirectToAction("PatientObjectivePage");
-     }*/
-
-
-    public IActionResult Index()
+         public IActionResult Index()
         {
             return View();
         }
@@ -545,16 +653,107 @@ namespace HealthCare.Controllers
             return View();
 
         }
-        public IActionResult PatientProcedure()
+        public async Task <IActionResult> PatientProcedure()
         {
-            return View();
+            var model = new List<PatientProcedureModel>();
+
+            if (TempData["PatientID"] != null)
+            {
+                var ProcedureModel = new PatientProcedureModel
+                {
+                    PatientID = TempData["PatientID"] as string,
+                    ExamID = TempData["ExaminationID"] as string,
+                    VisitID = TempData["VisitID"] as string,
+                  
+                };
+                var existingEntries = await getPatientObjective.SHEXMprocedure
+          .Where(s => s.PatientID == ProcedureModel.PatientID && s.ExamID == ProcedureModel.ExamID
+                   && s.VisitID == ProcedureModel.VisitID )
+          .ToListAsync();
+
+                if (existingEntries != null && existingEntries.Any())
+                {
+
+                    return View(existingEntries);
+                }
+
+                model.Add(ProcedureModel);
+            }
+
+            return View(model);
+
+          
         }
 
-        public IActionResult PatientDiagnosis()
+        public async Task <IActionResult> PatientDiagnosis()
         {
-            return View();
+            var model = new List<PatientDiagnosisModel>();
+
+
+
+            if (TempData["PatientID"] != null)
+            {
+                var DiagnosisModel = new PatientDiagnosisModel
+                {
+                    PatientID = TempData["PatientID"] as string,
+                    ExamID = TempData["ExaminationID"] as string,
+                    VisitID = TempData["VisitID"] as string,
+                   
+                };
+
+
+                var existingEntries = await getPatientObjective.SHEXMdiagnosis
+           .Where(s => s.PatientID == DiagnosisModel.PatientID && s.ExamID == DiagnosisModel.ExamID
+                    && s.VisitID == DiagnosisModel.VisitID)
+           .ToListAsync();
+
+                if (existingEntries != null && existingEntries.Any())
+                {
+
+                    return View(existingEntries);
+                }
+
+                model.Add(DiagnosisModel);
+            }
+
+            return View(model);
         }
 
-       
-    }
+        public async Task <IActionResult> SymptomsSeverity()
+         {
+
+            var model = new List<PatExmSymptomsSeverity>();
+
+            
+
+            if (TempData["PatientID"] != null)
+            {
+                var severityModel = new PatExmSymptomsSeverity
+                {
+                    PatientID = TempData["PatientID"] as string,
+                    ExaminationID = TempData["ExaminationID"] as string,
+                    VisitID = TempData["VisitID"] as string,
+                    FacilityID = TempData["FacilityID"] as string
+                };
+
+             
+                var existingEntries = await getPatientObjective.SHExmSeverity
+           .Where(s => s.PatientID == severityModel.PatientID && s.ExaminationID == severityModel.ExaminationID
+                    && s.VisitID ==severityModel.VisitID && s.FacilityID ==severityModel.FacilityID )
+           .ToListAsync();
+
+                if (existingEntries != null && existingEntries.Any())
+                {
+                    
+                    return View(existingEntries);
+                }
+
+                model.Add(severityModel);
+            }
+
+            return View(model);
+    
+
+        }
+     }
 }

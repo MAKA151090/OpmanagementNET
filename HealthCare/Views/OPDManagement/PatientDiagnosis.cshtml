@@ -1,4 +1,4 @@
-﻿@model PatientDiagnosisModel
+﻿@model List<PatientDiagnosisModel>
 
 @{
     ViewData["Title"] = "PatientDiagnosis";
@@ -6,105 +6,53 @@
 }
 
 
-<div class="card xl-6">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
-            <h2 class="text-primary mb-1"> Patient Diagnosis</h2>
-            <small class="text-muted float-end"></small>
-
-        </div>
-    </div>
+<h1>PatientDiagnosis</h1>
 
 @using (Html.BeginForm("PatientviewDiagnosis", "OPDManagement", FormMethod.Post))
 {
-   
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                 <div class="row gy-4">
 
-                    <div class="col-md-12 col-lg-1">
-                    </div>
-                    <div class="col-md-12 col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Examination ID</th>
+                    <th>Patient ID</th>
+                    <th>Visit ID</th>
+                    <th>Doctor ID</th>
+                    <th>Diagnosis ID</th>
+                    <th>Notes</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
 
-                                <div class="form-floating form-floating-outline mb-4">
+                    @for (var i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td><input type="text" asp-for="@Model[i].ExamID" class="form-control" readonly /></td>
+                            <td><input type="text" asp-for="@Model[i].PatientID" class="form-control" readonly /></td>
+                            <td><input type="text" asp-for="@Model[i].VisitID" class="form-control" readonly /></td>
+                            <td><input type="text" asp-for="@Model[i].DoctorID" class="form-control" /></td>
+                            <td><input type="text" asp-for="@Model[i].DiagnosisID" class="form-control" /></td>
+                            <td><input type="text" asp-for="@Model[i].Notes" class="form-control" /></td>
+                            <td><input type="text" asp-for="@Model[i].Comments" class="form-control" /></td>
 
-                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" />
-                    <label asp-for="PatientID" class="control-label"></label>
-                    <span asp-validation-for="PatientID" class="text-danger"></span>
-                </div>
-                        <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="VisitID" class="form-control" placeholder="VisitID" />
-                    <label asp-for="VisitID" class="control-label"></label>
-                    <span asp-validation-for="VisitID" class="text-danger"></span>
-                </div>
-                        <div class="form-floating form-floating-outline mb-4">
+                        </tr>
+                    }
 
-                            <input asp-for="ExamID" class="form-control" placeholder="ExamID" />
-                    <label asp-for="ExamID" class="control-label"></label>
-                    <span asp-validation-for="ExamID" class="text-danger"></span>
-                </div>
-                        <div class="form-floating form-floating-outline mb-4">
+                }
+            </tbody>
+        </table>
 
-                            <input asp-for="DoctorID" class="form-control" placeholder="DoctorID" />
-                    <label asp-for="DoctorID" class="control-label"></label>
-                    <span asp-validation-for="DoctorID" class="text-danger"></span>
-                        </div>
-                </div>
-                </div>
-                </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
+        <button type="submit" name="action" value="Save" class="btn btn-primary">Save</button>
+        <button type="submit" name="action" value="Add Row" class="btn btn-primary">Add Row</button>
 
-                            <input asp-for="DiagnosisID" class="form-control" placeholder="DiagnosisID" />
-                    <label asp-for="DiagnosisID" class="control-label"></label>
-                    <span asp-validation-for="DiagnosisID" class="text-danger"></span>
-                </div>
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="Notes" class="form-control" placeholder="Notes" />
-                    <label asp-for="Notes" class="control-label"></label>
-                    <span asp-validation-for="Notes" class="text-danger"></span>
-                </div>
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="Comments" class="form-control" placeholder="Comments" />
-                    <label asp-for="Comments" class="control-label"></label>
-                    <span asp-validation-for="Comments" class="text-danger"></span>
-                </div>
-                @*   <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">
+                @ViewBag.Message
             </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedDate" class="control-label"></label>
-                <input asp-for="lastUpdatedDate" class="form-control" />
-                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lasrUpdatedMachine" class="control-label"></label>
-                <input asp-for="lasrUpdatedMachine" class="form-control" />
-                <span asp-validation-for="lasrUpdatedMachine" class="text-danger"></span>
-            </div> *@
-                <div class="form-group">
-                    <center>
-                    <button type="submit" value="Create" class="btn btn-primary" >Save</button>
-                            @if (ViewBag.Message != null)
-                            {
-                                <div class="alert alert-success">
-                                    @ViewBag.Message
-                                </div>
-                            }
-                    </center>
-                </div>
-                </div>
-                </div>
-                </div>
-
-        </div>
-  
+        }
 }

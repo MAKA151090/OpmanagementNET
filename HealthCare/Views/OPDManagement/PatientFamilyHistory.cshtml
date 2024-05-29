@@ -5,18 +5,33 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>Patient History and Familyhistory</h1>
+
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> Patient History and Family History</h2>
+            <small class="text-muted float-end"></small>
+        </div>
+    </div>
+
 @using (Html.BeginForm("SaveFHPH", "OPDManagement", FormMethod.Post))
 {
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
+    
+    
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
           @*   <div class="form-group">
                 <label asp-for="PatientID" class="control-label"></label>
                 <input asp-for="PatientID" class="form-control" />
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div> *@
+
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4">
+
+                <div class="card">
+                    <div class="card-body">
 
             <div class="form-floating form-floating-outline mb-4">
                 @{
@@ -29,21 +44,24 @@
                 }
 
                 @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", @required = "required" })
-                <label asp-for="PatientID" class="control-label"></label>
+                <label asp-for="PatientID" class="control-label">Patient ID</label>
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
+                <div class="form-floating form-floating-outline mb-4">
+                @* <label asp-for="Type" class="control-label"></label> *@
                 <select asp-for="Type" class="form-control" asp-items="@(new SelectList(new List<string> { "FH", "PH" }))">
                     <option value="">Select Type</option>
                 </select>
+                    <label asp-for="Type" class="control-label"></label>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <button type="submit" name="buttonType" value="Get" class="btn btn-primary btn-lg">Get</button>
             
 
         </div>
+    </div>
+    </div>
     </div>
 
     <table class="table">
@@ -64,9 +82,9 @@
                 @for (int i = 0; i < Model.SHFHPHviewlist.Count; i++)
                 {
                     <tr>
-                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Question" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].QuestionID" /></td>
+                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Question" value="@Model.SHFHPHviewlist[i].Question" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].QuestionID" /></td>
 
-                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Answer" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].Type" /></td>
+                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Answer" value="@Model.SHFHPHviewlist[i].Answer" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].Type" /></td>
 
 
                     </tr>
@@ -87,7 +105,7 @@
                     </div>
                 }
             }
-     
+     </div>
        
 
 

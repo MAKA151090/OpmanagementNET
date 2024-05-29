@@ -151,7 +151,7 @@ namespace HealthCare.Business
             foreach (var item in addQus)
             {
                 var objFHPH = (objSearchContext.SHExmPatientFHPH.FirstOrDefault(x =>
-                x.PatientID == patientID && x.Type==Type && x.QuestionID==QuestionID));
+                x.PatientID == patientID && x.Type==Type && x.QuestionID==item.QuestionID));
 
                 if (objFHPH == null)
                 {
@@ -178,7 +178,7 @@ namespace HealthCare.Business
 
 
 
-            return patExmQuestion;
+             return patExmQuestion;
 
         }
      
@@ -325,6 +325,36 @@ namespace HealthCare.Business
             return VisitDW;
         }
 
+        public List<SeverityModel> GetseverityDW() 
+        {
+            var SevDW = (
+                from s in objSearchContext.SHSeverityModel
+                select new SeverityModel
+                {
+                    SeverityID = s.SeverityID,
+                    SeverityName = s.SeverityName,
+                    Active = s.Active,
+                }
+
+
+                ).ToList();
+
+            return SevDW;
+        }
+
+        public List<PatientExaminationModel>GetExmDW()
+        {
+            var ExmDw = (
+                from e in objSearchContext.SHExmPatientExamination
+                select new PatientExaminationModel
+                {
+                    ExaminationID = e.ExaminationID
+                }
+
+                ).ToList();
+            return ExmDw;
+
+        }
 
     }
 }

@@ -71,6 +71,8 @@ namespace HealthCare.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity), properties);
 
+                    
+
                     return RedirectToAction("Index", "ClinicAdministration");
                 }
 
