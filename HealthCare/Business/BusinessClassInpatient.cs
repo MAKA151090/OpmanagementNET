@@ -164,14 +164,16 @@ namespace HealthCare.Business
             return faid;
         }
 
-        public List<ResourceTypeMasterModel> GetConDocId()
+        public List<StaffAdminModel> GetConDocId()
         {
             var condocid = (
-                    from pr in objInpatientDb.SHclnResourseTypeMaster
-                    select new ResourceTypeMasterModel
+                    from pr in objInpatientDb.SHclnStaffAdminModel
+                    join p in objInpatientDb.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                    where p.ResourceTypeName == "Doctor"
+                    select new StaffAdminModel
                     {
-                        ResourceTypeID = pr.ResourceTypeID,
-                        ResourceTypeName = pr.ResourceTypeName
+                        StrStaffID = pr.StrStaffID,
+                        StrFullName = pr.StrFullName
                     }
                 ).ToList();
 
@@ -179,14 +181,18 @@ namespace HealthCare.Business
         }
 
 
-        public List<ResourceTypeMasterModel> Getdutydocid()
+        public List<StaffAdminModel> Getdutydocid()
         {
+            
+
             var dutydocid = (
-                    from pr in objInpatientDb.SHclnResourseTypeMaster
-                    select new ResourceTypeMasterModel
+                    from pr in objInpatientDb.SHclnStaffAdminModel
+                    join p in objInpatientDb.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                    where p.ResourceTypeName== "Doctor"
+                    select new StaffAdminModel
                     {
-                        ResourceTypeID = pr.ResourceTypeID,
-                        ResourceTypeName = pr.ResourceTypeName
+                        StrStaffID = pr.StrStaffID,
+                        StrFullName = pr.StrFullName
                     }
                 ).ToList();
 
@@ -194,29 +200,33 @@ namespace HealthCare.Business
         }
 
 
-        public List<ResourceTypeMasterModel> GetRefDocId()
+        public List<StaffAdminModel> GetRefDocId()
         {
             var refocid = (
-                    from pr in objInpatientDb.SHclnResourseTypeMaster
-                    select new ResourceTypeMasterModel
-                    {
-                        ResourceTypeID = pr.ResourceTypeID,
-                        ResourceTypeName = pr.ResourceTypeName
-                    }
+                     from pr in objInpatientDb.SHclnStaffAdminModel
+                     join p in objInpatientDb.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                     where p.ResourceTypeName == "Doctor"
+                     select new StaffAdminModel
+                     {
+                         StrStaffID = pr.StrStaffID,
+                         StrFullName = pr.StrFullName
+                     }
                 ).ToList();
 
             return refocid;
         }
 
-        public List<ResourceTypeMasterModel> GetAddcondocid()
+        public List<StaffAdminModel> GetAddcondocid()
         {
             var addcondocid = (
-                    from pr in objInpatientDb.SHclnResourseTypeMaster
-                    select new ResourceTypeMasterModel
-                    {
-                        ResourceTypeID = pr.ResourceTypeID,
-                        ResourceTypeName = pr.ResourceTypeName
-                    }
+                   from pr in objInpatientDb.SHclnStaffAdminModel
+                   join p in objInpatientDb.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                   where p.ResourceTypeName == "Doctor"
+                   select new StaffAdminModel
+                   {
+                       StrStaffID = pr.StrStaffID,
+                       StrFullName = pr.StrFullName
+                   }
                 ).ToList();
 
             return addcondocid;
