@@ -33,7 +33,7 @@
                             }
 
                             @Html.DropDownListFor(model => model.StrPatientId, patientid, "Select Patient ID", new { @class = "form-control", required = "required" })
-                            <label asp-for="StrPatientId" class="control-label">PatientID</label>
+                            <label asp-for="StrPatientId" class="control-label">Patient ID</label>
                             <span asp-validation-for="StrPatientId" class="text-danger"></span>
                         </div>
 
@@ -84,12 +84,7 @@
                             <span asp-validation-for="StrPostMedHistory" class="text-danger"></span>
                         </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StrAllergicTo" class="form-control" placeholder="Allergic To" />
-                            <label asp-for="StrAllergicTo" class="control-label">Allergic To</label>
-                            
-                            <span asp-validation-for="StrAllergicTo" class="text-danger"></span>
-                        </div>
+                       
                     </div>
                     </div>
                     </div>
@@ -98,19 +93,13 @@
                     <div class="col-md-12 col-lg-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StrHeight" class="form-control" placeholder="Height" />
-                            <label asp-for="StrHeight" class="control-label">Height</label>
-                            
-                            <span asp-validation-for="StrHeight" class="text-danger"></span>
-                        </div>
-                                <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StrWeight" class="form-control" placeholder="Weight" />
-                            <label asp-for="StrWeight" class="control-label">Weight</label>
-                            
-                            <span asp-validation-for="StrWeight" class="text-danger"></span>
-                        </div>
 
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input asp-for="StrAllergicTo" class="form-control" placeholder="Allergic To" />
+                            <label asp-for="StrAllergicTo" class="control-label">Allergic To</label>
+
+                            <span asp-validation-for="StrAllergicTo" class="text-danger"></span>
+                        </div>
 
 
                         <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">

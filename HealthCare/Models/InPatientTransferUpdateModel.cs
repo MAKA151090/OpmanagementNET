@@ -1,4 +1,7 @@
 ﻿
+using DocumentFormat.OpenXml.Presentation;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace HealthCare.Models
 {
     public class InPatientTransferUpdateModel
@@ -17,6 +20,8 @@ namespace HealthCare.Models
         private string strTransferNotes;
         private string strDocId;
         private string strChangeDate;
+        private string tranferID;
+        private bool isCount;
         private string lastupdatedUser;
         private string lastupdatedDate;
         private string lastUpdatedMachine;
@@ -34,6 +39,8 @@ namespace HealthCare.Models
         public string? LastupdatedUser { get => lastupdatedUser; set => lastupdatedUser = value; }
         public string? LastupdatedDate { get => lastupdatedDate; set => lastupdatedDate = value; }
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
-        
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string TranferID { get => tranferID; set => tranferID = value; }
+        public bool IsCount { get => isCount; set => isCount = value; }
     }
 }
