@@ -153,7 +153,7 @@ namespace HealthCare.Business
             foreach (var item in addQus)
             {
                 var objFHPH = (objSearchContext.SHExmPatientFHPH.FirstOrDefault(x =>
-                x.PatientID == patientID && x.Type==Type && x.QuestionID==QuestionID));
+                x.PatientID == patientID && x.Type==Type && x.QuestionID==item.QuestionID));
 
                 if (objFHPH == null)
                 {
@@ -180,7 +180,7 @@ namespace HealthCare.Business
 
 
 
-            return patExmQuestion;
+             return patExmQuestion;
 
         }
      
