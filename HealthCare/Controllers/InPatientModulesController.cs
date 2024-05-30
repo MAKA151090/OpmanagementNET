@@ -297,7 +297,7 @@ namespace HealthCare.Controllers
         {
 
             BusinessClassInpatient ObjView = new BusinessClassInpatient(_healthcareContext);
-            if (buttonType == "get")
+            if (buttonType == "Get")
             {
                 var result = ObjView.InPatientTransfer(Model.PatientId, Model.CaseId, Model.BedId).Result;
                 return View("InPatientTransfer", result);

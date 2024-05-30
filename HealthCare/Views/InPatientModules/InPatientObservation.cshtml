@@ -62,7 +62,7 @@
 
                     <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="ObservationID" class="form-control" placeholder="Observation ID" required/>
+                        <input asp-for="ObservationID" class="form-control" placeholder="Observation ID" required />
                         <label asp-for="ObservationID" class="control-label">Observation ID</label>
                         <span asp-validation-for="ObservationID" class="text-danger"></span>
                     </div>
@@ -104,12 +104,12 @@
                 @for (int i = 0; i < Model.SHviewInpatientObs.Count; i++)
                 {
                     <tr>
-                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].ObservationName" /> <input type="hidden" asp-for="@Model.SHviewInpatientObs[i].ObservationTypeID" /></td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].ObservationName" readonly/> <input type="hidden" asp-for="@Model.SHviewInpatientObs[i].ObservationTypeID" /></td>
 
                         <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Answer" /></td>
-                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Unit" /></td>
-                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Frequency" /></td>
-                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Range" /></td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Unit" readonly/></td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Frequency" readonly /></td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Range" readonly/></td>
                         @*  <td>@Model.SHviewInpatientObs[i].Unit</td>
             <td>@Model.SHviewInpatientObs[i].Range</td>
             <td>@Model.SHviewInpatientObs[i].Frequency</td> *@
