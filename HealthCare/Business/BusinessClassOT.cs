@@ -44,14 +44,27 @@ namespace HealthCare.Business
             return facilityid;
         }
 
-        public List<OtTableMasterModel> gettableid()
+        public List<InternalDepartmentMasterModel> GetDepid()
+        {
+            var Depid = (
+                from pr in objSearchContext.SHotInternalDepartmentMaster
+                select new InternalDepartmentMasterModel
+                {
+                    DepartmentID = pr.DepartmentID,
+                    DepartmentName  = pr.DepartmentName,
+                }
+                ).ToList();
+            return Depid;
+        }
+
+        public List<OtTableMasterModel> Gettableid()
         {
             var tableid = (
                 from pr in objSearchContext.SHotTableMaster
                 select new OtTableMasterModel
                 {
-                    TableID = pr.TableID,
-                    TableName = pr.TableName,
+                   TableID = pr.TableID,
+                   TableName = pr.TableName,
                 }
                 ).ToList();
             return tableid;
@@ -59,7 +72,7 @@ namespace HealthCare.Business
 
 
         ///otconfirmation  
-    
+
         public List<OtScheduleViewModel> getscheduleid()
         {
             var getscheduleid = (
@@ -138,13 +151,13 @@ namespace HealthCare.Business
         }
 
 
-        public List<OtScheduleViewModel> GetOtScheduleViews(string FacilityID)
+        public List<OtScheduleViewModel> GetOtScheduleViews(string FacilityID , string CurrentDate)
         {
             var OpCheckingData = (
                           from op in objSearchContext.SHPatientRegistration
                           join ds in objSearchContext.SHotScheduling on op.PatientID equals ds.PatientID
                           join dc in objSearchContext.SHotInternalDepartmentMaster on ds.InchrgDepID equals dc.DepartmentID
-                          where ds.FacilityID == FacilityID
+                          where ds.FacilityID == FacilityID && ds.StartDate == CurrentDate
                           select new OtScheduleViewModel
                           {
                               OtSchedulingId = ds.OtScheduleID,
@@ -154,7 +167,9 @@ namespace HealthCare.Business
                               Duration = ds.Duration,
                               IncharegeDeparment1 = dc.DepartmentName,
                               IsConformed = ds.Confirm,
-                              TeamName = ds.TeamName
+                              TeamName = ds.TeamName,
+                              OperationType = ds.OperationType
+                              
                           }).ToListAsync().Result;
 
             return OpCheckingData;

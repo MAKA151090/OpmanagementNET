@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Office.Interop.Word;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace HealthCare.Business
 {
@@ -45,7 +46,7 @@ namespace HealthCare.Business
         public byte[] GenerateDocument(string patientId, string visitId, string FacilityID)
         {
             // Retrieve data from database
-            using (var dbContext = new HealthcareContext())
+            using (var dbContext = objSearchContext)
             {
                 var patientObjective = dbContext.SHExmPatientObjective
                    .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.FacilityID == FacilityID);
@@ -59,8 +60,6 @@ namespace HealthCare.Business
 
                 var patientFamilyHistory = dbContext.SHExmPatientFHPH
                     .FirstOrDefault(p => p.PatientID == patientId);
-
-
 
                 var patientExamination = dbContext.SHExmPatientExamination
                     .FirstOrDefault(p => p.PatientID == patientId && p.VisitID == visitId && p.FacilityID == FacilityID);
@@ -82,7 +81,7 @@ namespace HealthCare.Business
             PatientExaminationModel patientExamination, PatExmSymptomsSeverity patExmSymptomsSeverity)
         {
             // Load the existing template document
-            byte[] templateBytes = File.ReadAllBytes("C:\\Users\\admin\\Downloads\\PatientChartTemplate.docx");
+            byte[] templateBytes = File.ReadAllBytes("..\\HealthCare\\Template\\PatientChartTemplate.docx");
 
             using (MemoryStream mem = new MemoryStream()) 
             {
@@ -98,25 +97,25 @@ namespace HealthCare.Business
                     }
 
                     // Replace placeholders with actual values
-                    ReplacePlaceholder(mainPart, "Full Name", patientRegistration.FullName);
-                    ReplacePlaceholder(mainPart, "Age", patientRegistration.Age.ToString());
-                    ReplacePlaceholder(mainPart, "Gender", patientRegistration.Gender);
-                    ReplacePlaceholder(mainPart, "Visit ID", patientObjective.VisitID);
-                    ReplacePlaceholder(mainPart, "VisitDate", patientObjective.VisitDate.ToString());
-                    ReplacePlaceholder(mainPart, "Main Complaint", patientObjective.CheifComplaint);
-                    ReplacePlaceholder(mainPart, "Height", patientObjective.Height);
-                    ReplacePlaceholder(mainPart, "Weight", patientObjective.Weight);
-                    ReplacePlaceholder(mainPart, "BP", patientObjective.BloodPressure);
-                    ReplacePlaceholder(mainPart, "Heart Rate", patientObjective.HeartRate);
-                    ReplacePlaceholder(mainPart, "Temperature", patientObjective.Temperature);
-                    ReplacePlaceholder(mainPart, "Respiratory Rate", patientObjective.ResptryRate);
-                    ReplacePlaceholder(mainPart, "Oxygen Saturaion", patientObjective.OxySat);
-                    ReplacePlaceholder(mainPart, "Pulse Rate", patientObjective.PulseRate);
-                    ReplacePlaceholder(mainPart, "Blood Glucose Level", patientObjective.BldGluLvl);
-                    ReplacePlaceholder(mainPart, "Complaints", patientExamination.Complaint);
-                    ReplacePlaceholder(mainPart, "Diagnosis", patientExamination.Diagnosis);
-                    ReplacePlaceholder(mainPart, "Prescription", patientExamination.Prescription);
-                    ReplacePlaceholder(mainPart, "Followupdate", patientExamination.FollowUp);
+                    ReplacePlaceholder(mainPart, "<Full Name>", patientRegistration.FullName);
+                    ReplacePlaceholder(mainPart, "<Age>", patientRegistration.Age.ToString());
+                    ReplacePlaceholder(mainPart, "<Gender>", patientRegistration.Gender);
+                    ReplacePlaceholder(mainPart, "<Visit ID>", patientObjective.VisitID);
+                    ReplacePlaceholder(mainPart, "<VisitDate>", patientObjective.VisitDate.ToString());
+                    ReplacePlaceholder(mainPart, "<Main Complaint>", patientObjective.CheifComplaint);
+                    ReplacePlaceholder(mainPart, "<Height>", patientObjective.Height);
+                    ReplacePlaceholder(mainPart, "<Weight>", patientObjective.Weight);
+                    ReplacePlaceholder(mainPart, "<BP>", patientObjective.BloodPressure);
+                    ReplacePlaceholder(mainPart, "<Heart Rate>", patientObjective.HeartRate);
+                    ReplacePlaceholder(mainPart, "<Temperature>", patientObjective.Temperature);
+                    ReplacePlaceholder(mainPart, "<Respiratory Rate>", patientObjective.ResptryRate);
+                    ReplacePlaceholder(mainPart, "<Oxygen Saturaion>", patientObjective.OxySat);
+                    ReplacePlaceholder(mainPart, "<Pulse Rate>", patientObjective.PulseRate);
+                    ReplacePlaceholder(mainPart, "<Blood Glucose Level>", patientObjective.BldGluLvl);
+                    ReplacePlaceholder(mainPart, "<Complaints>", patientExamination.Complaint);
+                    ReplacePlaceholder(mainPart, "<Diagnosis>", patientExamination.Diagnosis);
+                    ReplacePlaceholder(mainPart, "<Prescription>", patientExamination.Prescription);
+                    ReplacePlaceholder(mainPart, "<Followupdate>", patientExamination.FollowUp);
                     // ReplacePlaceholder(mainPart, "<DoctorName>", patientExamination.DoctorName);
                     //ReplacePlaceholder(mainPart, "<Signature>", patientExamination.DoctorName);
 
@@ -133,13 +132,16 @@ namespace HealthCare.Business
 
         private void ReplacePlaceholder(MainDocumentPart mainPart, string placeholder, string value)
         {
+            XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
 
-            foreach (var textElement in mainPart.Document.Body.Descendants<Text>())
+            var ageTags = mainPart.Document.Body.Descendants().Where(d => d.XName.LocalName == "Age");
+
+
+            foreach (var textElement in mainPart.Document.Body.Descendants().Where(e => e.InnerXml.StartsWith(placeholder)).ToList()) 
             {
-                if (textElement.Text == placeholder)
-                {
-                    textElement.Text = value;
-                }
+                 //var ageTags = body.Descendants().Where(d => d.Name.LocalName == "Age");
+
+                textElement.InnerXml = value;
             }
 
 
