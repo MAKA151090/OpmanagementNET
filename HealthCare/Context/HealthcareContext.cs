@@ -248,7 +248,7 @@ namespace HealthCare.Context
         .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID, i.ExaminationID });
 
             modelBuilder.Entity<PatExmSymptomsSeverity>()
-        .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID, i.ExaminationID, i.Severity });
+        .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID, i.ExaminationID, i.Symptoms });
 
             modelBuilder.Entity<PatientVisitIntoDocumentModel>()
         .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID });
