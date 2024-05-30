@@ -50,46 +50,12 @@
                     <div class="col-md-12 col-lg-6">
 
                         <div>
-                            <button type="submit" value="Get" id ="GetPatient" asp-action="GetPatient" class="btn btn-primary">Get</button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCenter">
+                            <button type="submit" value="Get" id="GetPatient" asp-action="GetPatient" class="btn btn-primary" data-bs-target="#modalCenter">Get</button>
+    
                                 Search
                             </button>
                             <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="modalCenterTitle">Modal title</h4>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col mb-4 mt-2">
-                                                    <div class="form-floating form-floating-outline">
-                                                        <input type="text" id="nameWithTitle" class="form-control" value="@ViewData["PatientId"]" ="Enter Name">
-                                                        <label for="nameWithTitle">Patient Name</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row g-2">
-                                                <div class="col mb-2">
-                                                    <div class="form-floating form-floating-outline">
-                                                        <input type="text" id="IdWithTitle" class="form-control" placeholder="xxxx&#64;xxx.xx">
-                                                        <label for="emailWithTitle">Patient ID</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <div class="form-floating form-floating-outline">
-                                                        <input type="date" id="dobWithTitle" class="form-control">
-                                                        <label for="dobWithTitle">DOB</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit"  value="Get" class="btn btn-primary" asp-action="PatSearch">Search</button>
-                                        </div>
-                                        <div id="slotsTable">
+                              <div id="slotsTable">
                                             <h3>Slots</h3>
                                             <table id="SlotTable" class="table">
                                                 <thead>
@@ -103,7 +69,7 @@
                                                 <tbody>
 
                                                     @{
-                                                        var PatSearchlist = ViewBag.PatSearch as List<PatientRegistrationModel>;
+                                                        var PatSearchlist = ViewData["PatSearch"] as List<PatientRegistrationModel>;
                                                     }
 
                                                     @if (PatSearchlist != null)
@@ -135,9 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                
 
             <div class="row gy-4">
                 <div class="form-floating form-floating-outline mb-4">
@@ -208,10 +172,10 @@
                                 @{
                                     var bldgrpid = ((IEnumerable<BloodGroupModel>)ViewData["bldgrpid"])
                                     .Select(m => new SelectListItem
-            {
-                Value = m.BloodGroup.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.BloodGroup}"
-            });
+                                {
+                                    Value = m.BloodGroup.ToString(), // Assuming ScreenId is of type int
+                                    Text = $"{m.BloodGroup}"
+                                });
                                 }
 
                                 @Html.DropDownListFor(model => model.BloodGroup, bldgrpid, "Select Blood Group", new { @class = "form-control", required = "required" })
@@ -372,18 +336,7 @@
                     </div>
                 </div>
             </div>
-            @* <div class="row gy-4">
-            <div class="form-floating form-floating-outline mb-4">
-            </div>
-            <div class="form-group">
-            <label asp-for="lastUpdatedUser" class="control-label"></label>
-            <input asp-for="lastUpdatedUser" class="form-control" />
-            <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-            </div> *@
-
+        
     </form>
 
         <script>
