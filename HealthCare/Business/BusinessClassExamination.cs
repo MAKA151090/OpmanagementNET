@@ -139,7 +139,7 @@ namespace HealthCare.Business
 
             foreach (var textElement in mainPart.Document.Body.Descendants().Where(e => e.InnerXml.StartsWith(placeholder)).ToList()) 
             {
-                 var ageTags = body.Descendants().Where(d => d.Name.LocalName == "Age");
+                 //var ageTags = body.Descendants().Where(d => d.Name.LocalName == "Age");
 
                 textElement.InnerXml = value;
             }
