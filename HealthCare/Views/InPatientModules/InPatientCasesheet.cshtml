@@ -5,14 +5,27 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div class="card xl-6">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">In Patient Case Sheet</h2>
-            <small class="text-muted float-end"></small>
-            <div class="row"></div>
+<div class="row">
+    <div class="col-md-12 col-lg-1">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body ">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-primary">In Patient Case Sheet</h2>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
+
+<div class="row" style="height:8%">
+</div>
+
     
     <form asp-action="InPatientCaseSheet" asp-controller="InPatientModules" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -123,25 +136,31 @@
 
                             <span asp-validation-for="StrTreatment" class="text-danger"></span>
                         </div>
+                </div>
+            </div>
 
-                        <div class="form-group">
-                            <center>
-                            <button type="submit" value="Create" class="btn btn-primary" >Save</button>
-                                @if (ViewBag.Message != null)
-                                {
-                                    <div class="alert alert-success">
+                    <div class="col-md-12 col-lg-1" style="height=10%">
+                        <div class="form-floating form-floating-outline mb-4">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <center>
+                            <button type="submit" value="Create" class="btn btn-primary">Save</button>
+
+                              @if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-success">
 
 
-                                        @ViewBag.Message
-                                    </div>
-                                }
-                            </center>
-                        </div>
-                        </div>
-                        </div>
-                        </div>
-                        
-                       
-    </form>
-    </div>
+                                    @ViewBag.Message
+                                </div>
+                            }
+                        </center>
+                    </div>
+                    </div>
+              
+</form>
+
+
+
 
