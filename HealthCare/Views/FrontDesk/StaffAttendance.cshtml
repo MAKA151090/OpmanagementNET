@@ -39,7 +39,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.StaffID, Facid, "Select Facility ID", new { @class = "form-control", required = "required" })
+                            @Html.DropDownListFor(model => model.StaffID, Facid, "Select Staff ID", new { @class = "form-control", required = "required" })
                             <label asp-for="StaffID" class="control-label"></label>
                             <span asp-validation-for="StaffID" class="text-danger"></span>
                         </div>
@@ -47,7 +47,7 @@
                       
  
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Date" type="date" class="form-control" placeholder="Date" />
+                            <input asp-for="Date" type="date" class="form-control" placeholder="Date" required />
                             <label asp-for="Date" class="control-label">Date</label>
                             <span asp-validation-for="Date" class="text-danger"></span>
                         </div>

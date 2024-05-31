@@ -325,6 +325,18 @@ namespace HealthCare.Controllers
         {
             if (action == "Save")
             {
+                var duplicateDig = pPatientDig
+          .GroupBy(p => p.DiagnosisID)
+          .Where(g => g.Count() > 1)
+          .Select(g => g.Key)
+          .ToList();
+
+                if (duplicateDig.Any())
+                {
+                    ViewBag.ErrorMessage = $"Duplicate DiagnosisID Value found: {string.Join(", ", duplicateDig)}";
+                    return View("PatientDiagnosis", pPatientDig);
+                }
+
                 foreach (var pDiagnosis in pPatientDig)
                 {
                     var existingEntry = await getPatientObjective.SHEXMdiagnosis.FindAsync(
@@ -396,6 +408,19 @@ namespace HealthCare.Controllers
         {
             if (action == "Save")
             {
+                var duplicatePro = pPatientPro
+          .GroupBy(p => p.ProcedureID)
+          .Where(g => g.Count() > 1)
+          .Select(g => g.Key)
+          .ToList();
+
+                if (duplicatePro.Any())
+                {
+                    ViewBag.ErrorMessage = $"Duplicate ProcedureID Value found: {string.Join(", ", duplicatePro)}";
+                    return View("PatientProcedure", pPatientPro);
+                }
+
+
                 foreach (var pProcedure in pPatientPro)
                 {
                     var existingEntry = await getPatientObjective.SHEXMprocedure.FindAsync(
@@ -467,6 +492,19 @@ namespace HealthCare.Controllers
         {
             if (action == "Save")
             {
+                var duplicateSymptoms = pseverityList
+          .GroupBy(p => p.Symptoms)
+          .Where(g => g.Count() > 1)
+          .Select(g => g.Key)
+          .ToList();
+
+                if (duplicateSymptoms.Any())
+                {
+                    ViewBag.ErrorMessage = $"Duplicate symptoms Value found: {string.Join(", ", duplicateSymptoms)}";
+                    return View("SymptomsSeverity", pseverityList);
+                }
+
+
                 foreach (var pseverity in pseverityList)
                 {
                     var existingEntry = await getPatientObjective.SHExmSeverity.FindAsync(
@@ -474,7 +512,7 @@ namespace HealthCare.Controllers
                         pseverity.FacilityID,
                         pseverity.VisitID,
                         pseverity.ExaminationID,
-                        pseverity.Severity);
+                        pseverity.Symptoms);
 
 
                     if (existingEntry == null)
@@ -488,7 +526,7 @@ namespace HealthCare.Controllers
                     {
                         existingEntry.lastUpdatedDate = DateTime.Now.ToString();
                         existingEntry.lastUpdatedUser = User.Claims.First().Value.ToString();
-                        existingEntry.Symptoms = pseverity.Symptoms;
+                        existingEntry.Severity = pseverity.Severity;
                         getPatientObjective.SHExmSeverity.Update(existingEntry);
                     }
                 }

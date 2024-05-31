@@ -5,190 +5,214 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">InPatientDoctorVisit</h2>
-            <small class="text-muted float-end"></small>
+<div class="row">
+    <div class="col-md-12 col-lg-1">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body ">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-primary">InPatient DoctorVisit</h2>
 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-        <form asp-action="InPatientDocVisit" asp-controller="InPatientModules" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row gy-4">
-            <div class="col-md-12 col-lg-1">
-                </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
+</div>
 
-                       @*  <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="PatientId" class="form-control" placeholder="Patient ID" />
-                <label asp-for="PatientId" class="control-label"></label>
-               
-                <span asp-validation-for="PatientId" class="text-danger"></span>
-            </div> *@
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
-                                .Select(m => new SelectListItem
+<div class="row" style="height:8%">
+</div>
+
+
+
+<form asp-action="InPatientDocVisit" asp-controller="InPatientModules" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row gy-4">
+        <div class="col-md-12 col-lg-1">
+        </div>
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+
+                    @*  <div class="form-floating form-floating-outline mb-4">
+
+                    <input asp-for="PatientId" class="form-control" placeholder="Patient ID" />
+                    <label asp-for="PatientId" class="control-label"></label>
+
+                    <span asp-validation-for="PatientId" class="text-danger"></span>
+                    </div> *@
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
+                            .Select(m => new SelectListItem
             {
                 Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
                 Text = $"{m.PatientID} - {m.FullName}"
             });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.PatientId, patientid, "Select Patient ID", new { @class = "form-control", @required = "required" })
-                            <label asp-for="PatientId" class="control-label"></label>
-                            <span asp-validation-for="PatientId" class="text-danger"></span>
-                        </div>
+                        @Html.DropDownListFor(model => model.PatientId, patientid, "Select Patient ID", new { @class = "form-control", @required = "required" })
+                        <label asp-for="PatientId" class="control-label">Patient ID</label>
+                        <span asp-validation-for="PatientId" class="text-danger"></span>
+                    </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CaseId" class="form-control" placeholder="Case ID" required />
-                <label asp-for="CaseId" class="control-label"></label>
-                
-                <span asp-validation-for="CaseId" class="text-danger"></span>
-            </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="CaseId" class="form-control" placeholder="Case ID" required />
+                        <label asp-for="CaseId" class="control-label">Case ID</label>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var bedid = ((IEnumerable<HospitalBedMasterModel>)ViewData["bedid"])
-                                .Select(m => new SelectListItem
+                        <span asp-validation-for="CaseId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var bedid = ((IEnumerable<HospitalBedMasterModel>)ViewData["bedid"])
+                            .Select(m => new SelectListItem
             {
                 Value = m.BedID.ToString(), // Assuming ScreenId is of type int
                 Text = $"{m.BedID} - {m.BedName}"
             });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.BedId, bedid, "Select Bed Id", new { @class = "form-control", @required = "required" })
-                            <label asp-for="BedId" class="control-label"></label>
-                            <span asp-validation-for="BedId" class="text-danger"></span>
-                        </div>
-
-                      
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="VisitID" class="form-control" placeholder="Visit ID" required/>
-                <label asp-for="VisitID" class="control-label"></label>
-               
-                <span asp-validation-for="VisitID" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="VisitDateTime" class="form-control" placeholder="Visit DateTime" type="datetime-local" />
-                <label asp-for="VisitDateTime" class="control-label"></label>
-               
-                <span asp-validation-for="VisitDateTime" class="text-danger"></span>
-            </div>
-            </div>
-            </div>
-            </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
+                        @Html.DropDownListFor(model => model.BedId, bedid, "Select Bed ID", new { @class = "form-control", @required = "required" })
+                        <label asp-for="BedId" class="control-label">Bed ID</label>
+                        <span asp-validation-for="BedId" class="text-danger"></span>
+                    </div>
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var nurseid = ((IEnumerable<NurseStationMasterModel>)ViewData["nurseDWid"])
-                                .Select(m => new SelectListItem
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="VisitID" class="form-control" placeholder="Visit ID" required />
+                        <label asp-for="VisitID" class="control-label">Visit ID</label>
+
+                        <span asp-validation-for="VisitID" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="VisitDateTime" class="form-control" placeholder="Visit DateTime" type="datetime-local" />
+                        <label asp-for="VisitDateTime" class="control-label">Visit DateTime</label>
+
+                        <span asp-validation-for="VisitDateTime" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-4">
+
+
+            <div class="card">
+                <div class="card-body">
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var nurseid = ((IEnumerable<NurseStationMasterModel>)ViewData["nurseDWid"])
+                            .Select(m => new SelectListItem
             {
                 Value = m.NurseStationID.ToString(), // Assuming ScreenId is of type int
                 Text = $"{m.NurseStationID} - {m.StationName}"
             });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.NurseID, nurseid, "Select  nurse Id", new { @class = "form-control" })
-                            <label asp-for="NurseID" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.NurseID, nurseid, "Select  nurse ID", new { @class = "form-control" })
+                        <label asp-for="NurseID" class="control-label">Nurse ID</label>
 
-                        </div>
-            
-
-                       @*  <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="NurseID" class="form-control" placeholder="Nurse ID" />
-                <label asp-for="NurseID" class="control-label"></label>
-               
-                <span asp-validation-for="NurseID" class="text-danger"></span>
-            </div> *@
+                    </div>
 
 
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="NurseNote" class="form-control" placeholder="Nurse Note" aria-describedby="text-to-speech-addon"></textarea>
-                <label asp-for="NurseNote" class="control-label"></label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-                
-                <span asp-validation-for="NurseNote" class="text-danger"></span>
-            </div>
+                    @*  <div class="form-floating form-floating-outline mb-4">
+                    <input asp-for="NurseID" class="form-control" placeholder="Nurse ID" />
+                    <label asp-for="NurseID" class="control-label"></label>
+
+                    <span asp-validation-for="NurseID" class="text-danger"></span>
+                    </div> *@
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var dutydoctorid = ((IEnumerable<ResourceTypeMasterModel>)ViewData["dutydocid"])
-                                .Select(m => new SelectListItem
+                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                        <textarea asp-for="NurseNote" class="form-control" placeholder="Nurse Note" aria-describedby="text-to-speech-addon"></textarea>
+                        <label asp-for="NurseNote" class="control-label">Nurse Note</label>
+                        <span class="input-group-text" id="text-to-speech-addon">
+                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                        </span>
+
+                        <span asp-validation-for="NurseNote" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var dutydoctorid = ((IEnumerable<StaffAdminModel>)ViewData["dutydocid"])
+                            .Select(m => new SelectListItem
             {
-                Value = m.ResourceTypeID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.ResourceTypeID} - {m.ResourceTypeName}"
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
             });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.DocId, dutydoctorid, "Select  Doctor Id", new { @class = "form-control", @required = "required" })
-                            <label asp-for="DocId" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.DocId, dutydoctorid, "Select  Doctor ID", new { @class = "form-control", @required = "required" })
+                        <label asp-for="DocId" class="control-label">Doctor ID</label>
 
-                        </div>
-@* 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="DocId" class="form-control" placeholder="Doctor ID" />
-                <label asp-for="DocId" class="control-label">DoctorID</label>
-               
-                <span asp-validation-for="DocId" class="text-danger"></span>
-            </div> *@
+                    </div>
+                    @*
+                    <div class="form-floating form-floating-outline mb-4">
+                    <input asp-for="DocId" class="form-control" placeholder="Doctor ID" />
+                    <label asp-for="DocId" class="control-label">DoctorID</label>
 
-
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="DocNotes" class="form-control" placeholder="Doctor Notes" aria-describedby="text-to-speech-addon"></textarea>
-                <label asp-for="DocNotes" class="control-label">DoctorNotes</label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
+                    <span asp-validation-for="DocId" class="text-danger"></span>
+                    </div> *@
 
 
-                            <span asp-validation-for="DocNotes" class="text-danger"></span>
+                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                        <textarea asp-for="DocNotes" class="form-control" placeholder="Doctor Notes" aria-describedby="text-to-speech-addon"></textarea>
+                        <label asp-for="DocNotes" class="control-label">Doctor Notes</label>
+                        <span class="input-group-text" id="text-to-speech-addon">
+                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                        </span>
+
+
+                        <span asp-validation-for="DocNotes" class="text-danger"></span>
+                    </div>
+
+                    @*  <div class="form-group">
+                    <label asp-for="LastupdatedUser" class="control-label"></label>
+                    <input asp-for="LastupdatedUser" class="form-control" />
+                    <span asp-validation-for="LastupdatedUser" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="LastupdatedDate" class="control-label"></label>
+                    <input asp-for="LastupdatedDate" class="form-control" />
+                    <span asp-validation-for="LastupdatedDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="LastUpdatedMachine" class="control-label"></label>
+                    <input asp-for="LastUpdatedMachine" class="form-control" />
+                    <span asp-validation-for="LastUpdatedMachine" class="text-danger"></span>
+                    </div> *@
+
+                </div>
             </div>
 
-           @*  <div class="form-group">
-                <label asp-for="LastupdatedUser" class="control-label"></label>
-                <input asp-for="LastupdatedUser" class="form-control" />
-                <span asp-validation-for="LastupdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastupdatedDate" class="control-label"></label>
-                <input asp-for="LastupdatedDate" class="form-control" />
-                <span asp-validation-for="LastupdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastUpdatedMachine" class="control-label"></label>
-                <input asp-for="LastUpdatedMachine" class="form-control" />
-                <span asp-validation-for="LastUpdatedMachine" class="text-danger"></span>
-            </div> *@
+            <div class="col-md-12 col-lg-1" style="height=10%">
+                <div class="form-floating form-floating-outline mb-4">
+                    </div>
+                </div>
             <div class="form-group">
                 <center>
-                <button type="submit" value="Create" class="btn btn-primary" >Save</button>
-                                @if (ViewBag.Message != null)
-                                {
-                                    <div class="alert alert-success">
+                    <button type="submit" value="Create" class="btn btn-primary">Save</button>
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-success">
 
 
-                                        @ViewBag.Message
-                                    </div>
-                                }
+                            @ViewBag.Message
+                        </div>
+                    }
                 </center>
             </div>
-            </div>
-            </div>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>
+
+
 
 

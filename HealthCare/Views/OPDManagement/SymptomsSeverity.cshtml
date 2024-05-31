@@ -5,16 +5,25 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>SymptomsSeverity</h1>
 
-<h4>PatExmSymptomsSeverity</h4>
-<hr />
 
+<div class="card xl-6">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
+            <h2 class="text-primary mb-1"> Symptoms Severity</h2>
+            <small class="text-muted float-end"></small>
+        </div>
+    </div>
 
 
 @using (Html.BeginForm("PatientviewSeverity", "OPDManagement", FormMethod.Post))
 {
-    
+    <div class="row gy-4">
+
+           
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
 
     <table class="table table-bordered">
         <thead>
@@ -46,9 +55,14 @@
             }
         </tbody>
     </table>
-
+                        <center>
     <button type="submit" name="action" value="Save" class="btn btn-primary">Save</button>
     <button type="submit" name="action" value="Add Row" class="btn btn-primary">Add Row</button>
+    </center>
+                    </div>
+                </div>
+            </div>
+        </div>
    
     @if (ViewBag.Message != null)
     {
@@ -56,4 +70,9 @@
             @ViewBag.Message
         </div>
     }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
 }
+</div>

@@ -84,10 +84,15 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public async Task<IActionResult> PatSearch(String PatientId, String PatientName, String pDOB)
+        public async Task<IActionResult> PatSearch(PatientRegistrationModel patient)
         {
-            
-            return View("PatientRegister");
+            var patSearchResult = (from pat in _healthcareContext.SHPatientRegistration
+                                   where pat.FullName.Contains(patient.FullName) select pat).ToList();
+
+            ViewData["PatSearch"] = patSearchResult;
+
+
+            return View("PatientRegister", patient);
         }
 
         public async Task<ActionResult> HandleReg(string patientID, string FacilityID, string buttonType)

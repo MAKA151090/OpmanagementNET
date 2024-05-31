@@ -50,7 +50,7 @@ namespace HealthCare.Controllers
             ViewData["CaseID"] = inpatient.GetCaseID();
             ViewData["DoctorID"] = inpatient.GetDoctorID();
             return View("InPatientDischarge", model);
-          
+
         }
 
         public async Task<IActionResult> GetPatientAdmission(InpatientAdmissionModel model)
@@ -155,13 +155,13 @@ namespace HealthCare.Controllers
                             lastUpdatedUser = "Kumar",
                             lastUpdatedMachine = "Lap"
                         };
-                        _healthcareContext.Entry(objadd).State= EntityState.Modified;
+                        _healthcareContext.Entry(objadd).State = EntityState.Modified;
                     }
                 }
 
                 await _healthcareContext.SaveChangesAsync();
 
-                //ViewBag.Message = "Saved Successfully";
+                ViewBag.Message = "Saved Successfully";
                 //return View("InPatientObservation", Model);
             }
             var result = ObjViewINP.GetInpatientViewObs(Model.ObservationID, Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationTypeID);
@@ -174,11 +174,14 @@ namespace HealthCare.Controllers
                 ObservationName = Model.ObservationName,
                 SHviewInpatientObs = result
             };
-            ViewBag.Message = "Saved Successfully";
+           // ViewBag.Message = "Saved Successfully";
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+             ViewData["patientID"] = inpatient.GetPatientid();
+            ViewData["bedid"] = inpatient.Getbedid();
             return View("InPatientObservation", viewModel);
 
         }
-        /* var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
+        /*var objadd = await _healthcareContext.SHipmInpatientobservation.FindAsync(Model.BedNoID, Model.PatientID,Model.ObservationID);
          objadd.NurseID = Model.NurseID ?? objadd.NurseID; 
          objadd.DateTime = Model.DateTime ?? objadd.DateTime;
          objadd.lastupdatedDate=DateTime.Now.ToString();
@@ -192,36 +195,36 @@ namespace HealthCare.Controllers
 */
 
         [HttpPost]
-            public async Task<IActionResult> InPatientCaseSheet(InPatientCaseSheetModel model)
+        public async Task<IActionResult> InPatientCaseSheet(InPatientCaseSheetModel model)
+        {
+
+            var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId, model.StrCaseId);
+            if (existingInPatientCaseSheet != null)
             {
+                existingInPatientCaseSheet.StrPatientId = model.StrPatientId;
+                existingInPatientCaseSheet.StrCaseId = model.StrCaseId;
+                existingInPatientCaseSheet.StrBedId = model.StrBedId;
+                existingInPatientCaseSheet.StrPostMedHistory = model.StrPostMedHistory;
+                existingInPatientCaseSheet.StrAllergicTo = model.StrAllergicTo;
+                existingInPatientCaseSheet.StrHeight = model.StrHeight;
+                existingInPatientCaseSheet.StrWeight = model.StrWeight;
+                existingInPatientCaseSheet.StrDiagnosis = model.StrDiagnosis;
+                existingInPatientCaseSheet.StrTreatment = model.StrTreatment;
+                existingInPatientCaseSheet.LastupdatedDate = DateTime.Now.ToString();
+                existingInPatientCaseSheet.LastupdatedUser = User.Claims.First().Value.ToString();
+                existingInPatientCaseSheet.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
-                var existingInPatientCaseSheet = await _healthcareContext.SHipmInPatientCaseSheet.FindAsync(model.StrPatientId, model.StrCaseId);
-                if (existingInPatientCaseSheet != null)
-                {
-                    existingInPatientCaseSheet.StrPatientId = model.StrPatientId;
-                    existingInPatientCaseSheet.StrCaseId = model.StrCaseId;
-                    existingInPatientCaseSheet.StrBedId = model.StrBedId;
-                    existingInPatientCaseSheet.StrPostMedHistory = model.StrPostMedHistory;
-                    existingInPatientCaseSheet.StrAllergicTo = model.StrAllergicTo;
-                    existingInPatientCaseSheet.StrHeight = model.StrHeight;
-                    existingInPatientCaseSheet.StrWeight = model.StrWeight;
-                    existingInPatientCaseSheet.StrDiagnosis = model.StrDiagnosis;
-                    existingInPatientCaseSheet.StrTreatment = model.StrTreatment;
-                    existingInPatientCaseSheet.LastupdatedDate = DateTime.Now.ToString();
-                    existingInPatientCaseSheet.LastupdatedUser = User.Claims.First().Value.ToString();
-                    existingInPatientCaseSheet.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.Entry(existingInPatientCaseSheet).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.SHipmInPatientCaseSheet.Add(model);
+            }
 
-                    _healthcareContext.Entry(existingInPatientCaseSheet).State = EntityState.Modified;
-                }
-                else
-                {
-                    model.LastupdatedDate = DateTime.Now.ToString();
-                    model.LastupdatedUser = User.Claims.First().Value.ToString();
-                    model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                    _healthcareContext.SHipmInPatientCaseSheet.Add(model);
-                }
-
-                await _healthcareContext.SaveChangesAsync();
+            await _healthcareContext.SaveChangesAsync();
 
 
             ViewBag.Message = "Saved Successfully";
@@ -233,42 +236,42 @@ namespace HealthCare.Controllers
 
             return View("InPatientCaseSheet", model);
 
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> InPatientDocVisit(InPatientDocVisitModel model)
+        {
+            var existingInPatientDocVisit = await _healthcareContext.SHipmInPatientDocVisit.FindAsync(model.PatientId, model.CaseId);
+
+            if (existingInPatientDocVisit != null)
+            {
+                existingInPatientDocVisit.PatientId = model.PatientId;
+                existingInPatientDocVisit.CaseId = model.CaseId;
+                existingInPatientDocVisit.BedId = model.BedId;
+                existingInPatientDocVisit.VisitID = model.VisitID;
+                existingInPatientDocVisit.NurseID = model.NurseID;
+                existingInPatientDocVisit.NurseNote = model.NurseNote;
+                existingInPatientDocVisit.DocId = model.DocId;
+                existingInPatientDocVisit.DocNotes = model.DocNotes;
+                existingInPatientDocVisit.LastupdatedDate = DateTime.Now.ToString();
+                existingInPatientDocVisit.LastupdatedUser = User.Claims.First().Value.ToString();
+                existingInPatientDocVisit.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                _healthcareContext.Entry(existingInPatientDocVisit).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.SHipmInPatientDocVisit.Add(model);
             }
 
-
-            [HttpPost]
-            public async Task<IActionResult> InPatientDocVisit(InPatientDocVisitModel model)
-            {
-                var existingInPatientDocVisit = await _healthcareContext.SHipmInPatientDocVisit.FindAsync(model.PatientId, model.CaseId);
-
-                if (existingInPatientDocVisit != null)
-                {
-                    existingInPatientDocVisit.PatientId = model.PatientId;
-                    existingInPatientDocVisit.CaseId = model.CaseId;
-                    existingInPatientDocVisit.BedId = model.BedId;
-                    existingInPatientDocVisit.VisitID = model.VisitID;
-                    existingInPatientDocVisit.NurseID = model.NurseID;
-                    existingInPatientDocVisit.NurseNote = model.NurseNote;
-                    existingInPatientDocVisit.DocId = model.DocId;
-                    existingInPatientDocVisit.DocNotes = model.DocNotes;
-                    existingInPatientDocVisit.LastupdatedDate = DateTime.Now.ToString();
-                    existingInPatientDocVisit.LastupdatedUser = User.Claims.First().Value.ToString();
-                    existingInPatientDocVisit.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-
-                    _healthcareContext.Entry(existingInPatientDocVisit).State = EntityState.Modified;
-                }
-                else
-                {
-                    model.LastupdatedDate = DateTime.Now.ToString();
-                    model.LastupdatedUser = User.Claims.First().Value.ToString();
-                    model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                    _healthcareContext.SHipmInPatientDocVisit.Add(model);
-                }
-
-                await _healthcareContext.SaveChangesAsync();
+            await _healthcareContext.SaveChangesAsync();
 
 
-                ViewBag.Message = "Saved Successfully";
+            ViewBag.Message = "Saved Successfully";
 
             BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
             ViewData["patid"] = inpatient.Getpatid();
@@ -285,7 +288,7 @@ namespace HealthCare.Controllers
             return View("InPatientDocVisit", model);
 
 
-            }
+        }
 
 
 
@@ -294,7 +297,7 @@ namespace HealthCare.Controllers
         {
 
             BusinessClassInpatient ObjView = new BusinessClassInpatient(_healthcareContext);
-            if (buttonType == "get")
+            if (buttonType == "Get")
             {
                 var result = ObjView.InPatientTransfer(Model.PatientId, Model.CaseId, Model.BedId).Result;
                 return View("InPatientTransfer", result);
@@ -359,6 +362,10 @@ namespace HealthCare.Controllers
             else
             {
                 ViewBag.Message = "Saved Successfully";
+                BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+                ViewData["patientID"] = inpatient.GetPatID();
+                ViewData["CaseID"] = inpatient.GetCaseId();
+                ViewData["bedid"] = inpatient.GetBedId();
 
                 return View("InPatientTransfer", Model);
 
@@ -370,6 +377,10 @@ namespace HealthCare.Controllers
 
         public IActionResult InPatientTransfer()
         {
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["patientID"] = inpatient.GetPatID();
+            ViewData["CaseID"] = inpatient.GetCaseId();
+            ViewData["bedid"] = inpatient.GetBedId();
             return View();
         }
 
@@ -378,7 +389,7 @@ namespace HealthCare.Controllers
 
 
 
-       
+
 
 
         public IActionResult Index()
@@ -386,8 +397,8 @@ namespace HealthCare.Controllers
             return View();
         }
 
-            public IActionResult InPatientAdmission()
-            {
+        public IActionResult InPatientAdmission()
+        {
             BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
             ViewData["patid"] = inpatient.Getpatid();
             ViewData["faid"] = inpatient.Getfaid();
@@ -399,15 +410,15 @@ namespace HealthCare.Controllers
             ViewData["condepid"] = inpatient.Getcondepid();
             ViewData["pattypeid"] = inpatient.Getinpattype();
             return View();
-            }
+        }
 
-            public IActionResult WardManagement()
-            {
-                return View();
-            }
+        public IActionResult WardManagement()
+        {
+            return View();
+        }
 
-            public IActionResult InPatientCaseSheet()
-            {
+        public IActionResult InPatientCaseSheet()
+        {
             BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
             ViewData["patientID"] = inpatient.GetpateintID();
 
@@ -416,29 +427,33 @@ namespace HealthCare.Controllers
             ViewData["bedid"] = inpatient.GetBedID();
 
             return View();
-            }
+        }
 
-            public IActionResult InPatientDischarge()
-            {
+        public IActionResult InPatientDischarge()
+        {
             BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
             ViewData["PatientID"] = inpatient.GetPatientID();
-            ViewData["CaseID"]= inpatient.GetCaseID();
+            ViewData["CaseID"] = inpatient.GetCaseID();
             ViewData["DoctorID"] = inpatient.GetDoctorID();
 
             return View();
-            }
-            public IActionResult InPatientObservation()
-            {
-                return View();
-            }
-            public IActionResult InPatientCaseSheetModel()
-            {
-           
-            return View();
-            }
+        }
+        public IActionResult InPatientObservation()
+        {
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["patientID"] = inpatient.GetPatientid();
+            ViewData["bedid"] = inpatient.Getbedid();
 
-            public IActionResult InPatientDocVisit()
-            {
+            return View();
+        }
+        public IActionResult InPatientCaseSheetModel()
+        {
+
+            return View();
+        }
+
+        public IActionResult InPatientDocVisit()
+        {
             BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
             ViewData["patid"] = inpatient.Getpatid();
             ViewData["faid"] = inpatient.Getfaid();
@@ -451,18 +466,18 @@ namespace HealthCare.Controllers
             ViewData["pattypeid"] = inpatient.Getinpattype();
             ViewData["nurseDWid"] = inpatient.GetnurseDWID();
             return View();
-            }
-
-            public IActionResult InPatientDischargeSummary()
-            {
-                return View();
-            }
-
         }
-    }
 
-        
-     
-    
+        public IActionResult InPatientDischargeSummary()
+        {
+            return View();
+        }
+
+    }
+}
+
+
+
+
 
 

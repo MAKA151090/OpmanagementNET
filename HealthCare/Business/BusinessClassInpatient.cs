@@ -117,7 +117,7 @@ namespace HealthCare.Business
                join Inp in objInpatientDb.SHipmInpatientobservation
                    on e.ObservationTypeID equals Inp.ObservationTypeID into InpGroup
                from Inp in InpGroup.DefaultIfEmpty()
-               where (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
+               where (Inp.BedNoID == BedNoID && Inp.PatientID == patientID && Inp.ObservationID==ObservationID)
                select new InpatientObservationModel
                {
                    ObservationName = e.ObservationName,
@@ -164,14 +164,16 @@ namespace HealthCare.Business
             return faid;
         }
 
-        public List<ResourceTypeMasterModel> GetConDocId()
+        public List<StaffAdminModel> GetConDocId()
         {
             var condocid = (
-                    from pr in objInpatientDb.SHclnResourseTypeMaster
-                    select new ResourceTypeMasterModel
+                    from pr in objInpatientDb.SHclnStaffAdminModel
+                    join p in objInpatientDb.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                    where p.ResourceTypeName == "Doctor"
+                    select new StaffAdminModel
                     {
-                        ResourceTypeID = pr.ResourceTypeID,
-                        ResourceTypeName = pr.ResourceTypeName
+                        StrStaffID = pr.StrStaffID,
+                        StrFullName = pr.StrFullName
                     }
                 ).ToList();
 
@@ -179,14 +181,18 @@ namespace HealthCare.Business
         }
 
 
-        public List<ResourceTypeMasterModel> Getdutydocid()
+        public List<StaffAdminModel> Getdutydocid()
         {
+            
+
             var dutydocid = (
-                    from pr in objInpatientDb.SHclnResourseTypeMaster
-                    select new ResourceTypeMasterModel
+                    from pr in objInpatientDb.SHclnStaffAdminModel
+                    join p in objInpatientDb.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                    where p.ResourceTypeName== "Doctor"
+                    select new StaffAdminModel
                     {
-                        ResourceTypeID = pr.ResourceTypeID,
-                        ResourceTypeName = pr.ResourceTypeName
+                        StrStaffID = pr.StrStaffID,
+                        StrFullName = pr.StrFullName
                     }
                 ).ToList();
 
@@ -194,29 +200,33 @@ namespace HealthCare.Business
         }
 
 
-        public List<ResourceTypeMasterModel> GetRefDocId()
+        public List<StaffAdminModel> GetRefDocId()
         {
             var refocid = (
-                    from pr in objInpatientDb.SHclnResourseTypeMaster
-                    select new ResourceTypeMasterModel
-                    {
-                        ResourceTypeID = pr.ResourceTypeID,
-                        ResourceTypeName = pr.ResourceTypeName
-                    }
+                     from pr in objInpatientDb.SHclnStaffAdminModel
+                     join p in objInpatientDb.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                     where p.ResourceTypeName == "Doctor"
+                     select new StaffAdminModel
+                     {
+                         StrStaffID = pr.StrStaffID,
+                         StrFullName = pr.StrFullName
+                     }
                 ).ToList();
 
             return refocid;
         }
 
-        public List<ResourceTypeMasterModel> GetAddcondocid()
+        public List<StaffAdminModel> GetAddcondocid()
         {
             var addcondocid = (
-                    from pr in objInpatientDb.SHclnResourseTypeMaster
-                    select new ResourceTypeMasterModel
-                    {
-                        ResourceTypeID = pr.ResourceTypeID,
-                        ResourceTypeName = pr.ResourceTypeName
-                    }
+                   from pr in objInpatientDb.SHclnStaffAdminModel
+                   join p in objInpatientDb.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                   where p.ResourceTypeName == "Doctor"
+                   select new StaffAdminModel
+                   {
+                       StrStaffID = pr.StrStaffID,
+                       StrFullName = pr.StrFullName
+                   }
                 ).ToList();
 
             return addcondocid;
@@ -375,6 +385,101 @@ namespace HealthCare.Business
 
             return PatientId;
         }
+
+
+        // Ip patient Transfer
+
+        public List<PatientRegistrationModel> GetPatID()
+        {
+            var patientID = (
+                    from pr in objInpatientDb.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID =pr.PatientID, FullName = pr.FullName,
+
+                    }
+                ).ToList();
+
+            return patientID;
+        }
+
+
+
+        public List<InpatientAdmissionModel> GetCaseId()
+        {
+            var CaseID = (
+                    from pr in objInpatientDb.SHInpatientAdmission
+                    select new InpatientAdmissionModel
+                    {
+                        CaseID = pr.CaseID
+
+                    }
+                ).ToList();
+
+            return CaseID;
+        }
+
+        public List<HospitalBedMasterModel> GetBedId()
+        {
+            var bedid = (
+                    from pr in objInpatientDb.SHclnHospitalBedMaster
+                    select new HospitalBedMasterModel
+                    {
+                        BedID = pr.BedID,
+                        BedName = pr.BedName,
+
+                    }
+                ).ToList();
+
+            return bedid;
+        }
+
+
+
+//In Patient Observation
+
+
+        public List<HospitalBedMasterModel> Getbedid()
+        {
+            var bedid = (
+                    from pr in objInpatientDb.SHclnHospitalBedMaster
+                    select new HospitalBedMasterModel
+                    {
+                        BedID = pr.BedID,
+                        BedName = pr.BedName,
+
+                    }
+                ).ToList();
+
+            return bedid;
+        }
+
+
+        public List<PatientRegistrationModel> GetPatientid()
+        {
+            var patientID = (
+                    from pr in objInpatientDb.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID = pr.PatientID,
+                        FullName = pr.FullName,
+
+                    }
+                ).ToList();
+
+            return patientID;
+        }
+
+
+       
+
+
+
+
+
+
+
+
 
 
 

@@ -1,14 +1,14 @@
 ﻿@model DoctorScheduleModel
 
 @{
-    ViewData["Title"] = "PatientScheduling";
+    ViewData["Title"] = "Patient Scheduling";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
 <div class="card xl-6">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
-            <h2 class="text-primary mb-1"> PatientScheduling </h2>
+            <h2 class="text-primary mb-1"> Patient Scheduling </h2>
             <small class="text-muted float-end"></small>
 
         </div>
@@ -17,9 +17,14 @@
 
 
     <form asp-action="PatientScheduling" method="post" asp-controller="PatientRegistration">
-        
-        <div class="row">
-            <div class="col-md-4">
+
+        <div class="row gy-4">
+
+            <div class="col-md-12 col-lg-4">
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
 
                 <div class="form-floating form-floating-outline mb-4">
                     @{
@@ -32,7 +37,7 @@
                     }
 
                     @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", required = "required" })
-                    <label asp-for="PatientID" class="control-label"></label>
+                            <label asp-for="PatientID" class="control-label">Patient ID</label>
                     <span asp-validation-for="PatientID" class="text-danger"></span>
                 </div>
 
@@ -47,7 +52,7 @@
                         }
 
                     @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control", required = "required" })
-                        <label asp-for="FacilityID" class="control-label"></label>
+                            <label asp-for="FacilityID" class="control-label">Facility ID</label>
                         <span asp-validation-for="FacilityID" class="text-danger"></span>
                     </div>
                
@@ -63,20 +68,24 @@
                 }
 
                     @Html.DropDownListFor(model => model.StaffID, screenList, "Select Staff ID", new { @class = "form-control", required = "required" })
-                <label asp-for="StaffID" class="control-label"></label>
+                            <label asp-for="StaffID" class="control-label">Staff ID</label>
                 <span asp-validation-for="StaffID" class="text-danger"></span>
             </div>
 
 
-                <div class="form-group">
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="date" class="form-control" id="Date" name="Date" value="@ViewBag.ToDate" />
                     <label for="Date" class="control-label">Date</label>
-                    <input type="date" class="form-control" id="Date" name="Date" value="@ViewBag.ToDate" />
+                   
                 </div>
+                        <br />
 
                 <div class="form-group">
                     <button type="submit" name="action" value="GetSchedule" class="btn btn-primary">Get Schedule</button>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
 
 
@@ -115,9 +124,12 @@
             <input type="submit" name="action" value="SaveSchedule" class="btn btn-primary" />
         </div>
         }
+        
+        <div class="row gy-4">
+            <div class="form-floating form-floating-outline mb-4">
+        </div>
     </form>
     </div>
-</div>
 
 
 

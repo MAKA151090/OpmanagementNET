@@ -172,7 +172,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<OTSummaryModel>().HasKey(i => new { i.OtscheduleID , i.QuestionID});
             modelBuilder.Entity<OTSummaryMasterModel>().HasKey(i => new { i.QuestionID });
 
-            modelBuilder.Entity<InPatientTransferUpdateModel>().HasKey(i => new { i.PatientId, i.CaseId, i.BedId });
+            modelBuilder.Entity<InPatientTransferUpdateModel>().HasKey(i => new { i.PatientId, i.CaseId, i.BedId,i.TranferID });
 
             modelBuilder.Entity<PatientProcedureModel>().HasKey(i => new { i.PatientID, i.VisitID, i.ExamID,i.ProcedureID });
             modelBuilder.Entity<PatientDiagnosisModel>().HasKey(i => new { i.PatientID, i.VisitID, i.ExamID,i.DiagnosisID });
@@ -248,7 +248,7 @@ namespace HealthCare.Context
         .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID, i.ExaminationID });
 
             modelBuilder.Entity<PatExmSymptomsSeverity>()
-        .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID, i.ExaminationID, i.Severity });
+        .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID, i.ExaminationID, i.Symptoms });
 
             modelBuilder.Entity<PatientVisitIntoDocumentModel>()
         .HasKey(i => new { i.PatientID, i.FacilityID, i.VisitID });

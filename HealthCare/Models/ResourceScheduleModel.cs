@@ -16,6 +16,7 @@ namespace HealthCare.Models
         private String strFromTime;
         private String strToTime;
         private String strSlots;
+        private bool strIsDelete;
         private String strlastUpdatedDate;
         private String strlastUpdatedUser;
         private string strlastUpdatedMachine;
@@ -32,5 +33,6 @@ namespace HealthCare.Models
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string? Viewslot { get => strSlots; set => strSlots = value; }
+        public bool StrIsDelete { get => strIsDelete; set => strIsDelete = value; }
     }
 }
