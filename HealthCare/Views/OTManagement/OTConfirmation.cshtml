@@ -27,11 +27,11 @@
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
-                                var getscheduleid = ((IEnumerable<OtScheduleViewModel>)ViewData["getscheduleid"])
+                                var getscheduleid = ((IEnumerable<OTSchedulingModel>)ViewData["getscheduleid"])
                                 .Select(m => new SelectListItem
                 {
-                    Value = m.OtSchedulingId.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.OtSchedulingId}"
+                    Value = m.OtScheduleID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.OtScheduleID}"
                 });
                             }
 
@@ -42,9 +42,7 @@
 
 
                             <center>
-                                <button type="submit" value="Get" class="btn btn-primary">Get</button>
-                            <button type="Confirm" value="Confirm" class="btn btn-primary">Confirm</button>
-                            <button type="cancel" value="cancel" class="btn btn-primary">Cancel</button>
+                            <button type="submit" value="Get"  class="btn btn-primary">Get</button>
                             </center>
                         </div>
                @*  <div class="form-group">
@@ -122,17 +120,21 @@
         @if (Model.OtviewModel.Count != 0)
         {
 
-            <div class="form-group">
-                <label asp-for="ConfirmBy" class="control-label"></label>
-                <input asp-for="ConfirmBy" class="form-control" />
+                <div class="form-floating form-floating-outline mb-4">
+                    
+                <input asp-for="ConfirmBy" class="form-control" placeholder="Confirm By" />
+                <label asp-for="ConfirmBy" class="control-label">Confirm By</label>
                 <span asp-validation-for="ConfirmBy" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="ConfirmDate" class="control-label"></label>
-                <input asp-for="ConfirmDate" class="form-control" />
+
+                <div class="form-floating form-floating-outline mb-4">
+
+                    <input asp-for="ConfirmDate" class="form-control" type="date" />
+                <label asp-for="ConfirmDate" class="control-label">Confirm Date</label>
                 <span asp-validation-for="ConfirmDate" class="text-danger"></span>
             </div>
+            
             <button type="submit" name="buttonType" value="Confirm" class="btn btn-primary">Confirm</button>
             <button type="submit" name="buttonType" value="cancel" class="btn btn-success">cancel</button>
 
@@ -142,6 +144,15 @@
                     @ViewBag.Message
                 </div>
             }
+
+                @if (ViewBag.CancelMessage != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.CancelMessage
+                    </div>
+                }
+            
+
             @* <div class="form-group">
             <input type="submit" name="buttonType" value="Confirm" class="btn btn-primary" />
         </div>
