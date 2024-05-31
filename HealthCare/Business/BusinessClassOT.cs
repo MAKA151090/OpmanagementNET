@@ -73,13 +73,13 @@ namespace HealthCare.Business
 
         ///otconfirmation  
 
-        public List<OtScheduleViewModel> getscheduleid()
+        public List<OTSchedulingModel> getscheduleid()
         {
             var getscheduleid = (
                 from pr in objSearchContext.SHotScheduling
-                select new OtScheduleViewModel
+                select new OTSchedulingModel
                 {
-                    OtSchedulingId = pr.OtScheduleID
+                    OtScheduleID =  pr.OtScheduleID
                 }
                 ).ToList();
 
@@ -225,7 +225,7 @@ namespace HealthCare.Business
                           join ots in objSearchContext.SHclnSurgeryMaster on sm.SurgeryID equals ots.SurgeryID
 
                           join t in objSearchContext.SHotTableMaster on ot.TableID equals t.TableID
-                          where ot.OtScheduleID == potscheduleID && ot.IsDeleted != false && ot.Status != "Confirmed"
+                          where ot.OtScheduleID == potscheduleID && ot.IsDeleted == false && ot.Status != "Confirmed"
                           select new OtConfirmViewModel
                           {
                               OtscheduleID = ot.OtScheduleID,
@@ -233,8 +233,8 @@ namespace HealthCare.Business
                               TeamName = ot.TeamName,
                               Date = ot.StartDate,
                               Duration = ot.Duration,
-                              TableName = ot.TeamName,
-                              RoomName = t.TableName,
+                              TableName = t.TableName,
+                              RoomName = t.RoomName,
 
 
 
