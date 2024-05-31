@@ -117,7 +117,11 @@ namespace HealthCare.Controllers
         }
         public async Task<IActionResult> GetviewOT(OtConfirmViewModel Model , string buttonType,OTSchedulingModel pConfirm)
         {
+
             BusinessClassOT ObjViewOT = new BusinessClassOT(Getotschedule);
+
+            ViewData["getscheduleid"] = ObjViewOT.getscheduleid();
+
 
             var objconfirm = await Getotschedule.SHotScheduling.FindAsync(pConfirm.OtScheduleID);
 
@@ -128,16 +132,16 @@ namespace HealthCare.Controllers
                 objconfirm.ConfirmDate = pConfirm.ConfirmDate;
                 Getotschedule.SHotScheduling.Update(objconfirm);
                 await Getotschedule.SaveChangesAsync();
+                ViewBag.Message = "Confirmed Successfully.";
             }
             else if (buttonType == "cancel")
             {
                 await ObjViewOT.UpdateOTConfirmation(Model.OtscheduleID, "cancel");
+                ViewBag.CancelMessage = "Cancel Successfully";
             }
 
             
                 var result = await ObjViewOT.GetOTConfirmation(Model.OtscheduleID);
-
-            ViewData["getscheduleid"] = ObjViewOT.getscheduleid();
 
             return View("OTConfirmation", result);
             
