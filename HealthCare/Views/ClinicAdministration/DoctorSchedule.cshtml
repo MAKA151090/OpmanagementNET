@@ -5,48 +5,104 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>DoctorSchedule</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">Doctor Schedule</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
+
 @using (Html.BeginForm("SaveSlots", "ClinicAdministration", FormMethod.Post))
 {
-    <hr />
+     <div class="row gy-4">
 
-    <div class="row">
-        <div class="col-md-4">
+            <div class="col-md-12 col-lg-4">
+                </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+           @*  <div class="form-group">
                 <label for="StaffID" class="control-label">StaffID</label>
                 <input type="text" class="form-control" id="StaffID" name="StaffID" value="@ViewBag.StaffID" />
             </div>
             <div class="form-group">
                 <label for="FacilityID" class="control-label">FacilityID</label>
                 <input type="text" class="form-control" id="FacilityID" name="FacilityID" value="@ViewBag.FacilityID" />
+            </div> *@
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                    var facilityid = ((IEnumerable<ClinicAdminModel>)ViewData["faid"])
+                    .Select(m => new SelectListItem
+                {
+                    Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.FacilityID} - {m.ClinicName}"
+                });
+                }
+
+                @Html.DropDownList("faid", facilityid, "Select Facility ID", new { @class = "form-control", @required = "required" })
+                <label for="FacilityID" class="control-label">Facility ID</label>
+                <span for="FacilityID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                    var condocotorid = ((IEnumerable<StaffAdminModel>)ViewData["condocid"])
+                    .Select(m => new SelectListItem
+                {
+                    Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.StrStaffID} - {m.StrFullName}"
+                });
+                }
+
+                @Html.DropDownList("condocid",condocotorid, "Select Doctor ID", new { @class = "form-control", @required = "required" })
+                <label for="ConsultDoctorID" class="control-label">Doctor ID</label>
+                <span for="ConsultDoctorID" class="text-danger"></span>
+            </div>
+
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input type="text" class="form-control" id="Duration" name="Duration" value="@ViewBag.Duration" placeholder="Duration" />
                 <label for="Duration" class="control-label">Duration</label>
-                <input type="text" class="form-control" id="Duration" name="Duration" value="@ViewBag.Duration" />
             </div>
-            <div class="form-group">
-                <label for="FromDate" class="control-label">FromDate</label>
-                <input type="date" class="form-control" id="FromDate" name="FromDate" value="@ViewBag.FromDate" />
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input type="date" class="form-control" id="FromDate" name="FromDate" value="@ViewBag.FromDate" />
+                <label for="FromDate" class="control-label">From Date</label>
             </div>
-            <div class="form-group">
-                <label for="ToDate" class="control-label">ToDate</label>
-                <input type="date" class="form-control" id="ToDate" name="ToDate" value="@ViewBag.ToDate" />
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input type="date" class="form-control" id="ToDate" name="ToDate" value="@ViewBag.ToDate" />
+                <label for="ToDate" class="control-label">To Date</label>
             </div>
         </div>
     </div>
-
+    <br />
     <div class="form-group">
-        <input type="submit" value="Add Slot" name="action" class="btn btn-primary" />
-        <input type="submit" value="Get Slots" name="action" class="btn btn-primary" />
+        <center>
+        <button type="submit" value="Add Slot" name="action" class="btn btn-primary" >Add Slot</button>
+        <button type="submit" value="Get Slots" name="action" class="btn btn-primary" >Get Slots</button>
+                    </center>
     </div>
 
-
+    </div>
+    </div>
+    
 
 
     <div id="slotsTable">
-        <h3>Slots</h3>
+            <div class="row gy-4">
+
+                <div class="col-md-12 col-lg-1"></div>
+                <div class="col-md-12 col-lg-2">
+                            <h2 style="color:blueviolet;">Slots</h2>
+                            </div>
+                            </div>
+
         <table id="SlotTable" class="table">
             <thead>
                 <tr>
@@ -85,25 +141,27 @@
     </div>
 
 
-    <div class="form-group">
-        <input type="submit" value="Delete Selected" name="action" class="btn btn-danger" />
+    <div>
+     
     </div>
-
-    <div class="form-group">
-        <input type="submit" value="Save" name ="action" class="btn btn-primary" />
-    </div>
+    <br />
+    <br />
+    <br />
+   
  }
 
 
 <form asp-action="DoctorSchedule" method="post" asp-controller="ClinicAdministration">
     <div class="form-group">
+        <center>
+            <button type="submit" value="Delete Selected" name="action" class="btn btn-primary">Delete Selected</button>
+            <button type="submit" value="Save" name="action" class="btn btn-primary">Save</button>
         <button type="submit" name="buttonType"  value="Holiday" class="btn btn-primary">Holiday</button>
-    </div>
-    <div class="form-group">
         <button type="submit" name="buttonType" value="Blocker" class="btn btn-primary">Blocker</button>
+        </center>
     </div>
     </form>
-    
+    </div>
 
 
     @*  <div class="form-group form-check">

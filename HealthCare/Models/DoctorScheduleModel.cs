@@ -19,7 +19,7 @@ public class DoctorScheduleModel
     private String strSlotsID;
     private bool strHoliday;
     private bool strBlocker;
-    private bool strActive;
+    private bool strInActive;
     private string viewslot;
     private String strlastUpdatedDate;
     private String strlastUpdatedUser;
@@ -36,7 +36,6 @@ public class DoctorScheduleModel
     public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
     public bool Holiday { get => strHoliday; set => strHoliday = value; }
     public bool Blocker { get => strBlocker; set => strBlocker = value; }
-    public bool Active { get => strActive; set => strActive = value; }
     public string Date { get => strDate; set => strDate = value; }
     public string Duration { get => strDuration; set => strDuration = value; }
     public string StartTime { get => strStartTime; set => strStartTime = value; }
@@ -45,4 +44,6 @@ public class DoctorScheduleModel
 
     [ForeignKey("StaffID,FacilityID,Viewslot")]
     public virtual ResourceScheduleModel Resource { get; set; }
+    
+    public bool StrInActive { get => strInActive; set => strInActive = value; }
 }

@@ -926,6 +926,9 @@ namespace HealthCare.Controllers
 
         public IActionResult DoctorSchedule()
         {
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["faid"] = inpatient.Getfaid();
+            ViewData["condocid"] = inpatient.GetConDocId();
             return View();
         }
         
@@ -1019,6 +1022,9 @@ namespace HealthCare.Controllers
        
         public async Task<IActionResult> SaveSlots(string action,string selectedSlots, string FromTime, string ToTime)
         {
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["faid"] = inpatient.Getfaid();
+            ViewData["condocid"] = inpatient.GetConDocId();
 
             var StaffID = Request.Form["StaffID"].ToString();
             var FacilityID = Request.Form["FacilityID"].ToString();
@@ -1187,7 +1193,7 @@ namespace HealthCare.Controllers
                       StaffID = e.StaffID,
                        FacilityID = e.FacilityID,
                        SlotsID = e.SlotsID,
-                      Active = true
+                      //Active = true
                       })
                          .ToListAsync();
 
@@ -1199,7 +1205,7 @@ namespace HealthCare.Controllers
             var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(staffID, facilityID, slotID);
             if (slot != null)
             {
-                _healthcareContext.SHclnViewResourceSchedule.Remove(slot);
+               
 
                 await _healthcareContext.SaveChangesAsync();
             }
@@ -1319,6 +1325,10 @@ namespace HealthCare.Controllers
         [HttpPost]
         public IActionResult DoctorSchedule(DoctorScheduleModel model, string buttonType)
         {
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["faid"] = inpatient.Getfaid();
+            ViewData["condocid"] = inpatient.GetConDocId();
+
             if (buttonType == "Holiday")
             {
                 return View("ScheduleHoliday");
