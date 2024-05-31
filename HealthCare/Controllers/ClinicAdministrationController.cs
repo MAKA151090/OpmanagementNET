@@ -1026,6 +1026,8 @@ namespace HealthCare.Controllers
             ViewData["faid"] = inpatient.Getfaid();
             ViewData["condocid"] = inpatient.GetConDocId();
 
+            
+
             var StaffID = Request.Form["StaffID"].ToString();
             var FacilityID = Request.Form["FacilityID"].ToString();
             var FromDate = Request.Form["FromDate"].ToString();
@@ -1064,7 +1066,9 @@ namespace HealthCare.Controllers
                     var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,SlotsIDs);
                     if (slot != null)
                     { 
-
+                            slot.lastUpdatedUser = User.Claims.First().Value.ToString();
+                            slot.lastUpdatedDate= DateTime.Now.ToString();
+                            slot.lastUpdatedMachine= Request.HttpContext.Connection.RemoteIpAddress.ToString();
                             slot.FromTime = fromTime.ToString(@"hh\:mm");
                             slot.ToTime = toTime.ToString(@"hh\:mm");
                         
@@ -1093,9 +1097,10 @@ namespace HealthCare.Controllers
                     s.lastUpdatedDate = DateTime.Now.ToString();
                     s.lastUpdatedUser = User.Claims.First().Value.ToString();
                     s.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                    s.Viewslot = DetermineViewslotValue(StaffID,FacilityID);
+                    s.Viewslot = DetermineViewslotValue(StaffID,FacilityID,selectedSlots);
                    
                     _healthcareContext.SHclnResourceSchedule.Add(s);
+                    ViewBag.Message = "Booked Slot Successfully";
                 }
 
                 await _healthcareContext.SaveChangesAsync();
@@ -1128,7 +1133,7 @@ namespace HealthCare.Controllers
             }
 
             var allSlots = await _healthcareContext.SHclnViewResourceSchedule
-                                         .Where(slot => slot.StaffID == StaffID)
+                                         .Where(slot => slot.StaffID == StaffID&&slot.StrIsDelete==false)
                                          .ToListAsync();
 
             ViewBag.Slots = allSlots;
@@ -1149,10 +1154,10 @@ namespace HealthCare.Controllers
         }
 
 
-        private string DetermineViewslotValue(string staffId,string facilityId)
+        private string DetermineViewslotValue(string staffId,string facilityId,string viewslot)
         {
            
-            var relatedEntity = _healthcareContext.SHclnViewResourceSchedule.FirstOrDefault(entity => entity.StaffID == staffId && entity.FacilityID == facilityId);
+            var relatedEntity = _healthcareContext.SHclnViewResourceSchedule.FirstOrDefault(entity => entity.StaffID == staffId && entity.FacilityID == facilityId && entity.Viewslot==viewslot);
             if (relatedEntity != null)
             {
                 return relatedEntity.Viewslot;
@@ -1168,7 +1173,7 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> GetSlots(string StaffID, string FacilityID,string Duration,string FromDate, string ToDate)
         {
             var exslots = await _healthcareContext.SHclnViewResourceSchedule
-                                                .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID)
+                                                .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID&&slot.StrIsDelete!=true)
                                                 .ToListAsync();
 
             ViewBag.Slots = exslots;
@@ -1185,32 +1190,31 @@ namespace HealthCare.Controllers
         private async Task DeleteSelectedSlots(string staffID, string facilityID, string slotID)
         {
 
-                 
-            var doctors = await _healthcareContext.SHclnResourceSchedule.Where(e => e.StaffID == staffID && e.FacilityID == facilityID && e.Viewslot == slotID)
-                 .Select(e => new DoctorScheduleModel
-                 {
-     
-                      StaffID = e.StaffID,
-                       FacilityID = e.FacilityID,
-                       SlotsID = e.SlotsID,
-                      //Active = true
-                      })
-                         .ToListAsync();
+            var doctors = await _healthcareContext.SHclnResourceSchedule
+         .Where(e => e.StaffID == staffID && e.FacilityID == facilityID && e.Viewslot == slotID)
+         .ToListAsync();
 
-           
-
-            await _healthcareContext.SaveChangesAsync();
-
-
-            var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(staffID, facilityID, slotID);
-            if (slot != null)
+            if (doctors != null )
             {
-               
+              
+                foreach (var doctor in doctors)
+                {
+                    doctor.StrInActive = true;
+                }
 
                 await _healthcareContext.SaveChangesAsync();
             }
 
+            var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(staffID, facilityID, slotID);
+            if (slot != null)
+            {
+               slot.StrIsDelete = true;
+
+                await _healthcareContext.SaveChangesAsync();
+            }
+            ViewBag.Message = "Slot Deleted Successfully";
         } 
+
         private List<DoctorScheduleModel> GenerateDoctorSlots(string staffID, string facilityID, string fromDate, string toDate, string duration, string fromTime, string toTime)
         {
             var slots = new List<DoctorScheduleModel>();
@@ -1250,10 +1254,14 @@ namespace HealthCare.Controllers
         }
 
 
-        public IActionResult ScheduleHoliday(string staffID, string facilityID, string fromDate, string toDate)
+        public IActionResult ScheduleHoliday(string staffID, string facilityID, string fromDate, string toDate,string IsBlocker)
         {
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["faid"] = inpatient.Getfaid();
+            ViewData["condocid"] = inpatient.GetConDocId();
 
-            var slotsToDelete = _healthcareContext.SHclnViewResourceSchedule
+
+            /*var slotsToDelete = _healthcareContext.SHclnViewResourceSchedule
          .Where(ds => ds.StaffID == staffID &&
                       ds.FacilityID == facilityID &&
                       ds.FromDate == fromDate &&
@@ -1264,7 +1272,8 @@ namespace HealthCare.Controllers
             {
                 _healthcareContext.SHclnViewResourceSchedule.Remove(slot);
             }
-
+*/
+            IsBlocker = "2";
 
             DateTime startDate = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime endDate = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -1275,12 +1284,15 @@ namespace HealthCare.Controllers
             var parameter2 = new SqlParameter("@pStrFacility", facilityID);
             var parameter3 = new SqlParameter("@pStrFromDate", fromDate);
             var parameter4 = new SqlParameter("@pStrToDate", toDate);
+            var parameter5 = new SqlParameter("@pStrIsBlocker", IsBlocker);
 
 
             // Execute the stored procedure
-            var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate", parameter1, parameter2,parameter3,parameter4);
+            var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate, @pStrIsBlocker", parameter1, parameter2,parameter3,parameter4,parameter5);
 
             _healthcareContext.SaveChanges();
+
+            ViewBag.Message = "Scheduled Holiday Successfully";
 
             return View("ScheduleHoliday");
 
@@ -1291,7 +1303,10 @@ namespace HealthCare.Controllers
         [HttpPost] 
         private IActionResult ScheduleHoliday(DoctorScheduleModel model)
         {
-          
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["faid"] = inpatient.Getfaid();
+            ViewData["condocid"] = inpatient.GetConDocId();
+
 
             return View("ScheduleHoliday");
           
@@ -1303,21 +1318,28 @@ namespace HealthCare.Controllers
             
          }
 
-        public IActionResult ScheduleBlocker(string staffID, string facilityID, string date)
+        public IActionResult ScheduleBlocker(string staffID, string facilityID, string date,string IsBlocker)
         {
-          
+            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
+            ViewData["faid"] = inpatient.Getfaid();
+            ViewData["condocid"] = inpatient.GetConDocId();
+
             DateTime endDate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
+            IsBlocker = "1";
 
             var parameter1 = new SqlParameter("@pStrStaffId", staffID);
             var parameter2 = new SqlParameter("@pStrFacility", facilityID);
             var parameter3 = new SqlParameter("@pStrFromDate", date);
             var parameter4 = new SqlParameter("@pStrToDate", date);
+            var parameter5 = new SqlParameter("@pStrIsBlocker", IsBlocker);
 
 
-                var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate", parameter1, parameter2, parameter3, parameter4);
+            var result = _healthcareContext.Database.ExecuteSqlRaw("SP_UpdateHoliday @pStrStaffId, @pStrFacility, @pStrFromDate, @pStrToDate,@pStrIsBlocker", parameter1, parameter2, parameter3, parameter4,parameter5);
 
             _healthcareContext.SaveChanges();
+
+            ViewBag.Message = "Scheduled Blocker Successfully";
 
             return View("ScheduleBlocker");
         }

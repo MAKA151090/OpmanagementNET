@@ -84,7 +84,7 @@ namespace HealthCare.Business
                         join sa in objDbContext.SHclnStaffAdminModel on s.StaffID equals sa.StrStaffID
                         join ca in objDbContext.SHclnClinicAdmin on s.FacilityID equals ca.FacilityID
                         where s.StaffID == staffID && s.FacilityID == facilityID && s.Date == date
-                              && s.Holiday == false && s.Blocker == false &&/* s.InActive == false*/  s.PatientID == null
+                              && s.Holiday == false && s.Blocker == false && s.StrInActive == false && s.PatientID == null
                         select new PatientShceduleViewModel
                         {
                             ScheduleID = s.SlotsID,
