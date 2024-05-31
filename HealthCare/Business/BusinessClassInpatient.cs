@@ -117,7 +117,7 @@ namespace HealthCare.Business
                join Inp in objInpatientDb.SHipmInpatientobservation
                    on e.ObservationTypeID equals Inp.ObservationTypeID into InpGroup
                from Inp in InpGroup.DefaultIfEmpty()
-               where (Inp.BedNoID == BedNoID && Inp.PatientID == patientID)
+               where (Inp.BedNoID == BedNoID && Inp.PatientID == patientID && Inp.ObservationID==ObservationID)
                select new InpatientObservationModel
                {
                    ObservationName = e.ObservationName,
@@ -385,6 +385,101 @@ namespace HealthCare.Business
 
             return PatientId;
         }
+
+
+        // Ip patient Transfer
+
+        public List<PatientRegistrationModel> GetPatID()
+        {
+            var patientID = (
+                    from pr in objInpatientDb.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID =pr.PatientID, FullName = pr.FullName,
+
+                    }
+                ).ToList();
+
+            return patientID;
+        }
+
+
+
+        public List<InpatientAdmissionModel> GetCaseId()
+        {
+            var CaseID = (
+                    from pr in objInpatientDb.SHInpatientAdmission
+                    select new InpatientAdmissionModel
+                    {
+                        CaseID = pr.CaseID
+
+                    }
+                ).ToList();
+
+            return CaseID;
+        }
+
+        public List<HospitalBedMasterModel> GetBedId()
+        {
+            var bedid = (
+                    from pr in objInpatientDb.SHclnHospitalBedMaster
+                    select new HospitalBedMasterModel
+                    {
+                        BedID = pr.BedID,
+                        BedName = pr.BedName,
+
+                    }
+                ).ToList();
+
+            return bedid;
+        }
+
+
+
+//In Patient Observation
+
+
+        public List<HospitalBedMasterModel> Getbedid()
+        {
+            var bedid = (
+                    from pr in objInpatientDb.SHclnHospitalBedMaster
+                    select new HospitalBedMasterModel
+                    {
+                        BedID = pr.BedID,
+                        BedName = pr.BedName,
+
+                    }
+                ).ToList();
+
+            return bedid;
+        }
+
+
+        public List<PatientRegistrationModel> GetPatientid()
+        {
+            var patientID = (
+                    from pr in objInpatientDb.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID = pr.PatientID,
+                        FullName = pr.FullName,
+
+                    }
+                ).ToList();
+
+            return patientID;
+        }
+
+
+       
+
+
+
+
+
+
+
+
 
 
 

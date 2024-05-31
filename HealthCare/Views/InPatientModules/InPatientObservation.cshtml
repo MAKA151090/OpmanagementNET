@@ -12,68 +12,68 @@
 
         </div>
     </div>
-
-
 @using (Html.BeginForm("GetInpatientViewResult", "InPatientModules", FormMethod.Post))
 {
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row gy-4">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row gy-4">
 
-                    <div class="col-md-12 col-lg-1">
+        <div class="col-md-12 col-lg-1">
+        </div>
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var bedid = ((IEnumerable<HospitalBedMasterModel>)ViewData["bedid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.BedID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.BedID} - {m.BedName}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.BedNoID, bedid, "Select Bed ID", new { @class = "form-control", @required = "required" })
+                            <label asp-for="BedNoID" class="control-label"></label>
+                            <span asp-validation-for="BedNoID" class="text-danger"></span>
+                        </div>
+
+
+
+
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var PatientID = ((IEnumerable<PatientRegistrationModel>)ViewData["patientID"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                            }
+
+                            @Html.DropDownListFor(model => model.PatientID, PatientID, "Select Patient ID", new { @class = "form-control", @required = "required" })
+                            <label asp-for="PatientID" class="control-label"></label>
+                            <span asp-validation-for="PatientID" class="text-danger"></span>
+                        </div>
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="ObservationID" class="form-control" placeholder="Observation ID" required />
+                        <label asp-for="ObservationID" class="control-label">Observation ID</label>
+                        <span asp-validation-for="ObservationID" class="text-danger"></span>
                     </div>
-                    <div class="col-md-12 col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
 
-                                <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="BedNoID" class="form-control" placeholder="Bed Number ID" />
-                            <label asp-for="BedNoID" class="control-label">Bed Number ID</label>
-                    <span asp-validation-for="BedNoID" class="text-danger"></span>
+                        <div class="form-group">
+                    <button type="submit" name="buttonType" value="get" class="btn btn-primary">get</button>
+                    </div>
+
                 </div>
-
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="PatientID" class="form-control" placeholder="Patient ID" />
-                            <label asp-for="PatientID" class="control-label">Patient ID</label>
-                    <span asp-validation-for="PatientID" class="text-danger"></span>
-                </div>
-
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="ObservationID" class="form-control" placeholder="Observation ID" />
-                            <label asp-for="ObservationID" class="control-label">Observation ID</label>
-                    <span asp-validation-for="ObservationID" class="text-danger"></span>
-                </div>
-               
-               @*  <div class="form-group">
-                    <label asp-for="lastupdatedDate" class="control-label"></label>
-                    <input asp-for="lastupdatedDate" class="form-control" />
-                    <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="lastUpdatedUser" class="control-label"></label>
-                    <input asp-for="lastUpdatedUser" class="form-control" />
-                    <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                    <input asp-for="lastUpdatedMachine" class="form-control" />
-                    <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-                </div> *@
-
-            <button type="submit" name="buttonType" value="get" class="btn btn-primary">get</button>
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-                    @ViewBag.Message
-                </div>
-            }
-           
-              
-           </div>
-           </div>
+            </div>
         </div>
     </div>
 
@@ -104,17 +104,17 @@
                 @for (int i = 0; i < Model.SHviewInpatientObs.Count; i++)
                 {
                     <tr>
-                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].ObservationName"/> <input type="hidden" asp-for="@Model.SHviewInpatientObs[i].ObservationTypeID" /></td>
-                        
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].ObservationName" readonly/> <input type="hidden" asp-for="@Model.SHviewInpatientObs[i].ObservationTypeID" /></td>
+
                         <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Answer" /></td>
-                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Unit" /></td>
-                         <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Frequency" /></td>
-                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Range" /></td>
-                       @*  <td>@Model.SHviewInpatientObs[i].Unit</td>
-                        <td>@Model.SHviewInpatientObs[i].Range</td>
-                        <td>@Model.SHviewInpatientObs[i].Frequency</td> *@
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Unit" readonly/></td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Frequency" readonly /></td>
+                        <td><input type="text" asp-for="@Model.SHviewInpatientObs[i].Range" readonly/></td>
+                        @*  <td>@Model.SHviewInpatientObs[i].Unit</td>
+            <td>@Model.SHviewInpatientObs[i].Range</td>
+            <td>@Model.SHviewInpatientObs[i].Frequency</td> *@
                     </tr>
-                } 
+                }
             }
         </tbody>
     </table>
@@ -123,21 +123,28 @@
     {
         @if (Model.SHviewInpatientObs.Count != 0)
         {
+             <div class="row gy-4">
 
+        <div class="col-md-12 col-lg-1">
+        </div>
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
             <div class="form-group">
                 <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
+                <input asp-for="DateTime" class="form-control" type="datetime" required/>
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NurseID" class="control-label"></label>
-                <input asp-for="NurseID" class="form-control" />
+                <input asp-for="NurseID" class="form-control" required/>
                 <span asp-validation-for="NurseID" class="text-danger"></span>
             </div>
-            
-                    <div class="form-group">
+           
+
+            <div class="form-group">
                 <center>
-                <button type="submit" name="buttonType" value="save" class="btn btn-primary">save</button>
+                    <button type="submit" name="buttonType" value="save" class="btn btn-primary">save</button>
                     @if (ViewBag.Message != null)
                     {
                         <div class="alert alert-success">
@@ -146,10 +153,14 @@
                             @ViewBag.Message
                         </div>
                     }
-                    </center>
+                </center>
             </div>
-           
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
         }
     }
 }
-
