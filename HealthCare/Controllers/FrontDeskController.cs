@@ -23,43 +23,88 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> StaffAttendance(StaffAttendanceModel model)
+        public async Task<IActionResult> StaffAttendance(StaffAttendanceViewModel Model,string buttonType)
         {
-            var existingClinic = await GetFrontDeskData.SHStaffAttendance.FindAsync(model.StaffID);
+            BusinessClassFrontDesk objstaff = new BusinessClassFrontDesk(GetFrontDeskData);
 
-            if (existingClinic != null)
+            if(buttonType == "Save")
             {
-                existingClinic.StaffID = model.StaffID;
-                existingClinic.Date = model.Date;
-                existingClinic.Office = model.Office;
-                existingClinic.CheckInTime = model.CheckInTime;
-                existingClinic.CheckOuTtime = model.CheckOuTtime;
-                existingClinic.lastUpdatedDate = DateTime.Now.ToString();
-                existingClinic.lastUpdatedUser = User.Claims.First().Value.ToString();
-                existingClinic.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+               
+                
 
+                    var objadd = await GetFrontDeskData.SHStaffAttendance.FindAsync(Model.StaffID);
+                    if (objadd != null)
+                    {
+                        objadd.StaffID = Model.StaffID;
+                        objadd.Date = Model.Date;
+                        objadd.Office = Model.Office;
+                        objadd.CheckInTime = Model.CheckInTime;
+                        objadd.CheckOuTtime = Model.CheckOuTtime;
+                        GetFrontDeskData.SHStaffAttendance.Update(objadd);
+                    }
+                    else
+                    {
+                        objadd = new StaffAttendanceModel
+                        {
+                            StaffID = Model.StaffID,
+                            Date  = Model.Date,
+                            Office= Model.Office,
+                            CheckInTime = Model.CheckInTime,
+                            CheckOuTtime= Model.CheckOuTtime,
+                            lastUpdatedDate= DateTime.Now.ToString(),
+                            lastUpdatedUser = "Kumar",
+                            lastUpdatedMachine = "Lap"
+                        };
+                    GetFrontDeskData.SHStaffAttendance.Add(objadd);
+                        //GetFrontDeskData.Entry(objadd).State = EntityState.Modified;
+                    
+                     }
 
-            }
-            else
-            {
-                model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = User.Claims.First().Value.ToString();
-                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                GetFrontDeskData.SHStaffAttendance.Add(model);
-            }
                 await GetFrontDeskData.SaveChangesAsync();
+                /* var existingClinic = await GetFrontDeskData.SHStaffAttendance.FindAsync(model.StaffID);
+
+                 if (existingClinic != null)
+                 {
+                     existingClinic.StaffID = model.StaffID;
+                     existingClinic.Date = model.Date;
+                     existingClinic.Office = model.Office;
+                     existingClinic.CheckInTime = model.CheckInTime;
+                     existingClinic.CheckOuTtime = model.CheckOuTtime;
+                     existingClinic.lastUpdatedDate = DateTime.Now.ToString();
+                     existingClinic.lastUpdatedUser = User.Claims.First().Value.ToString();
+                     existingClinic.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+
+                 }
+                 else
+                 {
+                     model.lastUpdatedDate = DateTime.Now.ToString();
+                     model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                     model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                     GetFrontDeskData.SHStaffAttendance.Add(model);*/
+            }
+               
                 ViewBag.Message = "Saved Successfully.";
                 
             BusinessClassFrontDesk business = new BusinessClassFrontDesk(GetFrontDeskData);
             ViewData["staffid"] = business.GetStaffid();
 
-                return View("StaffAttendance", model);
+            var updatedModel = await GetUpdatedModelAsync();
+
+            return View("StaffAttendance", updatedModel);
+        }
+        private async Task<StaffAttendanceViewModel> GetUpdatedModelAsync()
+        {
+            var updatedModel = new StaffAttendanceViewModel
+            {
+                StfAttedance = await GetFrontDeskData.SHStaffAttendance.ToListAsync()
+            };
+            return updatedModel;
         }
 
 
 
-
-            public IActionResult Index()
+        public IActionResult Index()
             {
                 return View();
             }
@@ -81,9 +126,28 @@ namespace HealthCare.Controllers
 
 
 
+       /* public async Task<IActionResult> Getstaffattendance(StaffAttendanceViewModel model)
+        {
+            BusinessClassFrontDesk business = new BusinessClassFrontDesk(GetFrontDeskData);
+
+            var result = business.GetStaffAttendancebus(model.StaffID);
+            var viewModel = new StaffAttendanceViewModel
+            {
+
+                StaffID = model.StaffID,
+                Date = model.Date,
+                Office = model.Office,
+                CheckInTime = model.CheckInTime,
+                CheckOuTtime = model.CheckOuTtime,
+                StfAttedance = result
+            };
 
 
-            public async Task<IActionResult> ViewResult(OpCheckingViewModel Model)
+            return View("StaffAttendance",viewModel);
+
+        }*/
+
+        public async Task<IActionResult> ViewResult(OpCheckingViewModel Model)
             {
 
                 BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(GetFrontDeskData);
