@@ -132,12 +132,13 @@
                 <div class="card-body">
             <div class="form-group">
                 <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" type="datetime" required/>
+                <input asp-for="DateTime" class="form-control" type="datetime-local"  />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <input asp-for="NurseID" class="form-control" placeholder="Nurse ID"/>
+
                 <label asp-for="NurseID" class="control-label"></label>
-                <input asp-for="NurseID" class="form-control" required/>
                 <span asp-validation-for="NurseID" class="text-danger"></span>
             </div>
            

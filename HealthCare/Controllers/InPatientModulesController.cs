@@ -124,6 +124,7 @@ namespace HealthCare.Controllers
 
             if (buttonType == "save")
             {
+
                 foreach (var summary in Model.SHviewInpatientObs)
                 {
 
