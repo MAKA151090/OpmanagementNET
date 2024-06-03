@@ -71,15 +71,14 @@ namespace HealthCare.Controllers
 
             if (ObjBusTestResult!=null)
             {
-                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID);
+                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID , Model.VisitcaseID);
                 return View("PrintTestResults", testResults);
             }
 
-            ViewData["visitid"] = ObjBusTestResult.GetVisitid();
 
+            ViewData["visitid"] = ObjBusTestResult.GetVisitid();
             ViewData["Patientid"] = ObjBusTestResult.GetPatID();
             ViewData["Facilityid"] = ObjBusTestResult.GetFacilityid();
-
             return View(Model); 
 
         }
