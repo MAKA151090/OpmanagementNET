@@ -134,10 +134,16 @@ namespace HealthCare.Controllers
                 await Getotschedule.SaveChangesAsync();
                 ViewBag.Message = "Confirmed Successfully.";
             }
-            else if (buttonType == "cancel")
+
+            else if(buttonType == "cancel")
             {
                 await ObjViewOT.UpdateOTConfirmation(Model.OtscheduleID, "cancel");
+                objconfirm.ConfirmBy = pConfirm.ConfirmBy;
+                objconfirm.ConfirmDate = pConfirm.ConfirmDate;
+                Getotschedule.SHotScheduling.Update(objconfirm);
+                await Getotschedule.SaveChangesAsync();
                 ViewBag.CancelMessage = "Cancel Successfully";
+                return RedirectToAction("OTConfirmation");
             }
 
             

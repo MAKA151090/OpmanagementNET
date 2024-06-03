@@ -254,7 +254,7 @@ namespace HealthCare.Business
         }
 
 
-        public async Task<List<PatientViewResultModel>> GetTestResults(string patientId, string FacilityID)
+        public async Task<List<PatientViewResultModel>> GetTestResults(string patientId, string FacilityID , string Visitcaseid)
         {
             var testResults = await (
                 from pt in _healthcareContext.SHPatientTest
@@ -262,7 +262,7 @@ namespace HealthCare.Business
                 join ca in _healthcareContext.SHclnStaffAdminModel on pt.ReferDocID equals ca.StrStaffID
                 join p in _healthcareContext.SHPatientRegistration on pt.PatientID equals p.PatientID
                 join c in _healthcareContext.SHclnClinicAdmin on pt.FacilityID equals c.FacilityID
-                where pt.PatientID == patientId && pt.FacilityID == FacilityID
+                where pt.PatientID == patientId && pt.FacilityID == FacilityID && pt.VisitcaseID1 == Visitcaseid
                 select new PatientViewResultModel
                 {
                     TestID = pt.TestID,

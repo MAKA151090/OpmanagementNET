@@ -98,6 +98,33 @@ namespace HealthCare.Business
             return query.ToList();
         }
 
+        public IEnumerable<PatientShceduleViewModel> GetPatientSlot(string patientID, string facilityID, string date, string staffID)
+        {
+            var patientslot = from s in objDbContext.SHclnResourceSchedule
+                              join sa in objDbContext.SHclnStaffAdminModel on s.StaffID equals sa.StrStaffID
+                              join ca in objDbContext.SHclnClinicAdmin on s.FacilityID equals ca.FacilityID
+                              where s.StaffID == staffID
+                              && s.FacilityID == facilityID
+                              && s.Date == date
+                              && s.PatientID == patientID
+                        select new PatientShceduleViewModel
+                        {
+                            ScheduleID = s.SlotsID,
+                            PatientID = s.PatientID,
+                            StaffID = s.StaffID,
+                            FacilityID = s.FacilityID,
+                            Date = s.Date,
+                            StartTime=s.StartTime,
+                            Duration = s.Duration,
+                            StaffName = sa.StrFullName,
+                            FacilityName = ca.ClinicName
+
+                        };
+
+            return patientslot.ToList();
+        }
+
+
         public void SaveSelectedSchedules(string patientID, List<string> selectedSchedules)
         {
             foreach (var selectslot in selectedSchedules)
@@ -107,6 +134,19 @@ namespace HealthCare.Business
 
                 schedules.PatientID = patientID;
 
+
+            }
+            objDbContext.SaveChanges();
+        }
+
+        public void CancelScheduleSlot (string patientID, List<string> selectedSchedules)
+        {
+            foreach(var selectslot in selectedSchedules)
+            {
+                var schedules = objDbContext.SHclnResourceSchedule
+                        .Where(schedules => schedules.SlotsID == selectslot).First();
+              
+                schedules.PatientID = null;
 
             }
             objDbContext.SaveChanges();

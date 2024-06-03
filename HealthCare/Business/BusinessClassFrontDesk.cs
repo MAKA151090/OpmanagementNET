@@ -40,7 +40,22 @@ namespace HealthCare.Business
 
         }
 
-
+        public List<StaffAttendanceModel> GetStaffAttendancebus(string staffid)
+        {
+            var result =
+                (
+                        from op in _healthcareContext.SHStaffAttendance
+                        select new StaffAttendanceModel
+                        {
+                            StaffID = op.StaffID,
+                            Date = op.Date,
+                            Office = op.Office,
+                            CheckInTime = op.CheckInTime,
+                            CheckOuTtime = op.CheckOuTtime,
+                        }
+                ).ToListAsync().Result;
+            return result;
+        }
 
 
         public async Task UpdateOpChecking(String OpChecking, String VisitStatus)
