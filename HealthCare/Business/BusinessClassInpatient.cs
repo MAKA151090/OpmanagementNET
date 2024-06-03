@@ -24,31 +24,57 @@ namespace HealthCare.Business
         {
             this.objInpatientDb = serviceContext;
         }
-     public async Task<InPatientTransferUpdateModel> InPatientTransfer(string PatientId, string CaseId, string BedId)
+     public async Task<InPatientTransferUpdateModel> InPatientTransfer(string PatientId, string CaseId, string BedId,string tranferID)
         {
-
+            var objTrans = (objInpatientDb.SHipmInPatientTransferUpdate.FirstOrDefault(x =>
+               x.PatientId == PatientId && x.CaseId == CaseId && x.BedId ==BedId));
             
 
-                     
-            var result = await (from  Ipu in objInpatientDb.SHipmInPatientTransferUpdate
-                                join  Inp in objInpatientDb.SHInpatientAdmission on Ipu.PatientId equals Inp.PatientID
-                                join    e in objInpatientDb.SHclnHospitalBedMaster on Inp.BedID equals e.BedID
-                                where Inp.BedID == BedId && Inp.PatientID == PatientId && Inp.CaseID == CaseId
-                                select new InPatientTransferUpdateModel
-                                {
-                                    PatientId = Inp.PatientID,
-                                    CaseId = Inp.CaseID,
-                                    BedId = e.BedID,
-                                    RoomTypeFrom = e.RoomType,
-                                    BedIdFrom =Inp.BedID,
-                                    BedIdTo = Inp.BedID,
-                                    RoomTypeTo = e.RoomType,
-                                    TransferNotes= Ipu.TransferNotes,
-                                    DocId=Ipu.DocId,
-                                    ChangeDate=Ipu.ChangeDate
-                                  
-                                }).FirstAsync();
-    
+            if (objTrans != null)
+            {
+                var resultupd = await objInpatientDb.SHipmInPatientTransferUpdate.Where(Ipu=>Ipu.PatientId==PatientId&& Ipu.CaseId==CaseId && Ipu.BedId==BedId && Ipu.IsCount==true).
+                                  Select(Ipu => new InPatientTransferUpdateModel
+                                      {
+                                     PatientId = Ipu.PatientId,
+                                     CaseId = Ipu.CaseId,
+                                     BedId = Ipu.BedId,
+                                     RoomTypeFrom = Ipu.RoomTypeTo,
+                                     BedIdFrom = Ipu.BedIdTo,
+                                     //BedIdTo = Inp.BedID,
+                                     //RoomTypeTo = e.RoomType,
+                                     //TransferNotes= Ipu.TransferNotes,
+                                     //DocId=Ipu.DocId,
+                                     //ChangeDate=Ipu.ChangeDate
+
+                                 }).FirstOrDefaultAsync();
+
+                return resultupd;
+
+
+
+            }
+           
+
+
+                var result = await (//from  Ipu in objInpatientDb.SHipmInPatientTransferUpdate
+                                     from Inp in objInpatientDb.SHInpatientAdmission
+                                     join e in objInpatientDb.SHclnHospitalBedMaster on Inp.BedID equals e.BedID
+                                     where Inp.BedID == BedId && Inp.PatientID == PatientId && Inp.CaseID == CaseId
+                                     select new InPatientTransferUpdateModel
+                                     {
+                                         PatientId = Inp.PatientID,
+                                         CaseId = Inp.CaseID,
+                                         BedId = e.BedID,
+                                         RoomTypeFrom = e.RoomType,
+                                         BedIdFrom = Inp.BedID,
+                                         //BedIdTo = Inp.BedID,
+                                         //RoomTypeTo = e.RoomType,
+                                         //TransferNotes= Ipu.TransferNotes,
+                                         //DocId=Ipu.DocId,
+                                         //ChangeDate=Ipu.ChangeDate
+
+                                     }).FirstAsync();
+           
             return result;
         }
 

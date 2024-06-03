@@ -43,8 +43,8 @@
                 });
                 }
 
-                @Html.DropDownList("faid", facilityid, "Select Facility ID", new { @class = "form-control", @required = "required" })
-                <label for="FacilityID" class="control-label">Facility ID</label>
+                            @Html.DropDownList("FacilityID", facilityid, "Select Facility ID", new { @class = "form-control", @required = "required" })
+                <label for="FacilityID"  class="control-label">Facility ID</label>
                 <span for="FacilityID" class="text-danger"></span>
             </div>
 
@@ -59,7 +59,7 @@
                 });
                 }
 
-                @Html.DropDownList("condocid",condocotorid, "Select Doctor ID", new { @class = "form-control", @required = "required" })
+                            @Html.DropDownList("StaffID", condocotorid, "Select Doctor ID", new { @class = "form-control", @required = "required" })
                 <label for="ConsultDoctorID" class="control-label">Doctor ID</label>
                 <span for="ConsultDoctorID" class="text-danger"></span>
             </div>
@@ -138,27 +138,37 @@
 
             </tbody>
         </table>
-    </div>
 
+    </div>
+    <br />
+        <button type="submit" value="Delete Selected" name="action" class="btn btn-primary">Delete Selected</button>
+        <button type="submit" value="Save" name="action" class="btn btn-primary">Save</button>
 
     <div>
      
     </div>
     <br />
-    <br />
-    <br />
    
  }
 
 
-<form asp-action="DoctorSchedule" method="post" asp-controller="ClinicAdministration">
+    <form asp-action="DoctorSchedule" method="post" asp-controller="ClinicAdministration">
     <div class="form-group">
         <center>
-            <button type="submit" value="Delete Selected" name="action" class="btn btn-primary">Delete Selected</button>
-            <button type="submit" value="Save" name="action" class="btn btn-primary">Save</button>
+          
         <button type="submit" name="buttonType"  value="Holiday" class="btn btn-primary">Holiday</button>
         <button type="submit" name="buttonType" value="Blocker" class="btn btn-primary">Blocker</button>
+
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-success">
+
+
+                        @ViewBag.Message
+                    </div>
+                }
         </center>
+
     </div>
     </form>
     </div>

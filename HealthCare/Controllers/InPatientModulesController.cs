@@ -4,6 +4,7 @@ using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
@@ -293,20 +294,24 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> InPatientTransfer(InPatientTransferUpdateModel Model, string buttonType)
+        public async Task<IActionResult> InPatientTransfer(InPatientTransferUpdateModel Model, string buttonType,string patientId, string caseId,string BedId)
         {
 
             BusinessClassInpatient ObjView = new BusinessClassInpatient(_healthcareContext);
+
+            ViewData["patientID"] = ObjView.GetPatID();
+            ViewData["CaseID"] = ObjView.GetCaseId();
+            ViewData["bedid"] = ObjView.GetBedId();
             if (buttonType == "Get")
             {
-                var result = ObjView.InPatientTransfer(Model.PatientId, Model.CaseId, Model.BedId).Result;
+                var result = ObjView.InPatientTransfer(Model.PatientId, Model.CaseId, Model.BedId,Model.TranferID).Result;
                 return View("InPatientTransfer", result);
             }
             else if (buttonType == "Save")
             {
 
                 // Update on ADmission Table
-                var admission = await _healthcareContext.SHInpatientAdmission.FindAsync(Model.PatientId, Model.CaseId);
+                var admission = await _healthcareContext.SHInpatientAdmission.FindAsync(Model.PatientId, Model.CaseId,Model.TranferID,Model.BedId);
                 if (admission != null)
                 {
 
@@ -321,7 +326,7 @@ namespace HealthCare.Controllers
 
 
                 //Saving history
-                var existingInPatientTransfer = await _healthcareContext.SHipmInPatientTransferUpdate.FindAsync(Model.PatientId, Model.CaseId, Model.BedId);
+                var existingInPatientTransfer = await _healthcareContext.SHipmInPatientTransferUpdate.FindAsync(Model.PatientId, Model.CaseId, Model.BedId,Model.TranferID);
 
                 if (existingInPatientTransfer != null)
                 {
@@ -335,6 +340,7 @@ namespace HealthCare.Controllers
                     existingInPatientTransfer.TransferNotes = Model.TransferNotes;
                     existingInPatientTransfer.DocId = Model.DocId;
                     existingInPatientTransfer.ChangeDate = Model.ChangeDate;
+                    existingInPatientTransfer.IsCount = true;
                     existingInPatientTransfer.LastupdatedDate = DateTime.Now.ToString();
                     existingInPatientTransfer.LastupdatedUser = "Admin";
                     existingInPatientTransfer.LastUpdatedMachine = "Lap";
@@ -347,6 +353,16 @@ namespace HealthCare.Controllers
                     Model.LastupdatedDate = DateTime.Now.ToString();
                     Model.LastupdatedUser = "Admin";
                     Model.LastUpdatedMachine = "Lap";
+                  
+                    var objupdTr = (_healthcareContext.SHipmInPatientTransferUpdate.FirstOrDefault(x =>
+                     x.PatientId == patientId && x.CaseId == caseId && x.BedId == BedId));
+                    if(objupdTr!=null)
+                    {
+                        objupdTr.IsCount = false;
+                        await _healthcareContext.SaveChangesAsync();
+                    }
+                   
+                    Model.IsCount = true;
                     _healthcareContext.SHipmInPatientTransferUpdate.Add(Model);
 
                 }
@@ -362,10 +378,6 @@ namespace HealthCare.Controllers
             else
             {
                 ViewBag.Message = "Saved Successfully";
-                BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
-                ViewData["patientID"] = inpatient.GetPatID();
-                ViewData["CaseID"] = inpatient.GetCaseId();
-                ViewData["bedid"] = inpatient.GetBedId();
 
                 return View("InPatientTransfer", Model);
 
@@ -377,10 +389,10 @@ namespace HealthCare.Controllers
 
         public IActionResult InPatientTransfer()
         {
-            BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
-            ViewData["patientID"] = inpatient.GetPatID();
-            ViewData["CaseID"] = inpatient.GetCaseId();
-            ViewData["bedid"] = inpatient.GetBedId();
+            BusinessClassInpatient ObjView = new BusinessClassInpatient(_healthcareContext);
+            ViewData["patientID"] = ObjView.GetPatID();
+            ViewData["CaseID"] = ObjView.GetCaseId();
+            ViewData["bedid"] = ObjView.GetBedId();
             return View();
         }
 
