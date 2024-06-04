@@ -49,6 +49,7 @@ namespace HealthCare.Controllers
                 if(updstatus!= null)
                 {
                     updstatus.Status = "Dischaged";
+                    await _healthcareContext.SaveChangesAsync();
                 }
             }
 
