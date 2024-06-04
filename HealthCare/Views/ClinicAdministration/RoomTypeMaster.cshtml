@@ -5,7 +5,27 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+<style>
+    .btn-grad{
+    background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff 51%, #ff6e7f 100%);
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    }
+    .btn-grad:hover {
+        background-position: right center; /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+    }
 
+</style>
 
 @section PageStyles {
     <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
@@ -17,7 +37,7 @@
             <div class="card-body ">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-primary mb-1">RoomTypeMaster</h2>
+                        <h2 class="centered text-primary mb-1" style="font-family:'Times New Roman'">RoomTypeMaster</h2>
 
                     </div>
                 </div>
@@ -70,9 +90,10 @@
 
                         <div class="form-group">
                             <div class="container">
-                                <button type="submit" style="centered" asp-action="GetRoomType" value="Create" class="btn btn-primary">Save</button>
+                               @*  <button type="submit"  asp-action="GetRoomType" value="Create">Save</button>
+ *@
+                                <button type="submit" asp-action="GetRoomType" value="Create" class="btn-grad">Save</button>
 
-                          
                                 @if (ViewBag.Message != null)
                                 {
                                     <div class="alert alert-success">
