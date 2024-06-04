@@ -35,7 +35,7 @@
                 });
                             }
 
-                            @Html.DropDownList("patid", screenList, "Select Patient ID", new { @class = "form-control" })
+                            @Html.DropDownList("Patientid", screenList, "Select Patient ID", new { @class = "form-control" })
                             <label for="PatientID" class="control-label">PatientID</label>
                             <span for="PatientID" class="text-danger"></span>
                         </div>
@@ -50,7 +50,7 @@
                 });
                             }
 
-                            @Html.DropDownList("facid", screenlist, "Select Facility ID", new { @class = "form-control" })
+                            @Html.DropDownList("Facilityid", screenlist, "Select Facility ID", new { @class = "form-control" })
                             <label for="FacilityID" class="control-label">FacilityID</label>
                             <span for="FacilityID" class="text-danger"></span>
                         </div>
@@ -75,7 +75,7 @@
 
                 <div class="form-group">
                     <center>
-                    <button type="submit" value="GetReport" class="btn btn-primary">GetReport</button>
+                            <button type="submit" value="GetReport" asp-action="ViewResult" class="btn btn-primary">GetReport</button>
                                 </center>
                 </div>
                 </div>
@@ -140,7 +140,7 @@
     @if (Model != null)
     {
       <div class="form-group">
-        <input type="submit" value="Print" class="btn btn-primary" />
+        <button type="submit" value="Print" class="btn btn-primary" >Print</button>
       </div>
     }
 }

@@ -14,29 +14,7 @@ namespace HealthCare.Business
             _healthcareContext = healthcareContext;
         }
 
-        public async Task<List<RadiologyViewResultModel>> GetRadiologData(string radioID, string FacilityID, string patientID, string radioName, string screeingDate, string result, string referralDoctorName)
-        {
-            var RadiologyData = (
-                            from pr in _healthcareContext.SHPatientRadiology
-                            join rm in _healthcareContext.SHRadioMaster on pr.RadioID equals rm.RadioID
-                            join p in _healthcareContext.SHPatientRegistration on pr.PatientID equals p.PatientID
-
-                            select new RadiologyViewResultModel
-                            {
-
-                                PatentName = p.FullName,
-                                RadioID = rm.RadioID,
-                                FacilityID = pr.FacilityID,
-                                RadioName = rm.RadioName,
-                                ScreeningDate = pr.ScreeningDate,
-                                Result = pr.Result,
-                                ReferralDoctorName = pr.ReferralDoctorName
-
-                            }).ToListAsync().Result;
-
-            return RadiologyData;
-        }
-
+     
         ///dropdown for print radiology result 
 
         public List<PatientRegistrationModel> Getpid()
@@ -129,14 +107,14 @@ namespace HealthCare.Business
         }
 
 
-        public List<ResourceTypeMasterModel> getrefdocid()
+        public List<StaffAdminModel> getrefdocid()
         {
             var refdocid = (
-                from pr in _healthcareContext.SHclnResourseTypeMaster
-                select new ResourceTypeMasterModel
+                from pr in _healthcareContext.SHclnStaffAdminModel
+                select new StaffAdminModel
                 {
-                    ResourceTypeID = pr.ResourceTypeID,
-                    ResourceTypeName = pr.ResourceTypeName,
+                   StrStaffID = pr.StrStaffID,
+                   StrFullName = pr.StrFullName,
 
                 }).ToList();
             return refdocid;
@@ -177,14 +155,14 @@ namespace HealthCare.Business
 
         }
 
-        public List<ResourceTypeMasterModel> Getrefdocid()
+        public List<StaffAdminModel> Getrefdocid()
         {
             var refdocid = (
-                from pr in _healthcareContext.SHclnResourseTypeMaster
-                select new ResourceTypeMasterModel
+                from pr in _healthcareContext.SHclnStaffAdminModel
+                select new StaffAdminModel
                 {
-                    ResourceTypeID = pr.ResourceTypeID,
-                    ResourceTypeName = pr.ResourceTypeName,
+                   StrStaffID= pr.StrStaffID,
+                   StrFullName= pr.StrFullName,
 
                 }).ToList();
             return refdocid;
@@ -278,6 +256,31 @@ namespace HealthCare.Business
 
             return testResults;
 
+        }
+
+
+
+        public async Task<List<RadiologyViewResultModel>> GetRadiologData(string visitcaseid , string patientid, string facilityid)
+        {
+            var RadiologyData = (
+                            from pr in _healthcareContext.SHPatientRadiology 
+                            join rm in _healthcareContext.SHRadioMaster on pr.RadioID equals rm.RadioID
+                            join p in _healthcareContext.SHPatientRegistration on pr.PatientID equals p.PatientID
+                            where pr.VisitcaseID == visitcaseid && pr.PatientID == patientid && pr.FacilityID == facilityid
+                            select new RadiologyViewResultModel
+                            {
+
+                                PatentName = p.FullName,
+                                RadioID = rm.RadioID,
+                                FacilityID = pr.FacilityID,
+                                RadioName = rm.RadioName,
+                                ScreeningDate = pr.ScreeningDate,
+                                Result = pr.Result,
+                                ReferralDoctorName = pr.ReferralDoctorName
+
+                            }).ToListAsync().Result;
+
+            return RadiologyData;
         }
 
 
