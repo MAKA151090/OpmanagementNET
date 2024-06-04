@@ -44,12 +44,19 @@ namespace HealthCare.Controllers
             }
             await _healthcareContext.SaveChangesAsync();
 
+            var updstatus = await _healthcareContext.SHInpatientAdmission.FirstOrDefaultAsync(x => x.PatientID == model.PatientID && x.CaseID == model.CaseID);
+            {
+                if(updstatus!= null)
+                {
+                    updstatus.Status = "Dischaged";
+                }
+            }
 
             ViewBag.Message = "Saved Successfully";
             BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
             ViewData["PatientID"] = inpatient.GetPatientID();
             ViewData["CaseID"] = inpatient.GetCaseID();
-            ViewData["DoctorID"] = inpatient.GetDoctorID();
+            ViewData["dutydocid"] = inpatient.Getdutydocid();
             return View("InPatientDischarge", model);
 
         }
@@ -447,7 +454,7 @@ namespace HealthCare.Controllers
             BusinessClassInpatient inpatient = new BusinessClassInpatient(_healthcareContext);
             ViewData["PatientID"] = inpatient.GetPatientID();
             ViewData["CaseID"] = inpatient.GetCaseID();
-            ViewData["DoctorID"] = inpatient.GetDoctorID();
+            ViewData["dutydocid"] = inpatient.Getdutydocid();
 
             return View();
         }
