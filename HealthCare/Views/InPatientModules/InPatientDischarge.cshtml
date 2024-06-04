@@ -6,6 +6,7 @@
 }
 
 
+<form asp-action="GetPatientDischarge">
 
 <div class="row" style="margin-top:70px">
     <div class="col-md-12 col-lg-2 ">
@@ -32,7 +33,6 @@
                 <div class="card">
                     <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-                        <form asp-action="GetPatientDischarge"></form>
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
@@ -124,3 +124,4 @@
         </div>
     </div>
     </div>
+    </form>
