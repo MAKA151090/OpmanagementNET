@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 
 namespace HealthCare.Controllers
@@ -118,7 +119,7 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PatientScheduling(DoctorScheduleModel model, string action, List<string> selectedSchedules)
+        public async Task<IActionResult> PatientScheduling(DoctorScheduleModel model, string action, List<string> selectedSchedules,string staffID,string FacilityID,string Date,String patientID)
         {
             BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
             ViewData["FacDPD"] = schedule.GetFacilityID();
@@ -135,9 +136,24 @@ namespace HealthCare.Controllers
             else if (action == "SaveSchedule" && selectedSchedules != null && selectedSchedules.Any())
             {
                 schedule.SaveSelectedSchedules(model.PatientID, selectedSchedules);
-                return RedirectToAction("PatientScheduling");
+                ViewBag.Message = "Slot Confirmed Successfully";
+                return View("PatientScheduling");
+            }
+            else if (action == "GetPatientSchedule")
+            {
+                var patientslots = schedule.GetPatientSlot(model.PatientID, model.FacilityID, model.Date, model.StaffID);
+                ViewBag.Schedules = patientslots;
+                return View(model);
             }
 
+            else if (action == "CancelSchedule")
+            {
+                schedule.CancelScheduleSlot(model.PatientID, selectedSchedules);
+                ViewBag.Message = "Slot Cancel Successfully";
+                return View("PatientScheduling");
+            }
+
+           
             return View(model);
 
            

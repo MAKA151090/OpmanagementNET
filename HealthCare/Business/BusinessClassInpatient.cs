@@ -132,11 +132,12 @@ namespace HealthCare.Business
                         ObservationID = ObservationID
                     };
                     objInpatientDb.SHipmInpatientobservation.Add(newObservation);
-                    objInpatientDb.SaveChanges();
+                    
                 }
 
 
             }
+            objInpatientDb.SaveChanges();
 
             var result = (
                from e in objInpatientDb.SHclnEWSMaster

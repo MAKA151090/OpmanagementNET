@@ -76,17 +76,30 @@
                         <div class="form-floating form-floating-outline mb-4">
                             <input type="date" class="form-control" id="Date" name="Date" value="@ViewBag.ToDate" />
                     <label for="Date" class="control-label">Date</label>
-                   
+                        </div>
                 </div>
-                        <br />
-
-                <div class="form-group">
-                    <button type="submit" name="action" value="GetSchedule" class="btn btn-primary">Get Schedule</button>
                 </div>
             </div>
-        </div>
-        </div>
-        </div>
+                    </div>
+                        <br />
+
+                        <center>
+                <div class="form-group">
+                          
+                    <button type="submit" name="action" value="GetSchedule" class="btn btn-primary">Get Schedule</button>
+                    
+                    
+            </div>
+            <br />
+            <div class="form-group">
+                            <button type="submit" name="action" value="GetPatientSchedule" class="btn btn-primary">Get PatientSchedule</button>
+                </div>      
+               
+                        </center>
+         
+      
+      
+     
 
 
          @if (ViewBag.Schedules != null)
@@ -122,14 +135,24 @@
         <input type="hidden" name="PatientID" value="@Model.PatientID" />
         <div class="form-group">
             <input type="submit" name="action" value="SaveSchedule" class="btn btn-primary" />
+
+                <input type="submit" name="action" value="CancelSchedule" class="btn btn-primary" />
+          
+
         </div>
+           
         }
-        
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">
+                @ViewBag.Message
+            </div>
+        }
         <div class="row gy-4">
             <div class="form-floating form-floating-outline mb-4">
         </div>
     </form>
-    </div>
+   
 
 
 

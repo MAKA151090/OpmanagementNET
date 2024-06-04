@@ -8,13 +8,14 @@
 
 
 <div class="row">
-
+    <div class="col-md-12 col-lg-1 ">
+    </div>
     <div class="col-md-12 col-lg-7 ">
         <div class="card">
             <div class="card-body ">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-primary mb-1">In Patient Discharge</h2>
+                        <h2 class="centered text-primary mb-1" style="font-family:'Lucida Bright'">In Patient Discharge</h2>
 
                     </div>
                 </div>
@@ -31,125 +32,104 @@
                     <div class="card-body">
                         <form asp-action="GetPatientDischarge"></form>
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                  
 
-                                        <div class="form-floating form-floating-outline mb-4">
-                                            @{
-                                                var patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patientID"])
-                                                .Select(m => new SelectListItem
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patientID"])
+                                .Select(m => new SelectListItem
             {
                 Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
                 Text = $"{m.PatientID} - {m.FullName}"
             });
-                                            }
+                            }
 
-                                            @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", required = "required" })
-                                            <label asp-for="PatientID" class="control-label">Patient ID</label>
-                                            <span asp-validation-for="PatientID" class="text-danger"></span>
-                                        </div>
+                            @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", required = "required" })
+                            <label asp-for="PatientID" class="control-label">Patient ID</label>
+                            <span asp-validation-for="PatientID" class="text-danger"></span>
+                        </div>
 
 
-                                        <div class="form-floating form-floating-outline mb-4">
-                                            @{
-                                                var CaseID = ((IEnumerable<InpatientAdmissionModel>)ViewData["CaseID"])
-                                                .Select(m => new SelectListItem
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var CaseID = ((IEnumerable<InpatientAdmissionModel>)ViewData["CaseID"])
+                                .Select(m => new SelectListItem
             {
                 Value = m.CaseID.ToString(), // Assuming ScreenId is of type int
                 Text = $"{m.CaseID}"
             });
-                                            }
+                            }
 
-                                            @Html.DropDownListFor(model => model.CaseID, CaseID, "Select Case ID", new { @class = "form-control", required = "required" })
-                                            <label asp-for="CaseID" class="control-label">Case ID</label>
-                                            <span asp-validation-for="CaseID" class="text-danger"></span>
-                                        </div>
-
-
-                                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                                            <textarea asp-for="DischargeNotes" class="form-control" placeholder="Discharge Notes" aria-describedby="text-to-speech-addon" required></textarea>
-                                            <label asp-for="DischargeNotes" class="control-label">Discharge Notes</label>
-                                            <span class="input-group-text" id="text-to-speech-addon">
-                                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                                            </span>
-
-                                            <span asp-validation-for="DischargeNotes" class="text-danger"></span>
-                                        </div>
+                            @Html.DropDownListFor(model => model.CaseID, CaseID, "Select Case ID", new { @class = "form-control", required = "required" })
+                            <label asp-for="CaseID" class="control-label">Case ID</label>
+                            <span asp-validation-for="CaseID" class="text-danger"></span>
+                        </div>
 
 
-                                        <div class="form-floating form-floating-outline mb-4">
-                                            @{
-                                                var DoctorID = ((IEnumerable<ResourceTypeMasterModel>)ViewData["DoctorID"])
-                                                .Select(m => new SelectListItem
+                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                            <textarea asp-for="DischargeNotes" class="form-control" placeholder="Discharge Notes" aria-describedby="text-to-speech-addon" required></textarea>
+                            <label asp-for="DischargeNotes" class="control-label">Discharge Notes</label>
+                            <span class="input-group-text" id="text-to-speech-addon">
+                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+
+                            <span asp-validation-for="DischargeNotes" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var DoctorID = ((IEnumerable<ResourceTypeMasterModel>)ViewData["DoctorID"])
+                                .Select(m => new SelectListItem
             {
                 Value = m.ResourceTypeID.ToString(), // Assuming ScreenId is of type int
                 Text = $"{m.ResourceTypeID} - {m.ResourceTypeName}"
             });
-                                            }
+                            }
 
-                                            @Html.DropDownListFor(model => model.DoctorID, DoctorID, "Select Doctor ID", new { @class = "form-control", required = "required" })
-                                            <label asp-for="DoctorID" class="control-label">Doctor ID</label>
-                                            <span asp-validation-for="DoctorID" class="text-danger"></span>
-                                        </div>
-
-
-                                        @*             <div class="form-group">
-                                        <label asp-for="lastUpdatedDate" class="control-label"></label>
-                                        <input asp-for="lastUpdatedDate" class="form-control" />
-                                        <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-                                        </div>
-                                        <div class="form-group">
-                                        <label asp-for="lastUpdatedUser" class="control-label"></label>
-                                        <input asp-for="lastUpdatedUser" class="form-control" />
-                                        <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-                                        </div>
-                                        <div class="form-group">
-                                        <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                                        <input asp-for="lastUpdatedMachine" class="form-control" />
-                                        <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-                                        </div> *@
+                            @Html.DropDownListFor(model => model.DoctorID, DoctorID, "Select Doctor ID", new { @class = "form-control", required = "required" })
+                            <label asp-for="DoctorID" class="control-label">Doctor ID</label>
+                            <span asp-validation-for="DoctorID" class="text-danger"></span>
+                        </div>
 
 
+                        <div class="row" style="height:12%">
+                        </div>
+                        <div class="row">
 
-                                        <div class="row" style="height:12%">
-                                        </div>
-                                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
 
-                                            <div class="col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <div class="container">
 
-                                                <div class="form-group">
-                                                    <div class="container">
+                                        <button type="submit" asp-action="GetPatientDischarge" value="Create" class="btn btn-primary">Save</button>
 
-                                                        <button type="submit" asp-action="GetPatientDischarge" value="Create" class="btn btn-primary">Save</button>
-
-                                                        @*   <button type="submit" style="centered" name="buttonType" value="Save" class="btn btn-primary">Save</button> *@
-                                                        @*    <button type="submit" style="centered" value="Create" asp-action="TestMaster" value="Save" class="btn btn-primary">Save</button> *@
-                                                        @if (ViewBag.Message != null)
-                                                        {
-                                                            <div class="alert alert-success">
-                                                                @ViewBag.Message
-                                                            </div>
-                                                        }
-                                                    </div>
-
-                                                </div>
+                                        @*   <button type="submit" style="centered" name="buttonType" value="Save" class="btn btn-primary">Save</button> *@
+                                        @*    <button type="submit" style="centered" value="Create" asp-action="TestMaster" value="Save" class="btn btn-primary">Save</button> *@
+                                        @if (ViewBag.Message != null)
+                                        {
+                                            <div class="alert alert-success">
+                                                @ViewBag.Message
                                             </div>
-                                        </div>
-
-
-
+                                        }
                                     </div>
+
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
             </div>
         </div>
-        </div>
-        <div class="col-md-12 col-lg-5">
-            <div class="form-floating form-floating-outline mb-4">
-                <img src="~/img/illustrations/Doc.png" class="authentication-image d-none d-lg-block" data-app-light-img="illustrations/auth-basic-mask-light.png" data-app-dark-img="illustrations/auth-basic-mask-dark.png">
-            </div>
-        </div>
-   
     </div>
+    <div class="col-md-12 col-lg-4">
+        <div class="form-floating form-floating-outline mb-4">
+            <img src="~/img/illustrations/Doc.png" class="authentication-image d-none d-lg-block" data-app-light-img="illustrations/auth-basic-mask-light.png" data-app-dark-img="illustrations/auth-basic-mask-dark.png">
+        </div>
+    </div>
+
+</div>
 
