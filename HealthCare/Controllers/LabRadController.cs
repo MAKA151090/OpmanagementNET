@@ -69,6 +69,10 @@ namespace HealthCare.Controllers
         {
             BusinessClassLabRad ObjBusTestResult = new BusinessClassLabRad(GetlabData);
 
+            ViewData["visitid"] = ObjBusTestResult.GetVisitid();
+            ViewData["Patientid"] = ObjBusTestResult.GetPatID();
+            ViewData["Facilityid"] = ObjBusTestResult.GetFacilityid();
+
             if (ObjBusTestResult!=null)
             {
                 var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID , Model.VisitcaseID);
@@ -76,14 +80,30 @@ namespace HealthCare.Controllers
             }
 
 
-            ViewData["visitid"] = ObjBusTestResult.GetVisitid();
-            ViewData["Patientid"] = ObjBusTestResult.GetPatID();
-            ViewData["Facilityid"] = ObjBusTestResult.GetFacilityid();
-            return View(Model); 
+            return View("PrintTestResults", Model); 
 
         }
 
- 
+        public async Task<IActionResult> GetRadio(string visitcaseid, string patientid, string facilityid)
+        {
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+
+            ViewData["patid"] = business.Getpid();
+            ViewData["facid"] = business.Getfacid();
+            ViewData["visitcaseid"] = business.Getvisitcaseid();
+
+
+
+                if (business != null)
+                {
+                var Radiologydata = await business.GetRadiologData(visitcaseid, patientid, facilityid);
+                return View("PrintRadiologyResults", Radiologydata);
+
+                }
+            return View();
+        }
+
+
         public async Task<IActionResult>  GetPatientRadio(PatientRadiolodyModel model)
         {
             var existingPatientRadiology = await GetlabData.SHPatientRadiology.FindAsync(model.RadioID , model.FacilityID , model.PatientID , model.ScreeningDate);
@@ -124,35 +144,7 @@ namespace HealthCare.Controllers
             return View("RadiologyCreation", model);
         }
 
-        public async Task<IActionResult> GetRadio(string radioID, string FacilityID, string patientName, string radioName, string screeingDate, string result, string referralDoctorName, string buttonType)
-        {
-            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
-
-            if (buttonType == "select")
-            {
-                var Radiologydata = await business.GetRadiologData(radioID , FacilityID, patientName, radioName , screeingDate , result , referralDoctorName);
-                
-                if (Radiologydata != null)
-                {
-                    ViewBag.RadiologData = Radiologydata;
-
-                    return View("PrintRadiologyResults",Radiologydata);
-                }
-                else
-                {
-                    ViewBag.ErrorMessage = "No data found for the entered IDs";
-
-                    ViewData["patid"] = business.Getpid();
-                    ViewData["facid"] = business.Getfacid();
-                    ViewData["visitcaseid"] = business.Getvisitcaseid();
-
-                    return View();
-                }
-            }
-            return View();
-        }
-
-
+     
 
         private bool IsImage(IFormFile file)
         {

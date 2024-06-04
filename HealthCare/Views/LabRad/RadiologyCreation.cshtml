@@ -24,7 +24,7 @@
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
-                                var screenList = ((IEnumerable<RadiologyMasterModel>)ViewData["radioid"])
+                                var Radioid = ((IEnumerable<RadiologyMasterModel>)ViewData["radioid"])
                                 .Select(m => new SelectListItem
             {
                 Value = m.RadioID.ToString(), // Assuming ScreenId is of type int
@@ -32,7 +32,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.RadioID, screenList, "Select Radio ID", new { @class = "form-control", required = "required" })
+                            @Html.DropDownListFor(model => model.RadioID, Radioid, "Select Radio ID", new { @class = "form-control", required = "required" })
                             <label asp-for="RadioID" class="control-label"></label>
                             <span asp-validation-for="RadioID" class="text-danger"></span>
                         </div>
@@ -40,7 +40,7 @@
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
-                                var screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["facilityid"])
+                                var Facilityid = ((IEnumerable<ClinicAdminModel>)ViewData["facilityid"])
                                 .Select(m => new SelectListItem
             {
                 Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
@@ -48,7 +48,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.FacilityID, screenlist, "Select Facility ID", new { @class = "form-control", required = "required" })
+                            @Html.DropDownListFor(model => model.FacilityID, Facilityid, "Select Facility ID", new { @class = "form-control", required = "required" })
                             <label asp-for="FacilityID" class="control-label"></label>
                             <span asp-validation-for="FacilityID" class="text-danger"></span>
                         </div>
@@ -57,7 +57,7 @@
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
-                                var Screenlist = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
+                                var Patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
                                 .Select(m => new SelectListItem
             {
                 Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
@@ -65,7 +65,7 @@
             });
                             }
 
-                            @Html.DropDownListFor(model => model.PatientID, Screenlist, "Select Patient ID", new { @class = "form-control", required = "required" })
+                            @Html.DropDownListFor(model => model.PatientID, Patientid, "Select Patient ID", new { @class = "form-control", required = "required" })
                             <label asp-for="PatientID" class="control-label"></label>
                             <span asp-validation-for="PatientID" class="text-danger"></span>
                         </div>
@@ -80,15 +80,15 @@
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
-                                var ScreenList = ((IEnumerable<ResourceTypeMasterModel>)ViewData["refdocid"])
+                                var Refdocid = ((IEnumerable<StaffAdminModel>)ViewData["refdocid"])
                                 .Select(m => new SelectListItem
             {
-                Value = m.ResourceTypeID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.ResourceTypeID} - {m.ResourceTypeName}"
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
             });
                             }
 
-                            @Html.DropDownListFor(model => model.ReferralDoctorID, ScreenList, "Select Referral Doctor ID", new { @class = "form-control", required = "required" })
+                            @Html.DropDownListFor(model => model.ReferralDoctorID, Refdocid, "Select Referral Doctor ID", new { @class = "form-control" })
                             <label asp-for="ReferralDoctorID" class="control-label"></label>
                             <span asp-validation-for="ReferralDoctorID" class="text-danger"></span>
                         </div>
@@ -150,7 +150,7 @@
 
             <div class="form-group">
                 <center>
-                <button type="submit" value="Create" asp-action="GetPatientRadio" class="btn btn-primary">Create</button>
+                <button type="submit" value="Create" asp-action="GetPatientRadio" class="btn btn-primary">Save</button>
                                 @if (ViewBag.Message != null)
                                 {
                                     <div class="alert alert-success">

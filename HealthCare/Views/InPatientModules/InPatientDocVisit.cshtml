@@ -10,10 +10,10 @@
     </div>
     <div class="col-md-12 col-lg-8">
         <div class="card">
-            <div class="card-body ">
+            <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-primary">InPatient DoctorVisit</h2>
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">InPatient DoctorVisit</h2>
 
                     </div>
                 </div>
@@ -35,7 +35,7 @@
         </div>
         <div class="col-md-12 col-lg-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                     @*  <div class="form-floating form-floating-outline mb-4">
 
@@ -101,8 +101,7 @@
 
 
             <div class="card">
-                <div class="card-body">
-
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                     <div class="form-floating form-floating-outline mb-4">
                         @{
@@ -130,7 +129,7 @@
 
                     <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
                         <textarea asp-for="NurseNote" class="form-control" placeholder="Nurse Note" aria-describedby="text-to-speech-addon"></textarea>
-                        <label asp-for="NurseNote" class="control-label">Nurse Note</label>
+                        <label asp-for="NurseNote" class="control-label"></label>
                         <span class="input-group-text" id="text-to-speech-addon">
                             <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
                         </span>
@@ -198,7 +197,7 @@
                 </div>
             <div class="form-group">
                 <center>
-                    <button type="submit" value="Create" class="btn btn-primary">Save</button>
+                    <button type="submit" style="width:180px" value="Create" class="btn btn-primary">Save</button>
                     @if (ViewBag.Message != null)
                     {
                         <div class="alert alert-success">
