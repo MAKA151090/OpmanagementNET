@@ -8,14 +8,14 @@
 
 <div class="row" style="margin-top:70px">
     <div class="col-md-12 col-lg-2 ">
-        </div>
+    </div>
 
     <div class="col-md-12 col-lg-7 ">
         <div class="card">
-            <div class="card-body ">
+            <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-white" style="font-family:'Lucida Bright'" >In Patient Transfer</h2>
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">In Patient Transfer</h2>
 
                     </div>
                 </div>
@@ -24,7 +24,7 @@
 
         <div class="row" style="height:8%">
         </div>
-     
+
         <div class="row">
 
             <div class="col-md-12 col-lg-12">
@@ -32,8 +32,8 @@
                     <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                         <form asp-action="InPatientTransfer" asp-controller="InPatientModules" method="post"></form>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-     
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
@@ -84,72 +84,84 @@
                             <span asp-validation-for="BedId" class="text-danger"></span>
                         </div>
 
-                
-           
-                    <div class="form-group">
-  <center>
-                <button type="submit" name="buttonType" value="Get" class="btn btn-primary" >Get</button>
-                        
-           </center>     
-                 </div>
-                
- <br />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="height:8%">
+        </div>
+        <div class="form-group">
+            <center>
+                <button type="submit" style="width:180px" name="buttonType" value="Get" class="btn btn-primary">Get</button>
+
+            </center>
+        </div>
+
+        <br />
+
+        <div class="row">
+
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
 
-    @if (@Model != null)
-    { 
-        
-         <div class="form-floating form-floating-outline mb-4">
-              <input asp-for="RoomTypeFrom" value="@Model.RoomTypeFrom" class="form-control" placeholder="Room Type From" readonly />
-            <label asp-for="RoomTypeFrom" class="control-label">Room Type From</label>
-           
-        </div>
-        
-        <div class="form-floating form-floating-outline mb-4">
-            <input asp-for="RoomTypeTo" value="@Model.RoomTypeTo" class="form-control" placeholder="Room Type To"/>
-            <label asp-for="RoomTypeTo" class="control-label">Room Type To</label>
-            
-            <span asp-validation-for="RoomTypeTo" class="text-danger"></span>
-        </div>
-        
-         <div class="form-floating form-floating-outline mb-4">
-              <input asp-for="BedIdFrom" value="@Model.BedIdFrom" class="form-control" placeholder="Bed Id From" readonly/>
-            <label asp-for="BedIdFrom" class="control-label">Bed Id From</label>
-           
-            <span asp-validation-for="BedIdFrom" class="text-danger"></span>
-        </div>
-        
-         <div class="form-floating form-floating-outline mb-4">
-             <input asp-for="BedIdTo" value="@Model.BedIdTo" class="form-control" placeholder="Bed Id To"/>
-            <label asp-for="BedIdTo" class="control-label">BedIdTo</label>
-            
-            <span asp-validation-for="BedIdTo" class="text-danger"></span>
-        </div>
-        
-        <div class="form-floating form-floating-outline mb-4">
-            <input asp-for="TransferNotes" value="@Model.TransferNotes" class="form-control" placeholder="Transfer Notes"/>
-            <label asp-for="TransferNotes" class="control-label">Transfer Notes</label>
-            
-            <span asp-validation-for="TransferNotes" class="text-danger"></span>
-        </div>
-        
-        <div class="form-floating form-floating-outline mb-4">
-            <input asp-for="DocId" value="@Model.DocId" class="form-control" placeholder="Doctor Id"/>
-            <label asp-for="DocId" class="control-label">Doctor Id</label>
-            
-            <span asp-validation-for="DocId" class="text-danger"></span>
-        </div>
-        
-        <div class="form-floating form-floating-outline mb-4">
-             <input asp-for="ChangeDate" value="@Model.ChangeDate" type="date" class="form-control" placeholder="Change Date"/>
-            <label asp-for="ChangeDate" class="control-label">Change Date</label>
-           
-            <span asp-validation-for="ChangeDate" class="text-danger"></span>
-        </div>
-        
-        
-       
-    }
+                        @if (@Model != null)
+                        {
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="RoomTypeFrom" value="@Model.RoomTypeFrom" class="form-control" placeholder="Room Type From" readonly />
+                                <label asp-for="RoomTypeFrom" class="control-label">Room Type From</label>
+
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="RoomTypeTo" value="@Model.RoomTypeTo" class="form-control" placeholder="Room Type To" />
+                                <label asp-for="RoomTypeTo" class="control-label">Room Type To</label>
+
+                                <span asp-validation-for="RoomTypeTo" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="BedIdFrom" value="@Model.BedIdFrom" class="form-control" placeholder="Bed Id From" readonly />
+                                <label asp-for="BedIdFrom" class="control-label">Bed Id From</label>
+
+                                <span asp-validation-for="BedIdFrom" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="BedIdTo" value="@Model.BedIdTo" class="form-control" placeholder="Bed Id To" />
+                                <label asp-for="BedIdTo" class="control-label">BedIdTo</label>
+
+                                <span asp-validation-for="BedIdTo" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="TransferNotes" value="@Model.TransferNotes" class="form-control" placeholder="Transfer Notes" />
+                                <label asp-for="TransferNotes" class="control-label">Transfer Notes</label>
+
+                                <span asp-validation-for="TransferNotes" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="DocId" value="@Model.DocId" class="form-control" placeholder="Doctor Id" />
+                                <label asp-for="DocId" class="control-label">Doctor Id</label>
+
+                                <span asp-validation-for="DocId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="ChangeDate" value="@Model.ChangeDate" type="date" class="form-control" placeholder="Change Date" />
+                                <label asp-for="ChangeDate" class="control-label">Change Date</label>
+
+                                <span asp-validation-for="ChangeDate" class="text-danger"></span>
+                            </div>
+
+
+
+                        }
 
 
 
@@ -157,8 +169,8 @@
 
                             <div class="form-group">
                                 <div class="container">
-                                <button type="submit" style="centered" name="buttonType" value="Save" class="btn btn-primary waves-effect waves-light">Save</button>
-                                 @*    <button type="submit" style="centered" value="Create" asp-action="TestMaster" value="Save" class="btn btn-primary">Save</button> *@
+                                    <button type="submit" style="centered" name="buttonType" value="Save" class="btn btn-primary waves-effect waves-light">Save</button>
+                                    @*    <button type="submit" style="centered" value="Create" asp-action="TestMaster" value="Save" class="btn btn-primary">Save</button> *@
                                     @if (ViewBag.Message != null)
                                     {
                                         <div class="alert alert-success">
@@ -172,12 +184,10 @@
                     </div>
                 </div>
             </div>
-        
-            <div class="row">
-            </div>
+
+
         </div>
         <div class="col-md-12 col-lg-3">
-           
         </div>
     </div>
 
