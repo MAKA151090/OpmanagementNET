@@ -7,15 +7,16 @@
 
 
 
-<div class="row">
-    <div class="col-md-12 col-lg-1 ">
+<div class="row" style="margin-top:70px">
+    <div class="col-md-12 col-lg-2 ">
     </div>
+
     <div class="col-md-12 col-lg-7 ">
         <div class="card">
-            <div class="card-body ">
+            <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-primary mb-1" style="font-family:'Lucida Bright'">In Patient Discharge</h2>
+                        <h3 class="centered text-white" style="font-family:'Lucida Bright'">In Patient Discharge</h3>
 
                     </div>
                 </div>
@@ -29,7 +30,8 @@
 
             <div class="col-md-12 col-lg-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
                         <form asp-action="GetPatientDischarge"></form>
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -93,43 +95,32 @@
                         </div>
 
 
-                        <div class="row" style="height:12%">
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-12 col-lg-12">
-
-                                <div class="form-group">
-                                    <div class="container">
-
-                                        <button type="submit" asp-action="GetPatientDischarge" value="Create" class="btn btn-primary">Save</button>
-
-                                        @*   <button type="submit" style="centered" name="buttonType" value="Save" class="btn btn-primary">Save</button> *@
-                                        @*    <button type="submit" style="centered" value="Create" asp-action="TestMaster" value="Save" class="btn btn-primary">Save</button> *@
-                                        @if (ViewBag.Message != null)
-                                        {
-                                            <div class="alert alert-success">
-                                                @ViewBag.Message
-                                            </div>
-                                        }
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
                 </div>
             </div>
+        </div>
 
-            <div class="row">
+        <div class="row" style="height:8%">
+        </div>
+
+        <div class="form-group">
+            <div class="container">
+
+                <button type="submit" style="width:180px" asp-action="GetPatientDischarge" value="Create" class="btn btn-primary">Save</button>
+
+                @*   <button type="submit" style="centered" name="buttonType" value="Save" class="btn btn-primary">Save</button> *@
+                @*    <button type="submit" style="centered" value="Create" asp-action="TestMaster" value="Save" class="btn btn-primary">Save</button> *@
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-success">
+                        @ViewBag.Message
+                    </div>
+                }
             </div>
+
+        </div>
+        <div class="col-md-12 col-lg-3">
         </div>
     </div>
-    <div class="col-md-12 col-lg-4">
-        <div class="form-floating form-floating-outline mb-4">
-            <img src="~/img/illustrations/Doc.png" class="authentication-image d-none d-lg-block" data-app-light-img="illustrations/auth-basic-mask-light.png" data-app-dark-img="illustrations/auth-basic-mask-dark.png">
-        </div>
     </div>
-
-</div>
-

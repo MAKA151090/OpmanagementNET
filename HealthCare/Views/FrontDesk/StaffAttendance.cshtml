@@ -44,12 +44,12 @@
                             <span asp-validation-for="StaffID" class="text-danger"></span>
                         </div>
 
-                        <button type="submit" asp-action="Getstaffattendance" value="Get" class="btn btn-primary">Get</button>
+                        <button type="submit" name="buttonType" value="Get" class="btn btn-primary">Get</button>
  
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="Date" type="date" class="form-control" placeholder="Date" />
                             <label asp-for="Date" class="control-label">Date</label>
-                            <span asp-validation-for="Date" class="text-danger"></span>
+                            
                         </div>
                         
                         <div class="form-group">
@@ -64,7 +64,7 @@
                             <input asp-for="Office" class="form-check-input" type="radio" value="0" id="OUTRadio"/>
                             <label class="form-check-label" for="OUTRadio">OUT</label>
                         </div>
-                        <span asp-validation-for="Office" class="text-danger"></span>
+                      
                         </div>
                         <br />
                         <div class="form-floating form-floating-outline mb-4">
@@ -72,13 +72,13 @@
                             <input asp-for="CheckInTime" type="time" class="form-control" placeholder="Check In Time"  />
                             <label asp-for="CheckInTime" class="control-label">Check In Time</label>
 
-                            <span asp-validation-for="CheckInTime" class="text-danger"></span>
+                           
                         </div>
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="CheckOuTtime" type="time" class="form-control" placeholder="Check OuT time"  />
                             <label asp-for="CheckOuTtime" class="control-label">Check OuT time</label>
 
-                            <span asp-validation-for="CheckOuTtime" class="text-danger"></span>
+                           
                         </div>
 
                         <button type="submit"  name="buttonType" value="Save" class="btn btn-primary">Save</button>
@@ -149,18 +149,16 @@
     <tbody>
         @if (Model != null)
         {
-            @for (int i = 0; i < Model.StfAttedance.Count; i++)
+           @foreach (var item in Model.StfAttedance)
             {
                 <tr>
-                    <td><input type="text" asp-for="@Model.StfAttedance[i].StaffID" readonly />
-
-                    <td><input type="text" asp-for="@Model.StfAttedance[i].Date" /></td>
-                    <td><input type="text" asp-for="@Model.StfAttedance[i].Office" readonly /></td>
-                    <td><input type="text" asp-for="@Model.StfAttedance[i].CheckInTime" readonly /></td>
-                    <td><input type="text" asp-for="@Model.StfAttedance[i].CheckOuTtime" readonly /></td>
-                    @*  <td>@Model.SHviewInpatientObs[i].Unit</td>
-            <td>@Model.SHviewInpatientObs[i].Range</td>
-            <td>@Model.SHviewInpatientObs[i].Frequency</td> *@
+                            <td>@item.StaffID</td>
+                            <td>@item.Date</td>
+                            <td>@item.Office</td>
+                            <td>@item.CheckInTime</td>
+                            <td>@item.CheckOuTtime</td>
+                           
+                    
                 </tr>
             }
         }

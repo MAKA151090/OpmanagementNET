@@ -40,11 +40,38 @@ namespace HealthCare.Business
 
         }
 
-        public List<StaffAttendanceModel> GetStaffAttendancebus(string staffid)
+        public async Task <StaffAttendanceViewModel> GetStaffAttendancebus(string pstaffID)
         {
+            StaffAttendanceViewModel staffBusModel = new StaffAttendanceViewModel();
+
+            staffBusModel.StfAttedance = GetViewAttendence(pstaffID);
+
             var result =
-                (
+                await (
                         from op in _healthcareContext.SHStaffAttendance
+                        select new StaffAttendanceViewModel
+                        {
+                            StaffID = op.StaffID,
+                            Date = op.Date,
+                            Office = op.Office,
+                            CheckInTime = op.CheckInTime,
+                            CheckOuTtime = op.CheckOuTtime,
+                        }
+                ).FirstOrDefaultAsync();
+            staffBusModel.StaffID = result.StaffID;
+            staffBusModel.Date = result.Date;
+            staffBusModel.Office = result.Office;
+            staffBusModel.CheckInTime = result.CheckInTime;
+            staffBusModel.CheckOuTtime = result.CheckOuTtime;
+
+            return staffBusModel;
+        }
+
+        public List<StaffAttendanceModel> GetViewAttendence(string pstaffID)
+        {
+            var result = (
+                        from op in _healthcareContext.SHStaffAttendance
+                        where op.StaffID == pstaffID
                         select new StaffAttendanceModel
                         {
                             StaffID = op.StaffID,
@@ -53,10 +80,9 @@ namespace HealthCare.Business
                             CheckInTime = op.CheckInTime,
                             CheckOuTtime = op.CheckOuTtime,
                         }
-                ).ToListAsync().Result;
+                ).ToList();
             return result;
         }
-
 
         public async Task UpdateOpChecking(String OpChecking, String VisitStatus)
         {
