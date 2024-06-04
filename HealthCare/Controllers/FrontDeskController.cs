@@ -27,71 +27,57 @@ namespace HealthCare.Controllers
         {
             BusinessClassFrontDesk objstaff = new BusinessClassFrontDesk(GetFrontDeskData);
 
-            if(buttonType == "Save")
-            {
-               
-                
+            ViewData["staffid"] = objstaff.GetStaffid();
 
-                    var objadd = await GetFrontDeskData.SHStaffAttendance.FindAsync(Model.StaffID);
-                    if (objadd != null)
+            if (buttonType == "Save")
+            {
+
+
+
+                var existingAttendance = await GetFrontDeskData.SHStaffAttendance.FirstOrDefaultAsync(x => x.StaffID == Model.StaffID && x.Date == Model.Date);
+                if (existingAttendance != null)
+                {
+                    existingAttendance.StaffID = Model.StaffID;
+                    existingAttendance.Date = Model.Date;
+                    existingAttendance.Office = Model.Office;
+                    existingAttendance.CheckInTime = Model.CheckInTime;
+                    existingAttendance.CheckOuTtime = Model.CheckOuTtime;
+                  //  GetFrontDeskData.Entry(existingAttendance).State = EntityState.Modified;
+                }
+                else
+                {
+                    var newattendance = new StaffAttendanceModel
                     {
-                        objadd.StaffID = Model.StaffID;
-                        objadd.Date = Model.Date;
-                        objadd.Office = Model.Office;
-                        objadd.CheckInTime = Model.CheckInTime;
-                        objadd.CheckOuTtime = Model.CheckOuTtime;
-                        GetFrontDeskData.SHStaffAttendance.Update(objadd);
-                    }
-                    else
-                    {
-                        objadd = new StaffAttendanceModel
-                        {
-                            StaffID = Model.StaffID,
-                            Date  = Model.Date,
-                            Office= Model.Office,
-                            CheckInTime = Model.CheckInTime,
-                            CheckOuTtime= Model.CheckOuTtime,
-                            lastUpdatedDate= DateTime.Now.ToString(),
-                            lastUpdatedUser = "Kumar",
-                            lastUpdatedMachine = "Lap"
-                        };
-                    GetFrontDeskData.SHStaffAttendance.Add(objadd);
-                        //GetFrontDeskData.Entry(objadd).State = EntityState.Modified;
-                    
-                     }
+                        StaffID = Model.StaffID,
+                        Date = Model.Date,
+                        Office = Model.Office,
+                        CheckInTime = Model.CheckInTime,
+                        CheckOuTtime = Model.CheckOuTtime,
+                        lastUpdatedDate = DateTime.Now.ToString(),
+                        lastUpdatedUser = User.Claims.First().Value.ToString(),
+                        lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                    };
+                    GetFrontDeskData.SHStaffAttendance.Add(newattendance);
+                }
+
+               
+                   
 
                 await GetFrontDeskData.SaveChangesAsync();
-                /* var existingClinic = await GetFrontDeskData.SHStaffAttendance.FindAsync(model.StaffID);
+                 ViewBag.Message = "Saved Successfully.";
 
-                 if (existingClinic != null)
-                 {
-                     existingClinic.StaffID = model.StaffID;
-                     existingClinic.Date = model.Date;
-                     existingClinic.Office = model.Office;
-                     existingClinic.CheckInTime = model.CheckInTime;
-                     existingClinic.CheckOuTtime = model.CheckOuTtime;
-                     existingClinic.lastUpdatedDate = DateTime.Now.ToString();
-                     existingClinic.lastUpdatedUser = User.Claims.First().Value.ToString();
-                     existingClinic.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-
-
-                 }
-                 else
-                 {
-                     model.lastUpdatedDate = DateTime.Now.ToString();
-                     model.lastUpdatedUser = User.Claims.First().Value.ToString();
-                     model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                     GetFrontDeskData.SHStaffAttendance.Add(model);*/
+            }
+            if(buttonType== "Get")
+            {
+                var result = await objstaff.GetStaffAttendancebus(Model.StaffID);
+              
+                return View("StaffAttendance", result);
             }
                
-                ViewBag.Message = "Saved Successfully.";
-                
-            BusinessClassFrontDesk business = new BusinessClassFrontDesk(GetFrontDeskData);
-            ViewData["staffid"] = business.GetStaffid();
-
+              
             var updatedModel = await GetUpdatedModelAsync();
 
-            return View("StaffAttendance", updatedModel);
+            return View("StaffAttendance");
         }
         private async Task<StaffAttendanceViewModel> GetUpdatedModelAsync()
         {

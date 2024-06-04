@@ -297,7 +297,7 @@ namespace HealthCare.Context
                 .HasKey(i => new { i.RoomTypeID });
 
             modelBuilder.Entity<StaffAttendanceModel>()
-                .HasKey(i => new { i.StaffID });
+                .HasKey(i => new { i.StaffID,i.Date });
 
             modelBuilder.Entity<RollAccessModel>()
                 .HasKey(i => new { i.RollID });
