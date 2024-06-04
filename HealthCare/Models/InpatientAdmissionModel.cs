@@ -21,6 +21,7 @@
         private String strDocInstruction;
         private String strInpatientType;
         private String strAdmissionDate;
+        private string strStatus;
         private String strlastupdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
@@ -45,6 +46,6 @@
         public string? lastupdatedDate { get => strlastupdatedDate; set => strlastupdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
-    
+        public string? Status { get => strStatus; set => strStatus = value; }
     }
 }

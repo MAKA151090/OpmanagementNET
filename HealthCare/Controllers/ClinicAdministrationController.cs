@@ -1049,6 +1049,8 @@ namespace HealthCare.Controllers
             bool isFromTimeValid = TimeSpan.TryParse(Request.Form[$"FromTime_{SlotsIDs}"], out fromTime);
             bool isToTimeValid = TimeSpan.TryParse(Request.Form[$"ToTime_{SlotsIDs}"], out toTime);
 
+           
+
 
             if (action == "Get Slots")
             {
@@ -1069,7 +1071,23 @@ namespace HealthCare.Controllers
                             slot.lastUpdatedUser = User.Claims.First().Value.ToString();
                             slot.lastUpdatedDate= DateTime.Now.ToString();
                             slot.lastUpdatedMachine= Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                            slot.FromTime = fromTime.ToString(@"hh\:mm");
+
+                    if (!isFromTimeValid || !isToTimeValid || fromTime == TimeSpan.Zero || toTime == TimeSpan.Zero)
+                    {
+                        ViewBag.Time = "Please enter valid times in the format hh:mm, and times cannot be 00:00.";
+                        ViewBag.StaffID = StaffID;
+                        ViewBag.FacilityID = FacilityID;
+                        ViewBag.Duration = duration;
+                        ViewBag.FromDate = FromDate;
+                        ViewBag.ToDate = ToDate;
+                        ViewBag.FromTime = fromTime.ToString(@"hh\:mm");
+                        ViewBag.ToTime = toTime.ToString(@"hh\:mm");
+                        ViewBag.Slots = await _healthcareContext.SHclnViewResourceSchedule
+                                                                 .Where(s => s.StaffID == StaffID && s.StrIsDelete == false)
+                                                                 .ToListAsync();
+                        return View("DoctorSchedule");
+                    }
+                    slot.FromTime = fromTime.ToString(@"hh\:mm");
                             slot.ToTime = toTime.ToString(@"hh\:mm");
                         
                     }
