@@ -23,6 +23,10 @@ namespace HealthCare.Controllers
         [HttpPost]
         public IActionResult GetReports(String inputValue)
         {
+            BusinessClassReports business = new BusinessClassReports(_healthcareContext);
+            ViewData["reportid"] = business.GetReportId();
+            ViewData["facilityid"] = business.GetFacilityId();
+
 
             var reportQuery = (from rep in _healthcareContext.SHRepGenericReports
                               where(rep.ReportName == inputValue)
@@ -43,6 +47,9 @@ namespace HealthCare.Controllers
 
         public IActionResult Reports()
         {
+            BusinessClassReports business = new BusinessClassReports(_healthcareContext);
+            ViewData["reportid"] = business.GetReportId();
+            ViewData["facilityid"] = business.GetFacilityId();
             return View();
         }
 

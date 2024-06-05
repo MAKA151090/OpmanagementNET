@@ -29,22 +29,57 @@
 <body>
         <form asp-action="GetReports" asp-controller="Reports" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">ReportId</label>
-            <input type="text" id="inputValue" name="inputValue" />
-            </div>
+        @{
+            var reportModels = (IEnumerable<GenericReportsModel>)ViewData["reportid"];
+            var dropdownOptions = new List<SelectListItem>();
+
+            foreach (var reportid in reportModels)
+            {
+                dropdownOptions.Add(new SelectListItem
+                {
+                    Value = reportid.ReportId.ToString(),
+                    Text = $"{reportid.ReportName}"
+                });
+            }
+        }
+
+        <div class="form-floating form-floating-outline mb-4">
+            @Html.DropDownList("ReportId", dropdownOptions, "Select Report Name", new { @class = "form-control" })
+            <label for="ReportName" class="control-label">Report Name</label>
+        </div>
+
+
             <div class="form-group">
                 <label class="control-label">FromDate</label>
-                <input value=@ViewData["FromDate"] class="form-control" />
+                <input value=@ViewData["FromDate"] class="form-control" type="date" />
             </div>
             <div class="form-group">
                 <label class="control-label">ToDate</label>
-                <input value=@ViewData["ToDate"] class="form-control" />
+            <input value=@ViewData["ToDate"] class="form-control" type="date" />
             </div>
-            <div class="form-group">
-                <label class="control-label">FacilityID</label>
-                <input value=@ViewData["FacilityID"] class="form-control" />
-            </div>
+            <br />
+
+        @{
+            var FacilityModel = (IEnumerable<ClinicAdminModel>)ViewData["facilityid"];
+            var dropdownOption = new List<SelectListItem>();
+
+            foreach (var facilityid in FacilityModel)
+            {
+                dropdownOption.Add(new SelectListItem
+                {
+                    Value = facilityid.FacilityID.ToString(),
+                    Text = $"{facilityid.FacilityID} - {facilityid.ClinicName}"
+                });
+            }
+        }
+
+        <div class="form-floating form-floating-outline mb-4">
+            @Html.DropDownList("facilityid", dropdownOption, "Select Facility Name", new { @class = "form-control" })
+            <label for="FacilityName" class="control-label">Facility Name</label>
+        </div>
+
+
+  
             <div class="form-group">
                 <center>
                     <button type="submit" name="buttonType" value="submit" class="btn btn-primary">GetReport</button>
