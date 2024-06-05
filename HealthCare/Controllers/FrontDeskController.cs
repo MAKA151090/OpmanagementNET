@@ -193,9 +193,12 @@ namespace HealthCare.Controllers
                     LastupdatedDate = DateTime.Now.ToString(),
                     LastupdatedUser = User.Claims.First().Value.ToString(),
                     LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+
                 };
 
                 GetFrontDeskData.SHfdOpCheckingModel.Add(newOpCheckIn);
+
+                ViewBag.Message = "CheckedIn Successfully";
             }
 
             else if (buttonType=="checkOut")
@@ -205,21 +208,30 @@ namespace HealthCare.Controllers
 
                 if (existingOpChecking != null)
                 {
+
                     existingOpChecking.VisitStatus = "CheckedOut";
                     existingOpChecking.LastupdatedDate = DateTime.Now.ToString();
                     existingOpChecking.LastupdatedUser = User.Claims.First().Value.ToString();
                     existingOpChecking.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                     GetFrontDeskData.SHfdOpCheckingModel.Update(existingOpChecking);
+
+                    ViewBag.CancelMessage = "Checked Out Successfully";
                 }
                 
 
-            }  
-                await GetFrontDeskData.SaveChangesAsync();
 
-            
+            }
 
-                ViewBag.Message = "Saved Successfully";
+
+            await GetFrontDeskData.SaveChangesAsync();
+
+            BusinessClassFrontDesk businessFront = new BusinessClassFrontDesk(GetFrontDeskData);
+
+            var data = businessFront.GetOpCheckingModel(model.PatientId);
+            model.Results= data;
+
+                
                 return View("OpChecking", model);
 
 
