@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
@@ -47,7 +48,7 @@ namespace HealthCare.Controllers
                 }).ToList();
                 Model.Viewprescription = viewModelList;
 
-                return View("PatientEPrescription",Model);
+                return View ("PatientEPrescription",Model);
             }
 
 
@@ -57,7 +58,7 @@ namespace HealthCare.Controllers
             {
 
                 existingCat.PatientID = pPres.PatientID;
-                existingCat.EpressID = pPres.EpressID;
+               // existingCat.EpressID = existingCat.EpressID;
                 existingCat.CaseVisitID = pPres.CaseVisitID;
                 existingCat.OrderID=pPres.OrderID;
                 existingCat.DrugID=pPres.DrugID;
@@ -78,6 +79,8 @@ namespace HealthCare.Controllers
                 existingCat.lastupdatedDate = DateTime.Now.ToString();
                 existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingCat.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+               // GetPrescription.SHprsPrescription.Update(existingCat);
+                //GetPrescription.Entry(existingCat).State = EntityState.Modified;
             }
             else
             {
@@ -87,18 +90,18 @@ namespace HealthCare.Controllers
                 GetPrescription.SHprsPrescription.Add(pPres);
 
             }
+
+         
+
             await GetPrescription.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
-
-
-
-            return RedirectToAction("PatientEPrescription");
+            return View("PatientEPrescription");
 
 
         }
 
 
-        public async Task<IActionResult> PatientEPrescriptionview(PrescriptionTableModel Model)
+       /* public async Task<IActionResult> PatientEPrescriptionview(PrescriptionTableModel Model)
         {
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
@@ -109,7 +112,7 @@ namespace HealthCare.Controllers
             var result = prescription.GetPrescription(Model.PatientID,Model.CaseVisitID,Model.OrderID,Model.DrugID);
 
             return View(result);
-        }
+        }*/
 
         public async Task<IActionResult> Edit(string patientId, string orderId, string caseVisitId, string drugId)
         {
@@ -123,11 +126,56 @@ namespace HealthCare.Controllers
             {
                 return NotFound();
             }
+            var prescriptionTableModel = new PrescriptionTableModel
+            {
+                PatientID = prescriptionEdit.PatientID,
+                CaseVisitID = prescriptionEdit.CaseVisitID,
+                OrderID = prescriptionEdit.OrderID,
+                DrugID = prescriptionEdit.DrugID,
+                DoctorID=prescriptionEdit.DoctorID,
+                PrescriptionDate = prescriptionEdit.PrescriptionDate,
+                Unit = prescriptionEdit.Unit,
+                UnitCategory = prescriptionEdit.UnitCategory,
+                Frequency = prescriptionEdit.Frequency,
+                FrequencyUnit = prescriptionEdit.FrequencyUnit,
+                Duration = prescriptionEdit.Duration,
+                Quantity = prescriptionEdit.Quantity,
+                EndDate = prescriptionEdit.EndDate,
+                RouteAdmin = prescriptionEdit.RouteAdmin,
+                Instructions = prescriptionEdit.Instructions,
+                Comments = prescriptionEdit.Comments,
+                FillDate = prescriptionEdit.FillDate,
+                Result = prescriptionEdit.Result,
+                Viewprescription = new List<PrescriptionViewModel>()
 
-            return View("PatientEPrescription",prescription);
+            };
+
+
+            var result = prescription.GetPrescription(prescriptionEdit.PatientID, prescriptionEdit.CaseVisitID, prescriptionEdit.OrderID, prescriptionEdit.DrugID);
+            if (result != null && result.Any())
+            {
+                var viewModelList = result.Select(p => new PrescriptionViewModel
+                {
+                    PatientID = p.PatientID,
+                    CaseVisitID = p.CaseVisitID,
+                    OrderID = p.OrderID,
+                    DrugID = p.DrugID,
+                    DrugName = p.DrugName,
+                    Frequency = p.Frequency,
+                    Duration = p.Duration,
+                    Dosage = p.Dosage,
+                    Unit = p.Unit
+                }).ToList();
+                prescriptionTableModel.Viewprescription = viewModelList;
+            }
+
+
+            return View("PatientEPrescription", prescriptionTableModel);
+
+
         }
 
-        public async Task<IActionResult> Delete(int patientId, int orderId, int caseVisitId, int drugId)
+        public async Task<IActionResult> Delete(string patientId, string orderId, string caseVisitId, string drugId)
         {
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
             ViewData["patientid"] = prescription.GetPatientId();
@@ -137,10 +185,11 @@ namespace HealthCare.Controllers
             var prescriptionDel = await GetPrescription.SHprsPrescription.FindAsync(patientId, orderId, caseVisitId, drugId);
             if (prescriptionDel != null)
             {
-               // prescription.IsDeleted = true; // Assuming there is an IsDeleted field
+                prescriptionDel.IsDelete = true;
                 await GetPrescription.SaveChangesAsync();
             }
-            return RedirectToAction("PatientEPrescription");
+            ViewBag.Delete = "Deleted  Successfully.";
+            return View("PatientEPrescription");
         }
 
 

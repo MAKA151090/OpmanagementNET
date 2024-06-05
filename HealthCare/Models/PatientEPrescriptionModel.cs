@@ -1,5 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HealthCare.Models
 {
@@ -31,6 +32,7 @@ namespace HealthCare.Models
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
 
+        [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long EpressID { get => epressID; set => epressID = value; }
         public string PatientID { get => patientID; set => patientID = value; }

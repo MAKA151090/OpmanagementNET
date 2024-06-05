@@ -51,7 +51,7 @@ namespace HealthCare.Business
         {
             var result = (from p in _healthcareContext.SHprsPrescription
                           join d in _healthcareContext.SHstkDrugInventory on p.DrugID equals d.DrugId
-                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.OrderID==orderID&&p.DrugID==drugID
+                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.OrderID==orderID&&p.IsDelete == false
                           select new PrescriptionTableModel
                           {
                               PatientID = p.PatientID,
