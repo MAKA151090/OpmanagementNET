@@ -1,4 +1,4 @@
-﻿@model List< OpCheckingViewModel>
+﻿@model OpCheckingViewModel
 
 @{
     ViewData["Title"] = "OpChecking";
@@ -29,7 +29,7 @@
                             <div class="card-body">
 
                             <div class="form-floating form-floating-outline mb-4">
-                                <input type="text" id="PatientID" name="PatientID" value="@Model.FirstOrDefault().PatientId" class="form-control" placeholder="Patient ID" />
+                                <input type="text" id="PatientID" name="PatientID" @* value="@Model.FirstOrDefault().PatientId" *@ class="form-control" placeholder="Patient ID" />
                                 <label for="PatientID" class="control-label">PatientID</label>                                                      
 
                             </div>
@@ -94,9 +94,9 @@
             <tbody>
 
 
-               @*  @if (Model != null)
+                @if (Model != null)
                 {
-                    @foreach (var item in Model.Results)
+                                    @foreach (var item in Model.Results)
                     {
                         <tr>
                             <td>@item.PatientName</td>
@@ -106,11 +106,12 @@
 
                         </tr>
                     }
-                } *@
+                }
             </tbody>
         </table>
+
         @if (Model != null)
-        {
+                {
             <div class="form-group">
                                 <button type="submit" name="buttonType" value="checkIn" class="btn btn-primary">checkIn</button>
             </div>
@@ -119,7 +120,7 @@
                                 <button type="submit" name="buttonType" value="checkOut" class="btn btn-primary">checkOut</button>
                             </div>
 
-        }
+                }
 
 
     
