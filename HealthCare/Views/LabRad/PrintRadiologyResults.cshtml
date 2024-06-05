@@ -83,7 +83,8 @@
     
 }
 <br />
-
+  @if (Model != null)
+        {
 <table class="table">
     <thead>
         <tr>
@@ -131,6 +132,7 @@
         
     </tbody>
 </table>
+}
     @if (Model != null)
     {
         <div class="form-group">
