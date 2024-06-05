@@ -26,7 +26,7 @@ namespace HealthCare.Models
         private String comments;
         private String fillDate;
         private String result;
-        private string isDelete;
+        private bool isDelete;
         private String strlastupdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
@@ -54,6 +54,8 @@ namespace HealthCare.Models
         public string? lastupdatedDate { get => strlastupdatedDate; set => strlastupdatedDate = value; }
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
-        public string? IsDelete { get => isDelete; set => isDelete = value; }
+        
+       
+        public bool IsDelete { get => isDelete; set => isDelete = value; }
     }
 }
