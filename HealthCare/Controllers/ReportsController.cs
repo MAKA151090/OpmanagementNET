@@ -22,7 +22,7 @@ namespace HealthCare.Controllers
         }
         [HttpPost]
         public IActionResult GetReports(String inputValue)
-        {
+                                                                                                                                                                                                                                                                                                              {
             BusinessClassReports business = new BusinessClassReports(_healthcareContext);
             ViewData["reportid"] = business.GetReportId();
             ViewData["facilityid"] = business.GetFacilityId();
