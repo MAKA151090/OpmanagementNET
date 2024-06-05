@@ -23,17 +23,19 @@ namespace HealthCare.Business
         public List<OpCheckingModelResult> GetOpCheckingModel(string PatienId)
         {
             var OpCheckingData = (
-                          from op in _healthcareContext.SHfdOpCheckingModel
-                          join ds in _healthcareContext.SHclnResourceSchedule on op.PatientId equals ds.PatientID
+                         // from op in _healthcareContext.SHfdOpCheckingModel
+                          from  ds in _healthcareContext.SHclnResourceSchedule 
                           join dr in _healthcareContext.SHclnStaffAdminModel on ds.StaffID equals dr.StrStaffID
-                          join pr in _healthcareContext.SHPatientRegistration on op.PatientId equals pr.PatientID
-                          where op.PatientId == PatienId
+                          join pr in _healthcareContext.SHPatientRegistration on ds.PatientID equals pr.PatientID
+                          where ds.PatientID == PatienId
                           select new OpCheckingModelResult
                           {   
                               PatientName = pr.FullName,
                               DoctorName = dr.StrFullName,
                               AppoinmentDate = ds.Date,
-                              AppoinmentTime = ds.StartTime
+                              AppoinmentTime = ds.StartTime,
+                              
+                              
                           }).ToListAsync().Result;
 
             return OpCheckingData;
