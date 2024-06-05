@@ -66,9 +66,10 @@
          </div>
          <div>
         </div>
-    
 
 
+        @if (Model != null)
+        {
     <table class="table">
         <thead>
             <tr>
@@ -115,7 +116,7 @@
             }
         </tbody>
     </table>
-
+    }
     @if (Model != null)
     {
         @if (Model.OtviewModel.Count != 0)

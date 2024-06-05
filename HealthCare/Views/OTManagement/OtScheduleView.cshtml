@@ -73,11 +73,13 @@
 
             <div class="card">
                 <div class="card-body">
-
-                    
-                      
+                    @if (Model != null)
+                                {
+                
 
                         <table class="table">
+                         
+
                             <thead>
                                 <tr>
                                     <th>
@@ -108,11 +110,11 @@
                                   
                                 </tr>
                             </thead>
+                            
                             <tbody>
 
 
-                                @if (Model != null)
-                                {
+                                
                                     @foreach (var item in Model)
                                     {
                                         <tr>
@@ -127,11 +129,11 @@
 
                                         </tr>
                                     }
-                                } 
+                                
                             </tbody>
                         </table>
     
-
+}
                     
 
 

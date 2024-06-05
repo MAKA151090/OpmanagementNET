@@ -85,9 +85,10 @@
         
 
             <br />
-            
+        @if (Model != null)
+        {
 
-<table class="table">
+            <table class="table">
     <thead>
         <tr>
             <th>
@@ -137,6 +138,7 @@
         }
             </tbody>
             </table>
+            }
     @if (Model != null)
     {
       <div class="form-group">
