@@ -50,55 +50,16 @@
                         </div>
                         <br />
                                 <center>
-                                    <button type="submit" value="Get" class="btn btn-primary">Get</button>
+                            <button type="submit" value="Get" asp-action="OtsummaryView" class="btn btn-primary">Get</button>
                                       </center>
                                
                             </div>
                         
                         </div>
-
-
-            @*  <div class="form-group">
-                <label asp-for="QuestionID" class="control-label"></label>
-                <input asp-for="QuestionID" class="form-control" />
-                <span asp-validation-for="QuestionID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Question" class="control-label"></label>
-                <input asp-for="Question" class="form-control" />
-                <span asp-validation-for="Question" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Answer" class="control-label"></label>
-                <input asp-for="Answer" class="form-control" />
-                <span asp-validation-for="Answer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedDate" class="control-label"></label>
-                <input asp-for="lastUpdatedDate" class="form-control" />
-                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                <input asp-for="lastUpdatedMachine" class="form-control" />
-                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-            </div> *@
+           
            </div>
            </div>
-        </div>
-    </div>
-    <br />
-        <div class="row" style="margin-top:50px">
-        <div class="col-md-12 col-lg-1 ">
-        </div>
-            <div class="col-md-12 col-lg-9">
-                <div class="card">
-                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+          
 
     <table class="table">
         <thead>
@@ -129,13 +90,7 @@
                     }
                 
 
-                @* @foreach (var item in Model.SHotsumm)
-                {
-                    <tr>
-                        <td>@item.Question</td>
-                        <td>@item.Answer</td>
-                    </tr>
-                } *@
+               
             }
         </tbody>
     </table>
@@ -144,8 +99,7 @@
                     <center>
     
     <button type="submit" name="buttonType" value="Save" class="btn btn-primary">Save</button>
-                    <button type="submit"  name="buttonType" value="Print" class="btn btn-success">Print</button>
-                        </center>
+        <button type="submit" name="buttonType" value="Print" class="btn btn-primary">Print</button>
     @if (ViewBag.Message != null)
     {
         <div class="alert alert-success">

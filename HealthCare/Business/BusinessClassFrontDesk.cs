@@ -20,30 +20,43 @@ namespace HealthCare.Business
             this.getSubmit = getSubmit;
         }
 
-        public List<OpCheckingModelResult> GetOpCheckingModel(string PatienId)
+
+
+
+        public List<OpCheckingModelResult> GetOpCheckingModel(string PatienId, string date)
         {
             var OpCheckingData = (
-                           from o in _healthcareContext.SHfdOpCheckingModel
-                          from  ds in _healthcareContext.SHclnResourceSchedule 
+                          from ds in _healthcareContext.SHclnResourceSchedule
                           join dr in _healthcareContext.SHclnStaffAdminModel on ds.StaffID equals dr.StrStaffID
                           join pr in _healthcareContext.SHPatientRegistration on ds.PatientID equals pr.PatientID
-                         
-                          where ds.PatientID == PatienId
+
+                          where ds.PatientID == PatienId && ds.Date == date
                           select new OpCheckingModelResult
-                          {   
+                          {
                               PatientName = pr.FullName,
                               DoctorName = dr.StrFullName,
                               AppoinmentDate = ds.Date,
                               AppoinmentTime = ds.StartTime,
-                              VisitStatus=o.VisitStatus,
-                              
-                              
+                              //VisitStatus=o.VisitStatus,
+
+
                           }).ToListAsync().Result;
 
             return OpCheckingData;
 
         }
 
+        public async Task UpdateOpChecking(String OpChecking, String VisitStatus)
+        {
+            var OpCheking = await _healthcareContext.SHfdOpCheckingModel.FirstOrDefaultAsync(x => VisitStatus == VisitStatus);
+            if (OpCheking != null)
+            {
+                VisitStatus = "CheckedOut";
+            }
+            _healthcareContext.SHfdOpCheckingModel.Update(OpCheking);
+            await _healthcareContext.SaveChangesAsync();
+
+        }
 
 
 
@@ -92,17 +105,7 @@ namespace HealthCare.Business
             return result;
         }
 
-        public async Task UpdateOpChecking(String OpChecking, String VisitStatus)
-        {
-            var OpCheking = await _healthcareContext.SHfdOpCheckingModel.FirstOrDefaultAsync(x => VisitStatus == VisitStatus);
-            if (OpCheking != null)
-            {
-                VisitStatus = "CheckedOut";
-            }
-            _healthcareContext.SHfdOpCheckingModel.Update(OpCheking);
-            await _healthcareContext.SaveChangesAsync();
-
-        }
+    
 
 
             public List<StaffAdminModel> GetStaffid()
