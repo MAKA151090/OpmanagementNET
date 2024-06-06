@@ -5,29 +5,41 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-
-
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-
-        <h2 class="text-primary mb-1">OTNotes</h2>
-
-        <hr />
+<div class="row">
+    <div class="col-md-12 col-lg-1">
     </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">OTNotes</h2>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" style="height:8%">
+</div>
+
 @using (Html.BeginForm("OtNotespatient", "OTManagement", FormMethod.Post))
 {
     
             <form asp-action="OTNotes">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row gy-4">
+            <div class="col-md-12 col-lg-1">
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-            <div class="row gy-4">
 
-                <div class="col-md-12 col-lg-1"></div>
-                <div class="col-md-12 col-lg-4">
-                    <div class="card">
-                        <div class="card-body">
-
-                            <div class="form-floating form-floating-outline mb-4">
+                        <div class="form-floating form-floating-outline mb-4">
                                 @{
                                     var patientID = ((IEnumerable<PatientRegistrationModel>)ViewData["patientID"])
                                     .Select(m => new SelectListItem
@@ -99,13 +111,15 @@
                                    
                     <span asp-validation-for="FinalOtNotes" class="text-danger"></span>
                 </div>
-                            </div>
-                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
 
-                <div class="col-md-12 col-lg-4">
-                    <div class="card">
-                        <div class="card-body">
+
+                <div class="card">
+                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
                             <div class="form-floating form-floating-outline mb-4 input-group input-group-merge speech-to-text">
                                 <textarea asp-for="PreOtAnesthesiaNotes" class="form-control" placeholder="PreOtAnesthesiaNotes" aria-describedby="text-to-speech-addon"></textarea>
                                     <label asp-for="PreOtAnesthesiaNotes" class="control-label"></label>
@@ -168,24 +182,41 @@
                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
             </div> *@
             <br />
-                <div class="form-group"> 
-                    <center>
-                    <button type="submit" value="Create" class="btn btn-primary">Save</button>
-                                @if (ViewBag.Message != null)
-                                {
-                                    <div class="alert alert-success">
-                                        @ViewBag.Message
-                                    </div>
-                                }
-                                </center>
+                
+
+
+
+            
                 </div>
+            </div>
 
-                            </div>
-                             </div>
-                </div>    
-                             </div>
-               
+            <div class="col-md-12 col-lg-1" style="height=10%">
+                <div class="form-floating form-floating-outline mb-4">
+                    </div>
+                </div>
+            <div class="form-group">
+                <center>
 
-            </form>
+            <button type="submit" style="width:180px" value="Create" class="btn btn-primary">Save</button>
+
+            @* <button type="submit" style="width:180px" value="Create" class="btn btn-primary">Save</button>
+            *@         
+            @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-success">
+
+
+                            @ViewBag.Message
+                        </div>
+                    }
+                </center>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
      
 }

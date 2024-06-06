@@ -9,62 +9,70 @@
     <div class="col-md-12 col-lg-2 ">
     </div>
 
-    <div class="col-md-12 col-lg-7 ">
+    <div class="col-md-12 col-lg-9 ">
         <div class="card">
             <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h4 class="centered text-white" style="font-family:'Lucida Bright'">In-PatientDischargeSummary</h4>
+                        <h3 class="centered text-white" style="font-family:'Lucida Bright'">In-PatientDischargeSummary</h3>
 
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="height:8%">                                               
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
-
-                        <form asp-action="InPatientDischargeSummary"></form>
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PatientID" class="form-control" placeholder="Patient ID" />
-                            <label asp-for="PatientID" class="control-label">Patient ID</label>
-
-                            <span asp-validation-for="PatientID" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CaseID" class="form-control" placeholder="Case ID" />
-                            <label asp-for="CaseID" class="control-label">Case ID</label>
-
-                            <span asp-validation-for="CaseID" class="text-danger"></span>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
 
         <div class="row" style="height:8%">
         </div>
-        <div class="form-group">
-            <div class="container">
-                <button type="submit" style="widt:180px" value="Print Summary" class="btn btn-primary">Print Summary</button>
-                @if (ViewBag.Message != null)
-                {
-                    <div class="alert alert-success">
-                        @ViewBag.Message
+        <div class="row" style="height:8%">
+            <div class="col-md-12 col-lg-9">
+
+                <div class="row">
+
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                                <form asp-action="InPatientDischargeSummary"></form>
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <input asp-for="PatientID" class="form-control" placeholder="Patient ID" />
+                                    <label asp-for="PatientID" class="control-label">Patient ID</label>
+
+                                    <span asp-validation-for="PatientID" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <input asp-for="CaseID" class="form-control" placeholder="Case ID" />
+                                    <label asp-for="CaseID" class="control-label">Case ID</label>
+
+                                    <span asp-validation-for="CaseID" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                }
+                </div>
             </div>
+       
+            <div class="col-md-12 col-lg-3">
+                <div class="row" style="margin-top:70px">
+                    <div class="form-group">
+                        <div class="container">
+                            <button type="submit" style="width:180px" value="Print Summary" class="btn btn-primary">Print Summary</button>
+                            @if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-success">
+                                    @ViewBag.Message
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="col-md-12 col-lg-3">
+        </div>
+        <div class="col-md-12 col-lg-1">
         </div>
     </div>
 </div>
