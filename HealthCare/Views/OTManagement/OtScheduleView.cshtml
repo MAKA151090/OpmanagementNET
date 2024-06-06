@@ -6,29 +6,36 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">OtScheduleView</h2>
-            <small class="text-muted float-end"></small>
-
-        </div>
-    </div>
-
 
 
     <form asp-action="GetReport" asp-controller="OTManagement" style="height:100%">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row" style="margin-top:70px">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
 
-        <div class="row gy-4">
-            <div class="col-md-12 col-lg-1">
+        <div class="col-md-12 col-lg-7 ">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">OtScheduleView</h2>
+
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
+            <div class="row" style="height:8%">
+            </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
+            <div class="row">
+
+                <div class="col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                    <div class="form-floating form-floating-outline mb-4">
                             @{
                                 var screenList = ((IEnumerable<ClinicAdminModel>)ViewData["facilityid"])
                                 .Select(m => new SelectListItem
@@ -49,33 +56,37 @@
                             <label for="Date" class="control-label">Date</label>
                         </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <center>
-                                <button type="submit" asp-action="GetReport" value="GetReport" class="btn btn-primary">GetReport</button>
-                            </center>
-                        </div>
+                                           </div>
 
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-7">
-            </div>
 
-        </div>
-        
-  
-    <div class="row gy-4">
-        <div class="form-floating form-floating-outline mb-4">
+            <div class="row" style="height:8%">
+            </div>
+            <div class="form-group">
+                <center>
+                    <button type="submit" asp-action="GetReport" value="GetReport" class="btn btn-primary">GetReport</button>
+
+                </center>
+            </div>
+            <div class="col-md-12 col-lg-3">
+            </div>
         </div>
     </div>
-    <div class="row gy-4">
-        <div class="col-md-12 col-lg-12">
 
-            <div class="card">
-                <div class="card-body">
+            <br />
+
+    <div class="row" style="margin-top:70px">
                     @if (Model != null)
                                 {
-                
+               
+
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-body" style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+
 
                         <table class="table">
                          
@@ -90,7 +101,7 @@
                                     </th>
                                     <th>
                                         scheduleDateTime
-                                    </th>
+                                    </th> 
                                     <th>
                                         duration
                                     </th>
@@ -132,20 +143,20 @@
                                 
                             </tbody>
                         </table>
-    
-}
-                    
+
+                            
+
+                            </div>
+                        </div>
+                    </div>
 
 
-                </div>
-            </div>
-        </div>
+               
+
+            }
+           
     </div>
 
-    <div class="row gy-4">
-        <div class="form-floating form-floating-outline mb-4">
-        </div>
-    </div>
-    </form>
-</div>
- 
+
+</form>
+

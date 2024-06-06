@@ -5,261 +5,290 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div class="card xl-12">
-    <div class="card-body pt-2 mt-1">
-
-        <h2 class="text-primary mb-1">OT Scheduling</h2>
-
-
+<div class="row gy-4">
+    <div class="col-md-12 col-lg-1">
     </div>
+    <div class="col-md-12 col-lg-10">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">OT Scheduling</h2>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row gy-4" style="height:8%">
+</div>
+
+
 @using (Html.BeginForm("OtSchedule", "OTManagement", FormMethod.Post))
 {
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row gy-4">
+        <div class="col-md-12 col-lg-1">
+        </div>
+        <div class="col-md-12 col-lg-3">
+            <div class="card">
 
-        
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row gy-4">
-           
-           
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var patid = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
-                                .Select(m => new SelectListItem
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var patid = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
+                            .Select(m => new SelectListItem
                 {
                     Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.PatientID} - {m.FullName}"
                 });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.PatientID, patid, "Select Patient ID", new { @class = "form-control", required = "required" })
-                            <label asp-for="PatientID" class="control-label"></label>
-                            <span asp-validation-for="PatientID" class="text-danger"></span>
-                        </div>
+                        @Html.DropDownListFor(model => model.PatientID, patid, "Select Patient ID", new { @class = "form-control", required = "required" })
+                        <label asp-for="PatientID" class="control-label"></label>
+                        <span asp-validation-for="PatientID" class="text-danger"></span>
+                    </div>
 
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var Facid = ((IEnumerable<ClinicAdminModel>)ViewData["facilityid"])
-                                .Select(m => new SelectListItem
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var Facid = ((IEnumerable<ClinicAdminModel>)ViewData["facilityid"])
+                            .Select(m => new SelectListItem
                 {
                     Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.FacilityID} - {m.ClinicName}"
                 });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.FacilityID, Facid, "Select Facility ID", new { @class = "form-control", required = "required" })
-                            <label asp-for="FacilityID" class="control-label"></label>
-                            <span asp-validation-for="FacilityID" class="text-danger"></span>
-                        </div>
-
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CaseVisitID" class="form-control" placeholder="CaseVisit ID" required />
-                            <label asp-for="CaseVisitID" class="control-label">CaseVisit ID</label>
-
-                            <span asp-validation-for="PatientID" class="text-danger"></span>
-                        </div>
+                        @Html.DropDownListFor(model => model.FacilityID, Facid, "Select Facility ID", new { @class = "form-control", required = "required" })
+                        <label asp-for="FacilityID" class="control-label"></label>
+                        <span asp-validation-for="FacilityID" class="text-danger"></span>
+                    </div>
 
 
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="CaseVisitID" class="form-control" placeholder="CaseVisit ID" required />
+                        <label asp-for="CaseVisitID" class="control-label">CaseVisit ID</label>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="OtScheduleID" class="form-control" placeholder="OT Schedule ID" required />
-                            <label asp-for="OtScheduleID" class="control-label">OT Schedule ID</label>
+                        <span asp-validation-for="PatientID" class="text-danger"></span>
+                    </div>
 
-                <span asp-validation-for="OtScheduleID" class="text-danger"></span>
-            </div>
-            
-            <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="OperationType" class="form-control" placeholder="Operation Type" />
-                            <label asp-for="OperationType" class="control-label">Operation Type</label>
-               
-                <span asp-validation-for="OperationType" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Priority" class="form-control" placeholder="Priority" />
-                            <label asp-for="Priority" class="control-label">Priority</label>
-               
-                <span asp-validation-for="Priority" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var Depid = ((IEnumerable<InternalDepartmentMasterModel>)ViewData["Depid"])
-                                .Select(m => new SelectListItem
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="OtScheduleID" class="form-control" placeholder="OT Schedule ID" required />
+                        <label asp-for="OtScheduleID" class="control-label">OT Schedule ID</label>
+
+                        <span asp-validation-for="OtScheduleID" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="OperationType" class="form-control" placeholder="Operation Type" />
+                        <label asp-for="OperationType" class="control-label">Operation Type</label>
+
+                        <span asp-validation-for="OperationType" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Priority" class="form-control" placeholder="Priority" />
+                        <label asp-for="Priority" class="control-label">Priority</label>
+
+                        <span asp-validation-for="Priority" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var Depid = ((IEnumerable<InternalDepartmentMasterModel>)ViewData["Depid"])
+                            .Select(m => new SelectListItem
                 {
                     Value = m.DepartmentID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.DepartmentID} - {m.DepartmentName}"
                 });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.InchrgDepID, Depid, "Select Incharge Department ID", new { @class = "form-control"})
-                            <label asp-for="InchrgDepID" class="control-label">Incharge Department ID</label>
-                            <span asp-validation-for="InchrgDepID" class="text-danger"></span>
-                        </div>
+                        @Html.DropDownListFor(model => model.InchrgDepID, Depid, "Select Incharge Department ID", new { @class = "form-control" })
+                        <label asp-for="InchrgDepID" class="control-label">Incharge Department ID</label>
+                        <span asp-validation-for="InchrgDepID" class="text-danger"></span>
+                    </div>
+              
 
+                </div>
             </div>
-            </div>
-            </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
+        </div>
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var tableid = ((IEnumerable<OtTableMasterModel>)ViewData["tableid"])
-                                .Select(m => new SelectListItem
+       
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var tableid = ((IEnumerable<OtTableMasterModel>)ViewData["tableid"])
+                            .Select(m => new SelectListItem
                 {
                     Value = m.TableID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.TableID} - {m.TableName}"
                 });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.TableID, tableid, "Select Table ID", new { @class = "form-control"})
-                            <label asp-for="TableID" class="control-label"></label>
-                            <span asp-validation-for="TableID" class="text-danger"></span>
-                        </div>
+                        @Html.DropDownListFor(model => model.TableID, tableid, "Select Table ID", new { @class = "form-control" })
+                        <label asp-for="TableID" class="control-label"></label>
+                        <span asp-validation-for="TableID" class="text-danger"></span>
+                    </div>
+                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                        <textarea asp-for="AdditionalNotes" class="form-control" placeholder="AdditionalNotes" aria-describedby="text-to-speech-addon"></textarea>
+                        <label asp-for="AdditionalNotes" class="control-label"></label>
+                        <span class="input-group-text" id="text-to-speech-addon">
+                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                        </span>
 
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="AdditionalNotes" class="form-control" placeholder="AdditionalNotes" aria-describedby="text-to-speech-addon"></textarea>
-                <label asp-for="AdditionalNotes" class="control-label"></label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-
-                <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
-            </div>
+                        <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+                    </div>
 
 
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="Comments" class="form-control" placeholder="Comments" aria-describedby="text-to-speech-addon"></textarea>
-                <label asp-for="Comments" class="control-label"></label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-                <span asp-validation-for="Comments" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StartDate" class="form-control" type="date" placeholder="Start Date" required />
-                            <label asp-for="StartDate" class="control-label">Start Date</label>
-               
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="StartTime" class="form-control" type="time" placeholder="Start Time" />
-                            <label asp-for="StartTime" class="control-label">Start Time</label>
-               
-                <span asp-validation-for="StartTime" class="text-danger"></span>
-            </div>
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="BookedBy" class="form-control" placeholder="Booked By" />
-                            <label asp-for="BookedBy" class="control-label">Booked By</label>
-               
-                <span asp-validation-for="BookedBy" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Status" class="form-control" placeholder="Status" />
-                <label asp-for="Status" class="control-label"></label>
-                
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            </div>
-            </div>
-            </div>
-           
-
-            <div class="col-md-12 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Duration" class="form-control" placeholder="Duration" />
-                        <label asp-for="Duration" class="control-label"></label>
-                        
-                <label asp-for="Duration" class="control-label"></label>
-               
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
+                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                        <textarea asp-for="Comments" class="form-control" placeholder="Comments" aria-describedby="text-to-speech-addon"></textarea>
+                        <label asp-for="Comments" class="control-label"></label>
+                        <span class="input-group-text" id="text-to-speech-addon">
+                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                        </span>
+                        <span asp-validation-for="Comments" class="text-danger"></span>
+                    </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="TeamID" class="form-control" placeholder="Team ID"  />
-                            <label asp-for="TeamID" class="control-label">Team ID</label>
-               
-                <span asp-validation-for="TeamID" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="StartDate" class="form-control" type="date" placeholder="Start Date" required />
+                        <label asp-for="StartDate" class="control-label">Start Date</label>
 
-                            <input asp-for="TeamName" class="form-control" placeholder="Team Name"/>
-                            <label asp-for="TeamName" class="control-label">Team Name</label>
-                <span asp-validation-for="TeamName" class="text-danger"></span>
-            </div>
-           
-           @*  <div class="form-group">
-                <label asp-for="lastupdatedDate" class="control-label"></label>
-                <input asp-for="lastupdatedDate" class="form-control" />
-                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                <input asp-for="lastUpdatedMachine" class="form-control" />
-                @* <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span> 
-            @* </div> *@
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Confirm" class="form-control" placeholder="Confirm" />
-                <label asp-for="Confirm" class="control-label"></label>
-               
-                <span asp-validation-for="Confirm" class="text-danger"></span>
-            </div>
+                        <input asp-for="StartTime" class="form-control" type="time" placeholder="Start Time" />
+                        <label asp-for="StartTime" class="control-label">Start Time</label>
+
+                        <span asp-validation-for="StartTime" class="text-danger"></span>
+                    </div>
+
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="ConfirmDate" class="form-control" type="date" placeholder="Confirm Date" />
-                            <label asp-for="ConfirmDate" class="control-label">Confirm Date</label>
-                
-                <span asp-validation-for="ConfirmDate" class="text-danger"></span>
-            </div>
+                        <input asp-for="BookedBy" class="form-control" placeholder="Booked By" />
+                        <label asp-for="BookedBy" class="control-label">Booked By</label>
+
+                        <span asp-validation-for="BookedBy" class="text-danger"></span>
+                    </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="ConfirmBy" class="form-control" placeholder="Confirm By" />
-                            <label asp-for="ConfirmBy" class="control-label">Confirm By</label>
-                
-                <span asp-validation-for="ConfirmBy" class="text-danger"></span>
-          
-            </div>
+                        <input asp-for="Status" class="form-control" placeholder="Status" />
+                        <label asp-for="Status" class="control-label"></label>
+
+                        <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
                 </div>
             </div>
+            <br />
+          @*   <div class="form-group">
+                <center>
+            <button type="submit" value="Create" class="btn btn-primary">Save</button>
+
+
+            <button type="submit" value="Add/Remove Surgery" class="btn btn-primary">Add/Remove Surgery</button>
+            </center>
+            </div>
+ *@
 
         </div>
-        <br />
-            <div class="form-group">
-                <center>
-                <button type="submit" value="Create" class="btn btn-primary" >Save</button>
 
-              
-                                <button type="submit" value="Add/Remove Surgery" class="btn btn-primary">Add/Remove Surgery</button>
-                               
-                                <button type="submit" value="Add/remove Team" class="btn btn-primary">Add/remove Team</button>
-                                
-                         
-                        @if (ViewBag.Message != null)
-                        {
-                        <div class="alert alert-success">
-                                @ViewBag.Message
-                        </div>
-                        }
-            </center>
-                                </div>
-                            
-   
-        
-          
-        
-   
+
+
+        <div class="col-md-12 col-lg-3">
+            <div class="card">
+
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Duration" class="form-control" placeholder="Duration" />
+                        <label asp-for="Duration" class="control-label"></label>
+
+                        <label asp-for="Duration" class="control-label"></label>
+
+                        <span asp-validation-for="Duration" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="TeamID" class="form-control" placeholder="Team ID" />
+                        <label asp-for="TeamID" class="control-label">Team ID</label>
+
+                        <span asp-validation-for="TeamID" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="TeamName" class="form-control" placeholder="Team Name" />
+                        <label asp-for="TeamName" class="control-label">Team Name</label>
+                        <span asp-validation-for="TeamName" class="text-danger"></span>
+                    </div>
+
+                    @*  <div class="form-group">
+                <label asp-for="lastupdatedDate" class="control-label"></label>
+                <input asp-for="lastupdatedDate" class="form-control" />
+                <span asp-validation-for="lastupdatedDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                <label asp-for="lastUpdatedUser" class="control-label"></label>
+                <input asp-for="lastUpdatedUser" class="form-control" />
+                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                <label asp-for="lastUpdatedMachine" class="control-label"></label>
+                <input asp-for="lastUpdatedMachine" class="form-control" />
+                @* <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+                @* </div> *@
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Confirm" class="form-control" placeholder="Confirm" />
+                        <label asp-for="Confirm" class="control-label"></label>
+
+                        <span asp-validation-for="Confirm" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="ConfirmDate" class="form-control" type="date" placeholder="Confirm Date" />
+                        <label asp-for="ConfirmDate" class="control-label">Confirm Date</label>
+
+                        <span asp-validation-for="ConfirmDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="ConfirmBy" class="form-control" placeholder="Confirm By" />
+                        <label asp-for="ConfirmBy" class="control-label">Confirm By</label>
+
+                        <span asp-validation-for="ConfirmBy" class="text-danger"></span>
+
+                    </div>
+                </div>
+            </div>
+     
+
+       
+    
+    <br />
+    <div class="form-group">
+        <center>
+            <button type="submit" value="Create" class="btn btn-primary">Save</button>
+
+
+          @*   <button type="submit" value="Add/Remove Surgery" class="btn btn-primary">Add/Remove Surgery</button>
+
+            <button type="submit" value="Add/remove Team" class="btn btn-primary">Add/remove Team</button>
+ *@
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
+        </center>
+    </div>
+        </div>
+    </div>
+
+ 
+
+
 
 }
 
