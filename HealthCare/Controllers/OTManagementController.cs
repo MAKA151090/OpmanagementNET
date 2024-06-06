@@ -170,8 +170,8 @@ namespace HealthCare.Controllers
                         objadd.Answer = summary.Answer;
                         objadd.lastUpdatedDate = DateTime.Now.ToString();
                         objadd.OtscheduleID = Model.OtscheduleID;
-                        objadd.lastUpdatedUser = "Kumar";
-                        objadd.lastUpdatedMachine = "Lap";
+                        objadd.lastUpdatedUser = User.Claims.First().Value.ToString(); 
+                        objadd.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                         Getotschedule.SHOTsummary.Update(objadd);
 
                     }
@@ -184,13 +184,13 @@ namespace HealthCare.Controllers
                             Answer = summary.Answer,
                             OtscheduleID = Model.OtscheduleID,
                             lastUpdatedDate = DateTime.Now.ToString(),
-                            lastUpdatedUser = "Kumar",
-                            lastUpdatedMachine = "Lap"
-                        };
+                            lastUpdatedUser = User.Claims.First().Value.ToString(),
+                            lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                    };
                         Getotschedule.SHOTsummary.Add(objadd);
                     }
                 }
-
+                ViewBag.Message = "Saved Successfully.";
                 await Getotschedule.SaveChangesAsync();
             }
             else if (buttonType == "Print")

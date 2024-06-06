@@ -1310,6 +1310,8 @@ namespace HealthCare.Controllers
 
             _healthcareContext.SaveChanges();
 
+            
+
             ViewBag.Message = "Scheduled Holiday Successfully";
 
             return View("ScheduleHoliday");
