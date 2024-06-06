@@ -140,7 +140,7 @@ namespace HealthCare.Controllers
 
                 if (ObjTestResult != null)
                 {
-                    var testResults = ObjTestResult.GetOpCheckingModel(Model.PatientId);
+                    var testResults = ObjTestResult.GetOpCheckingModel(Model.PatientId,Model.CurrentDate);
                     Model.Results = testResults;
                     return View("OpChecking", Model);
                 }
@@ -177,14 +177,26 @@ namespace HealthCare.Controllers
 
 
             [HttpPost]
-            public async Task<IActionResult> OpChecking(OpCheckingViewModel model,string buttonType)
-            {
-                //var existingTest = await GetFrontDeskData.SHcllDoctorScheduleModel.FindAsync(model.PatientId,model.CurrentDate);
 
-                var visitID = GetNextVisitIdForPatient(model.PatientId).ToString();
+
+        public async Task<IActionResult> OpChecking(OpCheckingViewModel model, string buttonType)
+        {
+            //var existingTest = await GetFrontDeskData.SHcllDoctorScheduleModel.FindAsync(model.PatientId,model.CurrentDate);
+
+            var visitID = GetNextVisitIdForPatient(model.PatientId).ToString();
 
             if (buttonType == "checkIn")
             {
+                var existingvalue = await GetFrontDeskData.SHfdOpCheckingModel.FirstOrDefaultAsync(e => e.PatientId==model.PatientId );
+                {
+                    if(existingvalue!=null)
+                    {
+                        ViewBag.ExistingValue = "Patient Already CheckedOut";
+                        return View("OpChecking");
+                    }
+                }
+
+
                 var newOpCheckIn = new OpCheckingModel
                 {
                     PatientId = model.PatientId,
@@ -198,10 +210,12 @@ namespace HealthCare.Controllers
 
                 GetFrontDeskData.SHfdOpCheckingModel.Add(newOpCheckIn);
 
+                await GetFrontDeskData.SaveChangesAsync();
                 ViewBag.Message = "CheckedIn Successfully";
+                return View("OpChecking");
             }
 
-            else if (buttonType=="checkOut")
+            else if (buttonType == "checkOut")
             {
                 var existingOpChecking = await GetFrontDeskData.SHfdOpCheckingModel
             .FirstOrDefaultAsync(x => x.PatientId == model.PatientId && x.VisitId == visitID);
@@ -216,34 +230,30 @@ namespace HealthCare.Controllers
 
                     GetFrontDeskData.SHfdOpCheckingModel.Update(existingOpChecking);
 
-                    ViewBag.CancelMessage = "Checked Out Successfully";
                 }
-                
 
+                await GetFrontDeskData.SaveChangesAsync();
+                ViewBag.CancelMessage = "Checked Out Successfully";
+                return View("OpChecking");
 
             }
 
-
-            await GetFrontDeskData.SaveChangesAsync();
 
             BusinessClassFrontDesk businessFront = new BusinessClassFrontDesk(GetFrontDeskData);
 
-            var data = businessFront.GetOpCheckingModel(model.PatientId);
-            model.Results= data;
+            var data = businessFront.GetOpCheckingModel(model.PatientId, model.CurrentDate);
+            model.Results = data;
 
-                return View("OpChecking", model);
+            return View("OpChecking", model);
 
+            
 
-            }
-
-
-       
-
-
-
-
+                
 
 
         }
+
+
     }
+}
 
