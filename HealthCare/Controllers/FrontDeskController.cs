@@ -231,7 +231,6 @@ namespace HealthCare.Controllers
             var data = businessFront.GetOpCheckingModel(model.PatientId);
             model.Results= data;
 
-                
                 return View("OpChecking", model);
 
 

@@ -23,10 +23,11 @@ namespace HealthCare.Business
         public List<OpCheckingModelResult> GetOpCheckingModel(string PatienId)
         {
             var OpCheckingData = (
-                         // from op in _healthcareContext.SHfdOpCheckingModel
+                           from o in _healthcareContext.SHfdOpCheckingModel
                           from  ds in _healthcareContext.SHclnResourceSchedule 
                           join dr in _healthcareContext.SHclnStaffAdminModel on ds.StaffID equals dr.StrStaffID
                           join pr in _healthcareContext.SHPatientRegistration on ds.PatientID equals pr.PatientID
+                         
                           where ds.PatientID == PatienId
                           select new OpCheckingModelResult
                           {   
@@ -34,6 +35,7 @@ namespace HealthCare.Business
                               DoctorName = dr.StrFullName,
                               AppoinmentDate = ds.Date,
                               AppoinmentTime = ds.StartTime,
+                              VisitStatus=o.VisitStatus,
                               
                               
                           }).ToListAsync().Result;
@@ -41,6 +43,10 @@ namespace HealthCare.Business
             return OpCheckingData;
 
         }
+
+
+
+
 
         public async Task <StaffAttendanceViewModel> GetStaffAttendancebus(string pstaffID)
         {
