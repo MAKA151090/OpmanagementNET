@@ -29,13 +29,13 @@
                             <div class="card-body">
 
                             <div class="form-floating form-floating-outline mb-4">
-                                <input type="text" id="PatientID" name="PatientID" @* value="@Model.FirstOrDefault().PatientId" *@ class="form-control" placeholder="Patient ID" />
+                                <input type="text" id="PatientID" name="PatientID" @* value="@Model.FirstOrDefault().PatientId" *@ class="form-control" placeholder="Patient ID" required />
                                 <label for="PatientID" class="control-label">PatientID</label>                                                      
 
                             </div>
                         
                         <div class="form-floating form-floating-outline mb-4">
-                                <input type="date" id="CurrentDate" name="CurrentDate" class="form-control" placeholder="CurrentDate" />
+                                <input type="date" id="CurrentDate" name="CurrentDate" class="form-control" placeholder="CurrentDate" required />
 
                                 <label for="CurrentDate" class="control-label">CurrentDate</label>
                             </div>
@@ -87,7 +87,9 @@
                     <th>
                         AppoinmentTime
                     </th>
-
+                    <th>
+                        Visit Status
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -103,7 +105,7 @@
                             <td>@item.DoctorName</td>
                             <td>@item.AppoinmentDate</td>
                             <td>@item.AppoinmentTime</td>
-
+                            <td>@item.VisitStatus</td>
                         </tr>
                     }
                 }
@@ -114,13 +116,29 @@
                 {
             <div class="form-group">
                                 <button type="submit" name="buttonType" value="checkIn" class="btn btn-primary">checkIn</button>
-            </div>
-            <br />
-                            <div class="form-group">
-                                <button type="submit" name="buttonType" value="checkOut" class="btn btn-primary">checkOut</button>
-                            </div>
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-success">
 
-                }
+
+                                        @ViewBag.Message
+                                    </div>
+
+                                }
+                                <br />
+                                <button type="submit" name="buttonType" value="checkOut" class="btn btn-primary">checkOut</button>
+                                @if (ViewBag.CancelMessage != null)
+                                {
+                                    <div class="alert alert-success">
+
+
+                                        @ViewBag.CancelMessage
+                                    </div>
+
+                                }
+                            </div>
+                       
+                 }
 
 
     
