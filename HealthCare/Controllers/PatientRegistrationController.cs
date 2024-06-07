@@ -125,32 +125,70 @@ namespace HealthCare.Controllers
             ViewData["FacDPD"] = schedule.GetFacilityID();
             ViewData["patIDDPD"] = schedule.GetpatientIDDPD();
             ViewData["staffDPD"] = schedule.GetStaffDropDown();
+           
 
 
             if (action == "GetSchedule")
             {
                 var availableSchedules = schedule.GetAvailableSchedules(model.StaffID, model.FacilityID, model.Date);
-                ViewBag.Schedules = availableSchedules;
-                return View(model);
+                if (availableSchedules.Any())
+                {
+                    ViewBag.Schedules = availableSchedules;
+                }
+                else
+                {
+                    ViewBag.NoSlotsMessage = "No slots available";
+                }
+                return View("PatientScheduling",model);
+
             }
-            else if (action == "SaveSchedule" && selectedSchedules != null && selectedSchedules.Any())
+
+
+            else if (action == "SaveSchedule")
             {
+                if (selectedSchedules == null || !selectedSchedules.Any())
+                {
+                    ViewBag.ErrorMessage = "No slot is selected! Please select a slot";
+                    var availableSchedules = schedule.GetAvailableSchedules(model.StaffID, model.FacilityID, model.Date);
+                    ViewBag.Schedules = availableSchedules;
+                    return View(model);
+                }
                 schedule.SaveSelectedSchedules(model.PatientID, selectedSchedules);
                 ViewBag.Message = "Slot Confirmed Successfully";
-                return View("PatientScheduling");
+                return View("PatientScheduling",model);
             }
+
+
             else if (action == "GetPatientSchedule")
             {
+
                 var patientslots = schedule.GetPatientSlot(model.PatientID, model.FacilityID, model.Date, model.StaffID);
-                ViewBag.Schedules = patientslots;
-                return View(model);
+                if (patientslots.Any())
+                {
+                    ViewBag.Schedules = patientslots;
+                }
+                else
+                {
+                    ViewBag.NoSlotsMessage = "No slots available";
+                }
+                return View("PatientScheduling",model);
+
+               
             }
 
             else if (action == "CancelSchedule")
             {
+                if (selectedSchedules == null || !selectedSchedules.Any())
+                {
+                    ViewBag.ErrorMessage = "No slot is selected! Please select a slot";
+                    var availableSchedules = schedule.GetAvailableSchedules(model.StaffID, model.FacilityID, model.Date);
+                    ViewBag.Schedules = availableSchedules;
+                    return View(model);
+                }
+
                 schedule.CancelScheduleSlot(model.PatientID, selectedSchedules);
                 ViewBag.Message = "Slot Cancel Successfully";
-                return View("PatientScheduling");
+                return View("PatientScheduling",model);
             }
 
            
