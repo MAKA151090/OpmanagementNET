@@ -16,7 +16,7 @@
     </div>
 
 
-    <form asp-action="Create" asp-controller="PatientRegistration" novalidate>
+    <form asp-controller="PatientRegistration" method="post" novalidate>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="card">
             <div class="card-body">
@@ -50,7 +50,7 @@
                     <div class="col-md-12 col-lg-6">
 
                         <div>
-                            <button type="submit" value="Get" id="GetPatient" asp-action="GetPatient" class="btn btn-primary" data-bs-target="#modalCenter">Get</button>
+                            <button type="submit" value="GetPatient" asp-action="GetPatient" class="btn btn-primary" data-bs-target="#modalCenter">Get</button>
     
                                 Search
                             </button>
