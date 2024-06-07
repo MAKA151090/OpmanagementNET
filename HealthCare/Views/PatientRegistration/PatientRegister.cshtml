@@ -16,7 +16,7 @@
     </div>
 
 
-    <form asp-action="Create" asp-controller="PatientRegistration" novalidate>
+    <form asp-action="Create" asp-controller="PatientRegistration">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="card">
             <div class="card-body">
@@ -24,7 +24,7 @@
 
                     <div class="col-md-12 col-lg-3">
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" required />
+                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" required  />
                             <label asp-for="PatientID" class="control-label"></label>
                             <span asp-validation-for="PatientID" class="text-danger"></span>
                         </div>
@@ -52,8 +52,7 @@
                         <div>
                             <button type="submit" value="Get" id="GetPatient" asp-action="GetPatient" class="btn btn-primary" data-bs-target="#modalCenter">Get</button>
     
-                                Search
-                            </button>
+                            
                             <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
                               <div id="slotsTable">
                                             <h3>Slots</h3>
@@ -311,11 +310,6 @@
                                 <span asp-validation-for="EmgcyCntNum" class="text-danger"></span>
                             </div>
 
-                            <div class="form-floating form-floating-outline mb-4">
-                                <input asp-for="DateTime" class="form-control" type="datetime-local" placeholder="DateTime" />
-                                <label asp-for="DateTime" class="control-label"></label>
-                                <span asp-validation-for="DateTime" class="text-danger"></span>
-                            </div>
                             <div class="row gy-4">
                                 <div class="form-floating form-floating-outline mb-4">
                                 </div>
