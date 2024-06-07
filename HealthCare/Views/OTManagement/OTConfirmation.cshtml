@@ -5,25 +5,40 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
 
-        <h2 class="text-primary mb-1">OTConfirmation</h2>
-
-        <hr />
-    </div>
 @using (Html.BeginForm("GetviewOT","OTManagement",FormMethod.Post))
-{
-    
+{ 
    
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="row gy-4">
 
-            <div class="col-md-12 col-lg-1"></div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
+                 <div class="row" style="margin-top:70px">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+
+        <div class="col-md-12 col-lg-7 ">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                                <h2 class="centered text-white" style="font-family:'Lucida Bright'">OTConfirmation</h2>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="height:8%">
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                
+
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
@@ -41,10 +56,28 @@
                         </div>
 
 
-                            <center>
-                            <button type="submit" value="Get"  class="btn btn-primary">Get</button>
-                            </center>
+
                         </div>
+                    </div>
+                </div>
+
+                <div class="row" style="height:8%">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <center>
+                        <button type="submit" value="Get" class="btn btn-primary">Get</button>
+                      
+                    </center>
+                </div>
+                <div class="col-md-12 col-lg-3">
+                </div>
+            </div>
+        </div>
+        </div>
+        <br />
+
+                           
                @*  <div class="form-group">
                     <label asp-for="lastupdatedDate" class="control-label"></label>
                     <input asp-for="lastupdatedDate" class="form-control" />
@@ -61,15 +94,17 @@
                     <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
                 </div> *@
 
-         </div>
-         </div>
-         </div>
-         <div>
-        </div>
 
 
-        @if (Model != null)
+       
+
+                @if (Model != null)
         {
+             <div class="row" style="margin-top:10px">
+        <div class="card">
+            <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+
     <table class="table">
         <thead>
             <tr>
@@ -116,19 +151,33 @@
             }
         </tbody>
     </table>
+    </div>
+    </div>
+    </div>
     }
+    <br/>
     @if (Model != null)
     {
-        @if (Model.OtviewModel.Count != 0)
-        {
 
+               
+          
+                       
+        @if (Model.OtviewModel.Count != 0)
+                {
+
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                         <div class="row" >
+                            <div class="col-md-12 col-lg-6">
                 <div class="form-floating form-floating-outline mb-4">
                     
                 <input asp-for="ConfirmBy" class="form-control" placeholder="Confirm By" />
                 <label asp-for="ConfirmBy" class="control-label">Confirm By</label>
                 <span asp-validation-for="ConfirmBy" class="text-danger"></span>
             </div>
-
+</div>
+                            <div class="col-md-12 col-lg-6">
 
                 <div class="form-floating form-floating-outline mb-4">
 
@@ -136,10 +185,20 @@
                 <label asp-for="ConfirmDate" class="control-label">Confirm Date</label>
                 <span asp-validation-for="ConfirmDate" class="text-danger"></span>
             </div>
-            
-            <button type="submit" name="buttonType" value="Confirm" class="btn btn-primary">Confirm</button>
-            <button type="submit" name="buttonType" value="cancel" class="btn btn-success">cancel</button>
+            </div>
+            </div>
+              
+                    <div class="row" >
+                        <div class="form-group">
+                            <center>
+                                <button type="submit" name="buttonType" value="Confirm" class="btn btn-primary">Confirm</button>
+                                <button type="submit" name="buttonType" value="cancel" class="btn btn-success">cancel</button>
 
+                            </center>
+                        </div>
+            </div>
+                </div>
+            </div>
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">
@@ -162,5 +221,12 @@
             <input type="submit" name="buttonType" value="Cancel" class="btn btn-primary" />
         </div> *@
         }
+       
+    
+   
+        
     }
+
+
+
 }
