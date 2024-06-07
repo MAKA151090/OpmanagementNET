@@ -5,24 +5,39 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">RadiologyCreation</h2>
-            <small class="text-muted float-end"></small>
 
+<div class="row gy-4">
+    <div class="col-md-12 col-lg-2">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">RadiologyCreation</h2>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="col-md-12 col-lg-2">
+    </div>
+</div>
+<div class="row gy-4" style="height:8%">
+</div>
+
         <form asp-action="RadiologyCreation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row gy-4">
-            <div class="col-md-12 col-lg-1">
-            </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
+    <div class="row gy-4">
+        <div class="col-md-12 col-lg-2">
+        </div>
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
 
-                        <div class="form-floating form-floating-outline mb-4">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                    <div class="form-floating form-floating-outline mb-4">
                             @{
                                 var Radioid = ((IEnumerable<RadiologyMasterModel>)ViewData["radioid"])
                                 .Select(m => new SelectListItem
@@ -100,19 +115,25 @@
                 
                 <span asp-validation-for="ReferralDoctorName" class="text-danger"></span>
             </div>
+                </div>
             </div>
-            </div>
-            </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
+        </div>
+
+
+
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
                        
             <div class="form-group">
                            
                 <label asp-for="ScreeningDate" class="control-label"></label>
                             <input asp-for="ScreeningDate" class="form-control" type="date"  required />
                 <span asp-validation-for="ScreeningDate" class="text-danger"></span>
-            </div><br />
+            </div>
+            <br />
                         <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="Result" class="form-control" placeholder="Result" />
                 <label asp-for="Result" class="control-label"></label>
@@ -146,8 +167,12 @@
                             <input asp-for="ScreeningCompletedDate" class="form-control" type="date"  />
                 <span asp-validation-for="ScreeningCompletedDate" class="text-danger"></span>
             </div>
-            <br />
+          
+                </div>
+            </div>
 
+       <br/>
+  
             <div class="form-group">
                 <center>
                 <button type="submit" value="Create" asp-action="GetPatientRadio" class="btn btn-primary">Save</button>
@@ -162,12 +187,10 @@
                                 }
                 </center>
             </div>
-            </div>
-            </div>
-            </div>
-
-            
-        </form>
+        </div>
+    <div class="col-md-12 col-lg-2">
     </div>
-</div>
 
+    </div>
+</form>
+   

@@ -96,13 +96,11 @@ namespace HealthCare.Controllers
             }
             public IActionResult OpChecking()
             {
-                return View();
+            BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(GetFrontDeskData);
+            ViewData["patid"] = ObjTestResult.GetPatid();
+            return View();
             }
-            public IActionResult IpRegistration()
-            {
-                return View();
-            }
-           
+                    
             public IActionResult StaffAttendance()
             {
             BusinessClassFrontDesk business = new BusinessClassFrontDesk(GetFrontDeskData);
@@ -137,8 +135,9 @@ namespace HealthCare.Controllers
             {
 
                 BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(GetFrontDeskData);
+                ViewData["patid"] = ObjTestResult.GetPatid();
 
-                if (ObjTestResult != null)
+            if (ObjTestResult != null)
                 {
                     var testResults = ObjTestResult.GetOpCheckingModel(Model.PatientId,Model.CurrentDate);
                     Model.Results = testResults;
@@ -192,6 +191,8 @@ namespace HealthCare.Controllers
                     if(existingvalue!=null)
                     {
                         ViewBag.ExistingValue = "Patient Already CheckedOut";
+                        BusinessClassFrontDesk ObjTestResults = new BusinessClassFrontDesk(GetFrontDeskData);
+                        ViewData["patid"] = ObjTestResults.GetPatid();
                         return View("OpChecking");
                     }
                 }
@@ -212,6 +213,8 @@ namespace HealthCare.Controllers
 
                 await GetFrontDeskData.SaveChangesAsync();
                 ViewBag.Message = "CheckedIn Successfully";
+                BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(GetFrontDeskData);
+                ViewData["patid"] = ObjTestResult.GetPatid();
                 return View("OpChecking");
             }
 
@@ -234,6 +237,8 @@ namespace HealthCare.Controllers
 
                 await GetFrontDeskData.SaveChangesAsync();
                 ViewBag.CancelMessage = "Checked Out Successfully";
+                BusinessClassFrontDesk ObjTestResult = new BusinessClassFrontDesk(GetFrontDeskData);
+                ViewData["patid"] = ObjTestResult.GetPatid();
                 return View("OpChecking");
 
             }
