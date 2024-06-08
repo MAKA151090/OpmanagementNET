@@ -58,6 +58,10 @@ namespace HealthCare.Controllers
             return View();
         }
         
+        public IActionResult PatientPayments()
+        {
+            return View();
+        }
     }
 }
 

@@ -16,19 +16,23 @@
     </div>
 
 
-    <form asp-controller="PatientRegistration" method="post" novalidate>
+    <div id="patientFormFields"></div>
+    <form asp-controller="PatientRegistration" method="post" id="patientForm" novalidate>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
         <div class="card">
             <div class="card-body">
                 <div class="row gy-4">
-
-                    <div class="col-md-12 col-lg-3">
+                        
+                        <div class="col-md-12 col-lg-3">
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PatientID" class="form-control" placeholder="PatientID" required  />
+                            <input id="PatientID" asp-for="PatientID" class="form-control" placeholder="PatientID" required />
                             <label asp-for="PatientID" class="control-label"></label>
                             <span asp-validation-for="PatientID" class="text-danger"></span>
                         </div>
                     </div>
+
                     <div class="col-md-12 col-lg-3">
 
                         <div class="form-floating form-floating-outline mb-4">
@@ -47,12 +51,40 @@
                         </div>
 
                     </div>
+
+                    
                     <div class="col-md-12 col-lg-6">
 
                         <div>
-                            <button type="submit" value="GetPatient" asp-action="GetPatient" class="btn btn-primary" data-bs-target="#modalCenter">Get</button>
-    
-                            
+                       
+                            <button type="button" id="getPatientBtn" class="btn btn-primary" asp-action="GetPatient">Get</button>
+                           
+                            <script>
+                                document.getElementById("getPatientBtn").addEventListener("click", async function () {
+                                    var patientID = document.getElementById("PatientID").value;
+                                    var facilityDropdown = document.getElementById("FacilityID");
+                                    var facilityID = facilityDropdown.value;
+
+                                    if (patientID.trim() === "" || facilityID.trim() === "") {
+                                        alert("Please enter PatientID and select FacilityID.");
+                                        return;
+                                    }
+
+                                    var response = await fetch(`/PatientRegistration/GetPatient?patientID=${patientID}&facilityID=${facilityID}`);
+                                    if (response.ok) {
+                                        var formFieldsHtml = await response.text();
+                                        document.getElementById("patientFormFields").innerHTML = formFieldsHtml;
+                                    } else {
+                                        alert("Error: " + response.statusText);
+                                    }
+                                });
+
+                                document.getElementById("GetPatient").addEventListener("click", function (event) {
+                                    event.preventDefault();
+                                });
+                            </script>
+
+
                             <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
                               <div id="slotsTable">
                                             <h3>Slots</h3>
@@ -166,6 +198,7 @@
 
                                 <span asp-validation-for="Age" class="text-danger"></span>
                             </div>
+
 
                             <div class="form-floating form-floating-outline mb-4">
                                 @{
@@ -330,17 +363,13 @@
                     </div>
                 </div>
             </div>
-        
+        </div>
+        </div>
+  
     </form>
 
-        <script>
-            document.getElementById("GetPatient").addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent default form submission
-                // Perform any other actions if needed
-            });
-        </script>
-    
+    </div>
 
-</div>
+    
 
 
