@@ -147,6 +147,7 @@ namespace HealthCare.Business
                where (Inp.BedNoID == BedNoID && Inp.PatientID == patientID && Inp.ObservationID==ObservationID)
                select new InpatientObservationModel
                {
+                   
                    ObservationName = e.ObservationName,
                    Answer = Inp != null ? Inp.Answer : string.Empty,
                    Unit = e.Unit,

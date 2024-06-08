@@ -5,6 +5,31 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        popupOKButton.addEventListener("click", function () {
+            popup.style.display = "none"; // Hide the popup when OK button is clicked
+        });
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: black; padding: 30px; border: 10px solid white; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 20px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+
 <div class="card xl-8">
     <div class="card-body pt-2 mt-1">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -71,12 +96,12 @@
             </div>
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input type="date" class="form-control" id="FromDate" name="FromDate" value="@ViewBag.FromDate" />
+                            <input type="date" class="form-control" id="FromDate" name="FromDate" value="@ViewBag.FromDate" required />
                 <label for="FromDate" class="control-label">From Date</label>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input type="date" class="form-control" id="ToDate" name="ToDate" value="@ViewBag.ToDate" />
+                            <input type="date" class="form-control" id="ToDate" name="ToDate" value="@ViewBag.ToDate" required />
                 <label for="ToDate" class="control-label">To Date</label>
             </div>
         </div>
@@ -86,14 +111,19 @@
         <center>
         <button type="submit" value="Add Slot" name="action" class="btn btn-primary" >Add Slot</button>
         <button type="submit" value="Get Slots" name="action" class="btn btn-primary" >Get Slots</button>
+        <br />
+
+                        <button type="submit" name="buttonType" asp-action="DoctorSchedule" value="Holiday" class="btn btn-primary">Holiday</button>
+                        <button type="submit" name="buttonType" asp-action="DoctorSchedule" value="Blocker" class="btn btn-primary">Blocker</button>
                     </center>
     </div>
 
     </div>
     </div>
-    
 
 
+        @if (ViewBag.Slots != null)
+        {
     <div id="slotsTable">
             <div class="row gy-4">
 
@@ -143,6 +173,7 @@
     <br />
         <button type="submit" value="Delete Selected" name="action" class="btn btn-primary">Delete Selected</button>
         <button type="submit" value="Save" name="action" class="btn btn-primary">Save</button>
+          
 
     <div>
      
@@ -150,52 +181,54 @@
     <br />
    
  }
+ }
 
-
-    <form asp-action="DoctorSchedule" method="post" asp-controller="ClinicAdministration">
-    <div class="form-group">
-        <center>
-          
-        <button type="submit" name="buttonType"  value="Holiday" class="btn btn-primary">Holiday</button>
-        <button type="submit" name="buttonType" value="Blocker" class="btn btn-primary">Blocker</button>
+   
 
                 @if (ViewBag.Message != null)
                 {
-                    <div class="alert alert-success">
-
-
-                        @ViewBag.Message
-                    </div>
+                     <script>
+                handleMessages("@ViewBag.Message");
+            </script>
                 }
 
                 @if (ViewBag.Time != null)
                 {
-                    <div class="alert alert-danger">
-
-
-                        @ViewBag.Time
-                    </div>
+                    <script>
+                        handleMessages("@ViewBag.Time");
+                    </script>
                 }
+                @if (ViewBag.GetSlot != null)
+                {
+                    <script>
+                        handleMessages("@ViewBag.GetSlot");
+                    </script>
+                }
+
+                @if (ViewBag.SelectSlot != null)
+                {
+                    <script>
+                        handleMessages("@ViewBag.SelectSlot");
+                    </script>
+                }
+                @if (ViewBag.Deleteslot != null)
+                {
+                    <script>
+                        handleMessages("@ViewBag.Deleteslot");
+                    </script>
+                }
+
+                @if (ViewBag.DeleteMessage != null)
+                {
+                    <script>
+                        handleMessages("@ViewBag.DeleteMessage");
+                    </script>
+                }
+
+   
+
 
         </center>
 
-    </div>
-    </form>
-    </div>
 
 
-    @*  <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Holiday" /> @Html.DisplayNameFor(model => model.Holiday)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Blocker" /> @Html.DisplayNameFor(model => model.Blocker)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-            </div> *@

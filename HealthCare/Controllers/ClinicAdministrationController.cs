@@ -1058,14 +1058,49 @@ namespace HealthCare.Controllers
             }
             else if (action == "Delete Selected")
             {
+                if (selectedSlots == null)
+                {
+                    ViewBag.Deleteslot = "No slot is Selected!! Please select a slot";
+                    ViewBag.StaffID = StaffID;
+                    ViewBag.FacilityID = FacilityID;
+                    ViewBag.Duration = duration;
+                    ViewBag.FromDate = FromDate;
+                    ViewBag.ToDate = ToDate;
+                    ViewBag.FromTime = fromTime.ToString(@"hh\:mm");
+                    ViewBag.ToTime = toTime.ToString(@"hh\:mm");
+                    var returnslot = await _healthcareContext.SHclnViewResourceSchedule
+                                             .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID && slot.FromDate == FromDate && slot.ToDate == ToDate&& slot.StrIsDelete == false)
+                                             .ToListAsync();
+                    ViewBag.Slots = returnslot;
+
+                    return View("DoctorSchedule");
+                }
                 await DeleteSelectedSlots(StaffID, FacilityID, SlotsIDs);
             }
 
 
             if ( action == "Save")
             {
+                if (selectedSlots == null)
+                {
+                    ViewBag.SelectSlot = "No slot is Selected!! Please select a slot";
+                    ViewBag.StaffID = StaffID;
+                    ViewBag.FacilityID = FacilityID;
+                    ViewBag.Duration = duration;
+                    ViewBag.FromDate = FromDate;
+                    ViewBag.ToDate = ToDate;
+                    ViewBag.FromTime = fromTime.ToString(@"hh\:mm");
+                    ViewBag.ToTime = toTime.ToString(@"hh\:mm");
+                    var returnslot = await _healthcareContext.SHclnViewResourceSchedule
+                                            .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID&&slot.FromDate==FromDate&&slot.ToDate==ToDate&&slot.StrIsDelete == false)
+                                            .ToListAsync();
+                    ViewBag.Slots = returnslot;
 
-                    var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,SlotsIDs);
+                    return View("DoctorSchedule");
+                }
+
+
+                var slot = await _healthcareContext.SHclnViewResourceSchedule.FindAsync(StaffID,FacilityID,SlotsIDs);
                     if (slot != null)
                     { 
                             slot.lastUpdatedUser = User.Claims.First().Value.ToString();
@@ -1083,7 +1118,7 @@ namespace HealthCare.Controllers
                         ViewBag.FromTime = fromTime.ToString(@"hh\:mm");
                         ViewBag.ToTime = toTime.ToString(@"hh\:mm");
                         ViewBag.Slots = await _healthcareContext.SHclnViewResourceSchedule
-                                                                 .Where(s => s.StaffID == StaffID && s.StrIsDelete == false)
+                                                                 .Where(s => s.StaffID == StaffID && s.StrIsDelete == false&&s.FacilityID==FacilityID&&s.FromDate==FromDate&&s.ToDate==ToDate)
                                                                  .ToListAsync();
                         return View("DoctorSchedule");
                     }
@@ -1118,10 +1153,17 @@ namespace HealthCare.Controllers
                     s.Viewslot = DetermineViewslotValue(StaffID,FacilityID,selectedSlots);
                    
                     _healthcareContext.SHclnResourceSchedule.Add(s);
-                    ViewBag.Message = "Booked Slot Successfully";
+                   
                 }
 
                 await _healthcareContext.SaveChangesAsync();
+
+                var returnsaveslot = await _healthcareContext.SHclnViewResourceSchedule
+                                           .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID && slot.FromDate == FromDate && slot.ToDate == ToDate && slot.StrIsDelete == false)
+                                           .ToListAsync();
+                ViewBag.Slots = returnsaveslot;
+
+                ViewBag.Message = "Booked Slot Successfully";
 
                 return View("DoctorSchedule");
 
@@ -1151,7 +1193,7 @@ namespace HealthCare.Controllers
             }
 
             var allSlots = await _healthcareContext.SHclnViewResourceSchedule
-                                         .Where(slot => slot.StaffID == StaffID&&slot.StrIsDelete==false)
+                                         .Where(slot => slot.StaffID == StaffID&&slot.StrIsDelete==false&&slot.FromDate==FromDate&&slot.ToDate==ToDate)
                                          .ToListAsync();
 
             ViewBag.Slots = allSlots;
@@ -1191,18 +1233,32 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> GetSlots(string StaffID, string FacilityID,string Duration,string FromDate, string ToDate)
         {
             var exslots = await _healthcareContext.SHclnViewResourceSchedule
-                                                .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID&&slot.StrIsDelete!=true)
+                                                .Where(slot => slot.StaffID == StaffID && slot.FacilityID == FacilityID&&slot.StrIsDelete!=true&&slot.FromDate==FromDate&&slot.ToDate==ToDate)
                                                 .ToListAsync();
 
-            ViewBag.Slots = exslots;
-            ViewBag.StaffID = StaffID;
-            ViewBag.FacilityID = FacilityID;
-            ViewBag.Duration = Duration; 
-            ViewBag.FromDate = FromDate; 
-            ViewBag.ToDate = ToDate;
+            if (exslots.Any())
+            {
+                ViewBag.Slots = exslots;
+                ViewBag.StaffID = StaffID;
+                ViewBag.FacilityID = FacilityID;
+                ViewBag.Duration = Duration;
+                ViewBag.FromDate = FromDate;
+                ViewBag.ToDate = ToDate;
 
+                return View("DoctorSchedule");
+            }
+            else
+            {
+                ViewBag.GetSlot = "No slots available.";
+                ViewBag.StaffID = StaffID;
+                ViewBag.FacilityID = FacilityID;
+                ViewBag.Duration = Duration;
+                ViewBag.FromDate = FromDate;
+                ViewBag.ToDate = ToDate;
+                return View("DoctorSchedule");
+            }
 
-            return View("DoctorSchedule");
+           // return View("DoctorSchedule");
         }
    //delete slot
         private async Task DeleteSelectedSlots(string staffID, string facilityID, string slotID)
@@ -1230,7 +1286,7 @@ namespace HealthCare.Controllers
 
                 await _healthcareContext.SaveChangesAsync();
             }
-            ViewBag.Message = "Slot Deleted Successfully";
+            ViewBag.DeleteMessage = "Slot Deleted Successfully";
         } 
 
         private List<DoctorScheduleModel> GenerateDoctorSlots(string staffID, string facilityID, string fromDate, string toDate, string duration, string fromTime, string toTime)

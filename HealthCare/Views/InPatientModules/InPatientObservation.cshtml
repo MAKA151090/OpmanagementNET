@@ -35,8 +35,18 @@
                 });
                             }
 
-                            @Html.DropDownListFor(model => model.BedNoID, bedid, "Select Bed ID", new { @class = "form-control", @required = "required" })
-                            <label asp-for="BedNoID" class="control-label"></label>
+                            <input type="text" id="bedDropdownInput" class="form-control" placeholder="Select Bed ID" onkeyup="filterDropdown(event, 'bedDropdownInput', 'bedDropdown')" onclick="showDropdown('bedDropdown')">
+                            <ul id="bedDropdown" class="list-group mt-2" style="display: none; position: absolute; z-index: 1000; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; list-style-type: none; padding: 0;">
+                                @foreach (var item in bedid)
+                                {
+                                    <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('bedDropdownInput', 'bedNoID', '@item.Text', '@item.Value')" style="background-color: white; border: none;">@item.Text</li>
+                                }
+                            </ul>
+                            <input type="hidden" name="BedNoID" id="bedNoID" value="BedNoID" />
+
+
+                          @*   @Html.DropDownListFor(model => model.BedNoID, bedid, "Select Bed ID", new { @class = "form-control", @required = "required" }) *@
+                            <label asp-for="BedNoID" class="control-label"></label> 
                             <span asp-validation-for="BedNoID" class="text-danger"></span>
                         </div>
 
@@ -54,8 +64,18 @@
                 });
                             }
 
-                            @Html.DropDownListFor(model => model.PatientID, PatientID, "Select Patient ID", new { @class = "form-control", @required = "required" })
-                            <label asp-for="PatientID" class="control-label"></label>
+
+                            <input type="text" id="patientDropdownInput" class="form-control" placeholder="Select Patient ID" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')" >
+                            <ul id="patientDropdown"  class="list-group mt-2" style="display: none; position: absolute; z-index: 1000; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; list-style-type: none; padding: 0;">
+                                @foreach (var item in PatientID)
+                                {
+                                    <li class="list-group-item"  data-value="@item.Value" onclick="selectDropdownItem('patientDropdownInput', 'patientID', '@item.Text', '@item.Value')" style="background-color: white; border: none;">@item.Text</li>
+                                }
+                            </ul>
+                            <input type="hidden" name="PatientID" id="patientID" value="PatientID" />
+
+                           @*   @Html.DropDownListFor(model => model.PatientID, PatientID, "Select Patient ID", new { @class = "form-control", @required = "required" }) *@
+                            <label asp-for="PatientID" class="control-label"></label> 
                             <span asp-validation-for="PatientID" class="text-danger"></span>
                         </div>
 
@@ -164,4 +184,53 @@
 
         }
     }
-}
+    }
+    <script>
+
+        var selectedBedNoID = null;
+        var selectedPatientID = null;
+
+        function setSelectedIDs(bedNoID, patientID) {
+            selectedBedNoID = bedNoID;
+            selectedPatientID = patientID;
+        }
+
+        function filterDropdown(event, inputId, dropdownId) {
+            var input = document.getElementById(inputId);
+            var filter = input.value.toUpperCase();
+            var dropdown = document.getElementById(dropdownId);
+            var items = dropdown.getElementsByTagName("li");
+
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove("active");
+                var txtValue = items[i].textContent || items[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+
+            dropdown.style.display = input.value === "" ? "none" : "block";
+        }
+
+        function showDropdown(dropdownId) {
+            document.getElementById(dropdownId).style.display = "block";
+        }
+
+        document.addEventListener("click", function (event) {
+            if (!event.target.matches('.form-control')) {
+                document.getElementById("bedDropdown").style.display = "none";
+                document.getElementById("patientDropdown").style.display = "none";
+            }
+        });
+
+        function selectDropdownItem(inputId, hiddenInputId, text, value) {
+            
+            document.getElementById(inputId).value = text;
+            document.getElementById(hiddenInputId).value = value;
+            document.getElementById(inputId).dispatchEvent(new Event('input')); // Trigger validation
+            document.getElementById("patientDropdown").style.display = "none";
+
+        }
+    </script>
