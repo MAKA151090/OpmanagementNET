@@ -24,6 +24,7 @@ namespace HealthCare.Business
         }
         public async Task<PatientRegistrationModel> GetPatientObjectiveSubmit(string patientID, string FacilityID)
         {
+           
             var patitentRegDataSubmit = await objDbContext.SHPatientRegistration.FirstOrDefaultAsync(x =>
                     x.PatientID == patientID && x.FacilityID == FacilityID);
 

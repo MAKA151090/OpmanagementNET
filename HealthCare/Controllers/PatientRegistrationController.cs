@@ -74,48 +74,24 @@ namespace HealthCare.Controllers
             ViewData["bldgrpid"] = schedule.GetBloodGroup();
             ViewData["Facid"] = schedule.GetFacilityid();
 
-            return View("PatientRegister" , model);
-
-            
+            return View("PatientRegister" , model);           
 
         }
 
-        public async Task<IActionResult> GetPatient()
+
+        public async Task<IActionResult> GetPatient(string patientID, string facilityID)
         {
-            return View();
-        }
 
-        public async Task<IActionResult> PatSearch(PatientRegistrationModel patient)
-        {
-            var patSearchResult = (from pat in _healthcareContext.SHPatientRegistration
-                                   where pat.FullName.Contains(patient.FullName) select pat).ToList();
-
-            ViewData["PatSearch"] = patSearchResult;
-
-
-            return View("PatientRegister", patient);
-        }
-
-        public async Task<ActionResult> HandleReg(string patientID, string FacilityID, string buttonType)
-        {
-            BusinessClassRegistration business = new BusinessClassRegistration (_healthcareContext);
-
-
-            if (buttonType == "submit")
+            BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
+               var patient = await schedule.GetPatientObjectiveSubmit(patientID, facilityID);
+            if (patient != null)
             {
-                var patientReg = await business.GetPatientObjectiveSubmit(patientID, FacilityID);
-
-                if (patientReg != null)
-                {
-                    return View("PatientRegister", patientReg);
-                }
-                else
-                {
-                    ViewBag.ErrorMessage = "No data found for the entered IDs.";
-                    return View("CreateGet");
-                }
+                ViewData["bldgrpid"] = schedule.GetBloodGroup();
+                ViewData["Facid"] = schedule.GetFacilityid();
+                return View("PatientRegister", patient);
             }
-            return View();
+
+            return View("PatientRegister");
         }
 
         [HttpPost]
@@ -172,7 +148,6 @@ namespace HealthCare.Controllers
         {
             BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
             ViewData["bldgrpid"] = schedule.GetBloodGroup();
-
             ViewData["Facid"] = schedule.GetFacilityid();
             return View();
         }
