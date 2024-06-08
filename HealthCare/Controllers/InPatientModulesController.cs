@@ -119,8 +119,9 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetInpatientViewResult(InpatientObservationViewModel Model, string buttonType)
+        public async Task<IActionResult> GetInpatientViewResult(InpatientObservationViewModel Model, string buttonType,string bedNoID,string patientID)
         {
+
             BusinessClassInpatient ObjViewINP = new BusinessClassInpatient(_healthcareContext);
 
             /* if (buttonType == "get")
@@ -144,6 +145,10 @@ namespace HealthCare.Controllers
                         objadd.NurseID = Model.NurseID;
                         objadd.DateTime = Model.DateTime;
                         objadd.lastupdatedDate = DateTime.Now.ToString();
+                        objadd.lastupdatedDate = DateTime.Now.ToString();
+                            objadd.lastUpdatedUser = User.Claims.First().Value.ToString();
+                        objadd.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
                         _healthcareContext.SHipmInpatientobservation.Update(objadd);
                     }
                     else
@@ -162,10 +167,12 @@ namespace HealthCare.Controllers
                             NurseID = Model.NurseID,
                             DateTime = Model.DateTime,
                             lastupdatedDate = DateTime.Now.ToString(),
-                            lastUpdatedUser = "Kumar",
-                            lastUpdatedMachine = "Lap"
-                        };
-                        _healthcareContext.Entry(objadd).State = EntityState.Modified;
+                            lastUpdatedUser = User.Claims.First().Value.ToString(),
+                        lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                    };
+
+                       // _healthcareContext.SHipmInpatientobservation.Add(objadd);
+                         _healthcareContext.Entry(objadd).State = EntityState.Modified;
                     }
                 }
 
@@ -177,6 +184,7 @@ namespace HealthCare.Controllers
             var result = ObjViewINP.GetInpatientViewObs(Model.ObservationID, Model.BedNoID, Model.PatientID, Model.ObservationID, Model.ObservationTypeID);
             var viewModel = new InpatientObservationViewModel
             {
+              
                 Unit = Model.Unit,
                 Answer = Model.Answer,
                 Range = Model.Range,

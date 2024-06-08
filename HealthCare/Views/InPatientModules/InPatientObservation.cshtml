@@ -42,7 +42,7 @@
                                     <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('bedDropdownInput', 'bedNoID', '@item.Text', '@item.Value')" style="background-color: white; border: none;">@item.Text</li>
                                 }
                             </ul>
-                            <input type="hidden" name="BedNoID" id="bedNoID" />
+                            <input type="hidden" name="BedNoID" id="bedNoID" value="BedNoID" />
 
 
                           @*   @Html.DropDownListFor(model => model.BedNoID, bedid, "Select Bed ID", new { @class = "form-control", @required = "required" }) *@
@@ -72,7 +72,7 @@
                                     <li class="list-group-item"  data-value="@item.Value" onclick="selectDropdownItem('patientDropdownInput', 'patientID', '@item.Text', '@item.Value')" style="background-color: white; border: none;">@item.Text</li>
                                 }
                             </ul>
-                            <input type="hidden" name="PatientID" id="patientID" />
+                            <input type="hidden" name="PatientID" id="patientID" value="PatientID" />
 
                            @*   @Html.DropDownListFor(model => model.PatientID, PatientID, "Select Patient ID", new { @class = "form-control", @required = "required" }) *@
                             <label asp-for="PatientID" class="control-label"></label> 
@@ -186,6 +186,15 @@
     }
     }
     <script>
+
+        var selectedBedNoID = null;
+        var selectedPatientID = null;
+
+        function setSelectedIDs(bedNoID, patientID) {
+            selectedBedNoID = bedNoID;
+            selectedPatientID = patientID;
+        }
+
         function filterDropdown(event, inputId, dropdownId) {
             var input = document.getElementById(inputId);
             var filter = input.value.toUpperCase();
