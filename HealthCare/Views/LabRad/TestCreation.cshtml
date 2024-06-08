@@ -7,25 +7,33 @@
 
 
 
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-
-        <h2 class="text-primary mb-1">TestCreation</h2>
-
-<hr />
-</div>
-
 @using (Html.BeginForm("TestCreation", "LabRad", FormMethod.Post))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-     <div class="card">
-            <div class="card-body">
+     <div class="row" style="margin-top:70px">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                                <h2 class="centered text-white" style="font-family:'Lucida Bright'">TestCreation</h2>
 
-    <div class="row" style="height: 80px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="col-md-12 col-lg-3">
+            <div class="row" style="height:8%">
+            </div>
 
+            <div class="row">
+
+                <div class="col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
@@ -41,8 +49,8 @@
                             <label asp-for="TestID" class="control-label"></label>
                             <span asp-validation-for="TestID" class="text-danger"></span>
                         </div>
-        </div>
-            <div class="col-md-12 col-lg-3">
+        
+            <div class="col-md-12 col-lg-12">
                         <div class="form-floating form-floating-outline mb-4">
                             @{
                                 var screenlist = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
@@ -58,7 +66,7 @@
                             <span asp-validation-for="PatientID" class="text-danger"></span>
                         </div>
         </div>
-                    <div class="col-md-12 col-lg-3">
+                    <div class="col-md-12 col-lg-12">
                         <div class="form-floating form-floating-outline mb-4">
                             @{
                                 var Screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
@@ -75,31 +83,41 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12 col-lg-3">
-                        <div>
-                            <!-- Add the button with onclick event -->
-                            <button type="button"  class="btn btn-primary" >Get</button>
                         </div>
                     </div>
 
-                
-
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row" style="height: 50px;">
+            <div class="row" style="height:8%">
             </div>
+           
+            <div class="col-md-12 col-lg-2">
+            </div>
+        </div>
+        <br/>
+    <div class="form-group" style="margin-top:20px">
+        <center>
+
+            <button type="button" class="btn btn-primary">Get</button>
+            @*    <button type="submit" asp-action="GetReport" value="GetReport" class="btn btn-primary">GetReport</button> *@
+
+        </center>
+    </div>
+            <br /> 
+
+                   
 
         <div class="row" style="height: 500px;">
             <div class="col-md-12 col-lg-1">
             </div>
 
-        <div class="col-md-12 col-lg-5">
+                <div class="col-md-12 col-lg-5">
 
                 <div class="card">
-                    <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+                    <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="VisitcaseID1" class="form-control" placeholder="VisitcaseID" required />
                             <label asp-for="VisitcaseID1" class="control-label">VisitCaseID</label>
 
@@ -137,10 +155,12 @@
                     </div>
                 </div>
             </div>
+
+
                 <div class="col-md-12 col-lg-5">
                     <div class="card">
-                    <div class="card-body">
-                            <div class="form-floating form-floating-outline mb-4">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+                    <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="ResultPublish" class="form-control" placeholder="ResultPublish(Yes/No)" />
                             <label asp-for="ResultPublish" class="control-label">ResultPublish(Yes/No)</label>
                          
@@ -175,23 +195,27 @@
                 <span asp-validation-for="ResultDate" class="text-danger"></span>
             </div>
             <br />
-            <div class="form-group">
-                <center>
-                                <button type="submit" value="Create" class="btn btn-primary">Save</button>
-
-                                @if (ViewBag.Message != null)
-                                {
-                                    <div class="alert alert-success">
-                                        @ViewBag.Message
-                                    </div>
-                                }
-                            </center>
-            </div>
+         
                     </div>
                 </div>
             <div class="col-md-12 col-lg-1">
             </div>
+            <div class="form-group" style="margin-top:20px">
+                <center>
+                    <button type="submit" value="Create" class="btn btn-primary">Save</button>
+
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-success">
+                            @ViewBag.Message
+                        </div>
+                    }
+                </center>
             </div>
+
+            </div>
+
+       
             </div>
        
 
@@ -201,5 +225,5 @@
 
 }
 
-</div>
+
 

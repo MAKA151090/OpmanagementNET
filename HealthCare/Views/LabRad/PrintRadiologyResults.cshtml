@@ -4,139 +4,166 @@
     ViewData["Title"] = "PrintRadiologyResults";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">PrintRadiologyResults</h2>
-            <small class="text-muted float-end"></small>
 
-        </div>
-    </div>
 
 @using (Html.BeginForm("GetRadio", "LabRad", FormMethod.Post))
 {
 
-   <div class="row gy-4">
-                <div class="col-md-12 col-lg-1"></div>
-                <div class="col-md-12 col-lg-4">
-                    <div class="card">
-                        <div class="card-body">
+    <div class="row" style="margin-top:70px">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">PrintRadiologyResults</h2>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
-                                .Select(m => new SelectListItem
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="height:8%">
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                            <div class="form-floating form-floating-outline mb-4">
+                                @{
+                                    var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
+                                    .Select(m => new SelectListItem
                 {
                     Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.PatientID} - {m.FullName}"
                 });
-                            }
+                                }
 
-                            @Html.DropDownList( "patientid" , screenList, "Select Patient ID", new { @class = "form-control" })
-                            <label for="PatientID" class="control-label">PatientID</label>
-                            <span for="PatientID" class="text-danger"></span>
-                        </div>
+                                @Html.DropDownList("patientid", screenList, "Select Patient ID", new { @class = "form-control" })
+                                <label for="PatientID" class="control-label">PatientID</label>
+                                <span for="PatientID" class="text-danger"></span>
+                            </div>
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
-                                .Select(m => new SelectListItem
+                            <div class="form-floating form-floating-outline mb-4">
+                                @{
+                                    var screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
+                                    .Select(m => new SelectListItem
                 {
                     Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.FacilityID} - {m.ClinicName}"
                 });
-                            }
+                                }
 
-                            @Html.DropDownList("facilityid", screenlist, "Select Facility ID", new { @class = "form-control" })
-                            <label for="FacilityID" class="control-label">FacilityID</label>
-                            <span for="FacilityID" class="text-danger"></span>
-                        </div>
+                                @Html.DropDownList("facilityid", screenlist, "Select Facility ID", new { @class = "form-control" })
+                                <label for="FacilityID" class="control-label">FacilityID</label>
+                                <span for="FacilityID" class="text-danger"></span>
+                            </div>
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var Screenlist = ((IEnumerable<PatientRadiolodyModel>)ViewData["visitcaseid"])
-                                .Select(m => new SelectListItem
+                            <div class="form-floating form-floating-outline mb-4">
+                                @{
+                                    var Screenlist = ((IEnumerable<PatientRadiolodyModel>)ViewData["visitcaseid"])
+                                    .Select(m => new SelectListItem
                 {
                     Value = m.VisitcaseID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.VisitcaseID}"
                 });
-                            }
+                                }
 
-                            @Html.DropDownList("visitcaseid", Screenlist, "Select Visitcase ID", new { @class = "form-control" })
-                            <label for="CaseVisitID" class="control-label">CaseVisitID</label>
-                            <span for="CaseVisitID" class="text-danger"></span>
+                                @Html.DropDownList("visitcaseid", Screenlist, "Select Visitcase ID", new { @class = "form-control" })
+                                <label for="CaseVisitID" class="control-label">CaseVisitID</label>
+                                <span for="CaseVisitID" class="text-danger"></span>
+                            </div>
+
+                            <br />
+                            <center>
+                                <div class="form-group">
+                                    <button type="submit" value="select" class="btn btn-primary">Submit</button>
+                            </center>
                         </div>
-
-            <br />
-            <center>
-            <div class="form-group">
-                                <button type="submit" value="select" class="btn btn-primary">Submit</button>
-                        </center>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    </div>
-    
-    
-    
-}
-<br />
-  @if (Model != null)
-        {
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Patient Name
-            </th>
-            <th>
-                Radio ID
-            </th>
-            <th>
-                Clinic ID
-            </th>
-            <th>
-                RadioName
-            </th>
-            <th>
-                Screening Date
-            </th>
-            <th>
-                Result
-            </th>
-            <th>
-                Referral Doctor Name
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+        }
 
+
+        <br />
         @if (Model != null)
         {
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.PatentName</td>
-                    <td>@item.RadioID</td>
-                    <td>@item.FacilityID</td>
-                    <td>@item.RadioName</td>
-                    <td>@item.ScreeningDate</td>
-                    <td>@item.Result</td>
-                    <td>@item.ReferralDoctorName</td>
-                </tr>
-            }
-        }
-        
-    </tbody>
-</table>
-}
-    @if (Model != null)
-    {
-        <div class="form-group">
-            <button type="submit" value="Print" class="btn btn-primary">Print</button>
-        </div>
-    }
+               <div class="row" style="margin-top:70px">
+           
+                  
+                        <div class="card">
+                <div class="table-responsive text-nowrap" style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+                   
+                        <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Patient Name
+                        </th>
+                        <th>
+                            Radio ID
+                        </th>
+                        <th>
+                            Clinic ID
+                        </th>
+                        <th>
+                            RadioName
+                        </th>
+                        <th>
+                            Screening Date
+                        </th>
+                        <th>
+                            Result
+                        </th>
+                        <th>
+                            Referral Doctor Name
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
 
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.PatentName</td>
+                                <td>@item.RadioID</td>
+                                <td>@item.FacilityID</td>
+                                <td>@item.RadioName</td>
+                                <td>@item.ScreeningDate</td>
+                                <td>@item.Result</td>
+                                <td>@item.ReferralDoctorName</td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model != null)
+        {
+            <div class="form-group">
+
+                <center>
+                <button type="submit" value="Print" class="btn btn-primary">Print</button>
+
+                    </center>
+            </div>
+        }
+    </div>
+
+}
