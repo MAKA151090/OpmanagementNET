@@ -151,6 +151,10 @@ namespace HealthCare.Context
         public DbSet<ResourceTypeMasterModel> SHclnResourseTypeMaster { get; set; }
 
         public DbSet<WebLogsModel> SHWebLogs { get; set; }
+
+        public DbSet<PatientBillModel> SHPatientBill { get; set; }
+
+        public DbSet<PatientBillDetailsModel> SHPatientBillDetails { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -162,10 +166,13 @@ namespace HealthCare.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ForeignKey for DoctorShcedule
-           // modelBuilder.Entity<DoctorScheduleModel>()
-           //.HasOne(d => d.SlotsID)
-           //.WithMany()
-           //.HasForeignKey(d => d.Viewslot,);
+            // modelBuilder.Entity<DoctorScheduleModel>()
+            //.HasOne(d => d.SlotsID)
+            //.WithMany()
+            //.HasForeignKey(d => d.Viewslot,);
+
+            modelBuilder.Entity<PatientBillModel>().HasKey(i => new { i.BillID, i.CaseVisitID, i.PatientID });
+            modelBuilder.Entity<PatientBillDetailsModel>().HasKey(i => new { i.BillID, i.DetailID });
 
             modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID,i.Viewslot });
 
