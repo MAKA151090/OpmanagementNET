@@ -155,6 +155,12 @@ namespace HealthCare.Context
         public DbSet<PatientBillModel> SHPatientBill { get; set; }
 
         public DbSet<PatientBillDetailsModel> SHPatientBillDetails { get; set; }
+
+        public DbSet<PatientPaymentModel> SHPatientPayment { get; set; }
+
+        public DbSet<PatientPaymentBillDetailsModel> SHPatientPaymentBillDetails { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -173,6 +179,11 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<PatientBillModel>().HasKey(i => new { i.BillID, i.CaseVisitID, i.PatientID });
             modelBuilder.Entity<PatientBillDetailsModel>().HasKey(i => new { i.BillID, i.DetailID });
+
+
+            modelBuilder.Entity<PatientPaymentModel>().HasKey(i => new { i.PaymentID, i.PatientID, i.CaseVisitID });
+
+            modelBuilder.Entity<PatientPaymentBillDetailsModel>().HasKey(i => new { i.PaymentID, i.PaymentDetailID });
 
             modelBuilder.Entity<ResourceScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID,i.Viewslot });
 

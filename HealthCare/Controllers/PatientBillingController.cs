@@ -167,6 +167,38 @@ namespace HealthCare.Controllers
             }
            
             return View("PatientBilling");
+            
+        }
+
+        public async Task<IActionResult> PatientPayment(PatientPaymentModel model)
+        {
+            var existingpayment = await _healthcareContext.SHPatientPayment.FindAsync(model.PaymentID);
+            if (existingpayment != null)
+            {
+               existingpayment.PatientID = model.PaymentID;
+                existingpayment.CaseVisitID = model.CaseVisitID;
+                existingpayment.BillID = model.BillID;
+                existingpayment.PaymentID = model.PaymentID;
+                existingpayment.lastUpdatedDate = DateTime.Now.ToString();
+                existingpayment.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingpayment.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                    _healthcareContext.Entry(existingpayment).State = EntityState.Modified;
+            }
+            else
+            {
+
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.SHPatientPayment.Add(model);
+
+            }
+
+           await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully.";
+            return View(model);
         }
 
 
@@ -176,7 +208,9 @@ namespace HealthCare.Controllers
 
 
 
-public IActionResult Index()
+        
+
+        public IActionResult Index()
         {
             return View();
         }
