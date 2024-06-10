@@ -1,4 +1,5 @@
-﻿using HealthCare.Business;
+﻿using DocumentFormat.OpenXml.InkML;
+using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -45,12 +46,14 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public IActionResult SaveSlots(string PatientID, string CaseVisitID, string BillID, string BillDate, string action, List<PatientBillDetailsModel> billDetails)
+        public async Task< IActionResult> SaveSlots(string PatientID, string CaseVisitID, string BillID, string BillDate, string action, List<PatientBillDetailsModel> billDetails)
         {
             ViewBag.PatientID = PatientID;
             ViewBag.CaseVisitID = CaseVisitID;
             ViewBag.BillID = BillID;
             ViewBag.BillDate = BillDate;
+            BusinessClassPharmacybilling clinicAdmin = new BusinessClassPharmacybilling(_healthcareContext);
+            ViewData["patientid"] = clinicAdmin.GetPatientId();
 
             if (billDetails == null)
             {
@@ -62,6 +65,7 @@ namespace HealthCare.Controllers
                 var newDetail = new PatientBillDetailsModel
                 {
                     PatientID = PatientID,
+
                     BillID = BillID,
                     DateandTime = BillDate,
                     Particulars = string.Empty,
@@ -69,25 +73,50 @@ namespace HealthCare.Controllers
                     Units = string.Empty,
                     Tax = string.Empty,
                     TotalAmount = string.Empty,
-                    IsDelete = string.Empty
+                    IsDelete = false
                 };
 
                 _healthcareContext.SHPatientBillDetails.Add(newDetail);
                 _healthcareContext.SaveChanges();
 
 
-                ViewBag.Slots = _healthcareContext.SHPatientBillDetails.ToList();
+                ViewBag.Slots = _healthcareContext.SHPatientBillDetails.Where(b => b.PatientID == PatientID && b.BillID == BillID).ToList();
             }
 
 
             else if (action == "Get Bill")
             {
-                // Get the bill
-                var getbill = _healthcareContext.SHPatientBillDetails
-                    .Where(b => b.PatientID == PatientID && b.BillID == BillID)
-                    .ToList();
-                ViewBag.Slots = getbill;
+
+                var getbillDetails = await _healthcareContext.SHPatientBillDetails
+                .Where(b => b.PatientID == PatientID && b.BillID == BillID)
+                .ToListAsync();
+
+                if (getbillDetails != null && getbillDetails.Any())
+                {  
+              
+                    ViewBag.Slots = getbillDetails;
+                }
+
+                /* var patientBill = await _healthcareContext.SHPatientBill.FirstOrDefaultAsync(b => b.PatientID == PatientID && b.BillID == BillID && b.CaseVisitID == CaseVisitID);
+
+                 if (patientBill != null)
+                 {
+                     // Assign patient bill properties to ViewBag
+                     ViewBag.PatientID = patientBill.PatientID;
+                     ViewBag.CaseVisitID = patientBill.CaseVisitID;
+                     ViewBag.BillID = patientBill.BillID;
+                     ViewBag.BillDate = patientBill.BillDate;
+
+                     // Retrieve bill details
+                     var getbillDetails =  _healthcareContext.SHPatientBillDetails.Where(bd => bd.PatientID == PatientID && bd.BillID == BillID).ToList();
+
+                     ViewBag.Slots = getbillDetails;
+
+                     return View("PatientBilling", patientBill); 
+                 }*/
+
             }
+
             else if (action == "Delete Bill")
             {
                 // Delete the bill
@@ -116,9 +145,9 @@ namespace HealthCare.Controllers
                 }
                 _healthcareContext.SaveChanges();
 
-            }
-        
-               
+
+
+                string totalAmount = billDetails.FirstOrDefault()?.TotalAmount ?? "0";
 
                 var patientBill = new PatientBillModel
                 {
@@ -126,18 +155,17 @@ namespace HealthCare.Controllers
                     CaseVisitID = CaseVisitID,
                     BillID = BillID,
                     BillDate = BillDate,
+                    TotalBillAmount = totalAmount,
                     lastUpdatedUser = User.Claims.First().Value.ToString(),
                     lastUpdatedDate = DateTime.Now.ToString(),
                     lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
                 };
                 _healthcareContext.SHPatientBill.Add(patientBill);
+
                 _healthcareContext.SaveChanges();
-            
-
-
-            BusinessClassPharmacybilling clinicAdmin = new BusinessClassPharmacybilling(_healthcareContext);
-            ViewData["patientid"] = clinicAdmin.GetPatientId();
-          
+                return View("PatientBilling");
+            }
+           
             return View("PatientBilling");
         }
 
