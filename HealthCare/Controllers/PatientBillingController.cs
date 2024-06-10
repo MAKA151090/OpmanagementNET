@@ -180,7 +180,6 @@ namespace HealthCare.Controllers
 
 
 
-public IActionResult Index()
         
 
         public IActionResult Index()
