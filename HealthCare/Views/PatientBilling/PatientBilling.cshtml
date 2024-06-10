@@ -1,10 +1,133 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<PatientBillingViewModel>
+
 @{
     ViewData["Title"] = "PatientBilling";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<div>this page is for paientblling</div>
+<h1>PatientBilling</h1>
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-primary mb-1">Patient Billing</h2>
+            <small class="text-muted float-end"></small>
+
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-4">
+            @using (Html.BeginForm("SaveSlots", "PatientBilling", FormMethod.Post))
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating form-floating-outline mb-4">
+                    @{
+                        var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
+                        .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                    }
+
+                    @Html.DropDownList("PatientID", screenList, "Select Patient ID", new { @class = "form-control" })
+                    <label for="PatientID" class="control-label">Patient ID</label>
+                   
+                </div>
+                <div class="form-floating form-floating-outline mb-4">
+                    <input type="text" class="form-control" id="CaseVisitID" name="CaseVisitID" value="@ViewBag.CaseVisitID" required />
+                    <label for="CaseVisitID" class="control-label">Case Visit ID</label>
+                </div>
+                <div class="form-floating form-floating-outline mb-4">
+                    <input type="text" class="form-control" id="BillID" name="BillID" value="@ViewBag.BillID" required />
+                    <label for="BillID" class="control-label">Bill ID</label>
+                </div>
+                <div class="form-floating form-floating-outline mb-4">
+                    <input type="date" class="form-control" id="BillDate" name="BillDate" value="@ViewBag.BillDate" required />
+                    <label for="BillDate" class="control-label">Bill Date</label>
+                </div>
+
+               
+                <button type="submit" value="Get Bill" name="action" class="btn btn-primary">Get Bill</button>
+                <button type="submit" value="Add Bill" name="action" class="btn btn-primary">Add Bill</button>
+                <button type="submit" value="Delete Bill" name="action" class="btn btn-primary">Delete Bill</button>
+
+
+                @if (ViewBag.Slots != null)
+                {
+
+                    <div id="slotsTable">
+                        <div class="row gy-4">
+                            <div class="col-md-12 col-lg-1"></div>
+                            <div class="col-md-12 col-lg-2">
+                                <h2 style="color:blueviolet;">Slots</h2>
+                            </div>
+                        </div>
+
+
+                        <table id="SlotTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Patient ID</th>
+                                    <th>Particulars</th>
+                                    <th>Date and Time</th>
+                                    <th>Rate</th>
+                                    <th>Unit</th>
+                                    <th>Tax (If any)</th>
+                                    <th>Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              
+                                    @for (int i = 0; i < ViewBag.Slots.Count; i++)
+                                    {
+                                        var detail = ViewBag.Slots[i];
+                                        <tr>
+                                            <td>
+                                                <input type="radio" name="selectedSlots" value="@detail.DetailID" />
+                                            <input type="hidden" name="billDetails[@i].DetailID" value="@detail.DetailID" />
+                                            </td>
+                                            <td>
+                                            <input type="text" class="form-control" name="billDetails[@i].PatientID" value="@detail.PatientID" />
+                                            </td>
+                                            <td>
+                                            <input type="text" class="form-control" name="billDetails[@i].Particulars" value="@detail.Particulars" />
+                                            </td>
+                                            <td>
+                                            <input type="text" class="form-control" name="billDetails[@i].DateandTime" value="@detail.DateandTime" />
+                                            </td>
+                                            <td>
+                                            <input type="text" class="form-control" name="billDetails[@i].Rate" value="@detail.Rate" />
+                                            </td>
+                                            <td>
+                                            <input type="text" class="form-control" name="billDetails[@i].Units" value="@detail.Units" />
+                                            </td>
+                                            <td>
+                                            <input type="text" class="form-control" name="billDetails[@i].Tax" value="@detail.Tax" />
+                                            </td>
+                                            <td>
+                                            <input type="text" class="form-control" name="billDetails[@i].TotalAmount" value="@detail.TotalAmount" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                            </table>
+
+
+
+
+                            <button type="submit" value="Delete Selected" name="action" class="btn btn-primary">Delete Selected</button>
+                            <button type="submit" value="Save" name="action" class="btn btn-primary">Save</button>
+
+                        
+                    </div>
+                    
+                }
+            }
+
+
+                </div>
+           

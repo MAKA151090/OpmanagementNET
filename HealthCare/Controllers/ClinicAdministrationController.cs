@@ -1147,6 +1147,7 @@ namespace HealthCare.Controllers
                 var slots = GenerateDoctorSlots(StaffID, FacilityID, FromDate, ToDate, duration, fromTime.ToString(@"hh\:mm"), toTime.ToString(@"hh\:mm"));
                 foreach (var s in slots)
                 {
+
                     s.lastUpdatedDate = DateTime.Now.ToString();
                     s.lastUpdatedUser = User.Claims.First().Value.ToString();
                     s.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
