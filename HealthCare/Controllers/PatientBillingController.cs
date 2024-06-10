@@ -46,7 +46,7 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public async Task< IActionResult> SaveSlots(string PatientID, string CaseVisitID, string BillID, string BillDate, string action, List<PatientBillDetailsModel> billDetails)
+        public async Task< IActionResult> SaveSlots(string PatientID, string CaseVisitID, string BillID, string BillDate, string action, List<PatientBillDetailsModel> billDetails, string selectedSlotId)
         {
             ViewBag.PatientID = PatientID;
             ViewBag.CaseVisitID = CaseVisitID;
@@ -78,9 +78,9 @@ namespace HealthCare.Controllers
 
                 _healthcareContext.SHPatientBillDetails.Add(newDetail);
                 _healthcareContext.SaveChanges();
+               
 
-
-                ViewBag.Slots = _healthcareContext.SHPatientBillDetails.Where(b => b.PatientID == PatientID && b.BillID == BillID).ToList();
+                ViewBag.Slots = _healthcareContext.SHPatientBillDetails.Where(b => b.PatientID == PatientID && b.BillID == BillID &&b.IsDelete==false).ToList();
             }
 
 
@@ -88,7 +88,7 @@ namespace HealthCare.Controllers
             {
 
                 var getbillDetails = await _healthcareContext.SHPatientBillDetails
-                .Where(b => b.PatientID == PatientID && b.BillID == BillID)
+                .Where(b => b.PatientID == PatientID && b.BillID == BillID && b.IsDelete == false)
                 .ToListAsync();
 
                 if (getbillDetails != null && getbillDetails.Any())
@@ -96,43 +96,43 @@ namespace HealthCare.Controllers
               
                     ViewBag.Slots = getbillDetails;
                 }
-
-                /* var patientBill = await _healthcareContext.SHPatientBill.FirstOrDefaultAsync(b => b.PatientID == PatientID && b.BillID == BillID && b.CaseVisitID == CaseVisitID);
-
-                 if (patientBill != null)
-                 {
-                     // Assign patient bill properties to ViewBag
-                     ViewBag.PatientID = patientBill.PatientID;
-                     ViewBag.CaseVisitID = patientBill.CaseVisitID;
-                     ViewBag.BillID = patientBill.BillID;
-                     ViewBag.BillDate = patientBill.BillDate;
-
-                     // Retrieve bill details
-                     var getbillDetails =  _healthcareContext.SHPatientBillDetails.Where(bd => bd.PatientID == PatientID && bd.BillID == BillID).ToList();
-
-                     ViewBag.Slots = getbillDetails;
-
-                     return View("PatientBilling", patientBill); 
-                 }*/
+                else
+                {
+                    ViewBag.getbill = "No Bill is available for this ID";
+                }
 
             }
 
             else if (action == "Delete Bill")
             {
-                // Delete the bill
-                var billsToDelete = _healthcareContext.SHPatientBill
-                    .Where(b => b.PatientID == PatientID && b.BillID == BillID)
-                    .ToList();
 
-                if (billsToDelete == null)
+                var detailsToDelete = _healthcareContext.SHPatientBillDetails
+            .Where(b => b.PatientID == PatientID && b.BillID == BillID)
+            .ToList();
+
+                foreach (var detail in detailsToDelete)
                 {
-                    //Model.IsDelete = true;
+                    detail.IsDelete = true;
+                    _healthcareContext.SHPatientBillDetails.Update(detail);
                 }
+              
 
+                var billToDelete = _healthcareContext.SHPatientBill
+              .FirstOrDefault(b => b.PatientID == PatientID && b.BillID == BillID&& b.CaseVisitID==CaseVisitID);
+
+                if (billToDelete != null)
+                {
+                    billToDelete.IsDelete = true;
+                    _healthcareContext.SHPatientBill.Update(billToDelete);
+                   
+                }
+                ViewBag.DelTotal = "Deleted  Bill Successfully";
                 _healthcareContext.SaveChanges();
+
             }
             else if (action == "Save")
             {
+
                 foreach (var detail in billDetails)
                 {
 
@@ -146,24 +146,45 @@ namespace HealthCare.Controllers
                 _healthcareContext.SaveChanges();
 
 
-
-                string totalAmount = billDetails.FirstOrDefault()?.TotalAmount ?? "0";
-
-                var patientBill = new PatientBillModel
+                var expatbill = _healthcareContext.SHPatientBill.FirstOrDefault(b=>b.PatientID==PatientID &&b.CaseVisitID== CaseVisitID &&b.BillID==BillID);
+                if (expatbill == null)
                 {
-                    PatientID = PatientID,
-                    CaseVisitID = CaseVisitID,
-                    BillID = BillID,
-                    BillDate = BillDate,
-                    TotalBillAmount = totalAmount,
-                    lastUpdatedUser = User.Claims.First().Value.ToString(),
-                    lastUpdatedDate = DateTime.Now.ToString(),
-                    lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
-                };
-                _healthcareContext.SHPatientBill.Add(patientBill);
 
-                _healthcareContext.SaveChanges();
-                return View("PatientBilling");
+                    string totalAmount = billDetails.FirstOrDefault()?.TotalAmount ?? "0";
+
+                    var patientBill = new PatientBillModel
+                    {
+                        PatientID = PatientID,
+                        CaseVisitID = CaseVisitID,
+                        BillID = BillID,
+                        BillDate = BillDate,
+                        TotalBillAmount = totalAmount,
+                        lastUpdatedUser = User.Claims.First().Value.ToString(),
+                        lastUpdatedDate = DateTime.Now.ToString(),
+                        lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                    };
+                    _healthcareContext.SHPatientBill.Add(patientBill);
+                    _healthcareContext.SaveChanges();
+                }
+                ViewBag.Message = "Bill Saved Successfully";
+            }
+
+            else if (action == "Delete Selected")
+            {
+                if (!string.IsNullOrEmpty(selectedSlotId))
+                {
+                    var detailToDelete = _healthcareContext.SHPatientBillDetails
+                        .FirstOrDefault(b => b.DetailID == selectedSlotId);
+
+                    if (detailToDelete != null)
+                    {
+                        detailToDelete.IsDelete = true;
+                        _healthcareContext.SHPatientBillDetails.Update(detailToDelete);
+                        
+                    }
+                    _healthcareContext.SaveChanges();
+                }
+                ViewBag.DelSelected = "Delete selected bill Successfully";
             }
            
             return View("PatientBilling");
