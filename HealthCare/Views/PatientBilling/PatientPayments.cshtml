@@ -34,7 +34,7 @@
                 });
                             }
 
-                            @Html.DropDownList("patid", screenList, "Select Patient ID", new { @class = "form-control" })
+                            @Html.DropDownList("patientid", screenList, "Select Patient ID", new { @class = "form-control" })
                             <label for="PatientID" class="control-label">Patient ID</label>
 
                         </div>
@@ -99,30 +99,30 @@
                             var detail = ViewBag.Slots[i];
                             <tr>
                                 <td>
-                                    <input type="radio" name="selectedSlots" value="@detail.PaymentID" />
-                                    <input type="hidden" name="billDetails[@i].PaymentID" value="@detail.PaymentID" />
-                                    <input type="hidden" name="billDetails[@i].PaymentDetailID" value="@ViewBag.PaymentDetailID" />
+                                    <input type="radio" name="selectslots" value="@detail.PaymentDetailID" />
+                                    <input type="hidden" name="billDetailsModels[@i].PaymentDetailID" value="@detail.PaymentDetailID" />
+                                    <input type="hidden" name="billDetailsModels[@i].PaymentID" value="@ViewBag.PaymentID" />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="billDetails[@i].PatientID" value="@detail.PatientID" />
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].PatientID" value="@detail.PatientID" />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="billDetails[@i].Particulars" value="@detail.PaymentDescription" />
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].PaymentDescription" value="@detail.PaymentDescription" />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="billDetails[@i].DateandTime" value="@detail.PaymentDate" />
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].PaymentDate" value="@detail.PaymentDate" />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="billDetails[@i].Rate" value="@detail.AmountPaid" />
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].AmountPaid" value="@detail.AmountPaid" />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="billDetails[@i].Units" value="@detail.PaymentMode" />
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].PaymentMode" value="@detail.PaymentMode" />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="billDetails[@i].Tax" value="@detail.TransactionDetails" />
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].TransactionDetails" value="@detail.TransactionDetails" />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="billDetails[@i].TotalAmount" value="@detail.OtherComments" />
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].OtherComments" value="@detail.OtherComments" />
                                 </td>
                             </tr>
 
@@ -134,13 +134,41 @@
             </div>
             <br />
             <center>
-                <button type="submit" value="Delete Payment" name="action" class="btn btn-primary">Delete Selected</button>
+                <button type="submit" value="Delete Select" name="action" class="btn btn-primary">Delete Selected</button>
                 <button type="submit" value="Save" name="action" class="btn btn-primary">Save</button>
             </center>
 
         }
 
 
+    }
+
+
+
+    @if (ViewBag.delete != null)
+    {
+        <script>
+            handleMessages("@ViewBag.delete");
+        </script>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <script>
+            handleMessages("@ViewBag.Message");
+        </script>
+    }
+    @if (ViewBag.deleteselected != null)
+    {
+        <script>
+            handleMessages("@ViewBag.deleteselected");
+        </script>
+    }
+    @if (ViewBag.getpaybill != null)
+    {
+        <script>
+            handleMessages("@ViewBag.getpaybill");
+        </script>
     }
 
 

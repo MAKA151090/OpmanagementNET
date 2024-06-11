@@ -46,7 +46,7 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Slots(string patientid, string casevisitid, string billid, string paymentid, string billdate, string action, List<PatientPaymentBillDetailsModel> billDetailsModels)
+        public async Task<IActionResult> Slots(string patientid, string casevisitid, string billid, string paymentid, string billdate, string action, List<PatientPaymentBillDetailsModel> billDetailsModels , string selectslots)
         {
             ViewBag.PatientID = patientid;
             ViewBag.Casevisitid = casevisitid;
@@ -54,12 +54,12 @@ namespace HealthCare.Controllers
             ViewBag.Paymentid = paymentid;
             BusinessClassPharmacybilling business = new BusinessClassPharmacybilling(_healthcareContext);
             ViewData["patid"] = business.GetPatid();
-
+/*
 
             if (billDetailsModels != null)
             {
                 billDetailsModels = new List<PatientPaymentBillDetailsModel>();
-            }
+            }*/
 
             if (action == "Add Payment")
             {
@@ -87,7 +87,11 @@ namespace HealthCare.Controllers
                 var getdetails = await _healthcareContext.SHPatientPaymentBillDetails.Where(x => x.PaymentID == paymentid && x.PatientID == patientid).ToListAsync();
                 if (getdetails != null && getdetails.Any())
                 {
-                    ViewBag.slots = getdetails;
+                    ViewBag.Slots = getdetails;
+                }
+                else
+                {
+                    ViewBag.getpaybill = "No Bill is available for this Payment ID";
                 }
             }
             else if (action == "Delete Payment")
@@ -102,7 +106,10 @@ namespace HealthCare.Controllers
                     //Model.IsDelete = true;
                 }
 
+
+                ViewBag.delete = "Deleted  Bill Successfully";
                 _healthcareContext.SaveChanges();
+
             }
 
 
@@ -110,7 +117,7 @@ namespace HealthCare.Controllers
             {
                 foreach (var detail in billDetailsModels)
                 {
-
+                    detail.DateandTime = DateTime.Now.ToString();
                     detail.lastUpdatedDate = DateTime.Now.ToString();
                     detail.lastUpdatedUser = User.Claims.First().Value.ToString();
                     detail.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -119,24 +126,54 @@ namespace HealthCare.Controllers
                     _healthcareContext.SHPatientPaymentBillDetails.Update(detail);
                 }
                 _healthcareContext.SaveChanges();
-
-                string totalAmount = billDetailsModels.FirstOrDefault()?.AmountPaid ?? "0";
-
-                var patientBill = new PatientPaymentModel
+                var paymentbill = _healthcareContext.SHPatientPayment.FirstOrDefault(x => x.PaymentID == paymentid);
+                if (paymentbill == null)
                 {
-                  PatientID = patientid,
-                  CaseVisitID = casevisitid,
-                  BillID = billid,
-                  TotalPaymentAmount = totalAmount,
-                    lastUpdatedUser = User.Claims.First().Value.ToString(),
-                    lastUpdatedDate = DateTime.Now.ToString(),
-                    lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
-                };
 
-                _healthcareContext.SHPatientPayment.Add(patientBill);
+                    string totalAmount = billDetailsModels.FirstOrDefault()?.AmountPaid ?? "0";
+                    string paydate = billDetailsModels.FirstOrDefault()?.PaymentDate ?? "0";
 
-                _healthcareContext.SaveChanges();
+                    var patientBill = new PatientPaymentModel
+                    {
+                        PatientID = patientid,
+                        CaseVisitID = casevisitid,
+                        BillID = billid,
+                        PaymentID  = paymentid,
+                        TotalPaymentAmount = totalAmount,
+                        Date= paydate,
+                        lastUpdatedUser = User.Claims.First().Value.ToString(),
+                        lastUpdatedDate = DateTime.Now.ToString(),
+                        lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                    };
+
+                    _healthcareContext.SHPatientPayment.Add(patientBill);
+
+                    _healthcareContext.SaveChanges();
+
+                }
+
+                ViewBag.Message = "Bill Saved Successfully";
+
                 return View("PatientPayments");
+            }
+
+            else if (action == "Delete Select")
+            {
+                if (!string.IsNullOrEmpty(selectslots))
+                {
+                    var detailToDelete = _healthcareContext.SHPatientPaymentBillDetails
+                        .FirstOrDefault(b => b.PaymentDetailID == selectslots);
+
+                    if (detailToDelete != null)
+                    {
+                        detailToDelete.IdDelte = true;
+                        _healthcareContext.SHPatientPaymentBillDetails.Update(detailToDelete);
+
+                    }
+                    _healthcareContext.SaveChanges();
+                }
+
+                ViewBag.deleteselected = "Delete selected bill Successfully";
             }
 
             return View("PatientPayments");
