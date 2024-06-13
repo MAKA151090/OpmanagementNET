@@ -235,7 +235,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<ClinicSurgeryMasterModel>().HasKey(i => new { i.SurgeryID });
             modelBuilder.Entity<OtTableMasterModel>().HasKey(i => new { i.TableID });
             modelBuilder.Entity<SurgeryTypeMasterModel>().HasKey(i => new { i.SurgeryTypeID });
-            modelBuilder.Entity<InternalDepartmentMasterModel>().HasKey(i => new { i.DepartmentID });
+            modelBuilder.Entity<InternalDepartmentMasterModel>().HasKey(i => new { i.DepartmentID,i.FacilityID });
             modelBuilder.Entity<OtSurgeryModel>().HasKey(i => new { i.OtScheduleID,i.SurgeryID });
 
             modelBuilder.Entity<DoctorScheduleModel>().HasKey(i => new { i.StaffID, i.FacilityID, i.SlotsID,i.Viewslot });

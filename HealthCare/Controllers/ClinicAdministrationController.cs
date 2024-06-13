@@ -408,6 +408,9 @@ namespace HealthCare.Controllers
         }
         public IActionResult InternalDepartmentMaster()
         {
+            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["facilityid"] = business.GetFacilityid();
+
             return View();
         }
         public IActionResult SurgeryTypeMaster()
@@ -673,7 +676,11 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetInternalDepartmentMaster(InternalDepartmentMasterModel model)
         {
-            var existingTest = await _healthcareContext.SHotInternalDepartmentMaster.FindAsync(model.DepartmentID);
+            ClinicAdminBusinessClass business = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["facilityid"] = business.GetFacilityid();
+
+
+            var existingTest = await _healthcareContext.SHotInternalDepartmentMaster.FindAsync(model.DepartmentID,model.FacilityID);
             if (existingTest != null)
             {
                 existingTest.DepartmentID = model.DepartmentID;
