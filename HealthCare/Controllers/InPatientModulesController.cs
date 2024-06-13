@@ -171,8 +171,8 @@ namespace HealthCare.Controllers
                         lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
                     };
 
-                       // _healthcareContext.SHipmInpatientobservation.Add(objadd);
-                         _healthcareContext.Entry(objadd).State = EntityState.Modified;
+                       //_healthcareContext.SHipmInpatientobservation.Add(objadd);
+                        _healthcareContext.Entry(objadd).State = EntityState.Modified;
                     }
                 }
 
