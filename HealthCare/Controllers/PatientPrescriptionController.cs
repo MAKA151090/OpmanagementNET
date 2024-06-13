@@ -53,7 +53,7 @@ namespace HealthCare.Controllers
 
 
 
-            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID,pPres.OrderID,pPres.CaseVisitID,pPres.DrugID);
+            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID,pPres.CaseVisitID, pPres.OrderID, pPres.DrugID);
             if (existingCat != null)
             {
 
@@ -114,18 +114,19 @@ namespace HealthCare.Controllers
             return View(result);
         }*/
 
-        public async Task<IActionResult> Edit(string patientId, string orderId, string caseVisitId, string drugId)
+        public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId)
         {
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid();
             ViewData["docid"] = prescription.Getdocid();
 
-            var prescriptionEdit = await GetPrescription.SHprsPrescription.FindAsync(patientId, orderId, caseVisitId, drugId);
+            var prescriptionEdit = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId);
             if (prescriptionEdit == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = "Not Found";
             }
+
             var prescriptionTableModel = new PrescriptionTableModel
             {
                 PatientID = prescriptionEdit.PatientID,

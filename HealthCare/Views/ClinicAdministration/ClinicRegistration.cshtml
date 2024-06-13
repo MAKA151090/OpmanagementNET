@@ -6,6 +6,8 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+
+<form asp-controller="ClinicAdministration" asp-action="AddStaff">
 <div class="row">
 
     <div class="col-md-12 col-lg-10">
@@ -144,7 +146,7 @@
                     <div class="form-floating form-floating-outline mb-4">
                         <div class="container">
 
-                            <button type="submit" style="centered" class="btn btn-primary" asp-action="AddClinic" value="Create">Save</button>
+                            <button type="submit" style="centered" class="btn btn-primary" asp-action="AddClinic" value="Save">Save</button>
 
                             @*    <button type="submit" style="centered" value="Create" class="btn btn-primary">Save</button>
                             *@
@@ -168,3 +170,4 @@
     </div>
         
 </div>
+</form>
