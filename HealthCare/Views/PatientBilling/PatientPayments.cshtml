@@ -1,120 +1,180 @@
-﻿@model HealthCare.Models.PatientPaymentModel
+﻿@model List<PatientPaymentViewModel>
 
 @{
     ViewData["Title"] = "PatientPayments";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
+<div class="card xl-8">
+    <div class="card-body pt-2 mt-1">
+        <div class="card-header d-flex justify-content-between align-items-center">
 
-<h1>PatientPayments</h1>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="PatientPayments">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
-                <span asp-validation-for="PatientID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CaseVisitID" class="control-label"></label>
-                <input asp-for="CaseVisitID" class="form-control" />
-                <span asp-validation-for="CaseVisitID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BillID" class="control-label"></label>
-                <input asp-for="BillID" class="form-control" />
-                <span asp-validation-for="BillID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PaymentID" class="control-label"></label>
-                <input asp-for="PaymentID" class="form-control" />
-                <span asp-validation-for="PaymentID" class="text-danger"></span>
-            </div>
-          @*   <div class="form-group">
-                <label asp-for="TotalPaymentAmount" class="control-label"></label>
-                <input asp-for="TotalPaymentAmount" class="form-control" />
-                <span asp-validation-for="TotalPaymentAmount" class="text-danger"></span>
-            </div> *@
-           @*  <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDelete" /> @Html.DisplayNameFor(model => model.IsDelete)
-                </label>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-           @*  <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedDate" class="control-label"></label>
-                <input asp-for="lastUpdatedDate" class="form-control" />
-                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                <input asp-for="lastUpdatedMachine" class="form-control" />
-                <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <button type="submit" value="Create" class="btn btn-primary" >Get</button>
+            <h1>Patient Payments</h1>
+            <small class="text-muted float-end"></small>
 
-               
-                    <button class="btn btn-primary">Add Payment Row</button>
-                    <button class ="btn btn-primary">Delete Payment</button>
-
-                    <div class="table-responsive" height="100%" width="100%"> 
-
-                        <table class="table table-bordered">
-
-                            <thead>
-                            <th>
-                                PatientID                                
-                            </th>
-                            <th>
-                                Payment Description
-                                </th>
-                            <th>
-                                PaymentDate                                
-                            </th>
-                            <th>
-                                Amount Paid
-                            </th>
-                            <th>
-                                Payment Mode                                
-                            </th>
-                            <th>
-                                Transaction details                                
-                            </th>
-                            <th>
-                                Other Comments                              
-                                </th>
-                            <th>
-                                Select
-                            </th>
-                            </thead>
-                            <tbody>
-                                <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            </tbody>
-                            </table>                                              
-                        </div>
-                    <button class="btn btn-primary">Delete</button>
-                    <button class="btn btn-primary">Save</button>
-                
-
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
+    @using (Html.BeginForm("Slots", "PatientBilling", FormMethod.Post))
+    {
+
+        <div class="row" style="justify-content:center;">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-floating form-floating-outline mb-4">
+                            @{
+                                var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
+                                .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.PatientID} - {m.FullName}"
+                });
+                            }
+
+                            @Html.DropDownList("patientid", screenList, "Select Patient ID", new { @class = "form-control" })
+                            <label for="PatientID" class="control-label">Patient ID</label>
+
+                        </div>
+
+                        
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="text" class="form-control" id="Casevisitid" name="Casevisitid" value="@ViewBag.Casevisitid" required />
+                            <label for="CaseVisitID" class="control-label">Case Visit ID</label>
+                        </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="text" class="form-control" id="BillID" name="BillID" value="@ViewBag.Billid" required />
+                            <label for="BillID" class="control-label">Bill ID</label>
+                        </div>
+                        <div class="form-floating form-floating-outline mb-4">
+                            <input type="text" class="form-control" id="PaymentID" name="PaymentID" value="@ViewBag.Paymentid" required />
+                            <label for="PaymentID" class="control-label">Payment ID</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <Center>
+
+            <button type="submit" value="Get" name="action" class="btn btn-primary">Get</button>
+            <button type="submit" value="Add Payment" name="action" class="btn btn-primary">Add Payment Row</button>
+            <button type="submit" value="Delete Payment" name="action" class="btn btn-primary">Delete Payment Row</button>
+
+        </Center>
+
+
+        @if (ViewBag.Slots != null)
+        {
+
+            <div id="slotsTable">
+                <div class="row gy-4">
+                    <div class="col-md-12 col-lg-1"></div>
+                    <div class="col-md-12 col-lg-2">
+                        <h2 style="color:blueviolet;">Slots</h2>
+                    </div>
+                </div>
+
+                <table id="SlotTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Patient ID </th>
+                            <th>Payment Description</th>
+                            <th>Payment Date</th>
+                            <th>Amount Paid</th>
+                            <th>Payment Mode</th>
+                            <th>Transaction Details</th>
+                            <th>Other Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (int i = 0; i < ViewBag.Slots.Count; i++)
+                        {
+                            var detail = ViewBag.Slots[i];
+                            <tr>
+                                <td>
+                                    <input type="radio" name="selectslots" value="@detail.PaymentDetailID" />
+                                    <input type="hidden" name="billDetailsModels[@i].PaymentDetailID" value="@detail.PaymentDetailID" />
+                                    <input type="hidden" name="billDetailsModels[@i].PaymentID" value="@ViewBag.PaymentID" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].PatientID" value="@detail.PatientID" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].PaymentDescription" value="@detail.PaymentDescription" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].PaymentDate" value="@detail.PaymentDate" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].AmountPaid" value="@detail.AmountPaid" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].PaymentMode" value="@detail.PaymentMode" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].TransactionDetails" value="@detail.TransactionDetails" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="billDetailsModels[@i].OtherComments" value="@detail.OtherComments" />
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+            <br />
+            <center>
+                <button type="submit" value="Delete Select" name="action" class="btn btn-primary">Delete Selected</button>
+                <button type="submit" value="Save" name="action" class="btn btn-primary">Save</button>
+            </center>
+
+        }
+
+
+    }
+
+
+
+    @if (ViewBag.delete != null)
+    {
+        <script>
+            handleMessages("@ViewBag.delete");
+        </script>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <script>
+            handleMessages("@ViewBag.Message");
+        </script>
+    }
+    @if (ViewBag.deleteselected != null)
+    {
+        <script>
+            handleMessages("@ViewBag.deleteselected");
+        </script>
+    }
+    @if (ViewBag.getpaybill != null)
+    {
+        <script>
+            handleMessages("@ViewBag.getpaybill");
+        </script>
+    }
+
+
+    <div class="row gy-4">
+        <div class="form-floating form-floating-outline mb-4">
+        </div>
+    </div>
+
+</div>

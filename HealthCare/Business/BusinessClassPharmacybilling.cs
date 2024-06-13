@@ -84,5 +84,23 @@ namespace HealthCare.Business
 
             return billingTotalpriceModel;
         }
+
+
+        ///patient payments
+        ///
+        public List<PatientRegistrationModel> GetPatid()
+        {
+            var patid = (
+                    from pr in _healthcareContext.SHPatientRegistration
+                    select new PatientRegistrationModel
+                    {
+                        PatientID = pr.PatientID,
+                        FullName = pr.FullName
+                    }
+                ).ToList();
+
+            return patid;
+        }
+
     }
 }

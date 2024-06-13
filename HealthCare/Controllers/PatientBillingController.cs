@@ -5,6 +5,7 @@ using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace HealthCare.Controllers
 {
@@ -44,7 +45,140 @@ namespace HealthCare.Controllers
             
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Slots(string patientid, string casevisitid, string billid, string paymentid, string billdate, string action, List<PatientPaymentBillDetailsModel> billDetailsModels , string selectslots)
+        {
+            ViewBag.PatientID = patientid;
+            ViewBag.Casevisitid = casevisitid;
+            ViewBag.Billid = billid;
+            ViewBag.Paymentid = paymentid;
+            BusinessClassPharmacybilling business = new BusinessClassPharmacybilling(_healthcareContext);
+            ViewData["patid"] = business.GetPatid();
+/*
 
+            if (billDetailsModels != null)
+            {
+                billDetailsModels = new List<PatientPaymentBillDetailsModel>();
+            }*/
+
+            if (action == "Add Payment")
+            {
+                var addrow = new PatientPaymentBillDetailsModel
+                {
+                    PaymentID = paymentid,
+                    PatientID = patientid,
+                    DateandTime = billdate,
+                    PaymentDescription = string.Empty,
+                    AmountPaid = string.Empty,
+                    PaymentMode = string.Empty,
+                    TransactionDetails = string.Empty,
+                    OtherComments = string.Empty,
+                    PaymentDate = string.Empty,
+                    IdDelte = false
+                };
+
+                _healthcareContext.SHPatientPaymentBillDetails.Add(addrow);
+                _healthcareContext.SaveChanges();
+
+                ViewBag.Slots = _healthcareContext.SHPatientPaymentBillDetails.Where(x => x.PaymentID == paymentid && x.PatientID == patientid).ToList();
+            }
+            else if (action == "Get")
+            {
+                var getdetails = await _healthcareContext.SHPatientPaymentBillDetails.Where(x => x.PaymentID == paymentid && x.PatientID == patientid).ToListAsync();
+                if (getdetails != null && getdetails.Any())
+                {
+                    ViewBag.Slots = getdetails;
+                }
+                else
+                {
+                    ViewBag.getpaybill = "No Bill is available for this Payment ID";
+                }
+            }
+            else if (action == "Delete Payment")
+            {
+                // Delete the bill
+                var billsToDelete = _healthcareContext.SHPatientPaymentBillDetails
+                    .Where(x => x.PaymentID == paymentid && x.PatientID == patientid)
+                    .ToList();
+
+                if (billsToDelete == null)
+                {
+                    //Model.IsDelete = true;
+                }
+
+
+                ViewBag.delete = "Deleted  Bill Successfully";
+                _healthcareContext.SaveChanges();
+
+            }
+
+
+            else if (action == "Save")
+            {
+                foreach (var detail in billDetailsModels)
+                {
+                    detail.DateandTime = DateTime.Now.ToString();
+                    detail.lastUpdatedDate = DateTime.Now.ToString();
+                    detail.lastUpdatedUser = User.Claims.First().Value.ToString();
+                    detail.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+
+                    _healthcareContext.SHPatientPaymentBillDetails.Update(detail);
+                }
+                _healthcareContext.SaveChanges();
+                var paymentbill = _healthcareContext.SHPatientPayment.FirstOrDefault(x => x.PaymentID == paymentid);
+                if (paymentbill == null)
+                {
+
+                    string totalAmount = billDetailsModels.FirstOrDefault()?.AmountPaid ?? "0";
+                    string paydate = billDetailsModels.FirstOrDefault()?.PaymentDate ?? "0";
+
+                    var patientBill = new PatientPaymentModel
+                    {
+                        PatientID = patientid,
+                        CaseVisitID = casevisitid,
+                        BillID = billid,
+                        PaymentID  = paymentid,
+                        TotalPaymentAmount = totalAmount,
+                        Date= paydate,
+                        lastUpdatedUser = User.Claims.First().Value.ToString(),
+                        lastUpdatedDate = DateTime.Now.ToString(),
+                        lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                    };
+
+                    _healthcareContext.SHPatientPayment.Add(patientBill);
+
+                    _healthcareContext.SaveChanges();
+
+                }
+
+                ViewBag.Message = "Bill Saved Successfully";
+
+                return View("PatientPayments");
+            }
+
+            else if (action == "Delete Select")
+            {
+                if (!string.IsNullOrEmpty(selectslots))
+                {
+                    var detailToDelete = _healthcareContext.SHPatientPaymentBillDetails
+                        .FirstOrDefault(b => b.PaymentDetailID == selectslots);
+
+                    if (detailToDelete != null)
+                    {
+                        detailToDelete.IdDelte = true;
+                        _healthcareContext.SHPatientPaymentBillDetails.Update(detailToDelete);
+
+                    }
+                    _healthcareContext.SaveChanges();
+                }
+
+                ViewBag.deleteselected = "Delete selected bill Successfully";
+            }
+
+            return View("PatientPayments");
+
+    }
         [HttpPost]
         public async Task< IActionResult> SaveSlots(string PatientID, string CaseVisitID, string BillID, string BillDate, string action, List<PatientBillDetailsModel> billDetails, string selectedSlotId)
         {
@@ -189,47 +323,7 @@ namespace HealthCare.Controllers
            
             return View("PatientBilling");
             
-        }
-
-        public async Task<IActionResult> PatientPayment(PatientPaymentModel model)
-        {
-            var existingpayment = await _healthcareContext.SHPatientPayment.FindAsync(model.PaymentID);
-            if (existingpayment != null)
-            {
-               existingpayment.PatientID = model.PaymentID;
-                existingpayment.CaseVisitID = model.CaseVisitID;
-                existingpayment.BillID = model.BillID;
-                existingpayment.PaymentID = model.PaymentID;
-                existingpayment.lastUpdatedDate = DateTime.Now.ToString();
-                existingpayment.lastUpdatedUser = User.Claims.First().Value.ToString();
-                existingpayment.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-
-                    _healthcareContext.Entry(existingpayment).State = EntityState.Modified;
-            }
-            else
-            {
-
-                model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = User.Claims.First().Value.ToString();
-                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                _healthcareContext.SHPatientPayment.Add(model);
-
-            }
-
-           await _healthcareContext.SaveChangesAsync();
-
-            ViewBag.Message = "Saved Successfully.";
-            return View(model);
-        }
-
-
-
-
-
-
-
-
-        
+        } 
 
         public IActionResult Index()
         {
@@ -255,6 +349,9 @@ namespace HealthCare.Controllers
         
         public IActionResult PatientPayments()
         {
+            BusinessClassPharmacybilling business = new BusinessClassPharmacybilling(_healthcareContext);
+            ViewData["patid"] = business.GetPatid();
+
             return View();
         }
     }
