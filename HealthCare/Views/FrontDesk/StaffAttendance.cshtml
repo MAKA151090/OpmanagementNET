@@ -7,165 +7,207 @@
 
 
 
+<form asp-action="StaffAttendance" style="height:100%">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">Staff Attendance</h2>
-            <small class="text-muted float-end"></small>
 
+    <div class="row" style="margin-top:50px">
+        <div class="col-md-12 col-lg-2 ">
         </div>
-    </div>
 
+        <div class="col-md-12 col-lg-8 ">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">Staff Attendance</h2>
 
-    <form asp-action="StaffAttendance" style="height:100%">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row gy-4">
-            <div class="col-md-12 col-lg-1">
-            </div>
-
-            <div class="col-md-12 col-lg-5">
-                <div class="card">
-                    <div class="card-body">
-
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var Facid = ((IEnumerable<StaffAdminModel>)ViewData["staffid"])
-                                .Select(m => new SelectListItem
-            {
-                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.StrStaffID} - {m.StrFullName}"
-            });
-                            }
-
-                            @Html.DropDownListFor(model => model.StaffID, Facid, "Select Staff ID", new { @class = "form-control", required = "required" })
-                            <label asp-for="StaffID" class="control-label"></label>
-                            <span asp-validation-for="StaffID" class="text-danger"></span>
-                        </div>
-
-                        <button type="submit" name="buttonType" value="Get" class="btn btn-primary">Get</button>
- 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Date" type="date" class="form-control" placeholder="Date" required />
-                            <label asp-for="Date" class="control-label">Date</label>
-                            
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="control-label">Office:</label>
-
-                       
-                        <div class="form-check form-check-inline">
-                            <input asp-for="Office" class="form-check-input" type="radio" value="1" id="INRadio"/>
-                            <label class="form-check-label" for="INRadio">IN</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input asp-for="Office" class="form-check-input" type="radio" value="0" id="OUTRadio"/>
-                            <label class="form-check-label" for="OUTRadio">OUT</label>
-                        </div>
-                      
-                        </div>
-                        <br />
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="CheckInTime" type="time" class="form-control" placeholder="Check In Time"  />
-                            <label asp-for="CheckInTime" class="control-label">Check In Time</label>
-
-                           
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CheckOuTtime" type="time" class="form-control" placeholder="Check OuT time"  />
-                            <label asp-for="CheckOuTtime" class="control-label">Check OuT time</label>
-
-                           
-                        </div>
-
-                        <button type="submit"  name="buttonType" value="Save" class="btn btn-primary">Save</button>
-
-                        @* <div class="form-group">
-                        <label asp-for="lastUpdatedDate" class="control-label"></label>
-                        <input asp-for="lastUpdatedDate" class="form-control" />
-                        <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                        <label asp-for="lastUpdatedUser" class="control-label"></label>
-                        <input asp-for="lastUpdatedUser" class="form-control" />
-                        <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                        <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                        <input asp-for="lastUpdatedMachine" class="form-control" />
-                        <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-                        </div> *@
-                        <div class="form-floating form-floating-outline mb-4">
-                            <center>
-                               
-                                @if (ViewBag.Message != null)
-                                {
-                                    <div class="alert alert-success">
-
-
-                                        @ViewBag.Message
-                                    </div>
-
-                                }
-                                </center>
-                        </div>
-                    
-
-                        <div class="col-md-12 col-lg-6">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row gy-4">
-            <div class="form-floating form-floating-outline mb-4">
+    </div>
+
+    <div class="row" style="height:3%">
+    </div>
+    <div class="row">
+
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+
+        <div class="col-md-12 col-lg-8 ">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var Facid = ((IEnumerable<StaffAdminModel>)ViewData["staffid"])
+                            .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
+            });
+                        }
+
+                        @Html.DropDownListFor(model => model.StaffID, Facid, "Select Staff ID", new { @class = "form-control", required = "required" })
+                        <label asp-for="StaffID" class="control-label"></label>
+                        <span asp-validation-for="StaffID" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+
             </div>
         </div>
-    
-<table class="table">
-    <thead>
-        <tr>
+        <div class="col-md-12 col-lg-3 ">
+        </div>
+    </div>
+    <div class="row" style="height:3%">
+    </div>
+    <div class="form-group">
+        <center>
+            <button type="submit" name="buttonType" value="Get" class="btn btn-primary">Get</button>
 
-            <th>
-                Staff ID
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Office
-            </th>
-            <th>
-                Check in time
-            </th>
-            <th>
-                Check out time
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-           @foreach (var item in Model.StfAttedance)
+        </center>
+    </div>
+
+    <br />
+
+    <div class="row">
+
+        <div class="col-md-12 col-lg-2">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                  
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Date" type="date" class="form-control" placeholder="Date" required />
+                        <label asp-for="Date" class="control-label">Date</label>
+
+                    </div>
+                
+                    <div class="form-group">
+                        <label class="control-label">Office:</label>
+
+
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Office" class="form-check-input" type="radio" value="1" id="INRadio" />
+                            <label class="form-check-label" for="INRadio">IN</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Office" class="form-check-input" type="radio" value="0" id="OUTRadio" />
+                            <label class="form-check-label" for="OUTRadio">OUT</label>
+                        </div>
+                    </div>
+               
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="CheckInTime" type="time" class="form-control" placeholder="Check In Time" />
+                        <label asp-for="CheckInTime" class="control-label">Check In Time</label>
+
+
+                    </div>
+                     <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="CheckOuTtime" type="time" class="form-control" placeholder="Check OuT time" />
+                        <label asp-for="CheckOuTtime" class="control-label">Check OuT time</label>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+        
+        <div class="col-md-12 col-lg-2">
+        </div>
+
+
+    </div>
+
+    <br />
+    <div class="row" style="height:3%">
+    </div>
+    <div class="form-group">
+        <center>
+            <button type="submit" name="buttonType" value="Save" class="btn btn-primary">Save</button>
+
+        </center>
+    </div>
+
+    @* <div class="form-group">
+    <label asp-for="lastUpdatedDate" class="control-label"></label>
+    <input asp-for="lastUpdatedDate" class="form-control" />
+    <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+    <label asp-for="lastUpdatedUser" class="control-label"></label>
+    <input asp-for="lastUpdatedUser" class="form-control" />
+    <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+    <label asp-for="lastUpdatedMachine" class="control-label"></label>
+    <input asp-for="lastUpdatedMachine" class="form-control" />
+    <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
+    </div> *@
+    <div class="form-floating form-floating-outline mb-4">
+        <center>
+
+            @if (ViewBag.Message != null)
             {
-                <tr>
-                            <td>@item.StaffID</td>
-                            <td>@item.Date</td>
-                            <td>@item.Office</td>
-                            <td>@item.CheckInTime</td>
-                            <td>@item.CheckOuTtime</td>
-                           
-                    
-                </tr>
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+
             }
-        }
-    </tbody>
-</table>
+        </center>
+    </div>
 
-    </form>
 
-</div>
 
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    Staff ID
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Office
+                </th>
+                <th>
+                    Check in time
+                </th>
+                <th>
+                    Check out time
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model.StfAttedance)
+                {
+                    <tr>
+                        <td>@item.StaffID</td>
+                        <td>@item.Date</td>
+                        <td>@item.Office</td>
+                        <td>@item.CheckInTime</td>
+                        <td>@item.CheckOuTtime</td>
+
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+
+
+</form>
