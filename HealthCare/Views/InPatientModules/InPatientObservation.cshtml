@@ -4,26 +4,42 @@
     ViewData["Title"] = "InPatientObservation";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div class="card xl-6">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center" style="height: 50px;">
-            <h2 class="text-primary mb-1" style="font-family:'Lucida Bright'" > In-Patient Observation</h2>
-            <small class="text-muted float-end"></small>
 
-        </div>
-    </div>
+
+
+
 @using (Html.BeginForm("GetInpatientViewResult", "InPatientModules", FormMethod.Post))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row gy-4">
+<div class="row" style="margin-top:70px">
+    <div class="col-md-12 col-lg-2 ">
+    </div>
 
-        <div class="col-md-12 col-lg-1">
+    <div class="col-md-12 col-lg-8 ">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">In-Patient Observation</h2>
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-12 col-lg-4">
-            <div class="card">
-                <div class="card-body">
+        </div>
+    </div>
 
+    <br/>
+        <div class="row" style="height:3%">
+        </div>
+
+        <div class="row">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+            <div class="col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
@@ -49,9 +65,6 @@
                             <label asp-for="BedNoID" class="control-label"></label> 
                             <span asp-validation-for="BedNoID" class="text-danger"></span>
                         </div>
-
-
-
 
 
                         <div class="form-floating form-floating-outline mb-4">
@@ -88,14 +101,32 @@
                     </div>
 
 
-                        <div class="form-group">
-                    <button type="submit" name="buttonType" value="get" class="btn btn-primary">get</button>
-                    </div>
+                        </div>
+                        </div>
 
+                    </div>
                 </div>
+           
+
+            <br />
+            <div class="form-group">
+                <center>
+
+            <button type="submit" style="width:180px" name="buttonType" value="get" class="btn btn-primary">get</button>
+
+                   
+                </center>
             </div>
-        </div>
-    </div>
+
+     
+
+    <br />
+         <div class="row">
+        <div class="col-md-12 col-lg-2">
+            </div>
+            <div class="col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body" style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
     <table class="table">
         <thead>
@@ -119,6 +150,8 @@
             </tr>
         </thead>
         <tbody>
+
+               
             @if (Model != null)
             {
                 @for (int i = 0; i < Model.SHviewInpatientObs.Count; i++)
@@ -138,23 +171,27 @@
             }
         </tbody>
     </table>
-
+                </div>
+            </div>
+        </div>
+    </div>
     @if (Model != null)
     {
         @if (Model.SHviewInpatientObs.Count != 0)
         {
-             <div class="row gy-4">
+            <br />
+            <div class="row">
+                <div class="col-md-12 col-lg-2">
+                </div>
+                <div class="col-md-12 col-lg-8">
+                    <div class="card">
+                        <div class="card-body" style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-        <div class="col-md-12 col-lg-1">
-        </div>
-        <div class="col-md-12 col-lg-4">
-            <div class="card">
-                <div class="card-body">
             <div class="form-group">
                 <label asp-for="DateTime" class="control-label"></label>
                 <input asp-for="DateTime" class="form-control" type="datetime-local"  />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
-            </div>
+            </div> 
                                 <div class="form-floating form-floating-outline mb-4">
                                     <input asp-for="NurseID" class="form-control" placeholder="Nurse ID"/>
 
