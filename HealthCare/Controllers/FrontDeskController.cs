@@ -1,4 +1,4 @@
-
+    
 using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
@@ -173,9 +173,7 @@ namespace HealthCare.Controllers
                 }
             }
 
-
-
-            [HttpPost]
+        [HttpPost]
 
 
         public async Task<IActionResult> OpChecking(OpCheckingViewModel model, string buttonType)
