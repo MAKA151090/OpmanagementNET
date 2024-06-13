@@ -199,7 +199,7 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<InPatientCaseSheetModel>().HasKey(i => new { i.StrPatientId,i.StrCaseId });
 
-            modelBuilder.Entity<InPatientDocVisitModel>().HasKey(i => new { i.PatientId,i.CaseId });
+            modelBuilder.Entity<InPatientDocVisitModel>().HasKey(i => new { i.PatientId,i.CaseId,i.VisitID});
             modelBuilder.Entity<OpCheckingModel>().HasKey(i => new { i.PatientId });
 
            
