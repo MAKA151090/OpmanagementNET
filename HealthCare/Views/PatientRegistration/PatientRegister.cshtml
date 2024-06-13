@@ -6,6 +6,11 @@
 }
 
 
+
+
+
+
+
 <form asp-controller="PatientRegistration" method="post" id="patientForm" novalidate>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -72,7 +77,7 @@
 
                                 <div>
                         <center>
-                                    <button type="button" id="getPatientBtn" class="btn btn-primary" asp-action="GetPatient">Get</button>
+                                    <button type="button" id="getPatientBtn" class="btn btn-primary">Get</button>
                             </center>
                                 </div>
                        
@@ -84,37 +89,32 @@
                 </div>
             </div>
             <br />
-       
+
 
 
 
     <script>
         document.getElementById("getPatientBtn").addEventListener("click", async function () {
             var patientID = document.getElementById("PatientID").value;
-            var facilityDropdown = document.getElementById("FacilityID");
-            var facilityID = facilityDropdown.value;
+            var facilityID = document.getElementById("FacilityID").value;
 
             if (patientID.trim() === "" || facilityID.trim() === "") {
                 alert("Please enter PatientID and select FacilityID.");
                 return;
             }
 
-            var response = await fetch(`/PatientRegistration/GetPatient?patientID=${patientID}&facilityID=${facilityID}`);
-            if (response.ok) {
-                var formFieldsHtml = await response.text();
-                document.getElementById("patientFormFields").innerHTML = formFieldsHtml;
-            } else {
-                alert("Error: " + response.statusText);
-            }
-        });
+            // Set the values of hidden input fields
+            document.getElementById("patientID").value = patientID;
+            document.getElementById("facilityID").value = facilityID;
 
-        document.getElementById("GetPatient").addEventListener("click", function (event) {
-            event.preventDefault();
+            // Submit the form
+            document.getElementById("patientForm").submit();
         });
     </script>
 
 
-    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+
+   @*  <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
         <div id="slotsTable">
             <h3>Slots</h3>
             <table id="SlotTable" class="table">
@@ -158,7 +158,7 @@
 
         </div>
     </div>
-
+ *@
 
     <div class="row gy-4">
         <div class="form-floating form-floating-outline mb-4">
@@ -381,7 +381,7 @@
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
                         <center>
-                            <button type="submit" value="Create" asp-action="Create" class="btn btn-primary">Save</button>
+                            <button type="submit" value="Create" asp-action="CreateOrUpdate" class="btn btn-primary">Save</button>
                             @if (ViewBag.Message != null)
                             {
                                 <div class="alert alert-success">
