@@ -143,34 +143,34 @@
 
     }
 
-
-
     @if (ViewBag.delete != null)
     {
-        <script>
-            handleMessages("@ViewBag.delete");
-        </script>
+        <div class="alert alert-success">
+            @ViewBag.delete
+        </div>
     }
 
     @if (ViewBag.Message != null)
     {
-        <script>
-            handleMessages("@ViewBag.Message");
-        </script>
-    }
-    @if (ViewBag.deleteselected != null)
-    {
-        <script>
-            handleMessages("@ViewBag.deleteselected");
-        </script>
-    }
-    @if (ViewBag.getpaybill != null)
-    {
-        <script>
-            handleMessages("@ViewBag.getpaybill");
-        </script>
+        <div class="alert alert-success">
+            @ViewBag.Message
+        </div>
     }
 
+    @if (ViewBag.deleteselected != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.deleteselected
+        </div>
+    }
+
+
+    @if (ViewBag.getpaybill != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.getpaybill
+        </div>
+    }
 
     <div class="row gy-4">
         <div class="form-floating form-floating-outline mb-4">
