@@ -678,9 +678,11 @@ namespace HealthCare.Controllers
             {
                 existingTest.DepartmentID = model.DepartmentID;
                 existingTest.DepartmentName = model.DepartmentName;
+                existingTest.FacilityID = model.FacilityID;
                 existingTest.lastupdatedDate = DateTime.Now.ToString();
                 existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
             }
             else
             {
