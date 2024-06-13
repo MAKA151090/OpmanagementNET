@@ -6,60 +6,76 @@
 }
 
 
+<form asp-controller="ClinicAdministration">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div class="row">
-    <div class="col-md-12 col-lg-11">
-        <div class="card">
-            <div class="card-body ">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="container">
-                        <h2 class="centered text-primary mb-1">Staff Registration</h2>
 
+    <div class="row" style="margin-top:70px">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+
+        <div class="col-md-12 col-lg-8 ">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">Staff Registration</h2>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-  <form asp-controller="ClinicAdministration">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<div class="row" style="height:5%">
-</div>
+    <br />
 
-
-
-        <div class="row gy-4">
-    <div class="col-md-12 col-lg-1">
-        <div class="form-floating form-floating-outline mb-4">
+    <div class="row">
+        <div class="col-md-12 col-lg-2">
         </div>
-    </div>
-    <div class="col-md-12 col-lg-7">
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+ 
+            
                <div class="form-floating form-floating-outline mb-4">
                     <input asp-for="StrStaffID" class="form-control" placeholder="StaffId" />
                     <label asp-for="StrStaffID" class="control-label">StaffID</label>
                     <span asp-validation-for="StrStaffID" class="text-danger"></span>
                 </div>
-                </div>
-                    <div class="col-md-12 col-lg-4">
-                <div class="form-floating form-floating-outline mb-4">
-                    <button type="submit" value="Get" asp-action="Getdoctor" class="btn btn-primary">Search</button>
-                </div>
-                </div>                
+
+                    <div class="form-group">
+                        <center>
+                            <button type="submit" style="width:180px" value="Get" asp-action="Getdoctor" class="btn btn-primary">Search</button>
+                        </center>
+                    </div>
             </div>
 
+            </div>
+
+            <div class="col-md-12 col-lg-2">
+               
+            </div>
+        </div>
+    </div>
+   
+    <br />
 
 
 
-<div class="row" style="height:5%">
-</div>
+    <div class="row">
+        <div class="form-floating form-floating-outline mb-4">
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-12 col-lg-1">
+        </div>
+        <div class="col-md-12 col-lg-3">
+            <div class="card">
+                <div class="card-body" style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-<div class="row">
-
-    <div class="col-md-12 col-lg-3">
-        <div class="card">
-            <div class="card-body">
 
                     <div class="form-floating form-floating-outline mb-4">
                         @{
@@ -111,36 +127,14 @@
                     <span asp-validation-for="StrPrefix" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label">Gender:</label><br />
-                    <div class="form-check form-check-inline">
-                        <input asp-for="StrGender" class="form-check-input" type="radio" value="Male" id="maleRadio" />
-                        <label class="form-check-label" for="maleRadio">Male</label>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="StrPhoneNumber" class="form-control" placeholder="PhoneNumber" />
+                        <label asp-for="StrPhoneNumber" class="control-label"></label>
+                        <span asp-validation-for="StrPhoneNumber" class="text-danger"></span>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input asp-for="StrGender" class="form-check-input" type="radio" value="Female" id="femaleRadio" />
-                        <label class="form-check-label" for="femaleRadio">Female</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input asp-for="StrGender" class="form-check-input" type="radio" value="Other" id="otherRadio" />
-                        <label class="form-check-label" for="otherRadio">Other</label>
-                    </div>
-                    <span asp-validation-for="StrGender" class="text-danger"></span>
-                </div>
 
-                <div class="form-floating form-floating-outline mb-4">
-
-                                    <input asp-for="StrDateofBirth" class="form-control" placeholder="DateofBirth" />
-                    <label asp-for="StrDateofBirth" class="control-label">DateofBirth</label>
-                    <span asp-validation-for="StrDateofBirth" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating form-floating-outline mb-4">
-
-                                    <input asp-for="StrAge" class="form-control"  placeholder="Age" />
-                    <label asp-for="StrAge" class="control-label">Age</label>
-                    <span asp-validation-for="StrAge" class="text-danger"></span>
-                </div>
+               
+               
 
 
 
@@ -151,14 +145,40 @@
     </div>
     <div class="col-md-12 col-lg-4">
         <div class="card">
-            <div class="card-body">
+                <div class="card-body" style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                         <div class="demo-inline-spacing">
 
+                        <div class="form-floating form-floating-outline mb-4">
 
+                            <input asp-for="StrDateofBirth" class="form-control" placeholder="DateofBirth" />
+                            <label asp-for="StrDateofBirth" class="control-label">DateofBirth</label>
+                            <span asp-validation-for="StrDateofBirth" class="text-danger"></span>
+                        </div>
 
-                          
+                        <div class="form-floating form-floating-outline mb-4">
 
+                            <input asp-for="StrAge" class="form-control" placeholder="Age" />
+                            <label asp-for="StrAge" class="control-label">Age</label>
+                            <span asp-validation-for="StrAge" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Gender:</label><br />
+                            <div class="form-check form-check-inline">
+                                <input asp-for="StrGender" class="form-check-input" type="radio" value="Male" id="maleRadio" />
+                                <label class="form-check-label" for="maleRadio">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input asp-for="StrGender" class="form-check-input" type="radio" value="Female" id="femaleRadio" />
+                                <label class="form-check-label" for="femaleRadio">Female</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input asp-for="StrGender" class="form-check-input" type="radio" value="Other" id="otherRadio" />
+                                <label class="form-check-label" for="otherRadio">Other</label>
+                            </div>
+                            <span asp-validation-for="StrGender" class="text-danger"></span>
+                        </div>
                         <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
                                 <textarea asp-for="StrAddress1" class="form-control" placeholder="Address1" aria-describedby="text-to-speech-addon"></textarea>
                                 <label asp-for="StrAddress1" class="control-label">Address1</label>
@@ -196,25 +216,21 @@
                     <label asp-for="StrPin" class="control-label">Pin</label>
                     <span asp-validation-for="StrPin" class="text-danger"></span>
                 </div>
-                <div class="form-floating form-floating-outline mb-4">
-                    <input asp-for="StrPhoneNumber" class="form-control" placeholder="PhoneNumber" />
-                    <label asp-for="StrPhoneNumber" class="control-label"></label>
-                    <span asp-validation-for="StrPhoneNumber" class="text-danger"></span>
-                </div>
-                <div class="form-floating form-floating-outline mb-4">
-                    <input asp-for="StrEmailId" class="form-control" placeholder="EmailId" />
-                    <label asp-for="StrEmailId" class="control-label">EmailId</label>
-                    <span asp-validation-for="StrEmailId" class="text-danger"></span>
-                </div>
+               
+               
             </div>
         </div>
 
-
+            </div>
     </div>
-    <div class="col-md-12 col-lg-4">
+    <div class="col-md-12 col-lg-3">
         <div class="card">
-            <div class="card-body">
-
+                    <div class="card-body" style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="StrEmailId" class="form-control" placeholder="EmailId" />
+                        <label asp-for="StrEmailId" class="control-label">EmailId</label>
+                        <span asp-validation-for="StrEmailId" class="text-danger"></span>
+                    </div>
                 <div class="form-floating form-floating-outline mb-4">
                     <input asp-for="StrNationality" class="form-control" placeholder="Nationality" />
                     <label asp-for="StrNationality" class="control-label">Nationality</label>
@@ -250,17 +266,19 @@
                         </div>
 
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-floating form-floating-outline mb-4">
-            </div>
+        <div class="col-md-12 col-lg-1">
         </div>
+    </div>
+            <br/>
+
+     
         <div class="row">
             <div class="form-floating form-floating-outline mb-4">
                 <div class="container">
-
-                    <button type="submit" style="centered" asp-action="AddStaff" value="Create" class="btn btn-primary">Save</button>
+                    <center>
+                    <button type="submit" style="width:180px" asp-action="AddStaff" value="Create" class="btn btn-primary">Save</button>
+                </center>
                     @if (ViewBag.Message != null)
                     {
                         <div class="alert alert-success">
@@ -275,11 +293,9 @@
 
 
 
-    </div>
+   
 
 </form>
 
 
-    <div class="row">
-    </div>
-</div>
+  

@@ -28,25 +28,35 @@
     <span id="popupMessageText" style="display: block; margin-bottom: 20px;"></span>
     <button id="popupOKButton" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>
 </div>
+<div class="row" style="margin-top:70px">
+    <div class="col-md-12 col-lg-3 ">
+    </div>
 
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1">Schedule Blocker</h2>
-            <small class="text-muted float-end"></small>
+    <div class="col-md-12 col-lg-6 ">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">ScheduleBlocker</h2>
 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
 
 <form asp-action="ScheduleBlocker" method="post" asp-controller="ClinicAdministration">
 
-        <div class="row gy-4">
+    <br />
+    <div class="row">
+        <div class="col-md-12 col-lg-3">
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-            <div class="col-md-12 col-lg-4">
-            </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
 
 
                         <div class="form-floating form-floating-outline mb-4">
@@ -84,24 +94,32 @@
                 <label for="Date" class="control-label">Date</label>
                 <input type="date" class="form-control" id="Date" name="Date" value="@ViewBag.Date" required />
             </div>
-            <br />
+                    <br />
 
-            <div class="form-group">
-                <input type="submit" value="save" class="btn btn-primary" />
+                </div>
+
             </div>
+
+            <div class="col-md-12 col-lg-3">
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <center>
+            <button type="submit" value="save" class="btn btn-primary">Save</button>
+
+          @*   <input type="submit" value="save" class="btn btn-primary" /> *@
+        </center>
+    </div>
+
+          
                         @if (ViewBag.Message != null)
                         {
                             <script>
                                 handleMessages("@ViewBag.Message");
                             </script>
                         }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row gy-4">
-            <div class="form-floating form-floating-outline mb-4">
-            </div>
-        </div>
+                  
+               
 </form>
-</div>
