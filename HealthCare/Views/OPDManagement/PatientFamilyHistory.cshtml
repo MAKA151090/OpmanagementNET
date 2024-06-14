@@ -8,133 +8,139 @@
 
 @using (Html.BeginForm("SaveFHPH", "OPDManagement", FormMethod.Post))
 {
-    
-    
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div class="row" style="margin-top:70px">
-    <div class="col-md-12 col-lg-2 ">
-    </div>
-    <div class="col-md-12 col-lg-7 ">
-        <div class="card">
-            <div class="card-body " style="background-color:#8c62c9">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="container">
-                        <h2 class="centered text-white" style="font-family:'Lucida Bright'"> PatientHistoryandFamilyHistory</h2>
 
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row" style="margin-top:70px">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+        <div class="col-md-12 col-lg-8 ">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'"> PatientHistoryandFamilyHistory</h2>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="row" style="height:8%">
+        <div class="col-md-12 col-lg-2 ">
         </div>
+    </div>
+            <div class="row" style="height:8%">
+            </div>
 
-        <div class="row">
+            <div class="row">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+                <div class="col-md-12 col-lg-8">
+                    <div class="card">
+                        <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-            <div class="col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-
-            <div class="form-floating form-floating-outline mb-4">
-                @{
-                    var patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
-                    .Select(m => new SelectListItem
+                            <div class="form-floating form-floating-outline mb-4">
+                                @{
+                                    var patientid = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
+                                    .Select(m => new SelectListItem
                 {
                     Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.PatientID} - {m.FullName}"
                 });
-                }
+                                }
 
-                @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", @required = "required" })
-                <label asp-for="PatientID" class="control-label">Patient ID</label>
-                <span asp-validation-for="PatientID" class="text-danger"></span>
-            </div>
+                                @Html.DropDownListFor(model => model.PatientID, patientid, "Select Patient ID", new { @class = "form-control", @required = "required" })
+                                <label asp-for="PatientID" class="control-label">Patient ID</label>
+                                <span asp-validation-for="PatientID" class="text-danger"></span>
+                            </div>
 
-                <div class="form-floating form-floating-outline mb-4">
-                @* <label asp-for="Type" class="control-label"></label> *@
-                <select asp-for="Type" class="form-control" asp-items="@(new SelectList(new List<string> { "FH", "PH" }))">
-                    <option value="">Select Type</option>
-                </select>
-                    <label asp-for="Type" class="control-label"></label>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
+                            <div class="form-floating form-floating-outline mb-4">
+                                @* <label asp-for="Type" class="control-label"></label> *@
+                                <select asp-for="Type" class="form-control" asp-items="@(new SelectList(new List<string> { "FH", "PH" }))">
+                                    <option value="">Select Type</option>
+                                </select>
+                                <label asp-for="Type" class="control-label"></label>
+                                <span asp-validation-for="Type" class="text-danger"></span>
+                            </div>
                             <div class="form-group">
                                 <center>
-            
-            <button type="submit" name="buttonType" value="Get" class="btn btn-primary btn-lg">Get</button>
+
+                                    <button type="submit" name="buttonType" value="Get" class="btn btn-primary btn-lg">Get</button>
                                 </center>
                             </div>
 
+                        </div>
+                    </div>
+                </div>
+        <div class="col-md-12 col-lg-2 ">
         </div>
-    </div>
-    </div>
-    </div>
-        </div>
-    </div>
-
+            </div>
+       
     @if (Model != null)
     {
 
         <div class="row" style="margin-top:40px">
-        <div class="col-md-12 col-lg-1 ">
-        </div>
+            <div class="col-md-12 col-lg-2 ">
+            </div>
             <div class="col-md-12 col-lg-8">
                 <div class="card">
                     <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-                    <table class="table" style="height:30px">
-        <thead>
-            <tr>
+                        <table class="table" style="width:100%">
+                            <thead>
+                                <tr>
 
-                <th>
-                    Question
-                </th>
-                <th>
-                    Answer
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-               @for (int i = 0; i < Model.SHFHPHviewlist.Count; i++)
-                {
-                    <tr>
-                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Question" value="@Model.SHFHPHviewlist[i].Question" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].QuestionID" /></td>
+                                    <th style="width:70%">
+                                        Question
+                                    </th>
+                                    <th style="width:30%">
+                                        Answer
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.SHFHPHviewlist.Count; i++)
+                                {
+                                    <tr>
+                                        <td ><input type="text" asp-for="@Model.SHFHPHviewlist[i].Question" value="@Model.SHFHPHviewlist[i].Question" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].QuestionID" /></td>
 
-                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Answer" value="@Model.SHFHPHviewlist[i].Answer" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].Type" /></td>
+                                        <td><input type="text" asp-for="@Model.SHFHPHviewlist[i].Answer" value="@Model.SHFHPHviewlist[i].Answer" /> <input type="hidden" asp-for="@Model.SHFHPHviewlist[i].Type" /></td>
 
 
-                    </tr>
-                }
-           
-        </tbody>
-       </table>
+                                    </tr>
+                                }
 
-                        
+                            </tbody>
+                        </table>
+
+
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-12 col-lg-1 ">
+            <div class="col-md-12 col-lg-2 ">
+            </div>
         </div>
-    </div>
     }
-                @if (Model != null)
-                {
-                    <button type="submit" name="buttonType" value="Save" class="btn btn-primary btn-lg">Save</button>
-                }
-                @if (ViewBag.Message != null)
-                {
-                    <div class="alert alert-success">
-                        @ViewBag.Message
-                    </div>
-                }
+    @if (Model != null)
+    {
+        <center>
+        <button type="submit" name="buttonType" value="Save" class="btn btn-primary btn-lg">Save</button>
+        </center>
+    }
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Message
+        </div>
+    }
 
-                
-            }
 
-       
+}
+
+
 
 
 
