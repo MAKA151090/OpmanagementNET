@@ -33,7 +33,6 @@ namespace HealthCare.Controllers
             ViewData["Facid"] = schedule.GetFacilityid();
 
 
-            await _healthcareContext.SaveChangesAsync();
             // Check if the patientID and facilityID are provided
             if (!string.IsNullOrEmpty(patientID) && !string.IsNullOrEmpty(facilityID))
             {
@@ -87,7 +86,8 @@ namespace HealthCare.Controllers
         }
 
             // Fetch patient data for the provided patientID and facilityID
-           
+
+            await _healthcareContext.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully";
             // Return the view with the patient data
             return View("PatientRegister", patient ?? new PatientRegistrationModel());
