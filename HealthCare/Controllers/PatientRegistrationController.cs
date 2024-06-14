@@ -23,59 +23,8 @@ namespace HealthCare.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> CreateOrUpdate(PatientRegistrationModel model, string patientID, string facilityID)
+        public async Task<IActionResult> CreateOrUpdate(PatientRegistrationModel model,string buttonType, string patientID, string facilityID)
         {
-            // Check if the patientID and facilityID are provided
-            if (!string.IsNullOrEmpty(patientID) && !string.IsNullOrEmpty(facilityID))
-            {
-                // Retrieve existing patient data if available
-                var existingPatient = await _healthcareContext.SHPatientRegistration.FindAsync(patientID);
-                if (existingPatient != null)
-                {
-                    // Update existing patient data
-                    existingPatient.FacilityID = model.FacilityID;
-                    existingPatient.FirstName = model.FirstName;
-                    existingPatient.MidName = model.MidName;
-                    existingPatient.LastName = model.LastName;
-                    existingPatient.FullName = model.FullName;
-                    existingPatient.Initial = model.Initial;
-                    existingPatient.Prefix = model.Prefix;
-                    existingPatient.Dob = model.Dob;
-                    existingPatient.Age = model.Age;
-                    existingPatient.Gender = model.Gender;
-                    existingPatient.BloodGroup = model.BloodGroup;
-                    existingPatient.PhoneNumber = model.PhoneNumber;
-                    existingPatient.MaritalStatus = model.MaritalStatus;
-                    existingPatient.Address1 = model.Address1;
-                    existingPatient.Address2 = model.Address2;
-                    existingPatient.Country = model.Country;
-                    existingPatient.City = model.City;
-                    existingPatient.State = model.State;
-                    existingPatient.Pin = model.Pin;
-                    existingPatient.IDPrfName = model.IDPrfName;
-                    existingPatient.IDPrfNumber = model.IDPrfNumber;
-                    existingPatient.CnctPrsnName = model.CnctPrsnName;
-                    existingPatient.Rlnpatient = model.Rlnpatient;
-                    existingPatient.EmgcyCntNum = model.EmgcyCntNum;
-                    existingPatient.lastUpdatedDate = DateTime.Now.ToString();
-                    existingPatient.lastUpdatedUser = User.Claims.First().Value.ToString();
-                    _healthcareContext.Entry(existingPatient).State = EntityState.Modified;
-                }
-                else
-                {
-                    // Create new patient data
-                    model.PatientID = patientID;
-                    model.FacilityID = facilityID;
-                    model.lastUpdatedDate = DateTime.Now.ToString();
-                    model.lastUpdatedUser = User.Claims.First().Value.ToString();
-                    _healthcareContext.SHPatientRegistration.Add(model);
-                }
-
-                await _healthcareContext.SaveChangesAsync();
-                ViewBag.Message = "Saved Successfully";
-            }
-
-            // Fetch patient data for the provided patientID and facilityID
             var schedule = new BusinessClassRegistration(_healthcareContext);
             var patient = await schedule.GetPatientObjectiveSubmit(patientID, facilityID);
 
@@ -83,8 +32,68 @@ namespace HealthCare.Controllers
             ViewData["bldgrpid"] = schedule.GetBloodGroup();
             ViewData["Facid"] = schedule.GetFacilityid();
 
+
+            // Check if the patientID and facilityID are provided
+            if (!string.IsNullOrEmpty(patientID) && !string.IsNullOrEmpty(facilityID))
+            {
+                // Retrieve existing patient data if available
+                var existingPatient = await _healthcareContext.SHPatientRegistration.FindAsync(patientID);
+            if (existingPatient != null)
+            {
+                if(buttonType == "getPatientBtn")
+                      
+                    return View("PatientRegister",existingPatient);
+
+                // Update existing patient data
+                existingPatient.FacilityID = model.FacilityID;
+                existingPatient.FirstName = model.FirstName;
+                existingPatient.MidName = model.MidName;
+                existingPatient.LastName = model.LastName;
+                existingPatient.FullName = model.FullName;
+                existingPatient.Initial = model.Initial;
+                existingPatient.Prefix = model.Prefix;
+                existingPatient.Dob = model.Dob;
+                existingPatient.Age = model.Age;
+                existingPatient.Gender = model.Gender;
+                existingPatient.BloodGroup = model.BloodGroup;
+                existingPatient.PhoneNumber = model.PhoneNumber;
+                existingPatient.MaritalStatus = model.MaritalStatus;
+                existingPatient.Address1 = model.Address1;
+                existingPatient.Address2 = model.Address2;
+                existingPatient.Country = model.Country;
+                existingPatient.City = model.City;
+                existingPatient.State = model.State;
+                existingPatient.Pin = model.Pin;
+                existingPatient.IDPrfName = model.IDPrfName;
+                existingPatient.IDPrfNumber = model.IDPrfNumber;
+                existingPatient.CnctPrsnName = model.CnctPrsnName;
+                existingPatient.Rlnpatient = model.Rlnpatient;
+                existingPatient.EmgcyCntNum = model.EmgcyCntNum;
+                existingPatient.lastUpdatedDate = DateTime.Now.ToString();
+                existingPatient.lastUpdatedUser = User.Claims.First().Value.ToString();
+                _healthcareContext.Entry(existingPatient).State = EntityState.Modified;
+            }
+            else
+            {
+                // Create new patient data
+                model.PatientID = patientID;
+                model.FacilityID = facilityID;
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                _healthcareContext.SHPatientRegistration.Add(model);
+            }
+
+        }
+
+            // Fetch patient data for the provided patientID and facilityID
+
+            await _healthcareContext.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully";
             // Return the view with the patient data
             return View("PatientRegister", patient ?? new PatientRegistrationModel());
+
+
+          
         }
 
 

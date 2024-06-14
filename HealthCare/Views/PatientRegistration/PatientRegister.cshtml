@@ -4,14 +4,7 @@
     ViewData["Title"] = "View";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-
-
-
-
-
-
-
-<form asp-controller="PatientRegistration" method="post" id="patientForm" novalidate>
+<form asp-controller="PatientRegistration" asp-action="CreateOrUpdate" method="post" id="patientForm" novalidate>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
@@ -77,7 +70,7 @@
 
                                 <div>
                         <center>
-                                    <button type="button" id="getPatientBtn" class="btn btn-primary">Get</button>
+                            <button type="submit" value="getPatientBtn" id="getPatientBtn" name="buttonType" class="btn btn-primary">Get</button>
                             </center>
                                 </div>
                        

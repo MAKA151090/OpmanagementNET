@@ -260,7 +260,7 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> InPatientDocVisit(InPatientDocVisitModel model)
         {
-            var existingInPatientDocVisit = await _healthcareContext.SHipmInPatientDocVisit.FindAsync(model.PatientId, model.CaseId);
+            var existingInPatientDocVisit = await _healthcareContext.SHipmInPatientDocVisit.FindAsync(model.PatientId, model.CaseId,model.VisitID);
 
             if (existingInPatientDocVisit != null)
             {
