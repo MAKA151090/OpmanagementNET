@@ -80,11 +80,11 @@ namespace HealthCare.Controllers
                 _healthcareContext.SHPatientPaymentBillDetails.Add(addrow);
                 _healthcareContext.SaveChanges();
 
-                ViewBag.Slots = _healthcareContext.SHPatientPaymentBillDetails.Where(x => x.PaymentID == paymentid && x.PatientID == patientid).ToList();
+                ViewBag.Slots = _healthcareContext.SHPatientPaymentBillDetails.Where(x => x.PaymentID == paymentid && x.PatientID == patientid && x.IdDelte == false).ToList();
             }
             else if (action == "Get")
             {
-                var getdetails = await _healthcareContext.SHPatientPaymentBillDetails.Where(x => x.PaymentID == paymentid && x.PatientID == patientid).ToListAsync();
+                var getdetails = await _healthcareContext.SHPatientPaymentBillDetails.Where(x => x.PaymentID == paymentid && x.PatientID == patientid && x.IdDelte == false).ToListAsync();
                 if (getdetails != null && getdetails.Any())
                 {
                     ViewBag.Slots = getdetails;
@@ -101,10 +101,29 @@ namespace HealthCare.Controllers
                     .Where(x => x.PaymentID == paymentid && x.PatientID == patientid)
                     .ToList();
 
-                if (billsToDelete == null)
+
+
+                foreach (var detail in billsToDelete)
+                {
+                    detail.IdDelte = true;
+                    _healthcareContext.SHPatientPaymentBillDetails.Update(detail);
+                }
+
+
+                var billToDelete = _healthcareContext.SHPatientPayment
+              .FirstOrDefault(x => x.PaymentID == paymentid && x.PatientID == patientid && x.CaseVisitID == casevisitid);
+
+                if (billToDelete != null)
+                {
+                    billToDelete.IsDelete = true;
+                    _healthcareContext.SHPatientPayment.Update(billToDelete);
+
+                }
+
+                /*if (billsToDelete == null)
                 {
                     //Model.IsDelete = true;
-                }
+                }*/
 
 
                 ViewBag.delete = "Deleted  Bill Successfully";
@@ -126,7 +145,7 @@ namespace HealthCare.Controllers
                     _healthcareContext.SHPatientPaymentBillDetails.Update(detail);
                 }
                 _healthcareContext.SaveChanges();
-                var paymentbill = _healthcareContext.SHPatientPayment.FirstOrDefault(x => x.PaymentID == paymentid);
+                var paymentbill = _healthcareContext.SHPatientPayment.FirstOrDefault(x => x.PaymentID == paymentid && x.PatientID == patientid && x.CaseVisitID == casevisitid);
                 if (paymentbill == null)
                 {
 
@@ -154,7 +173,7 @@ namespace HealthCare.Controllers
 
                 ViewBag.Message = "Bill Saved Successfully";
 
-                return View("PatientPayments");
+                //return View("PatientPayments");
             }
 
             else if (action == "Delete Select")
