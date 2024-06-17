@@ -86,7 +86,7 @@
 
 
 
-    <script>
+  @*   <script>
         document.getElementById("getPatientBtn").addEventListener("click", async function () {
             var patientID = document.getElementById("PatientID").value;
             var facilityID = document.getElementById("FacilityID").value;
@@ -103,8 +103,62 @@
             // Submit the form
             document.getElementById("patientForm").submit();
         });
-    </script>
+    </script> *@
 
+    <script>
+        document.getElementById("getPatientBtn").addEventListener("click", async function () {
+            var patientID = document.getElementById("PatientID").value;
+            var facilityID = document.getElementById("FacilityID").value;
+
+            // Check if both patient ID and facility ID are not empty
+            if (patientID.trim() === "" || facilityID.trim() === "") {
+                alert("Please enter Patient ID and select Facility ID.");
+                return;
+            }
+
+            // Create an object to send as data in the AJAX request
+            var data = {
+                patientID: patientID,
+                facilityID: facilityID
+            };
+
+            try {
+                // Send an AJAX request to the server
+                var response = await fetch('/PatientRegistration/CreateOrUpdate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                console.log("respone successfully come", response);
+                // Check if the response is successful
+                if (response.ok) {
+                    // Parse the JSON response
+                    var patientData = await response.json();
+
+                    // Populate the form fields with the fetched data
+                    document.getElementById("FirstName").value = patientData.FirstName;
+                    document.getElementById("MidName").value = patientData.MidName;
+                    // Populate other fields similarly
+
+                    // Optionally, display a success message
+                    alert("Patient data fetched successfully!");
+                    console.log("success");
+                } else {
+                    // Display an error message if the response is not successful
+                    alert("Failed to fetch patient data. Please try again.");
+                }
+            } catch (error) {
+                // Handle any errors that occur during the AJAX request
+                console.error('Error:', error);
+                console.log("error");
+                alert("An error occurred while fetching patient data.");
+            }
+        });
+
+
+    </script>
 
 
    @*  <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
