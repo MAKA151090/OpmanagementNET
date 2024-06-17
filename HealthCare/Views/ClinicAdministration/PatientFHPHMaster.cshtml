@@ -8,29 +8,36 @@
 @section PageStyles {
     <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
 }
-<div class="row">
 
-    <div class="col-md-12 col-lg-7 ">
+<form>
+<div class="row">
+    <div class="col-md-12 col-lg-2">
+    </div>
+    <div class="col-md-12 col-lg-8">
         <div class="card">
-            <div class="card-body ">
+            <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-primary mb-1">FHPHMaster</h2>
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">FHPHMaster</h2>
 
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<br />
 
-        <div class="row" style="height:8%">
-        </div>
+<div class="row" style="height:8%">
+</div>
 
-        <form>
-        <div class="row">
+<div class="row gy-4">
+    <div class="col-md-12 col-lg-2">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-            <div class="col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="card-body">
 
 
                         <div class="form-floating form-floating-outline mb-4">
@@ -74,48 +81,34 @@
                 <input asp-for="LastUpdatedUser" class="form-control" />
                 <span asp-validation-for="LastUpdatedUser" class="text-danger"></span>
             </div> *@
-           <br />
-            <div class="form-group">
-                <center>
-                <button type="submit" value="Create" class="btn btn-primary" >Save</button>
-                            <label asp-for="Type" class="control-label"></label>
+              <br />
 
-                            <span asp-validation-for="Type" class="text-danger"></span>
-                        </div>
-                    </div>
 
-                </div>
-
-                <div class="row" style="height:12%">
-                </div>
-                <div class="row">
-
-                    <div class="col-md-12 col-lg-12">
-
-                        <div class="form-group">
-                            <div class="container">
-                                <button type="submit" style="centered" value="Create" class="btn btn-primary">Save</button>
-                                @if (ViewBag.Message != null)
-                                {
-                                    <div class="alert alert-success">
-                                        @ViewBag.Message
-                                    </div>
-                                }
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
             </div>
+
+
         </div>
 
-        </form>
-        <div class="row">
+
+        <div class="col-md-12 col-lg-2">
         </div>
     </div>
-    <div class="col-md-12 col-lg-5">
-        <div class="form-floating form-floating-outline mb-4">
-            <img src="~/img/illustrations/Doc.png" class="authentication-image d-none d-lg-block" data-app-light-img="illustrations/auth-basic-mask-light.png" data-app-dark-img="illustrations/auth-basic-mask-dark.png">
-        </div>
+    <br />
+    <div class="form-group">
+        <center>
+
+        <button type="submit" style="width:180px" value="Create" class="btn btn-primary">Save</button>
+
+        @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+            }
+        </center>
     </div>
-</div>
+
+    </form>

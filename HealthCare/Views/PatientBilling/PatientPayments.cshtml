@@ -4,25 +4,44 @@
     ViewData["Title"] = "PatientPayments";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
 
-            <h1>Patient Payments</h1>
-            <small class="text-muted float-end"></small>
 
+
+    <div class="row">
+        <div class="col-md-12 col-lg-2">
         </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">Patient Payments</h2>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+
+    <div class="row" style="height:8%">
     </div>
 
     @using (Html.BeginForm("Slots", "PatientBilling", FormMethod.Post))
     {
 
-        <div class="row" style="justify-content:center;">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row gy-4">
+        <div class="col-md-12 col-lg-2">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+
 
                         <div class="form-floating form-floating-outline mb-4">
                             @{
@@ -53,20 +72,31 @@
                             <label for="PaymentID" class="control-label">Payment ID</label>
                         </div>
 
-                    </div>
+                        
+                    <br />
                 </div>
             </div>
         </div>
-        <br />
+        <div class="col-md-12 col-lg-2">
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <center>
 
-        <Center>
+            <button type="submit" style="width:180px" value="Get" name="action" class="btn btn-primary">Get</button>
+            <button type="submit" style="width:280px" value="Add Payment" name="action" class="btn btn-primary">Add Payment Row</button>
+            <button type="submit" style="width:280px" value="Delete Payment" name="action" class="btn btn-primary">Delete Payment Row</button>
 
-            <button type="submit" value="Get" name="action" class="btn btn-primary">Get</button>
-            <button type="submit" value="Add Payment" name="action" class="btn btn-primary">Add Payment Row</button>
-            <button type="submit" value="Delete Payment" name="action" class="btn btn-primary">Delete Payment Row</button>
 
-        </Center>
-
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
+        </center>
+    </div>
 
         @if (ViewBag.Slots != null)
         {
