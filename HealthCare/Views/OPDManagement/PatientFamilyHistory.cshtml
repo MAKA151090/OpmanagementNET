@@ -30,6 +30,7 @@
         <div class="col-md-12 col-lg-2 ">
         </div>
     </div>
+    <br/>
             <div class="row" style="height:8%">
             </div>
 
@@ -64,12 +65,7 @@
                                 <label asp-for="Type" class="control-label"></label>
                                 <span asp-validation-for="Type" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <center>
-
-                                    <button type="submit" name="buttonType" value="Get" class="btn btn-primary btn-lg">Get</button>
-                                </center>
-                            </div>
+                         
 
                         </div>
                     </div>
@@ -77,7 +73,13 @@
         <div class="col-md-12 col-lg-2 ">
         </div>
             </div>
-       
+            <br/>
+    <div class="form-group">
+        <center>
+
+            <button type="submit" name="buttonType" value="Get" class="btn btn-primary btn-lg">Get</button>
+        </center>
+    </div>
     @if (Model != null)
     {
 

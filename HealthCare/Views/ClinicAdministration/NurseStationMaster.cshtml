@@ -5,28 +5,42 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+<form asp-action="NurseStationMaster" asp-controller="ClinicAdministration">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
+<div class="row">
+    <div class="col-md-12 col-lg-2">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">NurseStationMaster</h2>
 
-<div class="card xl-8">
-    <div class="card-body pt-2 mt-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-1" style="align-items-center">NurseStationMaster</h2>
-            <small class="text-muted float-end"></small>
-
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
+<br />
 
-        <div class="row">
+<div class="row" style="height:8%">
+</div>
 
-            <form asp-action="NurseStationMaster" asp-controller="ClinicAdministration">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="row gy-4">
+    <div class="col-md-12 col-lg-2">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-                <div class="row gy-4">
 
-                    <div class="col-md-12 col-lg-8">
-                        <div class="card">
-                            <div class="card-body">
 
+            
+             
                                 <div class="form-floating form-floating-outline mb-4">
                                     @{
                                         var screenList = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
@@ -75,24 +89,30 @@
                                 <input asp-for="lastUpdatedMachine" class="form-control" />
                                 <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
                                 </div> *@
-                                <div class="form-group">
-                                    <center>
-                                        <button type="submit" asp-action="GetNurseStation" value="Save" class="btn btn-primary">Save</button>
-                                        <button type="submit" value="Add Nurse" class="btn btn-primary">Add Nurse</button>
-                                        <button type="submit" value="Remove Nurse" class="btn btn-primary">Remove Nurse</button>
-                                        @if (ViewBag.Message != null)
-                                        {
-                                            <div class="alert alert-success">
 
 
-                                                @ViewBag.Message
-                                            </div>
 
-                                        }
-                                    </center>
+                                    <br />
                                 </div>
                             </div>
-            </form>
-        </div>
-    </div>
-</div>
+                        </div>
+                        <div class="col-md-12 col-lg-2">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <center>
+                            <button type="submit" style="width:180px" asp-action="GetNurseStation" value="Save" class="btn btn-primary">Save</button>
+                            <button type="submit" style="width:200px" value="Add Nurse" class="btn btn-primary">Add Nurse</button>
+                            <button type="submit" style="width:200px" value="Remove Nurse" class="btn btn-primary">Remove Nurse</button>
+
+                            @if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-success">
+                                    @ViewBag.Message
+                                </div>
+                            }
+                        </center>
+                    </div>
+                </form>
+
