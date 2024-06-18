@@ -56,7 +56,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=LoginAuthentication}/{action=Login}/{id?}");
+    pattern: "{controller=StellarBilling}/{action=CustomerBilling}/{id?}");
 
 app.MapControllerRoute(
     name: "error",

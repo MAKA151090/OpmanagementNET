@@ -1,0 +1,51 @@
+﻿@model DiscountCategoryMasterModel
+
+@{
+    ViewData["Title"] = "DiscountCategoryMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>DiscountCategoryMaster</h1>
+
+<h4>DiscountCategoryMasterModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DiscountCategoryMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryID" class="control-label"></label>
+                <input asp-for="CategoryID" class="form-control" />
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiscountPrice" class="control-label"></label>
+                <input asp-for="DiscountPrice" class="form-control" />
+                <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedDate" class="control-label"></label>
+                <input asp-for="LastUpdatedDate" class="form-control" />
+                <span asp-validation-for="LastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedUser" class="control-label"></label>
+                <input asp-for="LastUpdatedUser" class="form-control" />
+                <span asp-validation-for="LastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedmachine" class="control-label"></label>
+                <input asp-for="LastUpdatedmachine" class="form-control" />
+                <span asp-validation-for="LastUpdatedmachine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
