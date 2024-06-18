@@ -17,5 +17,10 @@ namespace HealthCare.Controllers
             return View();
         }
 
+        public IActionResult CustomerBilling()
+        {
+            return View();
+        }
+
     }
 }
