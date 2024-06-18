@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HealthCare.Models;
 using HealthCare.Business;
+using ClassLibrary1;
 
 namespace HealthCare.Context
 
@@ -160,6 +161,10 @@ namespace HealthCare.Context
 
         public DbSet<PatientPaymentBillDetailsModel> SHPatientPaymentBillDetails { get; set; }
 
+        public DbSet<ProductMatserModel> SHProductMaster { get; set; }
+
+        public DbSet<CategoryMasterModel> SHCategoryMaster { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -179,6 +184,10 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<PatientBillModel>().HasKey(i => new { i.BillID, i.CaseVisitID, i.PatientID });
             modelBuilder.Entity<PatientBillDetailsModel>().HasKey(i => new { i.BillID, i.DetailID });
+
+            modelBuilder.Entity<CategoryMasterModel>().HasKey(i => new { i.CategoryID });
+
+            modelBuilder.Entity<ProductMatserModel>().HasKey(i => new { i.ProductID });
 
 
             modelBuilder.Entity<PatientPaymentModel>().HasKey(i => new { i.PaymentID, i.PatientID, i.CaseVisitID });
