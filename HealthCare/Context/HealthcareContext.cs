@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HealthCare.Models;
 using HealthCare.Business;
+using ClassLibrary1;
 
 namespace HealthCare.Context
 
@@ -174,6 +175,20 @@ namespace HealthCare.Context
         public DbSet<StaffBankDetailsModel> SHBankdetails { get; set; }
 
         public DbSet<PayrollTaxModel>SHpayrollTax { get; set; }
+        public DbSet<ProductMatserModel> SHProductMaster { get; set; }
+
+        public DbSet<CategoryMasterModel> SHCategoryMaster { get; set; }
+
+        public DbSet<BilingSysytemModel> SHCustomerBilling { get; set; }
+
+        public DbSet<CustomerMasterModel> SHCustomerMaster { get; set; }
+
+        public DbSet<DiscountCategoryMasterModel> SHDiscountCategory {  get; set; }
+
+        public DbSet<GSTMasterModel> SHGSTMaster { get; set; }
+
+        public DbSet<VoucherCustomerDetailModel> SHVoucherDetails { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -205,6 +220,19 @@ namespace HealthCare.Context
             modelBuilder.Entity<PatientBillModel>().HasKey(i => new { i.BillID, i.CaseVisitID, i.PatientID });
             modelBuilder.Entity<PatientBillDetailsModel>().HasKey(i => new { i.BillID, i.DetailID });
 
+            modelBuilder.Entity<CategoryMasterModel>().HasKey(i => new { i.CategoryID });
+
+            modelBuilder.Entity<ProductMatserModel>().HasKey(i => new { i.ProductID });
+
+            modelBuilder.Entity<CustomerMasterModel>().HasKey(i => new { i.CustomerID });
+
+            modelBuilder.Entity<DiscountCategoryMasterModel>().HasKey(i => new { i.DiscountPrice });
+
+            modelBuilder.Entity<GSTMasterModel>().HasKey(i => new { i.SGST , i.CGST});
+
+            modelBuilder.Entity<VoucherCustomerDetailModel>().HasKey(i => new { i.VoucherID});
+
+            modelBuilder.Entity<BilingSysytemModel>().HasKey(i => new { i.BillID , i.CustomerNumber});
 
             modelBuilder.Entity<PatientPaymentModel>().HasKey(i => new { i.PaymentID, i.PatientID, i.CaseVisitID });
 

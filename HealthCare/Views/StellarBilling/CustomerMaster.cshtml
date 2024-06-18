@@ -1,0 +1,88 @@
+﻿@model CustomerMasterModel
+
+@{
+    ViewData["Title"] = "CustomerMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>CustomerMaster</h1>
+
+<h4>CustomerMasterModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CustomerMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerID" class="control-label"></label>
+                <input asp-for="CustomerID" class="form-control" />
+                <span asp-validation-for="CustomerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label"></label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateofBirth" class="control-label"></label>
+                <input asp-for="DateofBirth" class="form-control" />
+                <span asp-validation-for="DateofBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <input asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MobileNumber" class="control-label"></label>
+                <input asp-for="MobileNumber" class="form-control" />
+                <span asp-validation-for="MobileNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PointsReedem" class="control-label"></label>
+                <input asp-for="PointsReedem" class="form-control" />
+                <span asp-validation-for="PointsReedem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VoucherDiscount" class="control-label"></label>
+                <input asp-for="VoucherDiscount" class="form-control" />
+                <span asp-validation-for="VoucherDiscount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VoucherNumber" class="control-label"></label>
+                <input asp-for="VoucherNumber" class="form-control" />
+                <span asp-validation-for="VoucherNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedDate" class="control-label"></label>
+                <input asp-for="LastUpdatedDate" class="form-control" />
+                <span asp-validation-for="LastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedUser" class="control-label"></label>
+                <input asp-for="LastUpdatedUser" class="form-control" />
+                <span asp-validation-for="LastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedmachine" class="control-label"></label>
+                <input asp-for="LastUpdatedmachine" class="form-control" />
+                <span asp-validation-for="LastUpdatedmachine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

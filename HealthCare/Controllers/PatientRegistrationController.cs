@@ -40,12 +40,13 @@ namespace HealthCare.Controllers
                 var existingPatient = await _healthcareContext.SHPatientRegistration.FindAsync(patientID);
             if (existingPatient != null)
             {
-                if(buttonType == "getPatientBtn")
-                      
-                    return View("PatientRegister",existingPatient);
+                    if (buttonType == "getPatientBtn")
+                    {
+                        return View("PatientRegister", existingPatient);
+                    }
 
-                // Update existing patient data
-                existingPatient.FacilityID = model.FacilityID;
+                    // Update existing patient data
+                    existingPatient.FacilityID = model.FacilityID;
                 existingPatient.FirstName = model.FirstName;
                 existingPatient.MidName = model.MidName;
                 existingPatient.LastName = model.LastName;
@@ -72,7 +73,9 @@ namespace HealthCare.Controllers
                 existingPatient.lastUpdatedDate = DateTime.Now.ToString();
                 existingPatient.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.Entry(existingPatient).State = EntityState.Modified;
-            }
+
+                   
+                }
             else
             {
                 // Create new patient data
@@ -91,6 +94,8 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             // Return the view with the patient data
             return View("PatientRegister", patient ?? new PatientRegistrationModel());
+
+            
 
 
           

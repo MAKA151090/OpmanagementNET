@@ -176,7 +176,78 @@
             </ul>
     </li>
 
+        <!-- Stellar Billing -->
+        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StellarBilling") ? " active open" : "")'>
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                <div>Stellar Billing</div>
 
+            </a>
+            <ul class="menu-sub">
+
+                <li class='menu-item@(currentPage == "/StellarBilling/CategoryMasterModel" ? " active" : "")'>
+                    <a asp-controller="StellarBilling" asp-action="CategoryMasterModel" class="menu-link">
+
+                        <div>Category Master</div>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="menu-sub">
+
+                <li class='menu-item@(currentPage == "/OTManagement/ProductMasterModel" ? " active" : "")'>
+                    <a asp-controller="StellarBilling" asp-action="ProductMasterModel" class="menu-link">
+
+                        <div>Product Master</div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="menu-sub">
+
+                <li class='menu-item@(currentPage == "/OTManagement/CustomerBilling" ? " active" : "")'>
+                    <a asp-controller="StellarBilling" asp-action="CustomerBilling" class="menu-link">
+
+                        <div>Customer Billing</div>
+                    </a>
+                </li>
+            </ul>
+             <ul class="menu-sub">
+
+                <li class='menu-item@(currentPage == "/OTManagement/CustomerMaster" ? " active" : "")'>
+                    <a asp-controller="StellarBilling" asp-action="CustomerMaster" class="menu-link">
+
+                        <div>Customer Master </div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="menu-sub">
+
+                <li class='menu-item@(currentPage == "/OTManagement/DiscountCategoryMaster" ? " active" : "")'>
+                    <a asp-controller="StellarBilling" asp-action="DiscountCategoryMaster" class="menu-link">
+
+                        <div>Discount Category Master</div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="menu-sub">
+
+                <li class='menu-item@(currentPage == "/OTManagement/GSTMasterModel" ? " active" : "")'>
+                    <a asp-controller="StellarBilling" asp-action="GSTMasterModel" class="menu-link">
+
+                        <div>GST Master</div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="menu-sub">
+
+                <li class='menu-item@(currentPage == "/OTManagement/VoucherCustomerDetails" ? " active" : "")'>
+                    <a asp-controller="StellarBilling" asp-action="VoucherCustomerDetails" class="menu-link">
+
+                        <div>Voucher Customer Details</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
         <ul class="menu-inner py-1">
             <!-- Facility Administration -->

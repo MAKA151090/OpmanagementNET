@@ -1,0 +1,52 @@
+﻿@model GSTMasterModel
+
+@{
+    ViewData["Title"] = "GSTMasterModel";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<h1>GSTMasterModel</h1>
+
+<h4>GSTMasterModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="GSTMasterModel">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SGST" class="control-label"></label>
+                <input asp-for="SGST" class="form-control" />
+                <span asp-validation-for="SGST" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CGST" class="control-label"></label>
+                <input asp-for="CGST" class="form-control" />
+                <span asp-validation-for="CGST" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherTax" class="control-label"></label>
+                <input asp-for="OtherTax" class="form-control" />
+                <span asp-validation-for="OtherTax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedDate" class="control-label"></label>
+                <input asp-for="LastUpdatedDate" class="form-control" />
+                <span asp-validation-for="LastUpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedUser" class="control-label"></label>
+                <input asp-for="LastUpdatedUser" class="form-control" />
+                <span asp-validation-for="LastUpdatedUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdatedmachine" class="control-label"></label>
+                <input asp-for="LastUpdatedmachine" class="form-control" />
+                <span asp-validation-for="LastUpdatedmachine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+

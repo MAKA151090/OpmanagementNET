@@ -8,29 +8,36 @@
 @section PageStyles {
     <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
 }
-<div class="row">
-    <div class="col-md-12 col-lg-10">
-        <div class="card">
-            <div class="card-body ">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="container">
-                        <h2 class="centered text-primary mb-1">HospitalBedMaster</h2>
 
+
+    <div class="row">
+        <div class="col-md-12 col-lg-1">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-color:#8c62c9">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="container">
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">HospitalBedMaster</h2>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row" style="height:8%">
-</div>
+    <br />
 
-<div class="row">
+    <div class="row" style="height:8%">
+    </div>
 
-    <div class="col-md-12 col-lg-5">
-        <div class="card">
-            <div class="card-body">
-                        <div class="form-floating form-floating-outline mb-4">
+    <div class="row gy-4">
+        <div class="col-md-12 col-lg-1">
+        </div>
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+               <div class="form-floating form-floating-outline mb-4">
 
                             <input asp-for="BedID" class="form-control" placeholder="BedID" />
                 <label asp-for="BedID" class="control-label"></label>
@@ -63,14 +70,15 @@
                 <label asp-for="RoomType" class="control-label"></label>
                 <span asp-validation-for="RoomType" class="text-danger"></span>
             </div>
+                </div>
             </div>
         </div>
+        <div class="col-md-12 col-lg-4">
 
 
-    </div>
-    <div class="col-md-12 col-lg-5">
-        <div class="card">
-            <div class="card-body">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
 
                         <div class="form-floating form-floating-outline mb-4">
 
@@ -108,18 +116,23 @@
                 <span asp-validation-for="CostPerDay" class="text-danger"></span>
             </div>
 
-            </div>
-        </div>
+                    <br />
 
-        <div class="row">
-            <div class="form-floating form-floating-outline mb-4">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-floating form-floating-outline mb-4">
-                <div class="container">
 
-                    <button type="submit" style="centered" asp-action="GetHospitalBedMaster" value="Create" class="btn btn-primary">Save</button>
+
+
+
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-1" style="height=10%">
+                <div class="form-floating form-floating-outline mb-4">
+                </div>
+            </div>
+            <div class="form-group">
+                <center>
+                    <button type="submit" style="width:180px" asp-action="GetHospitalBedMaster" value="Create" class="btn btn-primary">Save</button>
+
 
                     @if (ViewBag.Message != null)
                     {
@@ -129,18 +142,9 @@
                             @ViewBag.Message
                         </div>
                     }
-                </div>
+                </center>
             </div>
         </div>
-
-
-
     </div>
-
-
-
-    <div class="row">
-    </div>
-</div>
 </form>
-      
+

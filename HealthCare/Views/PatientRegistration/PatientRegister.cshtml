@@ -31,62 +31,62 @@
 
 
 
-   
-            <div class="row">
-                <div class="col-md-12 col-lg-2">
-                </div>
-                <div class="col-md-12 col-lg-8">
-                    <div class="card">
-                        <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-                           
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input id="PatientID" asp-for="PatientID" class="form-control" placeholder="PatientID" required />
-                                    <label asp-for="PatientID" class="control-label"></label>
-                                    <span asp-validation-for="PatientID" class="text-danger"></span>
-                                </div>
-                           
+    <div class="row">
+        <div class="col-md-12 col-lg-2">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-                           
 
-                                <div class="form-floating form-floating-outline mb-4">
-                                    @{
-                                        var Facid = ((IEnumerable<ClinicAdminModel>)ViewData["Facid"])
-                                        .Select(m => new SelectListItem
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input id="PatientID" asp-for="PatientID" class="form-control" placeholder="PatientID" required />
+                        <label asp-for="PatientID" class="control-label"></label>
+                        <span asp-validation-for="PatientID" class="text-danger"></span>
+                    </div>
+
+
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var Facid = ((IEnumerable<ClinicAdminModel>)ViewData["Facid"])
+                            .Select(m => new SelectListItem
             {
                 Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
                 Text = $"{m.FacilityID} - {m.ClinicName}"
             });
-                                    }
+                        }
 
-                                    @Html.DropDownListFor(model => model.FacilityID, Facid, "Select Facility ID", new { @class = "form-control", required = "required" })
-                                    <label asp-for="FacilityID" class="control-label"></label>
-                                    <span asp-validation-for="FacilityID" class="text-danger"></span>
-                                </div>
+                        @Html.DropDownListFor(model => model.FacilityID, Facid, "Select Facility ID", new { @class = "form-control", required = "required" })
+                        <label asp-for="FacilityID" class="control-label"></label>
+                        <span asp-validation-for="FacilityID" class="text-danger"></span>
+                    </div>
 
-                          
 
-                          
 
-                                <div>
+
+
+                    <div>
                         <center>
                             <button type="submit" value="getPatientBtn" id="getPatientBtn" name="buttonType" class="btn btn-primary">Get</button>
-                            </center>
-                                </div>
-                       
-
-                        </div>
+                        </center>
                     </div>
-                </div>
-                <div class="col-md-12 col-lg-2">
+
+
                 </div>
             </div>
-            <br />
+        </div>
+        <div class="col-md-12 col-lg-2">
+        </div>
+    </div>
+    <br />
 
 
 
 
-    <script>
+  @*   <script>
         document.getElementById("getPatientBtn").addEventListener("click", async function () {
             var patientID = document.getElementById("PatientID").value;
             var facilityID = document.getElementById("FacilityID").value;
@@ -103,62 +103,117 @@
             // Submit the form
             document.getElementById("patientForm").submit();
         });
+    </script> *@
+
+    <script>
+        document.getElementById("getPatientBtn").addEventListener("click", async function () {
+            var patientID = document.getElementById("PatientID").value;
+            var facilityID = document.getElementById("FacilityID").value;
+
+            // Check if both patient ID and facility ID are not empty
+            if (patientID.trim() === "" || facilityID.trim() === "") {
+                alert("Please enter Patient ID and select Facility ID.");
+                return;
+            }
+
+            // Create an object to send as data in the AJAX request
+            var data = {
+                patientID: patientID,
+                facilityID: facilityID
+            };
+
+            try {
+                // Send an AJAX request to the server
+                var response = await fetch('/PatientRegistration/CreateOrUpdate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                console.log("respone successfully come", response);
+                // Check if the response is successful
+                if (response.ok) {
+                    // Parse the JSON response
+                    var patientData = await response.json();
+
+                    // Populate the form fields with the fetched data
+                    document.getElementById("FirstName").value = patientData.FirstName;
+                    document.getElementById("MidName").value = patientData.MidName;
+                    // Populate other fields similarly
+
+                    // Optionally, display a success message
+                    alert("Patient data fetched successfully!");
+                    console.log("success");
+                } else {
+                    // Display an error message if the response is not successful
+                    alert("Failed to fetch patient data. Please try again.");
+                }
+            } catch (error) {
+                // Handle any errors that occur during the AJAX request
+                console.error('Error:', error);
+                console.log("error");
+                alert("An error occurred while fetching patient data.");
+            }
+        });
+
+
     </script>
 
 
+    @*  <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div id="slotsTable">
+    <h3>Slots</h3>
+    <table id="SlotTable" class="table">
+    <thead>
+    <tr>
+    <th>Select</th>
+    <th>PatientId</th>
+    <th>PatientName</th>
+    <th>PatientDob</th>
+    </tr>
+    </thead>
+    <tbody>
 
-   @*  <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-        <div id="slotsTable">
-            <h3>Slots</h3>
-            <table id="SlotTable" class="table">
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>PatientId</th>
-                        <th>PatientName</th>
-                        <th>PatientDob</th>
-                    </tr>
-                </thead>
-                <tbody>
+    @{
+    var PatSearchlist = ViewData["PatSearch"] as List<PatientRegistrationModel>;
+    }
 
-                    @{
-                        var PatSearchlist = ViewData["PatSearch"] as List<PatientRegistrationModel>;
-                    }
+    @if (PatSearchlist != null)
+    {
+    for (int i = 0; i < PatSearchlist.Count; i++)
+    {
+    <tr>
+    <td>
+    <input type="radio" name="selectedSlots" value="@PatSearchlist[i].PatientID" />
+    <input type="hidden" name="SlotsID" value="@PatSearchlist[i].PatientID" />
+    </td>
+    <td>
+    <input type="text" class="form-control" name="FromTime_@PatSearchlist[i].PatientID" value="@PatSearchlist[i].PatientID" />
+    </td>
+    <td>
+    <input type="text" class="form-control" name="ToTime_@PatSearchlist[i].FullName" value="@PatSearchlist[i].FullName" />
+    </td>
+    <td>
+    <input type="text" class="form-control" name="ToTime_@PatSearchlist[i].Dob" value="@PatSearchlist[i].Dob" />
+    </td>
+    </tr>
+    }
+    }
+    </tbody>
+    </table>
 
-                    @if (PatSearchlist != null)
-                    {
-                        for (int i = 0; i < PatSearchlist.Count; i++)
-                        {
-                            <tr>
-                                <td>
-                                    <input type="radio" name="selectedSlots" value="@PatSearchlist[i].PatientID" />
-                                    <input type="hidden" name="SlotsID" value="@PatSearchlist[i].PatientID" />
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" name="FromTime_@PatSearchlist[i].PatientID" value="@PatSearchlist[i].PatientID" />
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" name="ToTime_@PatSearchlist[i].FullName" value="@PatSearchlist[i].FullName" />
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" name="ToTime_@PatSearchlist[i].Dob" value="@PatSearchlist[i].Dob" />
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
-        </div>
     </div>
- *@
+    </div>
+    *@
 
     <div class="row gy-4">
         <div class="form-floating form-floating-outline mb-4">
         </div>
     </div>
     <div class="row gy-4">
-
+        <div class="col-md-12 col-lg-1">
+            </div>
         <div class="col-md-12 col-lg-3">
             <div class="card">
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
@@ -213,15 +268,19 @@
                         <span asp-validation-for="Age" class="text-danger"></span>
                     </div>
 
-
+                   
                 </div>
             </div>
         </div>
-        <div class="col-md-12 col-lg-3">
+        <div class="col-md-12 col-lg-4">
             <div class="card">
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." required />
+                        <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
 
-                  
 
                     <div class="form-floating form-floating-outline mb-4">
                         @{
@@ -290,18 +349,7 @@
 
 
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12 col-lg-3">
-            <div class="card">
-                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." required />
-                        <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
                     <div class="form-floating form-floating-outline mb-4">
                         <input asp-for="Country" class="form-control" placeholder="Country" />
                         <label asp-for="Country" class="control-label"></label>
@@ -314,6 +362,15 @@
 
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-3">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+
                     <div class="form-floating form-floating-outline mb-4">
                         <input asp-for="State" class="form-control" placeholder="State" />
                         <label asp-for="State" class="control-label"></label>
@@ -338,17 +395,6 @@
 
                         <span asp-validation-for="IDPrfNumber" class="text-danger"></span>
                     </div>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="col-md-12 col-lg-3">
-            <div class="card">
-                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
-
                     <div class="form-floating form-floating-outline mb-4">
                         <input asp-for="CnctPrsnName" class="form-control" placeholder="Contact Person Name" />
                         <label asp-for="CnctPrsnName" class="control-label">Contact Person Name</label>
@@ -372,22 +418,27 @@
                         <div class="form-floating form-floating-outline mb-4">
                         </div>
                     </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <center>
-                            <button type="submit" value="Create" asp-action="CreateOrUpdate" class="btn btn-primary">Save</button>
-                            @if (ViewBag.Message != null)
-                            {
-                                <div class="alert alert-success">
-                                    @ViewBag.Message
-                                </div>
-                            }
-                        </center>
-                    </div>
+                  
 
                 </div>
+
             </div>
+
+
+            <div class="form-floating form-floating-outline mb-4">
+                <center>
+                    <button type="submit" value="Create" asp-action="CreateOrUpdate" class="btn btn-primary">Save</button>
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-success">
+                            @ViewBag.Message
+                        </div>
+                    }
+                </center>
+            </div>
+
+
         </div>
-    </div>
 
 
 </form>
