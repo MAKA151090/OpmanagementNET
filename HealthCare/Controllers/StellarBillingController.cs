@@ -22,5 +22,24 @@ namespace HealthCare.Controllers
             return View();
         }
 
+        public IActionResult CustomerMaster()
+        {
+            return View();
+        }
+
+        public IActionResult DiscountCategoryMaster()
+        {
+            return View();
+        }
+
+        public IActionResult GSTMasterModel()
+        {
+            return View();
+        }
+
+       public IActionResult VoucherCustomerDetails()
+        {
+            return View();
+        }
     }
 }

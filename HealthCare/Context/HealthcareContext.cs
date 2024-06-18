@@ -167,6 +167,15 @@ namespace HealthCare.Context
 
         public DbSet<BilingSysytemModel> SHCustomerBilling { get; set; }
 
+        public DbSet<CustomerMasterModel> SHCustomerMaster { get; set; }
+
+        public DbSet<DiscountCategoryMasterModel> SHDiscountCategory {  get; set; }
+
+        public DbSet<GSTMasterModel> SHGSTMaster { get; set; }
+
+        public DbSet<VoucherCustomerDetailModel> SHVoucherDetails { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -189,6 +198,14 @@ namespace HealthCare.Context
             modelBuilder.Entity<CategoryMasterModel>().HasKey(i => new { i.CategoryID });
 
             modelBuilder.Entity<ProductMatserModel>().HasKey(i => new { i.ProductID });
+
+            modelBuilder.Entity<CustomerMasterModel>().HasKey(i => new { i.CustomerID });
+
+            modelBuilder.Entity<DiscountCategoryMasterModel>().HasKey(i => new { i.DiscountPrice });
+
+            modelBuilder.Entity<GSTMasterModel>().HasKey(i => new { i.SGST , i.CGST});
+
+            modelBuilder.Entity<VoucherCustomerDetailModel>().HasKey(i => new { i.VoucherID});
 
             modelBuilder.Entity<BilingSysytemModel>().HasKey(i => new { i.BillID , i.CustomerNumber});
 
