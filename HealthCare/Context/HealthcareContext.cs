@@ -165,6 +165,7 @@ namespace HealthCare.Context
 
         public DbSet<CategoryMasterModel> SHCategoryMaster { get; set; }
 
+        public DbSet<BilingSysytemModel> SHCustomerBilling { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -189,6 +190,7 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<ProductMatserModel>().HasKey(i => new { i.ProductID });
 
+            modelBuilder.Entity<BilingSysytemModel>().HasKey(i => new { i.BillID , i.CustomerNumber});
 
             modelBuilder.Entity<PatientPaymentModel>().HasKey(i => new { i.PaymentID, i.PatientID, i.CaseVisitID });
 
