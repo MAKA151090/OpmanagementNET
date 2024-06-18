@@ -160,6 +160,21 @@ namespace HealthCare.Context
 
         public DbSet<PatientPaymentBillDetailsModel> SHPatientPaymentBillDetails { get; set; }
 
+        public DbSet<PayrollModel>SHpayroll { get; set; }
+
+        public DbSet<LeaveTypeMaster>SHLeaveTypeMaster { get; set; }
+
+        public DbSet<StaffLeaveModel>SHStaffLeave { get; set; }
+
+        public DbSet<EmployeeHierarchymaster> SHEmpHierarchy {  get; set; }
+
+     
+        public DbSet<TaxModel> SHTaxModel { get; set; }
+
+        public DbSet<StaffBankDetailsModel> SHBankdetails { get; set; }
+
+        public DbSet<PayrollTaxModel>SHpayrollTax { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -176,6 +191,16 @@ namespace HealthCare.Context
             //.HasOne(d => d.SlotsID)
             //.WithMany()
             //.HasForeignKey(d => d.Viewslot,);
+
+
+            modelBuilder.Entity<PayrollModel>().HasKey(i => new {i.StaffID,i.PayrollID});
+            modelBuilder.Entity<StaffLeaveModel>().HasKey(i => new { i.LeaveID, i.StaffID,i.LeaveType });
+            modelBuilder.Entity<LeaveTypeMaster>().HasKey(i => new {i.StaffID,i.LeaveType});
+            modelBuilder.Entity<EmployeeHierarchymaster>().HasKey(i => new {i.EmpStaffID,i.MgrStaffID});
+            modelBuilder.Entity<TaxModel>().HasKey(i => new {i.TaxID,i.TaxType});
+            modelBuilder.Entity<StaffBankDetailsModel>().HasKey(i => new {i.StaffID,i.AccountNumber});
+            modelBuilder.Entity<PayrollTaxModel>().HasKey(i => new {i.PayrollID,i.TaxID,i.StaffID});
+           
 
             modelBuilder.Entity<PatientBillModel>().HasKey(i => new { i.BillID, i.CaseVisitID, i.PatientID });
             modelBuilder.Entity<PatientBillDetailsModel>().HasKey(i => new { i.BillID, i.DetailID });
@@ -315,7 +340,7 @@ namespace HealthCare.Context
                 .HasKey(i => new { i.RoomTypeID });
 
             modelBuilder.Entity<StaffAttendanceModel>()
-                .HasKey(i => new { i.StaffID,i.Date });
+                .HasKey(i => new { i.StaffID,i.Date,i.AttendanceID });
 
             modelBuilder.Entity<RollAccessModel>()
                 .HasKey(i => new { i.RollID });

@@ -206,8 +206,89 @@
                     </li>
                 </ul>
            </li>
-                
-       
+            <ul class="menu-inner py-1">
+                <!-- HR Management -->
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/HRManagement") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi  mdi-store"></i>
+                        <div>HR Management</div>
+
+                    </a>
+
+                    <ul class="menu-sub">
+
+                        <li class='menu-item@(currentPage == "/HRManagement/StaffAttendance" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="StaffAttendance" class="menu-link">
+                                <div>Staff Attendance</div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        <li class='menu-item@(currentPage == "/HRManagement/Payroll" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="Payroll" class="menu-link">
+                                <div>Payroll</div>
+                            </a>
+                        </li>
+       </ul>
+
+                    <ul class="menu-sub">
+
+                        <li class='menu-item@(currentPage == "/HRManagement/StaffLeave" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="StaffLeave" class="menu-link">
+                                <div>Staff Leave</div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        <li class='menu-item@(currentPage == "/HRManagement/StaffBankDetail" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="StaffBankDetail" class="menu-link">
+                                <div>Staff Bank Detail</div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        <li class='menu-item@(currentPage == "/HRManagement/LeaveTypeMaster" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="LeaveTypeMaster" class="menu-link">
+                                <div>Leave TypeMaster</div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        <li class='menu-item@(currentPage == "/HRManagement/EmployeeHierarchymaster" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="EmployeeHierarchymaster" class="menu-link">
+                                <div>Employee Hierarchy master</div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        <li class='menu-item@(currentPage == "/HRManagement/StaffTaxMaster" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="StaffTaxMaster" class="menu-link">
+                                <div>Staff Tax Master</div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        <li class='menu-item@(currentPage == "/HRManagement/PayrollTaxMaster" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="PayrollTaxMaster" class="menu-link">
+                                <div>Payroll Tax Master</div>
+                            </a>
+                        </li>
+                    </ul>
+
+
+
         <ul class="menu-inner py-1">
         <!-- Stock Management -->
         <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StockManagement") ? " active open" : "")'>

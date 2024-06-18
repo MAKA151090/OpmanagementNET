@@ -13,6 +13,8 @@
         private String office;
         private String checkInTime;
         private String checkOuTtime;
+        private string strAttendaceID;
+        private string strStatus;
 
         private List<StaffAttendanceModel> stfAttedance;
 
@@ -23,5 +25,7 @@
         public List<StaffAttendanceModel> StfAttedance { get => stfAttedance; set => stfAttedance = value; }
         public string CheckInTime { get => checkInTime; set => checkInTime = value; }
         public string CheckOuTtime { get => checkOuTtime; set => checkOuTtime = value; }
+        public string AttendaceID { get => strAttendaceID; set => strAttendaceID = value; }
+        public string Status { get => strStatus; set => strStatus = value; }
     }
 }

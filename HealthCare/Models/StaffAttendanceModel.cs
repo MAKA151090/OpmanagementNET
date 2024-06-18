@@ -15,6 +15,8 @@
         private String strlastUpdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
+        private string strAttendanceID;
+        private string strStatus;
 
         public string StaffID { get => strStaffID; set => strStaffID = value; }
       
@@ -25,5 +27,7 @@
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
         public string? Office { get => strOffice; set => strOffice = value; }
         public string Date { get => strDate; set => strDate = value; }
+        public string AttendanceID { get => strAttendanceID; set => strAttendanceID = value; }
+        public string? Status { get => strStatus; set => strStatus = value; }
     }
 }
