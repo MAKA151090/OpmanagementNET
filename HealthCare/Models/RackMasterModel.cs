@@ -1,23 +1,22 @@
 ﻿using System;
 
-public class VoucherCustomerDetailModel
+public class RackMasterModel
 {
-	public VoucherCustomerDetailModel()
-	{
-	}
+    public RackMasterModel()
+    {
+    }
 
-	private String strVoucherID;
-    private String strCustomerID;
-    private String strExpiryDate;
+    private String strPartitionID;
+    private String strRackID;
+    private String strFacilityName;
     private String strLastUpdatedDate;
     private String strLastUpdatedUser;
     private String strLastUpdatedmachine;
 
-    public string VoucherID { get => strVoucherID; set => strVoucherID = value; }
-    public string? CustomerID { get => strCustomerID; set => strCustomerID = value; }
-    public string? ExpiryDate { get => strExpiryDate; set => strExpiryDate = value; }
+    public string PartitionID { get => strPartitionID; set => strPartitionID = value; }
+    public string RackID { get => strRackID; set => strRackID = value; }
+    public string? FacilityName { get => strFacilityName; set => strFacilityName = value; }
     public string? LastUpdatedDate { get => strLastUpdatedDate; set => strLastUpdatedDate = value; }
     public string? LastUpdatedUser { get => strLastUpdatedUser; set => strLastUpdatedUser = value; }
     public string? LastUpdatedmachine { get => strLastUpdatedmachine; set => strLastUpdatedmachine = value; }
-
 }

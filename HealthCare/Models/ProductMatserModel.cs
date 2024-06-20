@@ -19,15 +19,15 @@ namespace ClassLibrary1
         private String strLastUpdatedUser;
         private String strLastUpdatedmachine;
 
-        public string? ProductID { get => strProductID; set => strProductID = value; }
-        public string ProductName { get => strProductName; set => strProductName = value; }
-        public string Brandname { get => strBrandname; set => strBrandname = value; }
-        public string Price { get => strPrice; set => strPrice = value; }
-        public string Discount { get => strDiscount; set => strDiscount = value; }
-        public string TotalAmount { get => strTotalAmount; set => strTotalAmount = value; }
-        public string LastUpdatedDate { get => strLastUpdatedDate; set => strLastUpdatedDate = value; }
-        public string LastUpdatedUser { get => strLastUpdatedUser; set => strLastUpdatedUser = value; }
-        public string LastUpdatedmachine { get => strLastUpdatedmachine; set => strLastUpdatedmachine = value; }
-        public string CategoryID { get => strCategoryID; set => strCategoryID = value; }
+        public string ProductID { get => strProductID; set => strProductID = value; }
+        public string? ProductName { get => strProductName; set => strProductName = value; }
+        public string? Brandname { get => strBrandname; set => strBrandname = value; }
+        public string? Price { get => strPrice; set => strPrice = value; }
+        public string? Discount { get => strDiscount; set => strDiscount = value; }
+        public string? TotalAmount { get => strTotalAmount; set => strTotalAmount = value; }
+        public string? LastUpdatedDate { get => strLastUpdatedDate; set => strLastUpdatedDate = value; }
+        public string? LastUpdatedUser { get => strLastUpdatedUser; set => strLastUpdatedUser = value; }
+        public string? LastUpdatedmachine { get => strLastUpdatedmachine; set => strLastUpdatedmachine = value; }
+        public string? CategoryID { get => strCategoryID; set => strCategoryID = value; }
     }
 }
