@@ -58,59 +58,83 @@ namespace HealthCare.Controllers
             ViewData["docid"] = payroll.Getdocid();
             ViewData["levId"] = payroll.GetlevId();
 
-            var existingLev = await GetStaffPayroll.SHStaffLeave.FindAsync(model.StaffID, model.LeaveID, model.LeaveType);
-            var exleaveTypeMas = await GetStaffPayroll.SHLeaveTypeMaster.FindAsync(model.StaffID, model.LeaveType);
+            var existingLev = await GetStaffPayroll.SHStaffLeave.FindAsync(model.LeaveID, model.StaffID, model.LeaveType);
+          
+            int newNoOfDays = 0;
 
-            if (existingLev != null)
+            if (int.TryParse(model.NoOfDays, out newNoOfDays))
             {
-                int existingNoOfDays = int.Parse(existingLev.NoOfDays);
-                int newNoOfDays = int.Parse(model.NoOfDays);
+                int currentBalance = 0;
 
-                // Calculate the difference in leave days
-                int daysDifference = newNoOfDays - existingNoOfDays;
-
-                existingLev.StaffID = model.StaffID;
-                existingLev.LeaveID = model.LeaveID;
-                existingLev.LeaveType = model.LeaveType;
-                existingLev.StartDate = model.StartDate;
-                existingLev.NoOfDays = model.NoOfDays;
-                existingLev.ApprovalStatus= model.ApprovalStatus;
-                existingLev.AppliedDate=model.AppliedDate;
-                existingLev.LastUppdatedDate = DateTime.Now.ToString();
-                existingLev.LastUpdatedUser = User.Claims.First().Value.ToString();
-                existingLev.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                GetStaffPayroll.Entry(existingLev).State = EntityState.Modified;
-
-                if (exleaveTypeMas != null)
+                if (existingLev != null)
                 {
-                    int currentBalance = int.Parse(exleaveTypeMas.Balance);
-                    currentBalance -= daysDifference;
-                    exleaveTypeMas.Balance = currentBalance.ToString();
-                    GetStaffPayroll.Entry(exleaveTypeMas).State = EntityState.Modified;
+                    // Calculate days difference if existing leave record is found
+                    int existingNoOfDays = 0;
+                    if (int.TryParse(existingLev.NoOfDays, out existingNoOfDays))
+                    {
+                        int daysDifference = existingNoOfDays - newNoOfDays;
+
+                        // Update existing leave record
+                        existingLev.StaffID = model.StaffID;
+                        existingLev.LeaveID = model.LeaveID;
+                        existingLev.LeaveType = model.LeaveType;
+                        existingLev.StartDate = model.StartDate;
+                        existingLev.NoOfDays = model.NoOfDays;
+                        existingLev.ApprovalStatus = model.ApprovalStatus;
+                        existingLev.AppliedDate = model.AppliedDate;
+                        existingLev.LastUppdatedDate = DateTime.Now.ToString();
+                        existingLev.LastUpdatedUser = User.Claims.First().Value.ToString();
+                        existingLev.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                        GetStaffPayroll.Entry(existingLev).State = EntityState.Modified;
+
+                        //update balance
+                        var extypebalance = await GetStaffPayroll.SHLeaveTypeMaster
+                                                          .FirstOrDefaultAsync(ltm => ltm.LeaveType == model.LeaveType && ltm.StaffID == model.StaffID);
+
+                        if (extypebalance != null)
+                        {
+
+                            int totalLeaveDays = int.Parse(extypebalance.Balance);
+                            currentBalance = totalLeaveDays - newNoOfDays;
+
+
+                            extypebalance.Balance = currentBalance.ToString();
+                            GetStaffPayroll.Entry(extypebalance).State = EntityState.Modified;
+                        }
+
+
+                    }
+                }
+                else
+                {
+                   
+                    // Fetch total leave days directly from database
+                    var leaveTypeRecord = await GetStaffPayroll.SHLeaveTypeMaster
+                                                          .FirstOrDefaultAsync(ltm => ltm.LeaveType == model.LeaveType &&ltm.StaffID==model.StaffID);
+
+                    if (leaveTypeRecord != null)
+                    {
+                        
+                        int totalLeaveDays = int.Parse(leaveTypeRecord.Total);
+                        currentBalance = totalLeaveDays - newNoOfDays;
+
+                       
+                        leaveTypeRecord.Balance = currentBalance.ToString();
+                        GetStaffPayroll.Entry(leaveTypeRecord).State = EntityState.Modified;
+                    }
+
+                    model.LastUppdatedDate = DateTime.Now.ToString();
+                    model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                    model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                    GetStaffPayroll.SHStaffLeave.Add(model);
                 }
 
+               
+                await GetStaffPayroll.SaveChangesAsync();
+
+               
             }
-
-            else
-            {
-                int newNoOfDays = int.Parse(model.NoOfDays);
-
-                // Update the leave balance for a new leave entry
-                if (exleaveTypeMas != null)
-                {
-                    int currentBalance = int.Parse(exleaveTypeMas.Balance);
-                    currentBalance -= newNoOfDays;
-                    exleaveTypeMas.Balance = currentBalance.ToString();
-                    GetStaffPayroll.Entry(exleaveTypeMas).State = EntityState.Modified;
-                }
-
-                model.LastUppdatedDate = DateTime.Now.ToString();
-                model.LastUpdatedUser = User.Claims.First().Value.ToString();
-                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                GetStaffPayroll.SHStaffLeave.Add(model);
-            }
-            await GetStaffPayroll.SaveChangesAsync();
-
             ViewBag.Message = "Saved Successfully";
             return View("StaffLeave", model);
         }
@@ -147,6 +171,74 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("LeaveTypeMaster", model);
         }
+
+        public async Task<IActionResult> GetHierarchy(EmployeeHierarchymaster model)
+        {
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["docid"] = payroll.Getdocid();
+
+            var existingemph = await GetStaffPayroll.SHEmpHierarchy.FindAsync(model.EmpStaffID, model.MgrStaffID);
+            if (existingemph != null)
+            {
+                existingemph.EmpStaffID = model.EmpStaffID;
+                existingemph.MgrStaffID = model.MgrStaffID;
+                existingemph.ExpiryDate = model.ExpiryDate;
+                existingemph.LastUpdatedDate = DateTime.Now.ToString();
+                existingemph.LastUpdatedUser = User.Claims.First().Value.ToString();
+                existingemph.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetStaffPayroll.Entry(existingemph).State = EntityState.Modified;
+
+            }
+
+            else
+            {
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetStaffPayroll.SHEmpHierarchy.Add(model);
+            }
+            await GetStaffPayroll.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("EmployeeHierarchymaster", model);
+        }
+
+        public async Task<IActionResult> GetStaffBank(StaffBankDetailsModel model)
+        {
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["docid"] = payroll.Getdocid();
+
+            var existingBank = await GetStaffPayroll.SHBankdetails.FindAsync(model.StaffID, model.AccountNumber);
+            if (existingBank != null)
+            {
+                existingBank.StaffID = model.StaffID;
+                existingBank.AccountNumber = model.AccountNumber;
+                existingBank.StaffName = model.StaffName;
+                existingBank.BankName=model.BankName;
+                existingBank.IFSCCode=model.IFSCCode;
+                existingBank.Primary = model.Primary;
+                existingBank.LastUpdatedDate = DateTime.Now.ToString();
+                existingBank.LastUpdatedUser = User.Claims.First().Value.ToString();
+                existingBank.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetStaffPayroll.Entry(existingBank).State = EntityState.Modified;
+
+            }
+
+            else
+            {
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetStaffPayroll.SHBankdetails.Add(model);
+            }
+            await GetStaffPayroll.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("StaffBankDetail", model);
+        }
+
 
 
 
@@ -194,6 +286,8 @@ namespace HealthCare.Controllers
 
         public IActionResult EmployeeHierarchymaster()
         {
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["docid"] = payroll.Getdocid();
             return View();
         }
 

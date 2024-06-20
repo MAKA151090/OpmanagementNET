@@ -1,4 +1,5 @@
-﻿
+﻿@model HealthCare.Models.EmployeeHierarchymaster
+
 @{
     ViewData["Title"] = "EmployeeHierarchymaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
@@ -6,3 +7,60 @@
 
 <h1>EmployeeHierarchymaster</h1>
 
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("GetHierarchy","HRManagement", FormMethod.Post))
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                    var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
+                    .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
+            });
+                }
+
+                @Html.DropDownListFor(model => model.EmpStaffID, screenlist, "Select Doctor ID", new { @class = "form-control" })
+                <label asp-for="EmpStaffID" class="control-label">Employee ID</label>
+
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                    var screenmgr = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
+                    .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
+            });
+                }
+
+                @Html.DropDownListFor(model => model.MgrStaffID, screenmgr, "Select Doctor ID", new { @class = "form-control" })
+                <label asp-for="MgrStaffID" class="control-label">Manager ID</label>
+
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="ExpiryDate" class="form-control" type="date" placeholder="Date" />
+                <label asp-for="ExpiryDate" class="control-label"></label>
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+
+
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
+        }
+    </div>
+</div>
