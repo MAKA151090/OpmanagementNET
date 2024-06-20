@@ -1,4 +1,5 @@
-﻿
+﻿@model HealthCare.Models.TaxModel
+
 @{
     ViewData["Title"] = "StaffTaxMaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
@@ -6,3 +7,48 @@
 
 <h1>StaffTaxMaster</h1>
 
+<h4>TaxModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("GetTax","HRManagement", FormMethod.Post))
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="TaxID" class="form-control" placeholder="TaxID" />
+                <label asp-for="TaxID" class="control-label">Tax ID</label>
+                <span asp-validation-for="TaxID" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="TaxType" class="form-control" placeholder="TaxType" />
+                <label asp-for="TaxType" class="control-label">Tax Type</label>
+                <span asp-validation-for="TaxType" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="TaxAmount" class="form-control" placeholder="TaxAmount" />
+                <label asp-for="TaxAmount" class="control-label">Tax Amount</label>
+                <span asp-validation-for="TaxAmount" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="ApplicablePeriod" class="form-control" placeholder="ApplicablePeriod" />
+                <label asp-for="ApplicablePeriod" class="control-label">Applicable Period</label>
+                <span asp-validation-for="ApplicablePeriod" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
+
+        }
+    </div>
+</div>

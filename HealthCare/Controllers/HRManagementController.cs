@@ -239,6 +239,87 @@ namespace HealthCare.Controllers
             return View("StaffBankDetail", model);
         }
 
+        public async Task<IActionResult> GetTax(TaxModel model)
+        {
+
+            var existingTax = await GetStaffPayroll.SHTaxModel.FindAsync(model.TaxID, model.TaxType);
+            if (existingTax != null)
+            {
+                existingTax.TaxID = model.TaxID;
+                existingTax.TaxType = model.TaxType;
+                existingTax.TaxAmount = model.TaxAmount;
+                existingTax.ApplicablePeriod = model.ApplicablePeriod;
+                existingTax.LastUpdatedDate = DateTime.Now.ToString();
+                existingTax.LastUpdatedUser = User.Claims.First().Value.ToString();
+                existingTax.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetStaffPayroll.Entry(existingTax).State = EntityState.Modified;
+
+            }
+
+            else
+            {
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetStaffPayroll.SHTaxModel.Add(model);
+            }
+            await GetStaffPayroll.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("StaffTaxMaster", model);
+        }
+
+       
+        public async Task<IActionResult> GetPayroll(PayrollModel model,string buttonType)
+        {
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["docid"] = payroll.Getdocid();
+
+            if (buttonType == "PayrollTaxMaster")
+            {
+                return View("PayrollTaxMaster");
+            }
+
+                var existingPay = await GetStaffPayroll.SHpayroll.FindAsync(model.StaffID, model.PayrollID);
+            if (existingPay != null)
+            {
+                existingPay.PayrollID = model.PayrollID;
+                existingPay.StaffID = model.StaffID;
+                existingPay.StaffName = model.StaffName;
+                existingPay.PayPeriod = model.PayPeriod;
+                existingPay.BasicSalary = model.BasicSalary;
+                existingPay.Bonus = model.Bonus;
+                existingPay.ProvidentFund = model.ProvidentFund;
+                existingPay.TaxDeduction = model.TaxDeduction;
+                existingPay.Allowances=model.Allowances;
+                existingPay.GrossSalary = model.GrossSalary;
+                existingPay.NetSalary = model.NetSalary;
+                existingPay.PaymentDate = model.PaymentDate;
+                existingPay.PaymentStatus = model.PaymentStatus;
+                existingPay.HRA = model.HRA;
+                existingPay.Remark = model.Remark;
+                existingPay.LastUpdatedDate = DateTime.Now.ToString();
+                existingPay.LastUpdatedUser = User.Claims.First().Value.ToString();
+                existingPay.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetStaffPayroll.Entry(existingPay).State = EntityState.Modified;
+
+            }
+
+            else
+            {
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetStaffPayroll.SHpayroll.Add(model);
+            }
+            await GetStaffPayroll.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("Payroll", model);
+        }
+
+
 
 
 
@@ -248,8 +329,11 @@ namespace HealthCare.Controllers
             return View();
         }
 
+        
         public IActionResult Payroll()
         {
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["docid"] = payroll.Getdocid();
             return View();
         }
 
@@ -274,6 +358,9 @@ namespace HealthCare.Controllers
 
         public IActionResult StaffBankDetail()
         {
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["docid"] = payroll.Getdocid();
             return View();
         }
 

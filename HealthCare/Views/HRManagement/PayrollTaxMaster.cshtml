@@ -1,4 +1,5 @@
-﻿
+﻿@model HealthCare.Models.PayrollTaxModel
+
 @{
     ViewData["Title"] = "PayrollTaxMaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
@@ -6,3 +7,58 @@
 
 <h1>PayrollTaxMaster</h1>
 
+<h4>PayrollTaxModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PayrollTaxMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="PayrollID" class="form-control" placeholder="PayrollID" />
+                <label asp-for="PayrollID" class="control-label"></label>
+                <span asp-validation-for="PayrollID" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                    var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
+                    .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
+            });
+                }
+
+                @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Employee ID", new { @class = "form-control" })
+                <label asp-for="StaffID" class="control-label">Employee ID</label>
+
+            </div>
+
+
+            <div class="form-floating form-floating-outline mb-4">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <label asp-for="Taxtype" class="control-label"></label>
+                <input asp-for="Taxtype" class="form-control" />
+                <span asp-validation-for="Taxtype" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Get" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

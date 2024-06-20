@@ -7,7 +7,6 @@
 
 <h1>StaffBankDetail</h1>
 
-<h4>StaffBankDetailsModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,7 +23,7 @@
                 });
                 }
 
-                @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Staff ID", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Employee ID", new { @class = "form-control" })
                 <label asp-for="StaffID" class="control-label">Employee ID</label>
 
             </div>
@@ -35,12 +34,12 @@
                     .Select(m => new SelectListItem
                 {
                     Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.StrStaffID} - {m.StrFullName}"
+                    Text = $"{m.StrFullName}"
                 });
                 }
 
-                @Html.DropDownListFor(model => model.StaffName, screenlist, "Select Doctor ID", new { @class = "form-control" })
-                <label asp-for="StaffName" class="control-label">Employee ID</label>
+                @Html.DropDownListFor(model => model.StaffName, screenname, "Select Employee Name", new { @class = "form-control" })
+                <label asp-for="StaffName" class="control-label">Employee Name</label>
 
             </div>
 
@@ -60,10 +59,24 @@
                 <span asp-validation-for="IFSCCode" class="text-danger"></span>
             </div>
 
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="Primary" class="form-control" />
+                <label asp-for="Primary" class="control-label">Primary</label>
+                <span asp-validation-for="Primary" class="text-danger"></span>
+            </div>
+
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
         }
     </div>
 </div>
