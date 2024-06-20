@@ -31,7 +31,21 @@ namespace HealthCare.Business
         }
 
 
+        public List<LeaveTypeMaster> GetlevId()
+        {
+            var levId=(
+                 from l in _healthcareContext.SHLeaveTypeMaster
+                 select new LeaveTypeMaster
+                 {
+                     LeaveType = l.LeaveType,
+                    
 
+                 }
+                ).ToList();
+
+            return levId;
+                
+        }
 
         public IActionResult Index()
         {

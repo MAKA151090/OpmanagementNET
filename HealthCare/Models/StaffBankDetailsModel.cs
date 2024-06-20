@@ -18,7 +18,7 @@
         public string StaffName { get => staffName; set => staffName = value; }
         public string BankName { get => bankName; set => bankName = value; }
         public string AccountNumber { get => accountNumber; set => accountNumber = value; }
-        public string IFSCCode { get => iFSCCode; set => iFSCCode = value; }
+        public string? IFSCCode { get => iFSCCode; set => iFSCCode = value; }
         public string? LastUpdatedUser { get => lastUpdatedUser; set => lastUpdatedUser = value; }
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
         public string? LastUpdatedDate { get => lastUpdatedDate; set => lastUpdatedDate = value; }

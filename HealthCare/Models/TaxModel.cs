@@ -14,8 +14,8 @@
 
         public string TaxID { get => taxID; set => taxID = value; }
         public string TaxType { get => taxType; set => taxType = value; }
-        public string TaxAmount { get => taxAmount; set => taxAmount = value; }
-        public string ApplicablePeriod { get => applicablePeriod; set => applicablePeriod = value; }
+        public string? TaxAmount { get => taxAmount; set => taxAmount = value; }
+        public string? ApplicablePeriod { get => applicablePeriod; set => applicablePeriod = value; }
         public string? LastUpdatedUser { get => lastUpdatedUser; set => lastUpdatedUser = value; }
         public string? LastUpdatedDate { get => lastUpdatedDate; set => lastUpdatedDate = value; }
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }

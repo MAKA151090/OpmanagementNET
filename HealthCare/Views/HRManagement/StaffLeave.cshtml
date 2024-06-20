@@ -1,8 +1,87 @@
-﻿
+﻿@model HealthCare.Models.StaffLeaveModel
+
 @{
     ViewData["Title"] = "StaffLeave";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
 <h1>StaffLeave</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("GetStaffLeave", "HRManagement", FormMethod.Post))
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                    var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
+                    .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
+            });
+                }
+
+                @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Doctor ID", new { @class = "form-control" })
+                <label asp-for="StaffID" class="control-label">Staff ID</label>
+
+            </div>
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="LeaveID" class="form-control" placeholder="Leave ID" />
+                <label asp-for="LeaveID" class="control-label"></label>
+                <span asp-validation-for="LeaveID" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                @{
+                    var Leavelist = ((IEnumerable<LeaveTypeMaster>)ViewData["levId"])
+                    .Select(m => new SelectListItem
+            {
+                Value = m.LeaveType.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.LeaveType}"
+            });
+                }
+
+                @Html.DropDownListFor(model => model.LeaveType, Leavelist, "Select Leave Type", new { @class = "form-control" })
+                <label asp-for="LeaveType" class="control-label">Leave Type</label>
+
+            </div>
+
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="StartDate" class="form-control" type="date" placeholder="Start Date" />
+                <label asp-for="StartDate" class="control-label"></label>
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="NoOfDays" class="form-control" placeholder="No Of Days" />
+                <label asp-for="NoOfDays" class="control-label"></label>
+                <span asp-validation-for="NoOfDays" class="text-danger"></span>
+            </div>
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="ApprovalStatus" class="form-control" placeholder="ApprovalStatus" />
+                <label asp-for="ApprovalStatus" class="control-label"></label>
+                <span asp-validation-for="ApprovalStatus" class="text-danger"></span>
+            </div>
+            <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="AppliedDate" class="form-control" type="date" placeholder="AppliedDate" />
+                <label asp-for="AppliedDate" class="control-label"></label>
+                <span asp-validation-for="AppliedDate" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+            }
+
+        }
+    </div>
+</div>
 
