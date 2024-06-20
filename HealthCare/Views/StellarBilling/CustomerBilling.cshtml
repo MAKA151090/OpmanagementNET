@@ -38,7 +38,7 @@
 
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="BillID" class="form-control" placeholder="BillID" />
+                        <input asp-for="BillID" class="form-control" placeholder="BillID" required />
                         <label asp-for="BillID" class="control-label"></label>
 
                         <span asp-validation-for="BillID" class="text-danger"></span>
@@ -163,25 +163,35 @@
                 </div>
             </div>
             <div class="form-group">
-                <center>
 
-                    <button type="submit" style="width:180px" value="Create" class="btn btn-primary">Save</button>
-
-                    @if (ViewBag.Message != null)
-                    {
-                        <div class="alert alert-success">
-
-
-                            @ViewBag.Message
-                        </div>
-                    }
-                </center>
-            </div>
         </div>
         <div class="col-md-12 col-lg-1">
         </div>
-    </div>
 
+            <br /><br />
+    </div>
+        <center>
+
+            <button type="submit" style="width:180px" value="Create" asp-action="CustomerBill" class="btn btn-primary">Save</button>
+         
+            <button type="submit" style="width:180px" class="btn btn-primary"> Update </button>
+         
+            <button type="submit" style="width:180px" class="btn btn-primary">Delete</button>
+         
+            <button type="submit" style="width:180px" class="btn btn-primary">Points</button>
+         
+            <button type="submit" style="width:180px" class="btn btn-primary">Print</button>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+            }
+        </center>
+    </div>
 
     <div class="row" style="margin-top:40px">
         <div class="col-md-12 col-lg-1 ">
@@ -209,10 +219,21 @@
                                 <th>
                                     TotalAmount
                                 </th>
-
+                             </tr>
+                            <tr>
+                                <td>Croma 109 cm (43 inch) Full HD LED Smart TV with Bezel Less Display (2023 model)</td>
+                                <td>1</td>
+                                <td>5.91%</td>
+                                <td>₹16,690.00</td>
+                            </tr>
+                            <tr>
+                                <td>Canon EOS R6 Mark II 24. 2 MP Mirrorless Camera with RF24-105mm f4 L is USM Lens Kit (Black)</td>
+                                <td>1</td>
+                                <td>7%</td>
+                                <td>₹2,85,299</td>
                             </tr>
                         </thead>
-                        <tbody>
+                   @*      <tbody>
                             <tr>
                                 <td><input type="text" />
                                 <td><input type="text" />
@@ -222,7 +243,7 @@
                             </tr>
 
 
-                        </tbody>
+                        </tbody> *@
                     </table>
 
 

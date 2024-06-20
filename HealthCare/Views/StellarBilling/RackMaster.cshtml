@@ -1,14 +1,13 @@
-﻿@model GSTMasterModel
+﻿@model RackMasterModel
 
 @{
-    ViewData["Title"] = "GSTMasterModel";
+    ViewData["Title"] = "RackMaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
 
-<form asp-action="GSTMasterModel">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+        <form asp-action="RackMaster">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-12 col-lg-2">
         </div>
@@ -17,7 +16,7 @@
                 <div class="card-body " style="background-color:#8c62c9">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="container">
-                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">GSTMasterModel</h2>
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">Rack Master</h2>
 
                         </div>
                     </div>
@@ -26,10 +25,8 @@
         </div>
     </div>
     <br />
-
     <div class="row" style="height:8%">
     </div>
-
     <div class="row gy-4">
         <div class="col-md-12 col-lg-2">
         </div>
@@ -37,53 +34,48 @@
             <div class="card">
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
+                    <div class="form-floating form-floating-outline mb-4">
 
+                        <input asp-for="PartitionID" class="form-control" placeholder="Partition ID"/>
+                        <label asp-for="PartitionID" class="control-label"></label>
+                        <span asp-validation-for="PartitionID" class="text-danger"></span>
+            </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="SGST" class="form-control" placeholder="SGST" />
-                        <label asp-for="SGST" class="control-label"></label>
-                        <span asp-validation-for="SGST" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="CGST" class="form-control" placeholder="CGST" />
-                        <label asp-for="CGST" class="control-label"></label>
-                        <span asp-validation-for="CGST" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="OtherTax" class="form-control" placeholder="OtherTax" />
-                        <label asp-for="OtherTax" class="control-label"></label>
-                        <span asp-validation-for="OtherTax" class="text-danger"></span>
-                    </div>
 
+                        <input asp-for="RackID" class="form-control" placeholder="Rack ID" />
+                <label asp-for="RackID" class="control-label"></label>
+                <span asp-validation-for="RackID" class="text-danger"></span>
+            </div>
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="FacilityName" class="form-control" placeholder="Facility Name"/>
+                <label asp-for="FacilityName" class="control-label"></label>
+                <span asp-validation-for="FacilityName" class="text-danger"></span>
+            </div>
                     <br />
-
 
                 </div>
             </div>
-
-
         </div>
-
 
         <div class="col-md-12 col-lg-2">
         </div>
     </div>
     <br />
+
     <div class="form-group">
         <center>
-
-            <button type="submit" style="width:180px" value="Create" asp-action="AddGST" class="btn btn-primary">Save</button>
-            @*   <input type="submit" value="Create" class="btn btn-primary" /> *@
+            <button type="submit" value="Create" class="btn btn-primary" asp-action="Addrack">Save</button>
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-success">
-
-
                     @ViewBag.Message
                 </div>
             }
         </center>
     </div>
+            
+        </form>
 
 
-</form>
 
