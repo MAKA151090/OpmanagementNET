@@ -102,7 +102,11 @@
                         <tr>
                            
                             <td>
-                                <input type="text" class="form-control" name="taxDetails[@i].TaxType" value="@detail.TaxType" />
+                                <input type="text" class="form-control" name="taxDetails[@i].TaxType" value="" />
+                                <input type="hidden" name="taxDetails[@i].PayrollID" value="@ViewBag.PayrollID" />
+                                <input type="hidden" name="taxDetails[@i].StaffID" value="@ViewBag.StaffID" />
+                                <input type="hidden" name="taxDetails[@i].TaxSlotID" value="@detail.TaxSlotID" />
+
                             </td>
 
                             <td>

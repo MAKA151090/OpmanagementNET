@@ -24,7 +24,7 @@ namespace HealthCare.Models
         private string lastUpdatedMachine;
         private string lastUpdatedDate;
         private string hRA;
-        private string isDelete;
+        private bool isDelete;
 
         public string PayrollID { get => payrollID; set => payrollID = value; }
         public string StaffID { get => staffID; set => staffID = value; }
@@ -44,6 +44,6 @@ namespace HealthCare.Models
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
         public string? LastUpdatedDate { get => lastUpdatedDate; set => lastUpdatedDate = value; }
         public string? HRA { get => hRA; set => hRA = value; }
-        public string IsDelete { get => isDelete; set => isDelete = value; }
+        public bool IsDelete { get => isDelete; set => isDelete = value; }
     }
 }

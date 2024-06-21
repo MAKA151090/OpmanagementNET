@@ -283,7 +283,7 @@ namespace HealthCare.Controllers
                 TempData.Keep("PayrollID");
                 TempData.Keep("StaffID");
 
-                return RedirectToAction("PayrollTaxMaster", new { StaffID = model.StaffID, PayrollID = model.PayrollID });
+                return RedirectToAction("PayrollTaxMaster");
             }
 
                 var existingPay = await GetStaffPayroll.SHpayroll.FindAsync(model.StaffID, model.PayrollID);
@@ -389,13 +389,14 @@ namespace HealthCare.Controllers
             }
             else if (action == "Save")
             {
-
+               
                 foreach (var detail in taxDetails)
                 {
 
                     detail.LastUpdatedDate = DateTime.Now.ToString();
                     detail.LastUpdatedUser = User.Claims.First().Value.ToString();
                     detail.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    detail.Amount = detail.Amount.ToString();
 
 
                     GetStaffPayroll.SHpayrollTax.Update(detail);
@@ -406,7 +407,7 @@ namespace HealthCare.Controllers
             .Where(t => !t.IsDelete)
             .Sum(t => decimal.TryParse(t.Amount, out var amount) ? amount : 0);
 
-                TempData["TotalTax"] = totalTax;
+                TempData["TotalTax"] = totalTax.ToString();
 
 
                 return RedirectToAction("GetPayroll", new { StaffID = StaffID, PayrollID = PayrollID, buttonType = "" });
