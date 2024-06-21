@@ -21,7 +21,7 @@ namespace HealthCare.Controllers
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
             ViewData["docid"] = payroll.Getdocid();
 
-            var existingAtt = await GetStaffPayroll.SHStaffAttendance.FindAsync(model.StaffID,model.AttendanceID,model.Date);
+            var existingAtt = await GetStaffPayroll.SHStaffAttendance.FindAsync(model.StaffID, model.Date, model.AttendanceID);
             if (existingAtt != null)
             {
                 existingAtt.AttendanceID = model.AttendanceID;
@@ -29,12 +29,12 @@ namespace HealthCare.Controllers
                 existingAtt.Date = model.Date;
                 existingAtt.CheckInTime = model.CheckInTime;
                 existingAtt.CheckOuTtime = model.CheckOuTtime;
-                existingAtt.Status= model.Status;
+                existingAtt.Status = model.Status;
                 existingAtt.lastUpdatedDate = DateTime.Now.ToString();
                 existingAtt.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingAtt.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 GetStaffPayroll.Entry(existingAtt).State = EntityState.Modified;
-                
+
             }
 
             else
@@ -59,7 +59,7 @@ namespace HealthCare.Controllers
             ViewData["levId"] = payroll.GetlevId();
 
             var existingLev = await GetStaffPayroll.SHStaffLeave.FindAsync(model.LeaveID, model.StaffID, model.LeaveType);
-          
+
             int newNoOfDays = 0;
 
             if (int.TryParse(model.NoOfDays, out newNoOfDays))
@@ -107,18 +107,18 @@ namespace HealthCare.Controllers
                 }
                 else
                 {
-                   
+
                     // Fetch total leave days directly from database
                     var leaveTypeRecord = await GetStaffPayroll.SHLeaveTypeMaster
-                                                          .FirstOrDefaultAsync(ltm => ltm.LeaveType == model.LeaveType &&ltm.StaffID==model.StaffID);
+                                                          .FirstOrDefaultAsync(ltm => ltm.LeaveType == model.LeaveType && ltm.StaffID == model.StaffID);
 
                     if (leaveTypeRecord != null)
                     {
-                        
+
                         int totalLeaveDays = int.Parse(leaveTypeRecord.Total);
                         currentBalance = totalLeaveDays - newNoOfDays;
 
-                       
+
                         leaveTypeRecord.Balance = currentBalance.ToString();
                         GetStaffPayroll.Entry(leaveTypeRecord).State = EntityState.Modified;
                     }
@@ -130,10 +130,10 @@ namespace HealthCare.Controllers
                     GetStaffPayroll.SHStaffLeave.Add(model);
                 }
 
-               
+
                 await GetStaffPayroll.SaveChangesAsync();
 
-               
+
             }
             ViewBag.Message = "Saved Successfully";
             return View("StaffLeave", model);
@@ -144,8 +144,8 @@ namespace HealthCare.Controllers
 
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
             ViewData["docid"] = payroll.Getdocid();
-         
-            var existingLevmas = await GetStaffPayroll.SHLeaveTypeMaster.FindAsync(model.StaffID,model.LeaveType);
+
+            var existingLevmas = await GetStaffPayroll.SHLeaveTypeMaster.FindAsync(model.StaffID, model.LeaveType);
             if (existingLevmas != null)
             {
                 existingLevmas.StaffID = model.StaffID;
@@ -206,32 +206,43 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetStaffBank(StaffBankDetailsModel model)
         {
+           
 
-            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
-            ViewData["docid"] = payroll.Getdocid();
+            var staff = GetStaffPayroll.SHclnStaffAdminModel.FirstOrDefault(s => s.StrStaffID == model.StaffID);
 
-            var existingBank = await GetStaffPayroll.SHBankdetails.FindAsync(model.StaffID, model.AccountNumber);
-            if (existingBank != null)
+            if (staff != null)
             {
-                existingBank.StaffID = model.StaffID;
-                existingBank.AccountNumber = model.AccountNumber;
-                existingBank.StaffName = model.StaffName;
-                existingBank.BankName=model.BankName;
-                existingBank.IFSCCode=model.IFSCCode;
-                existingBank.Primary = model.Primary;
-                existingBank.LastUpdatedDate = DateTime.Now.ToString();
-                existingBank.LastUpdatedUser = User.Claims.First().Value.ToString();
-                existingBank.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                GetStaffPayroll.Entry(existingBank).State = EntityState.Modified;
+                // Assign StaffName from the fetched staff details
+                model.StaffName = staff.StrFullName;
 
-            }
+                BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+                ViewData["docid"] = payroll.Getdocid();
 
-            else
-            {
-                model.LastUpdatedDate = DateTime.Now.ToString();
-                model.LastUpdatedUser = User.Claims.First().Value.ToString();
-                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                GetStaffPayroll.SHBankdetails.Add(model);
+                var existingBank = await GetStaffPayroll.SHBankdetails.FindAsync(model.StaffID, model.AccountNumber);
+                if (existingBank != null)
+                {
+                    existingBank.StaffID = model.StaffID;
+                    existingBank.AccountNumber = model.AccountNumber;
+                    existingBank.StaffName = model.StaffName;
+                    existingBank.BankName = model.BankName;
+                    existingBank.IFSCCode = model.IFSCCode;
+                    existingBank.Primary = model.Primary;
+                    existingBank.LastUpdatedDate = DateTime.Now.ToString();
+                    existingBank.LastUpdatedUser = User.Claims.First().Value.ToString();
+                    existingBank.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    GetStaffPayroll.Entry(existingBank).State = EntityState.Modified;
+
+                }
+
+
+
+                else
+                {
+                    model.LastUpdatedDate = DateTime.Now.ToString();
+                    model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                    model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    GetStaffPayroll.SHBankdetails.Add(model);
+                }
             }
             await GetStaffPayroll.SaveChangesAsync();
 
@@ -269,8 +280,8 @@ namespace HealthCare.Controllers
             return View("StaffTaxMaster", model);
         }
 
-       
-        public async Task<IActionResult> GetPayroll(PayrollModel model,string buttonType)
+
+        public async Task<IActionResult> GetPayroll(PayrollModel model, string buttonType)
         {
 
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
@@ -286,7 +297,15 @@ namespace HealthCare.Controllers
                 return RedirectToAction("PayrollTaxMaster");
             }
 
-                var existingPay = await GetStaffPayroll.SHpayroll.FindAsync(model.StaffID, model.PayrollID);
+
+            if (string.IsNullOrEmpty(TempData["TotalTax"]?.ToString()))
+            {
+                ViewBag.TaxMessage = "Please enter tax deduction";
+                return View("Payroll", model);
+            }
+
+
+            var existingPay = await GetStaffPayroll.SHpayroll.FindAsync(model.StaffID, model.PayrollID);
             if (existingPay != null)
             {
                 existingPay.PayrollID = model.PayrollID;
@@ -297,7 +316,7 @@ namespace HealthCare.Controllers
                 existingPay.Bonus = model.Bonus;
                 existingPay.ProvidentFund = model.ProvidentFund;
                 model.TaxDeduction = TempData["TotalTax"] != null ? TempData["TotalTax"].ToString() : model.TaxDeduction;
-                existingPay.Allowances=model.Allowances;
+                existingPay.Allowances = model.Allowances;
                 existingPay.GrossSalary = model.GrossSalary;
                 existingPay.NetSalary = model.NetSalary;
                 existingPay.PaymentDate = model.PaymentDate;
@@ -318,6 +337,8 @@ namespace HealthCare.Controllers
                 model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 model.TaxDeduction = TempData["TotalTax"] != null ? TempData["TotalTax"].ToString() : model.TaxDeduction;
                 GetStaffPayroll.SHpayroll.Add(model);
+                await GetStaffPayroll.SaveChangesAsync();
+                return View("Payroll", model);
             }
             await GetStaffPayroll.SaveChangesAsync();
 
@@ -330,7 +351,7 @@ namespace HealthCare.Controllers
         {
             ViewBag.StaffID = StaffID;
             ViewBag.PayrollID = PayrollID;
-            
+
 
             if (action == "Add Tax")
             {
@@ -339,7 +360,7 @@ namespace HealthCare.Controllers
                     PayrollID = PayrollID,
                     StaffID = StaffID,
                     Taxtype = string.Empty,
-                    Amount=string.Empty,
+                    Amount = string.Empty,
                     IsDelete = false
                 };
 
@@ -389,7 +410,7 @@ namespace HealthCare.Controllers
             }
             else if (action == "Save")
             {
-               
+
                 foreach (var detail in taxDetails)
                 {
 
@@ -421,12 +442,12 @@ namespace HealthCare.Controllers
 
 
 
-            public IActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
 
-        
+
         public IActionResult Payroll()
         {
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
@@ -434,13 +455,13 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public IActionResult StaffAttendance() 
+        public IActionResult StaffAttendance()
         {
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
             ViewData["docid"] = payroll.Getdocid();
 
             return View();
-        
+
         }
 
         public IActionResult StaffLeave()
@@ -480,38 +501,51 @@ namespace HealthCare.Controllers
             return View();
         }
 
-       
+
         public async Task<IActionResult> PayrollTaxMaster()
         {
             var model = new List<EmployeeTaxViewModel>();
 
 
-
-            if (TempData["PayrollID"] != null)
+            if (TempData["PayrollID"] != null && TempData["StaffID"] != null)
             {
-                var TaxModel = new EmployeeTaxViewModel
-                {
-                    PayrollID = TempData["PayrollID"] as string,
-                    StaffID = TempData["StaffID"] as string,
-
-                };
+                string payrollID = TempData["PayrollID"] as string;
+                string staffID = TempData["StaffID"] as string;
 
 
+                ViewBag.PayrollID = payrollID;
+                ViewBag.StaffID = staffID;
+
+                // Check if there are existing entries in the database
                 var existingEntries = await GetStaffPayroll.SHpayrollTax
-           .Where(s => s.PayrollID == TaxModel.PayrollID && s.StaffID == TaxModel.StaffID)
-           .ToListAsync();
+                    .Where(s => s.PayrollID == payrollID && s.StaffID == staffID)
+                    .ToListAsync();
 
                 if (existingEntries != null && existingEntries.Any())
                 {
+                    // Map existing entries to EmployeeTaxViewModel
+                    model = existingEntries.Select(entry => new EmployeeTaxViewModel
+                    {
+                        PayrollID = entry.PayrollID,
+                        StaffID = entry.StaffID,
 
-                    return View(existingEntries);
+                    }).ToList();
+
+                    return View(model);
                 }
 
-                model.Add(TaxModel);
+                // If no existing entries found, create a new model instance with TempData values
+                var taxModel = new EmployeeTaxViewModel
+                {
+                    PayrollID = payrollID,
+                    StaffID = staffID
+                };
+
+                model.Add(taxModel);
             }
 
+            // Pass the model to the view
             return View(model);
         }
-
     }
 }

@@ -80,7 +80,7 @@
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="PayPeriod" class="form-control" placeholder="PayPeriod" />
+                        <input asp-for="PayPeriod" class="form-control" placeholder="PayPeriod" type="month" />
                         <label asp-for="PayPeriod" class="control-label">Pay Period</label>
                         <span asp-validation-for="PayPeriod" class="text-danger"></span>
                     </div>
@@ -111,7 +111,7 @@
                         <span asp-validation-for="ProvidentFund" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="TaxDeduction" class="form-control" placeholder="TaxDeduction" />
+                        <input asp-for="TaxDeduction" class="form-control" placeholder="TaxDeduction" readonly />
                         <label asp-for="TaxDeduction" class="control-label">Tax Deduction</label>
                         <span asp-validation-for="TaxDeduction" class="text-danger"></span>
                     </div>
@@ -146,7 +146,7 @@
                         <span asp-validation-for="NetSalary" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="PaymentDate" class="form-control" placeholder="Payment Date" />
+                        <input asp-for="PaymentDate" class="form-control" placeholder="Payment Date" type="date" />
                         <label asp-for="PaymentDate" class="control-label">Payment Date</label>
                         <span asp-validation-for="PaymentDate" class="text-danger"></span>
                     </div>
@@ -189,6 +189,16 @@
                         @ViewBag.Message
                     </div>
                 }
+                @if (ViewBag.TaxMessage != null)
+                {
+                    <div class="alert alert-success">
+
+
+                        @ViewBag.TaxMessage
+                    </div>
+                }
+
+
             </div>
         </div>
     </div>

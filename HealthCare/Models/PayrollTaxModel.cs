@@ -23,7 +23,7 @@ namespace HealthCare.Models
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
         public string? LastUpdatedDate { get => lastUpdatedDate; set => lastUpdatedDate = value; }
         public string? Amount { get => amount; set => amount = value; }
-        public string Taxtype { get => taxtype; set => taxtype = value; }
+        public string? Taxtype { get => taxtype; set => taxtype = value; }
         public bool IsDelete { get => isDelete; set => isDelete = value; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string? TaxSlotID { get => taxSlotID; set => taxSlotID = value; }

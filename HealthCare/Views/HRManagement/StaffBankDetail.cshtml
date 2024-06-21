@@ -59,20 +59,7 @@
 
                     </div>
 
-                    <div class="form-floating form-floating-outline mb-4">
-                        @{
-                            var screenname = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
-                            .Select(m => new SelectListItem
-                {
-                    Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.StrFullName}"
-                });
-                        }
-
-                        @Html.DropDownListFor(model => model.StaffName, screenname, "Select Employee Name", new { @class = "form-control" })
-                        <label asp-for="StaffName" class="control-label">Employee Name</label>
-
-                    </div>
+                   
 
                     <div class="form-floating form-floating-outline mb-4">
                         <input asp-for="BankName" class="form-control" />
@@ -81,7 +68,7 @@
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
                         <input asp-for="AccountNumber" class="form-control" />
-                        <label asp-for="AccountNumber" class="control-label">Bank Name</label>
+                        <label asp-for="AccountNumber" class="control-label">Account Number</label>
                         <span asp-validation-for="AccountNumber" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
