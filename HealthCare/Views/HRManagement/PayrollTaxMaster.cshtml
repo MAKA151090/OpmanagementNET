@@ -1,64 +1,140 @@
-﻿@model HealthCare.Models.PayrollTaxModel
+﻿@model List<EmployeeTaxViewModel>
 
 @{
     ViewData["Title"] = "PayrollTaxMaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-<h1>PayrollTaxMaster</h1>
 
-<h4>PayrollTaxModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="PayrollTaxMaster">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-floating form-floating-outline mb-4">
-                <input asp-for="PayrollID" class="form-control" placeholder="PayrollID" />
-                <label asp-for="PayrollID" class="control-label"></label>
-                <span asp-validation-for="PayrollID" class="text-danger"></span>
+<div class="row" style="margin-top:70px">
+    <div class="col-md-12 col-lg-2 ">
+    </div>
+    <div class="col-md-12 col-lg-8 ">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">Payroll Tax Master</h2>
+
+                    </div>
+                </div>
             </div>
-
-            <div class="form-floating form-floating-outline mb-4">
-                @{
-                    var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
-                    .Select(m => new SelectListItem
-            {
-                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.StrStaffID} - {m.StrFullName}"
-            });
-                }
-
-                @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Employee ID", new { @class = "form-control" })
-                <label asp-for="StaffID" class="control-label">Employee ID</label>
-
-            </div>
-
-
-            <div class="form-floating form-floating-outline mb-4">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating form-floating-outline mb-4">
-                <label asp-for="Taxtype" class="control-label"></label>
-                <input asp-for="Taxtype" class="form-control" />
-                <span asp-validation-for="Taxtype" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Get" class="btn btn-primary" />
-            </div>
-
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+
+
+@using (Html.BeginForm("PayrollTaxMaster", "HRManagement", FormMethod.Post))
+{
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row" style="margin-top:40px">
+        <div class="col-md-12 col-lg-2 ">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                    
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input type="text" class="form-control" id="PayrollID" name="PayrollID" placeholder="Payroll ID" value="@ViewBag.PayrollID" />
+                        <label for="PayrollID" class="control-label">Payroll ID</label>
+                    </div>
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input type="text" class="form-control" id="StaffID" name="StaffID" placeholder="Staff ID" value="@ViewBag.StaffID" />
+                        <label for="StaffID" class="control-label">Staff ID</label>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="form-group">
+        <center>
+            <button type="submit" value="Get Tax" name="action" class="btn btn-primary">Get Tax</button>
+            <button type="submit" value="Add Tax" name="action" class="btn btn-primary">Add Tax</button>
+            <button type="submit" value="Delete Tax" name="action" class="btn btn-primary">Delete Tax</button>
+            @if (ViewBag.DeleteMessage != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.DeleteMessage
+                </div>
+            }
+        </center>
+    </div>
+
+
+
+
+    @if (ViewBag.Slots != null)
+    {
+
+        <div id="slotsTable">
+            <div class="row gy-4">
+                <div class="col-md-12 col-lg-1"></div>
+                <div class="col-md-12 col-lg-2">
+                </div>
+            </div>
+
+            <table id="SlotTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                       
+                        <th>Tax Type</th>
+                        <th>Amonut</th>
+              
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < ViewBag.Slots.Count; i++)
+                    {
+                        var detail = ViewBag.Slots[i];
+                        <tr>
+                           
+                            <td>
+                                <input type="text" class="form-control" name="taxDetails[@i].TaxType" value="@detail.TaxType" />
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" name="taxDetails[@i].Amount" value="@detail.Amount" />
+                            </td>
+                           
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+        <br />
+        <center>
+           
+            <button type="submit" value="Save" name="action" class="btn btn-primary">Save</button>
+        </center>
+
+    }
+
+
+}
+
+
+
+
+<div class="row gy-4">
+    <div class="form-floating form-floating-outline mb-4">
+    </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</div>
+

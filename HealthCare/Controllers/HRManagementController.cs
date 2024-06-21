@@ -278,7 +278,14 @@ namespace HealthCare.Controllers
 
             if (buttonType == "PayrollTaxMaster")
             {
-                return View("PayrollTaxMaster");
+                TempData["PayrollID"] = model.PayrollID;
+                TempData["StaffID"] = model.StaffID;
+               
+
+                TempData.Keep("PayrollID");
+                TempData.Keep("StaffID");
+               
+                return RedirectToAction("PayrollTaxMaster");
             }
 
                 var existingPay = await GetStaffPayroll.SHpayroll.FindAsync(model.StaffID, model.PayrollID);
@@ -319,12 +326,93 @@ namespace HealthCare.Controllers
             return View("Payroll", model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> PayrollTaxMaster(string StaffID, string PayrollID, string action, List<PayrollTaxModel> taxDetails)
+        {
+            ViewBag.StaffID = StaffID;
+            ViewBag.PayrollID = PayrollID;
+            
+
+            if (action == "Add Tax")
+            {
+                var newDetail = new PayrollTaxModel
+                {
+                    PayrollID = TempData["PayrollID"] as string,
+                    StaffID = TempData["StaffID"] as string,
+                    Taxtype = string.Empty,
+                    Amount=string.Empty,
+                    IsDelete = false
+                };
+
+                GetStaffPayroll.SHpayrollTax.Add(newDetail);
+                GetStaffPayroll.SaveChanges();
+
+
+                ViewBag.Slots = GetStaffPayroll.SHpayrollTax.Where(b => b.PayrollID == PayrollID && b.StaffID == StaffID && b.IsDelete == false).ToList();
+            }
+
+
+            else if (action == "Get Tax")
+            {
+
+                var gettaxDetails = await GetStaffPayroll.SHpayrollTax
+                .Where(b => b.PayrollID == PayrollID && b.StaffID == StaffID && b.IsDelete == false)
+                .ToListAsync();
+
+                if (gettaxDetails != null && gettaxDetails.Any())
+                {
+
+                    ViewBag.Slots = gettaxDetails;
+                }
+                else
+                {
+                    ViewBag.getbill = "No Bill is available for this ID";
+                }
+
+            }
+
+            else if (action == "Delete Tax")
+            {
+
+                var taxToDelete = GetStaffPayroll.SHpayrollTax
+            .Where(b => b.PayrollID == PayrollID && b.StaffID == StaffID)
+            .ToList();
+
+                foreach (var detail in taxToDelete)
+                {
+                    detail.IsDelete = true;
+                    GetStaffPayroll.SHpayrollTax.Update(detail);
+                }
+
+                ViewBag.DelTotal = "Deleted  Bill Successfully";
+                GetStaffPayroll.SaveChanges();
+
+            }
+            else if (action == "Save")
+            {
+
+                foreach (var detail in taxDetails)
+                {
+
+                    detail.LastUpdatedDate = DateTime.Now.ToString();
+                    detail.LastUpdatedUser = User.Claims.First().Value.ToString();
+                    detail.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+
+                    GetStaffPayroll.SHpayrollTax.Update(detail);
+                }
+                GetStaffPayroll.SaveChanges();
+                ViewBag.Message = "Bill Saved Successfully";
+            }
+
+            return View("PayrollTaxMaster");
+        }
 
 
 
 
 
-        public IActionResult Index()
+            public IActionResult Index()
         {
             return View();
         }
@@ -383,9 +471,37 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public IActionResult PayrollTaxMaster()
+       
+        public async Task<IActionResult> PayrollTaxMaster()
         {
-            return View();
+            var model = new List<EmployeeTaxViewModel>();
+
+
+
+            if (TempData["PayrollID"] != null)
+            {
+                var TaxModel = new EmployeeTaxViewModel
+                {
+                    PayrollID = TempData["PayrollID"] as string,
+                    StaffID = TempData["StaffID"] as string,
+
+                };
+
+
+                var existingEntries = await GetStaffPayroll.SHpayrollTax
+           .Where(s => s.PayrollID == TaxModel.PayrollID && s.StaffID == TaxModel.StaffID)
+           .ToListAsync();
+
+                if (existingEntries != null && existingEntries.Any())
+                {
+
+                    return View(existingEntries);
+                }
+
+                model.Add(TaxModel);
+            }
+
+            return View(model);
         }
 
     }
