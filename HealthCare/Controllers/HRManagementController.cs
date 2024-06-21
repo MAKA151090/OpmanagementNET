@@ -280,12 +280,10 @@ namespace HealthCare.Controllers
             {
                 TempData["PayrollID"] = model.PayrollID;
                 TempData["StaffID"] = model.StaffID;
-               
-
                 TempData.Keep("PayrollID");
                 TempData.Keep("StaffID");
-               
-                return RedirectToAction("PayrollTaxMaster");
+
+                return RedirectToAction("PayrollTaxMaster", new { StaffID = model.StaffID, PayrollID = model.PayrollID });
             }
 
                 var existingPay = await GetStaffPayroll.SHpayroll.FindAsync(model.StaffID, model.PayrollID);
@@ -298,7 +296,7 @@ namespace HealthCare.Controllers
                 existingPay.BasicSalary = model.BasicSalary;
                 existingPay.Bonus = model.Bonus;
                 existingPay.ProvidentFund = model.ProvidentFund;
-                existingPay.TaxDeduction = model.TaxDeduction;
+                model.TaxDeduction = TempData["TotalTax"] != null ? TempData["TotalTax"].ToString() : model.TaxDeduction;
                 existingPay.Allowances=model.Allowances;
                 existingPay.GrossSalary = model.GrossSalary;
                 existingPay.NetSalary = model.NetSalary;
@@ -318,6 +316,7 @@ namespace HealthCare.Controllers
                 model.LastUpdatedDate = DateTime.Now.ToString();
                 model.LastUpdatedUser = User.Claims.First().Value.ToString();
                 model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                model.TaxDeduction = TempData["TotalTax"] != null ? TempData["TotalTax"].ToString() : model.TaxDeduction;
                 GetStaffPayroll.SHpayroll.Add(model);
             }
             await GetStaffPayroll.SaveChangesAsync();
@@ -337,8 +336,8 @@ namespace HealthCare.Controllers
             {
                 var newDetail = new PayrollTaxModel
                 {
-                    PayrollID = TempData["PayrollID"] as string,
-                    StaffID = TempData["StaffID"] as string,
+                    PayrollID = PayrollID,
+                    StaffID = StaffID,
                     Taxtype = string.Empty,
                     Amount=string.Empty,
                     IsDelete = false
@@ -402,7 +401,16 @@ namespace HealthCare.Controllers
                     GetStaffPayroll.SHpayrollTax.Update(detail);
                 }
                 GetStaffPayroll.SaveChanges();
-                ViewBag.Message = "Bill Saved Successfully";
+
+                var totalTax = taxDetails
+            .Where(t => !t.IsDelete)
+            .Sum(t => decimal.TryParse(t.Amount, out var amount) ? amount : 0);
+
+                TempData["TotalTax"] = totalTax;
+
+
+                return RedirectToAction("GetPayroll", new { StaffID = StaffID, PayrollID = PayrollID, buttonType = "" });
+
             }
 
             return View("PayrollTaxMaster");

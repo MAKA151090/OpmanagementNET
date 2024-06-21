@@ -226,7 +226,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<EmployeeHierarchymaster>().HasKey(i => new {i.EmpStaffID,i.MgrStaffID});
             modelBuilder.Entity<TaxModel>().HasKey(i => new {i.TaxID,i.TaxType});
             modelBuilder.Entity<StaffBankDetailsModel>().HasKey(i => new {i.StaffID,i.AccountNumber});
-            modelBuilder.Entity<PayrollTaxModel>().HasKey(i => new {i.PayrollID,i.Taxtype,i.StaffID});
+            modelBuilder.Entity<PayrollTaxModel>().HasKey(i => new {i.PayrollID,i.TaxSlotID,i.StaffID});
            
 
             modelBuilder.Entity<PatientBillModel>().HasKey(i => new { i.BillID, i.CaseVisitID, i.PatientID });
