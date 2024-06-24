@@ -41,7 +41,7 @@ namespace HealthCare.Business
                     
 
                  }
-                ).ToList();
+                ).Distinct().ToList();
 
             return levId;
                 

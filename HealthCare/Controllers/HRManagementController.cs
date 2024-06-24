@@ -297,48 +297,58 @@ namespace HealthCare.Controllers
                 return RedirectToAction("PayrollTaxMaster");
             }
 
+            var totalTax = TempData["TotalTax"]?.ToString();
+            model.TaxDeduction = totalTax;
 
-            if (string.IsNullOrEmpty(TempData["TotalTax"]?.ToString()))
+            var TaxExist = GetStaffPayroll.SHpayrollTax.FirstOrDefault(s => s.PayrollID==model.PayrollID);
+            if(TaxExist==null)
             {
                 ViewBag.TaxMessage = "Please enter tax deduction";
-                return View("Payroll", model);
+                return View("Payroll");
             }
 
 
-            var existingPay = await GetStaffPayroll.SHpayroll.FindAsync(model.StaffID, model.PayrollID);
-            if (existingPay != null)
-            {
-                existingPay.PayrollID = model.PayrollID;
-                existingPay.StaffID = model.StaffID;
-                existingPay.StaffName = model.StaffName;
-                existingPay.PayPeriod = model.PayPeriod;
-                existingPay.BasicSalary = model.BasicSalary;
-                existingPay.Bonus = model.Bonus;
-                existingPay.ProvidentFund = model.ProvidentFund;
-                model.TaxDeduction = TempData["TotalTax"] != null ? TempData["TotalTax"].ToString() : model.TaxDeduction;
-                existingPay.Allowances = model.Allowances;
-                existingPay.GrossSalary = model.GrossSalary;
-                existingPay.NetSalary = model.NetSalary;
-                existingPay.PaymentDate = model.PaymentDate;
-                existingPay.PaymentStatus = model.PaymentStatus;
-                existingPay.HRA = model.HRA;
-                existingPay.Remark = model.Remark;
-                existingPay.LastUpdatedDate = DateTime.Now.ToString();
-                existingPay.LastUpdatedUser = User.Claims.First().Value.ToString();
-                existingPay.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                GetStaffPayroll.Entry(existingPay).State = EntityState.Modified;
+            var staff = GetStaffPayroll.SHclnStaffAdminModel.FirstOrDefault(s => s.StrStaffID == model.StaffID);
 
-            }
-
-            else
+            if (staff != null)
             {
-                model.LastUpdatedDate = DateTime.Now.ToString();
-                model.LastUpdatedUser = User.Claims.First().Value.ToString();
-                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                model.TaxDeduction = TempData["TotalTax"] != null ? TempData["TotalTax"].ToString() : model.TaxDeduction;
-                GetStaffPayroll.SHpayroll.Add(model);
-                await GetStaffPayroll.SaveChangesAsync();
-                return View("Payroll", model);
+                model.StaffName = staff.StrFullName;
+
+                var existingPay = await GetStaffPayroll.SHpayroll.FindAsync(model.StaffID, model.PayrollID);
+                if (existingPay != null)
+                {
+                    existingPay.PayrollID = model.PayrollID;
+                    existingPay.StaffID = model.StaffID;
+                    existingPay.StaffName = model.StaffName;
+                    existingPay.PayPeriod = model.PayPeriod;
+                    existingPay.BasicSalary = model.BasicSalary;
+                    existingPay.Bonus = model.Bonus;
+                    existingPay.ProvidentFund = model.ProvidentFund;
+                    existingPay.TaxDeduction = totalTax;
+                    existingPay.Allowances = model.Allowances;
+                    existingPay.GrossSalary = model.GrossSalary;
+                    existingPay.NetSalary = model.NetSalary;
+                    existingPay.PaymentDate = model.PaymentDate;
+                    existingPay.PaymentStatus = model.PaymentStatus;
+                    existingPay.HRA = model.HRA;
+                    existingPay.Remark = model.Remark;
+                    existingPay.LastUpdatedDate = DateTime.Now.ToString();
+                    existingPay.LastUpdatedUser = User.Claims.First().Value.ToString();
+                    existingPay.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    GetStaffPayroll.Entry(existingPay).State = EntityState.Modified;
+
+                }
+
+                else
+                {
+                    model.LastUpdatedDate = DateTime.Now.ToString();
+                    model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                    model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                    GetStaffPayroll.SHpayroll.Add(model);
+                    await GetStaffPayroll.SaveChangesAsync();
+                    return View("Payroll", model);
+                }
             }
             await GetStaffPayroll.SaveChangesAsync();
 
@@ -386,7 +396,7 @@ namespace HealthCare.Controllers
                 }
                 else
                 {
-                    ViewBag.getbill = "No Bill is available for this ID";
+                    ViewBag.getTax = "No Tax is available for this ID";
                 }
 
             }
@@ -404,7 +414,7 @@ namespace HealthCare.Controllers
                     GetStaffPayroll.SHpayrollTax.Update(detail);
                 }
 
-                ViewBag.DelTotal = "Deleted  Bill Successfully";
+                ViewBag.DelTotal = "Deleted Tax Successfully";
                 GetStaffPayroll.SaveChanges();
 
             }

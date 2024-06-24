@@ -21,7 +21,7 @@
                 <div class="card-body " style="background-color:#8c62c9">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="container">
-                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">StaffBankDetail</h2>
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">Staff Bank Detail</h2>
 
                         </div>
                     </div>
@@ -54,31 +54,31 @@
                 });
                         }
 
-                        @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Employee ID", new { @class = "form-control" })
-                        <label asp-for="StaffID" class="control-label">Employee ID</label>
+                        @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Staff ID", new { @class = "form-control" ,@required="required" })
+                        <label asp-for="StaffID" class="control-label">Staff ID</label>
 
                     </div>
 
                    
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="BankName" class="form-control" />
+                        <input asp-for="BankName" class="form-control" placeholder="Bank Name" />
                         <label asp-for="BankName" class="control-label">Bank Name</label>
                         <span asp-validation-for="BankName" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="AccountNumber" class="form-control" />
+                        <input asp-for="AccountNumber" class="form-control" required  placeholder="Accoount Number"/>
                         <label asp-for="AccountNumber" class="control-label">Account Number</label>
                         <span asp-validation-for="AccountNumber" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="IFSCCode" class="form-control" />
+                        <input asp-for="IFSCCode" class="form-control" placeholder="IFSC Code" />
                         <label asp-for="IFSCCode" class="control-label">IFSC Code</label>
                         <span asp-validation-for="IFSCCode" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Primary" class="form-control" />
+                        <input asp-for="Primary" class="form-control" placeholder="Primary" />
                         <label asp-for="Primary" class="control-label">Primary</label>
                         <span asp-validation-for="Primary" class="text-danger"></span>
                     </div>

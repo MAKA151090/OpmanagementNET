@@ -5,6 +5,30 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        popupOKButton.addEventListener("click", function () {
+            popup.style.display = "none"; // Hide the popup when OK button is clicked
+        });
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: black; padding: 30px; border: 10px solid white; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 20px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
 
 
 <div class="row" style="margin-top:70px">
@@ -63,12 +87,22 @@
             <button type="submit" value="Get Tax" name="action" class="btn btn-primary">Get Tax</button>
             <button type="submit" value="Add Tax" name="action" class="btn btn-primary">Add Tax</button>
             <button type="submit" value="Delete Tax" name="action" class="btn btn-primary">Delete Tax</button>
-            @if (ViewBag.DeleteMessage != null)
+           
+            @if (ViewBag.DelTotal != null)
             {
-                <div class="alert alert-success">
-                    @ViewBag.DeleteMessage
-                </div>
+                <script>
+                    handleMessages("@ViewBag.DelTotal");
+                </script>
             }
+
+            @if (ViewBag.getTax != null)
+            {
+                <script>
+                    handleMessages("@ViewBag.getTax");
+                </script>
+            }
+
+          
         </center>
     </div>
 
@@ -102,7 +136,7 @@
                         <tr>
                            
                             <td>
-                                <input type="text" class="form-control" name="taxDetails[@i].TaxType" value="" />
+                                <input type="text" class="form-control" name="taxDetails[@i].TaxType" value="@detail.Taxtype" />
                                 <input type="hidden" name="taxDetails[@i].PayrollID" value="@ViewBag.PayrollID" />
                                 <input type="hidden" name="taxDetails[@i].StaffID" value="@ViewBag.StaffID" />
                                 <input type="hidden" name="taxDetails[@i].TaxSlotID" value="@detail.TaxSlotID" />
