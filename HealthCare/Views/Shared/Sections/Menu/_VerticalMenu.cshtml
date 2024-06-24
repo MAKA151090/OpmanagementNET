@@ -82,6 +82,17 @@
                         <div>Staff Registration</div>
                         </a>
                     </li>
+
+                <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccessMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="RollAccessMaster" class="menu-link">
+                        <div>Roll Access Master</div>
+                    </a>
+
+                <li class='menu-item@(currentPage == "/ClinicAdministration/RollTypeMaster" ? " active" : "")'>
+                    <a asp-controller="ClinicAdministration" asp-action="RollTypeMaster" class="menu-link">
+                        <div>Roll Type Master</div>
+                    </a>
+
                 <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccess" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="RollAccess" class="menu-link">
                <div>RollAccess</div>

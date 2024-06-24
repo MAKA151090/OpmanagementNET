@@ -942,7 +942,15 @@ namespace HealthCare.Controllers
         }
         
        
-        
+        public IActionResult RollAccessMaster()
+        {
+            return View();
+        }
+
+        public IActionResult RollTypeMaster()
+        {
+            return View();
+        }
 
         public IActionResult HospitalRegistration()
         {

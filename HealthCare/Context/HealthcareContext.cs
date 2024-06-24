@@ -203,6 +203,10 @@ namespace HealthCare.Context
 
         public DbSet<PointsMasterModel>  SHPointsMaster { get; set; }
 
+        public DbSet<RollTypeMaster>Shclnrolltypemaster { get; set; }
+
+        public DbSet<RollAccessMaster>ShclnrollAccessmaster { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -218,6 +222,9 @@ namespace HealthCare.Context
             //.HasOne(d => d.SlotsID)
             //.WithMany()
             //.HasForeignKey(d => d.Viewslot,);
+
+            modelBuilder.Entity<RollTypeMaster>().HasKey(i => new { i.RollID });
+            modelBuilder.Entity<RollAccessMaster>().HasKey(i => new { i.StaffID, i.RollName });
 
 
             modelBuilder.Entity<PayrollModel>().HasKey(i => new {i.StaffID,i.PayrollID});
