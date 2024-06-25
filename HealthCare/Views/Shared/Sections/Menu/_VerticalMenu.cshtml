@@ -38,13 +38,22 @@
             <div>CRM</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
           </a>
         </li> *@
+        @{
+    var rollAccessList = ViewData["RollAccess"] as List<String>;
+}
 
-        
+@if (rollAccessList != null)
+{
+                    @if (rollAccessList.Contains("HospitalRegistration"))
+        {
                 <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalRegistration" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="HospitalRegistration" class="menu-link">
                         <div>Hospital Registration</div>
                     </a>
                 </li>
+        }
+    }
+    }
                 
                 <li class='menu-item@(currentPage == "/ClinicAdministration/DiagnosisMaster" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="DiagnosisMaster" class="menu-link">
