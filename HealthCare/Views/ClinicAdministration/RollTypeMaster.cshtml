@@ -1,8 +1,40 @@
-﻿
+﻿@model HealthCare.Models.RollTypeMaster
+
 @{
     ViewData["Title"] = "RollTypeMaster";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
 <h1>RollTypeMaster</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-controller="ClinicAdministration" asp-action="GetRollType">
+           
+            <div class="form-group">
+                <label asp-for="RollID" class="control-label"></label>
+                <input asp-for="RollID" class="form-control" />
+                <span asp-validation-for="RollID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RollName" class="control-label"></label>
+                <input asp-for="RollName" class="form-control" />
+                <span asp-validation-for="RollName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+
+
+                    @ViewBag.Message
+                </div>
+            }
+
+        </form>
+    </div>
+</div>
 

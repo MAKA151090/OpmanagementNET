@@ -125,9 +125,12 @@ namespace HealthCare.Business
         {
             var staffid = (
                     from pr in _healthcareContext.SHclnStaffAdminModel
+                    join p in _healthcareContext.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                    where p.ResourceTypeName == "Doctor"
                     select new StaffAdminModel
                     {
-                        StrStaffID = pr.StrStaffID
+                        StrStaffID = pr.StrStaffID,
+                        StrFullName = pr.StrFullName
                     }
                 ).ToList();
 
@@ -162,6 +165,19 @@ namespace HealthCare.Business
                ).ToList();
 
             return resoruseid;
+        }
+        public List<RollTypeMaster> RollAccessType()
+        {
+            var rollid = (
+                    from pr in _healthcareContext.Shclnrolltypemaster
+                    select new RollTypeMaster
+                    {
+                        RollID = pr.RollID,
+                        RollName = pr.RollName
+                    }
+                ).ToList();
+
+            return rollid;
         }
 
 

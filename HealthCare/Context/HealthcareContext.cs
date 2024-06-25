@@ -224,7 +224,7 @@ namespace HealthCare.Context
             //.HasForeignKey(d => d.Viewslot,);
 
             modelBuilder.Entity<RollTypeMaster>().HasKey(i => new { i.RollID });
-            modelBuilder.Entity<RollAccessMaster>().HasKey(i => new { i.StaffID, i.RollName });
+            modelBuilder.Entity<RollAccessMaster>().HasKey(i => new { i.StaffID, i.RollID });
 
 
             modelBuilder.Entity<PayrollModel>().HasKey(i => new {i.StaffID,i.PayrollID});

@@ -7,6 +7,8 @@ using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using HealthCare.Context;
 using Microsoft.EntityFrameworkCore;
+using HealthCare.Business;
+using Newtonsoft.Json;
 
 namespace HealthCare.Controllers
 {
@@ -30,6 +32,12 @@ namespace HealthCare.Controllers
         }
         public IActionResult Index()
         {
+            if (TempData["RollAccess"] != null)
+            {
+                var rollAccess = JsonConvert.DeserializeObject<List<RollAccessModel>>(TempData["RollAccess"].ToString());
+                ViewData["RollAccess"] = rollAccess;
+            }
+
             return View();
         }
         public async Task<IActionResult> LogOut()
@@ -44,8 +52,10 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(StaffAdminModel model )
+        public async Task<IActionResult> Login(StaffAdminModel model ,string screenid,string rollid)
         {
+
+
             var login = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
 
             if (login != null)
@@ -71,7 +81,13 @@ namespace HealthCare.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity), properties);
 
+                    BusinessClassRegistration Busreg = new BusinessClassRegistration(_healthcareContext);
                     
+                    var rolldetail = Busreg.GetRoll(model.StrStaffID);
+
+                    // Set TempData with the filtered roll details
+                    TempData["RollAccess"] = rolldetail;
+
 
                     return RedirectToAction("Index", "ClinicAdministration");
                 }

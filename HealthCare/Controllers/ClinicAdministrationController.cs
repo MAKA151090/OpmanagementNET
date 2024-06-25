@@ -380,6 +380,7 @@ namespace HealthCare.Controllers
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["screenid"] = clinicAdmin.GetScreenid();
+            ViewData["rollid"] = clinicAdmin.RollAccessType();
             return View();
         }
         public IActionResult ScreenMaster()
@@ -708,10 +709,13 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetRollAccess(RollAccessModel model)
         {
-            ClinicAdminBusinessClass businessClass = new ClinicAdminBusinessClass(_healthcareContext);
 
-            //  var bus = await businessClass.GetScreenid(model.ScreenID);
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["screenid"] = clinicAdmin.GetScreenid();
+            ViewData["rollid"] = clinicAdmin.RollAccessType();
+           
 
+        
             var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID);
             if (existingTest != null)
             {
@@ -734,10 +738,6 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-
-            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["screenid"] = clinicAdmin.GetScreenid();
-
 
             return View("RollAccess", model);
 
@@ -944,6 +944,10 @@ namespace HealthCare.Controllers
        
         public IActionResult RollAccessMaster()
         {
+            ClinicAdminBusinessClass clinicbuiness = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["staffid"] = clinicbuiness.GetStaffID();
+            ViewData["rollid"] = clinicbuiness.RollAccessType();
+
             return View();
         }
 
@@ -1457,6 +1461,75 @@ namespace HealthCare.Controllers
             }
             return View();
         }
+
+        public async Task<IActionResult> GetRollType(RollTypeMaster model)
+        {
+            var existingRollID = await _healthcareContext.Shclnrolltypemaster.FindAsync(model.RollID);
+            if (existingRollID != null)
+            {
+                existingRollID.RollID = model.RollID;
+                existingRollID.RollName = model.RollName;
+                existingRollID.LastupdatedDate = DateTime.Now.ToString();
+                existingRollID.LastupdatedUser = User.Claims.First().Value.ToString();
+                existingRollID.LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.Entry(existingRollID).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                _healthcareContext.Shclnrolltypemaster.Add(model);
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+
+            return View("RollTypeMaster", model);
+        }
+
+
+        public async Task<IActionResult> GetAccessMaster(RollAccessMaster model, List<string> SelectedRollNames)
+        {
+            ClinicAdminBusinessClass clinicbuiness = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["staffid"] = clinicbuiness.GetStaffID();
+            ViewData["rollid"] = clinicbuiness.RollAccessType();
+
+
+
+            foreach (var rollName in SelectedRollNames)
+            {
+                var existingAccess = await _healthcareContext.ShclnrollAccessmaster.FindAsync(model.StaffID, rollName);
+                if (existingAccess != null)
+                {
+                    existingAccess.StaffID = model.StaffID;
+                    existingAccess.RollID = rollName;
+                    existingAccess.LastupdatedDate = DateTime.Now.ToString();
+                    existingAccess.Lastupdateduser = User.Claims.First().Value.ToString();
+                    existingAccess.LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    _healthcareContext.Entry(existingAccess).State = EntityState.Modified;
+                }
+                else
+                {
+                    var newAccess = new RollAccessMaster
+                    {
+                        StaffID = model.StaffID,
+                        RollID = rollName,
+                        LastupdatedDate = DateTime.Now.ToString(),
+                        Lastupdateduser = User.Claims.First().Value.ToString(),
+                        LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                    };
+                    _healthcareContext.ShclnrollAccessmaster.Add(newAccess);
+                }
+
+            }
+            await _healthcareContext.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+
+            return View("RollAccessMaster", model);
+        }
+
 
     }
 }

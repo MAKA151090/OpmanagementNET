@@ -188,7 +188,24 @@ namespace HealthCare.Business
 
 
         }
+
+
+        public List<String> GetRoll(string userid)
+        {
+            var query = from sm in objDbContext.SHClnScreenMaster
+                        join rac in objDbContext.SHClnRollAccess on sm.ScreenId equals rac.ScreenID
+                        join ram in objDbContext.ShclnrollAccessmaster on rac.RollID equals ram.RollID
+                        join sam in objDbContext.SHclnStaffAdminModel on ram.StaffID equals sam.StrStaffID
+                        where rac.Authorized == "1" && sam.StrStaffID == "userid"
+                        select sm.ScreenName;
+
+            var result = query.ToList();
+            return result;
+        }
+
+
+
     }
 
 
-    }
+}
