@@ -405,7 +405,7 @@ namespace HealthCare.Context
                 .HasKey(i => new { i.StaffID,i.Date,i.AttendanceID });
 
             modelBuilder.Entity<RollAccessModel>()
-                .HasKey(i => new { i.RollID });
+                .HasKey(i => new { i.RollID ,i.ScreenID});
 
             modelBuilder.Entity<ScreenMasterModel>()
                 .HasKey(i => new { i.ScreenId });

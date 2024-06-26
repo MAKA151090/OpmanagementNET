@@ -1,8 +1,16 @@
+@using Newtonsoft.Json
 @{
   TempData.Keep();
-  string? currentPage = ViewContext.HttpContext.Request.Path;
-}
+    string? currentPage = ViewContext.HttpContext.Request.Path;
+  
+    List<string> rollAccessList = new List<string>();
 
+    if (TempData["RollAccess"] != null)
+    {
+        string serializedList = TempData["RollAccess"].ToString();
+        rollAccessList = JsonConvert.DeserializeObject<List<string>>(serializedList);
+    }
+}
 <!-- Menu -->
 @* ! Do this simple *@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -38,9 +46,7 @@
             <div>CRM</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
           </a>
         </li> *@
-        @{
-    var rollAccessList = ViewData["RollAccess"] as List<String>;
-}
+  
 
 @if (rollAccessList != null)
 {
@@ -53,7 +59,7 @@
                 </li>
         }
     }
-    }
+    
                 
                 <li class='menu-item@(currentPage == "/ClinicAdministration/DiagnosisMaster" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="DiagnosisMaster" class="menu-link">

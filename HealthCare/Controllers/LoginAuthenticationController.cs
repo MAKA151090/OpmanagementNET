@@ -86,7 +86,7 @@ namespace HealthCare.Controllers
                     var rolldetail = Busreg.GetRoll(model.StrStaffID);
 
                     // Set TempData with the filtered roll details
-                    TempData["RollAccess"] = rolldetail;
+                    TempData["RollAccess"] = JsonConvert.SerializeObject(rolldetail); ;
 
 
                     return RedirectToAction("Index", "ClinicAdministration");
