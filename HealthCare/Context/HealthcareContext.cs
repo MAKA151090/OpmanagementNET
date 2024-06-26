@@ -207,6 +207,8 @@ namespace HealthCare.Context
 
         public DbSet<RollAccessMaster>ShclnrollAccessmaster { get; set; }
 
+        public DbSet<ScreenNameMasterModel>shdbscreenname {  get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -225,6 +227,7 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<RollTypeMaster>().HasKey(i => new { i.RollID });
             modelBuilder.Entity<RollAccessMaster>().HasKey(i => new { i.StaffID, i.RollID });
+            modelBuilder.Entity<ScreenNameMasterModel>().HasKey(i => new { i.ScreenName });
 
 
             modelBuilder.Entity<PayrollModel>().HasKey(i => new {i.StaffID,i.PayrollID});

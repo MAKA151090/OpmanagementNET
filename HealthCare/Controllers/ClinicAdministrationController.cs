@@ -716,7 +716,7 @@ namespace HealthCare.Controllers
            
 
         
-            var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID);
+            var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID,model.ScreenID);
             if (existingTest != null)
             {
                 existingTest.RollID = model.RollID;
