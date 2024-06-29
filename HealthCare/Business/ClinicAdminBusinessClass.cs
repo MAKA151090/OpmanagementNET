@@ -180,6 +180,19 @@ namespace HealthCare.Business
             return rollid;
         }
 
+        public List<ScreenNameMasterModel> Screenname()
+        {
+            var screenname = (
+                    from pr in _healthcareContext.shdbscreenname
+                    select new ScreenNameMasterModel
+                    {
+                        ScreenName= pr.ScreenName,
+                    }
+                ).ToList();
+
+            return screenname;
+        }
+
 
     }
 }

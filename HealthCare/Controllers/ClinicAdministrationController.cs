@@ -385,6 +385,9 @@ namespace HealthCare.Controllers
         }
         public IActionResult ScreenMaster()
         {
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["screenname"] = clinicAdmin.Screenname();
             return View();
         }
         public IActionResult DoctorRegistration()
@@ -747,6 +750,10 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetScreenMaster(ScreenMasterModel model)
         {
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["screenname"] = clinicAdmin.Screenname();
+           
 
             var existingTest = await _healthcareContext.SHClnScreenMaster.FindAsync(model.ScreenId);
             if (existingTest != null)

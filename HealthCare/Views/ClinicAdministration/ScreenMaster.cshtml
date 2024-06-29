@@ -51,13 +51,20 @@
                             <label asp-for="ScreenId" class="control-label"></label>
                             <span asp-validation-for="ScreenId" class="text-danger"></span>
                         </div>
-                        <div class="form-floating form-floating-outline mb-4">
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var screenList = ((IEnumerable<ScreenNameMasterModel>)ViewData["screenname"])
+                            .Select(m => new SelectListItem
+            {
+                Value = m.ScreenName.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.ScreenName}"
+            });
+                        }
 
-                            <input asp-for="ScreenName" class="form-control" placeholder="ScreenName" />
-                            <label asp-for="ScreenName" class="control-label"></label>
-                            <span asp-validation-for="ScreenName" class="text-danger"></span>
-                        </div>
-
+                        @Html.DropDownListFor(model => model.ScreenName, screenList, "Select Screen Name", new { @class = "form-control" })
+                        <label asp-for="ScreenName" class="control-label"></label>
+                        <span asp-validation-for="ScreenName" class="text-danger"></span>
+                    </div>
                     <br />
 
 
