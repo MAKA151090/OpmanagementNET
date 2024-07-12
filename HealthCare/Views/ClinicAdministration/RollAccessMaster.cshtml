@@ -12,6 +12,8 @@
     <div class="col-md-4">
         <form asp-controller="ClinicAdministration" asp-action="GetAccessMaster">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
             <div class="form-floating form-floating-outline mb-4">
                 @{
                     var Staffid = ((IEnumerable<StaffAdminModel>)ViewData["staffid"])
