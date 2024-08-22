@@ -189,10 +189,23 @@ namespace HealthCare.Controllers
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAdmin.GetResourceid();
 
-            return View("StaffAdminModel", model);
+            StaffAdminModel cln = new StaffAdminModel();
+
+            return View("StaffAdminModel", cln);
 
 
         }
+
+        public IActionResult StaffAdminModel()
+        {
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["resoruseid"] = clinicAdmin.GetResourceid();
+
+            StaffAdminModel cln = new StaffAdminModel();
+            return View("StaffAdminModel", cln);
+        }
+
+
 
         //[HttpPost]
 
@@ -453,12 +466,10 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public IActionResult StaffAdminModel()
-        {
-            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["resoruseid"] = clinicAdmin.GetResourceid();
-            return View();
-        }
+       
+
+
+
         [HttpPost]
 
         public async Task<IActionResult> TestMaster(TestMasterModel model)
