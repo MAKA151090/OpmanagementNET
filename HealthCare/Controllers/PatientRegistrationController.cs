@@ -134,11 +134,6 @@ namespace HealthCare.Controllers
             return View("PatientRegister", stf);
         }
 
-
-
-
-
-
         public IActionResult PatientRegister()
         {
             BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
