@@ -6,6 +6,37 @@
 }
 
 
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        popupOKButton.addEventListener("click", function () {
+            popup.style.display = "none"; // Hide the popup when OK button is clicked
+        });
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
+
+
 
 @section PageStyles {
     <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
@@ -48,16 +79,14 @@
 
                                 <div class="demo-inline-spacing">
 
-                                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                                        <textarea asp-for="IntBg_Id" class="form-control" placeholder="IntBg_Id" aria-describedby="text-to-speech-addon" required></textarea>
-                                        <label asp-for="IntBg_Id" class="control-label">IntBg_Id</label>
-                                        <span class="input-group-text" id="text-to-speech-addon">
-                                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                                        </span>
-                                        <span asp-validation-for="IntBg_Id" class="text-danger"></span>
-                                    </div>
+                                  
+                            <div class="form-floating form-floating-outline mb-4">
+                                <input asp-for="IntBg_Id" class="form-control" placeholder="BloodGroup ID" value="@Model.IntBg_Id" required />
+                                <label asp-for="IntBg_Id" class="control-label">BloodGroup Id</label>
+                                <span asp-validation-for="IntBg_Id" class="text-danger"></span>
+                            </div>
                                     <div class="form-floating form-floating-outline mb-4">
-                                        <input asp-for="BloodGroup" class="form-control" placeholder="BloodGroup" x-webkit-speech required />
+                                        <input asp-for="BloodGroup" class="form-control" placeholder="BloodGroup"value="@Model.BloodGroup"/>
                                         <label asp-for="BloodGroup" class="control-label"></label>
                                         <span asp-validation-for="BloodGroup" class="text-danger"></span>
                                     </div>
@@ -80,14 +109,14 @@
          
             <button type="submit" style="width:180px" value="Create" asp-action="BloodGroupList" class="btn btn-primary">Save</button>
 
-
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-                    @ViewBag.Message
-                </div>
-            }
         </center>
     </div>
+
+    @if (ViewBag.Message != null)
+    {
+        <script>
+            handleMessages("@ViewBag.Message");
+        </script>
+    }
 </form>
 

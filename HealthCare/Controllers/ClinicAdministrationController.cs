@@ -130,9 +130,15 @@ namespace HealthCare.Controllers
 
 
             ViewBag.Message = "Saved Successfully";
-            return View("BloodGroupAdministration", model);
-            // Pass the list to the view
+
+            BloodGroupModel blo = new BloodGroupModel();
+
+            return View("BloodGroupAdministration", blo);
+           
+
         }
+        
+
         [HttpPost]
         public async Task<IActionResult> AddStaff(StaffAdminModel model)
         {
@@ -372,8 +378,9 @@ namespace HealthCare.Controllers
 
         public IActionResult BloodGroupAdministration()
         {
+            BloodGroupModel blo = new BloodGroupModel();
 
-            return View();
+            return View("BloodGroupAdministration",blo);
         }
         public IActionResult RollAccess()
         {
@@ -989,7 +996,9 @@ namespace HealthCare.Controllers
         }
         public IActionResult ResourceTypeMaster()
         {
-            return View();
+            ResourceTypeMasterModel parm = new ResourceTypeMasterModel();
+
+            return View("ResourceTypeMaster", parm);
         }
 
         public IActionResult OTSummaryMaster()

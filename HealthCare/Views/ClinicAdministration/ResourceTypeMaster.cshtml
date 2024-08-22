@@ -73,13 +73,13 @@
                  
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="ResourceTypeID" class="form-control" placeholder="ResourceTypeID" required/>
+                        <input asp-for="ResourceTypeID" class="form-control" placeholder="ResourceTypeID" value="@Model.ResourceTypeID" required/>
                         <label asp-for="ResourceTypeID" class="control-label"></label>
                         <span asp-validation-for="ResourceTypeID" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="ResourceTypeName" class="form-control" placeholder="ResourceTypeName" />
+                        <input asp-for="ResourceTypeName" class="form-control" placeholder="ResourceTypeName" value="@Model.ResourceTypeName" />
                         <label asp-for="ResourceTypeName" class="control-label"></label>
                         <span asp-validation-for="ResourceTypeName" class="text-danger"></span>
                     </div>
