@@ -126,7 +126,7 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> BloodGroupList(BloodGroupModel model)
 
         {
-            var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id, model.BloodGroup);
+            var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id);
 
             if (existingBloodGroup != null)
             {
@@ -162,7 +162,7 @@ namespace HealthCare.Controllers
         {
 
 
-            var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
+            var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID,model.FacilityID);
 
             if (existingStaffAdmin != null)
             {
@@ -170,8 +170,10 @@ namespace HealthCare.Controllers
                 existingStaffAdmin.ResourceTypeID = model.ResourceTypeID;
                 existingStaffAdmin.StrFirstName = model.StrFirstName;
                 existingStaffAdmin.StrLastName = model.StrLastName;
+                existingStaffAdmin.StrFullName = model.StrFullName;
                 existingStaffAdmin.StrInitial = model.StrInitial;
                 existingStaffAdmin.StrPrefix = model.StrPrefix;
+                existingStaffAdmin.StrGender = model.StrGender;
                 existingStaffAdmin.StrAge = model.StrAge;
                 existingStaffAdmin.StrDateofBirth = model.StrDateofBirth;
                 existingStaffAdmin.StrEmailId = model.StrEmailId;
@@ -212,6 +214,27 @@ namespace HealthCare.Controllers
             return View("StaffAdminModel", cln);
 
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult>GetStaff(StaffAdminModel model)
+        {
+
+            ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["resoruseid"] = clinicAdmin.GetResourceid();
+
+            var getstaffdata = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.FacilityID== model.FacilityID && x.StrStaffID == model.StrStaffID);
+            if(getstaffdata != null)
+            {
+                return View("StaffAdminModel", getstaffdata);
+            }
+            else
+            {
+                ViewBag.Message = "FacilityID Not Found";
+            }
+            StaffAdminModel stf = new StaffAdminModel();
+
+            return View("StaffAdminModel", stf);
         }
 
         public IActionResult StaffAdminModel()

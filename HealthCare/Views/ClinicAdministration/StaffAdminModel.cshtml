@@ -75,9 +75,15 @@
                     <span asp-validation-for="StrStaffID" class="text-danger"></span>
                 </div>
 
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="FacilityID" class="form-control" placeholder="StaffId" value="@Model.FacilityID" required />
+                        <label asp-for="FacilityID" class="control-label">FacilityID</label>
+                        <span asp-validation-for="FacilityID" class="text-danger"></span>
+                    </div>
+
                     <div class="form-group">
                         <center>
-                            <button type="submit" style="width:180px" value="Get" asp-action="Getdoctor" class="btn btn-primary">Search</button>
+                            <button type="submit" style="width:180px" value="Get" asp-action="GetStaff" formmethod="get" class="btn btn-primary">Get</button>
                         </center>
                     </div>
             </div>
@@ -133,7 +139,7 @@
 
                 <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="StrLastName" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" placeholder="LastName" value="@Model.StrLastName" />
+                        <input asp-for="StrLastName" class="form-control" type="text" pattern="[A-Za-z\s]+" title="Please enter only letters" placeholder="LastName" value="@Model.StrLastName" />
                     <label asp-for="StrLastName" class="control-label">LastName</label>
                     <span asp-validation-for="StrLastName" class="text-danger"></span>
                 </div>
@@ -141,26 +147,26 @@
 
                 <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="StrFullName" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" placeholder="FullName" value="@Model.StrLastName" />
+                        <input asp-for="StrFullName" class="form-control" type="text" pattern="[A-Za-z\s]+" title="Please enter only letters" placeholder="FullName" value="@Model.StrFullName" />
                     <label asp-for="StrFullName" class="control-label">FullName</label>
                     <span asp-validation-for="StrFullName" class="text-danger"></span>
                 </div>
 
                 <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="StrInitial" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" placeholder="Initial" value="@Model.StrInitial" />
+                        <input asp-for="StrInitial" class="form-control" type="text" pattern="[A-Za-z\s]+" title="Please enter only letters" placeholder="Initial" value="@Model.StrInitial" />
                     <label asp-for="StrInitial" class="control-label">Initial</label>
                     <span asp-validation-for="StrInitial" class="text-danger"></span>
                 </div>
                 <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="StrPrefix" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" placeholder="Prefix" value="@Model.StrPrefix" />
+                        <input asp-for="StrPrefix" class="form-control" type="text" pattern="[A-Za-z\s]+" title="Please enter only letters" placeholder="Prefix" value="@Model.StrPrefix" />
                     <label asp-for="StrPrefix" class="control-label">Prefix</label>
                     <span asp-validation-for="StrPrefix" class="text-danger"></span>
                 </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="StrPhoneNumber" class="form-control" placeholder="PhoneNumber" value="@Model.StrPhoneNumber"/>
+                        <input asp-for="StrPhoneNumber" class="form-control" type="text" pattern="\d{10}" title="Please enter exactly 10 digits" placeholder="PhoneNumber" value="@Model.StrPhoneNumber"/>
                         <label asp-for="StrPhoneNumber" class="control-label"></label>
                         <span asp-validation-for="StrPhoneNumber" class="text-danger"></span>
                     </div>
@@ -190,7 +196,7 @@
 
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="StrAge" class="form-control" placeholder="Age" value="@Model.StrAge"/>
+                            <input asp-for="StrAge" class="form-control" placeholder="Age" value="@Model.StrAge" />
                             <label asp-for="StrAge" class="control-label">Age</label>
                             <span asp-validation-for="StrAge" class="text-danger"></span>
                         </div>
@@ -244,7 +250,7 @@
                     <span asp-validation-for="StrState" class="text-danger"></span>
                 </div>
                 <div class="form-floating form-floating-outline mb-4">
-                    <input asp-for="StrPin" class="form-control" placeholder="Pin" value="@Model.StrPin"/>
+                            <input asp-for="StrPin" class="form-control" type="text" pattern="\d{6}" title="Please enter exactly 6 digits" placeholder="Pin" value="@Model.StrPin" />
                     <label asp-for="StrPin" class="control-label">Pin</label>
                     <span asp-validation-for="StrPin" class="text-danger"></span>
                 </div>
