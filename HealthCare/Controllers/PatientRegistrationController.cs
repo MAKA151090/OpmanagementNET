@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using DocumentFormat.OpenXml.Wordprocessing;
+using HealthCare.Models;
 
 
 namespace HealthCare.Controllers
@@ -26,27 +27,39 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> CreateOrUpdate(PatientRegistrationModel model,string buttonType, string patientID, string facilityID)
         {
             var schedule = new BusinessClassRegistration(_healthcareContext);
-            var patient = await schedule.GetPatientObjectiveSubmit(patientID, facilityID);
+          //  var patient = await schedule.GetPatientObjectiveSubmit(patientID, facilityID);
 
             // Pass necessary view data
             ViewData["bldgrpid"] = schedule.GetBloodGroup();
             ViewData["Facid"] = schedule.GetFacilityid();
 
 
-            // Check if the patientID and facilityID are provided
-            if (!string.IsNullOrEmpty(patientID) && !string.IsNullOrEmpty(facilityID))
-            {
+          
                 // Retrieve existing patient data if available
-                var existingPatient = await _healthcareContext.SHPatientRegistration.FindAsync(patientID);
+                var existingPatient = await _healthcareContext.SHPatientRegistration.FindAsync(model.PatientID,model.FacilityID);
+
+            if(string.IsNullOrEmpty(model.FullName))
+            {
+                ViewBag.Message = "Please enter FullName";
+                return View("PatientRegister", model);
+            }
+            if(string.IsNullOrEmpty(model.BloodGroup))
+            {
+
+                ViewBag.Message = "Please select BloodGroup";
+                return View("PatientRegister", model);
+            }
+            if(string.IsNullOrEmpty(model.PhoneNumber))
+            {
+
+                ViewBag.Message = "Please enter PhoneNumber";
+                return View("PatientRegister", model);
+            }
+
             if (existingPatient != null)
             {
-                    if (buttonType == "getPatientBtn")
-                    {
-                        return View("PatientRegister", existingPatient);
-                    }
 
-                    // Update existing patient data
-                    existingPatient.FacilityID = model.FacilityID;
+                    // Update existing patient dat
                 existingPatient.FirstName = model.FirstName;
                 existingPatient.MidName = model.MidName;
                 existingPatient.LastName = model.LastName;
@@ -79,27 +92,65 @@ namespace HealthCare.Controllers
             else
             {
                 // Create new patient data
-                model.PatientID = patientID;
-                model.FacilityID = facilityID;
+                
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.SHPatientRegistration.Add(model);
             }
 
-        }
-
-            // Fetch patient data for the provided patientID and facilityID
-
             await _healthcareContext.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully";
-            // Return the view with the patient data
-            return View("PatientRegister", patient ?? new PatientRegistrationModel());
 
-            
+            PatientRegistrationModel mod = new PatientRegistrationModel();
 
+            return View("PatientRegister",mod);
 
-          
+      
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetPatient(PatientRegistrationModel model)
+        {
+            var schedule = new BusinessClassRegistration(_healthcareContext);
+            //  var patient = await schedule.GetPatientObjectiveSubmit(patientID, facilityID);
+
+            // Pass necessary view data
+            ViewData["bldgrpid"] = schedule.GetBloodGroup();
+            ViewData["Facid"] = schedule.GetFacilityid();
+
+            var getpatientdata = await _healthcareContext.SHPatientRegistration.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.PatientID == model.PatientID);
+            if (getpatientdata != null)
+            {
+                return View("PatientRegister", getpatientdata);
+            }
+            else
+            {
+                ViewBag.Message = "FacilityID Not Found";
+            }
+            PatientRegistrationModel stf = new PatientRegistrationModel();
+
+            return View("PatientRegister", stf);
+        }
+
+
+
+
+
+
+        public IActionResult PatientRegister()
+        {
+            BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
+            ViewData["bldgrpid"] = schedule.GetBloodGroup();
+            ViewData["Facid"] = schedule.GetFacilityid();
+
+            PatientRegistrationModel mod = new PatientRegistrationModel();
+
+            return View("PatientRegister", mod);
+        }
+
+
 
 
         [HttpPost]
@@ -190,13 +241,7 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        public IActionResult PatientRegister()
-        {
-            BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
-            ViewData["bldgrpid"] = schedule.GetBloodGroup();
-            ViewData["Facid"] = schedule.GetFacilityid();
-            return View();
-        }
+      
 
         
         public IActionResult PatientScheduling()

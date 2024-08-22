@@ -167,6 +167,7 @@ namespace HealthCare.Controllers
             if (existingStaffAdmin != null)
             {
                 existingStaffAdmin.StrStaffID = model.StrStaffID;
+                existingStaffAdmin.FacilityID = model.FacilityID;
                 existingStaffAdmin.ResourceTypeID = model.ResourceTypeID;
                 existingStaffAdmin.StrFirstName = model.StrFirstName;
                 existingStaffAdmin.StrLastName = model.StrLastName;
@@ -208,6 +209,7 @@ namespace HealthCare.Controllers
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAdmin.GetResourceid();
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
 
             StaffAdminModel cln = new StaffAdminModel();
 
@@ -241,6 +243,8 @@ namespace HealthCare.Controllers
         {
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAdmin.GetResourceid();
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
+
 
             StaffAdminModel cln = new StaffAdminModel();
             return View("StaffAdminModel", cln);
