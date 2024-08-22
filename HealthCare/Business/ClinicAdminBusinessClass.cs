@@ -29,7 +29,20 @@ namespace HealthCare.Business
             return staffregisterdata;
         }
 
+        ///Dropdown for Staffadmin
 
+        public List<ClinicAdminModel> GetFacility()
+        {
+            var Getfac = (from f in _healthcareContext.SHclnClinicAdmin
+                          select new ClinicAdminModel
+                          {
+                              FacilityID = f.FacilityID,
+                              ClinicName = f.ClinicName
+                          }
+                ).ToList();
+
+            return Getfac;
+        }
 
         ///dropdown for rollaccess 
         public List<ScreenMasterModel> GetScreenid()
