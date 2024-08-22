@@ -81,7 +81,7 @@
             });
                         }
 
-                        @Html.DropDownListFor(model => model.FacilityID, fac, "Select Facility ID", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.FacilityID, fac, "Select Facility ID", new { @class = "form-control",@required="required" })
                         <label asp-for="FacilityID" class="control-label">Facility ID</label>
                         <span asp-validation-for="FacilityID" class="text-danger"></span>
                     </div>

@@ -133,7 +133,7 @@ namespace HealthCare.Controllers
             if (buttonType == "Get")
             {
 
-                var exresult = GetPrescription.SHprsPrescription.FirstOrDefault(x => x.PatientID == pPres.PatientID && x.IsDelete == false);
+                var exresult = GetPrescription.SHprsPrescription.FirstOrDefault(x => x.PatientID == pPres.PatientID && x.IsDelete == false &&x.CaseVisitID ==pPres.CaseVisitID && x.OrderID == pPres.OrderID);
                 if (exresult != null)
                 {
 
@@ -348,101 +348,6 @@ namespace HealthCare.Controllers
         }
 
 
-
-
-        /* public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId)
-         {
-             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-             ViewData["patientid"] = prescription.GetPatientId();
-             ViewData["drugid"] = prescription.GetDrugid();
-             ViewData["docid"] = prescription.Getdocid();
-
-             var prescriptionEdit = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId);
-             if (prescriptionEdit == null)
-             {
-                 ViewBag.ErrorMessage = "Not Found";
-             }
-
-             var prescriptionTableModel = new PrescriptionTableModel
-             {
-                 PatientID = prescriptionEdit.PatientID,
-                 CaseVisitID = prescriptionEdit.CaseVisitID,
-                 OrderID = prescriptionEdit.OrderID,
-                 DrugID = prescriptionEdit.DrugID,
-                 DoctorID=prescriptionEdit.DoctorID,
-                 PrescriptionDate = prescriptionEdit.PrescriptionDate,
-                 Unit = prescriptionEdit.Unit,
-                 UnitCategory = prescriptionEdit.UnitCategory,
-                 Frequency = prescriptionEdit.Frequency,
-                 FrequencyUnit = prescriptionEdit.FrequencyUnit,
-                 Duration = prescriptionEdit.Duration,
-                 Quantity = prescriptionEdit.Quantity,
-                 EndDate = prescriptionEdit.EndDate,
-                 RouteAdmin = prescriptionEdit.RouteAdmin,
-                 Instructions = prescriptionEdit.Instructions,
-                 Comments = prescriptionEdit.Comments,
-                 FillDate = prescriptionEdit.FillDate,
-                 Result = prescriptionEdit.Result,
-                 Viewprescription = new List<PrescriptionViewModel>()
-
-             };
-
-
-             var result = prescription.GetPrescription(prescriptionEdit.PatientID, prescriptionEdit.CaseVisitID, prescriptionEdit.OrderID, prescriptionEdit.DrugID);
-             if (result != null && result.Any())
-             {
-                 var viewModelList = result.Select(p => new PrescriptionViewModel
-                 {
-                     PatientID = p.PatientID,
-                     CaseVisitID = p.CaseVisitID,
-                     OrderID = p.OrderID,
-                     DrugID = p.DrugID,
-                     DrugName = p.DrugName,
-                     Frequency = p.Frequency,
-                     Duration = p.Duration,
-                     Dosage = p.Dosage,
-                     Unit = p.Unit
-                 }).ToList();
-                 prescriptionTableModel.Viewprescription = viewModelList;
-             }
-
-
-             return View("PatientEPrescription", prescriptionTableModel);
-
-
-         }
-
-         public async Task<IActionResult> Delete(string patientId, string orderId, string caseVisitId, string drugId)
-         {
-             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-             ViewData["patientid"] = prescription.GetPatientId();
-             ViewData["drugid"] = prescription.GetDrugid();
-             ViewData["docid"] = prescription.Getdocid();
-
-             var prescriptionDel = await GetPrescription.SHprsPrescription.FindAsync(patientId, orderId, caseVisitId, drugId);
-             if (prescriptionDel != null)
-             {
-                 prescriptionDel.IsDelete = true;
-                 await GetPrescription.SaveChangesAsync();
-             }
-             ViewBag.Delete = "Deleted  Successfully.";
-             return View("PatientEPrescription");
-         }
-
-
-         public async Task<IActionResult> PrescriptionPrint (PatientEPrescriptionPrintModel Model)
-         {
-             BusinessClassPatientPrescription ObjPrintResult = new BusinessClassPatientPrescription(GetPrescription);
-
-             if (ObjPrintResult != null)
-             {
-                 var prescription = await ObjPrintResult.GetPrescriptionPrint(Model.PatientID, Model.OrderID,Model.CaseVisitID);
-                 return View("PatientEPrescriptionPrint", prescription);
-             }
-             return View(Model);
-         }
-
- */
 
 
 
