@@ -5,6 +5,40 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+
+
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        popupOKButton.addEventListener("click", function () {
+            popup.style.display = "none"; // Hide the popup when OK button is clicked
+        });
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
+
+
+
 <div class="row gy-4">
     <div class="col-md-12 col-lg-2">
     </div>
@@ -13,7 +47,7 @@
             <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">DrugCategoryMaster</h2>
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">Drug Group Master</h2>
 
                     </div>
                 </div>
@@ -43,31 +77,17 @@
 
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="GroupTypeID" class="form-control" placeholder="GroupTypeID" />
-                <label asp-for="GroupTypeID" class="control-label"></label>
+                            <input asp-for="GroupTypeID" class="form-control" placeholder="GroupTypeID" value="@Model.GroupTypeID" required />
+                        <label asp-for="GroupTypeID" class="control-label">GroupTypeID</label>
                 <span asp-validation-for="GroupTypeID" class="text-danger"></span>
             </div>
 
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="GroupTypeName" class="form-control" placeholder="GroupTypeName" />
-                <label asp-for="GroupTypeName" class="control-label"></label>
-                <span asp-validation-for="GroupTypeName" class="text-danger"></span>
+                            <input asp-for="GroupTypeName" class="form-control" placeholder="GroupTypeName" value="@Model.GroupTypeName" />
+                        <label asp-for="GroupTypeName" class="control-label">GroupTypeName</label>
+               
             </div>
-           @*  <div class="form-group">
-                <label asp-for="lastUpdatedDate" class="control-label"></label>
-                <input asp-for="lastUpdatedDate" class="form-control" />
-                <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastUpdatedUser" class="control-label"></label>
-                <input asp-for="lastUpdatedUser" class="form-control" />
-                <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastUpdatedmachine" class="control-label"></label>
-                <input asp-for="LastUpdatedmachine" class="form-control" />
-                <span asp-validation-for="LastUpdatedmachine" class="text-danger"></span>
-            </div> *@
+          
             <br />
 
           
@@ -75,12 +95,12 @@
             <br />
     <div class="form-group">
         <center>
-            <button type="submit" value="Create" class="btn btn-primary">Save</button>
+            <button type="submit" value="Save" class="btn btn-primary">Save</button>
             @if (ViewBag.Message != null)
             {
-                <div class="alert alert-success">
-                    @ViewBag.Message
-                </div>
+                <script>
+                    handleMessages("@ViewBag.Message");
+                </script>
             }
         </center>
 

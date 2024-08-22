@@ -30,16 +30,17 @@
         }
     </script>
 
-    <div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #fff; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
         <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
-        <button id="popupOKButton" style="padding: 10px 20px; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+        <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
     </div>
 
     <style>
         .popborder {
-            border: 10px solid #fff;
+            border: 10px solid #8c62c9;
         }
     </style>
+
 
 
 
@@ -55,7 +56,7 @@
                     <div class="card-body " style="background-color:#8c62c9">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <div class="container">
-                                <h2 class="centered text-white" style="font-family:'Lucida Bright'">FacilityRegistration</h2>
+                                <h2 class="centered text-white" style="font-family:'Lucida Bright'">Facility Registration</h2>
 
                             </div>
                         </div>
@@ -102,7 +103,7 @@
 
             <div class="col-md-12 col-lg-4">
                 <div class="form-floating form-floating-outline mb-4">
-                    <button type="submit" class="btn btn-primary" asp-action="GetClinic" value="Get">Get</button>
+                    <button type="submit" class="btn btn-primary" asp-action="GetClinic" formmethod="get" value="Get">Get</button>
                 </div>
             </div>
 

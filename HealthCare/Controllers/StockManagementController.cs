@@ -4,6 +4,7 @@ using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace HealthCare.Controllers
 {
@@ -15,6 +16,21 @@ namespace HealthCare.Controllers
         public StockManagementController(HealthcareContext GetDrugData)
         {
             this.GetDrugData = GetDrugData;
+        }
+
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
+
+        public IActionResult DrugCategoryMaster()
+        {
+            DrugCategoryModel drugC = new DrugCategoryModel();
+
+            return View("DrugCategoryMaster", drugC);
         }
 
         public async Task<IActionResult> DrugCategory(DrugCategoryModel pCategory)
@@ -29,6 +45,7 @@ namespace HealthCare.Controllers
                 existingCat.lastUpdatedDate = DateTime.Now.ToString();
                 existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingCat.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetDrugData.Entry(existingCat).State = EntityState.Modified;
             }
             else
             {
@@ -39,13 +56,32 @@ namespace HealthCare.Controllers
 
             }
             await GetDrugData.SaveChangesAsync();
-            ViewBag.Message = "Saved Successfully.";
-            return View("DrugCategoryMaster", pCategory);
 
+            ViewBag.Message = "Saved Successfully";
+
+            DrugCategoryModel drugC = new DrugCategoryModel();
+
+            return View("DrugCategoryMaster", drugC);
 
         }
+
+
+        public IActionResult DrugGroupMaster()
+        {
+            DrugGroupModel DrugG = new DrugGroupModel();
+
+            return View("DrugGroupMaster", DrugG);
+        }
+
         public async Task<IActionResult> DrugGroup (DrugGroupModel model) 
         {
+           
+            if (string.IsNullOrEmpty(model.GroupTypeName))
+            {
+                ViewBag.Message = "Group Type Name is required";
+                return View("DrugGroupMaster", model);
+            }
+
             var existingGrp = await GetDrugData.SHstkDrugGroup.FindAsync(model.GroupTypeName,model.GroupTypeID);
             if (existingGrp != null)
             {
@@ -54,6 +90,8 @@ namespace HealthCare.Controllers
                 existingGrp.lastUpdatedDate = DateTime.Now.ToString();
                 existingGrp.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingGrp.LastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetDrugData.Entry(existingGrp).State = EntityState.Modified;
+
             }
             else
             {
@@ -63,8 +101,19 @@ namespace HealthCare.Controllers
                 GetDrugData.SHstkDrugGroup.Add(model);
             }
             await GetDrugData.SaveChangesAsync();
-            ViewBag.Message = "Saved Successfully.";
-            return View("DrugGroupMaster", model);
+            ViewBag.Message = "Saved Successfully";
+            DrugGroupModel DrugG = new DrugGroupModel();
+
+            return View("DrugGroupMaster", DrugG);
+        }
+
+
+        public IActionResult DrugTypeMaster()
+        {
+
+            DrugTypeModel DrugT = new DrugTypeModel();
+
+            return View("DrugTypeMaster", DrugT);
         }
 
         public async Task<IActionResult> DrugType(DrugTypeModel pType)
@@ -79,6 +128,7 @@ namespace HealthCare.Controllers
                 existingType.lastUpdatedDate = DateTime.Now.ToString();
                 existingType.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingType.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                GetDrugData.Entry(existingType).State = EntityState.Modified;
             }
             else
             {
@@ -89,10 +139,19 @@ namespace HealthCare.Controllers
 
             }
             await GetDrugData.SaveChangesAsync();
-            ViewBag.Message = "Saved Successfully.";
-            return View("DrugTypeMaster", pType);
+            ViewBag.Message = "Saved Successfully";
+            DrugTypeModel DrugT = new DrugTypeModel();
+
+            return View("DrugTypeMaster", DrugT);
 
 
+        }
+
+
+
+        public IActionResult DrugRackMaster()
+        {
+            return View();
         }
 
         public async Task<IActionResult> DrugRack(DrugRackModel pRack)
@@ -121,6 +180,12 @@ namespace HealthCare.Controllers
             await GetDrugData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
             return View("DrugRackMaster", pRack);
+        }
+
+
+        public IActionResult DrugStockMaster()
+        {
+            return View();
         }
 
         public async Task<IActionResult> DrugStock(DrugStockModel model)
@@ -152,51 +217,30 @@ namespace HealthCare.Controllers
             return View("" , model);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult DrugInventory()
+    
+       public IActionResult DrugInventory()
         {
 
             BusinessClassStockManagement clinicAdmin = new BusinessClassStockManagement(GetDrugData);
             ViewData["Categoryid"] = clinicAdmin.GetCategoryid();
             ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid();
             ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
-            return View();
-        }
-        public IActionResult DrugCategoryMaster()
-        {
-            return View();
-        }
-        public IActionResult DrugStockMaster()
-        {
-            return View(); 
-        }
-        public IActionResult DrugTypeMaster()
-        {
-            return View();
-        }
-        public IActionResult DrugGroupMaster()
-        {
-            return View();
-        }
-        public IActionResult DrugRackMaster()
-        {
-            return View();
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
+
+            DrugInventoryModel DrugI = new DrugInventoryModel();
+
+            return View("DrugInventory", DrugI);
         }
 
 
-
-     
         [HttpPost]
         public async Task<IActionResult> DrugInventory(DrugInventoryModel model)
         {
 
-            var existingTest = await GetDrugData.SHstkDrugInventory.FindAsync(model.DrugId);
+            var existingTest = await GetDrugData.SHstkDrugInventory.FindAsync(model.DrugId,model.FacilityID);
             if (existingTest != null)
             {
-
+               
                 existingTest.DrugId = model.DrugId;
                 existingTest.ModelName = model.ModelName;
                 existingTest.CategoryId = model.CategoryId;
@@ -214,6 +258,9 @@ namespace HealthCare.Controllers
                 existingTest.LastupdatedUser = User.Claims.First().Value.ToString();
                 existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
                 existingTest.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingTest.Dosage = model.Dosage;
+
+                GetDrugData.Entry(existingTest).State = EntityState.Modified;
             }
             else
             {
@@ -226,13 +273,17 @@ namespace HealthCare.Controllers
 
             }
             await GetDrugData.SaveChangesAsync();
-            ViewBag.Message = "Saved Successfully.";
+            ViewBag.Message = "Saved Successfully";
 
             BusinessClassStockManagement clinicAdmin = new BusinessClassStockManagement(GetDrugData);
             ViewData["Categoryid"] = clinicAdmin.GetCategoryid();
             ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid();
             ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
-            return View("DrugInventory", model);
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
+
+            DrugInventoryModel DrugI = new DrugInventoryModel();
+
+            return View("DrugInventory", DrugI);
 
         }
       

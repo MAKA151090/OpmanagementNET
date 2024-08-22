@@ -56,6 +56,19 @@ namespace HealthCare.Business
         }
 
 
+        public List<ClinicAdminModel> GetFacility()
+        {
+            var Getfac = (from f in _healthcareContext.SHclnClinicAdmin
+                          select new ClinicAdminModel
+                          {
+                              FacilityID = f.FacilityID,
+                              ClinicName = f.ClinicName
+                          }
+                ).ToList();
+
+            return Getfac;
+        }
+
 
     }
 
