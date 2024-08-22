@@ -82,7 +82,11 @@ namespace HealthCare.Controllers
                     new ClaimsPrincipal(claimsIdentity), properties);
 
                     BusinessClassRegistration Busreg = new BusinessClassRegistration(_healthcareContext);
-                    
+
+                    var facility = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.StrUserName == model.StrUserName);
+
+                    TempData["FacilityID"] = facility.FacilityID;
+
                     var rolldetail = Busreg.GetRoll(model.StrUserName);
 
                     // Set TempData with the filtered roll details

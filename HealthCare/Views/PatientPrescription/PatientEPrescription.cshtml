@@ -5,6 +5,31 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        popupOKButton.addEventListener("click", function () {
+            popup.style.display = "none"; // Hide the popup when OK button is clicked
+        });
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: black; padding: 30px; border: 10px solid white; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 20px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+
 <div class="row gy-4">
     <div class="col-md-12 col-lg-1">
     </div>
@@ -27,10 +52,13 @@
 </div>
 
 
+
+
+
 @using (Html.BeginForm("Prescription", "PatientPrescription", FormMethod.Post))
 {
-    
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row gy-4">
         <div class="col-md-12 col-lg-1">
         </div>
@@ -40,73 +68,75 @@
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                     <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
-                                .Select(m => new SelectListItem
+                        @{
+                            var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
+                            .Select(m => new SelectListItem
                 {
                     Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.PatientID} - {m.FullName}"
                 });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.PatientID, screenList, "Select Patient ID", new { @class = "form-control", @required = "required" })
-                            <label asp-for="PatientID" class="control-label">Patient ID</label>
-                            <span asp-validation-for="PatientID" class="text-danger"></span>
-                        </div>
-
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="CaseVisitID" class="form-control" placeholder="Case Visit ID" required />
-                            <label asp-for="CaseVisitID" class="control-label">CaseVisit ID</label>
-               
-                <span asp-validation-for="CaseVisitID" class="text-danger"></span>
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="OrderID" class="form-control" placeholder="Order ID" required />
-                            <label asp-for="OrderID" class="control-label">Order ID</label>
-                
-                <span asp-validation-for="OrderID" class="text-danger"></span>
-            </div>
+                        @Html.DropDownListFor(model => model.PatientID, screenList, "Select Patient ID", new { @class = "form-control", @required = "required" })
+                        <label asp-for="PatientID" class="control-label">Patient ID</label>
+                        <span asp-validation-for="PatientID" class="text-danger"></span>
+                    </div>
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
-                                .Select(m => new SelectListItem
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="CaseVisitID" class="form-control" placeholder="Case Visit ID" required />
+                        <label asp-for="CaseVisitID" class="control-label">CaseVisit ID</label>
+
+                        <span asp-validation-for="CaseVisitID" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="OrderID" class="form-control" placeholder="Order ID" required />
+                        <label asp-for="OrderID" class="control-label">Order ID</label>
+
+                        <span asp-validation-for="OrderID" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
+                            .Select(m => new SelectListItem
                 {
                     Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.StrStaffID} - {m.StrFullName}"
                 });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.DoctorID, screenlist, "Select Doctor ID", new { @class = "form-control" })
-                            <label asp-for="DoctorID" class="control-label">Doctor ID</label>
-                           
-                        </div>
+                        @Html.DropDownListFor(model => model.DoctorID, screenlist, "Select Doctor ID", new { @class = "form-control" })
+                        <label asp-for="DoctorID" class="control-label">Doctor ID</label>
+
+                    </div>
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var Screenlist = ((IEnumerable<DrugInventoryModel>)ViewData["drugid"])
-                                .Select(m => new SelectListItem
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var Screenlist = ((IEnumerable<DrugInventoryModel>)ViewData["drugid"])
+                            .Select(m => new SelectListItem
                 {
                     Value = m.DrugId.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.DrugId}-{m.ModelName}"
                 });
-                            }
+                        }
 
-                            @Html.DropDownListFor(model => model.DrugID, Screenlist, "Select Drug ID", new { @class = "form-control", @required = "required" })
-                            <label asp-for="DrugID" class="control-label">Drug ID</label>
-                           
-                        </div>
+                        @Html.DropDownListFor(model => model.DrugID, Screenlist, "Select Drug ID", new { @class = "form-control" })
+                        <label asp-for="DrugID" class="control-label">Drug ID</label>
+
+                    </div>
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PrescriptionDate" class="form-control" type="date" placeholder="Prescription Date" />
-                            <label asp-for="PrescriptionDate" class="control-label">Prescription Date</label>
-                
-               
-            </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="PrescriptionDate" class="form-control" type="date" placeholder="Prescription Date" />
+                        <label asp-for="PrescriptionDate" class="control-label">Prescription Date</label>
+
+
+                    </div>
 
                 </div>
             </div>
@@ -119,41 +149,41 @@
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Unit" class="form-control" placeholder="Unit" />
-                            <label asp-for="Unit" class="control-label">Unit</label>
-               
-               
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="UnitCategory" class="form-control" placeholder="Unit Category" />
-                            <label asp-for="UnitCategory" class="control-label">Unit Category</label>
-                
-               
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Frequency" class="form-control" placeholder="Frequency" />
-                <label asp-for="Frequency" class="control-label"></label>
-               
-               
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="FrequencyUnit" class="form-control" placeholder="Frequency Unit" />
-                            <label asp-for="FrequencyUnit" class="control-label">Frequency Unit</label>
-                
-               
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Duration" class="form-control" placeholder="Duration" />
-                <label asp-for="Duration" class="control-label"></label>
-                
-                
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Quantity" class="form-control" placeholder="Quantity" />
-                <label asp-for="Quantity" class="control-label"></label>
-                
-               
-            </div>
+                        <input asp-for="Unit" class="form-control" placeholder="Unit" />
+                        <label asp-for="Unit" class="control-label">Unit</label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="UnitCategory" class="form-control" placeholder="Unit Category" />
+                        <label asp-for="UnitCategory" class="control-label">Unit Category</label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Frequency" class="form-control" placeholder="Frequency" />
+                        <label asp-for="Frequency" class="control-label"></label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="FrequencyUnit" class="form-control" placeholder="Frequency Unit" />
+                        <label asp-for="FrequencyUnit" class="control-label">Frequency Unit</label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Duration" class="form-control" placeholder="Duration" />
+                        <label asp-for="Duration" class="control-label"></label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Quantity" class="form-control" placeholder="Quantity" />
+                        <label asp-for="Quantity" class="control-label"></label>
+
+
+                    </div>
 
                 </div>
             </div>
@@ -163,6 +193,8 @@
                 <center>
                     <button type="submit" value="Save" name="buttonType" class="btn btn-primary">Save</button>
                     <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
+                    <button type="submit" value="Print" name="buttonType" class="btn btn-primary">Print</button>
+
 
 
                 </center>
@@ -177,144 +209,149 @@
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="EndDate" class="form-control" type="date" placeholder="End Date" />
-                            <label asp-for="EndDate" class="control-label">End Date</label>
-                
-               
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="RouteAdmin" class="form-control" placeholder="Route Admin" />
-                            <label asp-for="RouteAdmin" class="control-label">Route Admin</label>
-                
-                
-            </div>
+                        <input asp-for="EndDate" class="form-control" type="date" placeholder="End Date" />
+                        <label asp-for="EndDate" class="control-label">End Date</label>
 
 
-                        
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="RouteAdmin" class="form-control" placeholder="Route Admin" />
+                        <label asp-for="RouteAdmin" class="control-label">Route Admin</label>
 
 
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="Instructions" class="form-control" placeholder="Instructions" aria-describedby="text-to-speech-addon"></textarea>
-                <label asp-for="Instructions" class="control-label"></label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-
-              
-            </div>
-
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="Comments" class="form-control" placeholder="Comments" aria-describedby="text-to-speech-addon"></textarea>
-                <label asp-for="Comments" class="control-label"></label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-              
-            </div>
+                    </div>
 
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="FillDate" class="form-control" type="date" placeholder="Fill Date" />
-                            <label asp-for="FillDate" class="control-label">Fill Date</label>
-                
-               
-            </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Result" class="form-control" placeholder="Result" />
-                <label asp-for="Result" class="control-label"></label>
-                
-                
-            </div>
+
+
+                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                        <textarea asp-for="Instructions" class="form-control" placeholder="Instructions" aria-describedby="text-to-speech-addon"></textarea>
+                        <label asp-for="Instructions" class="control-label"></label>
+                        <span class="input-group-text" id="text-to-speech-addon">
+                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                        </span>
+
+
+                    </div>
+
+                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
+                        <textarea asp-for="Comments" class="form-control" placeholder="Comments" aria-describedby="text-to-speech-addon"></textarea>
+                        <label asp-for="Comments" class="control-label"></label>
+                        <span class="input-group-text" id="text-to-speech-addon">
+                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="FillDate" class="form-control" type="date" placeholder="Fill Date" />
+                        <label asp-for="FillDate" class="control-label">Fill Date</label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Result" class="form-control" placeholder="Additional Comments" />
+                        <label asp-for="Result" class="control-label">Additional Comments</label>
+
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-      
-      
+
+
     @if (Model != null)
     {
 
 
 
         <div class="row" style="margin-top:50px">
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
 
-                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
-               
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Patient ID</th>
-                    <th>Case Visit ID</th>
-                    <th>Order ID</th>
-                    <th>Drug ID</th>
-                    <th>Drug Name</th>
-                    <th>Frequency</th>
-                    <th>Duration</th>
-                    <th>Dosage</th>
-                    <th>Unit</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-              @*   @if(Model!=null)
-                { *@
-                @foreach (var item in Model.Viewprescription)
-                {
-                    <tr>
-                        <td>@item.PatientID</td>
-                        <td>@item.CaseVisitID</td>
-                        <td>@item.OrderID</td>
-                        <td>@item.DrugID</td>
-                        <td>@item.DrugName</td>
-                        <td>@item.Frequency</td>
-                        <td>@item.Duration</td>
-                        <td>@item.Dosage</td>
-                        <td>@item.Unit</td>
-                        <td>
-                            <a href="@Url.Action("Edit", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Edit</a>
-                                <a href="@Url.Action("Delete", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Delete</a>
-                            </td>
-                    </tr>
-                }
-                
-            </tbody>
-        </table>
+                    <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Patient ID</th>
+                                    <th>Case Visit ID</th>
+                                    <th>Order ID</th>
+                                    <th>Drug ID</th>
+                                    <th>Drug Name</th>
+                                    <th>Frequency</th>
+                                    <th>Duration</th>
+                                    <th>Dosage</th>
+                                    <th>Unit</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*   @if(Model!=null)
+                        { *@
+                                @foreach (var item in Model.Viewprescription)
+                                {
+                                    <tr>
+                                        <td>@item.PatientID</td>
+                                        <td>@item.CaseVisitID</td>
+                                        <td>@item.OrderID</td>
+                                        <td>@item.DrugID</td>
+                                        <td>@item.DrugName</td>
+                                        <td>@item.Frequency</td>
+                                        <td>@item.Duration</td>
+                                        <td>@item.Dosage</td>
+                                        <td>@item.Unit</td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Edit</a>
+                                            <a href="@Url.Action("Delete", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+
 
                     </div>
 
                 </div>
             </div>
         </div>
-        }
-        
-        @if (ViewBag.Message != null)
-        {
-            <div class="alert alert-success">
-                @ViewBag.Message
-            </div>
-        }
+    }
 
-        @if (ViewBag.Delete != null)
-        {
-            <div class="alert alert-success">
-                @ViewBag.Delete
-            </div>
-        }
+    @if (ViewBag.Message != null)
+    {
+        <script>
+            handleMessages("@ViewBag.Message");
+        </script>
+    }
+
+    @if (ViewBag.Delete != null)
+    {
+        <script>
+            handleMessages("@ViewBag.Delete");
+        </script>
+    }
 
     @if (ViewBag.ErrorMessage != null)
     {
-        <div class="alert alert-success">
-            @ViewBag.ErrorMessage
-        </div>
+        <script>
+            handleMessages("@ViewBag.ErrorMessage");
+        </script>
     }
 
-              
+    @if (ViewBag.DrugMessage != null)
+    {
+        <script>
+            handleMessages("@ViewBag.DrugMessage");
+        </script>
+    }
+
+
 }
-
-
-
-
