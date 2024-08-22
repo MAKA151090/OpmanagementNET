@@ -123,7 +123,9 @@
                     </div>
 
                 <div class="form-floating form-floating-outline mb-4">
-                    <input asp-for="StrFirstName" class="form-control" placeholder="FirstName" value="@Model.StrFirstName"/>
+                        <input asp-for="StrFirstName" class="form-control" type="text"
+                               pattern="[A-Za-z]+"
+                               title="Please enter only letters" placeholder="FirstName" value="@Model.StrFirstName" />
                     <label asp-for="StrFirstName" class="control-label">FirstName</label>
                     <span asp-validation-for="StrFirstName" class="text-danger"></span>
                 </div>
@@ -131,7 +133,7 @@
 
                 <div class="form-floating form-floating-outline mb-4">
 
-                                    <input asp-for="StrLastName"  class="form-control" placeholder="LastName" value="@Model.StrLastName"/>
+                        <input asp-for="StrLastName" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" placeholder="LastName" value="@Model.StrLastName" />
                     <label asp-for="StrLastName" class="control-label">LastName</label>
                     <span asp-validation-for="StrLastName" class="text-danger"></span>
                 </div>
@@ -139,20 +141,20 @@
 
                 <div class="form-floating form-floating-outline mb-4">
 
-                                    <input asp-for="StrFullName"  class="form-control" placeholder="FullName" value="@Model.StrLastName"/>
+                        <input asp-for="StrFullName" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" placeholder="FullName" value="@Model.StrLastName" />
                     <label asp-for="StrFullName" class="control-label">FullName</label>
                     <span asp-validation-for="StrFullName" class="text-danger"></span>
                 </div>
 
                 <div class="form-floating form-floating-outline mb-4">
 
-                                    <input asp-for="StrInitial" class="form-control"  placeholder="Initial" value="@Model.StrInitial"/>
+                        <input asp-for="StrInitial" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" placeholder="Initial" value="@Model.StrInitial" />
                     <label asp-for="StrInitial" class="control-label">Initial</label>
                     <span asp-validation-for="StrInitial" class="text-danger"></span>
                 </div>
                 <div class="form-floating form-floating-outline mb-4">
 
-                                    <input asp-for="StrPrefix" class="form-control"  placeholder="Prefix" value="@Model.StrPrefix"/>
+                        <input asp-for="StrPrefix" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" placeholder="Prefix" value="@Model.StrPrefix" />
                     <label asp-for="StrPrefix" class="control-label">Prefix</label>
                     <span asp-validation-for="StrPrefix" class="text-danger"></span>
                 </div>
@@ -257,7 +259,7 @@
         <div class="card">
                     <div class="card-body" style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="StrEmailId" class="form-control" placeholder="EmailId" value="@Model.StrEmailId"/>
+                        <input asp-for="StrEmailId" class="form-control" type="email" placeholder="EmailId" value="@Model.StrEmailId"/>
                         <label asp-for="StrEmailId" class="control-label">EmailId</label>
                         <span asp-validation-for="StrEmailId" class="text-danger"></span>
                     </div>
