@@ -214,8 +214,6 @@ namespace HealthCare.Controllers
             StaffAdminModel cln = new StaffAdminModel();
 
             return View("StaffAdminModel", cln);
-
-
         }
 
         [HttpGet]
@@ -224,6 +222,7 @@ namespace HealthCare.Controllers
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAdmin.GetResourceid();
+
 
             var getstaffdata = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.FacilityID== model.FacilityID && x.StrStaffID == model.StrStaffID);
             if(getstaffdata != null)
