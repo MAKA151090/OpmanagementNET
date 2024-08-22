@@ -75,9 +75,15 @@
                     <span asp-validation-for="StrStaffID" class="text-danger"></span>
                 </div>
 
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="FacilityID" class="form-control" placeholder="StaffId" value="@Model.FacilityID" required />
+                        <label asp-for="FacilityID" class="control-label">FacilityID</label>
+                        <span asp-validation-for="FacilityID" class="text-danger"></span>
+                    </div>
+
                     <div class="form-group">
                         <center>
-                            <button type="submit" style="width:180px" value="Get" asp-action="Getdoctor" class="btn btn-primary">Search</button>
+                            <button type="submit" style="width:180px" value="Get" asp-action="GetStaff" formmethod="get" class="btn btn-primary">Get</button>
                         </center>
                     </div>
             </div>
@@ -141,7 +147,7 @@
 
                 <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="StrFullName" class="form-control" type="text" pattern="[A-Za-z\s]+" title="Please enter only letters" placeholder="FullName" value="@Model.StrLastName" />
+                        <input asp-for="StrFullName" class="form-control" type="text" pattern="[A-Za-z\s]+" title="Please enter only letters" placeholder="FullName" value="@Model.StrFullName" />
                     <label asp-for="StrFullName" class="control-label">FullName</label>
                     <span asp-validation-for="StrFullName" class="text-danger"></span>
                 </div>
