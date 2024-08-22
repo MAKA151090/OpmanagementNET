@@ -866,7 +866,9 @@ namespace HealthCare.Controllers
 
             ViewBag.Message = "Saved Successfully";
 
-            return View("ResourceTypeMaster" ,model);
+            ResourceTypeMasterModel parm = new ResourceTypeMasterModel();
+
+            return View("ResourceTypeMaster" , parm);
         }
 
         public async Task<IActionResult> GetDiagnosisMaster(DiagnosisMasterModel model)
