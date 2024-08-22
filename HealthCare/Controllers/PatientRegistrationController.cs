@@ -129,12 +129,10 @@ namespace HealthCare.Controllers
             {
                 ViewBag.Message = "FacilityID Not Found";
             }
-            PatientRegistrationModel stf = new PatientRegistrationModel();
+            PatientRegistrationModel stfpat = new PatientRegistrationModel();
 
-            return View("PatientRegister", stf);
+            return View("PatientRegister", stfpat);
         }
-
-
 
 
 
