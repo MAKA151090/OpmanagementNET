@@ -224,6 +224,7 @@ namespace HealthCare.Controllers
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAdmin.GetResourceid();
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
 
             var getstaffdata = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.FacilityID== model.FacilityID && x.StrStaffID == model.StrStaffID);
             if(getstaffdata != null)
