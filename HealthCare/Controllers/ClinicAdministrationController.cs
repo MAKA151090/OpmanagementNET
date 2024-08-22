@@ -33,6 +33,14 @@ namespace HealthCare.Controllers
 
 
 
+        public IActionResult ClinicRegistration()
+        {
+            ClinicAdminModel mod = new ClinicAdminModel();
+
+            return View("ClinicRegistration", mod);
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddClinic(ClinicAdminModel model)
         {
@@ -58,10 +66,6 @@ namespace HealthCare.Controllers
             else
             {
 
-                //BusinessClass businessClass = new BusinessClass(_healthcareContext);
-                //try
-                //{
-
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.SHclnClinicAdmin.Add(model);
@@ -70,16 +74,30 @@ namespace HealthCare.Controllers
             await _healthcareContext.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
-            return View("ClinicRegistration", model);
+
+            ClinicAdminModel mod = new ClinicAdminModel();
+
+            return View("ClinicRegistration", mod);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetClinic()
+        [HttpGet]
+        public async Task<IActionResult> GetClinic(ClinicAdminModel model)
         {
+            var getclinicdata = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.ClinicName == model.ClinicName);
 
-            return View();
+            if (getclinicdata != null)
+            {
+                return View("ClinicRegistration", getclinicdata);
+            }
+            else
+            {
+                ViewBag.Message = "FacilityID Not Found";
+            }
+            ClinicAdminModel mod = new ClinicAdminModel();
+
+            return View("ClinicRegistration", mod);
         }
-
+/*
         public async Task<ActionResult> ClinicAdmin(string FacilityID, string clinicname, string buttonType)
         {
 
@@ -104,7 +122,7 @@ namespace HealthCare.Controllers
                 }
             }
             return View();
-        }
+        }*/
         public async Task<IActionResult> BloodGroupList(BloodGroupModel model)
 
         {
@@ -383,12 +401,7 @@ namespace HealthCare.Controllers
             return View();
         }
 
-        public IActionResult ClinicRegistration()
-        {
-            return View();
-
-        }
-
+      
         public IActionResult BloodGroupAdministration()
         {
             BloodGroupModel blo = new BloodGroupModel();

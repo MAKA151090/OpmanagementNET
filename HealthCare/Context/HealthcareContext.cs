@@ -312,7 +312,7 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<SeverityModel>().HasKey(i => new { i.SeverityID });
 
-            modelBuilder.Entity<DrugInventoryModel>().HasKey(i => new { i.DrugId });
+            modelBuilder.Entity<DrugInventoryModel>().HasKey(i => new { i.DrugId,i.FacilityID });
 
             
 
@@ -341,13 +341,13 @@ namespace HealthCare.Context
        .HasKey(i => new { i.FacilityID });
 
             modelBuilder.Entity<BloodGroupModel>()
-                .HasKey(i => new { i.IntBg_Id, i.BloodGroup});
+                .HasKey(i => new { i.IntBg_Id});
 
             modelBuilder.Entity<StaffAdminModel>()
-                .HasKey(i => new { i.StrStaffID });
+                .HasKey(i => new { i.StrStaffID,i.FacilityID });
 
             modelBuilder.Entity<PatientRegistrationModel>()
-                .HasKey(i => new { i.PatientID });
+                .HasKey(i => new { i.PatientID,i.FacilityID });
 
             modelBuilder.Entity<PatientScheduleModel>()
                 .HasKey(i => new { i.PatientID });

@@ -23,6 +23,7 @@
         private String lastupdatedDate;
         private String lastUpdatedMachine;
         private String dosage;
+        private String facilityID;
 
         public string DrugId { get => drugId; set => drugId = value; }
         public string? ModelName { get => modelName; set => modelName = value; }
@@ -42,5 +43,6 @@
         public string? LastupdatedDate { get => lastupdatedDate; set => lastupdatedDate = value; }
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
         public string? Dosage { get => dosage; set => dosage = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

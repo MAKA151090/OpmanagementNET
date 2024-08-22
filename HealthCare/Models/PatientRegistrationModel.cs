@@ -32,6 +32,7 @@ public class PatientRegistrationModel
 	private String strEmgcyCntNum;
 	private String strlastUpdatedDate;
 	private String strlastUpdatedUser;
+    
 
 
 
@@ -64,4 +65,5 @@ public class PatientRegistrationModel
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
     public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
+  
 }

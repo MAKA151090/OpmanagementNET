@@ -30,6 +30,7 @@
         private String lastupdatedUser;
         private String lastupdatedDate;
         private String lastUpdatedMachine;
+        private String facilityID;
 
         public string StrStaffID { get => strStaffID; set => strStaffID = value; }
 
@@ -58,5 +59,6 @@
         public string? LastupdatedUser { get => lastupdatedUser; set => lastupdatedUser = value; }
         public string? LastupdatedDate { get => lastupdatedDate; set => lastupdatedDate = value; }
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

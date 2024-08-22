@@ -56,19 +56,19 @@ namespace HealthCare.Controllers
         {
 
 
-            var login = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID);
+            var login = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.StrUserName == model.StrUserName);
 
             if (login != null)
             {
                 if (login.StrPassword == model.StrPassword)
                 {
-                    login.StrStaffID = model.StrStaffID;
+                    login.StrUserName = model.StrUserName;
 
                     login.StrPassword = model.StrPassword;
 
                     List<Claim> claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.NameIdentifier, model.StrStaffID),
+                    new Claim(ClaimTypes.NameIdentifier, model.StrUserName),
                     new Claim("OtherProperties", "Example Role")
                 };
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
@@ -83,7 +83,7 @@ namespace HealthCare.Controllers
 
                     BusinessClassRegistration Busreg = new BusinessClassRegistration(_healthcareContext);
                     
-                    var rolldetail = Busreg.GetRoll(model.StrStaffID);
+                    var rolldetail = Busreg.GetRoll(model.StrUserName);
 
                     // Set TempData with the filtered roll details
                     TempData["RollAccess"] = JsonConvert.SerializeObject(rolldetail); ;

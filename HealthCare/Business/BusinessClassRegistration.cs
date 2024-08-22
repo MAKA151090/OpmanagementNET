@@ -196,7 +196,7 @@ namespace HealthCare.Business
                         join rac in objDbContext.SHClnRollAccess on sm.ScreenId equals rac.ScreenID
                         join ram in objDbContext.ShclnrollAccessmaster on rac.RollID equals ram.RollID
                         join sam in objDbContext.SHclnStaffAdminModel on ram.StaffID equals sam.StrStaffID
-                        where rac.Authorized == "1" && sam.StrStaffID == userid
+                        where rac.Authorized == "1" && sam.StrUserName == userid
                         select sm.ScreenName;
 
             var result = query.ToList();
