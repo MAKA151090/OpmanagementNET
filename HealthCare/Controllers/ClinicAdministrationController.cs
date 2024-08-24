@@ -2,6 +2,7 @@
 using Azure.Core;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office.CustomUI;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
@@ -43,8 +44,29 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddClinic(ClinicAdminModel model)
+        public async Task<IActionResult> AddClinic(ClinicAdminModel model, string buttontype)
         {
+            if(buttontype == "Delete")
+            {
+                var stfDelete = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.ClinicName == model.ClinicName && x.StrIsDelete == false);
+                if(stfDelete != null)
+                {
+                    stfDelete.StrIsDelete = true;
+
+                   _healthcareContext.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("ClinicRegistration", stfDelete);
+                }
+                else
+                {
+                    ClinicAdminModel dlt = new ClinicAdminModel();
+                    ViewBag.message = "FacilityID Not Found";
+                    return View("ClinicRegistration", dlt);
+                }
+            }
+
+
             var existingClinic = await _healthcareContext.SHclnClinicAdmin.FindAsync(model.FacilityID);
 
             if (existingClinic != null)
@@ -59,6 +81,7 @@ namespace HealthCare.Controllers
                 existingClinic.ClinicEmailAddress = model.ClinicEmailAddress;
                 existingClinic.FromHour = model.FromHour;
                 existingClinic.ToHour = model.ToHour;
+                existingClinic.StrIsDelete = model.StrIsDelete;
                 existingClinic.lastUpdatedDate = DateTime.Now.ToString();
                 existingClinic.lastUpdatedUser = User.Claims.First().Value.ToString();
 
@@ -79,12 +102,18 @@ namespace HealthCare.Controllers
             ClinicAdminModel mod = new ClinicAdminModel();
 
             return View("ClinicRegistration", mod);
+
+        
+            
+
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> GetClinic(ClinicAdminModel model)
         {
-            var getclinicdata = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.ClinicName == model.ClinicName);
+            var getclinicdata = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.ClinicName == model.ClinicName && x.StrIsDelete== false);
 
             if (getclinicdata != null)
             {
@@ -98,6 +127,10 @@ namespace HealthCare.Controllers
 
             return View("ClinicRegistration", mod);
         }
+
+
+
+
 /*
         public async Task<ActionResult> ClinicAdmin(string FacilityID, string clinicname, string buttonType)
         {
@@ -129,9 +162,29 @@ namespace HealthCare.Controllers
 
         //Blood Group
 
-        public async Task<IActionResult> BloodGroupList(BloodGroupModel model)
+        public async Task<IActionResult> BloodGroupList(BloodGroupModel model,string buttontype)
 
         {
+            if (buttontype == "Delete")
+            {
+                var stfDelete = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x => x.IntBg_Id == model.IntBg_Id && x.StrIsDelete == false);
+                if (stfDelete != null)
+                {
+                    stfDelete.StrIsDelete = true;
+
+                    _healthcareContext.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("BloodGroupAdministration", stfDelete);
+                }
+                else
+                {
+                    BloodGroupModel dlt = new BloodGroupModel();
+                    ViewBag.message = "FacilityID Not Found";
+                    return View("BloodGroupAdministration", dlt);
+                }
+            }
+
             var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id);
 
             if (existingBloodGroup != null)
@@ -165,7 +218,7 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult>GetBloodGroup(BloodGroupModel model)
         {
-            var getblood = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x => x.IntBg_Id == model.IntBg_Id);
+            var getblood = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x => x.IntBg_Id == model.IntBg_Id && x.StrIsDelete==false);
             if(getblood != null)
             {
                 return View("BloodGroupAdministration",getblood);
@@ -932,8 +985,30 @@ namespace HealthCare.Controllers
 
         //ResourceTypeMasterModel
 
-        public async Task<IActionResult> SaveResourceTypeID(ResourceTypeMasterModel model)
+        public async Task<IActionResult> SaveResourceTypeID(ResourceTypeMasterModel model,string buttontype)
         {
+
+            if (buttontype == "Delete")
+            {
+                var stfDelete = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x => x.ResourceTypeID == model.ResourceTypeID && x.StrIsDelete == false);
+                if (stfDelete != null)
+                {
+                    stfDelete.StrIsDelete = true;
+
+                    _healthcareContext.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("ResourceTypeMaster", stfDelete);
+                }
+                else
+                {
+                    ResourceTypeMasterModel dlt = new ResourceTypeMasterModel();
+                    ViewBag.message = "FacilityID Not Found";
+                    return View("ResourceTypeMaster", dlt);
+                }
+            }
+
+
             var existingTypeID = await _healthcareContext.SHclnResourseTypeMaster.FindAsync(model.ResourceTypeID);
                 if(existingTypeID != null)
             {
@@ -965,7 +1040,7 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> GetResource(ResourceTypeMasterModel model)
         {
 
-            var getresource = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x => x.ResourceTypeID == model.ResourceTypeID);
+            var getresource = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x => x.ResourceTypeID == model.ResourceTypeID&& x.StrIsDelete == false);
             if(getresource != null)
             {
                 return View("ResourceTypeMaster", getresource);
