@@ -238,10 +238,10 @@
                         <label class="control-label"></label>
 
                         <div class="btn-group" role="group" aria-label="Food Timing">
-                            <input type="radio" class="btn-check" name="RouteAdmin" id="beforeFood" autocomplete="off" value="BF" >
+                            <input type="radio" class="btn-check" name="RouteAdmin" id="beforeFood" autocomplete="off" value="Before Food">
                             <label class="btn btn-outline-primary" for="beforeFood">Before Food</label>
 
-                            <input type="radio" class="btn-check" name="RouteAdmin" id="afterFood" autocomplete="off" value="AF">
+                            <input type="radio" class="btn-check" name="RouteAdmin" id="afterFood" autocomplete="off" value="After Food">
                             <label class="btn btn-outline-primary" for="afterFood">After Food</label>
                         </div>
                     </div>
@@ -323,10 +323,11 @@
                                     <th>Order ID</th>
                                     <th>Drug ID</th>
                                     <th>Drug Name</th>
-                                    <th>Frequency</th>
-                                    <th>Duration</th>
-                                    <th>Dosage</th>
-                                    <th>Unit</th>
+                                    <th>Morning Unit</th>
+                                    <th>Afternoon Unit</th>
+                                    <th>Evening Unit</th>
+                                    <th>Night Unit</th>
+                                    <th>When</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -341,10 +342,11 @@
                                         <td>@item.OrderID</td>
                                         <td>@item.DrugID</td>
                                         <td>@item.DrugName</td>
-                                        <td>@item.Frequency</td>
-                                        <td>@item.Duration</td>
-                                        <td>@item.Dosage</td>
-                                        <td>@item.Unit</td>
+                                        <td>@item.Morningunit</td>
+                                        <td>@item.Afternoonunit</td>
+                                        <td>@item.Eveningunit</td>
+                                        <td>@item.Nightunit</td>
+                                        <td>@item.RouteAdmin</td>
                                         
                                         <td>
                                             <a href="@Url.Action("Edit", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID,facility =item.FacilityID})" class="btn btn-primary">Edit</a>

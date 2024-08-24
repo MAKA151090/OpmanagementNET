@@ -86,6 +86,7 @@ namespace HealthCare.Controllers
                     var facility = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.StrUserName == model.StrUserName);
 
                     TempData["FacilityID"] = facility.FacilityID;
+                    TempData["DoctorID"] = facility.StrStaffID;
 
                     var rolldetail = Busreg.GetRoll(model.StrUserName);
 

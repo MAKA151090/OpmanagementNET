@@ -62,10 +62,13 @@ namespace HealthCare.Business
                               OrderID = p.OrderID,
                               DrugID = p.DrugID,
                               DrugName = d.ModelName,
-                              Frequency = p.Frequency,
-                              Duration = p.Duration,
-                              Dosage = d.Dosage,
-                              Unit = p.Unit
+                              Morningunit=p.Morningunit,
+                              Afternoonunit=p.Afternoonunit,
+                              Eveningunit=p.Eveningunit,
+                              Nightunit=p.Nightunit,
+                              RouteAdmin = p.RouteAdmin
+                              
+                             
                           }).ToList();
             return result;
         }
@@ -103,12 +106,12 @@ namespace HealthCare.Business
             return drugid;
         }
 
-        public List<StaffAdminModel> Getdocid(string facilityId)
+        public List<StaffAdminModel> Getdocid(string facilityId,string docidstaff)
         {
             var docid = (
                     from pr in _healthcareContext.SHclnStaffAdminModel
                     join p in _healthcareContext.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
-                    where p.ResourceTypeName == "Doctor" && pr.FacilityID == facilityId
+                    where pr.FacilityID == facilityId && pr.StrStaffID == docidstaff
                     select new StaffAdminModel
                     {
                         StrStaffID = pr.StrStaffID
