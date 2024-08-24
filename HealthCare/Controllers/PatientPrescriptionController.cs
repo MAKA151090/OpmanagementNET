@@ -110,12 +110,15 @@ namespace HealthCare.Controllers
                 TempData.Keep("FacilityID");
             }
 
-          
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetPrescription);
+
+            var doctorid = docpres.Getdocid(facilityId);
+            var daocfac = docpres.Getdocfacility(facilityId);
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
-            ViewData["docid"] = prescription.Getdocid();
+            ViewData["docid"] = prescription.Getdocid(facilityId);
 
 
 
@@ -137,7 +140,7 @@ namespace HealthCare.Controllers
                 if (exresult != null)
                 {
 
-                    var result = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID);
+                    var result = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID,daocfac.ToString());
                     var viewModelList = result.Select(p => new PrescriptionViewModel
                     {
                         PatientID = p.PatientID,
@@ -169,16 +172,16 @@ namespace HealthCare.Controllers
                 return View("PatientEPrescription");
             }
 
-            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID);
+            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID,daocfac.ToString());
             if (existingCat != null)
             {
-
+                existingCat.FacilityID = daocfac.ToString();
                 existingCat.PatientID = pPres.PatientID;
                 // existingCat.EpressID = existingCat.EpressID;
                 existingCat.CaseVisitID = pPres.CaseVisitID;
                 existingCat.OrderID = pPres.OrderID;
                 existingCat.DrugID = pPres.DrugID;
-                existingCat.DoctorID = pPres.DoctorID;
+                existingCat.DoctorID = doctorid.ToString();
                 existingCat.PrescriptionDate = pPres.PrescriptionDate;
                 existingCat.Unit = pPres.Unit;
                 existingCat.UnitCategory = pPres.UnitCategory;
@@ -192,6 +195,10 @@ namespace HealthCare.Controllers
                 existingCat.Comments = pPres.Comments;
                 existingCat.FillDate = pPres.FillDate;
                 existingCat.Result = pPres.Result;
+                existingCat.Morningunit = pPres.Morningunit;
+                existingCat.Afternoonunit = pPres.Afternoonunit;
+                existingCat.Eveningunit = pPres.Eveningunit;
+                existingCat.Nightunit = pPres.Nightunit;
                 existingCat.lastupdatedDate = DateTime.Now.ToString();
                 existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingCat.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -206,7 +213,8 @@ namespace HealthCare.Controllers
                     return View("PatientEPrescription");
                 }
 
-
+                pPres.FacilityID = daocfac.ToString();
+                pPres.DoctorID = doctorid.ToString();
                 pPres.lastupdatedDate = DateTime.Now.ToString();
                 pPres.lastUpdatedUser = User.Claims.First().Value.ToString();
                 pPres.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -217,7 +225,7 @@ namespace HealthCare.Controllers
 
 
             await GetPrescription.SaveChangesAsync();
-            var allPrescriptions = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID);
+            var allPrescriptions = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID,daocfac.ToString());
             var allViewModels = allPrescriptions.Select(p => new PrescriptionViewModel
             {
                 PatientID = p.PatientID,
@@ -238,7 +246,7 @@ namespace HealthCare.Controllers
 
         }
 
-        public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId)
+        public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId,string facility)
         {
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
@@ -251,9 +259,11 @@ namespace HealthCare.Controllers
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
-            ViewData["docid"] = prescription.Getdocid();
+            ViewData["docid"] = prescription.Getdocid(facilityId);
 
-            var prescriptionEdit = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId);
+            var daocfac = prescription.Getdocfacility(facilityId);
+
+            var prescriptionEdit = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId,facility);
             if (prescriptionEdit == null)
             {
                 ViewBag.ErrorMessage = " PatientID Not Found";
@@ -284,7 +294,7 @@ namespace HealthCare.Controllers
             };
 
 
-            var result = prescription.GetPrescription(prescriptionEdit.PatientID, prescriptionEdit.CaseVisitID, prescriptionEdit.OrderID, prescriptionEdit.DrugID);
+            var result = prescription.GetPrescription(prescriptionEdit.PatientID, prescriptionEdit.CaseVisitID, prescriptionEdit.OrderID, prescriptionEdit.DrugID,daocfac.ToString());
             if (result != null && result.Any())
             {
                 var viewModelList = result.Select(p => new PrescriptionViewModel
@@ -308,7 +318,7 @@ namespace HealthCare.Controllers
 
         }
 
-        public async Task<IActionResult> Delete(string patientId, string caseVisitId, string orderId, string drugId, PatientEPrescriptionModel pPres)
+        public async Task<IActionResult> Delete(string patientId, string caseVisitId, string orderId, string drugId, PatientEPrescriptionModel pPres,string facility)
         {
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
@@ -321,13 +331,15 @@ namespace HealthCare.Controllers
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
-            ViewData["docid"] = prescription.Getdocid();
+            ViewData["docid"] = prescription.Getdocid(facilityId);
 
-            var exresult = GetPrescription.SHprsPrescription.FirstOrDefault(x => x.PatientID == pPres.PatientID && x.IsDelete == false);
+            var daocfac = prescription.Getdocfacility(facilityId);
+
+            var exresult = GetPrescription.SHprsPrescription.FirstOrDefault(x => x.PatientID == pPres.PatientID && x.IsDelete == false && x.CaseVisitID == caseVisitId && x.OrderID == orderId && x.FacilityID == daocfac.ToString());
             if (exresult != null)
             {
 
-                var prescriptionDel = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId);
+                var prescriptionDel = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId,daocfac.ToString());
                 if (prescriptionDel != null)
                 {
                     prescriptionDel.IsDelete = true;
@@ -368,7 +380,7 @@ namespace HealthCare.Controllers
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
-            ViewData["docid"] = prescription.Getdocid();
+            ViewData["docid"] = prescription.Getdocid(facilityId);
             return View();
         }
         public IActionResult PatientEPrescriptionPrint()

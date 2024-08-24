@@ -50,11 +50,11 @@ namespace HealthCare.Business
 
 
 
-        public List<PrescriptionTableModel> GetPrescription(string  patientID,string casevisitID,string orderID,string drugID)
+        public List<PrescriptionTableModel> GetPrescription(string  patientID,string casevisitID,string orderID,string drugID,string facility)
         {
             var result = (from p in _healthcareContext.SHprsPrescription
                           join d in _healthcareContext.SHstkDrugInventory on p.DrugID equals d.DrugId
-                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.OrderID==orderID&&p.IsDelete == false  
+                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.OrderID==orderID&&p.IsDelete == false  && p.FacilityID == facility
                           select new PrescriptionTableModel
                           {
                               PatientID = p.PatientID,
@@ -103,21 +103,39 @@ namespace HealthCare.Business
             return drugid;
         }
 
-        public List<StaffAdminModel> Getdocid()
+        public List<StaffAdminModel> Getdocid(string facilityId)
         {
             var docid = (
                     from pr in _healthcareContext.SHclnStaffAdminModel
                     join p in _healthcareContext.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
-                    where p.ResourceTypeName == "Doctor"
+                    where p.ResourceTypeName == "Doctor" && pr.FacilityID == facilityId
                     select new StaffAdminModel
                     {
-                        StrStaffID = pr.StrStaffID,
-                        StrFullName = pr.StrFullName
+                        StrStaffID = pr.StrStaffID
                     }
                     ).ToList();
 
             return docid;
         }
+
+        //get doctor facility
+        public List<StaffAdminModel> Getdocfacility(string facilityId)
+        {
+            var docfac = (
+                    from pr in _healthcareContext.SHclnStaffAdminModel
+                    join p in _healthcareContext.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+                    where p.ResourceTypeName == "Doctor" && pr.FacilityID == facilityId
+                    select new StaffAdminModel
+                    {
+                       FacilityID = pr.FacilityID
+                    }
+                    ).ToList();
+
+            return docfac;
+        }
+
+
+
 
         public byte[] ModifyBillDoc(string pfilepath, DataTable pbillData)
         {

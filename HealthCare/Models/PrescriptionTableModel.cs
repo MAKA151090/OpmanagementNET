@@ -28,6 +28,11 @@
         private string strlastUpdatedMachine;
         private string drugName;
         private string dosage;
+        private String facilityID;
+        private String morningunit;
+        private String afternoonunit;
+        private String eveningunit;
+        private String nightunit;
         private List<PrescriptionViewModel> viewprescription;
 
         public long EpressID { get => epressID; set => epressID = value; }
@@ -55,5 +60,10 @@
         public string DrugName { get => drugName; set => drugName = value; }
         public string Dosage { get => dosage; set => dosage = value; }
         public List<PrescriptionViewModel> Viewprescription { get => viewprescription; set => viewprescription = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
+        public string? Morningunit { get => morningunit; set => morningunit = value; }
+        public string? Afternoonunit { get => afternoonunit; set => afternoonunit = value; }
+        public string? Eveningunit { get => eveningunit; set => eveningunit = value; }
+        public string? Nightunit { get => nightunit; set => nightunit = value; }
     }
 }

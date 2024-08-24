@@ -98,7 +98,7 @@
                         <span asp-validation-for="OrderID" class="text-danger"></span>
                     </div>
 
-
+@* 
                     <div class="form-floating form-floating-outline mb-4">
                         @{
                             var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
@@ -113,7 +113,7 @@
                         <label asp-for="DoctorID" class="control-label">Doctor ID</label>
 
                     </div>
-
+ *@
 
                     <div class="form-floating form-floating-outline mb-4">
                         @{
@@ -137,6 +137,36 @@
 
 
                     </div>
+
+                    <div class="form-group">
+                        <fieldset>
+                            <legend class="control-label">Frequency</legend>
+
+                            <div style="display: flex; gap: 10px;">
+                                <div>
+                                    <label asp-for="Morningunit" class="control-label">Morning</label>
+                                    <input asp-for="Morningunit" class="form-control" style="width: 50px;" maxlength="2" />
+                                </div>
+
+                                <div>
+                                    <label asp-for="Afternoonunit" class="control-label">Afternoon</label>
+                                    <input asp-for="Afternoonunit" class="form-control" style="width: 50px;" maxlength="2" />
+                                </div>
+
+                                <div>
+                                    <label asp-for="Eveningunit" class="control-label">Evening</label>
+                                    <input asp-for="Eveningunit" class="form-control" style="width: 50px;" maxlength="2" />
+                                </div>
+
+                                <div>
+                                    <label asp-for="Nightunit" class="control-label">Night</label>
+                                    <input asp-for="Nightunit" class="form-control" style="width: 50px;" maxlength="2" />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+
 
                 </div>
             </div>
@@ -205,11 +235,17 @@
 
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="RouteAdmin" class="form-control" placeholder="Route Admin" />
-                        <label asp-for="RouteAdmin" class="control-label">Route Admin</label>
+                        <label class="control-label"></label>
 
+                        <div class="btn-group" role="group" aria-label="Food Timing">
+                            <input type="radio" class="btn-check" name="RouteAdmin" id="beforeFood" autocomplete="off" value="BF" >
+                            <label class="btn btn-outline-primary" for="beforeFood">Before Food</label>
 
+                            <input type="radio" class="btn-check" name="RouteAdmin" id="afterFood" autocomplete="off" value="AF">
+                            <label class="btn btn-outline-primary" for="afterFood">After Food</label>
+                        </div>
                     </div>
+
 
 
 
@@ -309,8 +345,9 @@
                                         <td>@item.Duration</td>
                                         <td>@item.Dosage</td>
                                         <td>@item.Unit</td>
+                                        
                                         <td>
-                                            <a href="@Url.Action("Edit", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Edit</a>
+                                            <a href="@Url.Action("Edit", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID,facility =item.FacilityID})" class="btn btn-primary">Edit</a>
                                             <a href="@Url.Action("Delete", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Delete</a>
                                         </td>
                                     </tr>

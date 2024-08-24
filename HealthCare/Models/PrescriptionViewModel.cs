@@ -28,6 +28,12 @@
         private string strlastUpdatedMachine;
         private string drugName;
         private string dosage;
+        private String morningunit;
+        private String afternoonunit;
+        private String eveningunit;
+        private String nightunit;
+        private string facilityID;
+
 
         public long EpressID { get => epressID; set => epressID = value; }
         public string PatientID { get => patientID; set => patientID = value; }
@@ -53,5 +59,10 @@
         public string StrlastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
         public string DrugName { get => drugName; set => drugName = value; }
         public string Dosage { get => dosage; set => dosage = value; }
+        public string Morningunit { get => morningunit; set => morningunit = value; }
+        public string Afternoonunit { get => afternoonunit; set => afternoonunit = value; }
+        public string Eveningunit { get => eveningunit; set => eveningunit = value; }
+        public string Nightunit { get => nightunit; set => nightunit = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

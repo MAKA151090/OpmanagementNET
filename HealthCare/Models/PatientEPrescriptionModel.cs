@@ -1,4 +1,5 @@
-﻿using Microsoft.Identity.Client;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
@@ -31,6 +32,12 @@ namespace HealthCare.Models
         private String strlastupdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
+        private String facilityID;
+        private String morningunit;
+        private String afternoonunit;
+        private String eveningunit;
+        private String nightunit;
+
 
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -59,5 +66,10 @@ namespace HealthCare.Models
         
        
         public bool IsDelete { get => isDelete; set => isDelete = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
+        public string? Morningunit { get => morningunit; set => morningunit = value; }
+        public string? Afternoonunit { get => afternoonunit; set => afternoonunit = value; }
+        public string? Eveningunit { get => eveningunit; set => eveningunit = value; }
+        public string? Nightunit { get => nightunit; set => nightunit = value; }
     }
 }
