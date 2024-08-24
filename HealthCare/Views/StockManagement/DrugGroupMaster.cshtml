@@ -95,7 +95,9 @@
             <br />
     <div class="form-group">
         <center>
+            <button type="submit" value="Get" asp-action="GetGroup" formmethod="get" class="btn btn-primary">Get</button>
             <button type="submit" value="Save" class="btn btn-primary">Save</button>
+
             @if (ViewBag.Message != null)
             {
                 <script>

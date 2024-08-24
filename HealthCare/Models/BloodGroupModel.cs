@@ -10,10 +10,12 @@ public class BloodGroupModel
     private String strBloodGroup;
     private String strlastUpdatedDate;
     private String strlastUpdatedUser;
+    private bool strIsDelete;
 
     public string IntBg_Id { get => intBg_Id; set => intBg_Id = value; }
     public string BloodGroup { get => strBloodGroup; set => strBloodGroup = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+    public bool StrIsDelete { get => strIsDelete; set => strIsDelete = value; }
 }
 

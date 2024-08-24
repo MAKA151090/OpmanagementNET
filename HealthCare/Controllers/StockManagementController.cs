@@ -66,6 +66,25 @@ namespace HealthCare.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> GetDrugCat (DrugCategoryModel model)
+        {
+            var getdrugcat = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x => x.CategoryID == model.CategoryID);
+            if(getdrugcat != null)
+            {
+                return View("DrugCategoryMaster", getdrugcat);
+            }
+            else
+            {
+                ViewBag.message="CategoryID Not Found";
+            }
+
+            DrugCategoryModel cat = new DrugCategoryModel();
+            return View("DrugCategoryMaster", cat);
+
+        }
+
+
         public IActionResult DrugGroupMaster()
         {
             DrugGroupModel DrugG = new DrugGroupModel();
@@ -105,6 +124,23 @@ namespace HealthCare.Controllers
             DrugGroupModel DrugG = new DrugGroupModel();
 
             return View("DrugGroupMaster", DrugG);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetGroup (DrugGroupModel model)
+        {
+            var getgroup = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x => x.GroupTypeID == model.GroupTypeID);
+            if(getgroup != null)
+            {
+                return View("DrugGroupMaster", getgroup);
+            }
+            else
+            {
+                ViewBag.message = "GroupTypeID Not Found";
+            }
+            DrugGroupModel grp = new DrugGroupModel();
+            return View("DrugGroupMaster",grp);
         }
 
 
@@ -285,6 +321,29 @@ namespace HealthCare.Controllers
 
             return View("DrugInventory", DrugI);
 
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult>GetInvent (DrugInventoryModel model)
+        {
+            BusinessClassStockManagement clinicAdmin = new BusinessClassStockManagement(GetDrugData);
+            ViewData["Categoryid"] = clinicAdmin.GetCategoryid();
+            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid();
+            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
+
+            var getinvent = await GetDrugData.SHstkDrugInventory.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.DrugId == model.DrugId);
+            if (getinvent != null) 
+            {
+                return View("DrugInventory", getinvent);
+            }
+            else
+            {
+                ViewBag.message = "DrugID Not Found";
+            }
+            DrugInventoryModel innvent = new DrugInventoryModel();
+            return View("DrugInventory", innvent);
         }
       
 
