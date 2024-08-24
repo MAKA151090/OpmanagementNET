@@ -86,7 +86,7 @@
 
                                 <input asp-for="CategoryName" class="form-control" placeholder="CategoryName" value="@Model.CategoryName" />
                         <label asp-for="CategoryName" class="control-label">CategoryName</label>
-            <span asp-validation-for="CategoryName" class="text-danger"></span>
+           
         </div>
        
        </div></div></div></div>
@@ -94,6 +94,7 @@
     
        <div class="form-group">
         <center>
+            <button type="submit" value="Get" asp-action="GetDrugCat" formmethod="get" class="btn btn-primary">Get</button>
             <button type="submit" value="Save" class="btn btn-primary">Save</button>
             @if (ViewBag.Message != null)
             {

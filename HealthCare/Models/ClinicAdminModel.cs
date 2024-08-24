@@ -21,10 +21,11 @@ public class ClinicAdminModel
 	private String strToHour;
 	private String strlastUpdatedDate;
 	private String strlastUpdatedUser;
+    private bool strIsDelete;
 
 
 
-   
+
     public string? ClinicName { get => strClinicName; set => strClinicName = value; }
     public string? ClinicAddress { get => strClinicAddress; set => strClinicAddress = value; }
     public string? City { get => strCity; set => strCity = value; }
@@ -37,4 +38,5 @@ public class ClinicAdminModel
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string FacilityID { get => facilityID; set => facilityID = value; }
+    public bool StrIsDelete { get => strIsDelete; set => strIsDelete = value; }
 }

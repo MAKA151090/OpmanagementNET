@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Azure.Core;
+using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
@@ -123,6 +124,11 @@ namespace HealthCare.Controllers
             }
             return View();
         }*/
+
+
+
+        //Blood Group
+
         public async Task<IActionResult> BloodGroupList(BloodGroupModel model)
 
         {
@@ -155,7 +161,28 @@ namespace HealthCare.Controllers
            
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult>GetBloodGroup(BloodGroupModel model)
+        {
+            var getblood = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x => x.IntBg_Id == model.IntBg_Id);
+            if(getblood != null)
+            {
+                return View("BloodGroupAdministration",getblood);
+            }
+            else
+            {
+                ViewBag.Message = "BloodGroupID Not Found";
+            }
+
+            BloodGroupModel bld = new BloodGroupModel();
+            return View("BloodGroupAdministration", bld);
+        }
+
+
+
         
+        //Staff Admin model
 
         [HttpPost]
         public async Task<IActionResult> AddStaff(StaffAdminModel model)
@@ -901,6 +928,10 @@ namespace HealthCare.Controllers
             return View("HospitalFacilityMapping", model);
         }
 
+
+
+        //ResourceTypeMasterModel
+
         public async Task<IActionResult> SaveResourceTypeID(ResourceTypeMasterModel model)
         {
             var existingTypeID = await _healthcareContext.SHclnResourseTypeMaster.FindAsync(model.ResourceTypeID);
@@ -928,6 +959,27 @@ namespace HealthCare.Controllers
 
             return View("ResourceTypeMaster" , parm);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetResource(ResourceTypeMasterModel model)
+        {
+
+            var getresource = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x => x.ResourceTypeID == model.ResourceTypeID);
+            if(getresource != null)
+            {
+                return View("ResourceTypeMaster", getresource);
+            }
+            else
+            {
+                ViewBag.message = "ResourceID Not Found";
+            }
+            ResourceTypeMasterModel res = new ResourceTypeMasterModel();
+            return View("ResourceTypeMaster", res);
+        }
+
+      
+
 
         public async Task<IActionResult> GetDiagnosisMaster(DiagnosisMasterModel model)
         {
