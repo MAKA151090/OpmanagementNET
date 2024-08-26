@@ -96,6 +96,7 @@
         <center>
             <button type="submit" value="Get" asp-action="GetDrugCat" formmethod="get" class="btn btn-primary">Get</button>
             <button type="submit" value="Save" class="btn btn-primary">Save</button>
+            <button type="submit" value="Delete" name="buttonType" asp-action="DrugCategory" class="btn btn-primary">Delete</button>
             @if (ViewBag.Message != null)
             {
                 <script>

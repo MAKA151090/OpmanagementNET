@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Azure.Core;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Office.CustomUI;
@@ -34,6 +35,7 @@ namespace HealthCare.Controllers
         }
 
 
+        //facility Registration
 
         public IActionResult ClinicRegistration()
         {
@@ -191,6 +193,7 @@ namespace HealthCare.Controllers
             {
                 existingBloodGroup.IntBg_Id = model.IntBg_Id;
                 existingBloodGroup.BloodGroup = model.BloodGroup;
+                existingBloodGroup.StrIsDelete = model.StrIsDelete;
                 existingBloodGroup.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingBloodGroup.lastUpdatedDate = DateTime.Now.ToString();
             }
@@ -232,15 +235,41 @@ namespace HealthCare.Controllers
             return View("BloodGroupAdministration", bld);
         }
 
+        public IActionResult BloodGroupAdministration()
+        {
+            BloodGroupModel blo = new BloodGroupModel();
+
+            return View("BloodGroupAdministration", blo);
+        }
 
 
-        
         //Staff Admin model
 
         [HttpPost]
-        public async Task<IActionResult> AddStaff(StaffAdminModel model)
+        public async Task<IActionResult> AddStaff(StaffAdminModel model,string buttonType)
         {
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["resoruseid"] = clinicAd.GetResourceid();
+            ViewData["Getfac"] = clinicAd.GetFacility();
+            if (buttonType == "Delete")
+            {
+                var stffDelete = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.StrStaffID == model.StrStaffID &&x.FacilityID == model.FacilityID && x.IsDelete == false);
+                if (stffDelete != null)
+                {
+                    stffDelete.IsDelete = true;
 
+                    _healthcareContext.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("StaffAdminModel", stffDelete);
+                }
+                else
+                {
+                    StaffAdminModel dlt = new StaffAdminModel();
+                    ViewBag.message = "StaffID Not Found";
+                    return View("StaffAdminModel", dlt);
+                }
+            }
 
             var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID,model.FacilityID);
 
@@ -271,6 +300,7 @@ namespace HealthCare.Controllers
                 existingStaffAdmin.StrIdProofId = model.StrIdProofId;
                 existingStaffAdmin.StrIdProofName = model.StrIdProofName;
                 existingStaffAdmin.StrMedialLicenseNumber = model.StrMedialLicenseNumber;
+                existingStaffAdmin.IsDelete = model.IsDelete;
                 existingStaffAdmin.LastupdatedDate = DateTime.Now.ToString();
                 existingStaffAdmin.LastupdatedUser = User.Claims.First().Value.ToString();
                 existingStaffAdmin.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -305,7 +335,7 @@ namespace HealthCare.Controllers
             ViewData["Getfac"] = clinicAdmin.GetFacility();
 
 
-            var getstaffdata = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.FacilityID== model.FacilityID && x.StrStaffID == model.StrStaffID);
+            var getstaffdata = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.FacilityID== model.FacilityID && x.StrStaffID == model.StrStaffID && x.IsDelete == false);
             if(getstaffdata != null)
             {
                 return View("StaffAdminModel", getstaffdata);
@@ -509,12 +539,7 @@ namespace HealthCare.Controllers
         }
 
       
-        public IActionResult BloodGroupAdministration()
-        {
-            BloodGroupModel blo = new BloodGroupModel();
-
-            return View("BloodGroupAdministration",blo);
-        }
+   
         public IActionResult RollAccess()
         {
 
@@ -1014,6 +1039,7 @@ namespace HealthCare.Controllers
             {
                 existingTypeID.ResourceTypeID = model.ResourceTypeID;
                 existingTypeID.ResourceTypeName = model.ResourceTypeName;
+                existingTypeID.StrIsDelete = model.StrIsDelete;
                 existingTypeID.lastUpdatedDate = DateTime.Now.ToString();
                 existingTypeID.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTypeID.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();

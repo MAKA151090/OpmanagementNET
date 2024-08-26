@@ -1,4 +1,5 @@
-﻿using HealthCare.Business;
+﻿using DocumentFormat.OpenXml.EMMA;
+using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -33,9 +34,27 @@ namespace HealthCare.Controllers
             return View("DrugCategoryMaster", drugC);
         }
 
-        public async Task<IActionResult> DrugCategory(DrugCategoryModel pCategory)
+        public async Task<IActionResult> DrugCategory(DrugCategoryModel pCategory,string buttonType)
         {
-           
+           if(buttonType == "Delete")
+            {
+                var DrugDelete = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x => x.CategoryID == pCategory.CategoryID && x.IsDelete == false);
+                if (DrugDelete != null)
+                {
+                    DrugDelete.IsDelete = true;
+
+                    GetDrugData.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("DrugCategoryMaster", DrugDelete);
+                }
+                else
+                {
+                    DrugCategoryModel dlt = new DrugCategoryModel();
+                    ViewBag.message = "CategoryID Not Found";
+                    return View("DrugCategoryMaster", dlt);
+                }
+            }
             var existingCat = await GetDrugData.SHstkDrugCategory.FindAsync(pCategory.CategoryID);
             if (existingCat != null)
             {
@@ -69,7 +88,7 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDrugCat (DrugCategoryModel model)
         {
-            var getdrugcat = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x => x.CategoryID == model.CategoryID);
+            var getdrugcat = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x => x.CategoryID == model.CategoryID && x.IsDelete ==false);
             if(getdrugcat != null)
             {
                 return View("DrugCategoryMaster", getdrugcat);
@@ -92,8 +111,9 @@ namespace HealthCare.Controllers
             return View("DrugGroupMaster", DrugG);
         }
 
-        public async Task<IActionResult> DrugGroup (DrugGroupModel model) 
+        public async Task<IActionResult> DrugGroup (DrugGroupModel model,string buttonType) 
         {
+            
            
             if (string.IsNullOrEmpty(model.GroupTypeName))
             {
@@ -101,11 +121,32 @@ namespace HealthCare.Controllers
                 return View("DrugGroupMaster", model);
             }
 
+            if(buttonType == "Delete")
+            {
+                var GroupDelete = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x => x.GroupTypeID == model.GroupTypeID && x.IsDelete == false);
+                if (GroupDelete != null)
+                {
+                    GroupDelete.IsDelete = true;
+
+                    GetDrugData.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("DrugGroupMaster", GroupDelete);
+                }
+                else
+                {
+                    DrugGroupModel dlt = new DrugGroupModel();
+                    ViewBag.message = "GroupID Not Found";
+                    return View("DrugGroupMaster", dlt);
+                }
+            }
+
             var existingGrp = await GetDrugData.SHstkDrugGroup.FindAsync(model.GroupTypeName,model.GroupTypeID);
             if (existingGrp != null)
             {
                 existingGrp.GroupTypeID = model.GroupTypeID;
                 existingGrp.GroupTypeName = model.GroupTypeName;
+                existingGrp.IsDelete = model.IsDelete;
                 existingGrp.lastUpdatedDate = DateTime.Now.ToString();
                 existingGrp.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingGrp.LastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -130,7 +171,7 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGroup (DrugGroupModel model)
         {
-            var getgroup = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x => x.GroupTypeID == model.GroupTypeID);
+            var getgroup = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x => x.GroupTypeID == model.GroupTypeID && x.IsDelete == false);
             if(getgroup != null)
             {
                 return View("DrugGroupMaster", getgroup);
@@ -152,15 +193,34 @@ namespace HealthCare.Controllers
             return View("DrugTypeMaster", DrugT);
         }
 
-        public async Task<IActionResult> DrugType(DrugTypeModel pType)
+        public async Task<IActionResult> DrugType(DrugTypeModel pType,string buttonType)
         {
+            if(buttonType == "Delete")
+            {
+                var TypeDelete = await GetDrugData.SHstkDrugType.FirstOrDefaultAsync(x => x.TypeID == pType.TypeID && x.IsDelete == false);
+                if (TypeDelete != null)
+                {
+                    TypeDelete.IsDelete = true;
 
+                    GetDrugData.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("DrugTypeMaster", TypeDelete);
+                }
+                else
+                {
+                    DrugTypeModel dlt = new DrugTypeModel();
+                    ViewBag.message = "CategoryID Not Found";
+                    return View("DrugTypeMaster", dlt);
+                }
+            }
             var existingType = await GetDrugData.SHstkDrugType.FindAsync(pType.TypeID);
             if (existingType != null)
             {
 
                 existingType.TypeID = pType.TypeID;
                 existingType.TypeName = pType.TypeName;
+                existingType.IsDelete = pType.IsDelete;
                 existingType.lastUpdatedDate = DateTime.Now.ToString();
                 existingType.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingType.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -181,6 +241,23 @@ namespace HealthCare.Controllers
             return View("DrugTypeMaster", DrugT);
 
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDrugtype(DrugTypeModel model)
+        {
+           
+            var getDrug = await GetDrugData.SHstkDrugType.FirstOrDefaultAsync(x => x.TypeID == model.TypeID && x.IsDelete == false);
+            if (getDrug != null)
+            {
+                return View("DrugTypeMaster", getDrug);
+            }
+            else
+            {
+                ViewBag.message = "TypeID Not Found";
+            }
+            DrugTypeModel typeid = new DrugTypeModel();
+            return View("DrugTypeMaster", typeid);
         }
 
 
