@@ -61,6 +61,7 @@ namespace HealthCare.Controllers
 
                 existingCat.CategoryID = pCategory.CategoryID;
                 existingCat.CategoryName = pCategory.CategoryName;
+                existingCat.IsDelete = pCategory.IsDelete;
                 existingCat.lastUpdatedDate = DateTime.Now.ToString();
                 existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingCat.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -394,6 +395,8 @@ namespace HealthCare.Controllers
                 existingTest.BarCode = model.BarCode;
                 existingTest.GroupName = model.GroupName;
                 existingTest.GroupType = model.GroupType;
+                existingTest.FacilityID = model.FacilityID;
+                existingTest.IsDelete = model.IsDelete;
                 existingTest.LastupdatedUser = User.Claims.First().Value.ToString();
                 existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
                 existingTest.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();

@@ -107,6 +107,8 @@ namespace HealthCare.Controllers
                 existingPatient.CnctPrsnName = model.CnctPrsnName;
                 existingPatient.Rlnpatient = model.Rlnpatient;
                 existingPatient.EmgcyCntNum = model.EmgcyCntNum;
+                existingPatient.FacilityID = model.FacilityID;
+                existingPatient.IsDelete = model.IsDelete;
                 existingPatient.lastUpdatedDate = DateTime.Now.ToString();
                 existingPatient.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.Entry(existingPatient).State = EntityState.Modified;
@@ -151,7 +153,7 @@ namespace HealthCare.Controllers
             }
             else
             {
-                ViewBag.Message = "FacilityID Not Found";
+                ViewBag.Message = "PatientID Not Found";
             }
             PatientRegistrationModel stfpat = new PatientRegistrationModel();
 
