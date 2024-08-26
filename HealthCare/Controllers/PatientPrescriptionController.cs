@@ -131,7 +131,7 @@ namespace HealthCare.Controllers
 
             if (buttonType == "Print")
             {
-                String Query = "SELECT \r\n    SD.FullName As PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS DrugName ,\r\n    DI.Dosage,\r\n    SB.Frequency,\r\n    SB.Instructions,\r\n\tSB.FillDate AS FollowUpDate\r\n    \r\nFROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nInner JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\n   \r\nWHERE \r\n      SD.PatientID = '" + PatientID + "' AND SB.CaseVisitID = '" + CaseVisitID + "'  AND SB.OrderID='" + OrderID + "' AND SB.DoctorID ='" + DoctorID + "' AND SB.IsDelete= 0 ";
+                String Query = "SELECT \r\n    SD.FullName AS PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS DrugName,\r\n    SB.Instructions,\r\n    SB.FillDate AS FollowUpDate,\r\n\tSD.Age,\r\n\tSD.Gender,\r\n\tSB.Comments,\r\n\tSB.Morningunit,\r\n\tSB.Eveningunit,\r\n\tSB.Afternoonunit,\r\n\tSB.Nightunit,\r\n\t SB.RouteAdmin As [When]\r\nFROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nINNER JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\nWHERE \r\n    SD.PatientID ='" + PatientID + "'\r\n    AND SB.CaseVisitID = '" + CaseVisitID + "' \r\n    AND SB.OrderID = '" + OrderID + "'\r\n    AND SB.DoctorID = '" + doctorid + "' \r\n    AND SB.IsDelete = 0\r\n\tAND SB.FacilityID ='" + daocfac + "'\r\n ";
 
                 var Table = BusinessClassCommon.DataTable(GetPrescription, Query);
 

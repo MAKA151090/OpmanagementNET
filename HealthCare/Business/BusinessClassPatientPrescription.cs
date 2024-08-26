@@ -152,7 +152,10 @@ namespace HealthCare.Business
 
                 // Replace placeholders with dynamic data
                 document.ReplaceText("<<patientname>>", pbillData.Rows[0]["PatientName"].ToString());
+                document.ReplaceText("<<age>>", pbillData.Rows[0]["Age"].ToString());
+                document.ReplaceText("<<gender>>", pbillData.Rows[0]["Gender"].ToString());
                 document.ReplaceText("<<date>>", pbillData.Rows[0]["Date"].ToString());
+                document.ReplaceText("<<complaint>>", pbillData.Rows[0]["Comments"].ToString());
                 document.ReplaceText("<<followupDate>>", pbillData.Rows[0]["FollowUpDate"].ToString());
 
 
@@ -162,11 +165,14 @@ namespace HealthCare.Business
                 //  document.InsertParagraph("This is a new paragraph added to the document.").FontSize(14).Bold();
 
                 // Add a table
-                var table = document.AddTable(pbillData.Rows.Count + 1, 4);
-                table.Rows[0].Cells[0].Paragraphs[0].Append("DrugName ");
-                table.Rows[0].Cells[1].Paragraphs[0].Append("Dosage");
-                table.Rows[0].Cells[2].Paragraphs[0].Append("Frequency");
-                table.Rows[0].Cells[3].Paragraphs[0].Append("Instructions");
+                var table = document.AddTable(pbillData.Rows.Count + 1, 7);
+                table.Rows[0].Cells[0].Paragraphs[0].Append("DrugName");
+                table.Rows[0].Cells[1].Paragraphs[0].Append("Morningunit");
+                table.Rows[0].Cells[2].Paragraphs[0].Append("Afternoonunit");
+                table.Rows[0].Cells[3].Paragraphs[0].Append("Eveningunit");
+                table.Rows[0].Cells[4].Paragraphs[0].Append("Nightunit");
+                table.Rows[0].Cells[5].Paragraphs[0].Append("When");
+                table.Rows[0].Cells[6].Paragraphs[0].Append("Instructions");
 
 
                 int rowcount = 1;
@@ -175,9 +181,12 @@ namespace HealthCare.Business
                 {
 
                     table.Rows[rowcount].Cells[0].Paragraphs[0].Append(objRow["DrugName"].ToString());
-                    table.Rows[rowcount].Cells[1].Paragraphs[0].Append(objRow["Dosage"].ToString());
-                    table.Rows[rowcount].Cells[2].Paragraphs[0].Append(objRow["Frequency"].ToString());
-                    table.Rows[rowcount].Cells[3].Paragraphs[0].Append(objRow["Instructions"].ToString());
+                    table.Rows[rowcount].Cells[1].Paragraphs[0].Append(objRow["Morningunit"].ToString());
+                    table.Rows[rowcount].Cells[2].Paragraphs[0].Append(objRow["Afternoonunit"].ToString());
+                    table.Rows[rowcount].Cells[3].Paragraphs[0].Append(objRow["Eveningunit"].ToString());
+                    table.Rows[rowcount].Cells[4].Paragraphs[0].Append(objRow["Nightunit"].ToString());
+                    table.Rows[rowcount].Cells[5].Paragraphs[0].Append(objRow["When"].ToString());
+                    table.Rows[rowcount].Cells[6].Paragraphs[0].Append(objRow["Instructions"].ToString());
 
                     rowcount++;
                 }

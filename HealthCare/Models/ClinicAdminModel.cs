@@ -22,6 +22,7 @@ public class ClinicAdminModel
 	private String strlastUpdatedDate;
 	private String strlastUpdatedUser;
     private bool strIsDelete;
+    private String template;
 
 
 
@@ -39,4 +40,5 @@ public class ClinicAdminModel
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
     public string FacilityID { get => facilityID; set => facilityID = value; }
     public bool StrIsDelete { get => strIsDelete; set => strIsDelete = value; }
+    public string? Template { get => template; set => template = value; }
 }

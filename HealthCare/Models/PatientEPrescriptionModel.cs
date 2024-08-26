@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+﻿using DocumentFormat.OpenXml.Presentation;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -37,6 +38,7 @@ namespace HealthCare.Models
         private String afternoonunit;
         private String eveningunit;
         private String nightunit;
+       
 
 
         [NotMapped]
@@ -71,5 +73,6 @@ namespace HealthCare.Models
         public string? Afternoonunit { get => afternoonunit; set => afternoonunit = value; }
         public string? Eveningunit { get => eveningunit; set => eveningunit = value; }
         public string? Nightunit { get => nightunit; set => nightunit = value; }
+       
     }
 }
