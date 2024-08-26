@@ -61,6 +61,7 @@ namespace HealthCare.Controllers
 
                 existingCat.CategoryID = pCategory.CategoryID;
                 existingCat.CategoryName = pCategory.CategoryName;
+                existingCat.IsDelete = pCategory.IsDelete;
                 existingCat.lastUpdatedDate = DateTime.Now.ToString();
                 existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingCat.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -210,7 +211,7 @@ namespace HealthCare.Controllers
                 else
                 {
                     DrugTypeModel dlt = new DrugTypeModel();
-                    ViewBag.message = "CategoryID Not Found";
+                    ViewBag.message = "TypeID Not Found";
                     return View("DrugTypeMaster", dlt);
                 }
             }
@@ -347,8 +348,34 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> DrugInventory(DrugInventoryModel model)
+        public async Task<IActionResult> DrugInventory(DrugInventoryModel model,string buttonType)
         {
+            BusinessClassStockManagement clinicAdm = new BusinessClassStockManagement(GetDrugData);
+            ViewData["Categoryid"] = clinicAdm.GetCategoryid();
+            ViewData["DrugTypeid"] = clinicAdm.GetDrugTypeid();
+            ViewData["DurgGroup"] = clinicAdm.GetDurgGroup();
+            ViewData["Getfac"] = clinicAdm.GetFacility();
+
+            if (buttonType == "Delete")
+            {
+
+                var intvDelete = await GetDrugData.SHstkDrugInventory.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.DrugId == model.DrugId && x.IsDelete == false);
+                if (intvDelete != null)
+                {
+                    intvDelete.IsDelete = true;
+
+                    GetDrugData.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("DrugInventory", intvDelete);
+                }
+                else
+                {
+                    DrugInventoryModel dlt = new DrugInventoryModel();
+                    ViewBag.message = "DrugID Not Found";
+                    return View("DrugInventory", dlt);
+                }
+            }
 
             var existingTest = await GetDrugData.SHstkDrugInventory.FindAsync(model.DrugId,model.FacilityID);
             if (existingTest != null)
@@ -368,6 +395,8 @@ namespace HealthCare.Controllers
                 existingTest.BarCode = model.BarCode;
                 existingTest.GroupName = model.GroupName;
                 existingTest.GroupType = model.GroupType;
+                existingTest.FacilityID = model.FacilityID;
+                existingTest.IsDelete = model.IsDelete;
                 existingTest.LastupdatedUser = User.Claims.First().Value.ToString();
                 existingTest.LastupdatedDate = DateTime.Now.ToString(); ;
                 existingTest.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -410,7 +439,7 @@ namespace HealthCare.Controllers
             ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
             ViewData["Getfac"] = clinicAdmin.GetFacility();
 
-            var getinvent = await GetDrugData.SHstkDrugInventory.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.DrugId == model.DrugId);
+            var getinvent = await GetDrugData.SHstkDrugInventory.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.DrugId == model.DrugId && x.IsDelete==false);
             if (getinvent != null) 
             {
                 return View("DrugInventory", getinvent);

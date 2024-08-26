@@ -34,9 +34,30 @@ namespace HealthCare.Controllers
             ViewData["Facid"] = schedule.GetFacilityid();
 
 
-          
-                // Retrieve existing patient data if available
-                var existingPatient = await _healthcareContext.SHPatientRegistration.FindAsync(model.PatientID,model.FacilityID);
+
+            if (buttonType == "Delete")
+            {
+                var reg = await _healthcareContext.SHPatientRegistration.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.PatientID == model.PatientID && x.IsDelete == false);
+                if (reg != null)
+                {
+                    reg.IsDelete = true;
+
+                    _healthcareContext.SaveChanges();
+
+                    ViewBag.message = "Deleted Successfully";
+                    return View("PatientRegister", reg);
+                }
+                else
+                {
+                    PatientRegistrationModel dlt = new PatientRegistrationModel();
+                    ViewBag.message = "PatientID Not Found";
+                    return View("PatientRegister", dlt);
+                }
+            }
+
+
+            // Retrieve existing patient data if available
+            var existingPatient = await _healthcareContext.SHPatientRegistration.FindAsync(model.PatientID,model.FacilityID);
 
             if(string.IsNullOrEmpty(model.FullName))
             {
@@ -55,6 +76,9 @@ namespace HealthCare.Controllers
                 ViewBag.Message = "Please enter PhoneNumber";
                 return View("PatientRegister", model);
             }
+
+          
+
 
             if (existingPatient != null)
             {
@@ -83,6 +107,8 @@ namespace HealthCare.Controllers
                 existingPatient.CnctPrsnName = model.CnctPrsnName;
                 existingPatient.Rlnpatient = model.Rlnpatient;
                 existingPatient.EmgcyCntNum = model.EmgcyCntNum;
+                existingPatient.FacilityID = model.FacilityID;
+                existingPatient.IsDelete = model.IsDelete;
                 existingPatient.lastUpdatedDate = DateTime.Now.ToString();
                 existingPatient.lastUpdatedUser = User.Claims.First().Value.ToString();
                 _healthcareContext.Entry(existingPatient).State = EntityState.Modified;
@@ -120,14 +146,14 @@ namespace HealthCare.Controllers
             ViewData["bldgrpid"] = schedule.GetBloodGroup();
             ViewData["Facid"] = schedule.GetFacilityid();
 
-            var getpatientdata = await _healthcareContext.SHPatientRegistration.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.PatientID == model.PatientID);
+            var getpatientdata = await _healthcareContext.SHPatientRegistration.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.PatientID == model.PatientID && x.IsDelete == false);
             if (getpatientdata != null)
             {
                 return View("PatientRegister", getpatientdata);
             }
             else
             {
-                ViewBag.Message = "FacilityID Not Found";
+                ViewBag.Message = "PatientID Not Found";
             }
             PatientRegistrationModel stfpat = new PatientRegistrationModel();
 
