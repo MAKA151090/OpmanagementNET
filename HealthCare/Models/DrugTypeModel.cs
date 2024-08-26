@@ -1,4 +1,6 @@
-﻿namespace HealthCare.Models
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+
+namespace HealthCare.Models
 {
     public class DrugTypeModel
     {
@@ -9,11 +11,13 @@
         private String strLastUpdatedDate;
         private String strLastUpdatedUser;
         private string strLastUpdatedmachine;
+        private bool strIsDelete;
 
         public string TypeID { get => typeID; set => typeID = value; }
         public string? TypeName { get => typeName; set => typeName = value; }
         public string? lastUpdatedDate { get => strLastUpdatedDate; set => strLastUpdatedDate = value; }
         public string? lastUpdatedUser { get => strLastUpdatedUser; set => strLastUpdatedUser = value; }
         public string? lastUpdatedmachine { get => strLastUpdatedmachine; set => strLastUpdatedmachine = value; }
+        public bool IsDelete { get => strIsDelete; set => strIsDelete = value; }
     }
 }
