@@ -2,16 +2,18 @@
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NonFactors.Mvc.Grid;
 using System.Data;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HealthCare.Business
 {
-    public class BusinessClassPatientPrescription : Controller
+    public class BusinessClassPatientPrescription
     {
 
-        private HealthcareContext _healthcareContext;
+        private readonly HealthcareContext _healthcareContext;
 
         public BusinessClassPatientPrescription(HealthcareContext healthcareContext)
         {
@@ -213,9 +215,13 @@ namespace HealthCare.Business
             }
             return null;
         }
-        public byte[] PrintBillDetails(DataTable billDetails)
+
+        public byte[] PrintBillDetails(DataTable billDetails,string facility)
         {
-            return ModifyBillDoc("..\\HealthCare\\Template\\PrescriptionTemplate.docx", billDetails);
+
+            string templatePath = Path.Combine("..\\HealthCare\\Template", facility + ".docx");
+
+            return ModifyBillDoc(templatePath, billDetails);
         }
 
     }

@@ -131,13 +131,15 @@ namespace HealthCare.Controllers
 
             if (buttonType == "Print")
             {
-                String Query = "SELECT \r\n    SD.FullName AS PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS DrugName,\r\n    SB.Instructions,\r\n    SB.FillDate AS FollowUpDate,\r\n\tSD.Age,\r\n\tSD.Gender,\r\n\tSB.Comments,\r\n\tSB.Morningunit,\r\n\tSB.Eveningunit,\r\n\tSB.Afternoonunit,\r\n\tSB.Nightunit,\r\n\t SB.RouteAdmin As [When]\r\nFROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nINNER JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\nWHERE \r\n    SD.PatientID ='" + PatientID + "'\r\n    AND SB.CaseVisitID = '" + CaseVisitID + "' \r\n    AND SB.OrderID = '" + OrderID + "'\r\n    AND SB.DoctorID = '" + doctorid + "' \r\n    AND SB.IsDelete = 0\r\n\tAND SB.FacilityID ='" + daocfac + "'\r\n ";
+                String Query = "SELECT \r\n    SD.FullName AS PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS DrugName,\r\n    SB.Instructions,\r\n    SB.FillDate AS FollowUpDate,\r\n\tSD.Age,\r\n\tSD.Gender,\r\n\tSB.Comments,\r\n\tSB.Morningunit,\r\n\tSB.Eveningunit,\r\n\tSB.Afternoonunit,\r\n\tSB.Nightunit,\r\n\t SB.RouteAdmin As [When]\r\n,\tCA.Template FROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nINNER JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\nINNER JOIN\r\n    SHclnClinicAdmin CA ON SB.FacilityID = CA.FacilityID  WHERE \r\n    SD.PatientID ='" + PatientID + "'\r\n    AND SB.CaseVisitID = '" + CaseVisitID + "' \r\n    AND SB.OrderID = '" + OrderID + "'\r\n    AND SB.DoctorID = '" + doctorid + "' \r\n    AND SB.IsDelete = 0\r\n\tAND SB.FacilityID ='" + daocfac + "'\r\n ";
 
                 var Table = BusinessClassCommon.DataTable(GetPrescription, Query);
 
                 BusinessClassPatientPrescription objbilling = new BusinessClassPatientPrescription(GetPrescription);
 
-                return File(objbilling.PrintBillDetails(Table), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Patient Prescription" + TempData["BillID"] + ".docx");
+                string facilityTemplate = Table.Rows[0]["Template"].ToString();
+
+                return File(objbilling.PrintBillDetails(Table, facilityTemplate), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Patient Prescription" + TempData["BillID"] + ".docx");
             }
 
             if (buttonType == "Get")
