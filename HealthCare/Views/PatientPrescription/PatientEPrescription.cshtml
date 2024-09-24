@@ -67,7 +67,7 @@
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-                    <div class="form-floating form-floating-outline mb-4">
+                    <div class="input-group">
                         @{
                             var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
                             .Select(m => new SelectListItem
@@ -77,9 +77,10 @@
                 });
                         }
 
-                        @Html.DropDownListFor(model => model.PatientID, screenList, "Select Patient ID", new { @class = "form-control", @required = "required" })
-                        <label asp-for="PatientID" class="control-label">Patient ID</label>
+                        @Html.DropDownListFor(model => model.PatientID, screenList, "Select", new { @class = "form-control", @required = "required" })
+                        <label asp-for="PatientID" class="control-label"></label>
                         <span asp-validation-for="PatientID" class="text-danger"></span>
+                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#paymentModal"></button>
                     </div>
 
 
@@ -396,3 +397,56 @@
                 *@
 
 }
+
+
+
+
+<!-- Customer Details Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Enter Patient Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <form id="modalSearchFormcus" asp-controller="PatientPrescription" asp-action="AddPaymentPop" method="post">
+
+                    <div class="col mb-3">
+
+
+
+                        <label for="PatientName">Patient Name</label>
+                        <input type="text" class="form-control" id="PatientName" name="PatientName" placeholder="Patient Name" />
+
+
+
+                    </div>
+
+                    @* <div class="col mb-3">
+                        <label for="searchInput">Customer Name </label>
+                        <input type="text" class="form-control" id="CustomerName" name="CustomerName" placeholder="Customer Name" />
+                    </div>
+
+
+                    <div class="col mb-3">
+                        <label for="searchInput">Customer Address </label>
+                        <input type="text" class="form-control" id="Address" name="Address" placeholder="Address" />
+                    </div> *@
+
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveCustomer">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
