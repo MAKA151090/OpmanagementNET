@@ -190,13 +190,13 @@ namespace HealthCare.Business
         }
 
 
-        public List<String> GetRoll(string userid)
+        public List<String> GetRoll(string userid,string facility)
         {
-            var query = from sm in objDbContext.SHClnScreenMaster
-                        join rac in objDbContext.SHClnRollAccess on sm.ScreenId equals rac.ScreenID
+            var query = from sm in objDbContext.shdbscreenname
+                        join rac in objDbContext.SHClnRollAccess on sm.Id equals rac.ScreenID
                         join ram in objDbContext.ShclnrollAccessmaster on rac.RollID equals ram.RollID
                         join sam in objDbContext.SHclnStaffAdminModel on ram.StaffID equals sam.StrStaffID
-                        where rac.Authorized == "1" && sam.StrUserName == userid
+                        where rac.Authorized == "1" && sam.StrUserName == userid && sam.FacilityID == facility
                         select sm.ScreenName;
 
             var result = query.ToList();

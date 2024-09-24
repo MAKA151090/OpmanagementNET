@@ -199,6 +199,7 @@ namespace HealthCare.Business
                     from pr in _healthcareContext.shdbscreenname
                     select new ScreenNameMasterModel
                     {
+                        Id=pr.Id,
                         ScreenName= pr.ScreenName,
                     }
                 ).ToList();

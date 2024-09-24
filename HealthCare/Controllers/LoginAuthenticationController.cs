@@ -88,7 +88,7 @@ namespace HealthCare.Controllers
                     TempData["FacilityID"] = facility.FacilityID;
                     TempData["DoctorID"] = facility.StrStaffID;
 
-                    var rolldetail = Busreg.GetRoll(model.StrUserName);
+                    var rolldetail = Busreg.GetRoll(model.StrUserName,facility.FacilityID);
 
                     // Set TempData with the filtered roll details
                     TempData["RollAccess"] = JsonConvert.SerializeObject(rolldetail); ;

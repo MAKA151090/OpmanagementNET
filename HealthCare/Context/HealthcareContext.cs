@@ -293,7 +293,7 @@ namespace HealthCare.Context
             modelBuilder.Entity<OpCheckingModel>().HasKey(i => new { i.PatientId });
 
            
-            modelBuilder.Entity<PatientEPrescriptionModel>().HasKey(i => new { i.PatientID, i.CaseVisitID, i.OrderID, i.DrugID,i.FacilityID });
+            modelBuilder.Entity<PatientEPrescriptionModel>().HasKey(i => new { i.PatientID, i.CaseVisitID,i.DrugID,i.FacilityID });
 
             modelBuilder.Entity<PatientEPrescriptionModel>().Property(p => p.EpressID).ValueGeneratedOnAdd();
 

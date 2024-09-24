@@ -544,7 +544,7 @@ namespace HealthCare.Controllers
         {
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["screenid"] = clinicAdmin.GetScreenid();
+            ViewData["screenname"] = clinicAdmin.Screenname();
             ViewData["rollid"] = clinicAdmin.RollAccessType();
             return View();
         }
@@ -877,7 +877,7 @@ namespace HealthCare.Controllers
         {
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["screenid"] = clinicAdmin.GetScreenid();
+            ViewData["screenname"] = clinicAdmin.Screenname();
             ViewData["rollid"] = clinicAdmin.RollAccessType();
            
 

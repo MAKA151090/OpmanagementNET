@@ -46,7 +46,7 @@ namespace HealthCare.Models
         public long EpressID { get => epressID; set => epressID = value; }
         public string PatientID { get => patientID; set => patientID = value; }
         public string CaseVisitID { get => caseVisitID; set => caseVisitID = value; }
-        public string OrderID { get => orderID; set => orderID = value; }
+        public string? OrderID { get => orderID; set => orderID = value; }
         public string? DoctorID { get => doctorID; set => doctorID = value; }
         public string DrugID { get => drugID; set => drugID = value; }
         public string? PrescriptionDate { get => prescriptionDate; set => prescriptionDate = value; }

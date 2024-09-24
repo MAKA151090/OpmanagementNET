@@ -57,11 +57,11 @@
 
                     <div class="form-floating form-floating-outline mb-4">
                         @{
-                            var screenList = ((IEnumerable<ScreenMasterModel>)ViewData["screenid"])
+                            var screenList = ((IEnumerable<ScreenNameMasterModel>)ViewData["screenname"])
                             .Select(m => new SelectListItem
             {
-                Value = m.ScreenId.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.ScreenId} - {m.ScreenName}"
+                Value = m.Id.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.ScreenName}"
             });
                         }
 

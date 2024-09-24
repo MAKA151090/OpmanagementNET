@@ -40,7 +40,7 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseSession();
 
-//app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

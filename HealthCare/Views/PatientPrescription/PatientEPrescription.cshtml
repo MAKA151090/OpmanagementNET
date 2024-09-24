@@ -91,29 +91,7 @@
 
                         <span asp-validation-for="CaseVisitID" class="text-danger"></span>
                     </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="OrderID" class="form-control" placeholder="Order ID" required />
-                        <label asp-for="OrderID" class="control-label">Order ID</label>
 
-                        <span asp-validation-for="OrderID" class="text-danger"></span>
-                    </div>
-
-@* 
-                    <div class="form-floating form-floating-outline mb-4">
-                        @{
-                            var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
-                            .Select(m => new SelectListItem
-                {
-                    Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.StrStaffID} - {m.StrFullName}"
-                });
-                        }
-
-                        @Html.DropDownListFor(model => model.DoctorID, screenlist, "Select Doctor ID", new { @class = "form-control" })
-                        <label asp-for="DoctorID" class="control-label">Doctor ID</label>
-
-                    </div>
- *@
 
                     <div class="form-floating form-floating-outline mb-4">
                         @{
@@ -174,62 +152,12 @@
 
 
 
-       @*  <div class="col-md-12 col-lg-4">
-            <div class="card"> *@
-
-               @*  <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Unit" class="form-control" placeholder="Unit" />
-                        <label asp-for="Unit" class="control-label">Unit</label>
-
-
-                    </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="UnitCategory" class="form-control" placeholder="Unit Category" />
-                        <label asp-for="UnitCategory" class="control-label">Unit Category</label>
-
-
-                    </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Frequency" class="form-control" placeholder="Frequency" />
-                        <label asp-for="Frequency" class="control-label"></label>
-
-
-                    </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="FrequencyUnit" class="form-control" placeholder="Frequency Unit" />
-                        <label asp-for="FrequencyUnit" class="control-label">Frequency Unit</label>
-
-
-                    </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Duration" class="form-control" placeholder="Duration" />
-                        <label asp-for="Duration" class="control-label"></label>
-
-
-                    </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Quantity" class="form-control" placeholder="Quantity" />
-                        <label asp-for="Quantity" class="control-label"></label>
-
-
-                    </div> *@
-
-               
-           @*  </div>
-
-           
-
-        </div> *@
-
-
-
         <div class="col-md-12 col-lg-3">
             <div class="card">
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="EndDate" class="form-control" type="date" placeholder="End Date" />
+                        <input asp-for="EndDate" class="form-control"  placeholder="End Date" />
                         <label asp-for="EndDate" class="control-label">End Date</label>
 
 
@@ -250,40 +178,36 @@
 
 
 
-
-                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                        <textarea asp-for="Instructions" class="form-control" placeholder="Instructions" aria-describedby="text-to-speech-addon"></textarea>
-                        <label asp-for="Instructions" class="control-label"></label>
-                        <span class="input-group-text" id="text-to-speech-addon">
-                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                        </span>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <textarea asp-for="Comments" class="form-control" placeholder="Diagnosis"></textarea>
+                        <label asp-for="Comments" class="control-label">Diagnosis</label>
 
 
                     </div>
-
-                     <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                        <textarea asp-for="Comments" class="form-control" placeholder="Complaints" aria-describedby="text-to-speech-addon"></textarea>
-                        <label asp-for="Comments" class="control-label">Complaints</label>
-                        <span class="input-group-text" id="text-to-speech-addon">
-                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                        </span>
-
-                    </div> 
-
 
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="FillDate" class="form-control" type="date" placeholder="Fill Date" />
-                        <label asp-for="FillDate" class="control-label">Fill Date</label>
+                        <textarea asp-for="Instructions" class="form-control" placeholder="Procedure"></textarea>
+                        <label asp-for="Instructions" class="control-label">Procedure</label>
+                       
+                    </div>
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <textarea asp-for="Result" class="form-control" placeholder="Instructions"></textarea>
+                        <label asp-for="Result" class="control-label">Instructions</label>
 
 
                     </div>
-                   @*  <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Result" class="form-control" placeholder="Additional Comments" />
-                        <label asp-for="Result" class="control-label">Additional Comments</label>
 
 
-                    </div> *@
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="FillDate" class="form-control" type="date" placeholder="FollowUp Date">
+                        <label asp-for="FillDate" class="control-label">FollowUp Date</label>
+
+
+                    </div>
+                    
                 </div>
                 </div>
             </div>
@@ -395,5 +319,80 @@
         </script>
     }
 
+
+
+
+    @*  <div class="col-md-12 col-lg-4">
+            <div class="card"> *@
+
+    @*  <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Unit" class="form-control" placeholder="Unit" />
+                        <label asp-for="Unit" class="control-label">Unit</label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="UnitCategory" class="form-control" placeholder="Unit Category" />
+                        <label asp-for="UnitCategory" class="control-label">Unit Category</label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Frequency" class="form-control" placeholder="Frequency" />
+                        <label asp-for="Frequency" class="control-label"></label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="FrequencyUnit" class="form-control" placeholder="Frequency Unit" />
+                        <label asp-for="FrequencyUnit" class="control-label">Frequency Unit</label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Duration" class="form-control" placeholder="Duration" />
+                        <label asp-for="Duration" class="control-label"></label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Quantity" class="form-control" placeholder="Quantity" />
+                        <label asp-for="Quantity" class="control-label"></label>
+
+
+                    </div> *@
+
+
+    @*  </div>
+
+
+
+        </div> *@
+
+
+    @*   <div class="form-floating form-floating-outline mb-4">
+                <input asp-for="OrderID" class="form-control" placeholder="Order ID" required />
+                <label asp-for="OrderID" class="control-label">Order ID</label>
+
+                <span asp-validation-for="OrderID" class="text-danger"></span>
+                </div> *@
+
+    @*
+                <div class="form-floating form-floating-outline mb-4">
+                @{
+                var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["docid"])
+                .Select(m => new SelectListItem
+                {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrStaffID} - {m.StrFullName}"
+                });
+                }
+
+                @Html.DropDownListFor(model => model.DoctorID, screenlist, "Select Doctor ID", new { @class = "form-control" })
+                <label asp-for="DoctorID" class="control-label">Doctor ID</label>
+
+                </div>
+                *@
 
 }
