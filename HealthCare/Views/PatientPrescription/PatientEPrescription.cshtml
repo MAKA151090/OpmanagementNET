@@ -73,13 +73,23 @@
                             .Select(m => new SelectListItem
                 {
                     Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.PatientID} - {m.FullName}"
+                    Text = $"{m.FullName}"
                 });
                         }
 
-                        @Html.DropDownListFor(model => model.PatientID, screenList, "Select", new { @class = "form-control", @required = "required" })
-                        <label asp-for="PatientID" class="control-label"></label>
-                        <span asp-validation-for="PatientID" class="text-danger"></span>
+                        <input type="text" id="patientDropdownInput" class="form-control" placeholder="Patient Name" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')">
+                        <ul id="patientDropdown" class="list-group mt-2"
+                            style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
+                            @foreach (var item in screenList)
+                            {
+                                <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('patientDropdownInput', 'patientID', '@item.Text', '@item.Value')"
+                                    style="padding: .5rem 1rem; cursor: pointer; background-color: white; border: none; list-style-type: none;">
+                                    @item.Text
+                                </li>
+                            }
+                        </ul>
+
+                        <input type="hidden" name="PatientID" id="patientID" value="PatientID" />
                         <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#paymentModal"></button>
                     </div>
 
@@ -414,7 +424,7 @@
             <div class="modal-body">
 
 
-                <form id="modalSearchFormcus" asp-controller="PatientPrescription" asp-action="AddPaymentPop" method="post">
+                <form id="modalSearchFormcus" asp-controller="PatientPrescription" asp-action="AddPatientPop" method="post">
 
                     <div class="col mb-3">
 
@@ -441,7 +451,7 @@
                 </form>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="saveCustomer">Save</button>
                 </div>
 
@@ -449,4 +459,121 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    let suppressInputEvent = false;
+
+    function filterDropdown(event, inputId, dropdownId) {
+        if (suppressInputEvent) return; // Prevent filtering if input event is suppressed
+
+        const input = document.getElementById(inputId);
+        const dropdown = document.getElementById(dropdownId);
+        const filter = input.value.toLowerCase();
+        const items = dropdown.querySelectorAll('li');
+
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(filter) ? '' : 'none';
+        });
+
+        if (filter) {
+            dropdown.style.display = 'block'; // Show dropdown when filtering
+        }
+    }
+
+    function showDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        dropdown.style.display = 'block';
+    }
+
+    function selectDropdownItem(inputId, hiddenId, text, value) {
+        const input = document.getElementById(inputId);
+        const hidden = document.getElementById(hiddenId);
+        const dropdown = document.getElementById('patientDropdown');
+
+        // Trim whitespace from the selected text
+        const trimmedText = text.trim();
+
+        // Set the selected value in the input and hidden input
+        input.value = trimmedText;
+        hidden.value = value;
+
+        // Hide the dropdown after selection
+        dropdown.style.display = 'none';
+
+        // Set the flag to suppress the input event momentarily
+        suppressInputEvent = true;
+
+        // Remove suppression after a short delay to allow normal input behavior again
+        setTimeout(() => {
+            suppressInputEvent = false;
+        }, 200);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('patientDropdownInput');
+        const dropdown = document.getElementById('patientDropdown');
+
+        let highlightedIndex = -1;
+
+        function getVisibleItems() {
+            return Array.from(dropdown.querySelectorAll('li')).filter(item => item.style.display !== 'none');
+        }
+
+        input.addEventListener('input', (event) => {
+            filterDropdown(event, 'patientDropdownInput', 'patientDropdown');
+            highlightedIndex = -1; // Reset highlight when input changes
+        });
+
+        input.addEventListener('keydown', (event) => {
+            const visibleItems = getVisibleItems();
+
+            switch (event.key) {
+                case 'ArrowDown':
+                    if (highlightedIndex < visibleItems.length - 1) {
+                        highlightedIndex++;
+                        updateHighlight(visibleItems);
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'ArrowUp':
+                    if (highlightedIndex > 0) {
+                        highlightedIndex--;
+                        updateHighlight(visibleItems);
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'Enter':
+                    if (highlightedIndex >= 0) {
+                        const item = visibleItems[highlightedIndex];
+                        selectDropdownItem('patientDropdownInput', 'patientID', item.textContent, item.getAttribute('data-value'));
+                        highlightedIndex = -1;
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'Escape':
+                    dropdown.style.display = 'none'; // Close dropdown on escape
+                    highlightedIndex = -1;
+                    break;
+            }
+        });
+
+        function updateHighlight(visibleItems) {
+            visibleItems.forEach((item, index) => {
+                item.style.backgroundColor = (index === highlightedIndex) ? '#7344ca' : 'white';
+                item.style.color = (index === highlightedIndex) ? 'white' : 'black'; // Ensure text color contrasts with background
+            });
+            visibleItems[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
+        }
+
+        // Click event to close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!dropdown.contains(target) && target !== input) {
+                dropdown.style.display = 'none';
+            }
+        });
+    });
+</script>
 

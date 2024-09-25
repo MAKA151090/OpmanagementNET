@@ -33,6 +33,7 @@ public class PatientRegistrationModel
 	private String strlastUpdatedDate;
 	private String strlastUpdatedUser;
     private bool strIsDelete;
+    private long id;
 
 
 
@@ -67,4 +68,5 @@ public class PatientRegistrationModel
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
     public string FacilityID { get => strFacilityID; set => strFacilityID = value; }
     public bool IsDelete { get => strIsDelete; set => strIsDelete = value; }
+    public long Id { get => id; set => id = value; }
 }

@@ -437,5 +437,54 @@ namespace HealthCare.Controllers
             return View();
         }
 
+
+
+        public async Task<IActionResult> AddPatientPop(PatientRegistrationModel model)
+        {
+
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetPrescription);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+
+            HttpContext.Session.SetString("FacilityID", daocfac);
+
+            var existingPatient = await GetPrescription.SHPatientRegistration.FirstOrDefaultAsync(x=>x.PatientID == model.PatientID && x.FacilityID == daocfac && x.IsDelete == false);
+
+            if (existingPatient != null)
+            {
+                existingPatient.FullName = model.FullName;
+                existingPatient.PhoneNumber = model.PhoneNumber;
+                existingPatient.Age = model.Age;
+                existingPatient.Gender = model.Gender;
+                existingPatient.FacilityID = daocfac;
+                existingPatient.PatientID = model.PatientID;
+
+                GetPrescription.Entry(existingPatient).State = EntityState.Modified;
+            }
+            {
+              
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.FacilityID = daocfac;
+                GetPrescription.SHPatientRegistration.Add(model);
+            }
+
+            await GetPrescription.SaveChangesAsync();
+
+            PrescriptionTableModel mod = new PrescriptionTableModel();
+
+            return View("PatientEPrescription",mod);
+
+        }
+
     }
 }
