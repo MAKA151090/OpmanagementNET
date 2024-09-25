@@ -726,6 +726,11 @@
                         option.textContent = visitId;
                         visitDropdown.appendChild(option);
                     });
+
+
+                    visitDropdown.value = data[0]; // Set the first option as selected
+                    document.getElementById('CaseVisitID').value = data[0]; // Set hidden field
+
                 } else {
                     // If no visit found, clear the dropdown
                     visitDropdown.innerHTML = '<option value="">No visits found</option>';
@@ -762,6 +767,10 @@
             })
             .catch(error => console.error('Error adding new visit ID:', error));
     }
+
+    document.getElementById('visitDropdown').addEventListener('change', function () {
+        document.getElementById('CaseVisitID').value = this.value; // Update hidden input on selection
+    });
 
    
 </script>
