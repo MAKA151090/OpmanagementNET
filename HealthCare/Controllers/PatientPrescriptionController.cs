@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
@@ -21,7 +22,7 @@ namespace HealthCare.Controllers
 
         public PatientPrescriptionController(HealthcareContext _GetPrescription, IHttpContextAccessor httpContextAccessor)
         {
-             GetPrescription = _GetPrescription;
+            GetPrescription = _GetPrescription;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -104,9 +105,11 @@ namespace HealthCare.Controllers
 
         }*/
 
-
+        [HttpPost]
         public async Task<IActionResult> Prescription(PatientEPrescriptionModel pPres, string buttonType, PrescriptionTableModel Model, string PatientID, string CaseVisitID, string OrderID, string DoctorID)
         {
+           
+
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
             {
@@ -123,16 +126,17 @@ namespace HealthCare.Controllers
 
             BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetPrescription);
 
-            var doctorid = docpres.Getdocid(facilityId,docid).FirstOrDefault()?.StrStaffID;
+            var doctorid = docpres.Getdocid(facilityId, docid).FirstOrDefault()?.StrStaffID;
             var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
-            ViewData["docid"] = prescription.Getdocid(facilityId,docid);
+            ViewData["docid"] = prescription.Getdocid(facilityId, docid);
+            ViewData["visitid"] = prescription.Getvisit(facilityId);
 
 
-
+          
             if (buttonType == "Print")
             {
                 String Query = "SELECT \r\n    SD.FullName AS PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS DrugName,\r\n    SB.Instructions,\r\n    SB.FillDate AS FollowUpDate,\r\n\tSD.Age,\r\n\tSD.Gender,\r\n\tSB.Comments,\r\n\tSB.Morningunit,\r\n\tSB.Eveningunit,\r\n\tSB.Afternoonunit,\r\n\tSB.Nightunit,\r\n\t SB.RouteAdmin As [When]\r\n,\tCA.Template FROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nINNER JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\nINNER JOIN\r\n    SHclnClinicAdmin CA ON SB.FacilityID = CA.FacilityID  WHERE \r\n    SD.PatientID ='" + PatientID + "'\r\n    AND SB.CaseVisitID = '" + CaseVisitID + "' \r\n    AND SB.OrderID = '" + OrderID + "'\r\n    AND SB.DoctorID = '" + doctorid + "' \r\n    AND SB.IsDelete = 0\r\n\tAND SB.FacilityID ='" + daocfac + "'\r\n ";
@@ -149,11 +153,11 @@ namespace HealthCare.Controllers
             if (buttonType == "Get")
             {
 
-                var exresult = GetPrescription.SHprsPrescription.FirstOrDefault(x => x.PatientID == pPres.PatientID && x.IsDelete == false &&x.CaseVisitID ==pPres.CaseVisitID && x.OrderID == pPres.OrderID && x.FacilityID == daocfac);
+                var exresult = GetPrescription.SHprsPrescription.FirstOrDefault(x => x.PatientID == PatientID && x.IsDelete == false && x.CaseVisitID == CaseVisitID  && x.FacilityID == daocfac);
                 if (exresult != null)
                 {
 
-                    var result = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID,daocfac);
+                    var result = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.DrugID, daocfac);
                     var viewModelList = result.Select(p => new PrescriptionViewModel
                     {
                         PatientID = p.PatientID,
@@ -186,7 +190,7 @@ namespace HealthCare.Controllers
                 return View("PatientEPrescription");
             }
 
-            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID,daocfac);
+            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID, daocfac);
             if (existingCat != null)
             {
                 if (existingCat.IsDelete)
@@ -245,7 +249,7 @@ namespace HealthCare.Controllers
 
 
             await GetPrescription.SaveChangesAsync();
-            var allPrescriptions = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID,daocfac);
+            var allPrescriptions = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.DrugID, daocfac);
             var allViewModels = allPrescriptions.Select(p => new PrescriptionViewModel
             {
                 PatientID = p.PatientID,
@@ -268,7 +272,7 @@ namespace HealthCare.Controllers
 
         }
 
-        public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId,string facility)
+        public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId, string facility)
         {
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
@@ -288,6 +292,7 @@ namespace HealthCare.Controllers
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
+            ViewData["visitid"] = prescription.Getvisit(facilityId);
 
             var daocfac = prescription.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
@@ -299,9 +304,9 @@ namespace HealthCare.Controllers
 
             var prescriptionTableModel = new PrescriptionTableModel
             {
-                Morningunit=prescriptionEdit.Morningunit,
-                Eveningunit=prescriptionEdit.Eveningunit,
-                Afternoonunit=prescriptionEdit.Afternoonunit,
+                Morningunit = prescriptionEdit.Morningunit,
+                Eveningunit = prescriptionEdit.Eveningunit,
+                Afternoonunit = prescriptionEdit.Afternoonunit,
                 Nightunit = prescriptionEdit.Nightunit,
                 PatientID = prescriptionEdit.PatientID,
                 CaseVisitID = prescriptionEdit.CaseVisitID,
@@ -326,7 +331,7 @@ namespace HealthCare.Controllers
             };
 
 
-            var result = prescription.GetPrescription(prescriptionEdit.PatientID, prescriptionEdit.CaseVisitID, prescriptionEdit.OrderID, prescriptionEdit.DrugID,daocfac);
+            var result = prescription.GetPrescription(prescriptionEdit.PatientID, prescriptionEdit.CaseVisitID,  prescriptionEdit.DrugID, daocfac);
             if (result != null && result.Any())
             {
                 var viewModelList = result.Select(p => new PrescriptionViewModel
@@ -352,7 +357,7 @@ namespace HealthCare.Controllers
 
         }
 
-        public async Task<IActionResult> Delete(string patientId, string caseVisitId, string orderId, string drugId, PatientEPrescriptionModel pPres,string facility)
+        public async Task<IActionResult> Delete(string patientId, string caseVisitId, string orderId, string drugId, PatientEPrescriptionModel pPres, string facility)
         {
 
 
@@ -376,6 +381,7 @@ namespace HealthCare.Controllers
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
+            ViewData["visitid"] = prescription.Getvisit(facilityId);
 
             var daocfac = prescription.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
@@ -383,7 +389,7 @@ namespace HealthCare.Controllers
             if (exresult != null)
             {
 
-                var prescriptionDel = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId,daocfac);
+                var prescriptionDel = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId, daocfac);
                 if (prescriptionDel != null)
                 {
                     prescriptionDel.IsDelete = true;
@@ -434,6 +440,7 @@ namespace HealthCare.Controllers
             ViewData["patientid"] = prescription.GetPatientId();
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
+            ViewData["visitid"] = prescription.Getvisit(facilityId);
             return View();
         }
         public IActionResult PatientEPrescriptionPrint()
@@ -469,7 +476,7 @@ namespace HealthCare.Controllers
                 return RedirectToAction("ErrorPage"); // Replace with your error handling action
             }
 
-            var existingPatient = await GetPrescription.SHPatientRegistration.FirstOrDefaultAsync(x=>x.PatientID == model.PatientID && x.FacilityID == daocfac && x.IsDelete == false);
+            var existingPatient = await GetPrescription.SHPatientRegistration.FirstOrDefaultAsync(x => x.PatientID == model.PatientID && x.FacilityID == daocfac && x.IsDelete == false);
 
             if (existingPatient != null)
             {
@@ -484,12 +491,12 @@ namespace HealthCare.Controllers
             }
             else
             {
-              
+
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 model.FacilityID = daocfac;
                 GetPrescription.SHPatientRegistration.Add(model);
-               
+
 
             }
 
@@ -497,9 +504,63 @@ namespace HealthCare.Controllers
 
             PrescriptionTableModel mod = new PrescriptionTableModel();
 
-            return View("PatientEPrescription",mod);
+            return View("PatientEPrescription", mod);
 
         }
 
+       
+     
+         public async Task<IActionResult> GetCaseVisitIDs(string patientId)
+             
+            {
+            var caseVisitIds = GetPrescription.SHprsPrescription
+                .Where(cv => cv.PatientID == patientId)
+                .Select(cv => cv.CaseVisitID)
+                .ToList();
+
+            return Json(caseVisitIds);
+        }
+
+        public async Task<IActionResult> AddNewVisitID(string patientId)
+        {
+            try
+            {
+                // Fetch the last visit ID for the selected patient
+                var lastVisitIdEntry = await GetPrescription.SHprsPrescription
+                    .Where(cv => cv.PatientID == patientId)
+                    .OrderByDescending(cv => cv.CaseVisitID)
+                    .FirstOrDefaultAsync();
+
+                int nextVisitNumber = 1;
+
+                // If a visit ID exists, increment the number
+                if (lastVisitIdEntry != null)
+                {
+                    var lastVisitId = lastVisitIdEntry.CaseVisitID;
+                    var lastVisitNumber = int.Parse(lastVisitId.Split('_')[0]);
+                    nextVisitNumber = lastVisitNumber + 1;
+                }
+
+                // Create the new visit ID with the current date in YYYY-MM-DD format
+                string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
+                string newVisitId = $"{nextVisitNumber}__{currentDate}";
+
+                // Insert the new visit ID in the database for that patient
+                var newVisit = new PrescriptionTableModel
+                {
+                    PatientID = patientId,
+                    CaseVisitID = newVisitId,
+                    // Include other necessary fields as needed
+                };
+
+               
+                return Json(new { success = true, newVisitId = newVisitId });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error occurred while adding the new visit ID." });
+            }
+        }
+
     }
-}
+ }

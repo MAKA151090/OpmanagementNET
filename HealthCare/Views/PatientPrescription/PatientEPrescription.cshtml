@@ -97,11 +97,19 @@
 
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="CaseVisitID" class="form-control" placeholder="Case Visit ID" required />
-                        <label asp-for="CaseVisitID" class="control-label">CaseVisit ID</label>
+                        <select id="visitDropdown" class="form-control">
+                            <option value="">Select Visit ID</option>
+                            @* The options will be populated dynamically using JavaScript *@
+                        </select>
+                        <label asp-for="CaseVisitID"  class="control-label">Visit ID</label>
 
-                        <span asp-validation-for="CaseVisitID" class="text-danger"></span>
+                        <input type="hidden" name="CaseVisitID" id="CaseVisitID" value="" />
+
+                        <button type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()">+</button>
                     </div>
+
+
+
 
 
                     <div class="form-floating form-floating-outline mb-4">
@@ -467,7 +475,7 @@
 </div>
 
 
-<script>
+@* <script>
     let suppressInputEvent = false;
 
     function filterDropdown(event, inputId, dropdownId) {
@@ -581,7 +589,183 @@
             }
         });
     });
+
+
+</script> *@
+
+
+<script>
+    let suppressInputEvent = false;
+
+    function filterDropdown(event, inputId, dropdownId) {
+        if (suppressInputEvent) return; // Prevent filtering if input event is suppressed
+
+        const input = document.getElementById(inputId);
+        const dropdown = document.getElementById(dropdownId);
+        const filter = input.value.toLowerCase();
+        const items = dropdown.querySelectorAll('li');
+
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(filter) ? '' : 'none';
+        });
+
+        if (filter) {
+            dropdown.style.display = 'block'; // Show dropdown when filtering
+        }
+    }
+
+    function showDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        dropdown.style.display = 'block';
+    }
+
+    function selectDropdownItem(inputId, hiddenId, text, value) {
+        const input = document.getElementById(inputId);
+        const hidden = document.getElementById(hiddenId);
+        const dropdown = document.getElementById('patientDropdown');
+
+        // Trim whitespace from the selected text
+        const trimmedText = text.trim();
+
+        // Set the selected value in the input and hidden input
+        input.value = trimmedText;
+        hidden.value = value;
+
+        // Hide the dropdown after selection
+        dropdown.style.display = 'none';
+
+        // Set the flag to suppress the input event momentarily
+        suppressInputEvent = true;
+
+        // Remove suppression after a short delay to allow normal input behavior again
+        setTimeout(() => {
+            suppressInputEvent = false;
+        }, 200);
+
+        // Fetch visit IDs for the selected patient
+        fetchVisitIds(value);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('patientDropdownInput');
+        const dropdown = document.getElementById('patientDropdown');
+
+        let highlightedIndex = -1;
+
+        function getVisibleItems() {
+            return Array.from(dropdown.querySelectorAll('li')).filter(item => item.style.display !== 'none');
+        }
+
+        input.addEventListener('input', (event) => {
+            filterDropdown(event, 'patientDropdownInput', 'patientDropdown');
+            highlightedIndex = -1; // Reset highlight when input changes
+        });
+
+        input.addEventListener('keydown', (event) => {
+            const visibleItems = getVisibleItems();
+
+            switch (event.key) {
+                case 'ArrowDown':
+                    if (highlightedIndex < visibleItems.length - 1) {
+                        highlightedIndex++;
+                        updateHighlight(visibleItems);
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'ArrowUp':
+                    if (highlightedIndex > 0) {
+                        highlightedIndex--;
+                        updateHighlight(visibleItems);
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'Enter':
+                    if (highlightedIndex >= 0) {
+                        const item = visibleItems[highlightedIndex];
+                        selectDropdownItem('patientDropdownInput', 'patientID', item.textContent, item.getAttribute('data-value'));
+                        highlightedIndex = -1;
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'Escape':
+                    dropdown.style.display = 'none'; // Close dropdown on escape
+                    highlightedIndex = -1;
+                    break;
+            }
+        });
+
+        function updateHighlight(visibleItems) {
+            visibleItems.forEach((item, index) => {
+                item.style.backgroundColor = (index === highlightedIndex) ? '#7344ca' : 'white';
+                item.style.color = (index === highlightedIndex) ? 'white' : 'black'; // Ensure text color contrasts with background
+            });
+            visibleItems[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
+        }
+
+        // Click event to close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!dropdown.contains(target) && target !== input) {
+                dropdown.style.display = 'none';
+            }
+        });
+    });
+
+    function fetchVisitIds(patientId) {
+        // Make an AJAX request to get case visit IDs
+        fetch(`/PatientPrescription/GetCaseVisitIDs?patientId=${patientId}`)
+            .then(response => response.json())
+            .then(data => {
+                const visitDropdown = document.getElementById('visitDropdown');
+                visitDropdown.innerHTML = ''; // Clear previous options
+                if (data.length > 0) {
+                    data.forEach(visitId => {
+                        const option = document.createElement('option');
+                        option.value = visitId;
+                        option.textContent = visitId;
+                        visitDropdown.appendChild(option);
+                    });
+                } else {
+                    // If no visit found, clear the dropdown
+                    visitDropdown.innerHTML = '<option value="">No visits found</option>';
+                }
+            })
+            .catch(error => console.error('Error fetching visit IDs:', error));
+    }
+
+    function addNewVisit() {
+        const patientId = document.getElementById('patientID').value;
+
+        if (!patientId) {
+            alert('Please select a patient first.');
+            return;
+        }
+
+        // Make an AJAX request to get the last visit ID and create the next one
+        fetch(`/PatientPrescription/AddNewVisitID?patientId=${patientId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const visitDropdown = document.getElementById('visitDropdown');
+                    const option = document.createElement('option');
+                    option.value = data.newVisitId;
+                    option.textContent = data.newVisitId;
+                    visitDropdown.appendChild(option);
+                    visitDropdown.value = data.newVisitId; // Set the newly added option as selected
+
+                    document.getElementById('CaseVisitID').value = data.newVisitId;
+
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error adding new visit ID:', error));
+    }
+
+   
 </script>
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

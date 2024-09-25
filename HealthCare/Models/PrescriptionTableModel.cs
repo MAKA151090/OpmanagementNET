@@ -1,4 +1,6 @@
-﻿namespace HealthCare.Models
+﻿using ClassLibrary1;
+
+namespace HealthCare.Models
 {
     public class PrescriptionTableModel
     {
@@ -34,6 +36,9 @@
         private String eveningunit;
         private String nightunit;
         private List<PrescriptionViewModel> viewprescription;
+
+       
+
 
         public long EpressID { get => epressID; set => epressID = value; }
         public string PatientID { get => patientID; set => patientID = value; }

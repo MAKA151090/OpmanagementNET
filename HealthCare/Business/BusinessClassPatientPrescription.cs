@@ -52,11 +52,11 @@ namespace HealthCare.Business
 
 
 
-        public List<PrescriptionTableModel> GetPrescription(string  patientID,string casevisitID,string orderID,string drugID,string facility)
+        public List<PrescriptionTableModel> GetPrescription(string  patientID,string casevisitID,string drugID,string facility)
         {
             var result = (from p in _healthcareContext.SHprsPrescription
                           join d in _healthcareContext.SHstkDrugInventory on p.DrugID equals d.DrugId
-                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.OrderID==orderID&&p.IsDelete == false  && p.FacilityID == facility
+                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.IsDelete == false  && p.FacilityID == facility
                           select new PrescriptionTableModel
                           {
                               PatientID = p.PatientID,
@@ -107,6 +107,25 @@ namespace HealthCare.Business
 
             return drugid;
         }
+
+        public List<PatientEPrescriptionModel> Getvisit(string facilityId)
+        {
+            var visitid = (
+                    from pr in _healthcareContext.SHprsPrescription
+                    where pr.FacilityID == facilityId
+                    select new PatientEPrescriptionModel
+                    {
+                       CaseVisitID = pr.CaseVisitID,
+                       PrescriptionDate = pr.PrescriptionDate,
+                       
+                    }
+                ).ToList();
+
+            return visitid;
+        }
+
+
+
 
         public List<StaffAdminModel> Getdocid(string facilityId,string docidstaff)
         {
