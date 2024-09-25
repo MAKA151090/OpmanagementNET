@@ -8,10 +8,16 @@ namespace HealthCare.Context
 {
     public class HealthcareContext : DbContext
     {
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         public HealthcareContext() { }
-        public HealthcareContext(DbContextOptions options) : base(options)
+
+        public HealthcareContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
+            _httpContextAccessor = httpContextAccessor;
         }
+
         //PatientObjective
         public DbSet<PatientObjectiveModel> SHExmPatientObjective { get; set; }
 
@@ -454,6 +460,50 @@ namespace HealthCare.Context
         public DbSet<HealthCare.Models.OtSurgeryModel> OtSurgeryModel { get; set; } = default!;
 
 
+
+
+
+        // Override SaveChangesAsync to auto-generate the Ids for various screens with the prefix
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+
+            var facility = _httpContextAccessor.HttpContext?.Session.GetString("daocfac");
+            
+
+            //Product Master
+            var patMas = ChangeTracker
+                        .Entries<PatientRegistrationModel>()
+                        .Where(e => e.State == EntityState.Added)
+                        .ToList();
+
+            if (patMas.Any())
+            {
+                // Get the latest BillNumber from the database
+                var lastProd = await this.SHPatientRegistration.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int lastProdNumber = 100; // Starting point, e.g., Bill_100
+
+                if (lastProd != null)
+                {
+                    // Extract the numeric part of the last BillNumber and increment it
+                    string lastProdNum = lastProd.PatientID.Replace("Pat_", "");
+                    if (int.TryParse(lastProdNum, out int number))
+                    {
+                        lastProdNumber = number;
+                    }
+                }
+
+                // Assign the new BillNumber for each new bill
+                foreach (var billEntry in patMas)
+                {
+                    lastProdNumber++;
+                    billEntry.Entity.PatientID = $"Pat_{lastProdNumber}";
+                }
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+
     }
-    
-}
+
+    }

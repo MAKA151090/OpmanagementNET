@@ -7,6 +7,7 @@ using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace HealthCare.Controllers
 {
@@ -15,10 +16,13 @@ namespace HealthCare.Controllers
     {
 
         private HealthcareContext GetPrescription;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PatientPrescriptionController(HealthcareContext GetPrescription)
+
+        public PatientPrescriptionController(HealthcareContext _GetPrescription, IHttpContextAccessor httpContextAccessor)
         {
-            this.GetPrescription = GetPrescription;
+             GetPrescription = _GetPrescription;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -454,8 +458,16 @@ namespace HealthCare.Controllers
 
             var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
-
-            HttpContext.Session.SetString("FacilityID", daocfac);
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage"); // Replace with your error handling action
+            }
 
             var existingPatient = await GetPrescription.SHPatientRegistration.FirstOrDefaultAsync(x=>x.PatientID == model.PatientID && x.FacilityID == daocfac && x.IsDelete == false);
 
@@ -470,12 +482,15 @@ namespace HealthCare.Controllers
 
                 GetPrescription.Entry(existingPatient).State = EntityState.Modified;
             }
+            else
             {
               
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 model.FacilityID = daocfac;
                 GetPrescription.SHPatientRegistration.Add(model);
+               
+
             }
 
             await GetPrescription.SaveChangesAsync();

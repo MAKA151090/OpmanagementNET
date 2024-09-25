@@ -411,7 +411,7 @@
 
 
 
-<!-- Customer Details Modal -->
+<!-- Patient Details Modal -->
 <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -430,24 +430,30 @@
 
 
 
-                        <label for="PatientName">Patient Name</label>
-                        <input type="text" class="form-control" id="PatientName" name="PatientName" placeholder="Patient Name" />
+                        <label for="FullName">Patient Name</label>
+                        <input type="text" class="form-control" id="FullName" name="FullName" placeholder="Patient Name" />
 
 
 
                     </div>
 
-                    @* <div class="col mb-3">
-                        <label for="searchInput">Customer Name </label>
-                        <input type="text" class="form-control" id="CustomerName" name="CustomerName" placeholder="Customer Name" />
+                     <div class="col mb-3">
+                        <label for="searchInput">Phone Number</label>
+                        <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Phone Number" />
                     </div>
 
 
                     <div class="col mb-3">
-                        <label for="searchInput">Customer Address </label>
-                        <input type="text" class="form-control" id="Address" name="Address" placeholder="Address" />
-                    </div> *@
+                        <label for="searchInput">Age</label>
+                        <input type="text" class="form-control" id="Age" name="Age" placeholder="Age" />
+                    </div> 
 
+                     <div class="col mb-3">
+                        <label for="searchInput">Gender</label>
+                        <input type="text" class="form-control" id="Gender" name="Gender" placeholder="Gender" />
+                    </div>
+
+                  
                 </form>
 
                 <div class="modal-footer">
@@ -577,3 +583,43 @@
     });
 </script>
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Event handler for the Save button
+        $('#saveCustomer').click(function () {
+            // Collect the form data
+            var formData = {
+                FullName: $('#FullName').val(),
+                PhoneNumber: $('#PhoneNumber').val(),
+                Age: $('#Age').val(),
+                Gender: $('#Gender').val()
+            };
+
+            // AJAX request to submit form data to the controller action
+            $.ajax({
+                url: '/PatientPrescription/AddPatientPop', // URL to your action method
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Handle the response from the server
+                    alert("Patient details saved successfully!");
+
+                    // Optionally, close the modal after saving
+                    $('#paymentModal').modal('hide');
+
+                    // Optionally, clear the form fields
+                    $('#modalSearchFormcus')[0].reset();
+                },
+                error: function (xhr, status, error) {
+                    // Handle any errors that occurred during the AJAX request
+                    alert("Error: " + xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+</script>
