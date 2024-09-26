@@ -7,6 +7,7 @@ using System.Data;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 using Microsoft.AspNetCore.Authorization;
+using DocumentFormat.OpenXml.InkML;
 
 namespace HealthCare.Business
 {
@@ -75,7 +76,28 @@ namespace HealthCare.Business
             return result;
         }
 
-    
+
+        public List<PrescriptionTableModel> GetPrescriptionTable(string patientID, string casevisitID, string facility)
+        {
+            var result = (from p in _healthcareContext.SHprsPrescription
+                          join d in _healthcareContext.SHstkDrugInventory on p.DrugID equals d.DrugId
+                          where p.PatientID == patientID && p.CaseVisitID == casevisitID && p.IsDelete == false && p.FacilityID == facility
+                          select new PrescriptionTableModel
+                          {
+                              PatientID = p.PatientID,
+                              CaseVisitID = p.CaseVisitID,
+                              OrderID = p.OrderID,
+                              DrugID = p.DrugID,
+                              DrugName = d.ModelName,
+                              Morningunit = p.Morningunit,
+                              Afternoonunit = p.Afternoonunit,
+                              Eveningunit = p.Eveningunit,
+                              Nightunit = p.Nightunit,
+                              RouteAdmin = p.RouteAdmin
+                          }).ToList();
+            return result;
+        }
+
 
         ///patiwnt e prescription.
         public List<PatientRegistrationModel> GetPatientId()

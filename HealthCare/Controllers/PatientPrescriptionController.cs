@@ -174,23 +174,57 @@ namespace HealthCare.Controllers
                     }).ToList();
                     Model.Viewprescription = viewModelList;
 
-                   
+                    Model.Items = await GetDistinctCaseVisitID(pPres.PatientID);
+
+                    ViewBag.SelectedPatientID = PatientID;
+                    Model.SelectedItemId = CaseVisitID;
+
                     return View("PatientEPrescription", Model);
                 }
                 else
                 {
+
                     ViewBag.ErrorMessage = " PatientID Not Found";
                 }
 
+                Model.Items = await GetDistinctCaseVisitID(pPres.PatientID) ?? new List<PatientEPrescriptionModel>();
+                Model.Viewprescription = new List<PrescriptionViewModel>();
 
-                return View("PatientEPrescription");
+                ViewBag.SelectedPatientID = PatientID;
+
+                    Model.SelectedItemId = CaseVisitID;
+                return View("PatientEPrescription",Model);
             }
 
 
             if (string.IsNullOrEmpty(pPres.DrugID))
             {
                 ViewBag.DrugMessage = "Please enter DrugID.";
-                return View("PatientEPrescription");
+
+                Model.Items = await GetDistinctCaseVisitID(pPres.PatientID) ?? new List<PatientEPrescriptionModel>();
+
+                var prescriptionTable = prescription.GetPrescriptionTable(pPres.PatientID, CaseVisitID, daocfac);
+
+                // Map to PrescriptionViewModel
+                Model.Viewprescription = prescriptionTable.Select(p => new PrescriptionViewModel
+                {
+                    PatientID = p.PatientID,
+                    CaseVisitID = p.CaseVisitID,
+                    OrderID = p.OrderID,
+                    DrugID = p.DrugID,
+                    DrugName = p.DrugName,
+                    Morningunit = p.Morningunit,
+                    Afternoonunit = p.Afternoonunit,
+                    Eveningunit = p.Eveningunit,
+                    Nightunit = p.Nightunit,
+                    RouteAdmin = p.RouteAdmin
+                }).ToList();
+
+                ViewBag.SelectedPatientID = PatientID;
+                Model.SelectedItemId = CaseVisitID;
+
+                return View("PatientEPrescription", Model);
+
             }
 
             var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID, pPres.CaseVisitID, pPres.DrugID, daocfac);
@@ -201,7 +235,30 @@ namespace HealthCare.Controllers
                 if (existingCat.IsDelete)
                 {
                     ViewBag.ErrorMessage = "Cannot update. Prescription is marked as deleted.";
+                    Model.Items = await GetDistinctCaseVisitID(pPres.PatientID) ?? new List<PatientEPrescriptionModel>();
+
+                    var prescriptionTable = prescription.GetPrescriptionTable(pPres.PatientID, CaseVisitID, daocfac);
+
+                    // Map to PrescriptionViewModel
+                    Model.Viewprescription = prescriptionTable.Select(p => new PrescriptionViewModel
+                    {
+                        PatientID = p.PatientID,
+                        CaseVisitID = p.CaseVisitID,
+                        OrderID = p.OrderID,
+                        DrugID = p.DrugID,
+                        DrugName = p.DrugName,
+                        Morningunit = p.Morningunit,
+                        Afternoonunit = p.Afternoonunit,
+                        Eveningunit = p.Eveningunit,
+                        Nightunit = p.Nightunit,
+                        RouteAdmin = p.RouteAdmin
+                    }).ToList();
+
+                    ViewBag.SelectedPatientID = PatientID;
+                    Model.SelectedItemId = CaseVisitID;
+
                     return View("PatientEPrescription", Model);
+                   
                 }
 
                
@@ -240,7 +297,31 @@ namespace HealthCare.Controllers
                 if (string.IsNullOrEmpty(pPres.DrugID))
                 {
                     ViewBag.DrugMessage = "Please enter DrugID.";
-                    return View("PatientEPrescription");
+
+                   
+                    Model.Items = await GetDistinctCaseVisitID(pPres.PatientID) ?? new List<PatientEPrescriptionModel>();
+
+                    var prescriptionTable = prescription.GetPrescriptionTable(pPres.PatientID, CaseVisitID, daocfac);
+
+                    // Map to PrescriptionViewModel
+                    Model.Viewprescription = prescriptionTable.Select(p => new PrescriptionViewModel
+                    {
+                        PatientID = p.PatientID,
+                        CaseVisitID = p.CaseVisitID,
+                        OrderID = p.OrderID,
+                        DrugID = p.DrugID,
+                        DrugName = p.DrugName,
+                        Morningunit = p.Morningunit,
+                        Afternoonunit = p.Afternoonunit,
+                        Eveningunit = p.Eveningunit,
+                        Nightunit = p.Nightunit,
+                        RouteAdmin = p.RouteAdmin
+                    }).ToList();
+
+                    ViewBag.SelectedPatientID = PatientID;
+                    Model.SelectedItemId = CaseVisitID;
+
+                    return View("PatientEPrescription",Model);
                 }
 
                 pPres.FacilityID = daocfac;
@@ -272,13 +353,32 @@ namespace HealthCare.Controllers
             }).ToList();
 
             Model.Viewprescription = allViewModels;
+
+            Model.Items = await GetDistinctCaseVisitID(pPres.PatientID);
+
+            ViewBag.SelectedPatientID = PatientID;
+            Model.SelectedItemId = CaseVisitID;
+
             ViewBag.Message = "Saved Successfully.";
             return View("PatientEPrescription", Model);
 
 
         }
 
-        public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId, string facility)
+        private async Task<List<PatientEPrescriptionModel>> GetDistinctCaseVisitID(string patientId)
+        {
+            return await GetPrescription.SHprsPrescription
+                .Where(cv => cv.PatientID == patientId)
+                .Select(cv => new PatientEPrescriptionModel
+                {
+                    CaseVisitID = cv.CaseVisitID
+                    // Add other properties if needed
+                })
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId, string facility,PrescriptionTableModel tabmod)
         {
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
@@ -306,6 +406,10 @@ namespace HealthCare.Controllers
             if (prescriptionEdit == null)
             {
                 ViewBag.ErrorMessage = " PatientID Not Found";
+                tabmod.Items = await GetDistinctCaseVisitID(patientId) ?? new List<PatientEPrescriptionModel>();
+                tabmod.Viewprescription = new List<PrescriptionViewModel>();
+
+                return View("PatientEPrescription", tabmod);
             }
 
             var prescriptionTableModel = new PrescriptionTableModel
@@ -357,13 +461,20 @@ namespace HealthCare.Controllers
                 prescriptionTableModel.Viewprescription = viewModelList;
             }
 
-          
+            // Populate Items in the model for dropdown selection
+            prescriptionTableModel.Items = await GetDistinctCaseVisitID(prescriptionEdit.PatientID);
+
+            // Set ViewBag and Model properties for the view
+            ViewBag.SelectedPatientID = prescriptionEdit.PatientID;
+
+            prescriptionTableModel.SelectedItemId = prescriptionEdit.CaseVisitID;
+
             return View("PatientEPrescription", prescriptionTableModel);
 
 
         }
 
-        public async Task<IActionResult> Delete(string patientId, string caseVisitId, string orderId, string drugId, PatientEPrescriptionModel pPres, string facility)
+        public async Task<IActionResult> Delete(string patientId, string caseVisitId, string orderId, string drugId, PatientEPrescriptionModel pPres, string facility,PrescriptionTableModel model)
         {
 
 
@@ -391,11 +502,11 @@ namespace HealthCare.Controllers
 
             var daocfac = prescription.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
-            var exresult = GetPrescription.SHprsPrescription.FirstOrDefault(x => x.PatientID == pPres.PatientID && x.IsDelete == false && x.CaseVisitID == caseVisitId && x.OrderID == orderId && x.FacilityID == daocfac);
+            var exresult = GetPrescription.SHprsPrescription.FirstOrDefault(x => x.PatientID == pPres.PatientID && x.IsDelete == false && x.CaseVisitID == caseVisitId && x.FacilityID == daocfac);
             if (exresult != null)
             {
 
-                var prescriptionDel = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId, daocfac);
+                var prescriptionDel = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, drugId, daocfac);
                 if (prescriptionDel != null)
                 {
                     prescriptionDel.IsDelete = true;
@@ -403,8 +514,31 @@ namespace HealthCare.Controllers
                     ViewBag.Delete = "Deleted  Successfully.";
                 }
 
-                ViewBag.Delete = "Deleted  Successfully.";
-                return View("PatientEPrescription");
+                var prescriptionTable = prescription.GetPrescriptionTable(pPres.PatientID, caseVisitId, daocfac);
+
+                // Map to PrescriptionViewModel
+                model.Viewprescription = prescriptionTable.Select(p => new PrescriptionViewModel
+                {
+                    PatientID = p.PatientID,
+                    CaseVisitID = p.CaseVisitID,
+                    OrderID = p.OrderID,
+                    DrugID = p.DrugID,
+                    DrugName = p.DrugName,
+                    Morningunit = p.Morningunit,
+                    Afternoonunit = p.Afternoonunit,
+                    Eveningunit = p.Eveningunit,
+                    Nightunit = p.Nightunit,
+                    RouteAdmin = p.RouteAdmin
+                }).ToList();
+
+
+
+                model.Items = await GetDistinctCaseVisitID(pPres.PatientID);
+
+                ViewBag.SelectedPatientID = pPres.PatientID;
+                model.SelectedItemId = caseVisitId;
+
+                return View("PatientEPrescription",model);
             }
             else
             {
@@ -412,7 +546,30 @@ namespace HealthCare.Controllers
 
             }
 
-            return View("PatientEPrescription");
+            var prescriptionTable1 = prescription.GetPrescriptionTable(pPres.PatientID, caseVisitId, daocfac);
+
+            // Map to PrescriptionViewModel
+            model.Viewprescription = prescriptionTable1.Select(p => new PrescriptionViewModel
+            {
+                PatientID = p.PatientID,
+                CaseVisitID = p.CaseVisitID,
+                OrderID = p.OrderID,
+                DrugID = p.DrugID,
+                DrugName = p.DrugName,
+                Morningunit = p.Morningunit,
+                Afternoonunit = p.Afternoonunit,
+                Eveningunit = p.Eveningunit,
+                Nightunit = p.Nightunit,
+                RouteAdmin = p.RouteAdmin
+            }).ToList();
+
+
+            model.Items = await GetDistinctCaseVisitID(pPres.PatientID);
+
+            ViewBag.SelectedPatientID = pPres.PatientID;
+            model.SelectedItemId = caseVisitId;
+
+            return View("PatientEPrescription",model);
         }
 
 
@@ -459,26 +616,17 @@ namespace HealthCare.Controllers
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
 
-            var categories = GetCaseVisitopt(facilityId);
+            var model = new PrescriptionTableModel(); // Replace with your actual model type
+            model.Items = new List<PatientEPrescriptionModel>();
 
-            // Convert CategoryMasterModel to SelectListItem
-            var selectListItems = categories;
-
-            var tab = new PrescriptionTableModel
-            {
-                Items = selectListItems,  // Assign converted SelectListItems
-                SelectedItemId = null,
-                
-                
-            };
 
             var viewModelList = new List<PrescriptionViewModel>();
 
            
-            tab.Viewprescription = viewModelList;
+            model.Viewprescription = viewModelList;
 
 
-            return View("PatientEPrescription", tab);
+            return View("PatientEPrescription", model);
         }
         public IActionResult PatientEPrescriptionPrint()
         {
@@ -551,8 +699,16 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> GetCaseVisitIDs(string patientId)
              
             {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             var caseVisitIds = GetPrescription.SHprsPrescription
-                .Where(cv => cv.PatientID == patientId)
+                .Where(cv => cv.PatientID == patientId && cv.IsDelete == false && cv.FacilityID == facilityId)
                 .Select(cv => cv.CaseVisitID).Distinct()
                 .ToList();
 

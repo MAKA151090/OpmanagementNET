@@ -79,7 +79,7 @@
                 });
                         }
 
-                        <input type="text" id="patientDropdownInput" class="form-control" placeholder="Patient Name" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')">
+                        <input type="text" id="patientDropdownInput" class="form-control" placeholder="Patient Name" value="@ViewBag.SelectedPatientID" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')">
                         <ul id="patientDropdown" class="list-group mt-2"
                             style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
                             @foreach (var item in screenList)
@@ -91,7 +91,7 @@
                             }
                         </ul>
 
-                        <input type="hidden" name="PatientID" id="patientID" value="PatientID" />
+                        <input type="hidden" name="PatientID" id="patientID" value="@ViewBag.SelectedPatientID" />
                         <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#paymentModal"></button>
                     </div>
 
@@ -106,21 +106,16 @@
 
                             @foreach (var item in Model.Items)
                             {
-                                @if (item.CaseVisitID == Model.SelectedItemId)
-                                {
-                                    <option value=@item.CaseVisitID selected="selected">@item.CaseVisitID</option>
-                                }
-                                else
-                                {
-                                    <option value=@item.CaseVisitID>
-                                        @item.CaseVisitID
-                                    </option>
-                                }
+                                <option value="@item.CaseVisitID"
+                                        selected="@(item.CaseVisitID == Model.SelectedItemId)">
+                                    @item.CaseVisitID
+                                </option>
                             }
                         </select>
+
                         <label asp-for="CaseVisitID"  class="control-label">Visit ID</label>
 
-                        <input type="hidden" name="CaseVisitID" id="CaseVisitID" value="" />
+                        <input type="hidden" name="CaseVisitID" id="CaseVisitID" value="@Model.SelectedItemId"/>
 
                         <button type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()">+</button>
                     </div>
@@ -193,8 +188,8 @@
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="EndDate" class="form-control"  placeholder="End Date" />
-                        <label asp-for="EndDate" class="control-label">End Date</label>
+                        <input asp-for="EndDate" class="form-control"  placeholder="Number of Date" />
+                        <label asp-for="EndDate" class="control-label">Number of Date</label>
 
 
                     </div>
@@ -736,6 +731,13 @@
             .then(data => {
                 const visitDropdown = document.getElementById('visitDropdown');
                 visitDropdown.innerHTML = ''; // Clear previous options
+
+                // Add placeholder option first
+                const placeholderOption = document.createElement('option');
+                placeholderOption.value = '';
+                placeholderOption.textContent = 'Select Visit ID'; // Placeholder text
+                visitDropdown.appendChild(placeholderOption);
+
                 if (data.length > 0) {
                     data.forEach(visitId => {
                         const option = document.createElement('option');
