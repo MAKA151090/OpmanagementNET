@@ -467,7 +467,7 @@ namespace HealthCare.Context
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
 
-            var facility = _httpContextAccessor.HttpContext?.Session.GetString("daocfac");
+            var facility = _httpContextAccessor.HttpContext?.Session.GetString("FacilityID");
             
 
             //Product Master

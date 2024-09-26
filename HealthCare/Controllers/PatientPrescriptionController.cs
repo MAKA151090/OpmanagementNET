@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
+﻿using ClassLibrary1;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -7,6 +8,7 @@ using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
@@ -109,7 +111,6 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> Prescription(PatientEPrescriptionModel pPres, string buttonType, PrescriptionTableModel Model, string PatientID, string CaseVisitID, string OrderID, string DoctorID)
         {
            
-
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
             {
@@ -173,12 +174,14 @@ namespace HealthCare.Controllers
                     }).ToList();
                     Model.Viewprescription = viewModelList;
 
+                   
                     return View("PatientEPrescription", Model);
                 }
                 else
                 {
                     ViewBag.ErrorMessage = " PatientID Not Found";
                 }
+
 
                 return View("PatientEPrescription");
             }
@@ -190,7 +193,9 @@ namespace HealthCare.Controllers
                 return View("PatientEPrescription");
             }
 
-            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID, daocfac);
+            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID, pPres.CaseVisitID, pPres.DrugID, daocfac);
+
+
             if (existingCat != null)
             {
                 if (existingCat.IsDelete)
@@ -199,6 +204,7 @@ namespace HealthCare.Controllers
                     return View("PatientEPrescription", Model);
                 }
 
+               
                 existingCat.FacilityID = daocfac;
                 existingCat.PatientID = pPres.PatientID;
                 // existingCat.EpressID = existingCat.EpressID;
@@ -296,7 +302,7 @@ namespace HealthCare.Controllers
 
             var daocfac = prescription.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
-            var prescriptionEdit = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, orderId, drugId, daocfac);
+            var prescriptionEdit = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, drugId, daocfac);
             if (prescriptionEdit == null)
             {
                 ViewBag.ErrorMessage = " PatientID Not Found";
@@ -351,7 +357,7 @@ namespace HealthCare.Controllers
                 prescriptionTableModel.Viewprescription = viewModelList;
             }
 
-
+          
             return View("PatientEPrescription", prescriptionTableModel);
 
 
@@ -417,7 +423,18 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        public IActionResult PatientEPrescription()
+
+
+        public List<PatientEPrescriptionModel> GetCaseVisitopt(string facilityid)
+        {
+
+            return GetPrescription.SHprsPrescription.Where(x => x.FacilityID == facilityid).Select(x => new PatientEPrescriptionModel
+            {
+                CaseVisitID = x.CaseVisitID
+            }).ToList();
+        }
+
+        public  async Task<IActionResult> PatientEPrescription()
         {
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
@@ -441,7 +458,27 @@ namespace HealthCare.Controllers
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
-            return View();
+
+            var categories = GetCaseVisitopt(facilityId);
+
+            // Convert CategoryMasterModel to SelectListItem
+            var selectListItems = categories;
+
+            var tab = new PrescriptionTableModel
+            {
+                Items = selectListItems,  // Assign converted SelectListItems
+                SelectedItemId = null,
+                
+                
+            };
+
+            var viewModelList = new List<PrescriptionViewModel>();
+
+           
+            tab.Viewprescription = viewModelList;
+
+
+            return View("PatientEPrescription", tab);
         }
         public IActionResult PatientEPrescriptionPrint()
         {
@@ -508,14 +545,15 @@ namespace HealthCare.Controllers
 
         }
 
+
        
-     
-         public async Task<IActionResult> GetCaseVisitIDs(string patientId)
+
+        public async Task<IActionResult> GetCaseVisitIDs(string patientId)
              
             {
             var caseVisitIds = GetPrescription.SHprsPrescription
                 .Where(cv => cv.PatientID == patientId)
-                .Select(cv => cv.CaseVisitID)
+                .Select(cv => cv.CaseVisitID).Distinct()
                 .ToList();
 
             return Json(caseVisitIds);

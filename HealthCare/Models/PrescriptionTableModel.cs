@@ -37,7 +37,10 @@ namespace HealthCare.Models
         private String nightunit;
         private List<PrescriptionViewModel> viewprescription;
 
-       
+        private String selectedItemId;
+        private List<PatientEPrescriptionModel> items;
+
+
 
 
         public long EpressID { get => epressID; set => epressID = value; }
@@ -70,5 +73,7 @@ namespace HealthCare.Models
         public string? Afternoonunit { get => afternoonunit; set => afternoonunit = value; }
         public string? Eveningunit { get => eveningunit; set => eveningunit = value; }
         public string? Nightunit { get => nightunit; set => nightunit = value; }
+        public string SelectedItemId { get => selectedItemId; set => selectedItemId = value; }
+        public List<PatientEPrescriptionModel> Items { get => items; set => items = value; }
     }
 }

@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "PatientEPrescription";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+
+   
 }
 
 <script>
@@ -97,9 +99,24 @@
 
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <select id="visitDropdown" class="form-control">
+                        <select id="visitDropdown" class="form-control" name="visitDropdown" fdprocessedid="stubwn">
+                            
                             <option value="">Select Visit ID</option>
                             @* The options will be populated dynamically using JavaScript *@
+
+                            @foreach (var item in Model.Items)
+                            {
+                                @if (item.CaseVisitID == Model.SelectedItemId)
+                                {
+                                    <option value=@item.CaseVisitID selected="selected">@item.CaseVisitID</option>
+                                }
+                                else
+                                {
+                                    <option value=@item.CaseVisitID>
+                                        @item.CaseVisitID
+                                    </option>
+                                }
+                            }
                         </select>
                         <label asp-for="CaseVisitID"  class="control-label">Visit ID</label>
 
