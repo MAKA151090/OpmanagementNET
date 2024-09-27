@@ -6,6 +6,36 @@
 }
 
 
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        popupOKButton.addEventListener("click", function () {
+            popup.style.display = "none"; // Hide the popup when OK button is clicked
+        });
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
+
 <div class="row gy-4">
     <div class="col-md-12 col-lg-2">
     </div>
@@ -38,18 +68,30 @@
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var fac = ((IEnumerable<DrugInventoryModel>)ViewData["getDruginv"])
+                            .Select(m => new SelectListItem
+            {
+                Value = m.DrugId.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.DrugId}-{m.ModelName}"
+            });
+                        }
+
+                        @Html.DropDownListFor(model => model.DrugID, fac, "Select Drug ID", new { @class = "form-control", @required = "required" })
+                        <label asp-for="DrugID" class="control-label">Drug ID</label>
+                        <span asp-validation-for="DrugID" class="text-danger"></span>
+                    </div>
+
                         <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="IDNumber" class="form-control" placeholder="IDNumber" />
+                            <input asp-for="IDNumber" class="form-control" placeholder="IDNumber" required />
                 <label asp-for="IDNumber" class="control-label"></label>
                 <span asp-validation-for="IDNumber" class="text-danger"></span>
             </div>
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="DrugID" class="form-control" placeholder="" />
-                <label asp-for="DrugID" class="control-label"></label>
-                <span asp-validation-for="DrugID" class="text-danger"></span>
-            </div>
+                       
                         <div class="form-floating form-floating-outline mb-4">
 
                             <input asp-for="RackID" class="form-control" placeholder="DrugID" />
@@ -95,15 +137,14 @@
             <div class="form-group">
                 <center>
                 <button type="submit" value="Submit" asp-action="DrugStock" class="btn btn-primary" >Save</button>
-                            @if (ViewBag.Message != null)
-                            {
-                                <div class="alert alert-success">
 
+                @if (ViewBag.Message != null)
+                {
+                    <script>
+                        handleMessages("@ViewBag.Message");
+                    </script>
+                }
 
-                                    @ViewBag.Message
-                                </div>
-
-                            }
                      </center>       @* <button type="submit" asp-action="DrugStock" class="babge bg-label-primary rounded-pill">Save</button>
  *@            </div>
 

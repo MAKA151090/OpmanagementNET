@@ -69,6 +69,19 @@ namespace HealthCare.Business
             return Getfac;
         }
 
+        public List<DrugInventoryModel> Getdruginv()
+        {
+            var getDruginv = (from f in _healthcareContext.SHstkDrugInventory
+                          select new DrugInventoryModel
+                          {
+                             DrugId= f.DrugId,
+                             ModelName = f.ModelName,
+                          }
+                ).ToList();
+
+            return getDruginv;
+        }
+
 
     }
 

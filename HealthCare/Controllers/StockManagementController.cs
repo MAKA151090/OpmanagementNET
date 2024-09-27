@@ -301,11 +301,17 @@ namespace HealthCare.Controllers
 
         public IActionResult DrugStockMaster()
         {
+            BusinessClassStockManagement clinicAdm = new BusinessClassStockManagement(GetDrugData);
+            ViewData["getDruginv"] = clinicAdm.Getdruginv();
+
             return View();
         }
 
         public async Task<IActionResult> DrugStock(DrugStockModel model)
         {
+            BusinessClassStockManagement clinicAdm = new BusinessClassStockManagement(GetDrugData);
+            ViewData["getDruginv"] = clinicAdm.Getdruginv();
+
             var existingStk = await GetDrugData.SHstkDrugStock.FindAsync(model.IDNumber, model.DrugID);
                 if (existingStk != null)
             {
@@ -330,7 +336,7 @@ namespace HealthCare.Controllers
             }
             await GetDrugData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
-            return View("" , model);
+            return View("DrugStockMaster",model);
         }
 
     
