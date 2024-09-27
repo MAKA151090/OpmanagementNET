@@ -7,6 +7,7 @@ using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
@@ -159,6 +160,8 @@ namespace HealthCare.Controllers
                 {
 
                     var result = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.DrugID, daocfac);
+
+
                     var viewModelList = result.Select(p => new PrescriptionViewModel
                     {
                         PatientID = p.PatientID,
@@ -179,6 +182,7 @@ namespace HealthCare.Controllers
                     ViewBag.SelectedPatientID = PatientID;
                     Model.SelectedItemId = CaseVisitID;
 
+
                     return View("PatientEPrescription", Model);
                 }
                 else
@@ -191,11 +195,13 @@ namespace HealthCare.Controllers
                 Model.Viewprescription = new List<PrescriptionViewModel>();
 
                 ViewBag.SelectedPatientID = PatientID;
+              
 
-                    Model.SelectedItemId = CaseVisitID;
+                Model.SelectedItemId = CaseVisitID;
                 return View("PatientEPrescription",Model);
             }
 
+            //check drug is Given
 
             if (string.IsNullOrEmpty(pPres.DrugID))
             {
@@ -467,6 +473,8 @@ namespace HealthCare.Controllers
             // Set ViewBag and Model properties for the view
             ViewBag.SelectedPatientID = prescriptionEdit.PatientID;
 
+            ViewBag.SelectedDrugID = prescriptionEdit.DrugID;
+
             prescriptionTableModel.SelectedItemId = prescriptionEdit.CaseVisitID;
 
             return View("PatientEPrescription", prescriptionTableModel);
@@ -637,6 +645,12 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> AddPatientPop(PatientRegistrationModel model)
         {
+            string docid = string.Empty;
+            if (TempData["DoctorID"] != null)
+            {
+                docid = TempData["DoctorID"].ToString();
+                TempData.Keep("DoctorID");
+            }
 
 
             string facilityId = string.Empty;
@@ -645,6 +659,13 @@ namespace HealthCare.Controllers
                 facilityId = TempData["FacilityID"].ToString();
                 TempData.Keep("FacilityID");
             }
+
+            BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
+            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["drugid"] = prescription.GetDrugid(facilityId);
+            ViewData["docid"] = prescription.Getdocid(facilityId, docid);
+            ViewData["visitid"] = prescription.Getvisit(facilityId);
+
 
             BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetPrescription);
 
@@ -687,14 +708,102 @@ namespace HealthCare.Controllers
 
             await GetPrescription.SaveChangesAsync();
 
-           // PrescriptionTableModel mod = new PrescriptionTableModel();
+            var modelview = new PrescriptionTableModel(); // Replace with your actual model type
+            modelview.Items = new List<PatientEPrescriptionModel>();
 
-            return View("PatientEPrescription");
+
+            var viewModelList = new List<PrescriptionViewModel>();
+
+
+            modelview.Viewprescription = viewModelList;
+
+            return View("PatientEPrescription", modelview);
 
         }
 
 
-       
+
+        public async Task<IActionResult> AdddrugPop(DrugInventoryModel model)
+        {
+            string docid = string.Empty;
+            if (TempData["DoctorID"] != null)
+            {
+                docid = TempData["DoctorID"].ToString();
+                TempData.Keep("DoctorID");
+            }
+
+
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
+            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["drugid"] = prescription.GetDrugid(facilityId);
+            ViewData["docid"] = prescription.Getdocid(facilityId, docid);
+            ViewData["visitid"] = prescription.Getvisit(facilityId);
+
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetPrescription);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage"); // Replace with your error handling action
+            }
+
+            var existingPatient = await GetPrescription.SHstkDrugInventory.FirstOrDefaultAsync(x => x.DrugId == model.DrugId && x.FacilityID == daocfac && x.IsDelete == false);
+
+            if (existingPatient != null)
+            {
+                existingPatient.DrugId = model.DrugId;
+                existingPatient.ModelName = model.ModelName;
+                existingPatient.SideEffects = model.SideEffects;
+                existingPatient.Dosage = model.Dosage;
+                existingPatient.FacilityID = daocfac;
+               
+
+                GetPrescription.Entry(existingPatient).State = EntityState.Modified;
+            }
+            else
+            {
+
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.FacilityID = daocfac;
+                GetPrescription.SHstkDrugInventory.Add(model);
+
+
+            }
+
+            await GetPrescription.SaveChangesAsync();
+
+
+            var modelview = new PrescriptionTableModel(); // Replace with your actual model type
+            modelview.Items = new List<PatientEPrescriptionModel>();
+
+
+            var viewModelList = new List<PrescriptionViewModel>();
+
+
+            modelview.Viewprescription = viewModelList;
+
+            return View("PatientEPrescription", modelview);
+
+        }
+
+
 
         public async Task<IActionResult> GetCaseVisitIDs(string patientId)
              

@@ -79,7 +79,7 @@
                 });
                         }
 
-                        <input type="text" id="patientDropdownInput" class="form-control" placeholder="Patient Name" value="@ViewBag.SelectedPatientID" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')">
+                        <input type="text" id="patientDropdownInput" class="form-control" placeholder="Patient Name" value="@ViewBag.SelectedPatientID" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')" required>
                         <ul id="patientDropdown" class="list-group mt-2"
                             style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
                             @foreach (var item in screenList)
@@ -99,7 +99,7 @@
 
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <select id="visitDropdown" class="form-control" name="visitDropdown" fdprocessedid="stubwn">
+                        <select id="visitDropdown" class="form-control" name="visitDropdown" fdprocessedid="stubwn" required>
                             
                             <option value="">Select Visit ID</option>
                             @* The options will be populated dynamically using JavaScript *@
@@ -117,7 +117,7 @@
 
                         <input type="hidden" name="CaseVisitID" id="CaseVisitID" value="@Model.SelectedItemId"/>
 
-                        <button type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()">+</button>
+                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-human-greeting" type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()"></button>
                     </div>
 
 
@@ -146,7 +146,7 @@
                         </ul>
 
                         <input type="hidden" name="DrugID" id="drugID" value="@ViewBag.SelectedDrugID" />
-                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#drugModal"></button>
+                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-pill" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#drugModal"></button>
 
                     </div>
 
@@ -498,6 +498,58 @@
 </div>
 
 
+<!-- Drug Details Modal -->
+<div class="modal fade" id="drugModal" tabindex="-1" role="dialog" aria-labelledby="drugModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="drugModalLabel">Enter Patient Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <form id="modalSearchFormcus1" asp-controller="PatientPrescription" asp-action="AdddrugPop" method="post">
+
+                    <div class="col mb-3">
+
+
+
+                        <label for="ModelName">Drug Name</label>
+                        <input type="text" class="form-control" id="ModelName" name="ModelName" placeholder="Drug Name" />
+
+
+
+                    </div>
+
+                    <div class="col mb-3">
+                        <label for="searchInput">Side Effects</label>
+                        <input type="text" class="form-control" id="SideEffects" name="SideEffects" placeholder="Side Effects " />
+                    </div>
+
+
+                    <div class="col mb-3">
+                        <label for="searchInput">Dosage</label>
+                        <input type="text" class="form-control" id="Dosage" name="Dosage" placeholder="Dosage" />
+                    </div>
+
+                   
+
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveCustomer1">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @* <script>
     let suppressInputEvent = false;
 
@@ -616,9 +668,9 @@
 
 </script> *@
 
-
 <script>
-    let suppressInputEvent = false; // Flag for suppressing input events
+
+ let suppressInputEvent = false; // Flag for suppressing input events
 
     // Function to filter dropdown items
     function filterDropdown(event, inputId, dropdownId) {
@@ -634,7 +686,7 @@
             item.style.display = text.includes(filter) ? '' : 'none';
         });
 
-        dropdown.style.display = filter ? 'block' : 'none'; // Show dropdown when filtering
+        dropdown.style.display = filter || input === document.activeElement ? 'block' : 'none'; // Show dropdown when filtering or when input is focused
     }
 
     // Function to select dropdown item
@@ -747,6 +799,18 @@
             visibleItems[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
         }
 
+        // Add click event to dropdown items to close dropdown on selection
+        function setupDropdownItemClickEvents(dropdown, inputId, hiddenId, dropdownId) {
+            dropdown.querySelectorAll('li').forEach(item => {
+                item.addEventListener('click', () => {
+                    selectDropdownItem(inputId, hiddenId, item.textContent, item.getAttribute('data-value'), dropdownId);
+                });
+            });
+        }
+
+        setupDropdownItemClickEvents(patientDropdown, 'patientDropdownInput', 'patientID', 'patientDropdown');
+        setupDropdownItemClickEvents(drugDropdown, 'drugDropdownInput', 'drugID', 'drugDropdown');
+
         // Click event to close dropdown when clicking outside
         document.addEventListener('click', (event) => {
             const target = event.target;
@@ -779,15 +843,16 @@
                         option.textContent = visitId;
                         visitDropdown.appendChild(option);
                     });
-
-                    visitDropdown.value = data[0]; // Set the first option as selected
-                    document.getElementById('CaseVisitID').value = data[0]; // Set hidden field
                 } else {
                     visitDropdown.innerHTML = '<option value="">No visits found</option>'; // If no visits found
                 }
+
+                // Clear the hidden field initially
+                document.getElementById('CaseVisitID').value = '';
             })
             .catch(error => console.error('Error fetching visit IDs:', error));
     }
+
 
     // Function to add a new visit
     function addNewVisit() {
@@ -821,10 +886,6 @@
         document.getElementById('CaseVisitID').value = this.value; // Update hidden input on selection
     });
 </script>
-
-
-
-
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -868,108 +929,41 @@
 </script>
 
 
-@* <script>
-    let drugsuppressInputEvent = false;
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Event handler for the Save button
+        $('#saveCustomer1').click(function () {
+            // Collect the form data
+            var formData = {
+                ModelName: $('#ModelName').val(),
+                SideEffects: $('#SideEffects').val(),
+                Dosage: $('#Dosage').val()
+            };
 
-    function filterDropdown(event, inputId, dropdownId) {
-        if (drugsuppressInputEvent) return;
+            // AJAX request to submit form data to the controller action
+            $.ajax({
+                url: '/PatientPrescription/AdddrugPop', // URL to your action method
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Handle the response from the server
+                    alert("Drug details saved successfully!");
 
-        const input = document.getElementById(inputId);
-        const dropdown = document.getElementById(dropdownId);
-        const filter = input.value.toLowerCase();
-        const items = dropdown.querySelectorAll('li');
+                    // Optionally, close the modal after saving
+                    $('#drugModal').modal('hide');
 
-        items.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            item.style.display = text.includes(filter) ? '' : 'none';
-        });
-
-        dropdown.style.display = filter ? 'block' : 'none'; // Show dropdown when filtering
-    }
-
-    function selectDropdownItem(inputId, hiddenId, text, value) {
-        const input = document.getElementById(inputId);
-        const hidden = document.getElementById(hiddenId);
-        const dropdown = document.getElementById('drugDropdown');
-
-        const trimmedText = text.trim();
-
-        input.value = trimmedText;
-        hidden.value = value;
-
-        dropdown.style.display = 'none'; // Hide dropdown after selection
-        drugsuppressInputEvent = true; // Suppress input event
-
-        setTimeout(() => {
-            drugsuppressInputEvent = false; // Re-enable input event after delay
-        }, 200);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const input = document.getElementById('drugDropdownInput');
-        const dropdown = document.getElementById('drugDropdown');
-
-        let highlightedIndex = -1;
-
-        function getVisibleItems() {
-            return Array.from(dropdown.querySelectorAll('li')).filter(item => item.style.display !== 'none');
-        }
-
-        input.addEventListener('input', (event) => {
-            filterDropdown(event, 'drugDropdownInput', 'drugDropdown');
-            highlightedIndex = -1; // Reset highlight when input changes
-        });
-
-        input.addEventListener('keydown', (event) => {
-            const visibleItems = getVisibleItems();
-
-            switch (event.key) {
-                case 'ArrowDown':
-                    if (highlightedIndex < visibleItems.length - 1) {
-                        highlightedIndex++;
-                        updateHighlight(visibleItems);
-                        event.preventDefault(); // Prevent default behavior
-                    }
-                    break;
-                case 'ArrowUp':
-                    if (highlightedIndex > 0) {
-                        highlightedIndex--;
-                        updateHighlight(visibleItems);
-                        event.preventDefault(); // Prevent default behavior
-                    }
-                    break;
-                case 'Enter':
-                    if (highlightedIndex >= 0) {
-                        const item = visibleItems[highlightedIndex];
-                        selectDropdownItem('drugDropdownInput', 'drugID', item.textContent, item.getAttribute('data-value'));
-                        highlightedIndex = -1; // Reset highlight after selection
-                        event.preventDefault(); // Prevent default behavior
-                    }
-                    break;
-                case 'Escape':
-                    dropdown.style.display = 'none'; // Close dropdown on escape
-                    highlightedIndex = -1; // Reset highlight
-                    break;
-            }
-        });
-
-        input.addEventListener('focus', () => {
-            dropdown.style.display = 'block'; // Keep dropdown open when focused
-        });
-
-        function updateHighlight(visibleItems) {
-            visibleItems.forEach((item, index) => {
-                item.style.backgroundColor = (index === highlightedIndex) ? '#7344ca' : 'white';
-                item.style.color = (index === highlightedIndex) ? 'white' : 'black';
+                    // Optionally, clear the form fields
+                    $('#modalSearchFormcus1')[0].reset();
+                },
+                error: function (xhr, status, error) {
+                    // Handle any errors that occurred during the AJAX request
+                    alert("Error: " + xhr.responseText);
+                }
             });
-            visibleItems[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
-        }
-
-        // Click event to close dropdown when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!dropdown.contains(event.target) && event.target !== input) {
-                dropdown.style.display = 'none'; // Close dropdown when clicking outside
-            }
         });
     });
-</script> *@
+
+
+</script>
+
