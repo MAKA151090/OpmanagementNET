@@ -91,14 +91,14 @@
 
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="DrugId" class="form-control" required placeholder="Drug ID" value="@Model.DrugId" />
+                        <input asp-for="DrugId" class="form-control"  placeholder="Drug ID" value="@Model.DrugId" />
                 <label asp-for="DrugId" class="control-label">Drug ID</label>
-                <span asp-validation-for="DrugId" class="text-danger"></span>
+               
             </div>
                         <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="ModelName" class="form-control" placeholder="Model Name" value="@Model.ModelName" />
-                <label asp-for="ModelName" class="control-label">Model Name</label>
+                        <input asp-for="ModelName" class="form-control" placeholder="Drug Name" value="@Model.ModelName" />
+                <label asp-for="ModelName" class="control-label">Drug Name</label>
                 <span asp-validation-for="ModelName" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">

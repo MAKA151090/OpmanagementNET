@@ -687,9 +687,9 @@ namespace HealthCare.Controllers
 
             await GetPrescription.SaveChangesAsync();
 
-            PrescriptionTableModel mod = new PrescriptionTableModel();
+           // PrescriptionTableModel mod = new PrescriptionTableModel();
 
-            return View("PatientEPrescription", mod);
+            return View("PatientEPrescription");
 
         }
 

@@ -13,10 +13,12 @@ namespace HealthCare.Controllers
     public class StockManagementController : Controller
     {
         private HealthcareContext GetDrugData;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public StockManagementController(HealthcareContext GetDrugData)
+        public StockManagementController(HealthcareContext GetDrugData, IHttpContextAccessor httpContextAccessor)
         {
             this.GetDrugData = GetDrugData;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -350,6 +352,30 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> DrugInventory(DrugInventoryModel model,string buttonType)
         {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetDrugData);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage"); // Replace with your error handling action
+            }
+
+
             BusinessClassStockManagement clinicAdm = new BusinessClassStockManagement(GetDrugData);
             ViewData["Categoryid"] = clinicAdm.GetCategoryid();
             ViewData["DrugTypeid"] = clinicAdm.GetDrugTypeid();
@@ -377,7 +403,7 @@ namespace HealthCare.Controllers
                 }
             }
 
-            var existingTest = await GetDrugData.SHstkDrugInventory.FindAsync(model.DrugId,model.FacilityID);
+            var existingTest = await GetDrugData.SHstkDrugInventory.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.DrugId == model.DrugId && x.IsDelete == false);
             if (existingTest != null)
             {
                

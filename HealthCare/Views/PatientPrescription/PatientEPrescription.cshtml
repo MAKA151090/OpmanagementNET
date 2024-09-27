@@ -124,7 +124,7 @@
 
 
 
-                    <div class="form-floating form-floating-outline mb-4">
+                    <div class="input-group">
                         @{
                             var Screenlist = ((IEnumerable<DrugInventoryModel>)ViewData["drugid"])
                             .Select(m => new SelectListItem
@@ -133,9 +133,20 @@
                     Text = $"{m.DrugId}-{m.ModelName}"
                 });
                         }
+                        <input type="text" id="drugDropdownInput" class="form-control" placeholder="Drug Name" value="@ViewBag.SelectedDrugID" onkeyup="filterDropdown(event, 'drugDropdownInput', 'drugDropdown')" onclick="showDropdown('drugDropdown')">
+                        <ul id="drugDropdown" class="list-group mt-2"
+                            style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
+                            @foreach (var item in Screenlist)
+                            {
+                                <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('drugDropdownInput', 'drugID', '@item.Text', '@item.Value')"
+                                    style="padding: .5rem 1rem; cursor: pointer; background-color: white; border: none; list-style-type: none;">
+                                    @item.Text
+                                </li>
+                            }
+                        </ul>
 
-                        @Html.DropDownListFor(model => model.DrugID, Screenlist, "Select Drug ID", new { @class = "form-control" })
-                        <label asp-for="DrugID" class="control-label">Drug ID</label>
+                        <input type="hidden" name="DrugID" id="drugID" value="@ViewBag.SelectedDrugID" />
+                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#drugModal"></button>
 
                     </div>
 
@@ -188,8 +199,8 @@
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="EndDate" class="form-control"  placeholder="Number of Date" />
-                        <label asp-for="EndDate" class="control-label">Number of Date</label>
+                        <input asp-for="EndDate" class="form-control"  placeholder="Number of Days" />
+                        <label asp-for="EndDate" class="control-label">Number of Days</label>
 
 
                     </div>
@@ -607,8 +618,9 @@
 
 
 <script>
-    let suppressInputEvent = false;
+    let suppressInputEvent = false; // Flag for suppressing input events
 
+    // Function to filter dropdown items
     function filterDropdown(event, inputId, dropdownId) {
         if (suppressInputEvent) return; // Prevent filtering if input event is suppressed
 
@@ -622,60 +634,63 @@
             item.style.display = text.includes(filter) ? '' : 'none';
         });
 
-        if (filter) {
-            dropdown.style.display = 'block'; // Show dropdown when filtering
-        }
+        dropdown.style.display = filter ? 'block' : 'none'; // Show dropdown when filtering
     }
 
-    function showDropdown(dropdownId) {
-        const dropdown = document.getElementById(dropdownId);
-        dropdown.style.display = 'block';
-    }
-
-    function selectDropdownItem(inputId, hiddenId, text, value) {
+    // Function to select dropdown item
+    function selectDropdownItem(inputId, hiddenId, text, value, dropdownId) {
         const input = document.getElementById(inputId);
         const hidden = document.getElementById(hiddenId);
-        const dropdown = document.getElementById('patientDropdown');
+        const dropdown = document.getElementById(dropdownId);
 
-        // Trim whitespace from the selected text
         const trimmedText = text.trim();
-
-        // Set the selected value in the input and hidden input
         input.value = trimmedText;
         hidden.value = value;
 
-        // Hide the dropdown after selection
-        dropdown.style.display = 'none';
+        // Fetch visit IDs for the selected patient (if it's the patient dropdown)
+        if (dropdownId === 'patientDropdown') {
+            fetchVisitIds(value);
+        }
 
-        // Set the flag to suppress the input event momentarily
-        suppressInputEvent = true;
+        dropdown.style.display = 'none'; // Hide dropdown after selection
 
-        // Remove suppression after a short delay to allow normal input behavior again
+        suppressInputEvent = true; // Suppress input event
         setTimeout(() => {
-            suppressInputEvent = false;
+            suppressInputEvent = false; // Remove suppression
         }, 200);
-
-        // Fetch visit IDs for the selected patient
-        fetchVisitIds(value);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        const input = document.getElementById('patientDropdownInput');
-        const dropdown = document.getElementById('patientDropdown');
+        const patientInput = document.getElementById('patientDropdownInput');
+        const patientDropdown = document.getElementById('patientDropdown');
+        const drugInput = document.getElementById('drugDropdownInput'); // Add drug input
+        const drugDropdown = document.getElementById('drugDropdown'); // Add drug dropdown
 
         let highlightedIndex = -1;
 
-        function getVisibleItems() {
+        function getVisibleItems(dropdown) {
             return Array.from(dropdown.querySelectorAll('li')).filter(item => item.style.display !== 'none');
         }
 
-        input.addEventListener('input', (event) => {
+        // Patient dropdown input event
+        patientInput.addEventListener('input', (event) => {
             filterDropdown(event, 'patientDropdownInput', 'patientDropdown');
-            highlightedIndex = -1; // Reset highlight when input changes
+            highlightedIndex = -1; // Reset highlight
         });
 
-        input.addEventListener('keydown', (event) => {
-            const visibleItems = getVisibleItems();
+        // Drug dropdown input event
+        drugInput.addEventListener('input', (event) => {
+            filterDropdown(event, 'drugDropdownInput', 'drugDropdown');
+            highlightedIndex = -1; // Reset highlight
+        });
+
+        // Common keydown event for both dropdowns
+        function handleKeydown(event, dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const visibleItems = getVisibleItems(dropdown);
+
+            // Keep the dropdown open when using arrow keys
+            dropdown.style.display = 'block'; // Ensure dropdown remains open
 
             switch (event.key) {
                 case 'ArrowDown':
@@ -695,22 +710,39 @@
                 case 'Enter':
                     if (highlightedIndex >= 0) {
                         const item = visibleItems[highlightedIndex];
-                        selectDropdownItem('patientDropdownInput', 'patientID', item.textContent, item.getAttribute('data-value'));
-                        highlightedIndex = -1;
-                        event.preventDefault(); // Prevent default behavior
+                        const inputId = dropdownId === 'patientDropdown' ? 'patientDropdownInput' : 'drugDropdownInput';
+                        const hiddenId = dropdownId === 'patientDropdown' ? 'patientID' : 'drugID';
+                        selectDropdownItem(inputId, hiddenId, item.textContent, item.getAttribute('data-value'), dropdownId);
+                        highlightedIndex = -1; // Reset highlight
+                        event.preventDefault();
                     }
                     break;
                 case 'Escape':
                     dropdown.style.display = 'none'; // Close dropdown on escape
-                    highlightedIndex = -1;
+                    highlightedIndex = -1; // Reset highlight
+                    break;
+                default:
+                    dropdown.style.display = 'block'; // Ensure dropdown remains open
                     break;
             }
+        }
+
+        // Add keydown event listeners for both dropdowns
+        patientInput.addEventListener('keydown', (event) => handleKeydown(event, 'patientDropdown'));
+        drugInput.addEventListener('keydown', (event) => handleKeydown(event, 'drugDropdown'));
+
+        // Keep dropdown open when focused
+        patientInput.addEventListener('focus', () => {
+            patientDropdown.style.display = 'block';
+        });
+        drugInput.addEventListener('focus', () => {
+            drugDropdown.style.display = 'block';
         });
 
         function updateHighlight(visibleItems) {
             visibleItems.forEach((item, index) => {
                 item.style.backgroundColor = (index === highlightedIndex) ? '#7344ca' : 'white';
-                item.style.color = (index === highlightedIndex) ? 'white' : 'black'; // Ensure text color contrasts with background
+                item.style.color = (index === highlightedIndex) ? 'white' : 'black'; // Contrast text color
             });
             visibleItems[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
         }
@@ -718,21 +750,23 @@
         // Click event to close dropdown when clicking outside
         document.addEventListener('click', (event) => {
             const target = event.target;
-            if (!dropdown.contains(target) && target !== input) {
-                dropdown.style.display = 'none';
+            if (!patientDropdown.contains(target) && target !== patientInput) {
+                patientDropdown.style.display = 'none';
+            }
+            if (!drugDropdown.contains(target) && target !== drugInput) {
+                drugDropdown.style.display = 'none';
             }
         });
     });
 
+    // Function to fetch visit IDs
     function fetchVisitIds(patientId) {
-        // Make an AJAX request to get case visit IDs
         fetch(`/PatientPrescription/GetCaseVisitIDs?patientId=${patientId}`)
             .then(response => response.json())
             .then(data => {
                 const visitDropdown = document.getElementById('visitDropdown');
                 visitDropdown.innerHTML = ''; // Clear previous options
 
-                // Add placeholder option first
                 const placeholderOption = document.createElement('option');
                 placeholderOption.value = '';
                 placeholderOption.textContent = 'Select Visit ID'; // Placeholder text
@@ -746,18 +780,16 @@
                         visitDropdown.appendChild(option);
                     });
 
-
                     visitDropdown.value = data[0]; // Set the first option as selected
                     document.getElementById('CaseVisitID').value = data[0]; // Set hidden field
-
                 } else {
-                    // If no visit found, clear the dropdown
-                    visitDropdown.innerHTML = '<option value="">No visits found</option>';
+                    visitDropdown.innerHTML = '<option value="">No visits found</option>'; // If no visits found
                 }
             })
             .catch(error => console.error('Error fetching visit IDs:', error));
     }
 
+    // Function to add a new visit
     function addNewVisit() {
         const patientId = document.getElementById('patientID').value;
 
@@ -766,7 +798,6 @@
             return;
         }
 
-        // Make an AJAX request to get the last visit ID and create the next one
         fetch(`/PatientPrescription/AddNewVisitID?patientId=${patientId}`)
             .then(response => response.json())
             .then(data => {
@@ -779,7 +810,6 @@
                     visitDropdown.value = data.newVisitId; // Set the newly added option as selected
 
                     document.getElementById('CaseVisitID').value = data.newVisitId;
-
                 } else {
                     alert(data.message);
                 }
@@ -790,9 +820,10 @@
     document.getElementById('visitDropdown').addEventListener('change', function () {
         document.getElementById('CaseVisitID').value = this.value; // Update hidden input on selection
     });
-
-   
 </script>
+
+
+
 
 
 
@@ -835,3 +866,110 @@
 
 
 </script>
+
+
+@* <script>
+    let drugsuppressInputEvent = false;
+
+    function filterDropdown(event, inputId, dropdownId) {
+        if (drugsuppressInputEvent) return;
+
+        const input = document.getElementById(inputId);
+        const dropdown = document.getElementById(dropdownId);
+        const filter = input.value.toLowerCase();
+        const items = dropdown.querySelectorAll('li');
+
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(filter) ? '' : 'none';
+        });
+
+        dropdown.style.display = filter ? 'block' : 'none'; // Show dropdown when filtering
+    }
+
+    function selectDropdownItem(inputId, hiddenId, text, value) {
+        const input = document.getElementById(inputId);
+        const hidden = document.getElementById(hiddenId);
+        const dropdown = document.getElementById('drugDropdown');
+
+        const trimmedText = text.trim();
+
+        input.value = trimmedText;
+        hidden.value = value;
+
+        dropdown.style.display = 'none'; // Hide dropdown after selection
+        drugsuppressInputEvent = true; // Suppress input event
+
+        setTimeout(() => {
+            drugsuppressInputEvent = false; // Re-enable input event after delay
+        }, 200);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('drugDropdownInput');
+        const dropdown = document.getElementById('drugDropdown');
+
+        let highlightedIndex = -1;
+
+        function getVisibleItems() {
+            return Array.from(dropdown.querySelectorAll('li')).filter(item => item.style.display !== 'none');
+        }
+
+        input.addEventListener('input', (event) => {
+            filterDropdown(event, 'drugDropdownInput', 'drugDropdown');
+            highlightedIndex = -1; // Reset highlight when input changes
+        });
+
+        input.addEventListener('keydown', (event) => {
+            const visibleItems = getVisibleItems();
+
+            switch (event.key) {
+                case 'ArrowDown':
+                    if (highlightedIndex < visibleItems.length - 1) {
+                        highlightedIndex++;
+                        updateHighlight(visibleItems);
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'ArrowUp':
+                    if (highlightedIndex > 0) {
+                        highlightedIndex--;
+                        updateHighlight(visibleItems);
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'Enter':
+                    if (highlightedIndex >= 0) {
+                        const item = visibleItems[highlightedIndex];
+                        selectDropdownItem('drugDropdownInput', 'drugID', item.textContent, item.getAttribute('data-value'));
+                        highlightedIndex = -1; // Reset highlight after selection
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'Escape':
+                    dropdown.style.display = 'none'; // Close dropdown on escape
+                    highlightedIndex = -1; // Reset highlight
+                    break;
+            }
+        });
+
+        input.addEventListener('focus', () => {
+            dropdown.style.display = 'block'; // Keep dropdown open when focused
+        });
+
+        function updateHighlight(visibleItems) {
+            visibleItems.forEach((item, index) => {
+                item.style.backgroundColor = (index === highlightedIndex) ? '#7344ca' : 'white';
+                item.style.color = (index === highlightedIndex) ? 'white' : 'black';
+            });
+            visibleItems[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
+        }
+
+        // Click event to close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!dropdown.contains(event.target) && event.target !== input) {
+                dropdown.style.display = 'none'; // Close dropdown when clicking outside
+            }
+        });
+    });
+</script> *@

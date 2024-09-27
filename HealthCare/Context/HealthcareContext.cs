@@ -318,9 +318,10 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<SeverityModel>().HasKey(i => new { i.SeverityID });
 
-            modelBuilder.Entity<DrugInventoryModel>().HasKey(i => new { i.DrugId,i.FacilityID });
+          
 
-            
+            modelBuilder.Entity<DrugInventoryModel>().Property(i => i.Id).UseIdentityColumn(101, 1);
+            modelBuilder.Entity<DrugInventoryModel>().HasKey(i => new { i.Id, i.FacilityID });
 
 
             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.FacilityID,i.TestID });
@@ -352,9 +353,11 @@ namespace HealthCare.Context
             modelBuilder.Entity<StaffAdminModel>()
                 .HasKey(i => new { i.StrStaffID,i.FacilityID });
 
-            modelBuilder.Entity<PatientRegistrationModel>()
-                .HasKey(i => new { i.PatientID,i.FacilityID });
 
+            modelBuilder.Entity<PatientRegistrationModel>().Property(i => i.Id).UseIdentityColumn(101, 1);
+            modelBuilder.Entity<PatientRegistrationModel>().HasKey(i => new { i.Id, i.FacilityID });
+
+           
             modelBuilder.Entity<PatientScheduleModel>()
                 .HasKey(i => new { i.PatientID });
 
@@ -497,6 +500,39 @@ namespace HealthCare.Context
                 {
                     lastProdNumber++;
                     billEntry.Entity.PatientID = $"Pat_{lastProdNumber}";
+                }
+            }
+
+
+
+
+            //Drug Master
+            var drugtMas = ChangeTracker
+                        .Entries<DrugInventoryModel>()
+                        .Where(e => e.State == EntityState.Added)
+                        .ToList();
+
+            if (drugtMas.Any())
+            {
+                // Get the latest BillNumber from the database
+                var lastdrug = await this.SHstkDrugInventory.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int lastdrugNumber = 100; // Starting point, e.g., Bill_100
+
+                if (lastdrug != null)
+                {
+                    // Extract the numeric part of the last BillNumber and increment it
+                    string lastdrugNum = lastdrug.DrugId.Replace("Drug_", "");
+                    if (int.TryParse(lastdrugNum, out int number))
+                    {
+                        lastdrugNumber = number;
+                    }
+                }
+
+                // Assign the new BillNumber for each new bill
+                foreach (var billEntry in drugtMas)
+                {
+                    lastdrugNumber++;
+                    billEntry.Entity.DrugId = $"Drug_{lastdrugNumber}";
                 }
             }
 

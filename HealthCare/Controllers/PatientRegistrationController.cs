@@ -17,15 +17,42 @@ namespace HealthCare.Controllers
     public class PatientRegistrationController : Controller
     {
         private HealthcareContext _healthcareContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PatientRegistrationController(HealthcareContext healthcareContext)
+
+
+        public PatientRegistrationController(HealthcareContext healthcareContext, IHttpContextAccessor httpContextAccessor)
         {
             _healthcareContext = healthcareContext;
-
+            _httpContextAccessor = httpContextAccessor;
         }
         [HttpPost]
         public async Task<IActionResult> CreateOrUpdate(PatientRegistrationModel model,string buttonType, string patientID, string facilityID)
         {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(_healthcareContext);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage"); // Replace with your error handling action
+            }
+
+
             var schedule = new BusinessClassRegistration(_healthcareContext);
           //  var patient = await schedule.GetPatientObjectiveSubmit(patientID, facilityID);
 
@@ -57,7 +84,7 @@ namespace HealthCare.Controllers
 
 
             // Retrieve existing patient data if available
-            var existingPatient = await _healthcareContext.SHPatientRegistration.FindAsync(model.PatientID,model.FacilityID);
+            var existingPatient = await _healthcareContext.SHPatientRegistration.FirstOrDefaultAsync(x=>x.PatientID == model.PatientID && x.FacilityID == model.FacilityID && x.IsDelete == false);
 
             if(string.IsNullOrEmpty(model.FullName))
             {
