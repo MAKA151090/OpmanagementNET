@@ -203,12 +203,7 @@
 
                                 <button type="submit" style="centered" class="btn btn-primary" asp-action="AddClinic" name="buttontype" value="Delete">Delete</button>
 
-                                @if (ViewBag.Message != null)
-                                {
-                                    <script>
-                                        handleMessages("@ViewBag.Message");
-                                    </script>
-                                }
+                               
 
                             </div>
                         </div>
@@ -222,4 +217,12 @@
 
 
         </div>
+
+        @if (ViewBag.Message != null)
+        {
+            <script>
+                handleMessages("@ViewBag.Message");
+            </script>
+        }
+
     </form>

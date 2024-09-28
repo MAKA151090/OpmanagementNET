@@ -132,7 +132,7 @@ namespace HealthCare.Controllers
             var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["patientid"] = prescription.GetPatientId(facilityId);
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
@@ -142,7 +142,7 @@ namespace HealthCare.Controllers
             if (buttonType == "Print")
             {
                
-               String Query = "SELECT \r\n    SD.FullName AS PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS MedicineName,\r\n    SB.Instructions As [Procedure],\r\n    SB.FillDate AS FollowUpDate,\r\n    SD.Age,\r\n    SD.Gender,\r\n\tDI.Dosage,\r\n    SB.Comments AS Complaint,\r\n    SB.Morningunit,\r\n    SB.Eveningunit,\r\n    SB.Afternoonunit,\r\n\tCA.ClinicName As FacilityName,\r\n\tCA.ClinicAddress As FacilityAddress,\r\n    SB.Nightunit,\r\n\tS.StrFullName As DoctorName,\r\n\tS.StrAddress2 As Suffix,\r\n\tSb.Result As Instruction ,\r\n\tsb.EndDate AS NoOfDays,\r\n    SB.RouteAdmin AS [When],\r\n    CA.Template \r\nFROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nINNER JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\nINNER JOIN\r\n    SHclnClinicAdmin CA ON SB.FacilityID = CA.FacilityID \r\nINNER JOIN\r\n SHclnStaffAdminModel S ON SB.DoctorID = S.StrStaffID\r\nWHERE \r\n    SD.PatientID ='" + PatientID + "'\r\n    AND SB.CaseVisitID ='" + CaseVisitID + "'\r\n    AND SB.DoctorID = '" + doctorid + "'\r\n\t AND SB.IsDelete = 0\r\n    AND SB.FacilityID = '" + daocfac + "'\r\n\tAND S.FacilityID = '" + daocfac + "'\r\n ";
+               String Query = "SELECT \r\n    SD.FullName AS PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS MedicineName,\r\n    SB.Instructions As [Procedure],\r\n    SB.FillDate AS FollowUpDate,\r\n    SD.Age,\r\n    SD.Gender,\r\n\tDI.Dosage,\r\n    SB.Comments AS Complaint,\r\n    SB.Morningunit,\r\n    SB.Eveningunit,\r\n    SB.Afternoonunit,\r\n\tCA.ClinicName As FacilityName,\r\n\tCA.ClinicAddress As FacilityAddress,\r\n    SB.Nightunit,\r\n\tS.StrFullName As DoctorName,\r\n\tS.StrAddress2 As Suffix,\r\n\tSb.Result As Instruction ,\r\n\tsb.EndDate AS NoOfDays,\r\n    SB.RouteAdmin AS [When],\r\n    CA.Template \r\nFROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nINNER JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\nINNER JOIN\r\n    SHclnClinicAdmin CA ON SB.FacilityID = CA.FacilityID \r\nINNER JOIN\r\n SHclnStaffAdminModel S ON SB.DoctorID = S.StrStaffID\r\nWHERE \r\n    SD.PatientID ='" + PatientID + "'\r\n    AND SB.CaseVisitID ='" + CaseVisitID + "'\r\n    AND SB.DoctorID = '" + doctorid + "'\r\n\t AND SB.IsDelete = 0\r\n    AND SB.FacilityID = '" + daocfac + "'\r\n\tAND S.FacilityID = '" + daocfac + "'\r\n  AND DI.FacilityID = '"+ daocfac + "'\r\n AND SD.FacilityID = '"+ daocfac +"' ";
 
                 var Table = BusinessClassCommon.DataTable(GetPrescription, Query);
 
@@ -402,7 +402,7 @@ namespace HealthCare.Controllers
             }
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["patientid"] = prescription.GetPatientId(facilityId);
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
@@ -504,7 +504,7 @@ namespace HealthCare.Controllers
 
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["patientid"] = prescription.GetPatientId(facilityId);
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
@@ -620,7 +620,7 @@ namespace HealthCare.Controllers
 
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["patientid"] = prescription.GetPatientId(facilityId);
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
@@ -662,7 +662,7 @@ namespace HealthCare.Controllers
             }
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["patientid"] = prescription.GetPatientId(facilityId);
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
@@ -743,7 +743,7 @@ namespace HealthCare.Controllers
             }
 
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-            ViewData["patientid"] = prescription.GetPatientId();
+            ViewData["patientid"] = prescription.GetPatientId(facilityId);
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
@@ -827,11 +827,18 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> AddNewVisitID(string patientId)
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             try
             {
                 // Fetch the last visit ID for the selected patient
                 var lastVisitIdEntry = await GetPrescription.SHprsPrescription
-                    .Where(cv => cv.PatientID == patientId)
+                    .Where(cv => cv.PatientID == patientId && cv.FacilityID == facilityId && cv.IsDelete == false)
                     .OrderByDescending(cv => cv.CaseVisitID)
                     .FirstOrDefaultAsync();
 

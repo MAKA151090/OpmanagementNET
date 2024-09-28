@@ -57,7 +57,7 @@ namespace HealthCare.Business
         {
             var result = (from p in _healthcareContext.SHprsPrescription
                           join d in _healthcareContext.SHstkDrugInventory on p.DrugID equals d.DrugId
-                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.IsDelete == false  && p.FacilityID == facility
+                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.IsDelete == false  && p.FacilityID == facility && d.FacilityID == facility
                           select new PrescriptionTableModel
                           {
                               PatientID = p.PatientID,
@@ -81,7 +81,7 @@ namespace HealthCare.Business
         {
             var result = (from p in _healthcareContext.SHprsPrescription
                           join d in _healthcareContext.SHstkDrugInventory on p.DrugID equals d.DrugId
-                          where p.PatientID == patientID && p.CaseVisitID == casevisitID && p.IsDelete == false && p.FacilityID == facility
+                          where p.PatientID == patientID && p.CaseVisitID == casevisitID && p.IsDelete == false && p.FacilityID == facility && d.FacilityID == facility
                           select new PrescriptionTableModel
                           {
                               PatientID = p.PatientID,
@@ -100,10 +100,11 @@ namespace HealthCare.Business
 
 
         ///patiwnt e prescription.
-        public List<PatientRegistrationModel> GetPatientId()
+        public List<PatientRegistrationModel> GetPatientId(string facilityId)
         {
             var patientid = (
                     from pr in _healthcareContext.SHPatientRegistration
+                    where pr.FacilityID == facilityId
                     select new PatientRegistrationModel
                     {
                         PatientID = pr.PatientID,
