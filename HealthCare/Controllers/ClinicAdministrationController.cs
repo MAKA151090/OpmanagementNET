@@ -260,18 +260,39 @@ namespace HealthCare.Controllers
 
                     _healthcareContext.SaveChanges();
 
-                    ViewBag.message = "Deleted Successfully";
+                    ViewBag.Message = "Deleted Successfully";
                     return View("StaffAdminModel", stffDelete);
                 }
                 else
                 {
                     StaffAdminModel dlt = new StaffAdminModel();
-                    ViewBag.message = "StaffID Not Found";
+                    ViewBag.Message = "StaffID Not Found";
                     return View("StaffAdminModel", dlt);
                 }
             }
 
+            if (string.IsNullOrEmpty(model.ResourceTypeID))
+            {
+                ViewBag.Message = "Please enter ResourceTypeID";
+                return View("StaffAdminModel", model);
+            }
+
+            if (string.IsNullOrEmpty(model.StrUserName))
+            {
+                ViewBag.Message = "Please enter UserName";
+                return View("StaffAdminModel", model);
+            }
+
+            if (string.IsNullOrEmpty(model.StrPassword))
+            {
+                ViewBag.Message = "Please enter Password";
+                return View("StaffAdminModel", model);
+            }
+
+
             var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID,model.FacilityID);
+
+
 
             if (existingStaffAdmin != null)
             {
