@@ -3,10 +3,16 @@
 @{
     ViewData["Title"] = "PatientEPrescription";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
-
-   
 }
-
+@section VendorStyles {
+    <link rel="stylesheet" href="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+}
+@section VendorScripts {
+    <script src="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+}
+@section PageScripts {
+    <script src="~/js/extended-ui-perfect-scrollbar.js"></script>
+}
 <script>
     function showPopup(message) {
         var popup = document.getElementById("popupMessage");
@@ -61,68 +67,150 @@
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row gy-4">
+
+    <div class="row">
+
         <div class="col-md-12 col-lg-1">
+            <div class="form-floating form-floating-outline mb-4">
+            </div>
         </div>
+        <div class="col-md-12 col-lg-10">
+            <div class="card overflow-hidden mb-4" style="height: 150px;">
+                <div class="card-body" id="vertical-example">
+
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Case Visit ID</th>
+                                <th>Order ID</th>
+                                <th>Drug ID</th>
+                                <th>Drug Name</th>
+                                <th>Morning Unit</th>
+                                <th>Afternoon Unit</th>
+                                <th>Evening Unit</th>
+                                <th>Night Unit</th>
+                                <th>When</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*   @if(Model!=null)
+                        { *@
+                            @foreach (var item in Model.Viewprescription)
+                            {
+                                <tr>
+                                    <td>@item.PatientID</td>
+                                    <td>@item.CaseVisitID</td>
+                                    <td>@item.OrderID</td>
+                                    <td>@item.DrugID</td>
+                                    <td>@item.DrugName</td>
+                                    <td>@item.Morningunit</td>
+                                    <td>@item.Afternoonunit</td>
+                                    <td>@item.Eveningunit</td>
+                                    <td>@item.Nightunit</td>
+                                    <td>@item.RouteAdmin</td>
+
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID,facility =item.FacilityID})" class="btn btn-primary">Edit</a>
+                                        <a href="@Url.Action("Delete", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-1">
+            <div class="form-floating form-floating-outline mb-4">
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="row gy-4">
+
+        <div class="col-md-12 col-lg-2">
+            <div class="form-floating form-floating-outline mb-4">
+            </div>
+        </div>
+
+
+
         <div class="col-md-12 col-lg-3">
-            <div class="card">
 
-                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
-
-                    <div class="input-group">
-                        @{
-                            var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
-                            .Select(m => new SelectListItem
+            <div class="input-group">
+                @{
+                    var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["patientid"])
+                    .Select(m => new SelectListItem
                 {
                     Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.FullName}"
                 });
-                        }
+                }
 
-                        <input type="text" id="patientDropdownInput" class="form-control" placeholder="Patient Name" value="@ViewBag.SelectedPatientID" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')" required>
-                        <ul id="patientDropdown" class="list-group mt-2"
-                            style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
-                            @foreach (var item in screenList)
-                            {
-                                <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('patientDropdownInput', 'patientID', '@item.Text', '@item.Value')"
-                                    style="padding: .5rem 1rem; cursor: pointer; background-color: white; border: none; list-style-type: none;">
-                                    @item.Text
-                                </li>
-                            }
-                        </ul>
+                <input type="text" id="patientDropdownInput" class="form-control" placeholder="Patient Name" value="@ViewBag.SelectedPatientID" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')" required>
+                <ul id="patientDropdown" class="list-group mt-2"
+                    style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
+                    @foreach (var item in screenList)
+                    {
+                        <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('patientDropdownInput', 'patientID', '@item.Text', '@item.Value')"
+                            style="padding: .5rem 1rem; cursor: pointer; background-color: white; border: none; list-style-type: none;">
+                            @item.Text
+                        </li>
+                    }
+                </ul>
 
-                        <input type="hidden" name="PatientID" id="patientID" value="@ViewBag.SelectedPatientID" />
-                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#paymentModal"></button>
-                    </div>
+                <input type="hidden" name="PatientID" id="patientID" value="@ViewBag.SelectedPatientID" />
+                <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#paymentModal"></button>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-3">
 
+            <div class="input-group">
 
+                <select id="visitDropdown" class="form-control" name="visitDropdown" fdprocessedid="stubwn" required>
 
+                    <option value="">Select Visit ID</option>
+                    @* The options will be populated dynamically using JavaScript *@
 
-                    <div class="form-floating form-floating-outline mb-4">
-                        <select id="visitDropdown" class="form-control" name="visitDropdown" fdprocessedid="stubwn" required>
-                            
-                            <option value="">Select Visit ID</option>
-                            @* The options will be populated dynamically using JavaScript *@
-
-                            @foreach (var item in Model.Items)
-                            {
-                                <option value="@item.CaseVisitID"
-                                        selected="@(item.CaseVisitID == Model.SelectedItemId)">
-                                    @item.CaseVisitID
-                                </option>
-                            }
-                        </select>
-
-                        <label asp-for="CaseVisitID"  class="control-label">Visit ID</label>
-
-                        <input type="hidden" name="CaseVisitID" id="CaseVisitID" value="@Model.SelectedItemId"/>
-
-                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-human-greeting" type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()"></button>
-                    </div>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.CaseVisitID"
+                                selected="@(item.CaseVisitID == Model.SelectedItemId)">
+                            @item.CaseVisitID
+                        </option>
+                    }
+                </select>
 
 
+                <input type="hidden" name="CaseVisitID" id="CaseVisitID" value="@Model.SelectedItemId" />
 
+                <button class="btn btn-primary menu-icon tf-icons mdi mdi-human-greeting" type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()"></button>
+            </div>
+        </div>
 
+        <div class="col-md-12 col-lg-2">
+            <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
+
+        </div>
+
+    </div>
+
+    <br />
+
+    <div class="row gy-4">
+        <div class="col-md-12 col-lg-1">
+        </div>
+
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                     <div class="input-group">
                         @{
@@ -151,7 +239,7 @@
                     </div>
 
 
-                    <div class="form-floating form-floating-outline mb-4">
+                    <div class="form-floating form-floating-outline mb-4" style="margin-top:10px">
                         <input asp-for="PrescriptionDate" class="form-control" type="date" placeholder="Prescription Date" />
                         <label asp-for="PrescriptionDate" class="control-label">Prescription Date</label>
 
@@ -193,13 +281,12 @@
         </div>
 
 
-
         <div class="col-md-12 col-lg-3">
             <div class="card">
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="EndDate" class="form-control"  placeholder="Number of Days" />
+                        <input asp-for="EndDate" class="form-control" placeholder="Number of Days" />
                         <label asp-for="EndDate" class="control-label">Number of Days</label>
 
 
@@ -228,10 +315,19 @@
                     </div>
 
 
+                  
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-3">
+            <div class="card">
+
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
                     <div class="form-floating form-floating-outline mb-4">
                         <textarea asp-for="Instructions" class="form-control" placeholder="Procedure"></textarea>
                         <label asp-for="Instructions" class="control-label">Procedure</label>
-                       
+
                     </div>
 
 
@@ -249,24 +345,28 @@
 
 
                     </div>
-                    
-                </div>
+
+                
                 </div>
             </div>
-        <br />
-        <div class="form-group">
-            <center>
-                <button type="submit" value="Save" name="buttonType" class="btn btn-primary">Save</button>
-                <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
-                <button type="submit" value="Print" name="buttonType" class="btn btn-primary">Print</button>
-
-
-
-            </center>
         </div>
-
+        <div class="col-md-12 col-lg-1">
         </div>
-   
+    </div>
+    <br />
+    <div class="form-group">
+        <center>
+            <button type="submit" value="Save" name="buttonType" class="btn btn-primary">Save</button>
+            @*  <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
+        *@
+            <button type="submit" value="Print" name="buttonType" class="btn btn-primary">Print</button>
+
+
+
+        </center>
+    </div>
+
+
 
 
 
@@ -275,62 +375,17 @@
 
 
 
-        <div class="row" style="margin-top:50px">
-            <div class="col-md-12 col-lg-12">
+        @* <div class="row" style="margin-top:50px">
+        *@
+        @*   <div class="col-md-12 col-lg-12">
                 <div class="card">
 
                     <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
-
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Patient ID</th>
-                                    <th>Case Visit ID</th>
-                                    <th>Order ID</th>
-                                    <th>Drug ID</th>
-                                    <th>Drug Name</th>
-                                    <th>Morning Unit</th>
-                                    <th>Afternoon Unit</th>
-                                    <th>Evening Unit</th>
-                                    <th>Night Unit</th>
-                                    <th>When</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @*   @if(Model!=null)
-                        { *@
-                                @foreach (var item in Model.Viewprescription)
-                                {
-                                    <tr>
-                                        <td>@item.PatientID</td>
-                                        <td>@item.CaseVisitID</td>
-                                        <td>@item.OrderID</td>
-                                        <td>@item.DrugID</td>
-                                        <td>@item.DrugName</td>
-                                        <td>@item.Morningunit</td>
-                                        <td>@item.Afternoonunit</td>
-                                        <td>@item.Eveningunit</td>
-                                        <td>@item.Nightunit</td>
-                                        <td>@item.RouteAdmin</td>
-                                        
-                                        <td>
-                                            <a href="@Url.Action("Edit", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID,facility =item.FacilityID})" class="btn btn-primary">Edit</a>
-                                            <a href="@Url.Action("Delete", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Delete</a>
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
+ *@
 
 
 
-                    </div>
 
-                </div>
-            </div>
-        </div>
     }
 
     @if (ViewBag.Message != null)
@@ -468,7 +523,7 @@
 
                     </div>
 
-                     <div class="col mb-3">
+                    <div class="col mb-3">
                         <label for="searchInput">Phone Number</label>
                         <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Phone Number" />
                     </div>
@@ -477,14 +532,14 @@
                     <div class="col mb-3">
                         <label for="searchInput">Age</label>
                         <input type="text" class="form-control" id="Age" name="Age" placeholder="Age" />
-                    </div> 
+                    </div>
 
-                     <div class="col mb-3">
+                    <div class="col mb-3">
                         <label for="searchInput">Gender</label>
                         <input type="text" class="form-control" id="Gender" name="Gender" placeholder="Gender" />
                     </div>
 
-                  
+
                 </form>
 
                 <div class="modal-footer">
@@ -535,7 +590,7 @@
                         <input type="text" class="form-control" id="Dosage" name="Dosage" placeholder="Dosage" />
                     </div>
 
-                   
+
 
                 </form>
 
@@ -670,7 +725,7 @@
 
 <script>
 
- let suppressInputEvent = false; // Flag for suppressing input events
+    let suppressInputEvent = false; // Flag for suppressing input events
 
     // Function to filter dropdown items
     function filterDropdown(event, inputId, dropdownId) {
