@@ -12,6 +12,7 @@
         private String strlastUpdatedUser;
         private string strLastUpdatedmachine;
         private bool strIsDelete;
+        private string facilityID;
 
         public string GroupTypeID { get => strGroupTypeID; set => strGroupTypeID = value; }
         public string GroupTypeName { get => strGroupTypeName; set => strGroupTypeName = value; }
@@ -19,5 +20,6 @@
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? LastUpdatedmachine { get => strLastUpdatedmachine; set => strLastUpdatedmachine = value; }
         public bool IsDelete { get => strIsDelete; set => strIsDelete = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

@@ -14,6 +14,7 @@
         private String strlastUpdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
+        private String facilityID;
 
         public string IDNumber { get => strIDNumber; set => strIDNumber = value; }
         public string DrugID { get => strDrugID; set => strDrugID = value; }
@@ -24,5 +25,6 @@
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
         public string? RackID { get => strRackID; set => strRackID = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

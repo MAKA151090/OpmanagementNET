@@ -167,9 +167,17 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> BloodGroupList(BloodGroupModel model,string buttontype)
 
         {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             if (buttontype == "Delete")
             {
-                var stfDelete = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x => x.IntBg_Id == model.IntBg_Id && x.StrIsDelete == false);
+                var stfDelete = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x => x.IntBg_Id == model.IntBg_Id && x.StrIsDelete == false && x.FacilityID == facilityId);
                 if (stfDelete != null)
                 {
                     stfDelete.StrIsDelete = true;
@@ -187,13 +195,14 @@ namespace HealthCare.Controllers
                 }
             }
 
-            var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FindAsync(model.IntBg_Id);
+            var existingBloodGroup = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x=>x.IntBg_Id == model.IntBg_Id && x.FacilityID == facilityId && x.StrIsDelete == false);
 
             if (existingBloodGroup != null)
             {
                 existingBloodGroup.IntBg_Id = model.IntBg_Id;
                 existingBloodGroup.BloodGroup = model.BloodGroup;
                 existingBloodGroup.StrIsDelete = model.StrIsDelete;
+                existingBloodGroup.FacilityID = facilityId;
                 existingBloodGroup.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingBloodGroup.lastUpdatedDate = DateTime.Now.ToString();
             }
@@ -202,7 +211,7 @@ namespace HealthCare.Controllers
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 // Retrieve the list of blood groups from the database
-
+                model.FacilityID = facilityId;
                 _healthcareContext.SHclnBloodGroup.Add(model);
 
             }
@@ -221,7 +230,15 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult>GetBloodGroup(BloodGroupModel model)
         {
-            var getblood = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x => x.IntBg_Id == model.IntBg_Id && x.StrIsDelete==false);
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+
+            var getblood = await _healthcareContext.SHclnBloodGroup.FirstOrDefaultAsync(x => x.IntBg_Id == model.IntBg_Id && x.StrIsDelete==false && x.FacilityID == facilityId);
             if(getblood != null)
             {
                 return View("BloodGroupAdministration",getblood);
@@ -249,8 +266,8 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> AddStaff(StaffAdminModel model,string buttonType)
         {
             ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["resoruseid"] = clinicAd.GetResourceid();
-            ViewData["Getfac"] = clinicAd.GetFacility();
+            ViewData["resoruseid"] = clinicAd.GetResourceid(model.FacilityID);
+            ViewData["Getfac"] = clinicAd.GetFacility(model.FacilityID);
             if (buttonType == "Delete")
             {
                 var stffDelete = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.StrStaffID == model.StrStaffID &&x.FacilityID == model.FacilityID && x.IsDelete == false);
@@ -339,8 +356,8 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["resoruseid"] = clinicAdmin.GetResourceid();
-            ViewData["Getfac"] = clinicAdmin.GetFacility();
+            ViewData["resoruseid"] = clinicAdmin.GetResourceid(model.FacilityID);
+            ViewData["Getfac"] = clinicAdmin.GetFacility(model.FacilityID);
 
             StaffAdminModel cln = new StaffAdminModel();
 
@@ -352,8 +369,8 @@ namespace HealthCare.Controllers
         {
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["resoruseid"] = clinicAdmin.GetResourceid();
-            ViewData["Getfac"] = clinicAdmin.GetFacility();
+            ViewData["resoruseid"] = clinicAdmin.GetResourceid(model.FacilityID);
+            ViewData["Getfac"] = clinicAdmin.GetFacility(model.FacilityID);
 
 
             var getstaffdata = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.FacilityID== model.FacilityID && x.StrStaffID == model.StrStaffID && x.IsDelete == false);
@@ -370,11 +387,17 @@ namespace HealthCare.Controllers
             return View("StaffAdminModel", stf);
         }
 
-        public IActionResult StaffAdminModel()
+        public IActionResult StaffAdminModel(StaffAdminModel model)
         {
+
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["resoruseid"] = clinicAdmin.GetResourceid();
-            ViewData["Getfac"] = clinicAdmin.GetFacility();
+            ViewData["resoruseid"] = clinicAdmin.GetResourceid(model.FacilityID);
+            ViewData["Getfac"] = clinicAdmin.GetFacility(model.FacilityID);
 
 
             StaffAdminModel cln = new StaffAdminModel();
@@ -561,13 +584,20 @@ namespace HealthCare.Controllers
 
       
    
-        public IActionResult RollAccess()
+        public IActionResult RollAccess(RollAccessModel model)
         {
 
+
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["screenname"] = clinicAdmin.Screenname();
-            ViewData["rollid"] = clinicAdmin.RollAccessType();
-            return View();
+            ViewData["rollid"] = clinicAdmin.RollAccessType(model.FacilityID);
+
+            return View("RollAccess",model);
         }
         public IActionResult ScreenMaster()
         {
@@ -896,14 +926,20 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetRollAccess(RollAccessModel model)
         {
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["screenname"] = clinicAdmin.Screenname();
-            ViewData["rollid"] = clinicAdmin.RollAccessType();
+            ViewData["rollid"] = clinicAdmin.RollAccessType(model.FacilityID);
            
 
         
-            var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID,model.ScreenID);
+            var existingTest = await _healthcareContext.SHClnRollAccess.FindAsync(model.RollID,model.ScreenID,model.FacilityID);
             if (existingTest != null)
             {
                 existingTest.RollID = model.RollID;
@@ -913,6 +949,7 @@ namespace HealthCare.Controllers
                 existingTest.lastUpdatedDate = DateTime.Now.ToString();
                 existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingTest.FacilityID = model.FacilityID;
 
             }
             else
@@ -1034,9 +1071,17 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> SaveResourceTypeID(ResourceTypeMasterModel model,string buttontype)
         {
 
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+
             if (buttontype == "Delete")
             {
-                var stfDelete = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x => x.ResourceTypeID == model.ResourceTypeID && x.StrIsDelete == false);
+                var stfDelete = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x => x.ResourceTypeID == model.ResourceTypeID && x.StrIsDelete == false && x.FacilityID == facilityId);
                 if (stfDelete != null)
                 {
                     stfDelete.StrIsDelete = true;
@@ -1055,7 +1100,7 @@ namespace HealthCare.Controllers
             }
 
 
-            var existingTypeID = await _healthcareContext.SHclnResourseTypeMaster.FindAsync(model.ResourceTypeID);
+            var existingTypeID = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x=>x.ResourceTypeID == model.ResourceTypeID && x.FacilityID == facilityId && x.StrIsDelete == false);
                 if(existingTypeID != null)
             {
                 existingTypeID.ResourceTypeID = model.ResourceTypeID;
@@ -1064,13 +1109,16 @@ namespace HealthCare.Controllers
                 existingTypeID.lastUpdatedDate = DateTime.Now.ToString();
                 existingTypeID.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTypeID.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingTypeID.FacilityID = facilityId;
                 _healthcareContext.Entry(existingTypeID).State = EntityState.Modified;
+               
             }
                 else
             {
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = User.Claims.First().Value.ToString();
                 model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                model.FacilityID = facilityId;
                 _healthcareContext.SHclnResourseTypeMaster.Add(model);
             }
                 await _healthcareContext.SaveChangesAsync();
@@ -1087,7 +1135,15 @@ namespace HealthCare.Controllers
         public async Task<IActionResult> GetResource(ResourceTypeMasterModel model)
         {
 
-            var getresource = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x => x.ResourceTypeID == model.ResourceTypeID&& x.StrIsDelete == false);
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+
+            var getresource = await _healthcareContext.SHclnResourseTypeMaster.FirstOrDefaultAsync(x => x.ResourceTypeID == model.ResourceTypeID&& x.StrIsDelete == false && x.FacilityID == facilityId);
             if(getresource != null)
             {
                 return View("ResourceTypeMaster", getresource);
@@ -1183,13 +1239,20 @@ namespace HealthCare.Controllers
         }
         
        
-        public IActionResult RollAccessMaster()
+        public IActionResult RollAccessMaster(RollAccessMaster model)
         {
-            ClinicAdminBusinessClass clinicbuiness = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["staffid"] = clinicbuiness.GetStaffID();
-            ViewData["rollid"] = clinicbuiness.RollAccessType();
 
-            return View();
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            ClinicAdminBusinessClass clinicbuiness = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["staffid"] = clinicbuiness.GetStaffID(model.FacilityID);
+            ViewData["rollid"] = clinicbuiness.RollAccessType(model.FacilityID);
+
+            return View("RollAccessMaster",model);
         }
 
         public IActionResult RollTypeMaster()
@@ -1230,16 +1293,30 @@ namespace HealthCare.Controllers
         {
             return View();
         }
-        public IActionResult StaffFacilityMapping()
+        public IActionResult StaffFacilityMapping(StaffFacilityMappingModel model)
         {
+
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["staffid"] = clinicAdmin.GetStaffID();
+            ViewData["staffid"] = clinicAdmin.GetStaffID(model.FacilityID);
             ViewData["stafffacid"] = clinicAdmin.GetFacidStaff();
             return View();
         }
 
         public async Task<IActionResult> GetStaffFacilityMap(StaffFacilityMappingModel model)
         {
+
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             var existingStafff = await _healthcareContext.SHclnStaffFacilityMapping.FindAsync(model.StaffId, model.FacilityID);
             if (existingStafff != null)
             {
@@ -1267,7 +1344,7 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["staffid"] = clinicAdmin.GetStaffID();
+            ViewData["staffid"] = clinicAdmin.GetStaffID(model.FacilityID);
             ViewData["stafffacid"] = clinicAdmin.GetFacidStaff();
 
             return View("StaffFacilityMapping", model);
@@ -1707,7 +1784,15 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetRollType(RollTypeMaster model)
         {
-            var existingRollID = await _healthcareContext.Shclnrolltypemaster.FindAsync(model.RollID);
+           
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+
+            var existingRollID = await _healthcareContext.Shclnrolltypemaster.FindAsync(model.RollID,model.FacilityID);
             if (existingRollID != null)
             {
                 existingRollID.RollID = model.RollID;
@@ -1715,6 +1800,7 @@ namespace HealthCare.Controllers
                 existingRollID.LastupdatedDate = DateTime.Now.ToString();
                 existingRollID.LastupdatedUser = User.Claims.First().Value.ToString();
                 existingRollID.LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingRollID.FacilityID = model.FacilityID;
                 _healthcareContext.Entry(existingRollID).State = EntityState.Modified;
             }
             else
@@ -1722,6 +1808,7 @@ namespace HealthCare.Controllers
                 model.LastupdatedDate = DateTime.Now.ToString();
                 model.LastupdatedUser = User.Claims.First().Value.ToString();
                 model.LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                
                 _healthcareContext.Shclnrolltypemaster.Add(model);
             }
             await _healthcareContext.SaveChangesAsync();
@@ -1734,15 +1821,23 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetAccessMaster(RollAccessMaster model, List<string> SelectedRollNames)
         {
+
+
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             ClinicAdminBusinessClass clinicbuiness = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["staffid"] = clinicbuiness.GetStaffID();
-            ViewData["rollid"] = clinicbuiness.RollAccessType();
+            ViewData["staffid"] = clinicbuiness.GetStaffID(model.FacilityID);
+            ViewData["rollid"] = clinicbuiness.RollAccessType(model.FacilityID);
 
 
 
             foreach (var rollName in SelectedRollNames)
             {
-                var existingAccess = await _healthcareContext.ShclnrollAccessmaster.FindAsync(model.StaffID, rollName);
+                var existingAccess = await _healthcareContext.ShclnrollAccessmaster.FindAsync(model.StaffID, rollName,model.FacilityID);
                 if (existingAccess != null)
                 {
                     existingAccess.StaffID = model.StaffID;
@@ -1750,6 +1845,7 @@ namespace HealthCare.Controllers
                     existingAccess.LastupdatedDate = DateTime.Now.ToString();
                     existingAccess.Lastupdateduser = User.Claims.First().Value.ToString();
                     existingAccess.LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    existingAccess.FacilityID = model.FacilityID;
                     _healthcareContext.Entry(existingAccess).State = EntityState.Modified;
                 }
                 else
@@ -1760,7 +1856,8 @@ namespace HealthCare.Controllers
                         RollID = rollName,
                         LastupdatedDate = DateTime.Now.ToString(),
                         Lastupdateduser = User.Claims.First().Value.ToString(),
-                        LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                        LastupdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
+                        FacilityID = model.FacilityID
                     };
                     _healthcareContext.ShclnrollAccessmaster.Add(newAccess);
                 }

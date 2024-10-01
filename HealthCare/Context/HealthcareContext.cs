@@ -231,8 +231,8 @@ namespace HealthCare.Context
             //.WithMany()
             //.HasForeignKey(d => d.Viewslot,);
 
-            modelBuilder.Entity<RollTypeMaster>().HasKey(i => new { i.RollID });
-            modelBuilder.Entity<RollAccessMaster>().HasKey(i => new { i.StaffID, i.RollID });
+            modelBuilder.Entity<RollTypeMaster>().HasKey(i => new { i.RollID,i.FacilityID });
+            modelBuilder.Entity<RollAccessMaster>().HasKey(i => new { i.StaffID, i.RollID,i.FacilityID });
             modelBuilder.Entity<ScreenNameMasterModel>().HasKey(i => new { i.ScreenName });
 
 
@@ -307,9 +307,9 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<DrugRackModel>().HasKey(i => new { i.RackID, i.RackName });
 
-            modelBuilder.Entity<DrugTypeModel>().HasKey(i => new { i.TypeID });
+            modelBuilder.Entity<DrugTypeModel>().HasKey(i => new { i.TypeID,i.FacilityID });
 
-            modelBuilder.Entity<DrugCategoryModel>().HasKey(i => new { i.CategoryID });
+            modelBuilder.Entity<DrugCategoryModel>().HasKey(i => new { i.CategoryID,i.FacilityID });
 
             modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
 
@@ -348,7 +348,7 @@ namespace HealthCare.Context
        .HasKey(i => new { i.FacilityID });
 
             modelBuilder.Entity<BloodGroupModel>()
-                .HasKey(i => new { i.IntBg_Id});
+                .HasKey(i => new { i.IntBg_Id,i.FacilityID});
 
             modelBuilder.Entity<StaffAdminModel>()
                 .HasKey(i => new { i.StrStaffID,i.FacilityID });
@@ -393,10 +393,10 @@ namespace HealthCare.Context
 
 
             modelBuilder.Entity<DrugGroupModel>()
-                .HasKey(i => new { i.GroupTypeName, i.GroupTypeID });
+                .HasKey(i => new { i.GroupTypeName, i.GroupTypeID,i.FacilityID });
 
             modelBuilder.Entity<DrugStockModel>()
-                .HasKey(i => new { i.IDNumber, i.DrugID });
+                .HasKey(i => new { i.IDNumber, i.DrugID,i.FacilityID });
 
             modelBuilder.Entity<InpatientAdmissionModel>()
                  .HasKey(i => new { i.PatientID, i.CaseID });
@@ -417,7 +417,7 @@ namespace HealthCare.Context
                 .HasKey(i => new { i.StaffID,i.Date,i.AttendanceID });
 
             modelBuilder.Entity<RollAccessModel>()
-                .HasKey(i => new { i.RollID ,i.ScreenID});
+                .HasKey(i => new { i.RollID ,i.ScreenID,i.FacilityID});
 
             modelBuilder.Entity<ScreenMasterModel>()
                 .HasKey(i => new { i.ScreenId });
@@ -444,7 +444,7 @@ namespace HealthCare.Context
                 .HasKey(i => new { i.StaffId, i.FacilityID });
 
             modelBuilder.Entity<ResourceTypeMasterModel>()
-                .HasKey(i => new { i.ResourceTypeID });
+                .HasKey(i => new { i.ResourceTypeID,i.FacilityID });
 
             modelBuilder.Entity<GenericReportsModel>()
                 .HasKey(i => new { i.ReportId });

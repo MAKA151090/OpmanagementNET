@@ -158,10 +158,12 @@ namespace HealthCare.Business
         ///blood group  
         ///
 
-        public List<BloodGroupModel> GetBloodGroup()
+        public List<BloodGroupModel> GetBloodGroup(string facility)
         {
+
             var bldgrpid = (
                     from pr in objDbContext.SHclnBloodGroup
+                    where pr.StrIsDelete == false && pr.FacilityID == facility
                     select new BloodGroupModel
                     {
                         BloodGroup = pr.BloodGroup
@@ -172,10 +174,11 @@ namespace HealthCare.Business
         }
 
 
-        public List<ClinicAdminModel> GetFacilityid()
+        public List<ClinicAdminModel> GetFacilityid(string facility)
         {
             var Facid = (
                     from pr in objDbContext.SHclnClinicAdmin
+                    where pr.StrIsDelete == false && pr.FacilityID == facility
                     select new ClinicAdminModel
                     {
                         FacilityID = pr.FacilityID,

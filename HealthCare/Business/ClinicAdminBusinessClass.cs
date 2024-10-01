@@ -31,9 +31,10 @@ namespace HealthCare.Business
 
         ///Dropdown for Staffadmin
 
-        public List<ClinicAdminModel> GetFacility()
+        public List<ClinicAdminModel> GetFacility(string facility)
         {
             var Getfac = (from f in _healthcareContext.SHclnClinicAdmin
+                          where f.FacilityID == facility && f.StrIsDelete == false
                           select new ClinicAdminModel
                           {
                               FacilityID = f.FacilityID,
@@ -134,12 +135,12 @@ namespace HealthCare.Business
 
         ///dropdown for staffmapping
 
-        public List<StaffAdminModel> GetStaffID()
+        public List<StaffAdminModel> GetStaffID(string facility)
         {
             var staffid = (
                     from pr in _healthcareContext.SHclnStaffAdminModel
                     join p in _healthcareContext.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
-                    where p.ResourceTypeName == "Doctor"
+                    where p.ResourceTypeName == "Doctor" && pr.IsDelete == false && p.StrIsDelete == false && pr.FacilityID == facility && p.FacilityID == facility
                     select new StaffAdminModel
                     {
                         StrStaffID = pr.StrStaffID,
@@ -166,10 +167,11 @@ namespace HealthCare.Business
 
 
         ///dropdown for clinicregister
-        public List<ResourceTypeMasterModel> GetResourceid()
+        public List<ResourceTypeMasterModel> GetResourceid(string facilityID)
         {
             var resoruseid = (
                     from pr in _healthcareContext.SHclnResourseTypeMaster
+                    where pr.StrIsDelete == false && pr.FacilityID == facilityID
                     select new ResourceTypeMasterModel
                     {
                         ResourceTypeID = pr.ResourceTypeID,
@@ -179,10 +181,11 @@ namespace HealthCare.Business
 
             return resoruseid;
         }
-        public List<RollTypeMaster> RollAccessType()
+        public List<RollTypeMaster> RollAccessType(string facility)
         {
             var rollid = (
                     from pr in _healthcareContext.Shclnrolltypemaster
+                    where pr.FacilityID == facility
                     select new RollTypeMaster
                     {
                         RollID = pr.RollID,
