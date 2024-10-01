@@ -138,19 +138,53 @@ namespace HealthCare.Controllers
             ViewData["visitid"] = prescription.Getvisit(facilityId);
 
 
-          
+
             if (buttonType == "Print")
             {
-               
-               String Query = "SELECT \r\n    SD.FullName AS PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS MedicineName,\r\n    SB.Instructions As [Procedure],\r\n    SB.FillDate AS FollowUpDate,\r\n    SD.Age,\r\n    SD.Gender,\r\n\tDI.Dosage,\r\n    SB.Comments AS Complaint,\r\n    SB.Morningunit,\r\n    SB.Eveningunit,\r\n    SB.Afternoonunit,\r\n\tCA.ClinicName As FacilityName,\r\n\tCA.ClinicAddress As FacilityAddress,\r\n    SB.Nightunit,\r\n\tS.StrFullName As DoctorName,\r\n\tS.StrAddress2 As Suffix,\r\n\tSb.Result As Instruction ,\r\n\tsb.EndDate AS NoOfDays,\r\n    SB.RouteAdmin AS [When],\r\n    CA.Template \r\nFROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nINNER JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\nINNER JOIN\r\n    SHclnClinicAdmin CA ON SB.FacilityID = CA.FacilityID \r\nINNER JOIN\r\n SHclnStaffAdminModel S ON SB.DoctorID = S.StrStaffID\r\nWHERE \r\n    SD.PatientID ='" + PatientID + "'\r\n    AND SB.CaseVisitID ='" + CaseVisitID + "'\r\n    AND SB.DoctorID = '" + doctorid + "'\r\n\t AND SB.IsDelete = 0\r\n    AND SB.FacilityID = '" + daocfac + "'\r\n\tAND S.FacilityID = '" + daocfac + "'\r\n  AND DI.FacilityID = '"+ daocfac + "'\r\n AND SD.FacilityID = '"+ daocfac +"' ";
 
-                var Table = BusinessClassCommon.DataTable(GetPrescription, Query);
+                var checkexpres = await GetPrescription.SHprsPrescription.FirstOrDefaultAsync(x => x.PatientID == PatientID && x.CaseVisitID == CaseVisitID && x.IsDelete == false);
 
-                BusinessClassPatientPrescription objbilling = new BusinessClassPatientPrescription(GetPrescription);
+                if (checkexpres != null)
+                {
 
-                string facilityTemplate = Table.Rows[0]["Template"].ToString();
 
-                return File(objbilling.PrintBillDetails(Table, facilityTemplate), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Patient Prescription" + TempData["BillID"] + ".docx");
+                    String Query = "SELECT \r\n    SD.FullName AS PatientName,\r\n    CONVERT(varchar(10), SB.PrescriptionDate, 101) AS Date,\r\n    DI.ModelName AS MedicineName,\r\n    SB.Instructions As [Procedure],\r\n    SB.FillDate AS FollowUpDate,\r\n    SD.Age,\r\n    SD.Gender,\r\n\tDI.Dosage,\r\n    SB.Comments AS Complaint,\r\n    SB.Morningunit,\r\n    SB.Eveningunit,\r\n    SB.Afternoonunit,\r\n\tCA.ClinicName As FacilityName,\r\n\tCA.ClinicAddress As FacilityAddress,\r\n    SB.Nightunit,\r\n\tS.StrFullName As DoctorName,\r\n\tS.StrAddress2 As Suffix,\r\n\tSb.Result As Instruction ,\r\n\tsb.EndDate AS NoOfDays,\r\n    SB.RouteAdmin AS [When],\r\n    CA.Template \r\nFROM \r\n    SHPatientRegistration SD\r\nINNER JOIN \r\n    SHprsPrescription SB ON SD.PatientID = SB.PatientID\r\nINNER JOIN\r\n    SHstkDrugInventory DI ON SB.DrugID = DI.DrugId\r\nINNER JOIN\r\n    SHclnClinicAdmin CA ON SB.FacilityID = CA.FacilityID \r\nINNER JOIN\r\n SHclnStaffAdminModel S ON SB.DoctorID = S.StrStaffID\r\nWHERE \r\n    SD.PatientID ='" + PatientID + "'\r\n    AND SB.CaseVisitID ='" + CaseVisitID + "'\r\n    AND SB.DoctorID = '" + doctorid + "'\r\n\t AND SB.IsDelete = 0\r\n    AND SB.FacilityID = '" + daocfac + "'\r\n\tAND S.FacilityID = '" + daocfac + "'\r\n  AND DI.FacilityID = '" + daocfac + "'\r\n AND SD.FacilityID = '" + daocfac + "' ";
+
+                    var Table = BusinessClassCommon.DataTable(GetPrescription, Query);
+
+                    BusinessClassPatientPrescription objbilling = new BusinessClassPatientPrescription(GetPrescription);
+
+                    string facilityTemplate = Table.Rows[0]["Template"].ToString();
+
+                    return File(objbilling.PrintBillDetails(Table, facilityTemplate), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Patient Prescription" + TempData["BillID"] + ".docx");
+                }
+
+                else
+                {
+                    ViewBag.ErrorMessage = "No Data For this Patient";
+                    Model.Items = await GetDistinctCaseVisitID(pPres.PatientID) ?? new List<PatientEPrescriptionModel>();
+
+                    var prescriptionTable = prescription.GetPrescriptionTable(pPres.PatientID, CaseVisitID, daocfac);
+
+                    // Map to PrescriptionViewModel
+                    Model.Viewprescription = prescriptionTable.Select(p => new PrescriptionViewModel
+                    {
+                        PatientID = p.PatientID,
+                        CaseVisitID = p.CaseVisitID,
+                        OrderID = p.OrderID,
+                        DrugID = p.DrugID,
+                        DrugName = p.DrugName,
+                        Morningunit = p.Morningunit,
+                        Afternoonunit = p.Afternoonunit,
+                        Eveningunit = p.Eveningunit,
+                        Nightunit = p.Nightunit,
+                        RouteAdmin = p.RouteAdmin
+                    }).ToList();
+
+                    ViewBag.SelectedPatientID = PatientID;
+                    Model.SelectedItemId = CaseVisitID;
+                    return View("PatientEPrescription", Model);
+                }
             }
 
             if (buttonType == "Get")
