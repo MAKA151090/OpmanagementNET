@@ -15,6 +15,7 @@ namespace HealthCare.Models
         private String strlastUpdatedUser;
         private string strlastUpdatedMachine;
         private bool strIsDelete;
+        private String facilityID;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
@@ -24,5 +25,6 @@ namespace HealthCare.Models
         public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
         public bool StrIsDelete { get => strIsDelete; set => strIsDelete = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

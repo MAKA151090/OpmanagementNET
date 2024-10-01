@@ -57,8 +57,8 @@ namespace HealthCare.Controllers
           //  var patient = await schedule.GetPatientObjectiveSubmit(patientID, facilityID);
 
             // Pass necessary view data
-            ViewData["bldgrpid"] = schedule.GetBloodGroup();
-            ViewData["Facid"] = schedule.GetFacilityid();
+            ViewData["bldgrpid"] = schedule.GetBloodGroup(facilityId);
+            ViewData["Facid"] = schedule.GetFacilityid(facilityId);
 
 
 
@@ -166,12 +166,19 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPatient(PatientRegistrationModel model)
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             var schedule = new BusinessClassRegistration(_healthcareContext);
             //  var patient = await schedule.GetPatientObjectiveSubmit(patientID, facilityID);
 
             // Pass necessary view data
-            ViewData["bldgrpid"] = schedule.GetBloodGroup();
-            ViewData["Facid"] = schedule.GetFacilityid();
+            ViewData["bldgrpid"] = schedule.GetBloodGroup(facilityId);
+            ViewData["Facid"] = schedule.GetFacilityid(facilityId);
 
             var getpatientdata = await _healthcareContext.SHPatientRegistration.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.PatientID == model.PatientID && x.IsDelete == false);
             if (getpatientdata != null)
@@ -192,9 +199,16 @@ namespace HealthCare.Controllers
 
         public IActionResult PatientRegister()
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassRegistration schedule = new BusinessClassRegistration(_healthcareContext);
-            ViewData["bldgrpid"] = schedule.GetBloodGroup();
-            ViewData["Facid"] = schedule.GetFacilityid();
+            ViewData["bldgrpid"] = schedule.GetBloodGroup(facilityId);
+            ViewData["Facid"] = schedule.GetFacilityid(facilityId);
 
             PatientRegistrationModel mod = new PatientRegistrationModel();
 

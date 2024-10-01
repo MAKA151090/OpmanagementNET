@@ -14,10 +14,11 @@ namespace HealthCare.Business
         }
 
         ///Dropdown for DrugInventory
-        public List<DrugCategoryModel> GetCategoryid()
+        public List<DrugCategoryModel> GetCategoryid(string facility)
         {
             var Categoryid = (
                     from pr in _healthcareContext.SHstkDrugCategory
+                    where pr.FacilityID == facility && pr.IsDelete == false
                     select new DrugCategoryModel
                     {
                         CategoryID = pr.CategoryID
@@ -28,10 +29,11 @@ namespace HealthCare.Business
         }
 
 
-        public List<DrugTypeModel> GetDrugTypeid()
+        public List<DrugTypeModel> GetDrugTypeid(string facility)
         {
             var DrugTypeid = (
                     from pr in _healthcareContext.SHstkDrugType
+                    where pr.FacilityID == facility && pr.IsDelete == false
                     select new DrugTypeModel
                     {
                         TypeID = pr.TypeID
@@ -40,10 +42,11 @@ namespace HealthCare.Business
             return DrugTypeid;
         }
 
-        public List<DrugGroupModel> GetDurgGroup()
+        public List<DrugGroupModel> GetDurgGroup(string facility)
         {
             var DurgGroup = (
                     from pr in _healthcareContext.SHstkDrugGroup
+                    where pr.FacilityID == facility && pr.IsDelete == false
                     select new DrugGroupModel
                     {
                         GroupTypeID = pr.GroupTypeID ,
@@ -56,9 +59,10 @@ namespace HealthCare.Business
         }
 
 
-        public List<ClinicAdminModel> GetFacility()
+        public List<ClinicAdminModel> GetFacility(string facility)
         {
             var Getfac = (from f in _healthcareContext.SHclnClinicAdmin
+                          where f.FacilityID == facility && f.StrIsDelete == false
                           select new ClinicAdminModel
                           {
                               FacilityID = f.FacilityID,
@@ -69,9 +73,10 @@ namespace HealthCare.Business
             return Getfac;
         }
 
-        public List<DrugInventoryModel> Getdruginv()
+        public List<DrugInventoryModel> Getdruginv(string facility)
         {
             var getDruginv = (from f in _healthcareContext.SHstkDrugInventory
+                              where f.FacilityID == facility && f.IsDelete == false
                           select new DrugInventoryModel
                           {
                              DrugId= f.DrugId,

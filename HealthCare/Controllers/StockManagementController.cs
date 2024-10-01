@@ -38,9 +38,17 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> DrugCategory(DrugCategoryModel pCategory,string buttonType)
         {
-           if(buttonType == "Delete")
+
+
+            if (TempData["FacilityID"] != null)
             {
-                var DrugDelete = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x => x.CategoryID == pCategory.CategoryID && x.IsDelete == false);
+                pCategory.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            if (buttonType == "Delete")
+            {
+                var DrugDelete = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x => x.CategoryID == pCategory.CategoryID && x.IsDelete == false && x.FacilityID == pCategory.FacilityID);
                 if (DrugDelete != null)
                 {
                     DrugDelete.IsDelete = true;
@@ -57,7 +65,7 @@ namespace HealthCare.Controllers
                     return View("DrugCategoryMaster", dlt);
                 }
             }
-            var existingCat = await GetDrugData.SHstkDrugCategory.FindAsync(pCategory.CategoryID);
+            var existingCat = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x=>x.CategoryID == pCategory.CategoryID && x.IsDelete == false && x.FacilityID == pCategory.FacilityID);
             if (existingCat != null)
             {
 
@@ -67,13 +75,16 @@ namespace HealthCare.Controllers
                 existingCat.lastUpdatedDate = DateTime.Now.ToString();
                 existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingCat.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingCat.FacilityID = pCategory.FacilityID;
                 GetDrugData.Entry(existingCat).State = EntityState.Modified;
+
             }
             else
             {
                 pCategory.lastUpdatedDate = DateTime.Now.ToString();
                 pCategory.lastUpdatedUser = User.Claims.First().Value.ToString();
                 pCategory.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+               
                 GetDrugData.SHstkDrugCategory.Add(pCategory);
 
             }
@@ -91,7 +102,13 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDrugCat (DrugCategoryModel model)
         {
-            var getdrugcat = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x => x.CategoryID == model.CategoryID && x.IsDelete ==false);
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            var getdrugcat = await GetDrugData.SHstkDrugCategory.FirstOrDefaultAsync(x => x.CategoryID == model.CategoryID && x.IsDelete ==false && x.FacilityID == model.FacilityID);
             if(getdrugcat != null)
             {
                 return View("DrugCategoryMaster", getdrugcat);
@@ -116,8 +133,13 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> DrugGroup (DrugGroupModel model,string buttonType) 
         {
-            
-           
+
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             if (string.IsNullOrEmpty(model.GroupTypeName))
             {
                 ViewBag.Message = "Group Type Name is required";
@@ -126,7 +148,7 @@ namespace HealthCare.Controllers
 
             if(buttonType == "Delete")
             {
-                var GroupDelete = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x => x.GroupTypeID == model.GroupTypeID && x.IsDelete == false);
+                var GroupDelete = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x => x.GroupTypeID == model.GroupTypeID && x.IsDelete == false && x.FacilityID == model.FacilityID);
                 if (GroupDelete != null)
                 {
                     GroupDelete.IsDelete = true;
@@ -144,7 +166,7 @@ namespace HealthCare.Controllers
                 }
             }
 
-            var existingGrp = await GetDrugData.SHstkDrugGroup.FindAsync(model.GroupTypeName,model.GroupTypeID);
+            var existingGrp = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x=>x.GroupTypeName == model.GroupTypeName && x.GroupTypeID == model.GroupTypeID && x.IsDelete == false && x.FacilityID == model.FacilityID);
             if (existingGrp != null)
             {
                 existingGrp.GroupTypeID = model.GroupTypeID;
@@ -153,6 +175,7 @@ namespace HealthCare.Controllers
                 existingGrp.lastUpdatedDate = DateTime.Now.ToString();
                 existingGrp.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingGrp.LastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingGrp.FacilityID = model.FacilityID;
                 GetDrugData.Entry(existingGrp).State = EntityState.Modified;
 
             }
@@ -174,7 +197,13 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGroup (DrugGroupModel model)
         {
-            var getgroup = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x => x.GroupTypeID == model.GroupTypeID && x.IsDelete == false);
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            var getgroup = await GetDrugData.SHstkDrugGroup.FirstOrDefaultAsync(x => x.GroupTypeID == model.GroupTypeID && x.IsDelete == false && x.FacilityID == model.FacilityID);
             if(getgroup != null)
             {
                 return View("DrugGroupMaster", getgroup);
@@ -198,9 +227,17 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> DrugType(DrugTypeModel pType,string buttonType)
         {
-            if(buttonType == "Delete")
+
+
+            if (TempData["FacilityID"] != null)
             {
-                var TypeDelete = await GetDrugData.SHstkDrugType.FirstOrDefaultAsync(x => x.TypeID == pType.TypeID && x.IsDelete == false);
+                pType.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            if (buttonType == "Delete")
+            {
+                var TypeDelete = await GetDrugData.SHstkDrugType.FirstOrDefaultAsync(x => x.TypeID == pType.TypeID && x.IsDelete == false && x.FacilityID == pType.FacilityID);
                 if (TypeDelete != null)
                 {
                     TypeDelete.IsDelete = true;
@@ -217,7 +254,7 @@ namespace HealthCare.Controllers
                     return View("DrugTypeMaster", dlt);
                 }
             }
-            var existingType = await GetDrugData.SHstkDrugType.FindAsync(pType.TypeID);
+            var existingType = await GetDrugData.SHstkDrugType.FirstOrDefaultAsync(x=>x.TypeID == pType.TypeID && x.IsDelete == false && x.FacilityID == pType.FacilityID);
             if (existingType != null)
             {
 
@@ -227,6 +264,7 @@ namespace HealthCare.Controllers
                 existingType.lastUpdatedDate = DateTime.Now.ToString();
                 existingType.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingType.lastUpdatedmachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingType.FacilityID = pType.FacilityID;
                 GetDrugData.Entry(existingType).State = EntityState.Modified;
             }
             else
@@ -249,8 +287,14 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDrugtype(DrugTypeModel model)
         {
-           
-            var getDrug = await GetDrugData.SHstkDrugType.FirstOrDefaultAsync(x => x.TypeID == model.TypeID && x.IsDelete == false);
+
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            var getDrug = await GetDrugData.SHstkDrugType.FirstOrDefaultAsync(x => x.TypeID == model.TypeID && x.IsDelete == false && x.FacilityID == model.FacilityID);
             if (getDrug != null)
             {
                 return View("DrugTypeMaster", getDrug);
@@ -301,18 +345,32 @@ namespace HealthCare.Controllers
 
         public IActionResult DrugStockMaster()
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassStockManagement clinicAdm = new BusinessClassStockManagement(GetDrugData);
-            ViewData["getDruginv"] = clinicAdm.Getdruginv();
+            ViewData["getDruginv"] = clinicAdm.Getdruginv(facilityId);
 
             return View();
         }
 
         public async Task<IActionResult> DrugStock(DrugStockModel model)
         {
-            BusinessClassStockManagement clinicAdm = new BusinessClassStockManagement(GetDrugData);
-            ViewData["getDruginv"] = clinicAdm.Getdruginv();
 
-            var existingStk = await GetDrugData.SHstkDrugStock.FindAsync(model.IDNumber, model.DrugID);
+            if (TempData["FacilityID"] != null)
+            {
+                model.FacilityID = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassStockManagement clinicAdm = new BusinessClassStockManagement(GetDrugData);
+            ViewData["getDruginv"] = clinicAdm.Getdruginv(model.FacilityID);
+
+            var existingStk = await GetDrugData.SHstkDrugStock.FindAsync(model.IDNumber, model.DrugID ,model.FacilityID);
                 if (existingStk != null)
             {
                 existingStk.IDNumber = model.IDNumber;
@@ -322,6 +380,7 @@ namespace HealthCare.Controllers
                 existingStk.NumberOfStock  = model.NumberOfStock;
                 existingStk.lastUpdatedDate = DateTime.Now.ToString();
                 existingStk.lastUpdatedUser = User.Claims.First().Value.ToString();
+                existingStk.FacilityID = model.FacilityID;
                 existingStk.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
 
@@ -342,12 +401,18 @@ namespace HealthCare.Controllers
     
        public IActionResult DrugInventory()
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
 
             BusinessClassStockManagement clinicAdmin = new BusinessClassStockManagement(GetDrugData);
-            ViewData["Categoryid"] = clinicAdmin.GetCategoryid();
-            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid();
-            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
-            ViewData["Getfac"] = clinicAdmin.GetFacility();
+            ViewData["Categoryid"] = clinicAdmin.GetCategoryid(facilityId);
+            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid(facilityId);
+            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup(facilityId);
+            ViewData["Getfac"] = clinicAdmin.GetFacility(facilityId);
 
             DrugInventoryModel DrugI = new DrugInventoryModel();
 
@@ -383,10 +448,10 @@ namespace HealthCare.Controllers
 
 
             BusinessClassStockManagement clinicAdm = new BusinessClassStockManagement(GetDrugData);
-            ViewData["Categoryid"] = clinicAdm.GetCategoryid();
-            ViewData["DrugTypeid"] = clinicAdm.GetDrugTypeid();
-            ViewData["DurgGroup"] = clinicAdm.GetDurgGroup();
-            ViewData["Getfac"] = clinicAdm.GetFacility();
+            ViewData["Categoryid"] = clinicAdm.GetCategoryid(facilityId);
+            ViewData["DrugTypeid"] = clinicAdm.GetDrugTypeid(facilityId);
+            ViewData["DurgGroup"] = clinicAdm.GetDurgGroup(facilityId);
+            ViewData["Getfac"] = clinicAdm.GetFacility(facilityId);
 
             if (buttonType == "Delete")
             {
@@ -450,10 +515,10 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
 
             BusinessClassStockManagement clinicAdmin = new BusinessClassStockManagement(GetDrugData);
-            ViewData["Categoryid"] = clinicAdmin.GetCategoryid();
-            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid();
-            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
-            ViewData["Getfac"] = clinicAdmin.GetFacility();
+            ViewData["Categoryid"] = clinicAdmin.GetCategoryid(facilityId);
+            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid(facilityId);
+            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup(facilityId);
+            ViewData["Getfac"] = clinicAdmin.GetFacility(facilityId);
 
             DrugInventoryModel DrugI = new DrugInventoryModel();
 
@@ -465,11 +530,18 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult>GetInvent (DrugInventoryModel model)
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassStockManagement clinicAdmin = new BusinessClassStockManagement(GetDrugData);
-            ViewData["Categoryid"] = clinicAdmin.GetCategoryid();
-            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid();
-            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup();
-            ViewData["Getfac"] = clinicAdmin.GetFacility();
+            ViewData["Categoryid"] = clinicAdmin.GetCategoryid(facilityId);
+            ViewData["DrugTypeid"] = clinicAdmin.GetDrugTypeid(facilityId);
+            ViewData["DurgGroup"] = clinicAdmin.GetDurgGroup(facilityId);
+            ViewData["Getfac"] = clinicAdmin.GetFacility(facilityId);
 
             var getinvent = await GetDrugData.SHstkDrugInventory.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.DrugId == model.DrugId && x.IsDelete==false);
             if (getinvent != null) 

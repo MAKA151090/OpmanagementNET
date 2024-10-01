@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Vml;
 
 namespace HealthCare.Models
 {
@@ -12,6 +13,7 @@ namespace HealthCare.Models
         private String strLastUpdatedUser;
         private string strLastUpdatedmachine;
         private bool strIsDelete;
+        private String facilityID;
 
         public string TypeID { get => typeID; set => typeID = value; }
         public string? TypeName { get => typeName; set => typeName = value; }
@@ -19,5 +21,6 @@ namespace HealthCare.Models
         public string? lastUpdatedUser { get => strLastUpdatedUser; set => strLastUpdatedUser = value; }
         public string? lastUpdatedmachine { get => strLastUpdatedmachine; set => strLastUpdatedmachine = value; }
         public bool IsDelete { get => strIsDelete; set => strIsDelete = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

@@ -12,6 +12,7 @@
         private String strlastUpdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
+        private string facilityID;
 
         public string RollID { get => strRollID; set => strRollID = value; }
         public string ScreenID { get => strScreenID; set => strScreenID = value; }
@@ -20,5 +21,6 @@
         public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
         public string Access { get => strAccess; set => strAccess = value; }
         public string Authorized { get => strAuthorized; set => strAuthorized = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }
