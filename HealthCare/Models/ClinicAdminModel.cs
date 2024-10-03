@@ -26,19 +26,44 @@ public class ClinicAdminModel
 
 
 
-
+    [MaxLength(30)]
     public string? ClinicName { get => strClinicName; set => strClinicName = value; }
+
+    [MaxLength(100)]
     public string? ClinicAddress { get => strClinicAddress; set => strClinicAddress = value; }
+
+    [MaxLength(30)]
     public string? City { get => strCity; set => strCity = value; }
+
+    [MaxLength(30)]
     public string? State { get => strState; set => strState = value; }
+
+    [MaxLength(30)]
     public string? PostalCode { get => strPostalCode; set => strPostalCode = value; }
+
+    [MaxLength(30)]
     public string? ClinicPhoneNumber { get => strClinicPhoneNumber; set => strClinicPhoneNumber = value; }
+
+    [MaxLength(30)]
     public string? ClinicEmailAddress { get => strClinicEmailAddress; set => strClinicEmailAddress = value; }
+
+    [MaxLength(30)]
     public string? FromHour { get => strFromHour; set => strFromHour = value; }
+
+    [MaxLength(30)]
     public string? ToHour { get => strToHour; set => strToHour = value; }
+
+    [MaxLength(30)]
     public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+
+    [MaxLength(30)]
     public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
+
+    [MaxLength(100)]
     public string FacilityID { get => facilityID; set => facilityID = value; }
+
     public bool StrIsDelete { get => strIsDelete; set => strIsDelete = value; }
+
+    [MaxLength(30)]
     public string? Template { get => template; set => template = value; }
 }

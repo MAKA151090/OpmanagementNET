@@ -14,7 +14,7 @@ namespace HealthCare.Controllers
             _billingsoftware = billingsoftware;
         }
 
-        [HttpPost]
+      /*  [HttpPost]
 
         public async Task<IActionResult> AddCategory(CategoryMasterModel model , string buttonType)
         {
@@ -46,9 +46,9 @@ namespace HealthCare.Controllers
 
             return View("CategoryMasterModel");
         }
+*/
 
-
-        [HttpPost]
+     /*   [HttpPost]
 
         public async Task<IActionResult> AddProduct(ProductMatserModel model)
         {
@@ -83,9 +83,9 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
 
             return View("ProductMasterModel" , model);
-        }
+        }*/
 
-        [HttpPost]
+       /* [HttpPost]
 
         public async Task<IActionResult> CustomerBill(BilingSysytemModel model)
         {
@@ -128,11 +128,11 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
 
             return View("CustomerBilling" , model);
-        }
+        }*/
 
 
 
-        [HttpPost]
+      /*  [HttpPost]
         public async Task<IActionResult> AddCustomer(CustomerMasterModel model)
         {
             var existingCustomer = await _billingsoftware.SHCustomerMaster.FindAsync(model.CustomerID);
@@ -166,8 +166,9 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             
             return View("CustomerMaster" , model);
-        }
+        }*/
 
+/*
         [HttpPost]
         public async Task<IActionResult> AddDiscountCategory(DiscountCategoryMasterModel model)
         {
@@ -198,9 +199,9 @@ namespace HealthCare.Controllers
 
             return View("DiscountCategoryMaster", model);
 
-        }
+        }*/
 
-        [HttpPost]
+        /*[HttpPost]
 
         public async Task<IActionResult> AddGST(GSTMasterModel model)
         {
@@ -232,10 +233,10 @@ namespace HealthCare.Controllers
             return View("GSTMasterModel", model);
 
 
-        }
+        }*/
 
 
-
+/*
         [HttpPost]
 
         public async Task<IActionResult> AddVoucherDetails(VoucherCustomerDetailModel model)
@@ -266,9 +267,9 @@ namespace HealthCare.Controllers
 
             return View("VoucherCustomerDetails", model);
 
-        }
+        }*/
 
-        [HttpPost]
+      /*  [HttpPost]
 
         public async Task<IActionResult> AddNetDiscount(NetDicsountMasterModel model)
         {
@@ -397,7 +398,7 @@ namespace HealthCare.Controllers
             return View("RackMaster", model);
 
         }
-
+*/
 
         public IActionResult CategoryMasterModel()
         {

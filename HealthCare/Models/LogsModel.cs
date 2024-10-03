@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealthCare.Models
 {
@@ -13,11 +14,17 @@ namespace HealthCare.Models
         private int logID;
         private int? att1;
 
+        [MaxLength(30)]
         public String? LogMessage { get => logMessage; set => logMessage = value; }
+        [MaxLength(30)]
         public String? MachineName { get => machineName; set => machineName = value; }
+        [MaxLength(30)]
         public String? LogDate { get => logDate; set => logDate = value; }
+        [MaxLength(30)]
         public String? UserName { get => userName; set => userName = value; }
+        [MaxLength(30)]
         public String? LogScreens { get => logScreen; set => logScreen = value; }
+        [MaxLength(30)]
         public String? LogType { get => logType; set => logType = value; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

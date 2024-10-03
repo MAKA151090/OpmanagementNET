@@ -801,18 +801,14 @@
                 </a>
                 <ul class="menu-sub">
 
-                        @if (rollAccessList != null)
-                                        {
-                                        @if (rollAccessList.Contains("PatientRegister"))
-                                            {
                                                 <li class='menu-item@(currentPage == "/PatientRegistration/PatientRegister" ? " active" : "")'>
                                                     <a asp-controller="PatientRegistration" asp-action="PatientRegister" class="menu-link">
 
                                                         <div>PatientRegister</div>
                                                     </a>
                                                 </li>
-                                            }
-                                        }
+                                            
+                                        
                                     </ul>
                 <ul class="menu-sub">
                         @if (rollAccessList != null)

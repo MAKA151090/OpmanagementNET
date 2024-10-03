@@ -14,10 +14,20 @@ namespace HealthCare.Business
         private String strlastUpdatedDate;
         private String strlastUpdatedUser;
 
+
+        [MaxLength(100)]
         public string PatientID { get => patientID; set => patientID = value; }
+
+        [MaxLength(100)]
         public string VisitID { get => visitID; set => visitID = value; }
+
+        [MaxLength(30)]
         public string StrlastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
+
+        [MaxLength(30)]
         public string StrlastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+
+        [MaxLength(100)]
         public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 }

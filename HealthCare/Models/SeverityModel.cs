@@ -1,4 +1,6 @@
-﻿namespace HealthCare.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HealthCare.Models
 {
     public class SeverityModel
     {
@@ -12,11 +14,23 @@
         private String lastupdatedDate;
         private String lastUpdatedMachine;
 
+
+        [MaxLength(100)]
         public string SeverityID { get => severityID; set => severityID = value; }
+
+        [MaxLength(30)]
         public string? SeverityName { get => severityName; set => severityName = value; }
+
+        [MaxLength(30)]
         public string? Active { get => active; set => active = value; }
+
+        [MaxLength(30)]
         public string? LastupdatedUser { get => lastupdatedUser; set => lastupdatedUser = value; }
+
+        [MaxLength(30)]
         public string? LastupdatedDate { get => lastupdatedDate; set => lastupdatedDate = value; }
+
+        [MaxLength(30)]
         public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
     }
 }

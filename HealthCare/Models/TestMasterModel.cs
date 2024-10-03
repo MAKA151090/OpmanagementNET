@@ -1,4 +1,6 @@
-﻿namespace HealthCare.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HealthCare.Models
 {
     public class TestMasterModel
     {
@@ -12,12 +14,26 @@
         private String LastupdatedDate;
         private String LastUpdatedMachine;
 
+
+        [MaxLength(100)]
         public string TestID { get => testID; set => testID = value; }
+
+        [MaxLength(30)]
         public string? TestName { get => testName; set => testName = value; }
+
+        [MaxLength(30)]
         public string? Cost { get => cost; set => cost = value; }
+
+        [MaxLength(30)]
         public string? Range { get => range; set => range = value; }
+
+        [MaxLength(30)]
         public string? lastUpdatedUser { get => LastupdatedUser; set => LastupdatedUser = value; }
+
+        [MaxLength(30)]
         public string? lastUpdatedDate { get => LastupdatedDate; set => LastupdatedDate = value; }
+
+        [MaxLength(30)]
         public string? lastUpdatedMachine { get => LastUpdatedMachine; set => LastUpdatedMachine = value; }
     }
 }

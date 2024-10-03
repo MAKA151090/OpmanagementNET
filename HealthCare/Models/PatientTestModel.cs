@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace HealthCare.Models
 {
     public class PatientTestModel
@@ -25,23 +27,53 @@ namespace HealthCare.Models
         private String LastUpdatedMachine;
 
 
+        [MaxLength(100)]
         public string PatientID { get => patientID; set => patientID = value; }
-        public string TestID { get => testID; set => testID = value; }        
 
+        [MaxLength(100)]
+        public string TestID { get => testID; set => testID = value; }
+
+        [MaxLength(100)]
         public string VisitcaseID1 { get => VisitcaseID; set => VisitcaseID = value; }
+
+        [MaxLength(30)]
         public string? TestDateTime { get => testDateTime; set => testDateTime = value; }
+
+        [MaxLength(30)]
         public string? TestResult { get => testResult; set => testResult = value; }
+
+        [MaxLength(30)]
         public string? TsampleClt { get => tsampleClt; set => tsampleClt = value; }
+
+        [MaxLength(30)]
         public string? TsampleCltDateTime { get => tsampleCltDateTime; set => tsampleCltDateTime = value; }
+
+        [MaxLength(30)]
         public string? ExptRsltDateTime { get => exptRsltDateTime; set => exptRsltDateTime = value; }
+
+        [MaxLength(30)]
         public string? ResultPublish { get => resultPublish; set => resultPublish = value; }
+
+        [MaxLength(30)]
         public string? ReferDocID { get => referDocID; set => referDocID = value; }
+
+        [MaxLength(30)]
         public string? ReferDate { get => referDate; set => referDate = value; }
+
+        [MaxLength(30)]
         public string? ResultDate { get => resultDate; set => resultDate = value; }
+
+        [MaxLength(30)]
         public string? lastUpdatedUser { get => LastupdatedUser; set => LastupdatedUser = value; }
+
+        [MaxLength(30)]
         public string? lastUpdatedDate { get => LastupdatedDate; set => LastupdatedDate = value; }
+
+        [MaxLength(30)]
         public string? lastUpdatedMachine { get => LastUpdatedMachine; set => LastUpdatedMachine = value; }
 
+
+        [MaxLength(100)]
         public string FacilityID { get => facilityID; set => facilityID = value; }
     }
 

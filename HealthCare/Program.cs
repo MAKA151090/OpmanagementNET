@@ -3,6 +3,7 @@ using HealthCare.Business;
 using HealthCare.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSession();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddDbContext<HealthcareContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ClsPatientObjective")));
+//builder.Services.AddDbContext<HealthcareContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ClsPatientObjective")));
+
+builder.Services.AddDbContext<HealthcareContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("ClsPatientObjective"),
+    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("ClsPatientObjective"))));
 
 builder.Services.AddDbContext<HealthcareContext>(options =>
        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
