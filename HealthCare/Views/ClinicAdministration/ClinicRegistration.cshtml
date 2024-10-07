@@ -94,7 +94,7 @@
 
 
                 <div class="form-floating form-floating-outline mb-4">
-                    <input asp-for="ClinicName" class="form-control" placeholder="Clinic Name" value="@Model.ClinicName" required />
+                    <input asp-for="ClinicName" class="form-control" placeholder="Clinic Name" value="@Model.ClinicName" oninput="validateInput(this)" required />
                     <label asp-for="ClinicName" class="control-label">Clinic Name</label>
 
                     <span asp-validation-for="ClinicName" class="text-danger"></span>
@@ -149,14 +149,14 @@
                             <span asp-validation-for="State" class="text-danger"></span>
                         </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="PostalCode" class="form-control" placeholder="PostalCode" value="@Model.PostalCode" pattern="^\d{6}$" title="PostalCode Number should be in correct format" />
+                            <input asp-for="PostalCode" class="form-control" placeholder="PostalCode" id="Pin" value="@Model.PostalCode" pattern="^\d{6}$" title="PostalCode Number should be in correct format" />
                             <label asp-for="PostalCode" class="control-label">Postal Code</label>
 
                             <span asp-validation-for="PostalCode" class="text-danger"></span>
 
                         </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="ClinicPhoneNumber" class="form-control" placeholder="Clinic PhoneNumber" value="@Model.ClinicPhoneNumber" pattern="^\d{10}$" title="Mobile Number should be exactly 10 digits" />
+                            <input asp-for="ClinicPhoneNumber" class="form-control" placeholder="Clinic PhoneNumber" value="@Model.ClinicPhoneNumber" id="PhoneNumber" pattern="^\d{10}$" title="Mobile Number should be exactly 10 digits" />
                             <label asp-for="ClinicPhoneNumber" class="control-label">Clinic PhoneNumber</label>
 
                             <span asp-validation-for="ClinicPhoneNumber" class="text-danger"></span>
@@ -173,10 +173,10 @@
                     <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="ClinicEmailAddress" class="form-control" placeholder="Clinic EmailAddress" value="@Model.ClinicEmailAddress" />
+                            <input asp-for="ClinicEmailAddress" class="form-control" id="EmailId" type="email" placeholder="Clinic EmailAddress" value="@Model.ClinicEmailAddress" />
                             <label asp-for="ClinicEmailAddress" class="control-label">Clinic EmailAddress</label>
 
-                            <span asp-validation-for="ClinicEmailAddress" class="text-danger"></span>
+                            <span asp-validation-for="ClinicEmailAddress" id="emailError" class="text-danger">Invalid email format</span>
 
                         </div>
                         <div class="form-floating form-floating-outline mb-4">
@@ -226,3 +226,95 @@
         }
 
     </form>
+
+
+    <script>
+        function validateInput(input) {
+            // Store the cursor position
+            const cursorPos = input.selectionStart;
+
+            // Replace invalid characters
+            input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+
+            // Restore cursor position
+            input.setSelectionRange(cursorPos, cursorPos);
+        }
+    </script>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pincodeInput = document.getElementById('Pin');
+
+            pincodeInput.addEventListener('input', function (e) {
+                // Remove non-numeric characters
+                this.value = this.value.replace(/\D/g, '');
+            });
+
+            pincodeInput.addEventListener('keydown', function (e) {
+                // Allow backspace, delete, tab, escape, enter, and arrow keys
+                if ([46, 8, 9, 27, 13, 37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
+                    return;
+                }
+                // Prevent typing if the input already has 6 characters
+                if (this.value.length >= 6) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const phoneInput = document.getElementById('PhoneNumber');
+
+            phoneInput.addEventListener('input', function (e) {
+                // Remove non-numeric characters
+                this.value = this.value.replace(/\D/g, '');
+            });
+
+            phoneInput.addEventListener('keydown', function (e) {
+                // Allow backspace, delete, tab, escape, enter, and arrow keys
+                if ([46, 8, 9, 27, 13, 37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
+                    return;
+                }
+                // Prevent typing if the input already has 10 characters
+                if (this.value.length >= 10) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+
+        const emailInput = document.getElementById('EmailId');
+        const emailError = document.getElementById('emailError');
+
+        window.addEventListener('DOMContentLoaded', function () {
+            emailError.style.display = 'none';
+        });
+
+        // Validate email format when typing
+        emailInput.addEventListener('input', function () {
+            // Check if the email is valid using the built-in checkValidity function
+            if (!emailInput.checkValidity()) {
+                emailError.style.display = 'inline'; // Show error message
+            } else {
+                emailError.style.display = 'none'; // Hide error message
+            }
+        });
+
+        // Prevent form submission if the email is invalid
+        document.getElementById('ClinicAdmin').addEventListener('submit', function (e) {
+            if (!emailInput.checkValidity()) {
+                emailError.style.display = 'inline'; // Show error message
+                e.preventDefault(); // Prevent form submission
+            }
+        });
+
+
+    </script>

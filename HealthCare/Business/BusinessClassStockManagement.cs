@@ -21,7 +21,8 @@ namespace HealthCare.Business
                     where pr.FacilityID == facility && pr.IsDelete == false
                     select new DrugCategoryModel
                     {
-                        CategoryID = pr.CategoryID
+                        CategoryID = pr.CategoryID,
+                        CategoryName = pr.CategoryName
                     }
 
                 ).ToList();
@@ -36,7 +37,8 @@ namespace HealthCare.Business
                     where pr.FacilityID == facility && pr.IsDelete == false
                     select new DrugTypeModel
                     {
-                        TypeID = pr.TypeID
+                        TypeID = pr.TypeID,
+                        TypeName = pr.TypeName
                     }
                 ).ToList();
             return DrugTypeid;

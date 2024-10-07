@@ -123,37 +123,37 @@
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="FirstName" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" value="@Model.FirstName" placeholder="First Name" />
+                        <input asp-for="FirstName" class="form-control" type="text" oninput="validateInput(this)" value="@Model.FirstName" placeholder="First Name" />
                         <label asp-for="FirstName" class="control-label">First Name</label>
 
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="MidName" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" value="@Model.MidName" placeholder="Mid Name" />
+                        <input asp-for="MidName" class="form-control" type="text" oninput="validateInput(this)" value="@Model.MidName" placeholder="Mid Name" />
                         <label asp-for="MidName" class="control-label">Mid Name</label>
 
                         <span asp-validation-for="MidName" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="LastName" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" value="@Model.LastName" placeholder="Last Name" />
+                        <input asp-for="LastName" class="form-control" type="text" oninput="validateInput(this)" value="@Model.LastName" placeholder="Last Name" />
                         <label asp-for="LastName" class="control-label">Last Name</label>
 
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="FullName" class="form-control" type="text" pattern="[A-Za-z\s]+" title="Please enter only letters" value="@Model.FullName" placeholder="Full Name" pattern="^[A-Za-z\s]+$" title="Only letters and spaces are allowed." />
+                        <input asp-for="FullName" class="form-control" type="text" oninput="validateInput(this)" value="@Model.FullName" placeholder="Full Name" pattern="^[A-Za-z\s]+$" title="Only letters and spaces are allowed." />
                         <label asp-for="FullName" class="control-label">Full Name</label>
 
                         <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Initial" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" value="@Model.Initial" placeholder="Initial" />
+                        <input asp-for="Initial" class="form-control" type="text" oninput="validateInput(this)" value="@Model.Initial" placeholder="Initial" />
                         <label asp-for="Initial" class="control-label"></label>
 
                         <span asp-validation-for="Initial" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Prefix" class="form-control" type="text" pattern="[A-Za-z]+" title="Please enter only letters" value="@Model.Prefix" placeholder="Prefix" />
+                        <input asp-for="Prefix" class="form-control" type="text" oninput="validateInput(this)" value="@Model.Prefix" placeholder="Prefix" />
                         <label asp-for="Prefix" class="control-label"></label>
 
                         <span asp-validation-for="Prefix" class="text-danger"></span>
@@ -166,7 +166,7 @@
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Age" class="form-control" value="@Model.Age" placeholder="Age" />
+                        <input asp-for="Age" class="form-control" value="@Model.Age" id="age" placeholder="Age" />
                         <label asp-for="Age" class="control-label"></label>
 
                         <span asp-validation-for="Age" class="text-danger"></span>
@@ -180,7 +180,7 @@
             <div class="card">
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="PhoneNumber" class="form-control" type="text" pattern="\d{10}" title="Please enter exactly 10 digits" value="@Model.PhoneNumber" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." />
+                        <input asp-for="PhoneNumber" class="form-control" id="PhoneNumber" type="text" value="@Model.PhoneNumber" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." />
                         <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
@@ -283,13 +283,13 @@
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Pin" class="form-control" type="text" pattern="\d{6}" title="Please enter exactly 6 digits" value="@Model.Pin" placeholder="Pin Number" />
+                        <input asp-for="Pin" class="form-control" type="text" id="Pin" pattern="\d{6}" title="Please enter exactly 6 digits" value="@Model.Pin" placeholder="Pin Number" />
                         <label asp-for="Pin" class="control-label">Pin Number</label>
 
                         <span asp-validation-for="Pin" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="IDPrfName" class="form-control" value="@Model.IDPrfName" placeholder="IDProof Name" />
+                        <input asp-for="IDPrfName" class="form-control" value="@Model.IDPrfName" oninput="validateInput(this)" placeholder="IDProof Name" />
                         <label asp-for="IDPrfName" class="control-label">IDProof Name</label>
                         <span asp-validation-for="IDPrfName" class="text-danger"></span>
                     </div>
@@ -300,19 +300,19 @@
                         <span asp-validation-for="IDPrfNumber" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="CnctPrsnName" class="form-control"  value="@Model.CnctPrsnName" placeholder="Contact Person Name" />
+                        <input asp-for="CnctPrsnName" class="form-control" value="@Model.CnctPrsnName" oninput="validateInput(this)" placeholder="Contact Person Name" />
                         <label asp-for="CnctPrsnName" class="control-label">Contact Person Name</label>
 
                         <span asp-validation-for="CnctPrsnName" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Rlnpatient" class="form-control" value="@Model.Rlnpatient" placeholder="Patient Relation" />
+                        <input asp-for="Rlnpatient" class="form-control" value="@Model.Rlnpatient" oninput="validateInput(this)"  placeholder="Patient Relation" />
                         <label asp-for="Rlnpatient" class="control-label">Patient Relation</label>
 
                         <span asp-validation-for="Rlnpatient" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="EmgcyCntNum" class="form-control" type="text" pattern="\d{10}" title="Please enter exactly 10 digits" value="@Model.EmgcyCntNum" placeholder="Emergency Contact Number" pattern="^\d{10}$" title="Please enter exactly 10 digits." />
+                        <input asp-for="EmgcyCntNum" class="form-control" type="text" id="PhoneNumber1" value="@Model.EmgcyCntNum" pattern="\d{10}" maxlength="10" placeholder="Emergency Contact Number" />
                         <label asp-for="EmgcyCntNum" class="control-label">Emergency Contact Number</label>
 
                         <span asp-validation-for="EmgcyCntNum" class="text-danger"></span>
@@ -352,6 +352,106 @@
 
 
 
+<script>
+    function validateInput(input) {
+        // Store the cursor position
+        const cursorPos = input.selectionStart;
+
+        // Replace invalid characters
+        input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+
+        // Restore cursor position
+        input.setSelectionRange(cursorPos, cursorPos);
+    }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const phoneInput = document.getElementById('PhoneNumber');
+
+        phoneInput.addEventListener('input', function (e) {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        phoneInput.addEventListener('keydown', function (e) {
+            // Allow backspace, delete, tab, escape, enter, and arrow keys
+            if ([46, 8, 9, 27, 13, 37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
+                return;
+            }
+            // Prevent typing if the input already has 10 characters
+            if (this.value.length >= 10) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const phoneInput = document.getElementById('PhoneNumber1');
+
+        phoneInput.addEventListener('input', function (e) {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        phoneInput.addEventListener('keydown', function (e) {
+            // Allow backspace, delete, tab, escape, enter, and arrow keys
+            if ([46, 8, 9, 27, 13, 37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
+                return;
+            }
+            // Prevent typing if the input already has 10 characters
+            if (this.value.length >= 10) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
 
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pincodeInput = document.getElementById('Pin');
+
+        pincodeInput.addEventListener('input', function (e) {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        pincodeInput.addEventListener('keydown', function (e) {
+            // Allow backspace, delete, tab, escape, enter, and arrow keys
+            if ([46, 8, 9, 27, 13, 37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
+                return;
+            }
+            // Prevent typing if the input already has 6 characters
+            if (this.value.length >= 6) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const agecodeInput = document.getElementById('age');
+
+        agecodeInput.addEventListener('input', function (e) {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        agecodeInput.addEventListener('keydown', function (e) {
+            // Allow backspace, delete, tab, escape, enter, and arrow keys
+            if ([46, 8, 9, 27, 13, 37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
+                return;
+            }
+            // Prevent typing if the input already has 6 characters
+            if (this.value.length >= 3) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>

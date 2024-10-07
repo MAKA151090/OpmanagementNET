@@ -107,7 +107,7 @@
                                 .Select(m => new SelectListItem
             {
                 Value = m.CategoryID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.CategoryID}"
+                Text = $"{m.CategoryID}-{m.CategoryName}"
             });
                             }
 
@@ -123,7 +123,7 @@
                                 .Select(m => new SelectListItem
             {
                 Value = m.TypeID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.TypeID}"
+                Text = $"{m.TypeID}-{m.TypeName}"
             });
                             }
 
@@ -212,7 +212,7 @@
                                 .Select(m => new SelectListItem
             {
                 Value = m.GroupTypeID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.GroupTypeID}"
+                Text = $"{m.GroupTypeID}-{m.GroupTypeName}"
             });
                             }
 
@@ -224,7 +224,7 @@
 
                        
 
-                        <div class="form-floating form-floating-outline mb-4">
+                        @* <div class="form-floating form-floating-outline mb-4">
                             @{
                                 var screenLISt = ((IEnumerable<DrugGroupModel>)ViewData["DurgGroup"])
                                 .Select(m => new SelectListItem
@@ -237,7 +237,7 @@
                             @Html.DropDownListFor(model => model.GroupName, screenLISt, "Select GroupType ID", new { @class = "form-control" })
                             <label asp-for="GroupName" class="control-label">Group Name</label>
                             <span asp-validation-for="GroupName" class="text-danger"></span>
-                        </div>
+                        </div> *@
 
 
                         <div class="form-floating form-floating-outline mb-4">

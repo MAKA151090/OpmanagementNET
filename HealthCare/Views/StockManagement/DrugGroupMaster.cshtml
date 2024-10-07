@@ -83,8 +83,9 @@
             </div>
 
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="GroupTypeName" class="form-control" placeholder="GroupTypeName" value="@Model.GroupTypeName" />
+                        <input asp-for="GroupTypeName" id="GroupTypeName" class="form-control" placeholder="GroupTypeName" value="@Model.GroupTypeName" />
                         <label asp-for="GroupTypeName" class="control-label">GroupTypeName</label>
+                        <span id="groupNameError" class="text-danger"></span>
                
             </div>
           
@@ -96,7 +97,7 @@
     <div class="form-group">
         <center>
             <button type="submit" value="Get" asp-action="GetGroup" formmethod="get" class="btn btn-primary">Get</button>
-            <button type="submit" value="Save" class="btn btn-primary">Save</button>
+            <button type="submit" value="Save" onclick="validateForm(event)" class="btn btn-primary">Save</button>
             <button type="submit" value="Delete" name="buttonType" class="btn btn-primary">Delete</button>
 
             @if (ViewBag.Message != null)
@@ -111,3 +112,22 @@
 
    
 }
+
+<script>
+    function validateForm(event) {
+        var bloodName = document.getElementById("GroupTypeName").value;
+        var errorSpan = document.getElementById("groupNameError");
+
+        // Clear previous error message
+        errorSpan.textContent = '';
+
+        // Check if the field is empty
+        if (!bloodName.trim()) {
+            // Show error message
+            errorSpan.textContent = "Group Name cannot be empty.";
+
+            // Prevent form submission
+            event.preventDefault();
+        }
+    }
+</script>

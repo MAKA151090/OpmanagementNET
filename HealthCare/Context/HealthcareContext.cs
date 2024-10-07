@@ -276,8 +276,9 @@ namespace HealthCare.Context
             modelBuilder.Entity<WebLogsModel>().HasKey(i => new { i.Id });
 
 
+        
             modelBuilder.Entity<ClinicAdminModel>()
-     .HasKey(i => new { i.FacilityID });
+     .HasKey(i => new {i.FacilityID});
 
             modelBuilder.Entity<BloodGroupModel>()
                 .HasKey(i => new { i.IntBg_Id, i.FacilityID });
@@ -584,6 +585,37 @@ namespace HealthCare.Context
                     billEntry.Entity.DrugId = $"Drug_{lastdrugNumber}";
                 }
             }
+
+
+            /*//Facility Admin 
+            var facilityMas = ChangeTracker
+                        .Entries<ClinicAdminModel>()
+                        .Where(e => e.State == EntityState.Added)
+                        .ToList();
+
+            if (facilityMas.Any())
+            {
+                // Get the latest BillNumber from the database
+                var lastfac = await this.SHclnClinicAdmin.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int lastfacNumber = 100; // Starting point, e.g., Bill_100
+
+                if (lastfac != null)
+                {
+                    // Extract the numeric part of the last BillNumber and increment it
+                    string lastfacNum = lastfac.FacilityID.Replace("Fac_", "");
+                    if (int.TryParse(lastfacNum, out int number))
+                    {
+                        lastfacNumber = number;
+                    }
+                }
+
+                // Assign the new BillNumber for each new bill
+                foreach (var billEntry in facilityMas)
+                {
+                    lastfacNumber++;
+                    billEntry.Entity.FacilityID = $"Fac_{lastfacNumber}";
+                }
+            }*/
 
             return await base.SaveChangesAsync(cancellationToken);
         }

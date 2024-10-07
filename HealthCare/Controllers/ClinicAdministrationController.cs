@@ -69,7 +69,7 @@ namespace HealthCare.Controllers
             }
 
 
-            var existingClinic = await _healthcareContext.SHclnClinicAdmin.FindAsync(model.FacilityID);
+            var existingClinic = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x=>x.FacilityID == model.FacilityID && x.StrIsDelete == false);
 
             if (existingClinic != null)
             {
@@ -184,13 +184,13 @@ namespace HealthCare.Controllers
 
                     _healthcareContext.SaveChanges();
 
-                    ViewBag.message = "Deleted Successfully";
+                    ViewBag.Message = "Deleted Successfully";
                     return View("BloodGroupAdministration", stfDelete);
                 }
                 else
                 {
                     BloodGroupModel dlt = new BloodGroupModel();
-                    ViewBag.message = "FacilityID Not Found";
+                    ViewBag.Message = "FacilityID Not Found";
                     return View("BloodGroupAdministration", dlt);
                 }
             }

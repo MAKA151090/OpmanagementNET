@@ -23,7 +23,7 @@ public class ClinicAdminModel
 	private String strlastUpdatedUser;
     private bool strIsDelete;
     private String template;
-
+   
 
 
     [MaxLength(30)]
@@ -66,4 +66,5 @@ public class ClinicAdminModel
 
     [MaxLength(30)]
     public string? Template { get => template; set => template = value; }
+    
 }

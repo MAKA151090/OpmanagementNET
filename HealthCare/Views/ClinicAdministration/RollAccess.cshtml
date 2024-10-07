@@ -7,10 +7,37 @@
 }
 
 
-@section PageStyles {
-    <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
-}
-<form>
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        popupOKButton.addEventListener("click", function () {
+            popup.style.display = "none"; // Hide the popup when OK button is clicked
+        });
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
+
+<form onsubmit="validateRadioButtons(event)">
 
     <div class="row">
         <div class="col-md-12 col-lg-2">
@@ -85,7 +112,8 @@
                                 <input asp-for="Access" class="form-check-input" type="radio" value="W" id="WriteRadio" />
                                 <label class="form-check-label" for="WriteRadio">Write</label>
                             </div>
-                           
+                                    <span id="accessError" class="text-danger"></span>
+
                         </div>
                             </div>
                                 <div class="col-md-12 col-lg-4">
@@ -100,7 +128,7 @@
                                 <input asp-for="Authorized" class="form-check-input" type="radio" value="0" id="NoRadio" />
                                 <label class="form-check-label" for="NORadio">NO</label>
                             </div>
-                           
+                                <span id="authorizedError" class="text-danger"></span>
                             </div>
                             <div class="col-md-12 col-lg-2">
                             </div>
@@ -125,17 +153,58 @@
                 <button type="submit" style="width:180px" asp-action="GetRollAccess" value="Save" class="btn btn-primary">Save</button>
 
                 @*     <button type="submit" style="width:180px" value="Create" asp-action="SaveResourceTypeID" class="btn btn-primary">Save</button> *@
+          
                 @if (ViewBag.Message != null)
-                {
-                    <div class="alert alert-success">
-
-
-                        @ViewBag.Message
-                    </div>
-                }
+            {
+                <script>
+                    handleMessages("@ViewBag.Message");
+                </script>
+            }
             </center>
         </div>
 
 
 </form>
 
+
+<script>
+    function validateRadioButtons(event) {
+        var accessRadios = document.querySelectorAll('input[name="Access"]');
+        var authorizedRadios = document.querySelectorAll('input[name="Authorized"]');
+        var isAccessSelected = false;
+        var isAuthorizedSelected = false;
+
+        var accessErrorSpan = document.getElementById("accessError");
+        var authorizedErrorSpan = document.getElementById("authorizedError");
+
+        // Clear previous error messages
+        accessErrorSpan.textContent = '';
+        authorizedErrorSpan.textContent = '';
+
+        // Check if any radio button is selected for Access
+        accessRadios.forEach(function (radio) {
+            if (radio.checked) {
+                isAccessSelected = true;
+            }
+        });
+
+        // Check if any radio button is selected for Authorized
+        authorizedRadios.forEach(function (radio) {
+            if (radio.checked) {
+                isAuthorizedSelected = true;
+            }
+        });
+
+        // If Access radio buttons are not selected
+        if (!isAccessSelected) {
+            accessErrorSpan.textContent = "Please select access (Read or Write).";
+            event.preventDefault(); // Prevent form submission
+        }
+
+        // If Authorized radio buttons are not selected
+        if (!isAuthorizedSelected) {
+            authorizedErrorSpan.textContent = "Please select authorization (Yes or No).";
+            event.preventDefault(); // Prevent form submission
+        }
+    }
+</script>
