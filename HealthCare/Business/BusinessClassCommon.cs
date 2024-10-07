@@ -4,6 +4,7 @@ using System.Data;
 using System.Web;
 using Microsoft.Data.SqlClient;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using MySqlConnector;
 
 namespace HealthCare.Business
 {
@@ -32,32 +33,110 @@ namespace HealthCare.Business
 
             return Where;
         }
-        public static DataTable DataTable(DbContext context, string sqlQuery,
-                                        params DbParameter[] parameters)
+        /*      public static DataTable DataTable(DbContext context, string sqlQuery,
+                                              params DbParameter[] parameters)
+              {
+
+
+                  // Your DbContext
+                  var dbContext = context;
+
+                  // Your SQL query
+                  string query = sqlQuery;
+
+                  // Execute raw SQL query and retrieve data into a DataTable
+                  DataTable dataTable = new DataTable();
+                  using (var connection = dbContext.Database.GetDbConnection() as SqlConnection)
+                  {
+                      if (connection != null)
+                      {
+                          connection.Open();
+                          using (var command = new SqlCommand(query, connection))
+                          {
+                              using (var reader = command.ExecuteReader())
+                              {
+                                  if (reader.HasRows)
+                                  {
+                                      dataTable.Load(reader);
+                                  }
+                              }
+                          }
+                      }
+                  }
+
+                  return dataTable;
+              }*/
+
+
+        /*  public static DataTable DataTable(DbContext context, string sqlQuery, params DbParameter[] parameters)
+          {
+              // Your DbContext
+              var dbContext = context;
+
+              // Your SQL query
+              string query = sqlQuery;
+
+              // Execute raw SQL query and retrieve data into a DataTable
+              DataTable dataTable = new DataTable();
+              using (var connection = dbContext.Database.GetDbConnection() as MySqlConnection) // MySQL connection
+              {
+                  if (connection != null)
+                  {
+                      connection.Open();
+                      using (var command = new MySqlCommand(query, connection)) // MySQL command
+                      {
+                          // Add parameters if any
+                          if (parameters != null && parameters.Length > 0)
+                          {
+                              command.Parameters.AddRange(parameters);
+                          }
+
+                          using (var reader = command.ExecuteReader())
+                          {
+                              if (reader.HasRows)
+                              {
+                                  dataTable.Load(reader);
+                              }
+                          }
+                      }
+                  }
+              }
+
+              return dataTable;
+          }
+  */
+
+
+
+        public static DataTable DataTable(DbContext context, string sqlQuery, params DbParameter[] parameters)
         {
-
-
             // Your DbContext
             var dbContext = context;
 
-            // Your SQL query
-            string query = sqlQuery;
-
             // Execute raw SQL query and retrieve data into a DataTable
             DataTable dataTable = new DataTable();
-            using (var connection = dbContext.Database.GetDbConnection() as SqlConnection)
+            using (var connection = dbContext.Database.GetDbConnection())
             {
-                if (connection != null)
+                connection.Open(); // Opens the connection (MySQL compatible)
+                using (var command = connection.CreateCommand())
                 {
-                    connection.Open();
-                    using (var command = new SqlCommand(query, connection))
+                    command.CommandText = sqlQuery;
+
+                    // Add parameters to the command
+                    if (parameters != null)
                     {
-                        using (var reader = command.ExecuteReader())
+                        foreach (var param in parameters)
                         {
-                            if (reader.HasRows)
-                            {
-                                dataTable.Load(reader);
-                            }
+                            command.Parameters.Add(param);
+                        }
+                    }
+
+                    // Execute the command and load the result into the DataTable
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            dataTable.Load(reader); // Load data if rows are returned
                         }
                     }
                 }
@@ -65,5 +144,7 @@ namespace HealthCare.Business
 
             return dataTable;
         }
+
+
     }
 }

@@ -178,12 +178,18 @@
                 }
 
 
+                     @if (rollAccessList != null)
+                {
+                    @if (rollAccessList.Contains("RollAccess"))
+                    {
 
                 <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccess" ? " active" : "")'>
                     <a asp-controller="ClinicAdministration" asp-action="RollAccess" class="menu-link">
                <div>RollAccess</div>
              </a>
             </li>
+                    }
+                }
                     
 
                 
@@ -799,18 +805,25 @@
                     <div>Patient Registration</div>
 
                 </a>
-                <ul class="menu-sub">
+                 @if (rollAccessList != null)
+                                {
+                                    @if (rollAccessList.Contains("PatientRegister"))
+                                    {
 
-                                                <li class='menu-item@(currentPage == "/PatientRegistration/PatientRegister" ? " active" : "")'>
-                                                    <a asp-controller="PatientRegistration" asp-action="PatientRegister" class="menu-link">
+                                        <ul class="menu-sub">
 
-                                                        <div>PatientRegister</div>
-                                                    </a>
-                                                </li>
-                                            
-                                        
-                                    </ul>
-                <ul class="menu-sub">
+                                            <li class='menu-item@(currentPage == "/PatientRegistration/PatientRegister" ? " active" : "")'>
+                                                <a asp-controller="PatientRegistration" asp-action="PatientRegister" class="menu-link">
+
+                                                    <div>PatientRegister</div>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    }
+                                }
+                                <ul class="menu-sub">
                         @if (rollAccessList != null)
                                         {
                                         @if (rollAccessList.Contains("PatientScheduling"))

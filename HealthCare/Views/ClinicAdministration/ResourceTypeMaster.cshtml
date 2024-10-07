@@ -70,19 +70,21 @@
             <div class="card">
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
-                 
+
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="ResourceTypeID" class="form-control" placeholder="ResourceTypeID" value="@Model.ResourceTypeID" required/>
+                        <input asp-for="ResourceTypeID" id="ResourceTypeID" class="form-control" placeholder="ResourceTypeID" value="@Model.ResourceTypeID" />
                         <label asp-for="ResourceTypeID" class="control-label"></label>
                         <span asp-validation-for="ResourceTypeID" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="ResourceTypeName" class="form-control" placeholder="ResourceTypeName" value="@Model.ResourceTypeName" />
+                        <input asp-for="ResourceTypeName" id="ResourceTypeName" class="form-control" placeholder="ResourceTypeName" value="@Model.ResourceTypeName" />
                         <label asp-for="ResourceTypeName" class="control-label"></label>
-                        <span asp-validation-for="ResourceTypeName" class="text-danger"></span>
+                        <span id="resourceTypeNameError" class="text-danger"></span>
                     </div>
+
+
                     @*             <div class="form-group">
                     <label asp-for="lastUpdatedDate" class="control-label"></label>
                     <input asp-for="lastUpdatedDate" class="form-control" />
@@ -117,7 +119,7 @@
             <button type="submit" style="width:180px" value="Get" asp-action="GetResource" formmethod="get" class="btn btn-primary">get</button>
 
 
-            <button type="submit" style="width:180px" value="Create" asp-action="SaveResourceTypeID" class="btn btn-primary">Save</button>
+            <button type="submit" style="width:180px" value="Create" asp-action="SaveResourceTypeID" onclick="validateForm(event)" class="btn btn-primary">Save</button>
 
             <button type="submit" style="width:180px" value="Delete" name="buttontype" asp-action="SaveResourceTypeID"  class="btn btn-primary">Delete</button>
 
@@ -131,3 +133,22 @@
     }
 
 </form>
+
+<script>
+    function validateForm(event) {
+        var resourceTypeName = document.getElementById("ResourceTypeName").value;
+        var errorSpan = document.getElementById("resourceTypeNameError");
+
+        // Clear previous error message
+        errorSpan.textContent = '';
+
+        // Check if the field is empty
+        if (!resourceTypeName.trim()) {
+            // Show error message
+            errorSpan.textContent = "Resource Type Name cannot be empty.";
+
+            // Prevent form submission
+            event.preventDefault();
+        }
+    }
+</script>
