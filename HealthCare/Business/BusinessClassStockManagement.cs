@@ -82,7 +82,7 @@ namespace HealthCare.Business
                           select new DrugInventoryModel
                           {
                              DrugId= f.DrugId,
-                             ModelName = f.ModelName,
+                             ModelName = f.ModelName
                           }
                 ).ToList();
 

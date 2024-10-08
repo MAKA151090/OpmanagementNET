@@ -34,6 +34,8 @@
         private String nightunit;
         private string facilityID;
 
+        private string dbpatientID;
+
 
         public long EpressID { get => epressID; set => epressID = value; }
         public string PatientID { get => patientID; set => patientID = value; }
@@ -64,5 +66,6 @@
         public string Eveningunit { get => eveningunit; set => eveningunit = value; }
         public string Nightunit { get => nightunit; set => nightunit = value; }
         public string FacilityID { get => facilityID; set => facilityID = value; }
+        public string DbpatientID { get => dbpatientID; set => dbpatientID = value; }
     }
 }

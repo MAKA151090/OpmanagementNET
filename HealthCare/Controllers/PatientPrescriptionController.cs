@@ -172,14 +172,13 @@ namespace HealthCare.Controllers
                     {
                         PatientID = p.PatientID,
                         CaseVisitID = p.CaseVisitID,
-                        OrderID = p.OrderID,
-                        DrugID = p.DrugID,
                         DrugName = p.DrugName,
                         Morningunit = p.Morningunit,
                         Afternoonunit = p.Afternoonunit,
                         Eveningunit = p.Eveningunit,
                         Nightunit = p.Nightunit,
-                        RouteAdmin = p.RouteAdmin
+                        RouteAdmin = p.RouteAdmin,
+                        Dosage = p.Dosage
                     }).ToList();
 
                     ViewBag.SelectedPatientID = PatientID;
@@ -202,14 +201,16 @@ namespace HealthCare.Controllers
                     {
                         PatientID = p.PatientID,
                         CaseVisitID = p.CaseVisitID,
-                        OrderID = p.OrderID,
-                        DrugID = p.DrugID,
                         DrugName = p.DrugName,
                         Morningunit = p.Morningunit,
                         Afternoonunit = p.Afternoonunit,
                         Eveningunit = p.Eveningunit,
                         Nightunit = p.Nightunit,
-                        RouteAdmin = p.RouteAdmin
+                        RouteAdmin = p.RouteAdmin,
+                        Dosage = p.Dosage,
+                        DrugID = p.DrugID,
+                        DbpatientID = p.DbpatientID
+
                     }).ToList();
                     Model.Viewprescription = viewModelList;
 
@@ -252,14 +253,14 @@ namespace HealthCare.Controllers
                 {
                     PatientID = p.PatientID,
                     CaseVisitID = p.CaseVisitID,
-                    OrderID = p.OrderID,
-                    DrugID = p.DrugID,
                     DrugName = p.DrugName,
                     Morningunit = p.Morningunit,
                     Afternoonunit = p.Afternoonunit,
                     Eveningunit = p.Eveningunit,
                     Nightunit = p.Nightunit,
-                    RouteAdmin = p.RouteAdmin
+                    RouteAdmin = p.RouteAdmin,
+                    Dosage = p.Dosage
+
                 }).ToList();
 
                 ViewBag.SelectedPatientID = PatientID;
@@ -286,14 +287,14 @@ namespace HealthCare.Controllers
                     {
                         PatientID = p.PatientID,
                         CaseVisitID = p.CaseVisitID,
-                        OrderID = p.OrderID,
-                        DrugID = p.DrugID,
                         DrugName = p.DrugName,
                         Morningunit = p.Morningunit,
                         Afternoonunit = p.Afternoonunit,
                         Eveningunit = p.Eveningunit,
                         Nightunit = p.Nightunit,
-                        RouteAdmin = p.RouteAdmin
+                        RouteAdmin = p.RouteAdmin,
+                        Dosage = p.Dosage
+
                     }).ToList();
 
                     ViewBag.SelectedPatientID = PatientID;
@@ -350,14 +351,14 @@ namespace HealthCare.Controllers
                     {
                         PatientID = p.PatientID,
                         CaseVisitID = p.CaseVisitID,
-                        OrderID = p.OrderID,
-                        DrugID = p.DrugID,
                         DrugName = p.DrugName,
                         Morningunit = p.Morningunit,
                         Afternoonunit = p.Afternoonunit,
                         Eveningunit = p.Eveningunit,
                         Nightunit = p.Nightunit,
-                        RouteAdmin = p.RouteAdmin
+                        RouteAdmin = p.RouteAdmin,
+                        Dosage = p.Dosage
+
                     }).ToList();
 
                     ViewBag.SelectedPatientID = PatientID;
@@ -383,14 +384,13 @@ namespace HealthCare.Controllers
             {
                 PatientID = p.PatientID,
                 CaseVisitID = p.CaseVisitID,
-                OrderID = p.OrderID,
-                DrugID = p.DrugID,
                 DrugName = p.DrugName,
                 Morningunit = p.Morningunit,
                 Afternoonunit = p.Afternoonunit,
                 Eveningunit = p.Eveningunit,
                 Nightunit = p.Nightunit,
-                RouteAdmin = p.RouteAdmin
+                RouteAdmin = p.RouteAdmin,
+                Dosage = p.Dosage
 
             }).ToList();
 
@@ -490,14 +490,13 @@ namespace HealthCare.Controllers
                 {
                     PatientID = p.PatientID,
                     CaseVisitID = p.CaseVisitID,
-                    OrderID = p.OrderID,
-                    DrugID = p.DrugID,
                     DrugName = p.DrugName,
                     Morningunit = p.Morningunit,
                     Afternoonunit = p.Afternoonunit,
                     Eveningunit = p.Eveningunit,
                     Nightunit = p.Nightunit,
-                    RouteAdmin = p.RouteAdmin
+                    RouteAdmin = p.RouteAdmin,
+                    Dosage = p.Dosage
 
                 }).ToList();
                 prescriptionTableModel.Viewprescription = viewModelList;
@@ -565,14 +564,13 @@ namespace HealthCare.Controllers
                 {
                     PatientID = p.PatientID,
                     CaseVisitID = p.CaseVisitID,
-                    OrderID = p.OrderID,
-                    DrugID = p.DrugID,
                     DrugName = p.DrugName,
                     Morningunit = p.Morningunit,
                     Afternoonunit = p.Afternoonunit,
                     Eveningunit = p.Eveningunit,
                     Nightunit = p.Nightunit,
-                    RouteAdmin = p.RouteAdmin
+                    RouteAdmin = p.RouteAdmin,
+                    Dosage = p.Dosage
                 }).ToList();
 
 
@@ -597,14 +595,13 @@ namespace HealthCare.Controllers
             {
                 PatientID = p.PatientID,
                 CaseVisitID = p.CaseVisitID,
-                OrderID = p.OrderID,
-                DrugID = p.DrugID,
                 DrugName = p.DrugName,
                 Morningunit = p.Morningunit,
                 Afternoonunit = p.Afternoonunit,
                 Eveningunit = p.Eveningunit,
                 Nightunit = p.Nightunit,
-                RouteAdmin = p.RouteAdmin
+                RouteAdmin = p.RouteAdmin,
+                Dosage = p.Dosage
             }).ToList();
 
 
@@ -860,6 +857,56 @@ namespace HealthCare.Controllers
             return Json(caseVisitIds);
         }
 
+        /*  public async Task<IActionResult> AddNewVisitID(string patientId)
+          {
+              string facilityId = string.Empty;
+              if (TempData["FacilityID"] != null)
+              {
+                  facilityId = TempData["FacilityID"].ToString();
+                  TempData.Keep("FacilityID");
+              }
+
+              try
+              {
+                  // Fetch the last visit ID for the selected patient
+                  var lastVisitIdEntry = await GetPrescription.SHprsPrescription
+                      .Where(cv => cv.PatientID == patientId && cv.FacilityID == facilityId && cv.IsDelete == false)
+                      .OrderByDescending(cv => cv.CaseVisitID)
+                      .FirstOrDefaultAsync();
+
+                  int nextVisitNumber = 1;
+
+                  // If a visit ID exists, increment the number
+                  if (lastVisitIdEntry != null)
+                  {
+                      var lastVisitId = lastVisitIdEntry.CaseVisitID;
+                      var lastVisitNumber = int.Parse(lastVisitId.Split('_')[0]);
+                      nextVisitNumber = lastVisitNumber + 1;
+                  }
+
+                  // Create the new visit ID with the current date in YYYY-MM-DD format
+                  string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
+                  string newVisitId = $"Visit-{nextVisitNumber}__{currentDate}";
+
+                  // Insert the new visit ID in the database for that patient
+                  var newVisit = new PrescriptionTableModel
+                  {
+                      PatientID = patientId,
+                      CaseVisitID = newVisitId,
+                      // Include other necessary fields as needed
+                  };
+
+
+                  return Json(new { success = true, newVisitId = newVisitId });
+              }
+              catch (Exception ex)
+              {
+                  return Json(new { success = false, message = "Error occurred while adding the new visit ID." });
+              }
+          }
+  */
+
+
         public async Task<IActionResult> AddNewVisitID(string patientId)
         {
             string facilityId = string.Empty;
@@ -883,13 +930,28 @@ namespace HealthCare.Controllers
                 if (lastVisitIdEntry != null)
                 {
                     var lastVisitId = lastVisitIdEntry.CaseVisitID;
-                    var lastVisitNumber = int.Parse(lastVisitId.Split('_')[0]);
-                    nextVisitNumber = lastVisitNumber + 1;
+
+                    // Extract the numeric part from the visit ID (assuming the format is 'Visit-<number>_<date>')
+                    var visitPrefix = "Visit-";
+                    if (lastVisitId.StartsWith(visitPrefix))
+                    {
+                        var lastVisitNumberString = lastVisitId.Substring(visitPrefix.Length).Split('_')[0];
+
+                        // Parse the numeric part safely
+                        if (int.TryParse(lastVisitNumberString, out int lastVisitNumber))
+                        {
+                            nextVisitNumber = lastVisitNumber + 1;
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = "Invalid visit number format. Unable to generate the next visit number." });
+                        }
+                    }
                 }
 
-                // Create the new visit ID with the current date in YYYY-MM-DD format
+                // Create the new visit ID with the current date in DD-MM-YYYY format
                 string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
-                string newVisitId = $"{nextVisitNumber}__{currentDate}";
+                string newVisitId = $"Visit-{nextVisitNumber}_{currentDate}";
 
                 // Insert the new visit ID in the database for that patient
                 var newVisit = new PrescriptionTableModel
@@ -899,7 +961,8 @@ namespace HealthCare.Controllers
                     // Include other necessary fields as needed
                 };
 
-               
+                // Add newVisit to the database (implement the logic to save it here)
+
                 return Json(new { success = true, newVisitId = newVisitId });
             }
             catch (Exception ex)
@@ -908,5 +971,6 @@ namespace HealthCare.Controllers
             }
         }
 
+
     }
- }
+}

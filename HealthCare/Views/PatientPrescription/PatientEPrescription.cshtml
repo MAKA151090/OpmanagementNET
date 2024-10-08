@@ -78,19 +78,19 @@
             <div class="card overflow-hidden mb-4" style="height: 150px;">
                 <div class="card-body" id="vertical-example">
 
+                    
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Patient ID</th>
-                                <th>Case Visit ID</th>
-                                <th>Order ID</th>
-                                <th>Drug ID</th>
+                                <th>Patient Name</th>
+                                <th>Visit Date</th>
                                 <th>Drug Name</th>
-                                <th>Morning Unit</th>
-                                <th>Afternoon Unit</th>
-                                <th>Evening Unit</th>
-                                <th>Night Unit</th>
+                                <th>Mrng Unit</th>
+                                <th>Aft Unit</th>
+                                <th>Eve Unit</th>
+                                <th>Ngt Unit</th>
                                 <th>When</th>
+                                <th>Dosage</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -101,19 +101,20 @@
                             {
                                 <tr>
                                     <td>@item.PatientID</td>
-                                    <td>@item.CaseVisitID</td>
-                                    <td>@item.OrderID</td>
-                                    <td>@item.DrugID</td>
+                                    <td>@item.CaseVisitID.Split('_').Last()</td>
                                     <td>@item.DrugName</td>
                                     <td>@item.Morningunit</td>
                                     <td>@item.Afternoonunit</td>
                                     <td>@item.Eveningunit</td>
                                     <td>@item.Nightunit</td>
                                     <td>@item.RouteAdmin</td>
+                                    <td>@item.Dosage</td>
+                                   
 
                                     <td>
-                                        <a href="@Url.Action("Edit", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID,facility =item.FacilityID})" class="btn btn-primary">Edit</a>
-                                        <a href="@Url.Action("Delete", new { patientId = item.PatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Delete</a>
+                                      
+                                        <a href="@Url.Action("Edit", new { patientId = item.DbpatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID,facility =item.FacilityID})" class="btn btn-primary">Edit</a>
+                                        <a href="@Url.Action("Delete", new { patientId = item.DbpatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Delete</a>
                                     </td>
                                 </tr>
                             }
@@ -218,7 +219,7 @@
                             .Select(m => new SelectListItem
                 {
                     Value = m.DrugId.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.DrugId}-{m.ModelName}"
+                    Text = $"{m.ModelName}-{m.Dosage}"
                 });
                         }
                         <input type="text" id="drugDropdownInput" class="form-control" placeholder="Drug Name" value="@ViewBag.SelectedDrugID" onkeyup="filterDropdown(event, 'drugDropdownInput', 'drugDropdown')" onclick="showDropdown('drugDropdown')">
@@ -253,22 +254,22 @@
                             <div style="display: flex; gap: 10px;">
                                 <div>
                                     <label asp-for="Morningunit" class="control-label">Morning</label>
-                                    <input asp-for="Morningunit" class="form-control" style="width: 50px;" maxlength="2" />
+                                    <input asp-for="Morningunit" class="form-control" type="number" style="width: 50px;" maxlength="2" />
                                 </div>
 
                                 <div>
                                     <label asp-for="Afternoonunit" class="control-label">Afternoon</label>
-                                    <input asp-for="Afternoonunit" class="form-control" style="width: 50px;" maxlength="2" />
+                                    <input asp-for="Afternoonunit" class="form-control" type="number" style="width: 50px;" maxlength="2" />
                                 </div>
 
                                 <div>
                                     <label asp-for="Eveningunit" class="control-label">Evening</label>
-                                    <input asp-for="Eveningunit" class="form-control" style="width: 50px;" maxlength="2" />
+                                    <input asp-for="Eveningunit" class="form-control" type="number" style="width: 50px;" maxlength="2" />
                                 </div>
 
                                 <div>
                                     <label asp-for="Nightunit" class="control-label">Night</label>
-                                    <input asp-for="Nightunit" class="form-control" style="width: 50px;" maxlength="2" />
+                                    <input asp-for="Nightunit" class="form-control" type="number" style="width: 50px;" maxlength="2" />
                                 </div>
                             </div>
                         </fieldset>
@@ -286,7 +287,7 @@
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="EndDate" class="form-control" placeholder="Number of Days" />
+                        <input asp-for="EndDate" class="form-control" type="number" placeholder="Number of Days" />
                         <label asp-for="EndDate" class="control-label">Number of Days</label>
 
 

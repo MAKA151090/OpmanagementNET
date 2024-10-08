@@ -40,6 +40,8 @@ namespace HealthCare.Models
         private String selectedItemId;
         private List<PatientEPrescriptionModel> items;
 
+        private string dbpatientID;
+
 
 
 
@@ -75,5 +77,6 @@ namespace HealthCare.Models
         public string? Nightunit { get => nightunit; set => nightunit = value; }
         public string SelectedItemId { get => selectedItemId; set => selectedItemId = value; }
         public List<PatientEPrescriptionModel> Items { get => items; set => items = value; }
+        public string? DbpatientID { get => dbpatientID; set => dbpatientID = value; }
     }
 }

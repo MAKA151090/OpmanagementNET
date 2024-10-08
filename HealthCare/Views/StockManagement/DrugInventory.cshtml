@@ -242,9 +242,9 @@
 
                         <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="Dosage" class="form-control" placeholder="Dosage" value="@Model.Dosage" />
+                        <input asp-for="Dosage" id="Dosage" class="form-control" placeholder="Dosage" value="@Model.Dosage" />
                 <label asp-for="Dosage" class="control-label">Dosage</label>
-                <span asp-validation-for="Dosage" class="text-danger"></span>
+                        <span id="dosageError" class="text-danger"></span>
             </div>
             <br />
            
@@ -254,7 +254,7 @@
 
     <div class="form-group">
         <center>
-            <button type="submit" value="Save" class="btn btn-primary">Save</button>
+            <button type="submit" value="Save" onclick="validateForm(event)" class="btn btn-primary">Save</button>
             <button type="submit" value="Get" formmethod="get" asp-action="GetInvent" class="btn btn-primary">Get</button>
             <button type="submit" value="Delete" name="buttonType" class="btn btn-primary">Delete</button>
 
@@ -271,3 +271,21 @@
     </form>
 
 
+<script>
+    function validateForm(event) {
+        var bloodName = document.getElementById("Dosage").value;
+        var errorSpan = document.getElementById("dosageError");
+
+        // Clear previous error message
+        errorSpan.textContent = '';
+
+        // Check if the field is empty
+        if (!bloodName.trim()) {
+            // Show error message
+            errorSpan.textContent = "Dosage cannot be empty.";
+
+            // Prevent form submission
+            event.preventDefault();
+        }
+    }
+</script>

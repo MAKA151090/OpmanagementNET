@@ -56,20 +56,22 @@ namespace HealthCare.Business
         public List<PrescriptionTableModel> GetPrescription(string  patientID,string casevisitID,string drugID,string facility)
         {
             var result = (from p in _healthcareContext.SHprsPrescription
+                          join pat in _healthcareContext.SHPatientRegistration on p.PatientID equals pat.PatientID
                           join d in _healthcareContext.SHstkDrugInventory on p.DrugID equals d.DrugId
-                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.IsDelete == false  && p.FacilityID == facility && d.FacilityID == facility
+                          where p.PatientID == patientID && p.CaseVisitID == casevisitID &&p.IsDelete == false  && p.FacilityID == facility && d.FacilityID == facility && pat.FacilityID == facility
                           select new PrescriptionTableModel
                           {
-                              PatientID = p.PatientID,
+                              DbpatientID = p.PatientID,
+                              PatientID = pat.FullName,
                               CaseVisitID = p.CaseVisitID,
-                              OrderID = p.OrderID,
                               DrugID = p.DrugID,
                               DrugName = d.ModelName,
                               Morningunit=p.Morningunit,
                               Afternoonunit=p.Afternoonunit,
                               Eveningunit=p.Eveningunit,
                               Nightunit=p.Nightunit,
-                              RouteAdmin = p.RouteAdmin
+                              RouteAdmin = p.RouteAdmin,
+                              Dosage = d.Dosage
                               
                              
                           }).ToList();
@@ -80,20 +82,20 @@ namespace HealthCare.Business
         public List<PrescriptionTableModel> GetPrescriptionTable(string patientID, string casevisitID, string facility)
         {
             var result = (from p in _healthcareContext.SHprsPrescription
+                          join pat in _healthcareContext.SHPatientRegistration on p.PatientID equals pat.PatientID
                           join d in _healthcareContext.SHstkDrugInventory on p.DrugID equals d.DrugId
-                          where p.PatientID == patientID && p.CaseVisitID == casevisitID && p.IsDelete == false && p.FacilityID == facility && d.FacilityID == facility
+                          where p.PatientID == patientID && p.CaseVisitID == casevisitID && p.IsDelete == false && p.FacilityID == facility && d.FacilityID == facility && pat.FacilityID == facility
                           select new PrescriptionTableModel
                           {
-                              PatientID = p.PatientID,
+                              PatientID = pat.FullName,
                               CaseVisitID = p.CaseVisitID,
-                              OrderID = p.OrderID,
-                              DrugID = p.DrugID,
                               DrugName = d.ModelName,
                               Morningunit = p.Morningunit,
                               Afternoonunit = p.Afternoonunit,
                               Eveningunit = p.Eveningunit,
                               Nightunit = p.Nightunit,
-                              RouteAdmin = p.RouteAdmin
+                              RouteAdmin = p.RouteAdmin,
+                              Dosage = d.Dosage
                           }).ToList();
             return result;
         }
@@ -124,6 +126,7 @@ namespace HealthCare.Business
                     {
                         DrugId = pr.DrugId,
                         ModelName = pr.ModelName,
+                        Dosage = pr.Dosage
 
                     }
                 ).ToList();
