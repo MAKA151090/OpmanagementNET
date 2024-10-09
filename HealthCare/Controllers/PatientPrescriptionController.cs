@@ -219,6 +219,9 @@ namespace HealthCare.Controllers
                     ViewBag.SelectedPatientID = PatientID;
                     Model.SelectedItemId = CaseVisitID;
 
+                    // Set TempData for use in the view
+                    TempData["DrugID"] = viewModelList.FirstOrDefault()?.DrugID;
+                    TempData["DbpatientID"] = viewModelList.FirstOrDefault()?.DbpatientID;
 
                     return View("PatientEPrescription", Model);
                 }
@@ -422,6 +425,17 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> Edit(string patientId, string caseVisitId, string orderId, string drugId, string facility,PrescriptionTableModel tabmod)
         {
+
+            if (string.IsNullOrEmpty(patientId) || string.IsNullOrEmpty(drugId))
+            {
+                ViewBag.ErrorMessage = "PatientID or DrugID is missing!";
+                tabmod.Items = await GetDistinctCaseVisitID(patientId) ?? new List<PatientEPrescriptionModel>();
+                tabmod.Viewprescription = new List<PrescriptionViewModel>();
+
+                return View("PatientEPrescription",tabmod); // Handle the error gracefully
+            }
+
+
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
             {
@@ -436,6 +450,7 @@ namespace HealthCare.Controllers
                 TempData.Keep("DoctorID");
             }
 
+
             BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
             ViewData["patientid"] = prescription.GetPatientId(facilityId);
             ViewData["drugid"] = prescription.GetDrugid(facilityId);
@@ -443,6 +458,9 @@ namespace HealthCare.Controllers
             ViewData["visitid"] = prescription.Getvisit(facilityId);
 
             var daocfac = prescription.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+
+            
 
             var prescriptionEdit = await GetPrescription.SHprsPrescription.FindAsync(patientId, caseVisitId, drugId, daocfac);
             if (prescriptionEdit == null)
@@ -496,7 +514,9 @@ namespace HealthCare.Controllers
                     Eveningunit = p.Eveningunit,
                     Nightunit = p.Nightunit,
                     RouteAdmin = p.RouteAdmin,
-                    Dosage = p.Dosage
+                    Dosage = p.Dosage,
+                    DbpatientID = p.DbpatientID,
+                    DrugID = p.DrugID
 
                 }).ToList();
                 prescriptionTableModel.Viewprescription = viewModelList;

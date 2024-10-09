@@ -77,7 +77,7 @@
                             .Select(m => new SelectListItem
             {
                 Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.FacilityID}-{m.ClinicName}"
+                Text = $"{m.ClinicName}"
             });
                         }
 
@@ -97,9 +97,9 @@
             </div>
                         <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="ModelName" class="form-control" placeholder="Drug Name" value="@Model.ModelName" />
+                        <input asp-for="ModelName" id="ModelName" class="form-control" placeholder="Drug Name" value="@Model.ModelName" />
                 <label asp-for="ModelName" class="control-label">Drug Name</label>
-                <span asp-validation-for="ModelName" class="text-danger"></span>
+                        <span id="drugNamerror" class="text-danger"></span>
             </div>
                         <div class="form-floating form-floating-outline mb-4">
                             @{
@@ -107,7 +107,7 @@
                                 .Select(m => new SelectListItem
             {
                 Value = m.CategoryID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.CategoryID}-{m.CategoryName}"
+                Text = $"{m.CategoryName}"
             });
                             }
 
@@ -123,7 +123,7 @@
                                 .Select(m => new SelectListItem
             {
                 Value = m.TypeID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.TypeID}-{m.TypeName}"
+                Text = $"{m.TypeName}"
             });
                             }
 
@@ -212,7 +212,7 @@
                                 .Select(m => new SelectListItem
             {
                 Value = m.GroupTypeID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.GroupTypeID}-{m.GroupTypeName}"
+                Text = $"{m.GroupTypeName}"
             });
                             }
 
@@ -254,7 +254,7 @@
 
     <div class="form-group">
         <center>
-            <button type="submit" value="Save" onclick="validateForm(event)" class="btn btn-primary">Save</button>
+            <button type="submit" value="Save" onclick="validateForm(event)"  class="btn btn-primary">Save</button>
             <button type="submit" value="Get" formmethod="get" asp-action="GetInvent" class="btn btn-primary">Get</button>
             <button type="submit" value="Delete" name="buttonType" class="btn btn-primary">Delete</button>
 
@@ -274,17 +274,30 @@
 <script>
     function validateForm(event) {
         var bloodName = document.getElementById("Dosage").value;
-        var errorSpan = document.getElementById("dosageError");
+        var errorSpanDosage = document.getElementById("dosageError");
+        var drugName = document.getElementById("ModelName").value;
+        var errorSpanDrugName = document.getElementById("drugNamerror");
 
-        // Clear previous error message
-        errorSpan.textContent = '';
+        // Clear previous error messages
+        errorSpanDosage.textContent = '';
+        errorSpanDrugName.textContent = '';
 
-        // Check if the field is empty
+        let isValid = true; // Track if the form is valid
+
+        // Check if the Dosage field is empty
         if (!bloodName.trim()) {
-            // Show error message
-            errorSpan.textContent = "Dosage cannot be empty.";
+            errorSpanDosage.textContent = "Dosage cannot be empty.";
+            isValid = false; // Mark as invalid
+        }
 
-            // Prevent form submission
+        // Check if the Drug Name field is empty
+        if (!drugName.trim()) {
+            errorSpanDrugName.textContent = "Drug Name cannot be empty.";
+            isValid = false; // Mark as invalid
+        }
+
+        // Prevent form submission if there are errors
+        if (!isValid) {
             event.preventDefault();
         }
     }

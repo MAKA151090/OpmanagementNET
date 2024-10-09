@@ -1249,7 +1249,7 @@ namespace HealthCare.Controllers
             }
 
             ClinicAdminBusinessClass clinicbuiness = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["staffid"] = clinicbuiness.GetStaffID(model.FacilityID);
+            ViewData["staffid"] = clinicbuiness.GetallStaffID(model.FacilityID);
             ViewData["rollid"] = clinicbuiness.RollAccessType(model.FacilityID);
 
             return View("RollAccessMaster",model);
@@ -1830,7 +1830,7 @@ namespace HealthCare.Controllers
             }
 
             ClinicAdminBusinessClass clinicbuiness = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["staffid"] = clinicbuiness.GetStaffID(model.FacilityID);
+            ViewData["staffid"] = clinicbuiness.GetallStaffID(model.FacilityID);
             ViewData["rollid"] = clinicbuiness.RollAccessType(model.FacilityID);
 
 

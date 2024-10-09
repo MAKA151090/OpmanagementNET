@@ -112,9 +112,10 @@
                                    
 
                                     <td>
-                                      
-                                        <a href="@Url.Action("Edit", new { patientId = item.DbpatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID,facility =item.FacilityID})" class="btn btn-primary">Edit</a>
-                                        <a href="@Url.Action("Delete", new { patientId = item.DbpatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary">Delete</a>
+
+                                        <a href="@Url.Action("Edit", new { patientId = item.DbpatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID,facility =item.FacilityID})" class="btn btn-primary btn-sm mdi mdi-pencil-box-outline me-2" style="width: 60px; margin-bottom: 10px;"></a>
+
+                                        <a href="@Url.Action("Delete", new { patientId = item.DbpatientID, orderId = item.OrderID, caseVisitId = item.CaseVisitID, drugId = item.DrugID })" class="btn btn-primary btn-sm menu-icon tf-icons mdi mdi-delete" style="width: 60px;"></a>
                                     </td>
                                 </tr>
                             }

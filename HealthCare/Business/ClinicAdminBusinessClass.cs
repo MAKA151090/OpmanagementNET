@@ -151,6 +151,23 @@ namespace HealthCare.Business
             return staffid;
         }
 
+        public List<StaffAdminModel> GetallStaffID(string facility)
+        {
+            var staffid = (
+                    from pr in _healthcareContext.SHclnStaffAdminModel
+                    where  pr.IsDelete == false && pr.FacilityID == facility
+                    select new StaffAdminModel
+                    {
+                        StrStaffID = pr.StrStaffID,
+                        StrFullName = pr.StrFullName
+                    }
+                ).ToList();
+
+            return staffid;
+        }
+
+
+
         public List<ClinicAdminModel> GetFacidStaff()
         {
             var stafffacid = (
