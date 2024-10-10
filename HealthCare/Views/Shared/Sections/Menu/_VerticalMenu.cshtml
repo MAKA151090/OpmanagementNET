@@ -34,338 +34,418 @@
   @* ! Full version menu-items *@
   <ul class="menu-inner py-1">
         <!-- Hospital Administration -->
-    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/ClinicAdministration") ? " active open" : "")'>
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-hospital-building"></i>
-        <div>Hospital Administration</div>
-      </a>
+        @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("ClinicAdministration"))
+            {
 
-            
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/ClinicAdministration") ? " active" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi-hospital-building"></i>
+                        <div>Hospital Administration</div>
+                    </a>
 
-      <ul class="menu-sub">
-        @* <li class='menu-item@(currentPage == "/ClinicAdministration/CRM" ? " active" : "")'>
+
+
+                    <ul class="menu-sub">
+                        @* <li class='menu-item@(currentPage == "/ClinicAdministration/CRM" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/dashboards-crm.html" target="_blank" class="menu-link">
             <div>CRM</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
           </a>
         </li> *@
-  
 
-         @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("HospitalRegistration"))
-                    {
-
-                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalRegistration" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="HospitalRegistration" class="menu-link">
-                        <div>Hospital Registration</div>
-                    </a>
-                </li>
-                    }
-                }
-    
-    
- @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("DiagnosisMaster"))
-                    {
-                
-                <li class='menu-item@(currentPage == "/ClinicAdministration/DiagnosisMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="DiagnosisMaster" class="menu-link">
-                        <div>DiagnosisMaster</div>
-                    </a>
-                </li>
-                    }
-                }
-
-                 
- @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("ProcedureCodeMaster"))
-                    {
-
-                <li class='menu-item@(currentPage == "/ClinicAdministration/ProcedureCodeMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="ProcedureCodeMaster" class="menu-link">
-                        <div>ProcedureCodeMaster</div>
-                    </a>
-                </li>
-                    }
-                }
-
-
-                                
- @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("BloodGroupMaster"))
-                    {
-
-        <li class='menu-item@(currentPage == "/ClinicAdministration/BloodGroupMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="BloodGroupAdministration" class="menu-link">
-            <div>Blood Group Administration</div>
-          </a>
-        </li>
-                    }
-
-                }
-                
-
-                 @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("ResourceTypeMaster"))
-                    {
-
-
-                <li class='menu-item@(currentPage == "/ClinicAdministration/ResourceTypeMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="ResourceTypeMaster" class="menu-link">
-                        <div>Resource Type Master</div>
-                    </a>
-                </li>
-                    }
-                }
-
-
-                 @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("DoctorSchedule"))
-                    {
-
-                <li class='menu-item@(currentPage == "/ClinicAdministration/DoctorSchedule" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="DoctorSchedule" class="menu-link">
-                        <div>DoctorSchedule</div>
-                    </a>
-                </li>
-                    }
-                }
-
-
-                   @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("StaffAdminModel"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/StaffAdminModel" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="StaffAdminModel" class="menu-link">
-                        <div>Staff Registration</div>
-                        </a>
-                    </li>
-                    }
-                }
-
-                  @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("RollAccessMaster"))
-                    {
-
-                        <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccessMaster" ? " active" : "")'>
-                            <a asp-controller="ClinicAdministration" asp-action="RollAccessMaster" class="menu-link">
-                                <div>Roll Access Master</div>
-                            </a>
-                        </li>
-                    }
-                }
-
-
-
-                
-                  @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("RollTypeMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/RollTypeMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="RollTypeMaster" class="menu-link">
-                        <div>Roll Type Master</div>
-                    </a>
-                    </li>
-                    }
-                }
-
-
-                     @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("RollAccess"))
-                    {
-
-                <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccess" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="RollAccess" class="menu-link">
-               <div>RollAccess</div>
-             </a>
-            </li>
-                    }
-                }
-                    
-
-                
-                    @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("ScreenMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/ScreenMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="ScreenMaster" class="menu-link">
-                        <div>ScreenMaster</div>
-                    </a>
-                </li>
-                    }
-                }
-
-
-                    @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("TestMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/TestMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="TestMaster" class="menu-link">
-                        <div>TestMaster</div>
-                    </a>
-                </li>
-                    }
-                }
-
-
-                     @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("PatientFHPHMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/PatientFHPHMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="PatientFHPHMaster" class="menu-link">
-                        <div>PatientFHPHMaster</div>
-                    </a>
-                </li>
-                    }
-                }
-
-                   @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("SeverityModel"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/SeverityModel" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="SeverityModel" class="menu-link">
-                        <div>SeverityModel</div>
-                    </a>
-                </li>
-                    }
-                }
-
-                    @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("ClinicSurgeryMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicSurgeryMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="ClinicSurgeryMaster" class="menu-link">
-                        <div>ClinicSurgeryMaster</div>
-                    </a>
-                </li>
-                    }
-                }
-
-                    @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("OTTableMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/OTTableMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="OTTableMaster" class="menu-link">
-                        <div>OTTableMaster</div>
-                    </a>
-                </li>
-                    }
-                }
 
                         @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("SurgeryTypeMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/SurgeryTypeMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="SurgeryTypeMaster" class="menu-link">
-                        <div>SurgeryTypeMaster</div>
-                    </a>
-                </li>
-                    }
-                }
+                        {
+                            @if (rollAccessList.Contains("HospitalRegistration"))
+                            {
+
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalRegistration" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="HospitalRegistration" class="menu-link">
+                                        <div>Hospital Registration</div>
+                                    </a>
+                                </li>
+                            }
+
+                        }
+                        </ul>
+
+                    <ul class="menu-sub">
 
                         @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("InternalDepartmentMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/InternalDepartmentMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="InternalDepartmentMaster" class="menu-link">
-                        <div>InternalDepartmentMaster</div>
-                    </a>
-                </li>
+                        {
+                            @if (rollAccessList.Contains("DiagnosisMaster"))
+                            {
 
-                    }
-                    }
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/DiagnosisMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="DiagnosisMaster" class="menu-link">
+                                        <div>DiagnosisMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                        </ul>
 
 
-                @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("HospitalBedMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalBedMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="HospitalBedMaster" class="menu-link">
-                        <div>HospitalBedMaster</div>
-                    </a>
-                </li>
-                }
-                }
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("ProcedureCodeMaster"))
+                            {
+
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/ProcedureCodeMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="ProcedureCodeMaster" class="menu-link">
+                                        <div>ProcedureCodeMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+</ul>
+
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("BloodGroupMaster"))
+                            {
+
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/BloodGroupMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="BloodGroupAdministration" class="menu-link">
+                                        <div>Blood Group Administration</div>
+                                    </a>
+                                </li>
+                            }
+
+                        }
+                        </ul>
+
+
+                    <ul class="menu-sub">
 
                         @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("NurseStationMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/NurseStationMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="NurseStationMaster" class="menu-link">
-                        <div>NurseStationMaster</div>
-                    </a>
-                </li>
-                    }
-                }
+                        {
+                            @if (rollAccessList.Contains("ResourceTypeMaster"))
+                            {
+
+
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/ResourceTypeMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="ResourceTypeMaster" class="menu-link">
+                                        <div>Resource Type Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                    <ul class="menu-sub">
 
                         @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("IPTypeMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/IPTypeMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="IPTypeMaster" class="menu-link">
-                        <div>IPTypeMaster</div>
-                    </a>
-                </li>
-                    }
-                }
+                        {
+                            @if (rollAccessList.Contains("DoctorSchedule"))
+                            {
+
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/DoctorSchedule" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="DoctorSchedule" class="menu-link">
+                                        <div>DoctorSchedule</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("StaffAdminModel"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/StaffAdminModel" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="StaffAdminModel" class="menu-link">
+                                        <div>Staff Registration</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                        </ul>
+
+                         <ul class="menu-sub">
 
                         @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("RoomTypeMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/RoomTypeMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="RoomTypeMaster" class="menu-link">
-                        <div>RoomTypeMaster</div>
-                    </a>
-                </li>
-                    }
-                }
+                        {
+                            @if (rollAccessList.Contains("RollAccessMaster"))
+                            {
+
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccessMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="RollAccessMaster" class="menu-link">
+                                        <div>Roll Access Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                         <ul class="menu-sub">
 
                         @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("EWSMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/EWSMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="EWSMaster" class="menu-link">
-                        <div>EWSMaster</div>
-                    </a>
-                </li>
-                    }
-                }
+                        {
+                            @if (rollAccessList.Contains("RollTypeMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/RollTypeMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="RollTypeMaster" class="menu-link">
+                                        <div>Roll Type Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                         <ul class="menu-sub">
 
                         @if (rollAccessList != null)
-                {
-                    @if (rollAccessList.Contains("OTSummaryMaster"))
-                    {
-                <li class='menu-item@(currentPage == "/ClinicAdministration/OTSummaryMaster" ? " active" : "")'>
-                    <a asp-controller="ClinicAdministration" asp-action="OTSummaryMaster" class="menu-link">
-                        <div>OTSummaryMaster</div>
-                    </a>
-                </li>
-                    }
-                }
+                        {
+                            @if (rollAccessList.Contains("RollAccess"))
+                            {
 
-                @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/RollAccess" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="RollAccess" class="menu-link">
+                                        <div>RollAccess</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                         <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("ScreenMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/ScreenMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="ScreenMaster" class="menu-link">
+                                        <div>ScreenMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("TestMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/TestMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="TestMaster" class="menu-link">
+                                        <div>TestMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientFHPHMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/PatientFHPHMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="PatientFHPHMaster" class="menu-link">
+                                        <div>PatientFHPHMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("SeverityModel"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/SeverityModel" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="SeverityModel" class="menu-link">
+                                        <div>SeverityModel</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("ClinicSurgeryMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicSurgeryMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="ClinicSurgeryMaster" class="menu-link">
+                                        <div>ClinicSurgeryMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                         <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("OTTableMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/OTTableMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="OTTableMaster" class="menu-link">
+                                        <div>OTTableMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("SurgeryTypeMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/SurgeryTypeMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="SurgeryTypeMaster" class="menu-link">
+                                        <div>SurgeryTypeMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                         <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("InternalDepartmentMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/InternalDepartmentMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="InternalDepartmentMaster" class="menu-link">
+                                        <div>InternalDepartmentMaster</div>
+                                    </a>
+                                </li>
+
+                            }
+                        }
+
+                        </ul>
+
+
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("HospitalBedMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalBedMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="HospitalBedMaster" class="menu-link">
+                                        <div>HospitalBedMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("NurseStationMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/NurseStationMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="NurseStationMaster" class="menu-link">
+                                        <div>NurseStationMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("IPTypeMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/IPTypeMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="IPTypeMaster" class="menu-link">
+                                        <div>IPTypeMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("RoomTypeMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/RoomTypeMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="RoomTypeMaster" class="menu-link">
+                                        <div>RoomTypeMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+
+                         <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("EWSMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/EWSMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="EWSMaster" class="menu-link">
+                                        <div>EWSMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+                   
+
+                <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("OTSummaryMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/OTSummaryMaster" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="OTSummaryMaster" class="menu-link">
+                                        <div>OTSummaryMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        @*   <li class='menu-item@(currentPage == "/Ecommerce/Dashboard" ? " active" : "")'>
           <a href="https://demos.themeselection.com/materio-aspnet-core-mvc-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html" target="_blank" class="menu-link">
             <div>eCommerce</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
           </a>
@@ -380,198 +460,90 @@
             <div>Academy</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
           </a>
         </li> *@
-            </ul>
-    </li>
-
-        <!-- Stellar Billing -->
-       @*  <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StellarBilling") ? " active open" : "")'>
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
-                <div>Stellar Billing</div>
-
-            </a>
-            <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/StellarBilling/CategoryMasterModel" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="CategoryMasterModel" class="menu-link">
-
-                        <div>Category Master</div>
-                    </a>
+                    </ul>
                 </li>
-            </ul>
+            }
+        }
 
-            <ul class="menu-sub">
+        
 
-                <li class='menu-item@(currentPage == "/OTManagement/ProductMasterModel" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="ProductMasterModel" class="menu-link">
+       
 
-                        <div>Product Master</div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/CustomerBilling" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="CustomerBilling" class="menu-link">
-
-                        <div>Customer Billing</div>
-                    </a>
-                </li>
-            </ul>
-             <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/CustomerMaster" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="CustomerMaster" class="menu-link">
-
-                        <div>Customer Master </div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/DiscountCategoryMaster" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="DiscountCategoryMaster" class="menu-link">
-
-                        <div>Discount Category Master</div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/GSTMasterModel" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="GSTMasterModel" class="menu-link">
-
-                        <div>GST Master</div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/VoucherCustomerDetails" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="VoucherCustomerDetails" class="menu-link">
-
-                        <div>Voucher Customer Details</div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/NetDicsountMaster" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="NetDicsountMaster" class="menu-link">
-
-                        <div>Net Dicsount Master</div>
-                    </a>
-                </li>
-            </ul>
-                        <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/PointsMaster" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="PointsMaster" class="menu-link">
-
-                        <div>Points Master</div>
-                    </a>
-                </li>
-            </ul>
-                        <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/PointsReedemDetails" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="PointsReedemDetails" class="menu-link">
-
-                        <div>Points Reedem Details</div>
-                    </a>
-                </li>
-            </ul>
-                        <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/RackMaster" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="RackMaster" class="menu-link">
-
-                        <div>Rack Master</div>
-                    </a>
-                </li>
-            </ul>
-                        <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/RackPatrionProduct" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="RackPatrionProduct" class="menu-link">
-
-                        <div>Rack Patrion Product</div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/VoucherMaster" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="VoucherMaster" class="menu-link">
-
-                        <div>Voucher Master</div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="menu-sub">
-
-                <li class='menu-item@(currentPage == "/OTManagement/GodownModel" ? " active" : "")'>
-                    <a asp-controller="StellarBilling" asp-action="GodownModel" class="menu-link">
-
-                        <div>GodownModel Stock</div>
-                    </a>
-                </li>
-            </ul>
-        </li> *@
-
-        <ul class="menu-inner py-1">
+       
             <!-- Facility Administration -->
-            <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/FacilityAdministration") ? " active open" : "")'>
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons mdi  mdi-store"></i>
-                    <div>Facility Administration</div>
 
-                </a>
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("FacilityAdministration"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/FacilityAdministration") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi  mdi-store"></i>
+                        <div>Facility Administration</div>
 
-                <ul class="menu-sub">
+                    </a>
 
-                             @if (rollAccessList != null)
-                {
-                        @if (rollAccessList.Contains("ClinicRegistration"))
-                    {
+                    <ul class="menu-sub">
 
-                    <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicRegistration" ? " active" : "")'>
-                        <a asp-controller="ClinicAdministration" asp-action="ClinicRegistration" class="menu-link">
-                            <div>Facility Registration</div>
-                        </a>
-                    </li>
-                    }
-                }
-
-                         @if (rollAccessList != null)
-                    {
-                        @if (rollAccessList.Contains("HospitalFacilityMapping"))
+                        @if (rollAccessList != null)
                         {
-                            <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalFacilityMapping" ? " active" : "")'>
-                                <a asp-controller="ClinicAdministration" asp-action="HospitalFacilityMapping" class="menu-link">
-                                    <div>HospitalFacilityMapping</div>
-                                </a>
-                            </li>
-                        }
-                    }
+                            @if (rollAccessList.Contains("ClinicRegistration"))
+                            {
 
-                             @if (rollAccessList != null)
-                    {
-                        @if (rollAccessList.Contains("StaffFacilityMapping"))
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/ClinicRegistration" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="ClinicRegistration" class="menu-link">
+                                        <div>Facility Registration</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        </ul>
+
+
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
                         {
-                            <li class='menu-item@(currentPage == "/ClinicAdministration/StaffFacilityMapping" ? " active" : "")'>
-                                <a asp-controller="ClinicAdministration" asp-action="StaffFacilityMapping" class="menu-link">
-                                    <div>Staff Facility Mapping</div>
-                                </a>
-                            </li>
+                            @if (rollAccessList.Contains("HospitalFacilityMapping"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/HospitalFacilityMapping" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="HospitalFacilityMapping" class="menu-link">
+                                        <div>HospitalFacilityMapping</div>
+                                    </a>
+                                </li>
+                            }
                         }
-                    }
-                </ul>
-           </li>
+
+                        </ul>
 
 
-            <ul class="menu-inner py-1">
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("StaffFacilityMapping"))
+                            {
+                                <li class='menu-item@(currentPage == "/ClinicAdministration/StaffFacilityMapping" ? " active" : "")'>
+                                    <a asp-controller="ClinicAdministration" asp-action="StaffFacilityMapping" class="menu-link">
+                                        <div>Staff Facility Mapping</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                </li>
+            }
+        }
+
+
+            
                 <!-- HR Management -->
+
+                
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("HRManagement"))
+            {
                 <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/HRManagement") ? " active open" : "")'>
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons mdi  mdi-store"></i>
@@ -582,7 +554,7 @@
                     <ul class="menu-sub">
 
 
-                                  @if (rollAccessList != null)
+                        @if (rollAccessList != null)
                         {
                             @if (rollAccessList.Contains("StaffAttendance"))
                             {
@@ -594,787 +566,869 @@
                             }
                         }
                     </ul>
-                        
-                        
+
+
 
                     <ul class="menu-sub">
-
-                                  @if (rollAccessList != null)
-                    {
-                                @if (rollAccessList.Contains("Payroll"))
-                        {
-                        <li class='menu-item@(currentPage == "/HRManagement/Payroll" ? " active" : "")'>
-                            <a asp-controller="HRManagement" asp-action="Payroll" class="menu-link">
-                                <div>Payroll</div>
-                            </a>
-                        </li>
-                        }
-                    }
-       </ul>
-
-                    <ul class="menu-sub">
-
-                                  @if (rollAccessList != null)
-                            {
-                                @if (rollAccessList.Contains("StaffLeave"))
-                                {
-                                    <li class='menu-item@(currentPage == "/HRManagement/StaffLeave" ? " active" : "")'>
-                                        <a asp-controller="HRManagement" asp-action="StaffLeave" class="menu-link">
-                                            <div>Staff Leave</div>
-                                        </a>
-                                    </li>
-                                }
-                            }
-                        </ul>
-
-                    <ul class="menu-sub">
-
-                                  @if (rollAccessList != null)
-                            {
-                                @if (rollAccessList.Contains("StaffBankDetail"))
-                                {
-                                    <li class='menu-item@(currentPage == "/HRManagement/StaffBankDetail" ? " active" : "")'>
-                                        <a asp-controller="HRManagement" asp-action="StaffBankDetail" class="menu-link">
-                                            <div>Staff Bank Detail</div>
-                                        </a>
-                                    </li>
-                                }
-                            }
-                        </ul>
-
-                    <ul class="menu-sub">
-
-                                  @if (rollAccessList != null)
-                            {
-                                @if (rollAccessList.Contains("LeaveTypeMaster"))
-                                {
-                                    <li class='menu-item@(currentPage == "/HRManagement/LeaveTypeMaster" ? " active" : "")'>
-                                        <a asp-controller="HRManagement" asp-action="LeaveTypeMaster" class="menu-link">
-                                            <div>Leave TypeMaster</div>
-                                        </a>
-                                    </li>
-                                }
-                            }
-                        </ul>
-
-                    <ul class="menu-sub">
-
-                                  @if (rollAccessList != null)
-                            {
-                                @if (rollAccessList.Contains("EmployeeHierarchymaster"))
-                                {
-                                    <li class='menu-item@(currentPage == "/HRManagement/EmployeeHierarchymaster" ? " active" : "")'>
-                                        <a asp-controller="HRManagement" asp-action="EmployeeHierarchymaster" class="menu-link">
-                                            <div>Employee Hierarchy master</div>
-                                        </a>
-                                    </li>
-                                }
-                            }
-                        </ul>
-
-                    <ul class="menu-sub">
-
-                                  @if (rollAccessList != null)
-                            {
-                                @if (rollAccessList.Contains("StaffTaxMaster"))
-                                {
-                                    <li class='menu-item@(currentPage == "/HRManagement/StaffTaxMaster" ? " active" : "")'>
-                                        <a asp-controller="HRManagement" asp-action="StaffTaxMaster" class="menu-link">
-                                            <div>Staff Tax Master</div>
-                                        </a>
-                                    </li>
-                                }
-                            }
-                        </ul>
-
-                   
-
-
-
-        <ul class="menu-inner py-1">
-        <!-- Stock Management -->
-        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StockManagement") ? " active open" : "")'>
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons mdi  mdi-store"></i>
-                <div>Stock Management</div>
-
-            </a>
-            
-
-            <ul class="menu-sub">
 
                         @if (rollAccessList != null)
-                                    {
-                                        @if (rollAccessList.Contains("DrugInventory"))
-                                        {
+                        {
+                            @if (rollAccessList.Contains("Payroll"))
+                            {
+                                <li class='menu-item@(currentPage == "/HRManagement/Payroll" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="Payroll" class="menu-link">
+                                        <div>Payroll</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                                            <li class='menu-item@(currentPage == "/StockManagement/DrugInventory" ? " active" : "")'>
-                                                <a asp-controller="StockManagement" asp-action="DrugInventory" class="menu-link">
+                    <ul class="menu-sub">
 
-                                                    <div>Drug Inventory</div>
-                                                </a>
-                                            </li>
-                                        }
-                                    }
-                                </ul>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("StaffLeave"))
+                            {
+                                <li class='menu-item@(currentPage == "/HRManagement/StaffLeave" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="StaffLeave" class="menu-link">
+                                        <div>Staff Leave</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("StaffBankDetail"))
+                            {
+                                <li class='menu-item@(currentPage == "/HRManagement/StaffBankDetail" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="StaffBankDetail" class="menu-link">
+                                        <div>Staff Bank Detail</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("LeaveTypeMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/HRManagement/LeaveTypeMaster" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="LeaveTypeMaster" class="menu-link">
+                                        <div>Leave TypeMaster</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("EmployeeHierarchymaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/HRManagement/EmployeeHierarchymaster" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="EmployeeHierarchymaster" class="menu-link">
+                                        <div>Employee Hierarchy master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("StaffTaxMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/HRManagement/StaffTaxMaster" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="StaffTaxMaster" class="menu-link">
+                                        <div>Staff Tax Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+
+            }
+        }
+
+
+
+      
+        <!-- Stock Management -->
+        
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("StockManagement"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/StockManagement") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi  mdi-store"></i>
+                        <div>Stock Management</div>
+
+                    </a>
+
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("DrugInventory"))
+                            {
+
+                                <li class='menu-item@(currentPage == "/StockManagement/DrugInventory" ? " active" : "")'>
+                                    <a asp-controller="StockManagement" asp-action="DrugInventory" class="menu-link">
+
+                                        <div>Drug Inventory</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("DrugCategoryMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/StockManagement/DrugCategoryMaster" ? " active" : "")'>
+                                    <a asp-controller="StockManagement" asp-action="DrugCategoryMaster" class="menu-link">
+                                        <div>Drug Category Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("DrugTypeMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/StockManagement/DrugTypeMaster" ? " active" : "")'>
+                                    <a asp-controller="StockManagement" asp-action="DrugTypeMaster" class="menu-link">
+
+                                        <div>Drug Type Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("DrugRackMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/StockManagement/DrugRackMaster" ? " active" : "")'>
+                                    <a asp-controller="StockManagement" asp-action="DrugRackMaster" class="menu-link">
+
+                                        <div>Drug Rack Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("DrugStockMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/StockManagement/DrugStockMaster" ? " active" : "")'>
+                                    <a asp-controller="StockManagement" asp-action="DrugStockMaster" class="menu-link">
+
+                                        <div>Drug Stock Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("DrugGroupMaster"))
+                            {
+                                <li class='menu-item@(currentPage == "/StockManagement/DrugGroupMaster" ? " active" : "")'>
+                                    <a asp-controller="StockManagement" asp-action="DrugGroupMaster" class="menu-link">
+                                        <div>Drug Group Master</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                </li>
+            }
+        }
+            
+
         
 
-                <ul class="menu-sub">
-
-                            @if (rollAccessList != null)
-                                    {
-                                        @if (rollAccessList.Contains("DrugCategoryMaster"))
-                                        {
-                                            <li class='menu-item@(currentPage == "/StockManagement/DrugCategoryMaster" ? " active" : "")'>
-                                                <a asp-controller="StockManagement" asp-action="DrugCategoryMaster" class="menu-link">
-                                                    <div>Drug Category Master</div>
-                                                </a>
-                                            </li>
-                                        }
-                                    }
-                                </ul>
-                <ul class="menu-sub">
-
-                            @if (rollAccessList != null)
-                                    {
-                                        @if (rollAccessList.Contains("DrugTypeMaster"))
-                                        {
-                                            <li class='menu-item@(currentPage == "/StockManagement/DrugTypeMaster" ? " active" : "")'>
-                                                <a asp-controller="StockManagement" asp-action="DrugTypeMaster" class="menu-link">
-
-                                                    <div>Drug Type Master</div>
-                                                </a>
-                                            </li>
-                                        }
-                                    }
-                                </ul>
-                <ul class="menu-sub">
-
-                            @if (rollAccessList != null)
-                                    {
-                                        @if (rollAccessList.Contains("DrugRackMaster"))
-                                        {
-                                            <li class='menu-item@(currentPage == "/StockManagement/DrugRackMaster" ? " active" : "")'>
-                                                <a asp-controller="StockManagement" asp-action="DrugRackMaster" class="menu-link">
-
-                                                    <div>Drug Rack Master</div>
-                                                </a>
-                                            </li>
-                                        }
-                                    }
-                                </ul>
-                <ul class="menu-sub">
-
-                            @if (rollAccessList != null)
-                                    {
-                                        @if (rollAccessList.Contains("DrugStockMaster"))
-                                        {
-                                            <li class='menu-item@(currentPage == "/StockManagement/DrugStockMaster" ? " active" : "")'>
-                                                <a asp-controller="StockManagement" asp-action="DrugStockMaster" class="menu-link">
-
-                                                    <div>Drug Stock Master</div>
-                                                </a>
-                                            </li>
-                                        }
-                                    }
-                                </ul>
-            
-                <ul class="menu-sub">
-                            @if (rollAccessList != null)
-                            {
-                                        @if (rollAccessList.Contains("DrugGroupMaster"))
-                                {
-                    <li class='menu-item@(currentPage == "/StockManagement/DrugGroupMaster" ? " active" : "")'>
-                        <a asp-controller="StockManagement" asp-action="DrugGroupMaster" class="menu-link">
-                            <div>Drug Group Master</div>
-                        </a>
-                    </li>
-                                }
-                                }
-                </ul>
-               
-        </li>
-            
-
-        <ul class="menu-inner py-1">
-
         <!-- Patient Registration -->
-            <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Patient Registration") ? " active open" : "")'>
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
+        
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("Patient Registration"))
+            {
+
+
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Patient Registration") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons mdi mdi-clipboard-text"></i>
-                    <div>Patient Registration</div>
+                        <div>Patient Registration</div>
 
-                </a>
-                 @if (rollAccessList != null)
-                                {
-                                    @if (rollAccessList.Contains("PatientRegister"))
-                                    {
+                    </a>
 
-                                        <ul class="menu-sub">
+                     <ul class="menu-sub">
 
-                                            <li class='menu-item@(currentPage == "/PatientRegistration/PatientRegister" ? " active" : "")'>
-                                                <a asp-controller="PatientRegistration" asp-action="PatientRegister" class="menu-link">
+                    @if (rollAccessList != null)
+                    {
+                        @if (rollAccessList.Contains("PatientRegister"))
+                        {
 
-                                                    <div>PatientRegister</div>
-                                                </a>
-                                            </li>
+                                <li class='menu-item@(currentPage == "/PatientRegistration/PatientRegister" ? " active" : "")'>
+                                    <a asp-controller="PatientRegistration" asp-action="PatientRegister" class="menu-link">
 
+                                        <div>PatientRegister</div>
+                                    </a>
+                                </li>
 
-                                        </ul>
-                                    }
-                                }
-                                <ul class="menu-sub">
+                        }
+                    }
+
+                    </ul>
+
+                    <ul class="menu-sub">
                         @if (rollAccessList != null)
-                                        {
-                                        @if (rollAccessList.Contains("PatientScheduling"))
-                                            {
-                                                <li class='menu-item@(currentPage == "/PatientRegistration/PatientScheduling" ? " active" : "")'>
-                                                    <a asp-controller="PatientRegistration" asp-action="PatientScheduling" class="menu-link">
-                                                        <div>PatientScheduling</div>
-                                                    </a>
-                                                </li>
-                                            }
-                                        }
-                                    </ul>
-                
-            </li>
+                        {
+                            @if (rollAccessList.Contains("PatientScheduling"))
+                            {
+                                <li class='menu-item@(currentPage == "/PatientRegistration/PatientScheduling" ? " active" : "")'>
+                                    <a asp-controller="PatientRegistration" asp-action="PatientScheduling" class="menu-link">
+                                        <div>PatientScheduling</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
+                </li>
+            }
+        }
 
-                <ul class="menu-inner py-1">
+              
 
                     <!-- Front Desk -->
-                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/FrontDesk") ? " active open" : "")'>
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-library"></i>
-                            <div>FrontDesk</div>
 
-                        </a>
-                        <ul class="menu-sub">                           
+                    
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("FrontDesk"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/FrontDesk") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi-library"></i>
+                        <div>FrontDesk</div>
 
-                             @if (rollAccessList != null)
-                                            {
-                                                @if (rollAccessList.Contains("OpChecking"))
-                                                {
-                                                    <li class='menu-item@(currentPage == "/FrontDesk/OpChecking" ? " active" : "")'>
-                                                        <a asp-controller="FrontDesk" asp-action="OpChecking" class="menu-link">
+                    </a>
+                    <ul class="menu-sub">                           
 
-                                                            <div>Op Checking</div>
-                                                        </a>
-                                                    </li>
-                                                }
-                                            }
-                                        </ul>
-                       
-                        <ul class="menu-sub">
-                             @if (rollAccessList != null)
-                                            {
-                                                @if (rollAccessList.Contains("StaffAttendance"))
-                                                {
-                                                    <li class='menu-item@(currentPage == "/FrontDesk/StaffAttendance" ? " active" : "")'>
-                                                        <a asp-controller="FrontDesk" asp-action="StaffAttendance" class="menu-link">
-                                                            <div>StaffAttendance</div>
-                                                        </a>
-                                                    </li>
-                                                }
-                                            }
-                                        </ul>
-                    </li>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("OpChecking"))
+                            {
+                                <li class='menu-item@(currentPage == "/FrontDesk/OpChecking" ? " active" : "")'>
+                                    <a asp-controller="FrontDesk" asp-action="OpChecking" class="menu-link">
 
+                                        <div>Op Checking</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                    <ul class="menu-inner py-1">
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("StaffAttendance"))
+                            {
+                                <li class='menu-item@(currentPage == "/FrontDesk/StaffAttendance" ? " active" : "")'>
+                                    <a asp-controller="FrontDesk" asp-action="StaffAttendance" class="menu-link">
+                                        <div>StaffAttendance</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+        }
+
+                    
 
                         <!-- In Patient Modules -->
-                        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/InPatientModules") ? " active open" : "")'>
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons mdi mdi mdi-bed"></i>
-                                <div>InPatient Modules</div>
 
-                            </a>
-                            <ul class="menu-sub">
+                        
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("InPatientModules"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/InPatientModules") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi mdi-bed"></i>
+                        <div>InPatient Modules</div>
 
-                                  @if (rollAccessList != null)
-                                                {
-                                                @if (rollAccessList.Contains("InPatientAdmission"))
-                                                    {
-                                                        <li class='menu-item@(currentPage == "/InPatientModules/InPatientAdmission" ? " active" : "")'>
-                                                            <a asp-controller="InPatientModules" asp-action="InPatientAdmission" class="menu-link">
+                    </a>
+                    <ul class="menu-sub">
 
-                                                                <div>InPatient Admission</div>
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                }
-                                            </ul>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("InPatientAdmission"))
+                            {
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientAdmission" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientAdmission" class="menu-link">
 
-                            <ul class="menu-sub">
+                                        <div>InPatient Admission</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                                  @if (rollAccessList != null)
-                                                {
-                                                @if (rollAccessList.Contains("InPatientDocVisit"))
-                                                    {
-                                                        <li class='menu-item@(currentPage == "/InPatientModules/InPatientDocVisit" ? " active" : "")'>
-                                                            <a asp-controller="InPatientModules" asp-action="InPatientDocVisit" class="menu-link">
+                    <ul class="menu-sub">
 
-                                                                <div>InPatientDocVisit</div>
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                }
-                                            </ul>
-                           @*  <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("InPatientDocVisit"))
+                            {
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientDocVisit" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientDocVisit" class="menu-link">
+
+                                        <div>InPatientDocVisit</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    @*  <ul class="menu-sub">
                                 <li class='menu-item@(currentPage == "/InPatientModules/WardManagement" ? " active" : "")'>
                                     <a asp-controller="InPatientModules" asp-action="WardManagement" class="menu-link">
                                         <div>Ward Management</div>
                                     </a>
                                 </li>
                             </ul> *@
-                            <ul class="menu-sub">
-                                  @if (rollAccessList != null)
-                                                {
-                                                @if (rollAccessList.Contains("InPatientTransfer"))
-                                                    {
-                                                        <li class='menu-item@(currentPage == "/InPatientModules/InPatientTransfer" ? " active" : "")'>
-                                                            <a asp-controller="InPatientModules" asp-action="InPatientTransfer" class="menu-link">
-                                                                <div>InPatientTransfer</div>
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                }
-                                            </ul>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("InPatientTransfer"))
+                            {
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientTransfer" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientTransfer" class="menu-link">
+                                        <div>InPatientTransfer</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                            <ul class="menu-sub">
+                    <ul class="menu-sub">
 
-                                  @if (rollAccessList != null)
-                                            {
-                                                @if (rollAccessList.Contains("InPatientCasesheet"))
-                                                {
-                                                    <li class='menu-item@(currentPage == "/InPatientModules/InPatientCasesheet" ? " active" : "")'>
-                                                        <a asp-controller="InPatientModules" asp-action="InPatientCasesheet" class="menu-link">
-                                                            <div>InPatient Casesheet</div>
-                                                        </a>
-                                                    </li>
-                                                }
-                                            }
-                                        </ul>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("InPatientCasesheet"))
+                            {
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientCasesheet" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientCasesheet" class="menu-link">
+                                        <div>InPatient Casesheet</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                            <ul class="menu-sub">
-                                  @if (rollAccessList != null)
-                                            {
-                                                @if (rollAccessList.Contains("InPatientDischarge"))
-                                                {
-                                                    <li class='menu-item@(currentPage == "/InPatientModules/InPatientDischarge" ? " active" : "")'>
-                                                        <a asp-controller="InPatientModules" asp-action="InPatientDischarge" class="menu-link">
-                                                            <div>InPatient Discharge</div>
-                                                        </a>
-                                                    </li>
-                                                }
-                                            }
-                                        </ul>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("InPatientDischarge"))
+                            {
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientDischarge" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientDischarge" class="menu-link">
+                                        <div>InPatient Discharge</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                            <ul class="menu-sub">
-                                  @if (rollAccessList != null)
-                                            {
-                                                @if (rollAccessList.Contains("InPatientDischargeSummary"))
-                                                {
-                                                    <li class='menu-item@(currentPage == "/InPatientModules/InPatientDischargeSummary" ? " active" : "")'>
-                                                        <a asp-controller="InPatientModules" asp-action="InPatientDischargeSummary" class="menu-link">
-                                                            <div>InPatient Discharge Summary</div>
-                                                        </a>
-                                                    </li>
-                                                }
-                                            }
-                                        </ul>
-                        
-                        <ul class="menu-sub">
-                              @if (rollAccessList != null)
-                                            {
-                                                @if (rollAccessList.Contains("InPatientObservation"))
-                                                {
-                                                    <li class='menu-item@(currentPage == "/InPatientModules/InPatientObservation" ? " active" : "")'>
-                                                        <a asp-controller="InPatientModules" asp-action="InPatientObservation" class="menu-link">
-                                                            <div>InPatientObservation</div>
-                                                        </a>
-                                                    </li>
-                                                }
-                                            }
-                                        </ul>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("InPatientDischargeSummary"))
+                            {
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientDischargeSummary" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientDischargeSummary" class="menu-link">
+                                        <div>InPatient Discharge Summary</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                        </li>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("InPatientObservation"))
+                            {
+                                <li class='menu-item@(currentPage == "/InPatientModules/InPatientObservation" ? " active" : "")'>
+                                    <a asp-controller="InPatientModules" asp-action="InPatientObservation" class="menu-link">
+                                        <div>InPatientObservation</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
+                </li>
+            }
+        }
 
             
-                <ul class="menu-inner py-1">
+               
 
                         <!-- OPD Management -->
-                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/OPDManagement") ? " active open" : "")'>
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+
+                        
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("OPDManagement"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/OPDManagement") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons mdi mdi-text-box-plus-outline"></i>
-                                <div>OPD Management</div>
-                        </a>
-                        <ul class="menu-sub">
-                               @if (rollAccessList != null)
-                                                {
-                                                    @if (rollAccessList.Contains("PatientObjectiveData"))
-                                                    {
-                                                        <li class='menu-item@(currentPage == "/OPDManagement/PatientObjectiveData" ? " active" : "")'>
-                                                            <a asp-controller="OPDManagement" asp-action="PatientObjectiveData" class="menu-link">
-                                                                <div>PatientObjectiveData</div>
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                }
-                                            </ul>
-                      @*   <ul class="menu-sub">
+                        <div>OPD Management</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientObjectiveData"))
+                            {
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientObjectiveData" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientObjectiveData" class="menu-link">
+                                        <div>PatientObjectiveData</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    @*   <ul class="menu-sub">
                                 <li class='menu-item@(currentPage == "/OPDManagement/PatientHealthHistory" ? " active" : "")'>
                                     <a asp-controller="OPDManagement" asp-action="PatientHealthHistory" class="menu-link">
                                     <div>PatientHealthHistory</div>
                                 </a>
                             </li>
                         </ul> *@
-                        <ul class="menu-sub">
-                               @if (rollAccessList != null)
-                                                {
-                                                    @if (rollAccessList.Contains("PatientFamilyHistory"))
-                                                    {
-                                                        <li class='menu-item@(currentPage == "/OPDManagement/PatientFamilyHistory" ? " active" : "")'>
-                                                            <a asp-controller="OPDManagement" asp-action="PatientFamilyHistory" class="menu-link">
-                                                                <div>PatientFamilyHistory</div>
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                }
-                                            </ul>
-                        <ul class="menu-sub">
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientFamilyHistory"))
+                            {
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientFamilyHistory" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientFamilyHistory" class="menu-link">
+                                        <div>PatientFamilyHistory</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <ul class="menu-sub">
 
-                              @if (rollAccessList != null)
-                                                {
-                                                    @if (rollAccessList.Contains("PatientVisitIntoDocument"))
-                                                    {
-                                                        <li class='menu-item@(currentPage == "/OPDManagement/PatientVisitIntoDocument" ? " active" : "")'>
-                                                            <a asp-controller="OPDManagement" asp-action="PatientVisitIntoDocument" class="menu-link">
-                                                                <div>PatientVisitIntoDocument</div>
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                }
-                                            </ul>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientVisitIntoDocument"))
+                            {
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientVisitIntoDocument" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientVisitIntoDocument" class="menu-link">
+                                        <div>PatientVisitIntoDocument</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                        <ul class="menu-sub">
+                    <ul class="menu-sub">
 
-                              @if (rollAccessList != null)
-                                                {
-                                                    @if (rollAccessList.Contains("PatientExamination"))
-                                                    {
-                                                        <li class='menu-item@(currentPage == "/OPDManagement/PatientExamination" ? " active" : "")'>
-                                                            <a asp-controller="OPDManagement" asp-action="PatientExamination" class="menu-link">
-                                                                <div>PatientExamination</div>
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                }
-                                            </ul>
-            </li>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientExamination"))
+                            {
+                                <li class='menu-item@(currentPage == "/OPDManagement/PatientExamination" ? " active" : "")'>
+                                    <a asp-controller="OPDManagement" asp-action="PatientExamination" class="menu-link">
+                                        <div>PatientExamination</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
 
 
-                  
-                           
+            }
+        }
 
-                        <ul class="menu-inner py-1">
+
+                     
 
                             <!-- OT Management -->
-                            <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/OTManagement") ? " active open" : "")'>
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                    <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
-                                    <div>OT Management</div>
 
-                                </a>
-                                <ul class="menu-sub">
+                            
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("OTManagement"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/OTManagement") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi-clipboard-account"></i>
+                        <div>OT Management</div>
 
-                                    
-                              @if (rollAccessList != null)
-                                                    {
-                                                        @if (rollAccessList.Contains("OtScheduleView"))
-                                                        {
-                                                            <li class='menu-item@(currentPage == "/OTManagement/OtScheduleView" ? " active" : "")'>
-                                                                <a asp-controller="OTManagement" asp-action="OtScheduleView" class="menu-link">
+                    </a>
+                    <ul class="menu-sub">
 
-                                                                    <div>OtScheduleView</div>
-                                                                </a>
-                                                            </li>
-                                                        }
-                                                    }
 
-                                </ul>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("OtScheduleView"))
+                            {
+                                <li class='menu-item@(currentPage == "/OTManagement/OtScheduleView" ? " active" : "")'>
+                                    <a asp-controller="OTManagement" asp-action="OtScheduleView" class="menu-link">
 
-                                        <ul class="menu-sub">
+                                        <div>OtScheduleView</div>
+                                    </a>
+                                </li>
+                            }
+                        }
 
-                                            
-                              @if (rollAccessList != null)
-                                                    {
-                                                        @if (rollAccessList.Contains("OTScheduling"))
-                                                        {
-                                                            <li class='menu-item@(currentPage == "/OTManagement/OTScheduling" ? " active" : "")'>
-                                                                <a asp-controller="OTManagement" asp-action="OTScheduling" class="menu-link">
+                    </ul>
 
-                                                                    <div>OT Scheduling</div>
-                                                                </a>
-                                                            </li>
-                                                        }
-                                                    }
-                                                </ul>
+                    <ul class="menu-sub">
 
-                                <ul class="menu-sub">
-                                    
-                              @if (rollAccessList != null)
-                                                    {
-                                                        @if (rollAccessList.Contains("OTConfirmation"))
-                                                        {
-                                                            <li class='menu-item@(currentPage == "/OTManagement/OTConfirmation" ? " active" : "")'>
-                                                                <a asp-controller="OTManagement" asp-action="OTConfirmation" class="menu-link">
-                                                                    <div>OT Confirmation</div>
-                                                                </a>
-                                                            </li>
-                                                        }
-                                                    }
-                                                </ul>
 
-                                <ul class="menu-sub">
-                                    
-                              @if (rollAccessList != null)
-                                                    {
-                                                        @if (rollAccessList.Contains("OTNotes"))
-                                                        {
-                                                            <li class='menu-item@(currentPage == "/OTManagement/OTNotes" ? " active" : "")'>
-                                                                <a asp-controller="OTManagement" asp-action="OTNotes" class="menu-link">
-                                                                    <div>OT Notes</div>
-                                                                </a>
-                                                            </li>
-                                                        }
-                                                    }
-                                                </ul>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("OTScheduling"))
+                            {
+                                <li class='menu-item@(currentPage == "/OTManagement/OTScheduling" ? " active" : "")'>
+                                    <a asp-controller="OTManagement" asp-action="OTScheduling" class="menu-link">
 
-                                <ul class="menu-sub">
-                                    
-                              @if (rollAccessList != null)
-                                                    {
-                                                        @if (rollAccessList.Contains("OTSummary"))
-                                                        {
-                                                            <li class='menu-item@(currentPage == "/OTManagement/OTSummary" ? " active" : "")'>
-                                                                <a asp-controller="OTManagement" asp-action="OTSummary" class="menu-link">
-                                                                    <div>OT Summary</div>
-                                                                </a>
-                                                            </li>
-                                                        }
-                                                    }
-                                                </ul>
-                                                        
-                                            </li>
+                                        <div>OT Scheduling</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                    <ul class="menu-inner py-1">
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("OTConfirmation"))
+                            {
+                                <li class='menu-item@(currentPage == "/OTManagement/OTConfirmation" ? " active" : "")'>
+                                    <a asp-controller="OTManagement" asp-action="OTConfirmation" class="menu-link">
+                                        <div>OT Confirmation</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("OTNotes"))
+                            {
+                                <li class='menu-item@(currentPage == "/OTManagement/OTNotes" ? " active" : "")'>
+                                    <a asp-controller="OTManagement" asp-action="OTNotes" class="menu-link">
+                                        <div>OT Notes</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("OTSummary"))
+                            {
+                                <li class='menu-item@(currentPage == "/OTManagement/OTSummary" ? " active" : "")'>
+                                    <a asp-controller="OTManagement" asp-action="OTSummary" class="menu-link">
+                                        <div>OT Summary</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                </li>
+            }
+        }
+
+                   
                     <!-- Patient Prescription -->
-                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientPrescription") ? " active open" : "")'>
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                            <i class="menu-icon tf-icons mdi mdi-pill"></i>
-                                <div>Patient Prescription</div>
 
-                        </a>
-                        <ul class="menu-sub">
+                    
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("PatientPrescription"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientPrescription") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi-pill"></i>
+                        <div>Patient Prescription</div>
 
-                             @if (rollAccessList != null)
-                                                        {
-                                                            @if (rollAccessList.Contains("PatientEPrescription"))
-                                                            {
-                                                                <li class='menu-item@(currentPage == "/PatientPrescription/PatientEPrescription" ? " active" : "")'>
-                                                                    <a asp-controller="PatientPrescription" asp-action="PatientEPrescription" class="menu-link">
+                    </a>
+                    <ul class="menu-sub">
 
-                                                                        <div>Patient E Prescription</div>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                        }
-                                                    </ul>
-                        <ul class="menu-sub">
-                             @if (rollAccessList != null)
-                                                        {
-                                                            @if (rollAccessList.Contains("PatientEPrescriptionPrint"))
-                                                            {
-                                                                <li class='menu-item@(currentPage == "/PatientPrescription/PatientEPrescriptionPrint" ? " active" : "")'>
-                                                                    <a asp-controller="PatientPrescription" asp-action="PatientEPrescriptionPrint" class="menu-link">
-                                                                        <div>Patient E Prescription Print</div>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                        }
-                                                    </ul>
-                    </li>
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientEPrescription"))
+                            {
+                                <li class='menu-item@(currentPage == "/PatientPrescription/PatientEPrescription" ? " active" : "")'>
+                                    <a asp-controller="PatientPrescription" asp-action="PatientEPrescription" class="menu-link">
+
+                                        <div>Patient E Prescription</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientEPrescriptionPrint"))
+                            {
+                                <li class='menu-item@(currentPage == "/PatientPrescription/PatientEPrescriptionPrint" ? " active" : "")'>
+                                    <a asp-controller="PatientPrescription" asp-action="PatientEPrescriptionPrint" class="menu-link">
+                                        <div>Patient E Prescription Print</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
 
 
-                <ul class="menu-inner py-1">
+            }
+        }
 
                     <!-- Laboratory Radiology -->
-                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/LabRad") ? " active open" : "")'>
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-beaker-outline"></i>
-                            <div>LaboratoryRadiology</div>
-                        </a>
-                        <ul class="menu-sub">
-                             @if (rollAccessList != null)
-                                                            {
-                                                                @if (rollAccessList.Contains("TestCreation"))
-                                                                {
-                                                                    <li class='menu-item@(currentPage == "/LabRad/TestCreation" ? " active" : "")'>
-                                                                        <a asp-controller="LabRad" asp-action="TestCreation" class="menu-link">
-                                                                            <div>TestCreation</div>
-                                                                        </a>
-                                                                    </li>
-                                                                }
-                                                            }
-                                                        </ul>
-                     @*   <ul class="menu-sub">
+
+                    
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("LabRad"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/LabRad") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi-beaker-outline"></i>
+                        <div>LaboratoryRadiology</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("TestCreation"))
+                            {
+                                <li class='menu-item@(currentPage == "/LabRad/TestCreation" ? " active" : "")'>
+                                    <a asp-controller="LabRad" asp-action="TestCreation" class="menu-link">
+                                        <div>TestCreation</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    @*   <ul class="menu-sub">
                             <li class='menu-item@(currentPage == "/LabRad/UpdateTestResults" ? " active" : "")'>
                                 <a asp-controller="LabRad" asp-action="UpdateTestResults" class="menu-link">
                                     <div>UpdateTestResults</div>
                                 </a>
                             </li>
                         </ul>*@
-                        <ul class="menu-sub">
-                             @if (rollAccessList != null)
-                                                            {
-                                                                @if (rollAccessList.Contains("PrintTestResults"))
-                                                                {
-                                                                    <li class='menu-item@(currentPage == "/LabRad/PrintTestResults" ? " active" : "")'>
-                                                                        <a asp-controller="LabRad" asp-action="PrintTestResults" class="menu-link">
-                                                                            <div>PrintTestResults</div>
-                                                                        </a>
-                                                                    </li>
-                                                                }
-                                                            }
-                                                        </ul>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PrintTestResults"))
+                            {
+                                <li class='menu-item@(currentPage == "/LabRad/PrintTestResults" ? " active" : "")'>
+                                    <a asp-controller="LabRad" asp-action="PrintTestResults" class="menu-link">
+                                        <div>PrintTestResults</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                        <ul class="menu-sub">
-                             @if (rollAccessList != null)
-                                                            {
-                                                                @if (rollAccessList.Contains("RadiologyCreation"))
-                                                                {
-                                                                    <li class='menu-item@(currentPage == "/LabRad/RadiologyCreation" ? " active" : "")'>
-                                                                        <a asp-controller="LabRad" asp-action="RadiologyCreation" class="menu-link">
-                                                                            <div>RadiologyCreation</div>
-                                                                        </a>
-                                                                    </li>
-                                                                }
-                                                            }
-                                                        </ul>
-                                                         @if (rollAccessList != null)
-                                                        {
-                                                            @if (rollAccessList.Contains("UpdateRadiologyResults"))
-                                                            {
-                                                                <ul class="menu-sub">
-                                                                    <li class='menu-item@(currentPage == "/LabRad/UpdateRadiologyResults" ? " active" : "")'>
-                                                                        <a asp-controller="LabRad" asp-action="UpdateRadiologyResults" class="menu-link">
-                                                                            <div>UpdateRadiologyResults</div>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            }
-                                                        }
-                                                         @if (rollAccessList != null)
-                                                        {
-                                                            @if (rollAccessList.Contains("PrintRadiologyResults"))
-                                                            {
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("RadiologyCreation"))
+                            {
+                                <li class='menu-item@(currentPage == "/LabRad/RadiologyCreation" ? " active" : "")'>
+                                    <a asp-controller="LabRad" asp-action="RadiologyCreation" class="menu-link">
+                                        <div>RadiologyCreation</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    @if (rollAccessList != null)
+                    {
+                        @if (rollAccessList.Contains("UpdateRadiologyResults"))
+                        {
+                            <ul class="menu-sub">
+                                <li class='menu-item@(currentPage == "/LabRad/UpdateRadiologyResults" ? " active" : "")'>
+                                    <a asp-controller="LabRad" asp-action="UpdateRadiologyResults" class="menu-link">
+                                        <div>UpdateRadiologyResults</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        }
+                    }
+                    @if (rollAccessList != null)
+                    {
+                        @if (rollAccessList.Contains("PrintRadiologyResults"))
+                        {
 
-                                                                <ul class="menu-sub">
-                                                                    <li class='menu-item@(currentPage == "/LabRad/PrintRadiologyResults" ? " active" : "")'>
-                                                                        <a asp-controller="LabRad" asp-action="PrintRadiologyResults" class="menu-link">
-                                                                            <div>PrintRadiologyResults</div>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            }
-                                                        }
-                                                        <ul class="menu-inner py-1">
+                            <ul class="menu-sub">
+                                <li class='menu-item@(currentPage == "/LabRad/PrintRadiologyResults" ? " active" : "")'>
+                                    <a asp-controller="LabRad" asp-action="PrintRadiologyResults" class="menu-link">
+                                        <div>PrintRadiologyResults</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        }
+                    }
+
+                </li>
+
+            }
+        }
+
                     <!-- Reports -->
-                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Reports") ? " active open" : "")'>
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-pill"></i>
-                            <div>Hostpital Reports</div>
 
-                        </a>
-                        <ul class="menu-sub">
-                            
-                                @if (rollAccessList != null)
-                                                                    {
-                                                                        @if (rollAccessList.Contains("Reports"))
-                                                                        {
-                                                                            <li class='menu-item@(currentPage == "/Reports/Reports" ? " active" : "")'>
-                                                                                <a asp-controller="Reports" asp-action="Reports" class="menu-link">
+                    
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("Reports"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Reports") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi-pill"></i>
+                        <div>Hostpital Reports</div>
 
-                                                                                    <div>Reports</div>
-                                                                                </a>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                    </li>
-            <ul class="menu-inner py-1">
+                    </a>
+                    <ul class="menu-sub">
 
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("Reports"))
+                            {
+                                <li class='menu-item@(currentPage == "/Reports/Reports" ? " active" : "")'>
+                                    <a asp-controller="Reports" asp-action="Reports" class="menu-link">
+
+                                        <div>Reports</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+        }
+
+            
                 <!-- PatientBilling -->
-                    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientBilling") ? " active open" : "")'>
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons mdi mdi-menu-icon tf-icons mdi mdi-account-cash"></i>
-                            <div>PatientBilling</div>
-                        </a>
-                        <ul class="menu-sub">
-                              @if (rollAccessList != null)
-                                                                        {
-                                                                            @if (rollAccessList.Contains("PatientBilling"))
-                                                                            {
+
+                
+               @if (rollAccessList != null)
+        {
+            @if (rollAccessList.Contains("PatientBilling"))
+            {
+                <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/PatientBilling") ? " active open" : "")'>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi-menu-icon tf-icons mdi mdi-account-cash"></i>
+                        <div>PatientBilling</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientBilling"))
+                            {
 
 
-                                                                                <li class='menu-item@(currentPage == "/PatientBilling/PatientBilling" ? " active" : "")'>
-                                                                                    <a asp-controller="PatientBilling" asp-action="PatientBilling" class="menu-link">
+                                <li class='menu-item@(currentPage == "/PatientBilling/PatientBilling" ? " active" : "")'>
+                                    <a asp-controller="PatientBilling" asp-action="PatientBilling" class="menu-link">
 
-                                                                                        <div>PatientBilling</div>
-                                                                                    </a>
-                                                                                </li>
-                                                                            }
-                                                                        }
-                                                                    </ul>
+                                        <div>PatientBilling</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
-                        <ul class="menu-sub">
-                              @if (rollAccessList != null)
-                                                                        {
-                                                                            @if (rollAccessList.Contains("PatientPayments"))
-                                                                            {
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PatientPayments"))
+                            {
 
-                                                                                <li class='menu-item@(currentPage == "/PatientBilling/PatientPayments" ? " active" : "")'>
-                                                                                    <a asp-controller="PatientBilling" asp-action="PatientPayments" class="menu-link">
-                                                                                        <div>PatientPayments</div>
-                                                                                    </a>
-                                                                                </li>
-                                                                            }
-                                                                        }
-                                                                    </ul>
-
-
-                                        <ul class="menu-sub">
-                                              @if (rollAccessList != null)
-                                                                        {
-                                                                            @if (rollAccessList.Contains("PharmacyBilling"))
-                                                                            {
-
-                                                                                <li class='menu-item@(currentPage == "/PatientBilling/PharmacyBilling" ? " active" : "")'>
-                                                                                    <a asp-controller="PatientBilling" asp-action="PharmacyBilling" class="menu-link">
-
-                                                                                        <div>Pharmacy Billing</div>
-                                                                                    </a>
-                                                                                </li>
-                                                                            }
-                                                                        }
-                                                                    </ul>
-                    </li>
-               
+                                <li class='menu-item@(currentPage == "/PatientBilling/PatientPayments" ? " active" : "")'>
+                                    <a asp-controller="PatientBilling" asp-action="PatientPayments" class="menu-link">
+                                        <div>PatientPayments</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
 
 
+                    <ul class="menu-sub">
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PharmacyBilling"))
+                            {
+
+                                <li class='menu-item@(currentPage == "/PatientBilling/PharmacyBilling" ? " active" : "")'>
+                                    <a asp-controller="PatientBilling" asp-action="PharmacyBilling" class="menu-link">
+
+                                        <div>Pharmacy Billing</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+        }
+
+                    </ul>
+                    
 
 
                             @*
