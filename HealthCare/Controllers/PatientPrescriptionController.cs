@@ -142,7 +142,7 @@ namespace HealthCare.Controllers
             if (buttonType == "Print")
             {
 
-                var checkexpres = await GetPrescription.SHprsPrescription.FirstOrDefaultAsync(x => x.PatientID == PatientID && x.CaseVisitID == CaseVisitID && x.IsDelete == false);
+                var checkexpres = await GetPrescription.SHprsPrescription.FirstOrDefaultAsync(x => x.PatientID == PatientID && x.CaseVisitID == CaseVisitID && x.IsDelete == false && x.DoctorID == doctorid);
 
                 if (checkexpres != null)
                 {
