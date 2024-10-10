@@ -95,7 +95,9 @@ namespace HealthCare.Business
                               Eveningunit = p.Eveningunit,
                               Nightunit = p.Nightunit,
                               RouteAdmin = p.RouteAdmin,
-                              Dosage = d.Dosage
+                              Dosage = d.Dosage,
+                              DbpatientID = p.PatientID,
+                              DrugID = p.DrugID
                           }).ToList();
             return result;
         }

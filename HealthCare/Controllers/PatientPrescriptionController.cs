@@ -179,7 +179,10 @@ namespace HealthCare.Controllers
                         Eveningunit = p.Eveningunit,
                         Nightunit = p.Nightunit,
                         RouteAdmin = p.RouteAdmin,
-                        Dosage = p.Dosage
+                        Dosage = p.Dosage,
+                        DrugID = p.DrugID,
+                        DbpatientID = p.DbpatientID
+
                     }).ToList();
 
                     ViewBag.SelectedPatientID = PatientID;
@@ -263,7 +266,9 @@ namespace HealthCare.Controllers
                     Eveningunit = p.Eveningunit,
                     Nightunit = p.Nightunit,
                     RouteAdmin = p.RouteAdmin,
-                    Dosage = p.Dosage
+                    Dosage = p.Dosage,
+                    DbpatientID = p.DbpatientID,
+                    DrugID = p.DrugID
 
                 }).ToList();
 
@@ -297,7 +302,9 @@ namespace HealthCare.Controllers
                         Eveningunit = p.Eveningunit,
                         Nightunit = p.Nightunit,
                         RouteAdmin = p.RouteAdmin,
-                        Dosage = p.Dosage
+                        Dosage = p.Dosage,
+                        DrugID = p.DrugID,
+                        DbpatientID = p.DbpatientID
 
                     }).ToList();
 
@@ -361,7 +368,9 @@ namespace HealthCare.Controllers
                         Eveningunit = p.Eveningunit,
                         Nightunit = p.Nightunit,
                         RouteAdmin = p.RouteAdmin,
-                        Dosage = p.Dosage
+                        Dosage = p.Dosage,
+                        DbpatientID = p.DbpatientID,
+                        DrugID = p.DrugID
 
                     }).ToList();
 
@@ -593,7 +602,9 @@ namespace HealthCare.Controllers
                     Eveningunit = p.Eveningunit,
                     Nightunit = p.Nightunit,
                     RouteAdmin = p.RouteAdmin,
-                    Dosage = p.Dosage
+                    Dosage = p.Dosage,
+                    DrugID = p.DrugID,
+                    DbpatientID = p.DbpatientID
                 }).ToList();
 
 
@@ -624,7 +635,10 @@ namespace HealthCare.Controllers
                 Eveningunit = p.Eveningunit,
                 Nightunit = p.Nightunit,
                 RouteAdmin = p.RouteAdmin,
-                Dosage = p.Dosage
+                Dosage = p.Dosage,
+                DrugID = p.DrugID,
+                DbpatientID = p.DbpatientID
+
             }).ToList();
 
 

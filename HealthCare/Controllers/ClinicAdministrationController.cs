@@ -380,7 +380,7 @@ namespace HealthCare.Controllers
             }
             else
             {
-                ViewBag.Message = "FacilityID Not Found";
+                ViewBag.Message = "Staff Not Found";
             }
             StaffAdminModel stf = new StaffAdminModel();
 
