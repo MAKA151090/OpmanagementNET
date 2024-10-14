@@ -886,8 +886,20 @@ namespace HealthCare.Controllers
                 TempData.Keep("FacilityID");
             }
 
+            string docid = string.Empty;
+            if (TempData["DoctorID"] != null)
+            {
+                docid = TempData["DoctorID"].ToString();
+                TempData.Keep("DoctorID");
+            }
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetPrescription);
+
+            var doctorid = docpres.Getdocid(facilityId, docid).FirstOrDefault()?.StrStaffID;
+
+
             var caseVisitIds = GetPrescription.SHprsPrescription
-                .Where(cv => cv.PatientID == patientId && cv.IsDelete == false && cv.FacilityID == facilityId)
+                .Where(cv => cv.PatientID == patientId && cv.IsDelete == false && cv.FacilityID == facilityId && cv.DoctorID == doctorid)
                 .Select(cv => cv.CaseVisitID).Distinct()
                 .ToList();
 
