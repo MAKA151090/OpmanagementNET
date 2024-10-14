@@ -238,20 +238,7 @@
 
                        
 
-                        @* <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var screenLISt = ((IEnumerable<DrugGroupModel>)ViewData["DurgGroup"])
-                                .Select(m => new SelectListItem
-            {
-                Value = m.GroupTypeName.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.GroupTypeName}"
-            });
-                            }
-
-                            @Html.DropDownListFor(model => model.GroupName, screenLISt, "Select GroupType ID", new { @class = "form-control" })
-                            <label asp-for="GroupName" class="control-label">Group Name</label>
-                            <span asp-validation-for="GroupName" class="text-danger"></span>
-                        </div> *@
+                      
 
 
                         <div class="form-floating form-floating-outline mb-4">

@@ -34,7 +34,7 @@ namespace HealthCare.Business
         public List<ClinicAdminModel> GetFacility(string facility)
         {
             var Getfac = (from f in _healthcareContext.SHclnClinicAdmin
-                          where  f.StrIsDelete == false
+                          where  f.StrIsDelete == false && f.FacilityID == facility
                           select new ClinicAdminModel
                           {
                               FacilityID = f.FacilityID,

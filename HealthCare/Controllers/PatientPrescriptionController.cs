@@ -30,84 +30,7 @@ namespace HealthCare.Controllers
         }
 
 
-        /*public async Task<IActionResult> Prescription(PatientEPrescriptionModel pPres,string buttonType,PrescriptionTableModel Model)
-        {
-
-            BusinessClassPatientPrescription prescription = new BusinessClassPatientPrescription(GetPrescription);
-            ViewData["patientid"] = prescription.GetPatientId();
-            ViewData["drugid"] = prescription.GetDrugid();
-            ViewData["docid"] = prescription.Getdocid();
-
-            if (buttonType=="Get")
-            {
-
-                var result = prescription.GetPrescription(pPres.PatientID, pPres.CaseVisitID, pPres.OrderID, pPres.DrugID);
-                var viewModelList = result.Select(p => new PrescriptionViewModel
-                {
-                    PatientID = p.PatientID,
-                    CaseVisitID = p.CaseVisitID,
-                    OrderID = p.OrderID,
-                    DrugID = p.DrugID,
-                    DrugName = p.DrugName,
-                    Frequency = p.Frequency,
-                    Duration = p.Duration,
-                    Dosage = p.Dosage,
-                    Unit = p.Unit
-                }).ToList();
-                Model.Viewprescription = viewModelList;
-
-                return View ("PatientEPrescription",Model);
-            }
-
-
-
-            var existingCat = await GetPrescription.SHprsPrescription.FindAsync(pPres.PatientID,pPres.CaseVisitID, pPres.OrderID, pPres.DrugID);
-            if (existingCat != null)
-            {
-
-                existingCat.PatientID = pPres.PatientID;
-               // existingCat.EpressID = existingCat.EpressID;
-                existingCat.CaseVisitID = pPres.CaseVisitID;
-                existingCat.OrderID=pPres.OrderID;
-                existingCat.DrugID=pPres.DrugID;
-                existingCat.DoctorID=pPres.DoctorID;
-                existingCat.PrescriptionDate=pPres.PrescriptionDate;
-                existingCat.Unit=pPres.Unit;
-                existingCat.UnitCategory=pPres.UnitCategory;
-                existingCat.Frequency=pPres.Frequency;
-                existingCat.FrequencyUnit=pPres.FrequencyUnit;
-                existingCat.Duration=pPres.Duration;
-                existingCat.Quantity=pPres.Quantity;
-                existingCat.EndDate=pPres.EndDate;
-                existingCat.RouteAdmin=pPres.RouteAdmin;
-                existingCat.Instructions=pPres.Instructions;
-                existingCat.Comments=pPres.Comments;
-                existingCat.FillDate=pPres.FillDate;
-                existingCat.Result=pPres.Result;
-                existingCat.lastupdatedDate = DateTime.Now.ToString();
-                existingCat.lastUpdatedUser = User.Claims.First().Value.ToString();
-                existingCat.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-               // GetPrescription.SHprsPrescription.Update(existingCat);
-                //GetPrescription.Entry(existingCat).State = EntityState.Modified;
-            }
-            else
-            {
-                pPres.lastupdatedDate = DateTime.Now.ToString();
-                pPres.lastUpdatedUser = User.Claims.First().Value.ToString();
-                pPres.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                GetPrescription.SHprsPrescription.Add(pPres);
-
-            }
-
-         
-
-            await GetPrescription.SaveChangesAsync();
-            ViewBag.Message = "Saved Successfully.";
-            return View("PatientEPrescription");
-
-
-        }*/
-
+      
         [HttpPost]
         public async Task<IActionResult> Prescription(PatientEPrescriptionModel pPres, string buttonType, PrescriptionTableModel Model, string PatientID, string CaseVisitID, string OrderID, string DoctorID)
         {
@@ -906,55 +829,7 @@ namespace HealthCare.Controllers
             return Json(caseVisitIds);
         }
 
-        /*  public async Task<IActionResult> AddNewVisitID(string patientId)
-          {
-              string facilityId = string.Empty;
-              if (TempData["FacilityID"] != null)
-              {
-                  facilityId = TempData["FacilityID"].ToString();
-                  TempData.Keep("FacilityID");
-              }
-
-              try
-              {
-                  // Fetch the last visit ID for the selected patient
-                  var lastVisitIdEntry = await GetPrescription.SHprsPrescription
-                      .Where(cv => cv.PatientID == patientId && cv.FacilityID == facilityId && cv.IsDelete == false)
-                      .OrderByDescending(cv => cv.CaseVisitID)
-                      .FirstOrDefaultAsync();
-
-                  int nextVisitNumber = 1;
-
-                  // If a visit ID exists, increment the number
-                  if (lastVisitIdEntry != null)
-                  {
-                      var lastVisitId = lastVisitIdEntry.CaseVisitID;
-                      var lastVisitNumber = int.Parse(lastVisitId.Split('_')[0]);
-                      nextVisitNumber = lastVisitNumber + 1;
-                  }
-
-                  // Create the new visit ID with the current date in YYYY-MM-DD format
-                  string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
-                  string newVisitId = $"Visit-{nextVisitNumber}__{currentDate}";
-
-                  // Insert the new visit ID in the database for that patient
-                  var newVisit = new PrescriptionTableModel
-                  {
-                      PatientID = patientId,
-                      CaseVisitID = newVisitId,
-                      // Include other necessary fields as needed
-                  };
-
-
-                  return Json(new { success = true, newVisitId = newVisitId });
-              }
-              catch (Exception ex)
-              {
-                  return Json(new { success = false, message = "Error occurred while adding the new visit ID." });
-              }
-          }
-  */
-
+      
 
         public async Task<IActionResult> AddNewVisitID(string patientId)
         {
