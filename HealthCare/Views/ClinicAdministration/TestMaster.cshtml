@@ -5,6 +5,51 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        // Close popup when OK button is clicked
+        popupOKButton.addEventListener("click", function () {
+            closePopup();
+        });
+
+        // Close popup when clicking outside of the message box
+        document.addEventListener("click", function (event) {
+            if (!popup.contains(event.target) && !popupOKButton.contains(event.target)) {
+                closePopup();
+            }
+        });
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popupMessage");
+        popup.style.display = "none"; // Hide the popup
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
+
+
 <form asp-action="TestMaster" asp-controller="ClinicAdministration">
 @section PageStyles {
     <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
@@ -40,28 +85,35 @@
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="TestID" class="form-control" placeholder="TestID" />
+                            <input asp-for="TestID" class="form-control" placeholder="TestID" value="@Model.TestID" />
                             <label asp-for="TestID" class="control-label"></label>
-                            <span asp-validation-for="TestID" class="text-danger"></span>
+                           
                         </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="TestName" class="form-control" placeholder="TestName" />
+                        <div class="form-floating form-floating-outline mb-4"> 
+                        <input asp-for="TestName" id="TestName" class="form-control" placeholder="TestName" value="@Model.TestName" />
                             <label asp-for="TestName" class="control-label"></label>
 
-                            <span asp-validation-for="TestName" class="text-danger"></span>
+                        <span id="testNameError" class="text-danger"></span>
                         </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Cost" class="form-control" placeholder="Cost" />
+                            <input asp-for="Cost" class="form-control" placeholder="Cost" value="@Model.Cost" />
                             <label asp-for="Cost" class="control-label"></label>
 
                             <span asp-validation-for="Cost" class="text-danger"></span>
                         </div>
                         <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="Range" class="form-control" placeholder="Range" />
+                            <input asp-for="Range" class="form-control" placeholder="Range" value="@Model.Range" />
                             <label asp-for="Range" class="control-label"></label>
 
                             <span asp-validation-for="Range" class="text-danger"></span>
                         </div>
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Unit" class="form-control" placeholder="Unit" value="@Model.Unit" />
+                        <label asp-for="Unit" class="control-label"></label>
+
+                        <span asp-validation-for="Unit" class="text-danger"></span>
+                    </div>
 
 
                     <br />
@@ -74,15 +126,35 @@
     <br />
     <div class="form-group">
         <center>
-            <button type="submit" style="width:180px" value="Create" asp-action="TestMaster" value="Save" class="btn btn-primary">Save</button>
-    
+            <button type="submit" style="width:180px" value="Create" asp-action="TestMaster" onclick="validateForm(event)" value="Save" class="btn btn-primary">Save</button>
+            <button type="submit" style="width:180px" value="get" asp-action="GetTestMaster" formmethod="get" value="get" class="btn btn-primary">Get</button>
+
+
             @if (ViewBag.Message != null)
             {
-                <div class="alert alert-success">
-                    @ViewBag.Message
-                </div>
+                <script>
+                    handleMessages("@ViewBag.Message");
+                </script>
             }
         </center>
     </div>
 </form>
 
+<script>
+    function validateForm(event) {
+        var testname = document.getElementById("TestName").value;
+        var errorSpan = document.getElementById("testNameError");
+
+        // Clear previous error message
+        errorSpan.textContent = '';
+
+        // Check if the field is empty
+        if (!testname.trim()) {
+            // Show error message
+            errorSpan.textContent = "Test Name cannot be empty.";
+
+            // Prevent form submission
+            event.preventDefault();
+        }
+    }
+</script>

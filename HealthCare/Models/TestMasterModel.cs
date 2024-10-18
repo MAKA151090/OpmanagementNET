@@ -13,6 +13,10 @@ namespace HealthCare.Models
         private String LastupdatedUser;
         private String LastupdatedDate;
         private String LastUpdatedMachine;
+        private String facilityID;
+        private String unit;
+        private long id;
+        private bool isdelete;
 
 
         [MaxLength(100)]
@@ -35,5 +39,11 @@ namespace HealthCare.Models
 
         [MaxLength(30)]
         public string? lastUpdatedMachine { get => LastUpdatedMachine; set => LastUpdatedMachine = value; }
+        
+        public string? FacilityID { get => facilityID; set => facilityID = value; }
+        public string? Unit { get => unit; set => unit = value; }
+        
+        public long Id { get => id; set => id = value; }
+        public bool Isdelete { get => isdelete; set => isdelete = value; }
     }
 }

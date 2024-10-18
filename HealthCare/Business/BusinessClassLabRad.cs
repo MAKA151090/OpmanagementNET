@@ -14,14 +14,15 @@ namespace HealthCare.Business
             _healthcareContext = healthcareContext;
         }
 
-     
+
         ///dropdown for print radiology result 
 
-        public List<PatientRegistrationModel> Getpid()
+        public List<PatientRegistrationModel> Getpid(string facility)
 
         {
             var patid = (
                         from pr in _healthcareContext.SHPatientRegistration
+                        where pr.FacilityID == facility
                         select new PatientRegistrationModel
                         {
                             PatientID = pr.PatientID,
@@ -33,29 +34,31 @@ namespace HealthCare.Business
         }
 
 
-        public List<ClinicAdminModel> Getfacid()
+        public List<ClinicAdminModel> Getfacid(string facility)
 
         {
             var facid = (
                         from pr in _healthcareContext.SHclnClinicAdmin
+                        where pr.FacilityID == facility
                         select new ClinicAdminModel
                         {
-                           FacilityID = pr.FacilityID ,
-                           ClinicName = pr.ClinicName 
+                            FacilityID = pr.FacilityID,
+                            ClinicName = pr.ClinicName
 
                         }).ToList();
             return facid;
 
         }
 
-        public List<PatientRadiolodyModel> Getvisitcaseid()
+        public List<PatientRadiolodyModel> Getvisitcaseid(string facility)
 
         {
             var visitcaseid = (
                         from pr in _healthcareContext.SHPatientRadiology
+                        where pr.FacilityID == facility
                         select new PatientRadiolodyModel
                         {
-                           VisitcaseID = pr.VisitcaseID 
+                            VisitcaseID = pr.VisitcaseID
 
                         }).ToList();
             return visitcaseid;
@@ -64,11 +67,12 @@ namespace HealthCare.Business
 
 
         ///test creation
-        
-        public List<TestMasterModel> GetTestid()
+
+        public List<TestMasterModel> GetTestid(string facility)
         {
             var testid = (
                 from pr in _healthcareContext.SHTestMaster
+                where pr.FacilityID == facility
                 select new TestMasterModel
                 {
                     TestID = pr.TestID,
@@ -78,10 +82,11 @@ namespace HealthCare.Business
             return testid;
         }
 
-        public List<PatientRegistrationModel> Getpatid()
+        public List<PatientRegistrationModel> Getpatid(string facility)
         {
             var patid = (
                 from pr in _healthcareContext.SHPatientRegistration
+                where pr.FacilityID == facility
                 select new PatientRegistrationModel
                 {
                     PatientID = pr.PatientID,
@@ -92,29 +97,31 @@ namespace HealthCare.Business
             return patid;
         }
 
-        public List<ClinicAdminModel> GetFacid()
+        public List<ClinicAdminModel> GetFacid(string facility)
         {
             var facid = (
                 from pr in _healthcareContext.SHclnClinicAdmin
+                where pr.FacilityID == facility
                 select new ClinicAdminModel
                 {
                     FacilityID = pr.FacilityID,
                     ClinicName = pr.ClinicName
 
 
-                } ).ToList();
+                }).ToList();
             return facid;
         }
 
 
-        public List<StaffAdminModel> getrefdocid()
+        public List<StaffAdminModel> getrefdocid(string facility)
         {
             var refdocid = (
                 from pr in _healthcareContext.SHclnStaffAdminModel
+                where pr.FacilityID == facility
                 select new StaffAdminModel
                 {
-                   StrStaffID = pr.StrStaffID,
-                   StrFullName = pr.StrFullName,
+                    StrStaffID = pr.StrStaffID,
+                    StrFullName = pr.StrFullName,
 
                 }).ToList();
             return refdocid;
@@ -124,10 +131,11 @@ namespace HealthCare.Business
         ///Radilogy creation 
         ///
 
-        public List<RadiologyMasterModel> GetRadioid()
+        public List<RadiologyMasterModel> GetRadioid(string facility)
         {
             var radioid = (
                 from pr in _healthcareContext.SHRadioMaster
+                where pr.FacilityID == facility
                 select new RadiologyMasterModel
                 {
                     RadioID = pr.RadioID,
@@ -140,13 +148,14 @@ namespace HealthCare.Business
         }
 
 
-        public List<ClinicAdminModel> Getfacilityid()
+        public List<ClinicAdminModel> Getfacilityid(string facility)
         {
             var facilityid = (
                 from pr in _healthcareContext.SHclnClinicAdmin
+                where pr.FacilityID == facility
                 select new ClinicAdminModel
                 {
-                    FacilityID= pr.FacilityID,
+                    FacilityID = pr.FacilityID,
                     ClinicName = pr.ClinicName
 
 
@@ -155,24 +164,26 @@ namespace HealthCare.Business
 
         }
 
-        public List<StaffAdminModel> Getrefdocid()
+        public List<StaffAdminModel> Getrefdocid(string facility)
         {
             var refdocid = (
                 from pr in _healthcareContext.SHclnStaffAdminModel
+                where pr.FacilityID == facility
                 select new StaffAdminModel
                 {
-                   StrStaffID= pr.StrStaffID,
-                   StrFullName= pr.StrFullName,
+                    StrStaffID = pr.StrStaffID,
+                    StrFullName = pr.StrFullName,
 
                 }).ToList();
             return refdocid;
 
         }
 
-        public List<PatientRegistrationModel> Getpatiientid()
+        public List<PatientRegistrationModel> Getpatiientid(string facility)
         {
             var patientid = (
                 from pr in _healthcareContext.SHPatientRegistration
+                where pr.FacilityID == facility
                 select new PatientRegistrationModel
                 {
                     PatientID = pr.PatientID,
@@ -187,22 +198,24 @@ namespace HealthCare.Business
 
         ///print test result
 
-        public List<PatientTestModel> GetVisitid()
+        public List<PatientTestModel> GetVisitid(string facility)
         {
             var visitid = (
                 from pr in _healthcareContext.SHPatientTest
+                where pr.FacilityID == facility
                 select new PatientTestModel
                 {
-                   VisitcaseID1 = pr.VisitcaseID1,
+                    VisitcaseID1 = pr.VisitcaseID1,
 
                 }).ToList();
             return visitid;
 
         }
-        public List<PatientRegistrationModel> GetPatID()
+        public List<PatientRegistrationModel> GetPatID(string facility)
         {
             var Patientid = (
                 from pr in _healthcareContext.SHPatientRegistration
+                where pr.FacilityID == facility
                 select new PatientRegistrationModel
                 {
                     PatientID = pr.PatientID,
@@ -216,10 +229,11 @@ namespace HealthCare.Business
 
 
 
-        public List<ClinicAdminModel> GetFacilityid()
+        public List<ClinicAdminModel> GetFacilityid(string facility)
         {
             var Facilityid = (
                 from pr in _healthcareContext.SHclnClinicAdmin
+                where pr.FacilityID == facility
                 select new ClinicAdminModel
                 {
                     FacilityID = pr.FacilityID,
@@ -232,7 +246,7 @@ namespace HealthCare.Business
         }
 
 
-        public async Task<List<PatientViewResultModel>> GetTestResults(string patientId, string FacilityID , string Visitcaseid)
+        public async Task<List<PatientViewResultModel>> GetTestResults(string patientId, string FacilityID, string Visitcaseid)
         {
             var testResults = await (
                 from pt in _healthcareContext.SHPatientTest
@@ -260,10 +274,10 @@ namespace HealthCare.Business
 
 
 
-        public async Task<List<RadiologyViewResultModel>> GetRadiologData(string visitcaseid , string patientid, string facilityid)
+        public async Task<List<RadiologyViewResultModel>> GetRadiologData(string visitcaseid, string patientid, string facilityid)
         {
             var RadiologyData = (
-                            from pr in _healthcareContext.SHPatientRadiology 
+                            from pr in _healthcareContext.SHPatientRadiology
                             join rm in _healthcareContext.SHRadioMaster on pr.RadioID equals rm.RadioID
                             join p in _healthcareContext.SHPatientRegistration on pr.PatientID equals p.PatientID
                             where pr.VisitcaseID == visitcaseid && pr.PatientID == patientid && pr.FacilityID == facilityid
@@ -287,10 +301,11 @@ namespace HealthCare.Business
         ///update radiology result   
         ///
 
-        public List<PatientRegistrationModel> Getupdpatid()
+        public List<PatientRegistrationModel> Getupdpatid(string facility)
         {
             var updpatid = (
                 from pr in _healthcareContext.SHPatientRegistration
+                where pr.FacilityID == facility
                 select new PatientRegistrationModel
                 {
                     PatientID = pr.PatientID,
@@ -303,10 +318,25 @@ namespace HealthCare.Business
         }
 
 
-        public List<ClinicAdminModel> Getupdfacid()
+        public List<StaffAdminModel> Gettestfacility(string facilityId)
+        {
+            var docfac = (
+                    from pr in _healthcareContext.SHclnStaffAdminModel
+                    where  pr.FacilityID == facilityId
+                    select new StaffAdminModel
+                    {
+                        FacilityID = pr.FacilityID
+                    }
+                    ).ToList();
+
+            return docfac;
+        }
+
+        public List<ClinicAdminModel> Getupdfacid(string facility)
         {
             var updfacid = (
                 from pr in _healthcareContext.SHclnClinicAdmin
+                where pr.FacilityID == facility
                 select new ClinicAdminModel
                 {
                     FacilityID = pr.FacilityID,
@@ -318,10 +348,11 @@ namespace HealthCare.Business
 
         }
 
-        public List<RadiologyMasterModel> Getupdradid()
+        public List<RadiologyMasterModel> Getupdradid(string facility)
         {
             var updradid = (
                 from pr in _healthcareContext.SHRadioMaster
+                where pr.FacilityID == facility
                 select new RadiologyMasterModel
                 {
                     RadioID = pr.RadioID,

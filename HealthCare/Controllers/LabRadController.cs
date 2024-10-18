@@ -20,8 +20,23 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest)
         {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid(facilityId);
+            ViewData["patid"] = business.Getpatid(facilityId);
+            ViewData["facid"] = business.GetFacid(facilityId);
+
+            ViewData["refdocid"] = business.getrefdocid(facilityId);
+
             //PatientTestModel = new PatientTestModel();
-            var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.FacilityID, pPatientTest.TestID,pPatientTest.TestDateTime);
+            var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.FacilityID, pPatientTest.TestID, pPatientTest.TestDateTime);
             if (existingPatientTest != null)
             {
 
@@ -52,13 +67,8 @@ namespace HealthCare.Controllers
             }
             await GetlabData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
-            
-            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
-            ViewData["testid"] = business.GetTestid();
-            ViewData["patid"] = business.Getpatid();
-            ViewData["facid"] = business.GetFacid();
 
-            ViewData["refdocid"] = business.getrefdocid();
+
 
 
             return View("TestCreation", pPatientTest);
@@ -67,49 +77,77 @@ namespace HealthCare.Controllers
         }
         public async Task<IActionResult> ViewResult(PatientViewResultModel Model)
         {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassLabRad ObjBusTestResult = new BusinessClassLabRad(GetlabData);
 
-            ViewData["visitid"] = ObjBusTestResult.GetVisitid();
-            ViewData["Patientid"] = ObjBusTestResult.GetPatID();
-            ViewData["Facilityid"] = ObjBusTestResult.GetFacilityid();
+            ViewData["visitid"] = ObjBusTestResult.GetVisitid(facilityId);
+            ViewData["Patientid"] = ObjBusTestResult.GetPatID(facilityId);
+            ViewData["Facilityid"] = ObjBusTestResult.GetFacilityid(facilityId);
 
-            if (ObjBusTestResult!=null)
+            if (ObjBusTestResult != null)
             {
-                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID , Model.VisitcaseID);
+                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID, Model.VisitcaseID);
                 return View("PrintTestResults", testResults);
             }
 
 
-            return View("PrintTestResults", Model); 
+            return View("PrintTestResults", Model);
 
         }
 
         public async Task<IActionResult> GetRadio(string visitcaseid, string patientid, string facilityid)
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
 
-            ViewData["patid"] = business.Getpid();
-            ViewData["facid"] = business.Getfacid();
-            ViewData["visitcaseid"] = business.Getvisitcaseid();
+            ViewData["patid"] = business.Getpid(facilityId);
+            ViewData["facid"] = business.Getfacid(facilityId);
+            ViewData["visitcaseid"] = business.Getvisitcaseid(facilityId);
 
 
 
-                if (business != null)
-                {
+            if (business != null)
+            {
                 var Radiologydata = await business.GetRadiologData(visitcaseid, patientid, facilityid);
                 return View("PrintRadiologyResults", Radiologydata);
 
-                }
+            }
             return View();
         }
 
 
-        public async Task<IActionResult>  GetPatientRadio(PatientRadiolodyModel model)
+        public async Task<IActionResult> GetPatientRadio(PatientRadiolodyModel model)
         {
-            var existingPatientRadiology = await GetlabData.SHPatientRadiology.FindAsync(model.RadioID , model.FacilityID , model.PatientID , model.ScreeningDate);
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassLabRad businessClass = new BusinessClassLabRad(GetlabData);
+            ViewData["radioid"] = businessClass.GetRadioid(facilityId);
+            ViewData["facilityid"] = businessClass.Getfacilityid(facilityId);
+            ViewData["refdocid"] = businessClass.Getrefdocid(facilityId);
+            ViewData["patientid"] = businessClass.Getpatiientid(facilityId);
+
+            var existingPatientRadiology = await GetlabData.SHPatientRadiology.FindAsync(model.RadioID, model.FacilityID, model.PatientID, model.ScreeningDate);
             if (existingPatientRadiology != null)
             {
-                    existingPatientRadiology.RadioID = model.RadioID;
+                existingPatientRadiology.RadioID = model.RadioID;
                 existingPatientRadiology.FacilityID = model.FacilityID;
                 existingPatientRadiology.PatientID = model.PatientID;
                 existingPatientRadiology.VisitcaseID = model.VisitcaseID;
@@ -134,17 +172,13 @@ namespace HealthCare.Controllers
             await GetlabData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
 
-            BusinessClassLabRad businessClass = new BusinessClassLabRad(GetlabData);
-            ViewData["radioid"] = businessClass.GetRadioid();
-            ViewData["facilityid"] = businessClass.Getfacilityid();
-            ViewData["refdocid"] = businessClass.Getrefdocid();
-            ViewData["patientid"] = businessClass.Getpatiientid();
+
 
 
             return View("RadiologyCreation", model);
         }
 
-     
+
 
         private bool IsImage(IFormFile file)
         {
@@ -161,12 +195,19 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TestRadiologyResult(UpdateRadiologyResultsModel model, IFormFile imageFile,string buttontype)
+        public async Task<IActionResult> TestRadiologyResult(UpdateRadiologyResultsModel model, IFormFile imageFile, string buttontype)
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassLabRad classLabRad = new BusinessClassLabRad(GetlabData);
-            ViewData["updpatid"] = classLabRad.Getupdpatid();
-            ViewData["updfacid"] = classLabRad.Getupdfacid();
-            ViewData["updradid"] = classLabRad.Getupdradid();
+            ViewData["updpatid"] = classLabRad.Getupdpatid(facilityId);
+            ViewData["updfacid"] = classLabRad.Getupdfacid(facilityId);
+            ViewData["updradid"] = classLabRad.Getupdradid(facilityId);
 
             var UpdatingRadRecord = await GetlabData.SHUpdateRadiologyResult.FindAsync(model.PatientID, model.FacilityID, model.RadioID, model.ImageID);
             if (buttontype == "Create")
@@ -236,22 +277,22 @@ namespace HealthCare.Controllers
             }
             else
             {
-              
-               return File(UpdatingRadRecord.ResultImage, "image/jpeg", "image.jpg");
-                
 
-              
+                return File(UpdatingRadRecord.ResultImage, "image/jpeg", "image.jpg");
+
+
+
             }
-            
+
         }
-    
 
 
 
 
 
 
-            public IActionResult LabTest()
+
+        public IActionResult LabTest()
         {
             return View();
         }
@@ -262,12 +303,19 @@ namespace HealthCare.Controllers
         }
         public IActionResult TestCreation()
         {
-            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
-            ViewData["testid"] = business.GetTestid();
-            ViewData["patid"] = business.Getpatid();
-            ViewData["facid"] = business.GetFacid();
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
 
-            ViewData["refdocid"] = business.getrefdocid();
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid(facilityId);
+            ViewData["patid"] = business.Getpatid(facilityId);
+            ViewData["facid"] = business.GetFacid(facilityId);
+
+            ViewData["refdocid"] = business.getrefdocid(facilityId);
 
             return View();
         }
@@ -278,35 +326,63 @@ namespace HealthCare.Controllers
         public IActionResult PrintTestResults()
 
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassLabRad businessClassLabRad = new BusinessClassLabRad(GetlabData);
-            ViewData["visitid"] = businessClassLabRad.GetVisitid();
-            ViewData["Patientid"] = businessClassLabRad.GetPatID();
-            ViewData["Facilityid"] = businessClassLabRad.GetFacilityid();
+            ViewData["visitid"] = businessClassLabRad.GetVisitid(facilityId);
+            ViewData["Patientid"] = businessClassLabRad.GetPatID(facilityId);
+            ViewData["Facilityid"] = businessClassLabRad.GetFacilityid(facilityId);
             return View();
         }
         public IActionResult RadiologyCreation()
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassLabRad businessClass = new BusinessClassLabRad(GetlabData);
-            ViewData["radioid"] = businessClass.GetRadioid();
-            ViewData["facilityid"] = businessClass.Getfacilityid();
-            ViewData["refdocid"] = businessClass.Getrefdocid();
-            ViewData["patientid"] = businessClass.Getpatiientid();
+            ViewData["radioid"] = businessClass.GetRadioid(facilityId);
+            ViewData["facilityid"] = businessClass.Getfacilityid(facilityId);
+            ViewData["refdocid"] = businessClass.Getrefdocid(facilityId);
+            ViewData["patientid"] = businessClass.Getpatiientid(facilityId);
             return View();
         }
         public IActionResult UpdateRadiologyResults()
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
             BusinessClassLabRad classLabRad = new BusinessClassLabRad(GetlabData);
-            ViewData["updpatid"] = classLabRad.Getupdpatid();
-            ViewData["updfacid"] = classLabRad.Getupdfacid();
-            ViewData["updradid"] = classLabRad.Getupdradid();
+            ViewData["updpatid"] = classLabRad.Getupdpatid(facilityId);
+            ViewData["updfacid"] = classLabRad.Getupdfacid(facilityId);
+            ViewData["updradid"] = classLabRad.Getupdradid(facilityId);
             return View();
         }
         public IActionResult PrintRadiologyResults()
         {
-             BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
-            ViewData["patid"] = business.Getpid();
-            ViewData["facid"] = business.Getfacid();
-            ViewData["visitcaseid"] = business.Getvisitcaseid();
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["patid"] = business.Getpid(facilityId);
+            ViewData["facid"] = business.Getfacid(facilityId);
+            ViewData["visitcaseid"] = business.Getvisitcaseid(facilityId);
             return View();
         }
     }

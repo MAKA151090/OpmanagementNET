@@ -1618,7 +1618,8 @@ namespace HealthCare.Migrations
                 {
                     FacilityID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PatientID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FirstName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
@@ -2119,7 +2120,8 @@ namespace HealthCare.Migrations
                 {
                     FacilityID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DrugId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ModelName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
@@ -2275,6 +2277,10 @@ namespace HealthCare.Migrations
                 name: "SHTestMaster",
                 columns: table => new
                 {
+                    FacilityID = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TestID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TestName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
@@ -2288,11 +2294,13 @@ namespace HealthCare.Migrations
                     lastUpdatedDate = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     lastUpdatedMachine = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Unit = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHTestMaster", x => x.TestID);
+                    table.PrimaryKey("PK_SHTestMaster", x => new { x.Id, x.FacilityID });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    [Migration("20241003113854_initial1")]
+    [Migration("20241018091244_initial1")]
     partial class initial1
     {
         /// <inheritdoc />
@@ -391,10 +391,10 @@ namespace HealthCare.Migrations
             modelBuilder.Entity("HealthCare.Models.DrugInventoryModel", b =>
                 {
                     b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 101L)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("FacilityID")
                         .HasMaxLength(100)
@@ -3286,9 +3286,14 @@ namespace HealthCare.Migrations
 
             modelBuilder.Entity("HealthCare.Models.TestMasterModel", b =>
                 {
-                    b.Property<string>("TestID")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("FacilityID")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Cost")
                         .HasMaxLength(30)
@@ -3298,9 +3303,17 @@ namespace HealthCare.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("TestID")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("TestName")
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("lastUpdatedDate")
                         .HasMaxLength(30)
@@ -3314,7 +3327,7 @@ namespace HealthCare.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
-                    b.HasKey("TestID");
+                    b.HasKey("Id", "FacilityID");
 
                     b.ToTable("SHTestMaster");
                 });
@@ -3621,10 +3634,10 @@ namespace HealthCare.Migrations
             modelBuilder.Entity("PatientRegistrationModel", b =>
                 {
                     b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 101L)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("FacilityID")
                         .HasMaxLength(100)

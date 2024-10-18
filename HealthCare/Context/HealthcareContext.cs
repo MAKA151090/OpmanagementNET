@@ -388,10 +388,13 @@ namespace HealthCare.Context
 
               modelBuilder.Entity<PatientFHPHMasterModel>().HasKey(i => new { i.QuestionID });
 
-              modelBuilder.Entity<TestMasterModel>().HasKey(i => new { i.TestID });
+            modelBuilder.Entity<TestMasterModel>().Property(i => i.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<TestMasterModel>().HasKey(i => new { i.Id, i.FacilityID });
+           
+      
 
 
-              modelBuilder.Entity<SeverityModel>().HasKey(i => new { i.SeverityID });
+            modelBuilder.Entity<SeverityModel>().HasKey(i => new { i.SeverityID });
 
   
 
@@ -587,38 +590,40 @@ namespace HealthCare.Context
             }
 
 
-            /*//Facility Admin 
-            var facilityMas = ChangeTracker
-                        .Entries<ClinicAdminModel>()
+            //Test Master 
+            var testMas = ChangeTracker
+                        .Entries<TestMasterModel>()
                         .Where(e => e.State == EntityState.Added)
                         .ToList();
 
-            if (facilityMas.Any())
+            if (testMas.Any())
             {
                 // Get the latest BillNumber from the database
-                var lastfac = await this.SHclnClinicAdmin.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
-                int lastfacNumber = 100; // Starting point, e.g., Bill_100
+                var lasttest = await this.SHTestMaster.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int lasttestNumber = 100; // Starting point, e.g., Bill_100
 
-                if (lastfac != null)
+                if (lasttest != null)
                 {
                     // Extract the numeric part of the last BillNumber and increment it
-                    string lastfacNum = lastfac.FacilityID.Replace("Fac_", "");
-                    if (int.TryParse(lastfacNum, out int number))
+                    string lasttestNum = lasttest.TestID.Replace("Test_", "");
+                    if (int.TryParse(lasttestNum, out int number))
                     {
-                        lastfacNumber = number;
+                        lasttestNumber = number;
                     }
                 }
 
                 // Assign the new BillNumber for each new bill
-                foreach (var billEntry in facilityMas)
+                foreach (var billEntry in testMas)
                 {
-                    lastfacNumber++;
-                    billEntry.Entity.FacilityID = $"Fac_{lastfacNumber}";
+                    lasttestNumber++;
+                    billEntry.Entity.TestID = $"Test_{lasttestNumber}";
                 }
-            }*/
+            }
 
             return await base.SaveChangesAsync(cancellationToken);
         }
+
+
 
 
     }

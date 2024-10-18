@@ -28,10 +28,13 @@ namespace HealthCare.Controllers
 
 
         private HealthcareContext _healthcareContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ClinicAdministrationController(HealthcareContext healthcareContext)
+
+        public ClinicAdministrationController(HealthcareContext healthcareContext, IHttpContextAccessor httpContextAccessor)
         {
             _healthcareContext = healthcareContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -613,7 +616,10 @@ namespace HealthCare.Controllers
 
         public IActionResult TestMaster()
         {
-            return View();
+            TestMasterModel tst = new TestMasterModel();
+
+            return View("TestMaster", tst);
+            
         }
         public IActionResult OTTableMaster()
         {
@@ -670,7 +676,25 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> TestMaster(TestMasterModel model)
         {
-            var existingTest = await _healthcareContext.SHTestMaster.FindAsync(model.TestID);
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassLabRad docpres = new BusinessClassLabRad(_healthcareContext);
+
+            var daocfac = docpres.Gettestfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID",daocfac);
+            }
+
+            var existingTest = await _healthcareContext.SHTestMaster.FirstOrDefaultAsync(x=>x.TestID == model.TestID && x.FacilityID == facilityId && x.Isdelete == false);
 
             if (existingTest != null)
             {
@@ -678,6 +702,8 @@ namespace HealthCare.Controllers
                 existingTest.TestName = model.TestName;
                 existingTest.Cost = model.Cost;
                 existingTest.Range = model.Range;
+                existingTest.Unit = model.Unit;
+                existingTest.FacilityID = facilityId;
                 existingTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingTest.lastUpdatedDate = DateTime.Now.ToString(); ;
                 existingTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -686,9 +712,10 @@ namespace HealthCare.Controllers
             else
             {
 
-
+                model.FacilityID = facilityId;
                 model.lastUpdatedDate = DateTime.Now.ToString();
                 model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 _healthcareContext.SHTestMaster.Add(model);
 
             }
@@ -697,6 +724,33 @@ namespace HealthCare.Controllers
             ViewBag.Message = "Saved Successfully";
             return View("TestMaster", model);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetTestMaster(TestMasterModel model)
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+
+            var gettestd = await _healthcareContext.SHTestMaster.FirstOrDefaultAsync(x => x.TestID == model.TestID && x.Isdelete == false && x.FacilityID == facilityId);
+            if (gettestd != null)
+            {
+                return View("TestMaster", gettestd);
+            }
+            else
+            {
+                ViewBag.Message = "Test Not Found";
+            }
+
+            TestMasterModel tst = new TestMasterModel();
+            return View("TestMaster", tst);
+        }
+
         public IActionResult PatientFHPHMaster()
         {
             return View();

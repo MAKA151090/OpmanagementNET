@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    [Migration("20241003123949_initial2")]
+    [Migration("20241018102527_initial2")]
     partial class initial2
     {
         /// <inheritdoc />
@@ -3286,21 +3286,37 @@ namespace HealthCare.Migrations
 
             modelBuilder.Entity("HealthCare.Models.TestMasterModel", b =>
                 {
-                    b.Property<string>("TestID")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("FacilityID")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Cost")
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<bool>("Isdelete")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Range")
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("TestID")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("TestName")
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("lastUpdatedDate")
                         .HasMaxLength(30)
@@ -3314,7 +3330,7 @@ namespace HealthCare.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
-                    b.HasKey("TestID");
+                    b.HasKey("Id", "FacilityID");
 
                     b.ToTable("SHTestMaster");
                 });
