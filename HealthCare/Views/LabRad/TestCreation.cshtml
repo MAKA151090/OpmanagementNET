@@ -6,6 +6,43 @@
 }
 
 
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        // Close popup when OK button is clicked
+        popupOKButton.addEventListener("click", function () {
+            closePopup();
+        });
+
+        // Close popup when clicking outside of the message box
+        document.addEventListener("click", function (event) {
+            if (!popup.contains(event.target) && !popupOKButton.contains(event.target)) {
+                closePopup();
+            }
+        });
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popupMessage");
+        popup.style.display = "none"; // Hide the popup
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: black; padding: 30px; border: 10px solid white; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 20px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
 
 @using (Html.BeginForm("TestCreation", "LabRad", FormMethod.Post))
 {
@@ -66,7 +103,7 @@
                                     }
                                 </ul>
 
-                                <input type="hidden" name="TestID" id="testID" value="@ViewBag.TestID" />
+                                <input type="hidden" name="TestID" id="testID" value="@ViewBag.SelectedTestID" />
                         </div>
 
 
@@ -153,7 +190,7 @@
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     <div class="input-group">
 
-                        <select id="visitDropdown" class="form-control" name="visitDropdown" fdprocessedid="stubwn" required>
+                        <select id="visitDropdown" class="form-control" name="VisitcaseID" fdprocessedid="stubwn" required>
 
                             <option value="">Select Visit ID</option>
                             @* The options will be populated dynamically using JavaScript *@
@@ -168,12 +205,12 @@
                         </select>
 
 
-                        <input type="hidden" name="VisitcaseID1" id="VisitcaseID1" value="@Model.SelectedItemId" />
+                        <input type="hidden" name="VisitcaseID" id="VisitcaseID" value="@Model.SelectedItemId" />
 
                         <button class="btn btn-primary menu-icon tf-icons mdi mdi-human-greeting" type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()"></button>
                     </div>
                             <div class="form-floating form-floating-outline mb-4">
-                           <input asp-for="TestDateTime" class="form-control" type="datetime-local" placeholder="TestDateTime" required />
+                           <input asp-for="TestDateTime" class="form-control" type="date" placeholder="TestDateTime" />
                 <label asp-for="TestDateTime" class="control-label"></label>
                         
                 <span asp-validation-for="TestDateTime" class="text-danger"></span>
@@ -182,7 +219,7 @@
                             <input asp-for="TestResult" class="form-control" placeholder="TestResult"  />
                 <label asp-for="TestResult" class="control-label"></label>
                           
-                <span asp-validation-for="TestResult" class="text-danger"></span>
+              
             </div>
 
                     <div class="form-floating form-floating-outline mb-4">
@@ -197,16 +234,16 @@
                         </div>
                     </div>
                             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="TsampleCltDateTime" class="form-control" type="datetime-local" placeholder="SampleCollectDateTime" />
+                            <input asp-for="TsampleCltDateTime" class="form-control" type="date" placeholder="SampleCollectDateTime" required />
                             <label asp-for="TsampleCltDateTime" class="control-label">SampleCollectDateTime</label>
                           
                 <span asp-validation-for="TsampleCltDateTime" class="text-danger"></span>
             </div>
                             <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="ExptRsltDateTime" class="form-control" type="datetime-local" placeholder="ExpectedResultDateTime" />
+                            <input asp-for="ExptRsltDateTime" class="form-control" type="date" placeholder="ExpectedResultDateTime" />
                             <label asp-for="ExptRsltDateTime" class="control-label">ExpectedResultDateTime</label>
                           
-                <span asp-validation-for="ExptRsltDateTime" class="text-danger"></span>
+              
             </div>
                     </div>
                 </div>
@@ -261,13 +298,13 @@
                             <input asp-for="ReferDate" class="form-control" placeholder="ReferDate" type="date" />
                 <label asp-for="ReferDate" class="control-label"></label>
                            
-                <span asp-validation-for="ReferDate" class="text-danger"></span>
+              
             </div>
                             <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="ResultDate" class="form-control" placeholder="ResultDate" type="date" />
                 <label asp-for="ResultDate" class="control-label"></label>
                          
-                <span asp-validation-for="ResultDate" class="text-danger"></span>
+               
             </div>
             <br />
          
@@ -278,12 +315,11 @@
             <div class="form-group" style="margin-top:20px">
                 <center>
                     <button type="submit" value="Create" class="btn btn-primary">Save</button>
-
                     @if (ViewBag.Message != null)
                     {
-                        <div class="alert alert-success">
-                            @ViewBag.Message
-                        </div>
+                        <script>
+                            handleMessages("@ViewBag.Message");
+                        </script>
                     }
                 </center>
             </div>
@@ -326,9 +362,9 @@
                                     <td>@item.TestName</td>
                                     <td>
 
-                                        <a href="@Url.Action("Edit", new { patientId = item.DbpatientID, caseVisitId = item.VisitcaseID, testId = item.TestID,facility =item.FacilityID,tsampledate=item.TsampleCltDateTime})" class="btn btn-primary btn-sm mdi mdi-pencil-box-outline me-2" style="width: 60px; margin-bottom: 10px;"></a>
+                                        <a href="@Url.Action("Edit", new { patientId = item.DbpatientID, VisitcaseID = item.VisitcaseID, testId = item.TestID,facility =item.FacilityID,tsampledate=item.TsampleCltDateTime})" class="btn btn-primary btn-sm mdi mdi-pencil-box-outline me-2" style="width: 60px; margin-bottom: 10px;"></a>
 
-                                        <a href="@Url.Action("Delete", new { patientId = item.DbpatientID, caseVisitId = item.VisitcaseID, testId = item.TestID,tsampledate=item.TsampleCltDateTime })" class="btn btn-primary btn-sm menu-icon tf-icons mdi mdi-delete" style="width: 60px;"></a>
+                                        <a href="@Url.Action("Delete", new { patientId = item.DbpatientID, VisitcaseID = item.VisitcaseID, testId = item.TestID,tsampledate=item.TsampleCltDateTime })" class="btn btn-primary btn-sm menu-icon tf-icons mdi mdi-delete" style="width: 60px;"></a>
                                     </td>
                                 </tr>
                             }
@@ -575,6 +611,14 @@
                 visibleItems[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
             }
 
+            // Click event for selecting dropdown item via mouse
+            dropdown.addEventListener('click', (event) => {
+                const item = event.target.closest('li');
+                if (item) {
+                    selectDropdownItem(inputId, hiddenId, item.textContent, item.getAttribute('data-value'), dropdownId);
+                }
+            });
+
             // Click event to close dropdown when clicking outside
             document.addEventListener('click', (event) => {
                 const target = event.target;
@@ -588,7 +632,7 @@
 
     // Function to fetch visit IDs
     function fetchVisitIds(patientId) {
-        const selectedVisitId = document.getElementById('VisitcaseID1').value; // Get the current selected visit ID
+        const selectedVisitId = document.getElementById('VisitcaseID').value; // Get the current selected visit ID
 
         fetch(`/LabRad/GetCaseTestVisitIDs?patientId=${patientId}`)
             .then(response => response.json())

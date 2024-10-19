@@ -22,7 +22,7 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest,PatientTestTableModel model, string PatientID, string CaseVisitID)
+        public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest,PatientTestTableModel model, string PatientID, string VisitcaseID)
         {
 
             string facilityId = string.Empty;
@@ -79,7 +79,8 @@ namespace HealthCare.Controllers
                 VisitcaseID = p.VisitcaseID,
                 TestName = p.TestName,
                TsampleCltDateTime = p.TsampleCltDateTime,
-                DbpatientID = p.DbpatientID
+                DbpatientID = p.DbpatientID,
+                TestID = p.TestID
 
             }).ToList();
 
@@ -88,9 +89,194 @@ namespace HealthCare.Controllers
             model.Items = await GetDistinctCaseVisitID(pPatientTest.PatientID);
 
             ViewBag.SelectedPatientID = PatientID;
-            model.SelectedItemId = CaseVisitID;
+            model.SelectedItemId = VisitcaseID;
 
             return View("TestCreation", model);
+        }
+
+
+        public async Task<IActionResult> Edit(string patientId, string VisitcaseID, string testId, string tsampledate, string facility, PatientTestTableModel tabmod)
+        {
+
+            if (string.IsNullOrEmpty(patientId) || string.IsNullOrEmpty(testId))
+            {
+                ViewBag.ErrorMessage = "PatientID or DrugID is missing!";
+                tabmod.Items = await GetDistinctCaseVisitID(patientId) ?? new List<PatientTestModel>();
+                tabmod.ViewTest = new List<PatientTestViewModel>();
+
+                return View("TestCreation", tabmod); // Handle the error gracefully
+            }
+
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            
+
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid(facilityId);
+            ViewData["patid"] = business.Getpatid(facilityId);
+            ViewData["facid"] = business.GetFacid(facilityId);
+
+            ViewData["refdocid"] = business.getrefdocid(facilityId);
+
+          
+
+
+
+
+            var testEdit = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x=>x.PatientID == patientId && x.VisitcaseID == VisitcaseID && x.TestID == testId && x.TsampleCltDateTime == tsampledate && x.FacilityID == facilityId);
+            if (testEdit == null)
+            {
+                ViewBag.ErrorMessage = " PatientID Not Found";
+                tabmod.Items = await GetDistinctCaseVisitID(patientId) ?? new List<PatientTestModel>();
+                tabmod.ViewTest = new List<PatientTestViewModel>();
+
+                return View("TestCreation", tabmod);
+            }
+
+            var testTableModel = new PatientTestTableModel
+            {
+                VisitcaseID = testEdit.VisitcaseID,
+                PatientID = testEdit.PatientID,
+                TestID = testEdit.TestID,
+                FacilityID = testEdit.FacilityID,
+                TestDateTime = testEdit.TestDateTime,
+                TestResult = testEdit.TestResult,
+                TsampleClt = testEdit.TsampleClt,
+                TsampleCltDateTime = testEdit.TsampleCltDateTime,
+                ExptRsltDateTime = testEdit.ExptRsltDateTime,
+                ResultPublish = testEdit.ResultPublish,
+                ReferDocID = testEdit.ReferDocID,
+                ReferDate = testEdit.ResultDate,
+                ResultDate = testEdit.ResultDate,
+
+                ViewTest = new List<PatientTestViewModel>()
+
+            };
+
+
+            var result = business.Gettest(testEdit.PatientID, testEdit.VisitcaseID, testEdit.TestID, facilityId, testEdit.TsampleCltDateTime);
+            if (result != null && result.Any())
+            {
+                var viewModelList = result.Select(p => new PatientTestViewModel
+                {
+                    PatientID = p.PatientID,
+                    VisitcaseID = p.VisitcaseID,
+                    TestName = p.TestName,
+                    TsampleCltDateTime = p.TsampleCltDateTime,
+                    DbpatientID = p.DbpatientID,
+                    TestID = p.TestID
+
+                }).ToList();
+                testTableModel.ViewTest = viewModelList;
+            }
+
+            // Populate Items in the model for dropdown selection
+            testTableModel.Items = await GetDistinctCaseVisitID(testEdit.PatientID);
+
+            // Set ViewBag and Model properties for the view
+            ViewBag.SelectedPatientID = testEdit.PatientID;
+
+            ViewBag.SelecteddoctorID = testEdit.ReferDocID;
+
+            testTableModel.SelectedItemId = testEdit.VisitcaseID;
+
+            ViewBag.SelectedTestID = testEdit.TestID;
+
+            
+
+            return View("TestCreation", testTableModel);
+
+
+        }
+
+
+        public async Task<IActionResult> Delete(string patientId, string VisitcaseID, string testId, string tsampledate, PatientTestModel model, PatientTestTableModel tabmod,string facility)
+        {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+
+
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid(facilityId);
+            ViewData["patid"] = business.Getpatid(facilityId);
+            ViewData["facid"] = business.GetFacid(facilityId);
+
+            ViewData["refdocid"] = business.getrefdocid(facilityId);
+
+
+            var exresult = GetlabData.SHPatientTest.FirstOrDefaultAsync(x => x.PatientID == patientId && x.VisitcaseID == VisitcaseID && x.TestID == testId && x.TsampleCltDateTime == tsampledate && x.FacilityID == facilityId);
+            if (exresult != null)
+            {
+
+                var testDel = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x => x.PatientID == patientId && x.VisitcaseID == VisitcaseID && x.TestID == testId && x.TsampleCltDateTime == tsampledate && x.FacilityID == facilityId);
+                if (testDel != null)
+                {
+                    testDel.Isdelete = true;
+                    await GetlabData.SaveChangesAsync();
+                    ViewBag.Message = "Deleted  Successfully.";
+                }
+
+                var testTable = business.Gettest(patientId, VisitcaseID, testId, facilityId, tsampledate);
+
+                // Map to PrescriptionViewModel
+                tabmod.ViewTest = testTable.Select(p => new PatientTestViewModel
+                {
+                    PatientID = p.PatientID,
+                    VisitcaseID = p.VisitcaseID,
+                    TestName = p.TestName,
+                    TsampleCltDateTime = p.TsampleCltDateTime,
+                    DbpatientID = p.DbpatientID,
+                    TestID = p.TestID
+                }).ToList();
+
+
+
+                tabmod.Items = await GetDistinctCaseVisitID(model.PatientID);
+
+                ViewBag.SelectedPatientID = model.PatientID;
+                tabmod.SelectedItemId = VisitcaseID;
+
+                return View("TestCreation", tabmod);
+            }
+            else
+            {
+                ViewBag.ErrorMessage = " PatientID Not Found";
+
+            }
+
+            var prescriptionTable1 = business.Gettest(patientId, VisitcaseID, testId, facilityId, tsampledate);
+
+            // Map to PrescriptionViewModel
+            tabmod.ViewTest = prescriptionTable1.Select(p => new PatientTestViewModel
+            {
+                PatientID = p.PatientID,
+                VisitcaseID = p.VisitcaseID,
+                TestName = p.TestName,
+                TsampleCltDateTime = p.TsampleCltDateTime,
+                DbpatientID = p.DbpatientID,
+                TestID = p.TestID
+
+            }).ToList();
+
+
+            tabmod.Items = await GetDistinctCaseVisitID(model.PatientID);
+
+            ViewBag.SelectedPatientID = model.PatientID;
+            tabmod.SelectedItemId = VisitcaseID;
+
+            return View("TestCreation", tabmod);
         }
 
         private async Task<List<PatientTestModel>> GetDistinctCaseVisitID(string patientId)
