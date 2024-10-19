@@ -4,6 +4,7 @@ using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
 {
@@ -11,14 +12,17 @@ namespace HealthCare.Controllers
     public class LabRadController : Controller
     {
         private HealthcareContext GetlabData;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LabRadController(HealthcareContext GetlabData)
+
+        public LabRadController(HealthcareContext GetlabData, IHttpContextAccessor httpContextAccessor)
         {
             this.GetlabData = GetlabData;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost]
-        public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest)
+        public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest,PatientTestTableModel model, string PatientID, string CaseVisitID)
         {
 
             string facilityId = string.Empty;
@@ -36,14 +40,14 @@ namespace HealthCare.Controllers
             ViewData["refdocid"] = business.getrefdocid(facilityId);
 
             //PatientTestModel = new PatientTestModel();
-            var existingPatientTest = await GetlabData.SHPatientTest.FindAsync(pPatientTest.PatientID, pPatientTest.FacilityID, pPatientTest.TestID, pPatientTest.TestDateTime);
+            var existingPatientTest = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x=>x.PatientID==pPatientTest.PatientID && x.FacilityID == pPatientTest.FacilityID && x.TestID ==  pPatientTest.TestID && x.TestDateTime == pPatientTest.TestDateTime && x.VisitcaseID == pPatientTest.VisitcaseID);
             if (existingPatientTest != null)
             {
 
                 existingPatientTest.PatientID = pPatientTest.PatientID;
                 existingPatientTest.FacilityID = pPatientTest.FacilityID;
                 existingPatientTest.TestID = pPatientTest.TestID;
-                existingPatientTest.VisitcaseID1 = pPatientTest.VisitcaseID1;
+                existingPatientTest.VisitcaseID = pPatientTest.VisitcaseID;
                 existingPatientTest.TestResult = pPatientTest.TestResult;
                 existingPatientTest.TestDateTime = pPatientTest.TestDateTime;
                 existingPatientTest.TsampleCltDateTime = pPatientTest.TsampleCltDateTime;
@@ -68,13 +72,301 @@ namespace HealthCare.Controllers
             await GetlabData.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully.";
 
+            var alltest = business.Gettest(pPatientTest.PatientID, pPatientTest.VisitcaseID, pPatientTest.TestID,facilityId,pPatientTest.TsampleCltDateTime);
+            var allViewModels = alltest.Select(p => new PatientTestViewModel
+            {
+                PatientID = p.PatientID,
+                VisitcaseID = p.VisitcaseID,
+                TestName = p.TestName,
+               TsampleCltDateTime = p.TsampleCltDateTime,
+                DbpatientID = p.DbpatientID
+
+            }).ToList();
+
+            model.ViewTest = allViewModels;
+
+            model.Items = await GetDistinctCaseVisitID(pPatientTest.PatientID);
+
+            ViewBag.SelectedPatientID = PatientID;
+            model.SelectedItemId = CaseVisitID;
+
+            return View("TestCreation", model);
+        }
+
+        private async Task<List<PatientTestModel>> GetDistinctCaseVisitID(string patientId)
+        {
+            return await GetlabData.SHPatientTest
+                .Where(cv => cv.PatientID == patientId)
+                .Select(cv => new PatientTestModel
+                {
+                    VisitcaseID = cv.VisitcaseID
+                    // Add other properties if needed
+                })
+                .Distinct()
+                .ToListAsync();
+        }
+
+
+        public async Task<IActionResult> GetCaseTestVisitIDs(string patientId)
+
+        {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            string docid = string.Empty;
+            if (TempData["DoctorID"] != null)
+            {
+                docid = TempData["DoctorID"].ToString();
+                TempData.Keep("DoctorID");
+            }
+
+           
+
+
+            var caseVisitIds = GetlabData.SHPatientTest
+                .Where(cv => cv.PatientID == patientId && cv.FacilityID == facilityId)
+                .Select(cv => cv.VisitcaseID).Distinct()
+                .ToList();
+
+            return Json(caseVisitIds);
+        }
 
 
 
-            return View("TestCreation", pPatientTest);
+        public async Task<IActionResult> AddNewTestVisitID(string patientId)
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
 
+            try
+            {
+                // Fetch the last visit ID for the selected patient
+                var lastVisitIdEntry = await GetlabData.SHPatientTest
+                    .Where(cv => cv.PatientID == patientId && cv.FacilityID == facilityId)
+                    .OrderByDescending(cv => cv.VisitcaseID)
+                    .FirstOrDefaultAsync();
+
+                int nextVisitNumber = 1;
+
+                // If a visit ID exists, increment the number
+                if (lastVisitIdEntry != null)
+                {
+                    var lastVisitId = lastVisitIdEntry.VisitcaseID;
+
+                    // Extract the numeric part from the visit ID (assuming the format is 'Visit-<number>_<date>')
+                    var visitPrefix = "Visit-";
+                    if (lastVisitId.StartsWith(visitPrefix))
+                    {
+                        var lastVisitNumberString = lastVisitId.Substring(visitPrefix.Length).Split('_')[0];
+
+                        // Parse the numeric part safely
+                        if (int.TryParse(lastVisitNumberString, out int lastVisitNumber))
+                        {
+                            nextVisitNumber = lastVisitNumber + 1;
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = "Invalid visit number format. Unable to generate the next visit number." });
+                        }
+                    }
+                }
+
+                // Create the new visit ID with the current date in DD-MM-YYYY format
+                string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
+                string newVisitId = $"Visit-{nextVisitNumber}_{currentDate}";
+
+                // Insert the new visit ID in the database for that patient
+                var newVisit = new PrescriptionTableModel
+                {
+                    PatientID = patientId,
+                    CaseVisitID = newVisitId,
+                    // Include other necessary fields as needed
+                };
+
+                // Add newVisit to the database (implement the logic to save it here)
+
+                return Json(new { success = true, newVisitId = newVisitId });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error occurred while adding the new visit ID." });
+            }
+        }
+
+
+
+
+
+        public async Task<IActionResult> AddTestPatientPop(PatientRegistrationModel model)
+        {
+            string docid = string.Empty;
+            if (TempData["DoctorID"] != null)
+            {
+                docid = TempData["DoctorID"].ToString();
+                TempData.Keep("DoctorID");
+            }
+
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid(facilityId);
+            ViewData["patid"] = business.Getpatid(facilityId);
+            ViewData["facid"] = business.GetFacid(facilityId);
+
+            ViewData["refdocid"] = business.getrefdocid(facilityId);
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetlabData);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage"); // Replace with your error handling action
+            }
+
+            var existingPatient = await GetlabData.SHPatientRegistration.FirstOrDefaultAsync(x => x.PatientID == model.PatientID && x.FacilityID == daocfac && x.IsDelete == false);
+
+            if (existingPatient != null)
+            {
+                existingPatient.FullName = model.FullName;
+                existingPatient.PhoneNumber = model.PhoneNumber;
+                existingPatient.Age = model.Age;
+                existingPatient.Gender = model.Gender;
+                existingPatient.FacilityID = daocfac;
+                existingPatient.PatientID = model.PatientID;
+
+                GetlabData.Entry(existingPatient).State = EntityState.Modified;
+            }
+            else
+            {
+
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.FacilityID = daocfac;
+                GetlabData.SHPatientRegistration.Add(model);
+
+
+            }
+
+            await GetlabData.SaveChangesAsync();
+
+            var modelview = new PatientTestTableModel(); // Replace with your actual model type
+            modelview.Items = new List<PatientTestModel>();
+
+
+            var viewModelList = new List<PatientTestViewModel>();
+
+
+            modelview.ViewTest = viewModelList;
+
+            return View("PatientEPrescription", modelview);
 
         }
+
+
+        public async Task<IActionResult> AdddoctorPop(PatientRegistrationModel model)
+        {
+            string docid = string.Empty;
+            if (TempData["DoctorID"] != null)
+            {
+                docid = TempData["DoctorID"].ToString();
+                TempData.Keep("DoctorID");
+            }
+
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid(facilityId);
+            ViewData["patid"] = business.Getpatid(facilityId);
+            ViewData["facid"] = business.GetFacid(facilityId);
+
+            ViewData["refdocid"] = business.getrefdocid(facilityId);
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetlabData);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage"); // Replace with your error handling action
+            }
+
+            var existingPatient = await GetlabData.SHPatientRegistration.FirstOrDefaultAsync(x => x.PatientID == model.PatientID && x.FacilityID == daocfac && x.IsDelete == false);
+
+            if (existingPatient != null)
+            {
+                existingPatient.FullName = model.FullName;
+                existingPatient.PhoneNumber = model.PhoneNumber;
+                existingPatient.Age = model.Age;
+                existingPatient.Gender = model.Gender;
+                existingPatient.FacilityID = daocfac;
+                existingPatient.PatientID = model.PatientID;
+
+                GetlabData.Entry(existingPatient).State = EntityState.Modified;
+            }
+            else
+            {
+
+                model.lastUpdatedDate = DateTime.Now.ToString();
+                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.FacilityID = daocfac;
+                GetlabData.SHPatientRegistration.Add(model);
+
+
+            }
+
+            await GetlabData.SaveChangesAsync();
+
+            var modelview = new PatientTestTableModel(); // Replace with your actual model type
+            modelview.Items = new List<PatientTestModel>();
+
+
+            var viewModelList = new List<PatientTestViewModel>();
+
+
+            modelview.ViewTest = viewModelList;
+
+            return View("PatientEPrescription", modelview);
+
+        }
+
+
+
+
+
         public async Task<IActionResult> ViewResult(PatientViewResultModel Model)
         {
 
@@ -317,7 +609,18 @@ namespace HealthCare.Controllers
 
             ViewData["refdocid"] = business.getrefdocid(facilityId);
 
-            return View();
+
+            var model = new PatientTestTableModel();
+            model.Items = new List<PatientTestModel>();
+
+
+            var viewModelList = new List<PatientTestViewModel>();
+
+
+            model.ViewTest = viewModelList;
+
+
+            return View("TestCreation",model);
         }
         public IActionResult UpdateTestResults()
         {

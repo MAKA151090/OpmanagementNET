@@ -617,7 +617,7 @@ namespace HealthCare.Controllers
             ViewData["docid"] = prescription.Getdocid(facilityId, docid);
             ViewData["visitid"] = prescription.Getvisit(facilityId);
 
-            var model = new PrescriptionTableModel(); // Replace with your actual model type
+            var model = new PrescriptionTableModel(); 
             model.Items = new List<PatientEPrescriptionModel>();
 
 

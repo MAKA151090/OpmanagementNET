@@ -205,7 +205,7 @@ namespace HealthCare.Business
                 where pr.FacilityID == facility
                 select new PatientTestModel
                 {
-                    VisitcaseID1 = pr.VisitcaseID1,
+                    VisitcaseID = pr.VisitcaseID,
 
                 }).ToList();
             return visitid;
@@ -254,7 +254,7 @@ namespace HealthCare.Business
                 join ca in _healthcareContext.SHclnStaffAdminModel on pt.ReferDocID equals ca.StrStaffID
                 join p in _healthcareContext.SHPatientRegistration on pt.PatientID equals p.PatientID
                 join c in _healthcareContext.SHclnClinicAdmin on pt.FacilityID equals c.FacilityID
-                where pt.PatientID == patientId && pt.FacilityID == FacilityID && pt.VisitcaseID1 == Visitcaseid
+                where pt.PatientID == patientId && pt.FacilityID == FacilityID && pt.VisitcaseID == Visitcaseid
                 select new PatientViewResultModel
                 {
                     TestID = pt.TestID,
@@ -362,6 +362,29 @@ namespace HealthCare.Business
                 }).ToList();
             return updradid;
 
+        }
+
+
+
+        public List<PatientTestTableModel> Gettest(string patientID, string casevisitID, string testID, string facility,string tsample)
+        {
+            var result = (from p in _healthcareContext.SHPatientTest
+                          join pat in _healthcareContext.SHPatientRegistration on p.PatientID equals pat.PatientID
+                          join d in _healthcareContext.SHTestMaster on p.TestID equals d.TestID
+                          where p.PatientID == patientID && p.VisitcaseID == casevisitID && p.Isdelete == false && p.FacilityID == facility && d.FacilityID == facility && pat.FacilityID == facility && p.TsampleCltDateTime == tsample
+                          select new PatientTestTableModel
+                          {
+                              DbpatientID = p.PatientID,
+                              PatientID = pat.FullName,
+                              VisitcaseID = p.VisitcaseID,
+                              TestID = p.TestID,
+                              TestName = d.TestName,
+                              TsampleCltDateTime = p.TsampleCltDateTime
+                             
+
+
+                          }).ToList();
+            return result;
         }
 
     }

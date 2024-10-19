@@ -76,8 +76,8 @@
                                 var Screenlist = ((IEnumerable<PatientTestModel>)ViewData["visitid"])
                                     .Select(m => new SelectListItem
                 {
-                    Value = m.VisitcaseID1.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.VisitcaseID1}"
+                    Value = m.VisitcaseID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.VisitcaseID}"
                 });
                                 }
 

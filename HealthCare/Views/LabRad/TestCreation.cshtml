@@ -1,4 +1,4 @@
-﻿@model PatientTestModel
+﻿@model PatientTestTableModel
 
 @{
     ViewData["Title"] = "TestCreation";
@@ -26,8 +26,17 @@
                 </div>
             </div>
 
+
+
+
+
+
             <div class="row" style="height:8%">
             </div>
+
+
+
+
 
             <div class="row">
 
@@ -142,12 +151,27 @@
 
                 <div class="card">
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
-                    <div class="form-floating form-floating-outline mb-4">
-                            <input asp-for="VisitcaseID1" class="form-control" placeholder="VisitcaseID" required />
-                            <label asp-for="VisitcaseID1" class="control-label">VisitCaseID</label>
+                    <div class="input-group">
 
-                            <span asp-validation-for="VisitcaseID1" class="text-danger"></span>
-                        </div>
+                        <select id="visitDropdown" class="form-control" name="visitDropdown" fdprocessedid="stubwn" required>
+
+                            <option value="">Select Visit ID</option>
+                            @* The options will be populated dynamically using JavaScript *@
+
+                            @foreach (var item in Model.Items)
+                            {
+                                <option value="@item.VisitcaseID"
+                                        selected="@(item.VisitcaseID == Model.SelectedItemId)">
+                                    @item.VisitcaseID
+                                </option>
+                            }
+                        </select>
+
+
+                        <input type="hidden" name="VisitcaseID1" id="VisitcaseID1" value="@Model.SelectedItemId" />
+
+                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-human-greeting" type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()"></button>
+                    </div>
                             <div class="form-floating form-floating-outline mb-4">
                            <input asp-for="TestDateTime" class="form-control" type="datetime-local" placeholder="TestDateTime" required />
                 <label asp-for="TestDateTime" class="control-label"></label>
@@ -162,14 +186,14 @@
             </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <label class="control-label"></label>
+                        <label class="form-label"></label>
 
-                        <div class="btn-group" role="group" aria-label="Food Timing">
-                            <input type="radio" class="btn-check" name="TsampleClt" id="Yes" autocomplete="off" value="Yes">
-                            <label class="btn btn-outline-primary" for="Yes">Yes</label>
+                        <div class="btn-group" role="group" aria-label="Sample Collection">
+                            <input type="radio" class="btn-check" name="TsampleClt" id="TsampleCltYes" autocomplete="off" value="Yes">
+                            <label class="btn btn-outline-primary" for="TsampleCltYes">Yes</label>
 
-                            <input type="radio" class="btn-check" name="TsampleClt" id="No" autocomplete="off" value="No">
-                            <label class="btn btn-outline-primary" for="No">No</label>
+                            <input type="radio" class="btn-check" name="TsampleClt" id="TsampleCltNo" autocomplete="off" value="No">
+                            <label class="btn btn-outline-primary" for="TsampleCltNo">No</label>
                         </div>
                     </div>
                             <div class="form-floating form-floating-outline mb-4">
@@ -194,7 +218,7 @@
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
                     
                     <div class="form-floating form-floating-outline mb-4">
-                        <label class="control-label"> Result Publish</label>
+                        <label class="control-label"></label>
 
                         <div class="btn-group" role="group" aria-label="Food Timing">
                             <input type="radio" class="btn-check" name="ResultPublish" id="Yes" autocomplete="off" value="Yes">
@@ -219,14 +243,15 @@
                             style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
                             @foreach (var item in refdocid)
                             {
-                                <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('doctorDropdownInput', 'doctorID', '@item.Text', '@item.Value')"
+                                <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('doctorDropdownInput', 'referDocID', '@item.Text', '@item.Value')"
                                     style="padding: .5rem 1rem; cursor: pointer; background-color: white; border: none; list-style-type: none;">
                                     @item.Text
                                 </li>
                             }
                         </ul>
 
-                        <input type="hidden" name="DoctorID" id="doctorID" value="@ViewBag.SelecteddoctorID" />
+                        <input type="hidden" name="ReferDocID" id="referDocID" value="@ViewBag.SelecteddoctorID" />
+                        <button class="btn btn-primary menu-icon tf-icons mdi mdi-pill" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#doctorModal"></button>
                         </div>
 
 
@@ -267,15 +292,68 @@
 
        
             </div>
-  
+
+
+
+    <div class="row">
+
+        <div class="col-md-12 col-lg-1">
+            <div class="form-floating form-floating-outline mb-4">
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-10">
+            <div class="card overflow-hidden mb-4" style="height: 150px;">
+                <div class="card-body" id="vertical-example">
+
+
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Visit Date</th>
+                                <th>Test Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*   @if(Model!=null)
+                        { *@
+                            @foreach (var item in Model.ViewTest)
+                            {
+                                <tr>
+                                    <td>@item.PatientID</td>
+                                    <td>@item.VisitcaseID.Split('_').Last()</td>
+                                    <td>@item.TestName</td>
+                                    <td>
+
+                                        <a href="@Url.Action("Edit", new { patientId = item.DbpatientID, caseVisitId = item.VisitcaseID, testId = item.TestID,facility =item.FacilityID,tsampledate=item.TsampleCltDateTime})" class="btn btn-primary btn-sm mdi mdi-pencil-box-outline me-2" style="width: 60px; margin-bottom: 10px;"></a>
+
+                                        <a href="@Url.Action("Delete", new { patientId = item.DbpatientID, caseVisitId = item.VisitcaseID, testId = item.TestID,tsampledate=item.TsampleCltDateTime })" class="btn btn-primary btn-sm menu-icon tf-icons mdi mdi-delete" style="width: 60px;"></a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-1">
+            <div class="form-floating form-floating-outline mb-4">
+            </div>
+        </div>
+    </div>
+
 }
 
 <!-- Patient Details Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+<div class="modal fade" id="patientModal" tabindex="-1" role="dialog" aria-labelledby="patientModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Enter Patient Details</h5>
+                <h5 class="modal-title" id="patientModalLabel">Enter Patient Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                 </button>
@@ -283,7 +361,7 @@
             <div class="modal-body">
 
 
-                <form id="modalSearchFormcus" asp-controller="PatientPrescription" asp-action="AddPatientPop" method="post">
+                <form id="modalSearchFormcus" asp-controller="LabRad" asp-action="AddTestPatientPop" method="post">
 
                     <div class="col mb-3">
 
@@ -318,6 +396,59 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="saveCustomer">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Drug Details Modal -->
+<div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalLabel">Enter Doctor Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <form id="modalSearchFormcus1" asp-controller="LabRad" asp-action="AdddoctorPop" method="post">
+
+                    <div class="col mb-3">
+
+
+
+                        <label for="ModelName">Doctor Name</label>
+                        <input type="text" class="form-control" id="ModelName" name="ModelName" placeholder="Drug Name" />
+
+
+
+                    </div>
+
+                    <div class="col mb-3">
+                        <label for="searchInput">Side Effects</label>
+                        <input type="text" class="form-control" id="SideEffects" name="SideEffects" placeholder="Side Effects " />
+                    </div>
+
+
+                    <div class="col mb-3">
+                        <label for="searchInput">Dosage</label>
+                        <input type="text" class="form-control" id="Dosage" name="Dosage" placeholder="Dosage" />
+                    </div>
+
+
+
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveCustomer1">Save</button>
                 </div>
 
             </div>
@@ -372,7 +503,7 @@
         const dropdownConfigs = [
             { inputId: 'testDropdownInput', dropdownId: 'testDropdown', hiddenId: 'testID' },
             { inputId: 'patientDropdownInput', dropdownId: 'patientDropdown', hiddenId: 'patientID' },
-            { inputId: 'doctorDropdownInput', dropdownId: 'doctorDropdown', hiddenId: 'doctorID' }
+            { inputId: 'doctorDropdownInput', dropdownId: 'doctorDropdown', hiddenId: 'referDocID' }
         ];
 
         dropdownConfigs.forEach(({ inputId, dropdownId, hiddenId }) => {
@@ -457,9 +588,9 @@
 
     // Function to fetch visit IDs
     function fetchVisitIds(patientId) {
-        const selectedVisitId = document.getElementById('CaseVisitID').value; // Get the current selected visit ID
+        const selectedVisitId = document.getElementById('VisitcaseID1').value; // Get the current selected visit ID
 
-        fetch(`/PatientPrescription/GetCaseVisitIDs?patientId=${patientId}`)
+        fetch(`/LabRad/GetCaseTestVisitIDs?patientId=${patientId}`)
             .then(response => response.json())
             .then(data => {
                 const visitDropdown = document.getElementById('visitDropdown');
@@ -501,7 +632,7 @@
             return;
         }
 
-        fetch(`/PatientPrescription/AddNewVisitID?patientId=${patientId}`)
+        fetch(`/LabRad/AddNewTestVisitID?patientId=${patientId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -512,7 +643,7 @@
                     visitDropdown.appendChild(option);
                     visitDropdown.value = data.newVisitId; // Set the newly added option as selected
 
-                    document.getElementById('CaseVisitID').value = data.newVisitId;
+                    document.getElementById('VisitcaseID1').value = data.newVisitId;
                 } else {
                     alert(data.message);
                 }
@@ -521,7 +652,7 @@
     }
 
     document.getElementById('visitDropdown').addEventListener('change', function () {
-        document.getElementById('CaseVisitID').value = this.value; // Update hidden input on selection
+        document.getElementById('VisitcaseID1').value = this.value; // Update hidden input on selection
     });
 
     // Trigger the fetchVisitIds function when the page loads
@@ -533,6 +664,86 @@
     };
 
 </script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Event handler for the Save button
+        $('#saveCustomer').click(function () {
+            // Collect the form data
+            var formData = {
+                FullName: $('#FullName').val(),
+                PhoneNumber: $('#PhoneNumber').val(),
+                Age: $('#Age').val(),
+                Gender: $('#Gender').val()
+            };
+
+            // AJAX request to submit form data to the controller action
+            $.ajax({
+                url: '/LabRad/AddTestPatientPop', // URL to your action method
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Handle the response from the server
+                    alert("Patient details saved successfully!");
+
+                    // Optionally, close the modal after saving
+                    $('#testModal').modal('hide');
+
+                    // Optionally, clear the form fields
+                    $('#modalSearchFormcus')[0].reset();
+                },
+                error: function (xhr, status, error) {
+                    // Handle any errors that occurred during the AJAX request
+                    alert("Error: " + xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Event handler for the Save button
+        $('#saveCustomer1').click(function () {
+            // Collect the form data
+            var formData = {
+                ModelName: $('#ModelName').val(),
+                SideEffects: $('#SideEffects').val(),
+                Dosage: $('#Dosage').val()
+            };
+
+            // AJAX request to submit form data to the controller action
+            $.ajax({
+                url: '/LabRad/AdddoctorPop', // URL to your action method
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Handle the response from the server
+                    alert("Doctor details saved successfully!");
+
+                    // Optionally, close the modal after saving
+                    $('#doctorModal').modal('hide');
+
+                    // Optionally, clear the form fields
+                    $('#modalSearchFormcus1')[0].reset();
+                },
+                error: function (xhr, status, error) {
+                    // Handle any errors that occurred during the AJAX request
+                    alert("Error: " + xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+</script>
+
 
 
 

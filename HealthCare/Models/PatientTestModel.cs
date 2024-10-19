@@ -12,7 +12,7 @@ namespace HealthCare.Models
         private String patientID;
         private String testID;
         private String facilityID;
-        private String VisitcaseID;
+        private String visitcaseID;
         private String testDateTime;
         private String testResult;
         private String tsampleClt;
@@ -25,6 +25,7 @@ namespace HealthCare.Models
         private String LastupdatedUser;
         private String LastupdatedDate;
         private String LastUpdatedMachine;
+        private bool isdelete;
 
 
         [MaxLength(100)]
@@ -33,8 +34,7 @@ namespace HealthCare.Models
         [MaxLength(100)]
         public string TestID { get => testID; set => testID = value; }
 
-        [MaxLength(100)]
-        public string VisitcaseID1 { get => VisitcaseID; set => VisitcaseID = value; }
+       
 
         [MaxLength(30)]
         public string? TestDateTime { get => testDateTime; set => testDateTime = value; }
@@ -75,6 +75,10 @@ namespace HealthCare.Models
 
         [MaxLength(100)]
         public string FacilityID { get => facilityID; set => facilityID = value; }
+
+        [MaxLength(100)]
+        public string VisitcaseID { get => visitcaseID; set => visitcaseID = value; }
+        public bool Isdelete { get => isdelete; set => isdelete = value; }
     }
 
 }

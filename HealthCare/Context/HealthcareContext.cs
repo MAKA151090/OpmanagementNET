@@ -401,7 +401,7 @@ namespace HealthCare.Context
 
 
              modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.FacilityID,i.TestID });
-             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.FacilityID,i.TestID ,i.TestDateTime});
+             modelBuilder.Entity<PatientTestModel>().HasKey(i => new { i.PatientID,i.FacilityID,i.TestID ,i.TsampleCltDateTime,i.VisitcaseID});
 
              modelBuilder.Entity<OTSchedulingModel>().HasKey(i => new { i.OtScheduleID });
              modelBuilder.Entity<OTNotesModel>().HasKey(i => new { i.OtScheduleID });
