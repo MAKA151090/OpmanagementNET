@@ -210,6 +210,9 @@ namespace HealthCare.Context
 
            public DbSet<PayrollTaxModel>SHpayrollTax { get; set; }
 
+        public DbSet<TestresultupdateModel>Shtestresultupd { get; set; }
+
+
           /* public DbSet<ProductMatserModel> SHProductMaster { get; set; }
 
            public DbSet<CategoryMasterModel> SHCategoryMaster { get; set; }
@@ -283,8 +286,12 @@ namespace HealthCare.Context
             modelBuilder.Entity<BloodGroupModel>()
                 .HasKey(i => new { i.IntBg_Id, i.FacilityID });
 
-            modelBuilder.Entity<StaffAdminModel>()
-                .HasKey(i => new { i.StrStaffID, i.FacilityID });
+            modelBuilder.Entity<StaffAdminModel>().Property(i => i.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<StaffAdminModel>().HasKey(i => new {i.Id, i.FacilityID});
+
+
+            modelBuilder.Entity<TestresultupdateModel>()
+              .HasKey(i => new { i.PatientID, i.VisitcaseID, i.FacilityID,i.TestID,i.TsampleCltDateTime,i.Result });
 
 
             modelBuilder.Entity<PatientRegistrationModel>()
@@ -619,6 +626,40 @@ namespace HealthCare.Context
                     billEntry.Entity.TestID = $"Test_{lasttestNumber}";
                 }
             }
+
+
+
+            //staff Admin 
+            var staffMas = ChangeTracker
+                        .Entries<StaffAdminModel>()
+                        .Where(e => e.State == EntityState.Added)
+                        .ToList();
+
+            if (staffMas.Any())
+            {
+                // Get the latest BillNumber from the database
+                var laststaff = await this.SHclnStaffAdminModel.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int laststaffNumber = 100; // Starting point, e.g., Bill_100
+
+                if (laststaff != null)
+                {
+                    // Extract the numeric part of the last BillNumber and increment it
+                    string laststaffNum = laststaff.StrStaffID.Replace("Staff_", "");
+                    if (int.TryParse(laststaffNum, out int number))
+                    {
+                        laststaffNumber = number;
+                    }
+                }
+
+                // Assign the new BillNumber for each new bill
+                foreach (var billEntry in staffMas)
+                {
+                    laststaffNumber++;
+                    billEntry.Entity.StrStaffID = $"Staff_{laststaffNumber}";
+                }
+            }
+
+
 
             return await base.SaveChangesAsync(cancellationToken);
         }

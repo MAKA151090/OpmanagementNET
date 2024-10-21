@@ -116,9 +116,11 @@ namespace HealthCare.Business
         public List<StaffAdminModel> getrefdocid(string facility)
         {
             var refdocid = (
-                from pr in _healthcareContext.SHclnStaffAdminModel
-                where pr.FacilityID == facility
-                select new StaffAdminModel
+
+               from pr in _healthcareContext.SHclnStaffAdminModel
+               join p in _healthcareContext.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+               where p.ResourceTypeName == "Doctor" && pr.IsDelete == false && p.StrIsDelete == false && pr.FacilityID == facility && p.FacilityID == facility
+               select new StaffAdminModel
                 {
                     StrStaffID = pr.StrStaffID,
                     StrFullName = pr.StrFullName,
@@ -383,6 +385,24 @@ namespace HealthCare.Business
                              
 
 
+                          }).ToList();
+            return result;
+        }
+
+
+        public List<TestresultTablemodel> Gettestresult(string patientID, string casevisitID, string facility, string tsample)
+        {
+            var result = (from p in _healthcareContext.SHPatientTest
+                          join tm in _healthcareContext.SHTestMaster on p.TestID equals tm.TestID
+                          where p.PatientID == patientID && p.VisitcaseID == casevisitID && p.Isdelete == false && p.FacilityID == facility && d.FacilityID == facility && tm.FacilityID == facility && p.TsampleCltDateTime == tsample
+                          select new TestresultTablemodel
+                          {
+                           
+                              TestName = tm.TestName,
+                              TsampleCltDateTime = p.TsampleCltDateTime,
+                              Range = tm.Range,
+                              Unit = tm.Unit,
+                          
                           }).ToList();
             return result;
         }

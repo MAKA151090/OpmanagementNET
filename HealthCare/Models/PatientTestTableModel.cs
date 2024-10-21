@@ -27,6 +27,10 @@
 
         private String selectedItemId;
         private List<PatientTestModel> items;
+        private String resourceTypeID;
+        private String gender;
+
+        private String barcodeID;
 
 
         public string PatientID { get => patientID; set => patientID = value; }
@@ -52,5 +56,8 @@
         public string DbpatientID { get => dbpatientID; set => dbpatientID = value; }
         public string TestName { get => testName; set => testName = value; }
         public List<PatientTestModel> Items { get => items; set => items = value; }
+        public string ResourceTypeID { get => resourceTypeID; set => resourceTypeID = value; }
+        public string Gender { get => gender; set => gender = value; }
+        public string BarcodeID { get => barcodeID; set => barcodeID = value; }
     }
 }

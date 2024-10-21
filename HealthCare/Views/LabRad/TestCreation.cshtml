@@ -91,7 +91,7 @@
                 });
                             }
 
-                                <input type="text" id="testDropdownInput" class="form-control" placeholder="Test Name" value="@ViewBag.SelectedTestID" onkeyup="filterDropdown(event, 'testDropdownInput', 'testDropdown')" onclick="showDropdown('testDropdown')" required>
+                                <input type="text" id="testDropdownInput" class="form-control" placeholder="Test Name" value="@ViewBag.SelectedTestID" onkeyup="filterDropdown(event, 'testDropdownInput', 'testDropdown')" onclick="showDropdown('testDropdown')">
                                 <ul id="testDropdown" class="list-group mt-2"
                                     style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
                                     @foreach (var item in screenList)
@@ -131,7 +131,7 @@
                                 </ul>
 
                                 <input type="hidden" name="PatientID" id="patientID" value="@ViewBag.SelectedPatientID" />
-                                <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#paymentModal"></button>
+                                <button class="btn btn-primary menu-icon tf-icons mdi mdi-account-multiple-plus" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#patientModal"></button>
                             </div>
 
 
@@ -150,7 +150,7 @@
 
                             @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control", required = "required" })
                             <label asp-for="FacilityID" class="control-label"></label>
-                            <span asp-validation-for="FacilityID" class="text-danger"></span>
+                           
                         </div>
                     </div>
 
@@ -171,7 +171,7 @@
     <div class="form-group" style="margin-top:20px">
         <center>
 
-            <button type="button" class="btn btn-primary">Get</button>
+            <button type="submit" name="buttonType" value="Get" class="btn btn-primary">Get</button>
             @*    <button type="submit" asp-action="GetReport" value="GetReport" class="btn btn-primary">GetReport</button> *@
 
         </center>
@@ -210,10 +210,9 @@
                         <button class="btn btn-primary menu-icon tf-icons mdi mdi-human-greeting" type="button" id="addVisitButton" class="btn btn-outline-secondary" onclick="addNewVisit()"></button>
                     </div>
                             <div class="form-floating form-floating-outline mb-4">
-                           <input asp-for="TestDateTime" class="form-control" type="date" placeholder="TestDateTime" />
+                           <input asp-for="TestDateTime" class="form-control" type="date" placeholder="TestDate" />
                 <label asp-for="TestDateTime" class="control-label"></label>
-                        
-                <span asp-validation-for="TestDateTime" class="text-danger"></span>
+                
             </div>
                             <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="TestResult" class="form-control" placeholder="TestResult"  />
@@ -237,7 +236,7 @@
                             <input asp-for="TsampleCltDateTime" class="form-control" type="date" placeholder="SampleCollectDateTime" required />
                             <label asp-for="TsampleCltDateTime" class="control-label">SampleCollectDateTime</label>
                           
-                <span asp-validation-for="TsampleCltDateTime" class="text-danger"></span>
+               
             </div>
                             <div class="form-floating form-floating-outline mb-4">
                             <input asp-for="ExptRsltDateTime" class="form-control" type="date" placeholder="ExpectedResultDateTime" />
@@ -245,6 +244,14 @@
                           
               
             </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="BarcodeID" class="form-control"  placeholder="BarcodeID" />
+                        <label asp-for="BarcodeID" class="control-label">BarcodeID</label>
+
+
+                    </div>
+
+
                     </div>
                 </div>
             </div>
@@ -422,8 +429,48 @@
                     </div>
 
                     <div class="col mb-3">
+
+
                         <label for="searchInput">Gender</label>
-                        <input type="text" class="form-control" id="Gender" name="Gender" placeholder="Gender" />
+                        <select id="Gender" name="Gender" class="form-control">
+                            @if (string.IsNullOrEmpty(Model.Gender))
+                            {
+                                <option value="" selected>-- Select Gender --</option>
+                            }
+                            else
+                            {
+                                <option value="">-- Select Gender --</option>
+                            }
+
+                            @if (Model.Gender == "Male")
+                            {
+                                <option value="Male" selected>Male</option>
+                            }
+                            else
+                            {
+                                <option value="Male">Male</option>
+                            }
+
+                            @if (Model.Gender == "Female")
+                            {
+                                <option value="Female" selected>Female</option>
+                            }
+                            else
+                            {
+                                <option value="Female">Female</option>
+                            }
+
+                            @if (Model.Gender == "Other")
+                            {
+                                <option value="Other" selected>Other</option>
+                            }
+                            else
+                            {
+                                <option value="Other">Other</option>
+                            }
+                        </select>
+
+                        <input type="hidden" class="form-control" id="Gender" name="Gender" placeholder="Gender" />
                     </div>
 
 
@@ -441,7 +488,7 @@
 
 
 
-<!-- Drug Details Modal -->
+<!-- Doctor Details Modal -->
 <div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -461,21 +508,83 @@
 
 
                         <label for="ModelName">Doctor Name</label>
-                        <input type="text" class="form-control" id="ModelName" name="ModelName" placeholder="Drug Name" />
+                        <input type="text" class="form-control" id="StrFullName" name="StrFullName" placeholder="Doctor Name" />
 
 
 
                     </div>
 
                     <div class="col mb-3">
-                        <label for="searchInput">Side Effects</label>
-                        <input type="text" class="form-control" id="SideEffects" name="SideEffects" placeholder="Side Effects " />
+
+                        <label for="searchInput">Select ResourceType</label>
+                        @{
+                            var screenListre = ((IEnumerable<ResourceTypeMasterModel>)ViewData["resoruseid"])
+                            .Select(m => new SelectListItem
+            {
+                Value = m.ResourceTypeID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.ResourceTypeName}"
+            });
+                        }
+
+                        @Html.DropDownListFor(model => model.ResourceTypeID, screenListre, "Select Resource ID", new { @class = "form-control" })
+                        <label asp-for="ResourceTypeID" class="control-label"></label>
+                        <span id="resourcetypeerror" class="text-danger"></span>
+
+
+                        <input type="hidden" class="form-control" id="ResourceTypeID" name="ResourceTypeID"/>
                     </div>
 
 
                     <div class="col mb-3">
-                        <label for="searchInput">Dosage</label>
-                        <input type="text" class="form-control" id="Dosage" name="Dosage" placeholder="Dosage" />
+                        <label for="searchInput">PhoneNumber</label>
+                        <input type="text" class="form-control" id="StrPhoneNumber" name="StrPhoneNumber" placeholder="PhoneNumber" />
+                    </div>
+
+                    <div class="col mb-3">
+
+                        <label for="searchInput">Gender</label>
+
+                        <select id="StrGender" name="StrGender" class="form-control">
+                            @if (string.IsNullOrEmpty(Model.Gender))
+                            {
+                                <option value="" selected>-- Select Gender --</option>
+                            }
+                            else
+                            {
+                                <option value="">-- Select Gender --</option>
+                            }
+
+                            @if (Model.Gender == "Male")
+                            {
+                                <option value="Male" selected>Male</option>
+                            }
+                            else
+                            {
+                                <option value="Male">Male</option>
+                            }
+
+                            @if (Model.Gender == "Female")
+                            {
+                                <option value="Female" selected>Female</option>
+                            }
+                            else
+                            {
+                                <option value="Female">Female</option>
+                            }
+
+                            @if (Model.Gender == "Other")
+                            {
+                                <option value="Other" selected>Other</option>
+                            }
+                            else
+                            {
+                                <option value="Other">Other</option>
+                            }
+                        </select>
+
+
+                       
+                        <input type="hidden" class="form-control" id="StrGender" name="StrGender" placeholder="Gender" />
                     </div>
 
 
@@ -757,9 +866,11 @@
         $('#saveCustomer1').click(function () {
             // Collect the form data
             var formData = {
-                ModelName: $('#ModelName').val(),
-                SideEffects: $('#SideEffects').val(),
-                Dosage: $('#Dosage').val()
+                StrFullName: $('#StrFullName').val(),
+                ResourceTypeID: $('#ResourceTypeID').val(),
+                StrPhoneNumber: $('#StrPhoneNumber').val(),
+                StrGender: $('#StrGender').val(),
+                    
             };
 
             // AJAX request to submit form data to the controller action

@@ -1,8 +1,12 @@
-﻿using DocumentFormat.OpenXml.Vml.Office;
+﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Vml.Office;
+using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +26,7 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest,PatientTestTableModel model, string PatientID, string VisitcaseID)
+        public async Task<IActionResult> TestCreation(PatientTestModel pPatientTest,PatientTestTableModel model, string PatientID, string VisitcaseID,string buttonType)
         {
 
             string facilityId = string.Empty;
@@ -38,6 +42,89 @@ namespace HealthCare.Controllers
             ViewData["facid"] = business.GetFacid(facilityId);
 
             ViewData["refdocid"] = business.getrefdocid(facilityId);
+
+
+
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(GetlabData);
+            ViewData["resoruseid"] = clinicAd.GetResourceid(facilityId);
+
+            if (buttonType == "Get")
+            {
+
+                var exresult = GetlabData.SHPatientTest.FirstOrDefault(x => x.PatientID == PatientID && x.Isdelete == false && x.VisitcaseID == VisitcaseID && x.FacilityID == pPatientTest.FacilityID && x.TsampleCltDateTime == pPatientTest.TsampleCltDateTime);
+                if (exresult != null)
+                {
+
+                    var result = business.Gettest(exresult.PatientID, exresult.VisitcaseID, exresult.TestID, exresult.FacilityID, exresult.TsampleCltDateTime);
+
+
+                    var viewModelList = result.Select(p => new PatientTestViewModel
+                    {
+                        PatientID = p.PatientID,
+                        VisitcaseID = p.VisitcaseID,
+                        TestName = p.TestName,
+                        TsampleCltDateTime = p.TsampleCltDateTime,
+                        DbpatientID = p.DbpatientID,
+                        TestID = p.TestID
+
+                    }).ToList();
+                    model.ViewTest = viewModelList;
+
+                    model.Items = await GetDistinctCaseVisitID(pPatientTest.PatientID);
+
+                    ViewBag.SelectedPatientID = PatientID;
+                    model.SelectedItemId = VisitcaseID;
+
+                    // Set TempData for use in the view
+                    TempData["TestID"] = viewModelList.FirstOrDefault()?.TestID;
+                    TempData["DbpatientID"] = viewModelList.FirstOrDefault()?.DbpatientID;
+
+                    return View("TestCreation", model);
+                }
+                else
+                {
+
+                    ViewBag.Message = " PatientID Not Found";
+                }
+
+                model.Items = await GetDistinctCaseVisitID(pPatientTest.PatientID) ?? new List<PatientTestModel>();
+                model.ViewTest = new List<PatientTestViewModel>();
+
+                ViewBag.SelectedPatientID = PatientID;
+
+
+                model.SelectedItemId = VisitcaseID;
+                return View("TestCreation", model);
+            }
+
+
+            if (string.IsNullOrEmpty(pPatientTest.TestID))
+            {
+                ViewBag.Message = "Please enter TestID.";
+
+                model.Items = await GetDistinctCaseVisitID(pPatientTest.PatientID) ?? new List<PatientTestModel>();
+
+                var prescriptionTable = business.Gettest(pPatientTest.PatientID, pPatientTest.VisitcaseID, pPatientTest.TestID, pPatientTest.FacilityID, pPatientTest.TsampleCltDateTime);
+
+                // Map to PrescriptionViewModel
+                model.ViewTest = prescriptionTable.Select(p => new PatientTestViewModel
+                {
+                    PatientID = p.PatientID,
+                    VisitcaseID = p.VisitcaseID,
+                    TestName = p.TestName,
+                    TsampleCltDateTime = p.TsampleCltDateTime,
+                    DbpatientID = p.DbpatientID,
+                    TestID = p.TestID
+
+                }).ToList();
+
+                ViewBag.SelectedPatientID = PatientID;
+                model.SelectedItemId = VisitcaseID;
+
+                return View("TestCreation", model);
+
+            }
+
 
             //PatientTestModel = new PatientTestModel();
             var existingPatientTest = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x=>x.PatientID==pPatientTest.PatientID && x.FacilityID == pPatientTest.FacilityID && x.TestID ==  pPatientTest.TestID && x.TestDateTime == pPatientTest.TestDateTime && x.VisitcaseID == pPatientTest.VisitcaseID);
@@ -57,6 +144,7 @@ namespace HealthCare.Controllers
                 existingPatientTest.ReferDate = pPatientTest.ReferDate;
                 existingPatientTest.ReferDocID = pPatientTest.ReferDocID;
                 existingPatientTest.ResultDate = pPatientTest.ResultDate;
+                existingPatientTest.BarcodeID = pPatientTest.BarcodeID;
                 existingPatientTest.lastUpdatedDate = DateTime.Now.ToString();
                 existingPatientTest.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingPatientTest.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -90,6 +178,7 @@ namespace HealthCare.Controllers
 
             ViewBag.SelectedPatientID = PatientID;
             model.SelectedItemId = VisitcaseID;
+            ViewBag.SelecteddoctorID = pPatientTest.ReferDocID;
 
             return View("TestCreation", model);
         }
@@ -124,7 +213,8 @@ namespace HealthCare.Controllers
 
             ViewData["refdocid"] = business.getrefdocid(facilityId);
 
-          
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(GetlabData);
+            ViewData["resoruseid"] = clinicAd.GetResourceid(facilityId);
 
 
 
@@ -132,7 +222,7 @@ namespace HealthCare.Controllers
             var testEdit = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x=>x.PatientID == patientId && x.VisitcaseID == VisitcaseID && x.TestID == testId && x.TsampleCltDateTime == tsampledate && x.FacilityID == facilityId);
             if (testEdit == null)
             {
-                ViewBag.ErrorMessage = " PatientID Not Found";
+                ViewBag.Message = " PatientID Not Found";
                 tabmod.Items = await GetDistinctCaseVisitID(patientId) ?? new List<PatientTestModel>();
                 tabmod.ViewTest = new List<PatientTestViewModel>();
 
@@ -154,6 +244,7 @@ namespace HealthCare.Controllers
                 ReferDocID = testEdit.ReferDocID,
                 ReferDate = testEdit.ResultDate,
                 ResultDate = testEdit.ResultDate,
+                BarcodeID = testEdit.BarcodeID,
 
                 ViewTest = new List<PatientTestViewModel>()
 
@@ -215,6 +306,10 @@ namespace HealthCare.Controllers
 
             ViewData["refdocid"] = business.getrefdocid(facilityId);
 
+
+
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(GetlabData);
+            ViewData["resoruseid"] = clinicAd.GetResourceid(facilityId);
 
             var exresult = GetlabData.SHPatientTest.FirstOrDefaultAsync(x => x.PatientID == patientId && x.VisitcaseID == VisitcaseID && x.TestID == testId && x.TsampleCltDateTime == tsampledate && x.FacilityID == facilityId);
             if (exresult != null)
@@ -323,6 +418,39 @@ namespace HealthCare.Controllers
         }
 
 
+        public async Task<IActionResult> GetVisitDate(string visitId)
+
+        {
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            string docid = string.Empty;
+            if (TempData["DoctorID"] != null)
+            {
+                docid = TempData["DoctorID"].ToString();
+                TempData.Keep("DoctorID");
+            }
+
+
+
+
+            var visitDetails = await GetlabData.SHPatientTest
+        .Where(v => v.VisitcaseID == visitId && v.FacilityID == facilityId && v.Isdelete == false)
+        .Select(v => new
+        {
+            SampleCollectDateTime = v.TsampleCltDateTime
+        })
+        .FirstOrDefaultAsync();
+
+            return Json(visitDetails);
+        }
+
+
 
         public async Task<IActionResult> AddNewTestVisitID(string patientId)
         {
@@ -416,9 +544,13 @@ namespace HealthCare.Controllers
 
             ViewData["refdocid"] = business.getrefdocid(facilityId);
 
-            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetlabData);
 
-            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(GetlabData);
+            ViewData["resoruseid"] = clinicAd.GetResourceid(facilityId);
+
+            BusinessClassLabRad docpres = new BusinessClassLabRad(GetlabData);
+
+            var daocfac = docpres.Gettestfacility(facilityId).FirstOrDefault()?.FacilityID;
 
             // Use _httpContextAccessor to access HttpContext.Session
             if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
@@ -466,12 +598,12 @@ namespace HealthCare.Controllers
 
             modelview.ViewTest = viewModelList;
 
-            return View("PatientEPrescription", modelview);
+            return View("TestCreation", modelview);
 
         }
 
 
-        public async Task<IActionResult> AdddoctorPop(PatientRegistrationModel model)
+        public async Task<IActionResult> AdddoctorPop(StaffAdminModel model)
         {
             string docid = string.Empty;
             if (TempData["DoctorID"] != null)
@@ -495,9 +627,16 @@ namespace HealthCare.Controllers
 
             ViewData["refdocid"] = business.getrefdocid(facilityId);
 
-            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetlabData);
 
-            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(GetlabData);
+            ViewData["resoruseid"] = clinicAd.GetResourceid(facilityId);
+
+            BusinessClassLabRad docpres = new BusinessClassLabRad(GetlabData);
+
+            var daocfac = docpres.Gettestfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+
+          
 
             // Use _httpContextAccessor to access HttpContext.Session
             if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
@@ -510,26 +649,27 @@ namespace HealthCare.Controllers
                 return RedirectToAction("ErrorPage"); // Replace with your error handling action
             }
 
-            var existingPatient = await GetlabData.SHPatientRegistration.FirstOrDefaultAsync(x => x.PatientID == model.PatientID && x.FacilityID == daocfac && x.IsDelete == false);
+            var existingstaff = await GetlabData.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.StrStaffID == model.StrStaffID && x.FacilityID == daocfac && x.IsDelete == false);
 
-            if (existingPatient != null)
+            if (existingstaff != null)
             {
-                existingPatient.FullName = model.FullName;
-                existingPatient.PhoneNumber = model.PhoneNumber;
-                existingPatient.Age = model.Age;
-                existingPatient.Gender = model.Gender;
-                existingPatient.FacilityID = daocfac;
-                existingPatient.PatientID = model.PatientID;
+                existingstaff.StrFullName = model.StrFullName;
+                existingstaff.StrPhoneNumber = model.StrPhoneNumber;
+                existingstaff.ResourceTypeID = model.ResourceTypeID;
+                existingstaff.StrGender = model.StrGender;
+                existingstaff.FacilityID = daocfac;
+                existingstaff.StrStaffID = model.StrStaffID;
 
-                GetlabData.Entry(existingPatient).State = EntityState.Modified;
+                GetlabData.Entry(existingstaff).State = EntityState.Modified;
             }
             else
             {
 
-                model.lastUpdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastupdatedDate = DateTime.Now.ToString();
+                model.LastupdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 model.FacilityID = daocfac;
-                GetlabData.SHPatientRegistration.Add(model);
+                GetlabData.SHclnStaffAdminModel.Add(model);
 
 
             }
@@ -545,7 +685,7 @@ namespace HealthCare.Controllers
 
             modelview.ViewTest = viewModelList;
 
-            return View("PatientEPrescription", modelview);
+            return View("TestCreation", modelview);
 
         }
 
@@ -553,7 +693,7 @@ namespace HealthCare.Controllers
 
 
 
-        public async Task<IActionResult> ViewResult(PatientViewResultModel Model)
+        public async Task<IActionResult> ViewResult(TestresultTablemodel Model)
         {
 
             string facilityId = string.Empty;
@@ -563,18 +703,19 @@ namespace HealthCare.Controllers
                 TempData.Keep("FacilityID");
             }
 
-            BusinessClassLabRad ObjBusTestResult = new BusinessClassLabRad(GetlabData);
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid(facilityId);
+            ViewData["patid"] = business.Getpatid(facilityId);
+            ViewData["facid"] = business.GetFacid(facilityId);
 
-            ViewData["visitid"] = ObjBusTestResult.GetVisitid(facilityId);
-            ViewData["Patientid"] = ObjBusTestResult.GetPatID(facilityId);
-            ViewData["Facilityid"] = ObjBusTestResult.GetFacilityid(facilityId);
 
-            if (ObjBusTestResult != null)
+          var getresult = await GetlabData.Shtestresultupd.FirstOrDefaultAsync(x=>x.PatientID == Model.PatientID && x.Isdelete == false && x.VisitcaseID == Model.VisitcaseID && x.FacilityID == facilityId  && x.TsampleCltDateTime == Model.TsampleCltDateTime);
+            if(getresult != null)
             {
-                var testResults = await ObjBusTestResult.GetTestResults(Model.PatientID, Model.FacilityID, Model.VisitcaseID);
-                return View("PrintTestResults", testResults);
-            }
+                var testTabledata = business.Gettestresult(Model.PatientID, Model.VisitcaseID, facilityId,Model.TsampleCltDateTime);
 
+
+            }
 
             return View("PrintTestResults", Model);
 
@@ -796,6 +937,10 @@ namespace HealthCare.Controllers
             ViewData["refdocid"] = business.getrefdocid(facilityId);
 
 
+
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(GetlabData);
+            ViewData["resoruseid"] = clinicAd.GetResourceid(facilityId);
+
             var model = new PatientTestTableModel();
             model.Items = new List<PatientTestModel>();
 
@@ -821,12 +966,21 @@ namespace HealthCare.Controllers
                 facilityId = TempData["FacilityID"].ToString();
                 TempData.Keep("FacilityID");
             }
+            BusinessClassLabRad business = new BusinessClassLabRad(GetlabData);
+            ViewData["testid"] = business.GetTestid(facilityId);
+            ViewData["patid"] = business.Getpatid(facilityId);
+            ViewData["facid"] = business.GetFacid(facilityId);
 
-            BusinessClassLabRad businessClassLabRad = new BusinessClassLabRad(GetlabData);
-            ViewData["visitid"] = businessClassLabRad.GetVisitid(facilityId);
-            ViewData["Patientid"] = businessClassLabRad.GetPatID(facilityId);
-            ViewData["Facilityid"] = businessClassLabRad.GetFacilityid(facilityId);
-            return View();
+            var model = new TestresultTablemodel();
+            model.Items = new List<TestresultupdateModel>();
+
+
+            var viewModelList = new List<TestresultviewModel>();
+
+
+            model.Viewtestresult = viewModelList;
+
+            return View("PrintTestResults", model);
         }
         public IActionResult RadiologyCreation()
         {

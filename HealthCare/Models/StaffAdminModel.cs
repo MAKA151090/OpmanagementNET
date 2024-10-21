@@ -34,6 +34,7 @@ namespace HealthCare.Models
         private String lastUpdatedMachine;
         private String facilityID;
         private bool strIsDelete;
+        private long id;
 
 
         [MaxLength(100)]
@@ -103,5 +104,6 @@ namespace HealthCare.Models
         [MaxLength(100)]
         public string FacilityID { get => facilityID; set => facilityID = value; }
         public bool IsDelete { get => strIsDelete; set => strIsDelete = value; }
+        public long Id { get => id; set => id = value; }
     }
 }

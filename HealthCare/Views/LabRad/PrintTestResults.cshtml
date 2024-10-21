@@ -1,9 +1,49 @@
-﻿@model List<PatientViewResultModel>
-
+﻿@model TestresultTablemodel
 @{
     ViewData["Title"] = "PrintTestResults";
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
+
+
+
+
+
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        // Close popup when OK button is clicked
+        popupOKButton.addEventListener("click", function () {
+            closePopup();
+        });
+
+        // Close popup when clicking outside of the message box
+        document.addEventListener("click", function (event) {
+            if (!popup.contains(event.target) && !popupOKButton.contains(event.target)) {
+                closePopup();
+            }
+        });
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popupMessage");
+        popup.style.display = "none"; // Hide the popup
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: black; padding: 30px; border: 10px solid white; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 20px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
 
 <div class="row gy-4">
     <div class="col-md-12 col-lg-2">
@@ -41,50 +81,76 @@
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var screenList = ((IEnumerable<PatientRegistrationModel>)ViewData["Patientid"])
-                                .Select(m => new SelectListItem
-                {
-                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.PatientID} - {m.FullName}"
-                });
-                            }
 
-                            @Html.DropDownList("Patientid", screenList, "Select Patient ID", new { @class = "form-control" })
-                            <label for="PatientID" class="control-label">PatientID</label>
-                            <span for="PatientID" class="text-danger"></span>
-                        </div>
 
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["Facilityid"])
-                                .Select(m => new SelectListItem
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var Screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["facid"])
+                            .Select(m => new SelectListItem
                 {
                     Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
                     Text = $"{m.FacilityID} - {m.ClinicName}"
                 });
-                            }
+                        }
 
-                            @Html.DropDownList("Facilityid", screenlist, "Select Facility ID", new { @class = "form-control" })
-                            <label for="FacilityID" class="control-label">FacilityID</label>
-                            <span for="FacilityID" class="text-danger"></span>
+                        @Html.DropDownListFor(model => model.FacilityID, Screenlist, "Select Facility ID", new { @class = "form-control", required = "required" })
+                        <label asp-for="FacilityID" class="control-label"></label>
+
+                    </div>
+
+                        <div class="input-group">
+                        @{
+                            var patientList = ((IEnumerable<PatientRegistrationModel>)ViewData["patid"])
+                            .Select(m => new SelectListItem
+                {
+                    Value = m.PatientID.ToString(), // Assuming ScreenId is of type int
+                    Text = $"{m.FullName}"
+                });
+                        }
+
+                        <input type="text" id="patientDropdownInput" class="form-control" placeholder="Patient Name" value="@ViewBag.SelectedPatientID" onkeyup="filterDropdown(event, 'patientDropdownInput', 'patientDropdown')" onclick="showDropdown('patientDropdown')" required>
+                        <ul id="patientDropdown" class="list-group mt-2"
+                            style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-radius: .25rem; box-shadow: 0 0 .5rem rgba(0, 0, 0, .1); z-index: 1000; padding: 0; margin: 0; list-style-type: none;">
+                            @foreach (var item in patientList)
+                            {
+                                <li class="list-group-item" data-value="@item.Value" onclick="selectDropdownItem('patientDropdownInput', 'patientID', '@item.Text', '@item.Value')"
+                                    style="padding: .5rem 1rem; cursor: pointer; background-color: white; border: none; list-style-type: none;">
+                                    @item.Text
+                                </li>
+                            }
+                        </ul>
+
+                        <input type="hidden" name="PatientID" id="patientID" value="@ViewBag.SelectedPatientID" />
                         </div>
 
-                            <div class="form-floating form-floating-outline mb-4">
-                                @{
-                                var Screenlist = ((IEnumerable<PatientTestModel>)ViewData["visitid"])
-                                    .Select(m => new SelectListItem
-                {
-                    Value = m.VisitcaseID.ToString(), // Assuming ScreenId is of type int
-                    Text = $"{m.VisitcaseID}"
-                });
-                                }
 
-                                @Html.DropDownList("visitcaseid", Screenlist, "Select Visitcase ID", new { @class = "form-control" })
-                            <label for="VisitcaseID1" class="control-label">CaseVisitID</label>
-                            <span for="VisitcaseID1" class="text-danger"></span>
+                            <div class="form-floating form-floating-outline mb-4">
+                        <select id="visitDropdown" class="form-control" name="VisitcaseID" fdprocessedid="stubwn" required>
+
+                            <option value="">Select Visit ID</option>
+                            @* The options will be populated dynamically using JavaScript *@
+
+                            @foreach (var item in Model.Items)
+                            {
+                                <option value="@item.VisitcaseID"
+                                        selected="@(item.VisitcaseID == Model.SelectedItemId)">
+                                    @item.VisitcaseID
+                                </option>
+                            }
+                        </select>
+
+
+                        <input type="hidden" name="VisitcaseID" id="VisitcaseID" value="@Model.SelectedItemId" />
                             </div>
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="TsampleCltDateTime" class="form-control" type="date" placeholder="SampleCollectDateTime" required />
+                        <label asp-for="TsampleCltDateTime" class="control-label">SampleCollectDateTime</label>
+
+
+                    </div>
 
                 </div>
                 <br />
@@ -104,7 +170,7 @@
 
 
             <br />
-        @if (Model != null)
+      @*   @if (Model != null)
         {
                <div class="row" style="margin-top:50px">
         <div class="col-md-12 col-lg-12">
@@ -167,7 +233,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> *@
             }
 
     <br />
@@ -187,74 +253,208 @@
         
 
 
-@* <h1>Test Results</h1>
+<script>
+    let suppressInputEvent = false; // Flag for suppressing input events
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Test ID</th>
-            <th>Test Name</th>
-            <th>Range</th>
-            <th>Test Date</th>
-            <th>Result</th>
-            <th>Doctor Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var testResult in Model)
-        {
-            <tr>
-                <td>@testResult.TestID</td>
-                <td>@testResult.TestName</td>
-                <td>@testResult.Range</td>
-                <td>@testResult.TestDate</td>
-                <td>@testResult.Result</td>
-                <td>@testResult.DoctorName</td>
-            </tr>
+    // Function to filter dropdown items
+    function filterDropdown(event, inputId, dropdownId) {
+        if (suppressInputEvent) return; // Prevent filtering if input event is suppressed
+
+        const input = document.getElementById(inputId);
+        const dropdown = document.getElementById(dropdownId);
+        const filter = input.value.toLowerCase();
+        const items = dropdown.querySelectorAll('li');
+
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(filter) ? '' : 'none';
+        });
+
+        dropdown.style.display = filter || input === document.activeElement ? 'block' : 'none'; // Show dropdown when filtering or when input is focused
+    }
+
+    // Function to select dropdown item
+    function selectDropdownItem(inputId, hiddenId, text, value, dropdownId) {
+        const input = document.getElementById(inputId);
+        const hidden = document.getElementById(hiddenId);
+        const dropdown = document.getElementById(dropdownId);
+
+        const trimmedText = text.trim();
+        input.value = trimmedText;
+        hidden.value = value;
+
+        // If it's the patient dropdown, fetch additional data (e.g., visit IDs)
+        if (dropdownId === 'patientDropdown') {
+            fetchVisitIds(value);
         }
-    </tbody>
-</table>
- *@
-@* @if (ViewBag.Result!=null)
-{
-    <div class="card">
-        <h5 class="card-header">Patient Search Result</h5>
-        <div class="table-responsive text-nowrap">
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th>Test ID</th>
-                        <th>Test Name</th>
-                        <th>Test Date</th>
-                        <th>Result</th>
-                        <th>Range</th>
-                        <th>Doctor Name</th>
-                       
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                        @foreach (var item in ViewBag.Result)
-                        {
-                        <tr>
-                            <td><input type="checkbox" name="selectedPatients" value="@item.PatientID" /></td>
-                            <td>@item.TestID</td>
-                            <td>@item.TestName</td>
-                            <td>@item.TestDate</td>
-                            <td>@item.Result</td>
-                            <td>@item.Range</td>
-                            <td>@item.DoctorName</td>
-                           
-                        </tr>
-                        }
-                   
-                </tbody>
-            </table>
-        </div>
-    </div>
-} *@
 
+        dropdown.style.display = 'none'; // Hide dropdown after selection
+
+        suppressInputEvent = true; // Suppress input event
+        setTimeout(() => {
+            suppressInputEvent = false; // Remove suppression
+        }, 200);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputId = 'patientDropdownInput';
+        const dropdownId = 'patientDropdown';
+        const hiddenId = 'patientID';
+
+        const input = document.getElementById(inputId);
+        const dropdown = document.getElementById(dropdownId);
+
+        let highlightedIndex = -1;
+
+        function getVisibleItems() {
+            return Array.from(dropdown.querySelectorAll('li')).filter(item => item.style.display !== 'none');
+        }
+
+        // Input event to filter dropdown items
+        input.addEventListener('input', (event) => {
+            filterDropdown(event, inputId, dropdownId);
+            highlightedIndex = -1; // Reset highlight
+        });
+
+        // Keydown event for navigation using arrow keys
+        input.addEventListener('keydown', (event) => {
+            const visibleItems = getVisibleItems();
+
+            // Keep the dropdown open when using arrow keys
+            dropdown.style.display = 'block'; // Ensure dropdown remains open
+
+            switch (event.key) {
+                case 'ArrowDown':
+                    if (highlightedIndex < visibleItems.length - 1) {
+                        highlightedIndex++;
+                        updateHighlight(visibleItems);
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'ArrowUp':
+                    if (highlightedIndex > 0) {
+                        highlightedIndex--;
+                        updateHighlight(visibleItems);
+                        event.preventDefault(); // Prevent default behavior
+                    }
+                    break;
+                case 'Enter':
+                    if (highlightedIndex >= 0) {
+                        const item = visibleItems[highlightedIndex];
+                        selectDropdownItem(inputId, hiddenId, item.textContent, item.getAttribute('data-value'), dropdownId);
+                        highlightedIndex = -1; // Reset highlight
+                        event.preventDefault();
+                    }
+                    break;
+                case 'Escape':
+                    dropdown.style.display = 'none'; // Close dropdown on escape
+                    highlightedIndex = -1; // Reset highlight
+                    break;
+                default:
+                    dropdown.style.display = 'block'; // Ensure dropdown remains open
+                    break;
+            }
+        });
+
+        // Keep dropdown open when focused
+        input.addEventListener('focus', () => {
+            dropdown.style.display = 'block';
+        });
+
+        function updateHighlight(visibleItems) {
+            visibleItems.forEach((item, index) => {
+                item.style.backgroundColor = (index === highlightedIndex) ? '#7344ca' : 'white';
+                item.style.color = (index === highlightedIndex) ? 'white' : 'black'; // Contrast text color
+            });
+            visibleItems[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
+        }
+
+        // Click event for selecting dropdown item via mouse
+        dropdown.addEventListener('click', (event) => {
+            const item = event.target.closest('li');
+            if (item) {
+                selectDropdownItem(inputId, hiddenId, item.textContent, item.getAttribute('data-value'), dropdownId);
+            }
+        });
+
+        // Click event to close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!dropdown.contains(target) && target !== input) {
+                dropdown.style.display = 'none';
+            }
+        });
+    });
+
+    // Function to fetch visit IDs
+    function fetchVisitIds(patientId) {
+        const selectedVisitId = document.getElementById('VisitcaseID').value; // Get the current selected visit ID
+
+        fetch(`/LabRad/GetCaseTestVisitIDs?patientId=${patientId}`)
+            .then(response => response.json())
+            .then(data => {
+                const visitDropdown = document.getElementById('visitDropdown');
+                visitDropdown.innerHTML = ''; // Clear previous options
+
+                const placeholderOption = document.createElement('option');
+                placeholderOption.value = '';
+                placeholderOption.textContent = 'Select Visit ID'; // Placeholder text
+                visitDropdown.appendChild(placeholderOption);
+
+                if (data.length > 0) {
+                    data.forEach(visitId => {
+                        const option = document.createElement('option');
+                        option.value = visitId;
+                        option.textContent = visitId;
+                        // Set the selected attribute if this visitId matches the selectedVisitId
+                        if (visitId === selectedVisitId) {
+                            option.selected = true;
+                        }
+                        visitDropdown.appendChild(option);
+                    });
+                } else {
+                    visitDropdown.innerHTML = '<option value="">No visits found</option>'; // If no visits found
+                }
+            })
+            .catch(error => console.error('Error fetching visit IDs:', error));
+    }
+
+    // Fetch visit details (e.g., SampleCollectDateTime) when a Visit ID is selected
+    function fetchVisitDetails(visitId) {
+        fetch(`/LabRad/GetVisitDate?visitId=${visitId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.sampleCollectDateTime) {
+                    document.getElementById('TsampleCltDateTime').value = data.sampleCollectDateTime;
+                }
+            })
+            .catch(error => console.error('Error fetching visit details:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Trigger fetching visit IDs on patient dropdown selection
+        const patientDropdown = document.getElementById('patientDropdownInput');
+        patientDropdown.addEventListener('change', (event) => {
+            const patientId = event.target.value;
+            fetchVisitIds(patientId);
+        });
+
+        // Trigger fetching visit details on visit dropdown selection
+        const visitDropdown = document.getElementById('visitDropdown');
+        visitDropdown.addEventListener('change', (event) => {
+            const visitId = event.target.value;
+            fetchVisitDetails(visitId);
+        });
+    });
+
+    // Trigger the fetchVisitIds function when the page loads
+    window.onload = function () {
+        const selectedPatientId = document.getElementById('patientID').value;
+        if (selectedPatientId) {
+            fetchVisitIds(selectedPatientId); // Call the function with the selected patient ID
+        }
+    };
+</script>
 
 
 

@@ -268,6 +268,19 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStaff(StaffAdminModel model,string buttonType)
         {
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", model.FacilityID);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage"); // Replace with your error handling action
+            }
+
+
             ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAd.GetResourceid(model.FacilityID);
             ViewData["Getfac"] = clinicAd.GetFacility(model.FacilityID);

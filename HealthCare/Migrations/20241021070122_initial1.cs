@@ -496,9 +496,11 @@ namespace HealthCare.Migrations
                 name: "SHclnStaffAdminModel",
                 columns: table => new
                 {
-                    StrStaffID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     FacilityID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    StrStaffID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ResourceTypeID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -554,7 +556,7 @@ namespace HealthCare.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHclnStaffAdminModel", x => new { x.StrStaffID, x.FacilityID });
+                    table.PrimaryKey("PK_SHclnStaffAdminModel", x => new { x.Id, x.FacilityID });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -1715,17 +1717,17 @@ namespace HealthCare.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TestID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TestDateTime = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
+                    TsampleCltDateTime = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FacilityID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    VisitcaseID1 = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    VisitcaseID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TestDateTime = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TestResult = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TsampleClt = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    TsampleCltDateTime = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ExptRsltDateTime = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -1742,11 +1744,14 @@ namespace HealthCare.Migrations
                     lastUpdatedDate = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     lastUpdatedMachine = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Isdelete = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    BarcodeID = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHPatientTest", x => new { x.PatientID, x.FacilityID, x.TestID, x.TestDateTime });
+                    table.PrimaryKey("PK_SHPatientTest", x => new { x.PatientID, x.FacilityID, x.TestID, x.TsampleCltDateTime, x.VisitcaseID });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -2296,7 +2301,8 @@ namespace HealthCare.Migrations
                     lastUpdatedMachine = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Unit = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Isdelete = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
