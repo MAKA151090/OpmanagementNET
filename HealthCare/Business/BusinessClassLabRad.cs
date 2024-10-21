@@ -394,12 +394,13 @@ namespace HealthCare.Business
         {
             var result = (from p in _healthcareContext.SHPatientTest
                           join tm in _healthcareContext.SHTestMaster on p.TestID equals tm.TestID
-                          where p.PatientID == patientID && p.VisitcaseID == casevisitID && p.Isdelete == false && p.FacilityID == facility && d.FacilityID == facility && tm.FacilityID == facility && p.TsampleCltDateTime == tsample
+                        
+                          where p.PatientID == patientID && p.VisitcaseID == casevisitID && p.Isdelete == false && p.FacilityID == facility && tm.FacilityID == facility && tm.FacilityID == facility && p.TsampleCltDateTime == tsample
                           select new TestresultTablemodel
                           {
                            
                               TestName = tm.TestName,
-                              TsampleCltDateTime = p.TsampleCltDateTime,
+                              
                               Range = tm.Range,
                               Unit = tm.Unit,
                           

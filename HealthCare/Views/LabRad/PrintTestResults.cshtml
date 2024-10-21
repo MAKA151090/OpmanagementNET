@@ -170,7 +170,7 @@
 
 
             <br />
-      @*   @if (Model != null)
+        @if (Model != null)
         {
                <div class="row" style="margin-top:50px">
         <div class="col-md-12 col-lg-12">
@@ -183,12 +183,6 @@
     <thead>
         <tr>
             <th>
-                Patient Name
-            </th>
-            <th>
-                Test ID
-            </th>
-            <th>
                 Test Name
             </th>
             <th>
@@ -198,13 +192,19 @@
                 Range
             </th>
             <th>
-                Test Date
+                Unit
             </th>
             <th>
-                Doctor Name
+                Verified By
             </th>
             <th>
-                ClinicName
+                Verified Date
+            </th>
+            <th>
+                Result by 
+            </th>
+            <th>
+                Result date
             </th>
             <th></th>
         </tr>
@@ -213,17 +213,43 @@
 
         @if (Model !=null)
         {
-            @foreach (var item in Model)
+            @foreach (var item in Model.Viewtestresult)
             {
                 <tr>
-                    <td>@item.PatientName</td>
-                    <td>@item.TestID</td>
-                    <td>@item.TestName</td>
-                    <td>@item.Result</td>
-                    <td>@item.Range</td>
-                    <td>@item.TestDate</td>
-                    <td>@item.DoctorName</td>
-                    <td>@item.ClinicName</td>
+                                            <td><input type="text" class="form-control" value="@item.TestName" readonly /></td>
+                                            <td><input type="text" class="form-control" name="Result" value="@item.Resukt" /></td>
+                                            <td><input type="text" class="form-control" value="@item.Range" readonly /></td>
+                                            <td><input type="text" class="form-control" value="@item.Unit" readonly /></td>
+
+                                            <!-- Verified By dropdown -->
+                                            <td>
+                                                <select class="form-control" name="Verifiedby">
+                                                    @foreach (var doc in ViewData["refdocid"] as List<SelectListItem>)
+                                                    {
+                                                        <option value="@doc.Value">@doc.Text</option>
+                                                    }
+                                                </select>
+                                            </td>
+
+                                            <!-- Verified Date Picker -->
+                                            <td>
+                                                <input type="date" class="form-control" name="Verifieddate" value="@item.Verifieddate?.ToString()" />
+                                            </td>
+
+                                            <!-- Result By dropdown -->
+                                            <td>
+                                                <select class="form-control" name="Resultby">
+                                                    @foreach (var doc in ViewData["refdocid"] as List<SelectListItem>)
+                                                    {
+                                                        <option value="@doc.Value">@doc.Text</option>
+                                                    }
+                                                </select>
+                                            </td>
+
+                                            <!-- Result Date Picker -->
+                                            <td>
+                                                <input type="date" class="form-control" name="Resultdate" value="@item.Resultdate?.ToString()" />
+                                            </td>
                 </tr>
             }            
         }
@@ -233,7 +259,7 @@
                     </div>
                 </div>
             </div>
-        </div> *@
+        </div> 
             }
 
     <br />

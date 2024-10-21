@@ -709,10 +709,31 @@ namespace HealthCare.Controllers
             ViewData["facid"] = business.GetFacid(facilityId);
 
 
-          var getresult = await GetlabData.Shtestresultupd.FirstOrDefaultAsync(x=>x.PatientID == Model.PatientID && x.Isdelete == false && x.VisitcaseID == Model.VisitcaseID && x.FacilityID == facilityId  && x.TsampleCltDateTime == Model.TsampleCltDateTime);
+          var getresult = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x=>x.PatientID == Model.PatientID && x.Isdelete == false && x.VisitcaseID == Model.VisitcaseID && x.FacilityID == facilityId  && x.TsampleCltDateTime == Model.TsampleCltDateTime);
             if(getresult != null)
             {
                 var testTabledata = business.Gettestresult(Model.PatientID, Model.VisitcaseID, facilityId,Model.TsampleCltDateTime);
+
+                // Create a new list to store TestresultviewModel
+                List<TestresultviewModel> viewTestResult = new List<TestresultviewModel>();
+
+                // Map each TestresultTablemodel to TestresultviewModel
+                foreach (var item in testTabledata)
+                {
+                    var viewModel = new TestresultviewModel
+                    {
+                        TestName = item.TestName,
+                        
+                        Range = item.Range,
+                        Unit = item.Unit,
+                        // Add other necessary mappings between models
+                    };
+
+                    viewTestResult.Add(viewModel);
+                }
+
+                // Now assign the mapped list to Model.Viewtestresult
+                Model.Viewtestresult = viewTestResult;
 
 
             }
