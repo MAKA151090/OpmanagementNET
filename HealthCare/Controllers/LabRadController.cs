@@ -741,8 +741,9 @@ namespace HealthCare.Controllers
             if (buttonType == "save")
             {
 
-                var checkresultupd = await GetlabData.Shtestresultupd.FirstOrDefaultAsync(x => x.PatientID == Model.PatientID && x.Isdelete == false && x.VisitcaseID == Model.VisitcaseID && x.FacilityID == facilityId && x.TestID == Model.TestID && x.TsampleCltDateTime == Model.TsampleCltDateTime && x.Result == Model.Result);
+                var checkresultupd = await GetlabData.Shtestresultupd.FirstOrDefaultAsync(x => x.PatientID == Model.PatientID && x.Isdelete == false && x.VisitcaseID == Model.VisitcaseID && x.FacilityID == facilityId && x.TestID == Model.TestID && x.TsampleCltDateTime == Model.TsampleCltDateTime);
 
+                Updmod.TestID = Model.TestID;
 
                 if(checkresultupd != null)
                 {
@@ -769,6 +770,40 @@ namespace HealthCare.Controllers
                   GetlabData.Shtestresultupd.Add(Updmod);
 
                 await GetlabData.SaveChangesAsync();
+
+                // Retrieve and display existing results
+                var getresultret = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x =>
+                    x.PatientID == Model.PatientID &&
+                    x.Isdelete == false &&
+                    x.VisitcaseID == Model.VisitcaseID &&
+                    x.FacilityID == facilityId &&
+                    x.TsampleCltDateTime == Model.TsampleCltDateTime);
+
+                if (getresultret != null)
+                {
+                    var testTabledata = business.Gettestresult(Model.PatientID, Model.VisitcaseID, facilityId, Model.TsampleCltDateTime);
+
+                    // Map each TestresultTablemodel to TestresultviewModel
+                    Model.Viewtestresult = testTabledata.Select(item => new TestresultviewModel
+                    {
+                        TestName = item.TestName,
+                        Range = item.Range,
+                        Unit = item.Unit,
+                        // Add other necessary mappings
+                    }).ToList();
+                }
+
+                Mod.Items = await GetDistinctCaseVisitID(Tmodel.PatientID);
+                Model.Items = Mod.Items.Select(item => new TestresultupdateModel
+                {
+                    VisitcaseID = item.VisitcaseID,
+                    // Add other necessary property mappings if needed
+                }).ToList();
+
+                ViewBag.SelectedPatientID = Model.PatientID;
+                Model.SelectedItemId = Model.VisitcaseID;
+
+                return View("PrintTestResults", Model);
 
 
             }

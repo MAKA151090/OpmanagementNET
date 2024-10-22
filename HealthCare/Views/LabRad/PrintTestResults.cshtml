@@ -70,6 +70,8 @@ a
 
 @using (Html.BeginForm("ViewResult", "LabRad", FormMethod.Post))
 {
+    <input type="hidden" name="TestID" value="@Model.TestID" />
+
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row gy-4">
         <div class="col-md-12 col-lg-2">
