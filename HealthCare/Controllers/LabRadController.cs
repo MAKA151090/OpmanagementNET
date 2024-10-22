@@ -8,6 +8,7 @@ using HealthCare.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCare.Controllers
@@ -376,8 +377,16 @@ namespace HealthCare.Controllers
 
         private async Task<List<PatientTestModel>> GetDistinctCaseVisitID(string patientId)
         {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+
             return await GetlabData.SHPatientTest
-                .Where(cv => cv.PatientID == patientId)
+                .Where(cv => cv.PatientID == patientId && cv.FacilityID == facilityId)
                 .Select(cv => new PatientTestModel
                 {
                     VisitcaseID = cv.VisitcaseID
@@ -386,6 +395,7 @@ namespace HealthCare.Controllers
                 .Distinct()
                 .ToListAsync();
         }
+
 
 
         public async Task<IActionResult> GetCaseTestVisitIDs(string patientId)
@@ -693,7 +703,7 @@ namespace HealthCare.Controllers
 
 
 
-        public async Task<IActionResult> ViewResult(TestresultTablemodel Model)
+        public async Task<IActionResult> ViewResult(TestresultTablemodel Model,PatientTestModel Tmodel,PatientTestTableModel Mod,string buttonType,TestresultupdateModel Updmod)
         {
 
             string facilityId = string.Empty;
@@ -707,9 +717,65 @@ namespace HealthCare.Controllers
             ViewData["testid"] = business.GetTestid(facilityId);
             ViewData["patid"] = business.Getpatid(facilityId);
             ViewData["facid"] = business.GetFacid(facilityId);
+            ViewData["refdocidlab"] = business.getrefdocidlab(facilityId);
+            ViewData["refdocidlabInc"] = business.getrefdocidlabInc(facilityId);
+
+            var refDocLabList = business.getrefdocidlab(facilityId);
+            ViewData["refdocidlab"] = refDocLabList.Select(x => new SelectListItem
+            {
+                Value = x.StrStaffID,    // Assuming StrStaffID is the ID
+                Text = x.StrFullName      // Assuming StrFullName is the name to display
+            }).ToList();
+
+            // Convert Lab Incharge list to SelectListItem
+            var refDocLabIncList = business.getrefdocidlabInc(facilityId);
+            ViewData["refdocidlabInc"] = refDocLabIncList.Select(x => new SelectListItem
+            {
+                Value = x.StrStaffID,    // Assuming StrStaffID is the ID
+                Text = x.StrFullName      // Assuming StrFullName is the name to display
+            }).ToList();
 
 
-          var getresult = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x=>x.PatientID == Model.PatientID && x.Isdelete == false && x.VisitcaseID == Model.VisitcaseID && x.FacilityID == facilityId  && x.TsampleCltDateTime == Model.TsampleCltDateTime);
+
+
+            if (buttonType == "save")
+            {
+
+                var checkresultupd = await GetlabData.Shtestresultupd.FirstOrDefaultAsync(x => x.PatientID == Model.PatientID && x.Isdelete == false && x.VisitcaseID == Model.VisitcaseID && x.FacilityID == facilityId && x.TestID == Model.TestID && x.TsampleCltDateTime == Model.TsampleCltDateTime && x.Result == Model.Result);
+
+
+                if(checkresultupd != null)
+                {
+
+                    checkresultupd.PatientID = Updmod.PatientID;
+                    checkresultupd.VisitcaseID = Updmod.VisitcaseID;
+                    checkresultupd.FacilityID = Updmod.FacilityID;
+                    checkresultupd.TsampleCltDateTime = Updmod.TsampleCltDateTime;
+                    checkresultupd.Result = Updmod.Result;
+                    checkresultupd.Resultby = Updmod.Resultby;
+                    checkresultupd.Verifiedby = Updmod.Verifiedby;
+                    checkresultupd.Verifieddate = Updmod.Verifieddate;
+                    checkresultupd.LastupdatedDate = DateTime.Now.ToString();
+                    checkresultupd.LastupdatedUser = User.Claims.First().Value.ToString();
+                    
+                }
+                else
+                {
+                    Updmod.LastupdatedDate = DateTime.Now.ToString();
+                    Updmod.LastupdatedUser = User.Claims.First().Value.ToString();
+
+                }
+
+                  GetlabData.Shtestresultupd.Add(Updmod);
+
+                await GetlabData.SaveChangesAsync();
+
+
+            }
+
+
+             
+            var getresult = await GetlabData.SHPatientTest.FirstOrDefaultAsync(x=>x.PatientID == Model.PatientID && x.Isdelete == false && x.VisitcaseID == Model.VisitcaseID && x.FacilityID == facilityId  && x.TsampleCltDateTime == Model.TsampleCltDateTime);
             if(getresult != null)
             {
                 var testTabledata = business.Gettestresult(Model.PatientID, Model.VisitcaseID, facilityId,Model.TsampleCltDateTime);
@@ -736,7 +802,20 @@ namespace HealthCare.Controllers
                 Model.Viewtestresult = viewTestResult;
 
 
+
             }
+
+
+            Mod.Items = await GetDistinctCaseVisitID(Tmodel.PatientID);
+
+            Model.Items = Mod.Items.Select(item => new TestresultupdateModel
+            {
+                VisitcaseID = item.VisitcaseID,
+                // Add other necessary property mappings if needed
+            }).ToList();
+
+            ViewBag.SelectedPatientID = Model.PatientID;
+            Model.SelectedItemId = Model.VisitcaseID;
 
             return View("PrintTestResults", Model);
 
@@ -991,6 +1070,9 @@ namespace HealthCare.Controllers
             ViewData["testid"] = business.GetTestid(facilityId);
             ViewData["patid"] = business.Getpatid(facilityId);
             ViewData["facid"] = business.GetFacid(facilityId);
+            ViewData["refdocidlab"] = business.getrefdocidlab(facilityId);
+            ViewData["refdocidlabInc"] = business.getrefdocidlabInc(facilityId);
+
 
             var model = new TestresultTablemodel();
             model.Items = new List<TestresultupdateModel>();

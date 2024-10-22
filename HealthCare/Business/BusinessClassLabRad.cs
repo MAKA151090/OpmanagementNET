@@ -129,6 +129,44 @@ namespace HealthCare.Business
             return refdocid;
 
         }
+        
+
+        //Lab Doctor
+        public List<StaffAdminModel> getrefdocidlab(string facility)
+        {
+            var refdocidlab = (
+
+               from pr in _healthcareContext.SHclnStaffAdminModel
+               join p in _healthcareContext.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+               where p.ResourceTypeName == "Lab Doctor" && pr.IsDelete == false && p.StrIsDelete == false && pr.FacilityID == facility && p.FacilityID == facility
+               select new StaffAdminModel
+               {
+                   StrStaffID = pr.StrStaffID,
+                   StrFullName = pr.StrFullName,
+
+               }).ToList();
+            return refdocidlab;
+
+        }
+
+
+        //Lab Incharge
+        public List<StaffAdminModel> getrefdocidlabInc(string facility)
+        {
+            var refdocidlabInc = (
+
+               from pr in _healthcareContext.SHclnStaffAdminModel
+               join p in _healthcareContext.SHclnResourseTypeMaster on pr.ResourceTypeID equals p.ResourceTypeID
+               where p.ResourceTypeName == "Lab Incharge" && pr.IsDelete == false && p.StrIsDelete == false && pr.FacilityID == facility && p.FacilityID == facility
+               select new StaffAdminModel
+               {
+                   StrStaffID = pr.StrStaffID,
+                   StrFullName = pr.StrFullName,
+
+               }).ToList();
+            return refdocidlabInc;
+
+        }
 
         ///Radilogy creation 
         ///
