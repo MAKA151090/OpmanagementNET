@@ -554,6 +554,31 @@
                     <ul class="menu-sub">
 
 
+                      
+                                <li class='menu-item@(currentPage == "/HRManagement/PayHead" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="PayHead" class="menu-link">
+                                        <div>Pay Head</div>
+                                    </a>
+                                </li>
+                           
+                    </ul>
+
+
+                    <ul class="menu-sub">
+
+
+
+                        <li class='menu-item@(currentPage == "/HRManagement/LeaveMaster" ? " active" : "")'>
+                            <a asp-controller="HRManagement" asp-action="LeaveMaster" class="menu-link">
+                                <div>Leave Master</div>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <ul class="menu-sub">
+
+
                         @if (rollAccessList != null)
                         {
                             @if (rollAccessList.Contains("StaffAttendance"))

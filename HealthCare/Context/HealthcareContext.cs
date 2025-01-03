@@ -195,7 +195,15 @@ namespace HealthCare.Context
 
            public DbSet<PatientPaymentBillDetailsModel> SHPatientPaymentBillDetails { get; set; }
 
-           public DbSet<PayrollModel>SHpayroll { get; set; }
+        //PayHead
+        public DbSet<PayHeadMaster> SHpayhead { get; set; }
+
+        public DbSet<LeaveMasterModel> SHleaveMaster { get; set; }
+
+
+
+
+        public DbSet<PayrollModel>SHpayroll { get; set; }
 
            public DbSet<LeaveTypeMaster>SHLeaveTypeMaster { get; set; }
 
@@ -320,11 +328,14 @@ namespace HealthCare.Context
             modelBuilder.Entity<RollAccessModel>()
               .HasKey(i => new { i.RollID, i.ScreenID, i.FacilityID });
 
+            //PayHead
 
+            modelBuilder.Entity<PayHeadMaster>().Property(i => i.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<PayHeadMaster>().HasKey(i => new { i.Id, i.FacilityID });
 
+            modelBuilder.Entity<LeaveMasterModel>().HasKey(i => new { i.LeaveName, i.FacilityID });
 
-
-             modelBuilder.Entity<PayrollModel>().HasKey(i => new {i.StaffID,i.PayrollID});
+            modelBuilder.Entity<PayrollModel>().HasKey(i => new {i.StaffID,i.PayrollID});
              modelBuilder.Entity<StaffLeaveModel>().HasKey(i => new { i.LeaveID, i.StaffID,i.LeaveType });
              modelBuilder.Entity<LeaveTypeMaster>().HasKey(i => new {i.StaffID,i.LeaveType});
              modelBuilder.Entity<EmployeeHierarchymaster>().HasKey(i => new {i.EmpStaffID,i.MgrStaffID});
@@ -531,6 +542,8 @@ namespace HealthCare.Context
         {
 
             var facility = _httpContextAccessor.HttpContext?.Session.GetString("FacilityID");
+
+
             
 
             //Product Master
@@ -658,6 +671,38 @@ namespace HealthCare.Context
                     billEntry.Entity.StrStaffID = $"Staff_{laststaffNumber}";
                 }
             }
+
+            //Pay head Master
+            var payhead = ChangeTracker
+                        .Entries<PayHeadMaster>()
+                        .Where(e => e.State == EntityState.Added)
+                        .ToList();
+
+            if (payhead.Any())
+            {
+                // Get the latest BillNumber from the database
+                var lastPayh = await this.SHpayhead.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int lastPayhNumber = 100; // Starting point, e.g., Bill_100
+
+                if (lastPayh != null)
+                {
+                    // Extract the numeric part of the last BillNumber and increment it
+                    string lastPayhNum = lastPayh.PayheadID.Replace("Payhead_", "");
+                    if (int.TryParse(lastPayhNum, out int number))
+                    {
+                        lastPayhNumber = number;
+                    }
+                }
+
+                // Assign the new BillNumber for each new bill
+                foreach (var billEntry in payhead)
+                {
+                    lastPayhNumber++;
+                    billEntry.Entity.PayheadID = $"Payhead_{lastPayhNumber}";
+                }
+            }
+
+
 
 
 

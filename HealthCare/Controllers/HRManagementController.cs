@@ -9,13 +9,102 @@ namespace HealthCare.Controllers
     public class HRManagementController : Controller
     {
         private HealthcareContext GetStaffPayroll;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HRManagementController(HealthcareContext GetPayroll)
+
+        public HRManagementController(HealthcareContext GetStaffPayroll, IHttpContextAccessor httpContextAccessor)
         {
-            this.GetStaffPayroll = GetPayroll;
+            this.GetStaffPayroll = GetStaffPayroll;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IActionResult> GetAttendance(StaffAttendanceModel model)
+        [HttpPost]
+        public async Task<IActionResult> Addpayhead(PayHeadMaster model, string buttonType)
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage");
+            }
+
+            var existinghead = await GetStaffPayroll.SHpayhead.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadID == model.PayheadID);
+            if(existinghead!=null)
+            {
+                existinghead.PayheadName = model.PayheadName;
+                existinghead.PayheadType = model.PayheadType;
+                existinghead.PayheadCalculationType = model.PayheadCalculationType;
+                existinghead.LastUpdatedDate = DateTime.Now.ToString();
+                existinghead.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existinghead.LastUpdatedUser = User.Claims.First().Value.ToString();
+                existinghead.FacilityID = facilityId;
+                GetStaffPayroll.Entry(existinghead).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                model.FacilityID = facilityId;
+                GetStaffPayroll.SHpayhead.Add(model);
+            }
+            await GetStaffPayroll.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("PayHead", model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Addleavemaster(LeaveMasterModel model, string buttonType)
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            var existinghead = await GetStaffPayroll.SHleaveMaster.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.LeaveName == model.LeaveName);
+            if (existinghead != null)
+            {
+                existinghead.AttendanceType = model.AttendanceType;
+                existinghead.LastUpdatedDate = DateTime.Now.ToString();
+                existinghead.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existinghead.LastUpdatedUser = User.Claims.First().Value.ToString();
+                existinghead.FacilityID = facilityId;
+                GetStaffPayroll.Entry(existinghead).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                model.FacilityID = facilityId;
+                GetStaffPayroll.SHleaveMaster.Add(model);
+            }
+            await GetStaffPayroll.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("LeaveMaster", model);
+        }
+
+            public async Task<IActionResult> GetAttendance(StaffAttendanceModel model)
         {
 
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
@@ -556,6 +645,17 @@ namespace HealthCare.Controllers
 
             // Pass the model to the view
             return View(model);
+        }
+
+        public IActionResult PayHead()
+        {
+           
+            return View();
+        }
+
+        public IActionResult LeaveMaster()
+        {
+            return View();
         }
     }
 }

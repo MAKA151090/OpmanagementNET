@@ -1,0 +1,141 @@
+﻿@model PayHeadMaster
+
+@{
+    ViewData["Title"] = "PayHeadMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        // Close popup when OK button is clicked
+        popupOKButton.addEventListener("click", function () {
+            closePopup();
+        });
+
+        // Close popup when clicking outside of the message box
+        document.addEventListener("click", function (event) {
+            if (!popup.contains(event.target) && !popupOKButton.contains(event.target)) {
+                closePopup();
+            }
+        });
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popupMessage");
+        popup.style.display = "none"; // Hide the popup
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
+
+
+
+<div class="row gy-4">
+    <div class="col-md-12 col-lg-2">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">Pay Head Master</h2>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row gy-4" style="height:8%">
+</div>
+
+
+
+<form asp-action="Addpayhead" asp-controller="HRManagement">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row gy-4">
+
+        <div class="col-md-12 col-lg-2">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="PayheadID" class="form-control" placeholder="PayheadID"  />
+                        <label asp-for="PayheadID" class="control-label">PayheadID</label>
+                        <span asp-validation-for="PayheadID" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="PayheadName" class="form-control" placeholder="PayheadName" required />
+                        <label asp-for="PayheadName" class="control-label">PayheadName</label>
+                        <span asp-validation-for="PayheadName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PayheadType" class="control-label">Payhead Type:</label>
+                        <select asp-for="PayheadType" class="form-control">
+                            <option value="">Select Head Type</option>
+                            <option value="Earningsforemployee">Earnings For Employee</option>
+                            <option value="Deductionfromemployee">Deduction From Employee</option>
+                        </select>
+                   
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PayheadCalculationType" class="control-label">Pay Calculation Type:</label>
+                        <select asp-for="PayheadCalculationType" class="form-control">
+                            <option value="">Select Calculation Type</option>
+                            <option value="AsComputedValue">As Computed Value</option>
+                            <option value="AsUserDefinedValue">As User Defined Value</option>
+                        </select>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <center>
+            <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
+            <button type="submit" value="Save"  class="btn btn-primary">Save</button>
+            <button type="submit" value="Delete" name="buttonType"  class="btn btn-primary">Delete</button>
+            @if (ViewBag.Message != null)
+            {
+                <script>
+                    handleMessages("@ViewBag.Message");
+                </script>
+            }
+        </center>
+    </div>
+
+
+</form>

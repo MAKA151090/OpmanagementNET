@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    [Migration("20241021070122_initial1")]
-    partial class initial1
+    [Migration("20250103103940_initial2")]
+    partial class initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1276,6 +1276,34 @@ namespace HealthCare.Migrations
                     b.ToTable("SHotInternalDepartmentMaster");
                 });
 
+            modelBuilder.Entity("HealthCare.Models.LeaveMasterModel", b =>
+                {
+                    b.Property<string>("LeaveName")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("FacilityID")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("AttendanceType")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastUpdatedDate")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastUpdatedMachine")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastUpdatedUser")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("LeaveName", "FacilityID");
+
+                    b.ToTable("SHleaveMaster");
+                });
+
             modelBuilder.Entity("HealthCare.Models.LeaveTypeMaster", b =>
                 {
                     b.Property<string>("StaffID")
@@ -2388,6 +2416,54 @@ namespace HealthCare.Migrations
                     b.ToTable("SHPatientTest");
                 });
 
+            modelBuilder.Entity("HealthCare.Models.PayHeadMaster", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("FacilityID")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastUpdatedDate")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("LastUpdatedMachine")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("LastUpdatedUser")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("PayheadCalculationType")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("PayheadID")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("PayheadName")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("PayheadType")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id", "FacilityID");
+
+                    b.ToTable("SHpayhead");
+                });
+
             modelBuilder.Entity("HealthCare.Models.PayrollModel", b =>
                 {
                     b.Property<string>("StaffID")
@@ -3346,6 +3422,68 @@ namespace HealthCare.Migrations
                     b.HasKey("Id", "FacilityID");
 
                     b.ToTable("SHTestMaster");
+                });
+
+            modelBuilder.Entity("HealthCare.Models.TestresultupdateModel", b =>
+                {
+                    b.Property<string>("PatientID")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("VisitcaseID")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("FacilityID")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("TestID")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("TsampleCltDateTime")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Result")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("Isdelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastUpdatedMachine")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("LastupdatedDate")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("LastupdatedUser")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Resultby")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Resultdate")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Verifiedby")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Verifieddate")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("PatientID", "VisitcaseID", "FacilityID", "TestID", "TsampleCltDateTime", "Result");
+
+                    b.ToTable("Shtestresultupd");
                 });
 
             modelBuilder.Entity("HealthCare.Models.UpdateRadiologyResultsModel", b =>
