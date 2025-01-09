@@ -71,6 +71,167 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
+        public async Task<IActionResult> Addemployeepaymaster(EmployeePayMaster model, string buttonType)
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["alldocid"] = payroll.AllStaff(facilityId);
+            ViewData["getpayhead"] = payroll.getPayhead(facilityId);
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage");
+            }
+
+            // Retrieve the Headtype from the shpayhead table
+            var payHeadDetails = await GetStaffPayroll.SHpayhead
+                .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadName == model.Payhead);
+
+            if (payHeadDetails == null)
+            {
+                ViewBag.Message = "Invalid Payhead selected.";
+                return View("EmployeePayMaster", model);
+            }
+
+            // Determine Dr or Cr based on Headtype
+            string drValue = payHeadDetails.PayheadType switch
+            {
+                "Earningsforemployee" => "Dr",
+                "Deductionfromemployee" => "Cr",
+               
+            };
+
+
+            if (drValue == null)
+            {
+                ViewBag.Message = "Invalid Headtype selected.";
+                return View("EmployeePayMaster", model);
+            }
+
+            var existingemppay = await GetStaffPayroll.SHemployeepay.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.Staffpayid == model.Staffpayid);
+            if (existingemppay != null)
+            {
+                existingemppay.Staffname = model.Staffname;
+                existingemppay.Payhead = model.Payhead;
+                existingemppay.Headtype = drValue;
+                existingemppay.LastUpdatedDate = DateTime.Now.ToString();
+                existingemppay.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingemppay.LastUpdatedUser = User.Claims.First().Value.ToString();
+                existingemppay.FacilityID = facilityId;
+                GetStaffPayroll.Entry(existingemppay).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                model.FacilityID = facilityId;
+                model.Headtype = drValue;
+                GetStaffPayroll.SHemployeepay.Add(model);
+            }
+            await GetStaffPayroll.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("EmployeePayMaster", model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Addemployeepayroll(EmployeePayrollModel model, string buttonType, string PayheadType, string headtype, EmployeePayrollView viewmodel)
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["alldocid"] = payroll.AllStaff(facilityId);
+
+
+            // Use _httpContextAccessor to access HttpContext.Session
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
+            {
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Session is not available. Please try again.";
+                return RedirectToAction("ErrorPage");
+            }
+
+            var amountString = viewmodel.Shpayrollview.FirstOrDefault(v => v.PayheadType == PayheadType)?.Amount ?? "0";
+
+            var payhead = viewmodel.Shpayrollview.FirstOrDefault();
+
+
+
+            var existingemppayroll = await GetStaffPayroll.SHemployeepayroll.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.StaffID == model.StaffID && x.PayrollID == model.PayrollID);
+            if (existingemppayroll != null)
+            {
+                existingemppayroll.StaffID = model.StaffID;
+               // existingemppayroll.AccountType = model.AccountType;
+                existingemppayroll.PayheadType = PayheadType;
+                existingemppayroll.Amount = amountString;
+                existingemppayroll.Total = model.Total;
+                existingemppayroll.LastUpdatedDate = DateTime.Now.ToString();
+                existingemppayroll.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                existingemppayroll.LastUpdatedUser = User.Claims.First().Value.ToString();
+                existingemppayroll.FacilityID = facilityId;
+                GetStaffPayroll.Entry(existingemppayroll).State = EntityState.Modified;
+            }
+            else
+            {
+                foreach (var item in viewmodel.Shpayrollview)
+                {
+                    var payrollEntry = new EmployeePayrollModel
+                    {
+                        StaffID = model.StaffID,
+                      //  AccountType = model.AccountType,
+                        PayheadType = item.PayheadType,  // Payhead for each item in the viewmodel
+                        Amount = item.Amount,        // Amount from the viewmodel
+                        Total = model.Total,
+                        LastUpdatedDate = DateTime.Now.ToString(),
+                        LastUpdatedUser = User.Claims.First().Value.ToString(),
+                        LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
+                        FacilityID = facilityId
+                    };
+                    // Save the new payroll entry
+                    GetStaffPayroll.SHemployeepayroll.Add(payrollEntry);
+                }
+            }
+
+            // Save changes to the database
+            await GetStaffPayroll.SaveChangesAsync();
+            ViewBag.Message = "Saved Successfully";
+            return View("EmployeePayMaster");
+
+        }
+
+            [HttpPost]
         public async Task<IActionResult> Addleavemaster(LeaveMasterModel model, string buttonType)
         {
             string facilityId = string.Empty;
@@ -650,6 +811,58 @@ namespace HealthCare.Controllers
         public IActionResult PayHead()
         {
            
+            return View();
+        }
+
+
+        public IActionResult EmployeePayMaster()
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["alldocid"] = payroll.AllStaff(facilityId);
+            ViewData["getpayhead"] = payroll.getPayhead(facilityId);
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetPayheadsByStaffId(string staffId)
+        {
+            if (string.IsNullOrEmpty(staffId))
+                return BadRequest("Invalid staff ID.");
+
+            var payheads = GetStaffPayroll.SHemployeepay
+                .Where(ph => ph.Staffname == staffId)
+                .Select(ph => new
+                {
+                    ph.Payhead,
+                    ph.Headtype
+                })
+                .ToList();
+
+            return Json(payheads);
+        }
+
+
+        public IActionResult EmployeePayroll()
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            var staffList = payroll.AllStaff(facilityId);
+            ViewData["alldocid"] = staffList;
+
             return View();
         }
 

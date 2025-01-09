@@ -200,6 +200,10 @@ namespace HealthCare.Context
 
         public DbSet<LeaveMasterModel> SHleaveMaster { get; set; }
 
+        public DbSet<EmployeePayMaster>SHemployeepay {  get; set; }
+
+        public DbSet<EmployeePayrollModel> SHemployeepayroll { get; set; }
+
 
 
 
@@ -332,6 +336,14 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<PayHeadMaster>().Property(i => i.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<PayHeadMaster>().HasKey(i => new { i.Id, i.FacilityID });
+
+            modelBuilder.Entity<EmployeePayMaster>().Property(i => i.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<EmployeePayMaster>().HasKey(i => new { i.Id, i.FacilityID });
+
+            modelBuilder.Entity<EmployeePayrollModel>().Property(i => i.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<EmployeePayrollModel>().HasKey(i => new { i.Id, i.FacilityID,i.StaffID,i.PayheadType });
+
+
 
             modelBuilder.Entity<LeaveMasterModel>().HasKey(i => new { i.LeaveName, i.FacilityID });
 
@@ -699,6 +711,67 @@ namespace HealthCare.Context
                 {
                     lastPayhNumber++;
                     billEntry.Entity.PayheadID = $"Payhead_{lastPayhNumber}";
+                }
+            }
+
+            //Employee pay master
+            var emppaymas = ChangeTracker
+                       .Entries<EmployeePayMaster>()
+                       .Where(e => e.State == EntityState.Added)
+                       .ToList();
+
+            if (emppaymas.Any())
+            {
+                // Get the latest BillNumber from the database
+                var lastempPay = await this.SHemployeepay.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int lastempPayNumber = 100; // Starting point, e.g., Bill_100
+
+                if (lastempPay != null)
+                {
+                    // Extract the numeric part of the last BillNumber and increment it
+                    string lastempPayNum = lastempPay.Staffpayid.Replace("EmpPay_", "");
+                    if (int.TryParse(lastempPayNum, out int number))
+                    {
+                        lastempPayNumber = number;
+                    }
+                }
+
+                // Assign the new BillNumber for each new bill
+                foreach (var billEntry in emppaymas)
+                {
+                    lastempPayNumber++;
+                    billEntry.Entity.Staffpayid = $"EmpPay_{lastempPayNumber}";
+                }
+            }
+
+
+            //Employee Payroll
+            var emppayroll = ChangeTracker
+                       .Entries<EmployeePayrollModel>()
+                       .Where(e => e.State == EntityState.Added)
+                       .ToList();
+
+            if (emppayroll.Any())
+            {
+                // Get the latest BillNumber from the database
+                var lastempPayroll = await this.SHemployeepayroll.Where(x => x.FacilityID == facility).OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int lastempPayrollNumber = 100; // Starting point, e.g., Bill_100
+
+                if (lastempPayroll != null)
+                {
+                    // Extract the numeric part of the last BillNumber and increment it
+                    string lastempPayrollNum = lastempPayroll.PayrollID.Replace("Payroll_", "");
+                    if (int.TryParse(lastempPayrollNum, out int number))
+                    {
+                        lastempPayrollNumber = number;
+                    }
+                }
+
+                // Assign the new BillNumber for each new bill
+                foreach (var billEntry in emppayroll)
+                {
+                    lastempPayrollNumber++;
+                    billEntry.Entity.PayrollID = $"Payroll{lastempPayrollNumber}";
                 }
             }
 

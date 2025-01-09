@@ -1,0 +1,317 @@
+﻿@model EmployeePayrollView
+
+@{
+    ViewData["Title"] = "EmployeePayMaster";
+    Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
+}
+
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        // Close popup when OK button is clicked
+        popupOKButton.addEventListener("click", function () {
+            closePopup();
+        });
+
+        // Close popup when clicking outside of the message box
+        document.addEventListener("click", function (event) {
+            if (!popup.contains(event.target) && !popupOKButton.contains(event.target)) {
+                closePopup();
+            }
+        });
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popupMessage");
+        popup.style.display = "none"; // Hide the popup
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
+
+
+<form asp-action="Addemployeepayroll" asp-controller="HRManagement">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row gy-4">
+
+        <div class="col-md-12 col-lg-2">
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+                   @*  <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="PayrollID"  class="form-control" placeholder="Payroll ID"/>
+                        <label asp-for="PayrollID" class="control-label">Payroll ID</label>
+
+                    </div> *@
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        @{
+                            var screenlist = ((IEnumerable<StaffAdminModel>)ViewData["alldocid"])
+                            .Select(m => new SelectListItem
+            {
+                Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.StrFullName}"
+            });
+                        }
+
+                        @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Staff Name", new { @class = "form-control", @required = "required", onchange = "fetchPayheads()" })
+                        <label asp-for="StaffID" class="control-label">Staff ID</label>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Month" class="control-label">Month</label>
+                        <select asp-for="Month" class="form-control">
+                            <option value="">Select Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="Year"
+                               class="form-control"
+                               placeholder="Year"
+                               type="number"
+                               min="1000"
+                               max="9999"
+                               oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);" />
+                        <label asp-for="Year" class="control-label">Year</label>
+                    </div>
+
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="Total" id="Total" class="form-control" placeholder="Total" readonly/>
+                        <label asp-for="Total" class="control-label">Total</label>
+
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Payhead Name</th>
+                                    <th>Headtype</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payheadTableBody">
+                                <!-- Dynamic content will be added here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <center>
+            <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
+            <button type="submit" value="Save" class="btn btn-primary">Save</button>
+            <button type="submit" value="Delete" name="buttonType" class="btn btn-primary">Delete</button>
+            @if (ViewBag.Message != null)
+            {
+                <script>
+                    handleMessages("@ViewBag.Message");
+                </script>
+            }
+        </center>
+    </div>
+
+
+</form>
+
+
+<script>
+
+
+    let totalAmount = 0; // Initialize total amount
+    let payheadAmounts = {}; // Store previous values for each payhead based on index
+    let resetOnNegative = false; // Flag to track if the total has been reset to 0
+
+
+    // Function to fetch payheads
+    function fetchPayheads() {
+        const staffId = document.getElementById("StaffID").value;
+
+        if (staffId) {
+            const url = `@Url.Action("GetPayheadsByStaffId", "HRManagement")?staffId=${staffId}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    populatePayheadTable(data);
+                })
+                .catch(error => {
+                    console.error("Error fetching payheads:", error);
+                });
+        } else {
+            clearPayheadTable();
+        }
+    }
+
+    // Function to populate the payhead table with data
+    function populatePayheadTable(payheads) {
+        const tableBody = document.getElementById("payheadTableBody");
+        tableBody.innerHTML = ""; // Clear existing rows
+
+        payheads.forEach((payhead, index) => {
+            const row = `
+                <tr>
+                    <td>${payhead.payhead}</td>
+                    <td>${payhead.headtype}</td>
+                    <td>
+                        <input type="number" name="Shpayrollview[${index}].Amount"
+                               class="form-control amount-input" placeholder="Enter amount"
+                               data-headtype="${payhead.headtype}"
+                               data-index="${index}"
+                               value="${payhead.amount || ''}" // Make sure value is populated
+                               oninput="updateTotal(event, ${index})" />
+                                <input type="hidden" name="Shpayrollview[${index}].PayheadType" value="${payhead.payhead}" />
+                            <input type="hidden" name="Shpayrollview[${index}].Headtype" value="${payhead.headtype}" />
+                    </td>
+                </tr>
+            `;
+            tableBody.insertAdjacentHTML("beforeend", row);
+        });
+    }
+
+
+    // Function to clear the payhead table
+    function clearPayheadTable() {
+        document.getElementById("payheadTableBody").innerHTML = "";
+        totalAmount = 0; // Reset total amount when clearing the table
+        payheadAmounts = {}; // Reset payhead amounts
+        updateTotalInput();
+    }
+
+    function updateTotal(event, index) {
+        const amountInput = event.target; // Get the input field where the amount is entered
+        const amount = parseFloat(amountInput.value) || 0; // Convert input to float (default to 0 if invalid)
+        const headtype = amountInput.getAttribute('data-headtype'); // Get the headtype (Dr/Cr)
+
+       
+
+        // Remove the previous amount from total before updating
+        if (payheadAmounts[index]) {
+            const previousAmount = payheadAmounts[index].amount;
+            const previousHeadtype = payheadAmounts[index].headtype;
+
+            // Adjust total based on previous amount and headtype
+            if (previousHeadtype === "Dr") {
+                totalAmount -= previousAmount; // Remove the previous Dr value
+               
+            } else if (previousHeadtype === "Cr") {
+                totalAmount += previousAmount; // Add back the previous Cr value
+                
+            }
+        }
+
+        // Add the current amount to the total based on the headtype
+        if (headtype === "Dr") {
+            totalAmount += amount; // Add to total for Dr
+          
+        } else if (headtype === "Cr") {
+            totalAmount -= amount; // Subtract from total for Cr
+           
+        }
+
+        // After updating the total, check if it's negative and reset to 0 if needed
+        if (totalAmount < 0) {
+            totalAmount = 0; // We will reset the total to 0 only if it goes below 0.
+          
+            resetOnNegative = true; // Mark that the total has been reset to 0
+        } else {
+            resetOnNegative = false; // Reset flag when total is positive
+        }
+
+        // Store the current amount and headtype for this index
+        payheadAmounts[index] = {
+            amount: amount,
+            headtype: headtype
+        };
+
+        // Update the Total input field with the new total
+        updateTotalInput();
+    }
+
+    // Function to update the Total input field with the new total
+    function updateTotalInput() {
+        const totalInput = document.getElementById("Total");
+        if (totalInput) {
+            // If the total has been reset to 0, prevent further accumulation of Cr amounts
+            if (resetOnNegative) {
+                totalInput.value = "0.00"; // Show 0 if the total was reset
+            } else {
+                // After reset, recalculate the total from scratch, considering all Dr and Cr amounts
+                recalculateTotal();
+                totalInput.value = totalAmount.toFixed(2); // Update the Total input value with two decimal points
+            }
+           
+        }
+    }
+
+    // Function to recalculate the total amount from scratch (after reset)
+    function recalculateTotal() {
+        totalAmount = 0; // Start fresh by resetting the total
+
+        // Recalculate based on all inputs (Dr and Cr)
+        for (const index in payheadAmounts) {
+            const { amount, headtype } = payheadAmounts[index];
+            if (headtype === "Dr") {
+                totalAmount += amount; // Add Dr amounts
+            } else if (headtype === "Cr") {
+                totalAmount -= amount; // Subtract Cr amounts
+            }
+        }
+
+        // If the total is still negative after recalculating, reset to 0
+        if (totalAmount < 0) {
+            totalAmount = 0;
+           
+        }
+    }
+
+</script>
