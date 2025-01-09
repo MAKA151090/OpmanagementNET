@@ -78,7 +78,7 @@
             });
                         }
 
-                        @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Staff Name", new { @class = "form-control", @required = "required", onchange = "fetchPayheads()" })
+                        @Html.DropDownListFor(model => model.StaffID, screenlist, "Select Staff Name", new { @id = "StaffID",@class = "form-control", @required = "required", onchange = "fetchPayheads()" })
                         <label asp-for="StaffID" class="control-label">Staff ID</label>
 
                     </div>
@@ -86,7 +86,7 @@
 
                     <div class="form-group">
                         <label asp-for="Month" class="control-label">Month</label>
-                        <select asp-for="Month" class="form-control">
+                        <select asp-for="Month" class="form-control" id="Month">
                             <option value="">Select Month</option>
                             <option value="January">January</option>
                             <option value="February">February</option>
@@ -111,6 +111,7 @@
                                type="number"
                                min="1000"
                                max="9999"
+                               id="Year"
                                oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);" />
                         <label asp-for="Year" class="control-label">Year</label>
                     </div>
@@ -168,17 +169,24 @@
 <script>
 
 
+    let selectedStaff = null;
+    let selectedMonth = null;
+    let selectedYear = null;
+
     let totalAmount = 0; // Initialize total amount
     let payheadAmounts = {}; // Store previous values for each payhead based on index
     let resetOnNegative = false; // Flag to track if the total has been reset to 0
 
 
-    // Function to fetch payheads
-    function fetchPayheads() {
-        const staffId = document.getElementById("StaffID").value;
+    console.log(`StaffID: ${selectedStaff}, Month: ${selectedMonth}, Year: ${selectedYear}`);
 
-        if (staffId) {
-            const url = `@Url.Action("GetPayheadsByStaffId", "HRManagement")?staffId=${staffId}`;
+
+    // Function to fetch payheads based on all three parameters
+    function fetchPayheads() {
+        if (selectedStaff && selectedMonth && selectedYear) {
+            const baseUrl = `@Url.Action("GetPayheadsByStaffId", "HRManagement")`;
+            const url = `${baseUrl}?staffId=${encodeURIComponent(selectedStaff)}&month=${encodeURIComponent(selectedMonth)}&year=${encodeURIComponent(selectedYear)}`;
+
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -187,10 +195,26 @@
                 .catch(error => {
                     console.error("Error fetching payheads:", error);
                 });
-        } else {
-            clearPayheadTable();
         }
     }
+
+    // Event listener for staff selection
+    document.getElementById("StaffID").addEventListener("change", function () {
+        selectedStaff = this.value;
+        fetchPayheads(); // Trigger fetch once staff is selected
+    });
+
+    // Event listener for month selection
+    document.getElementById("Month").addEventListener("change", function () {
+        selectedMonth = this.value;
+        fetchPayheads(); // Trigger fetch once month is selected
+    });
+
+    // Event listener for year input
+    document.getElementById("Year").addEventListener("blur", function () {
+        selectedYear = this.value;
+        fetchPayheads(); // Trigger fetch once the year input loses focus (after typing and pressing Tab)
+    });
 
     // Function to populate the payhead table with data
     function populatePayheadTable(payheads) {
@@ -199,25 +223,24 @@
 
         payheads.forEach((payhead, index) => {
             const row = `
-                <tr>
-                    <td>${payhead.payhead}</td>
-                    <td>${payhead.headtype}</td>
-                    <td>
-                        <input type="number" name="Shpayrollview[${index}].Amount"
-                               class="form-control amount-input" placeholder="Enter amount"
-                               data-headtype="${payhead.headtype}"
-                               data-index="${index}"
-                               value="${payhead.amount || ''}" // Make sure value is populated
-                               oninput="updateTotal(event, ${index})" />
-                                <input type="hidden" name="Shpayrollview[${index}].PayheadType" value="${payhead.payhead}" />
+                    <tr>
+                        <td>${payhead.payhead}</td>
+                        <td>${payhead.headtype}</td>
+                        <td>
+                            <input type="number" name="Shpayrollview[${index}].Amount"
+                                   class="form-control amount-input" placeholder="Enter amount"
+                                   data-headtype="${payhead.headtype}"
+                                   data-index="${index}"
+                                   value="${payhead.amount || ''}" // Populate value
+                                   oninput="updateTotal(event, ${index})" />
+                            <input type="hidden" name="Shpayrollview[${index}].PayheadType" value="${payhead.payhead}" />
                             <input type="hidden" name="Shpayrollview[${index}].Headtype" value="${payhead.headtype}" />
-                    </td>
-                </tr>
-            `;
+                        </td>
+                    </tr>
+                `;
             tableBody.insertAdjacentHTML("beforeend", row);
         });
     }
-
 
     // Function to clear the payhead table
     function clearPayheadTable() {
@@ -232,7 +255,7 @@
         const amount = parseFloat(amountInput.value) || 0; // Convert input to float (default to 0 if invalid)
         const headtype = amountInput.getAttribute('data-headtype'); // Get the headtype (Dr/Cr)
 
-       
+
 
         // Remove the previous amount from total before updating
         if (payheadAmounts[index]) {
@@ -242,26 +265,26 @@
             // Adjust total based on previous amount and headtype
             if (previousHeadtype === "Dr") {
                 totalAmount -= previousAmount; // Remove the previous Dr value
-               
+
             } else if (previousHeadtype === "Cr") {
                 totalAmount += previousAmount; // Add back the previous Cr value
-                
+
             }
         }
 
         // Add the current amount to the total based on the headtype
         if (headtype === "Dr") {
             totalAmount += amount; // Add to total for Dr
-          
+
         } else if (headtype === "Cr") {
             totalAmount -= amount; // Subtract from total for Cr
-           
+
         }
 
         // After updating the total, check if it's negative and reset to 0 if needed
         if (totalAmount < 0) {
             totalAmount = 0; // We will reset the total to 0 only if it goes below 0.
-          
+
             resetOnNegative = true; // Mark that the total has been reset to 0
         } else {
             resetOnNegative = false; // Reset flag when total is positive
@@ -289,7 +312,7 @@
                 recalculateTotal();
                 totalInput.value = totalAmount.toFixed(2); // Update the Total input value with two decimal points
             }
-           
+
         }
     }
 
@@ -310,7 +333,7 @@
         // If the total is still negative after recalculating, reset to 0
         if (totalAmount < 0) {
             totalAmount = 0;
-           
+
         }
     }
 

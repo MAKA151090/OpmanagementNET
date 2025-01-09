@@ -194,6 +194,8 @@ namespace HealthCare.Controllers
             {
                 existingemppayroll.StaffID = model.StaffID;
                // existingemppayroll.AccountType = model.AccountType;
+               existingemppayroll.Month = model.Month;
+                existingemppayroll.Year = model.Year;
                 existingemppayroll.PayheadType = PayheadType;
                 existingemppayroll.Amount = amountString;
                 existingemppayroll.Total = model.Total;
@@ -211,6 +213,8 @@ namespace HealthCare.Controllers
                     {
                         StaffID = model.StaffID,
                       //  AccountType = model.AccountType,
+                      Month = model.Month,
+                      Year = model.Year,
                         PayheadType = item.PayheadType,  // Payhead for each item in the viewmodel
                         Amount = item.Amount,        // Amount from the viewmodel
                         Total = model.Total,
@@ -832,22 +836,29 @@ namespace HealthCare.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPayheadsByStaffId(string staffId)
+        public IActionResult GetPayheadsByStaffId(string staffId, string month, string year)
         {
             if (string.IsNullOrEmpty(staffId))
                 return BadRequest("Invalid staff ID.");
 
-            var payheads = GetStaffPayroll.SHemployeepay
-                .Where(ph => ph.Staffname == staffId)
-                .Select(ph => new
-                {
-                    ph.Payhead,
-                    ph.Headtype
-                })
-                .ToList();
+            // Get payheads from SHemployeepay (the first table)
+            var payheads = (from p in GetStaffPayroll.SHemployeepay
+                            join emp in GetStaffPayroll.SHemployeepayroll
+                            on p.Staffname equals emp.StaffID into payroll
+                            from emp in payroll.Where(e => e.Month == month && e.Year == year).DefaultIfEmpty() // Filter the payroll based on month and year
+                            where p.Staffname == staffId
+                            select new
+                            {
+                                p.Payhead,
+                                p.Headtype,
+                                Amount = emp != null ? emp.Amount.ToString() : string.Empty // Convert to string or empty if not found
+                            }).Distinct() // Ensure no duplicates in the final result
+                            .ToList();
 
+            // Return the payheads along with the Amount, which may be null if no record found for the staff in the specified month/year
             return Json(payheads);
         }
+
 
 
         public IActionResult EmployeePayroll()
