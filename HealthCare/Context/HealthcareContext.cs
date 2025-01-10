@@ -204,6 +204,8 @@ namespace HealthCare.Context
 
         public DbSet<EmployeePayrollModel> SHemployeepayroll { get; set; }
 
+        public DbSet<EmployeeAttendance>SHemployeeattendance { get; set; }
+
 
 
 
@@ -342,6 +344,8 @@ namespace HealthCare.Context
 
             modelBuilder.Entity<EmployeePayrollModel>().Property(i => i.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<EmployeePayrollModel>().HasKey(i => new { i.Id, i.FacilityID,i.StaffID,i.PayheadType });
+
+            modelBuilder.Entity<EmployeeAttendance>().HasKey(i => new { i.StaffID, i.LeaveName, i.Month, i.Year ,i.FacilityID});
 
 
 

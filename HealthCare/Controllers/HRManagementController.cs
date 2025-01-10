@@ -164,15 +164,11 @@ namespace HealthCare.Controllers
             }
 
             BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
-
             var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
-
 
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
             ViewData["alldocid"] = payroll.AllStaff(facilityId);
 
-
-            // Use _httpContextAccessor to access HttpContext.Session
             if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
             {
                 _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
@@ -183,47 +179,49 @@ namespace HealthCare.Controllers
                 return RedirectToAction("ErrorPage");
             }
 
-            var amountString = viewmodel.Shpayrollview.FirstOrDefault(v => v.PayheadType == PayheadType)?.Amount ?? "0";
-
-            var payhead = viewmodel.Shpayrollview.FirstOrDefault();
-
-
-
-            var existingemppayroll = await GetStaffPayroll.SHemployeepayroll.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.StaffID == model.StaffID && x.PayrollID == model.PayrollID);
-            if (existingemppayroll != null)
+            foreach (var item in viewmodel.Shpayrollview)
             {
-                existingemppayroll.StaffID = model.StaffID;
-               // existingemppayroll.AccountType = model.AccountType;
-               existingemppayroll.Month = model.Month;
-                existingemppayroll.Year = model.Year;
-                existingemppayroll.PayheadType = PayheadType;
-                existingemppayroll.Amount = amountString;
-                existingemppayroll.Total = model.Total;
-                existingemppayroll.LastUpdatedDate = DateTime.Now.ToString();
-                existingemppayroll.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                existingemppayroll.LastUpdatedUser = User.Claims.First().Value.ToString();
-                existingemppayroll.FacilityID = facilityId;
-                GetStaffPayroll.Entry(existingemppayroll).State = EntityState.Modified;
-            }
-            else
-            {
-                foreach (var item in viewmodel.Shpayrollview)
+                // Try to find an existing payroll entry for this payhead
+                var existingemppayroll = await GetStaffPayroll.SHemployeepayroll.FirstOrDefaultAsync(x =>
+                    x.FacilityID == facilityId &&
+                    x.StaffID == model.StaffID &&
+                    x.Month == model.Month &&
+                    x.Year == model.Year &&
+                    x.PayheadType == item.PayheadType);
+
+                if (existingemppayroll != null)
                 {
+                    // Update the existing payroll entry
+                    existingemppayroll.StaffID = model.StaffID;
+                    existingemppayroll.Month = model.Month;
+                    existingemppayroll.Year = model.Year;
+                    existingemppayroll.Amount = item.Amount; // Update amount from the viewmodel
+                    existingemppayroll.Total = model.Total;  // Update total
+                    existingemppayroll.LastUpdatedDate = DateTime.Now.ToString();
+                    existingemppayroll.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    existingemppayroll.LastUpdatedUser = User.Claims.First().Value.ToString();
+                    existingemppayroll.FacilityID = facilityId;
+
+                    GetStaffPayroll.Entry(existingemppayroll).State = EntityState.Modified;
+                }
+                else
+                {
+                    // Create a new payroll entry
                     var payrollEntry = new EmployeePayrollModel
                     {
                         StaffID = model.StaffID,
-                      //  AccountType = model.AccountType,
-                      Month = model.Month,
-                      Year = model.Year,
-                        PayheadType = item.PayheadType,  // Payhead for each item in the viewmodel
-                        Amount = item.Amount,        // Amount from the viewmodel
-                        Total = model.Total,
+                        Month = model.Month,
+                        Year = model.Year,
+                        PayheadType = item.PayheadType, // Payhead for each item in the viewmodel
+                        Amount = item.Amount,          // Amount from the viewmodel
+                        Total = model.Total,           // Total value
                         LastUpdatedDate = DateTime.Now.ToString(),
                         LastUpdatedUser = User.Claims.First().Value.ToString(),
                         LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
                         FacilityID = facilityId
                     };
-                    // Save the new payroll entry
+
+                    // Add the new payroll entry
                     GetStaffPayroll.SHemployeepayroll.Add(payrollEntry);
                 }
             }
@@ -231,11 +229,12 @@ namespace HealthCare.Controllers
             // Save changes to the database
             await GetStaffPayroll.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully";
-            return View("EmployeePayMaster");
 
+            return View("EmployeePayroll");
         }
 
-            [HttpPost]
+
+        [HttpPost]
         public async Task<IActionResult> Addleavemaster(LeaveMasterModel model, string buttonType)
         {
             string facilityId = string.Empty;
@@ -841,22 +840,38 @@ namespace HealthCare.Controllers
             if (string.IsNullOrEmpty(staffId))
                 return BadRequest("Invalid staff ID.");
 
-            // Get payheads from SHemployeepay (the first table)
+            // Query SHemployeepayroll with the given month, year, and staffId
+            var payrollEntries = (from emp in GetStaffPayroll.SHemployeepayroll
+                                  where emp.StaffID == staffId && emp.Month == month && emp.Year == year
+                                  select new
+                                  {
+                                      emp.PayheadType,
+                                      emp.Amount,
+                                      emp.Total
+                                  }).ToList();
+
+            // Query SHemployeepay for all payheads associated with the staffId
             var payheads = (from p in GetStaffPayroll.SHemployeepay
-                            join emp in GetStaffPayroll.SHemployeepayroll
-                            on p.Staffname equals emp.StaffID into payroll
-                            from emp in payroll.Where(e => e.Month == month && e.Year == year).DefaultIfEmpty() // Filter the payroll based on month and year
                             where p.Staffname == staffId
                             select new
                             {
                                 p.Payhead,
-                                p.Headtype,
-                                Amount = emp != null ? emp.Amount.ToString() : string.Empty // Convert to string or empty if not found
-                            }).Distinct() // Ensure no duplicates in the final result
-                            .ToList();
+                                p.Headtype
+                            }).ToList();
 
-            // Return the payheads along with the Amount, which may be null if no record found for the staff in the specified month/year
-            return Json(payheads);
+            // Combine and ensure unique results
+            var combinedResults = (from p in payheads
+                                   join emp in payrollEntries on p.Payhead equals emp.PayheadType into payrollGroup
+                                   from emp in payrollGroup.DefaultIfEmpty()
+                                   select new
+                                   {
+                                       p.Payhead,
+                                       p.Headtype,
+                                       Amount = emp != null ? emp.Amount.ToString() : string.Empty,
+                                       Total = payrollEntries.FirstOrDefault()?.Total
+                                   }).Distinct().ToList();
+
+            return Json(combinedResults);
         }
 
 
@@ -880,6 +895,92 @@ namespace HealthCare.Controllers
         public IActionResult LeaveMaster()
         {
             return View();
+        }
+
+
+        public IActionResult EmployeeAttendance()
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            var staffList = payroll.AllStaff(facilityId);
+            var leave = payroll.leavelist(facilityId);
+            ViewData["alldocid"] = staffList;
+            ViewData["leave"] = leave;
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Addnoofleave(EmployeeAttendance model, string buttonType)
+        {
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
+
+            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+
+
+            BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
+            ViewData["alldocid"] = payroll.AllStaff(facilityId);
+            ViewData["leave"] = payroll.leavelist(facilityId);
+
+
+            var leaveMaster = await GetStaffPayroll.SHleaveMaster
+       .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.LeaveName == model.LeaveName);
+
+            if (leaveMaster != null)
+            {
+                model.Attendancetype = leaveMaster.AttendanceType; 
+            }
+            else
+            {
+                // If no matching LeaveName is found, you might want to handle this case (e.g., show an error or default AttendanceType)
+                TempData["ErrorMessage"] = "Invalid Leave Name.";
+                return RedirectToAction("ErrorPage");
+            }
+
+
+            var leaveDetails = await GetStaffPayroll.SHemployeeattendance
+                .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.StaffID == model.StaffID && x.LeaveName == model.LeaveName && x.Month == model.Month && x.Year == model.Year);
+
+
+            if (leaveDetails != null)
+            {
+                leaveDetails.Numberofdays = model.Numberofdays;
+                leaveDetails.Month = model.Month;
+                leaveDetails.Year = model.Year;
+                leaveDetails.Attendancetype = model.Attendancetype;
+                leaveDetails.LastUpdatedDate = DateTime.Now.ToString();
+                leaveDetails.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                leaveDetails.LastUpdatedUser = User.Claims.First().Value.ToString();
+                leaveDetails.FacilityID = facilityId;
+                GetStaffPayroll.Entry(leaveDetails).State = EntityState.Modified;
+            }
+            else
+            {
+                model.LastUpdatedDate = DateTime.Now.ToString();
+                model.LastUpdatedUser = User.Claims.First().Value.ToString();
+                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                model.FacilityID = facilityId;
+                model.Attendancetype = model.Attendancetype ;
+                GetStaffPayroll.SHemployeeattendance.Add(model);
+            }
+            await GetStaffPayroll.SaveChangesAsync();
+
+            ViewBag.Message = "Saved Successfully";
+            return View("EmployeeAttendance", model);
         }
     }
 }

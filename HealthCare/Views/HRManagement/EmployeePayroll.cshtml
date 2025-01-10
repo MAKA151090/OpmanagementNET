@@ -181,7 +181,6 @@
     console.log(`StaffID: ${selectedStaff}, Month: ${selectedMonth}, Year: ${selectedYear}`);
 
 
-    // Function to fetch payheads based on all three parameters
     function fetchPayheads() {
         if (selectedStaff && selectedMonth && selectedYear) {
             const baseUrl = `@Url.Action("GetPayheadsByStaffId", "HRManagement")`;
@@ -191,12 +190,27 @@
                 .then(response => response.json())
                 .then(data => {
                     populatePayheadTable(data);
+
+                    // Check if Total exists in the response and update the Total input box
+                    const totalValue = data.length > 0 ? data[0].total : null;
+                    const totalInput = document.getElementById("Total");
+                    if (totalValue && totalInput) {
+                        totalInput.value = parseFloat(totalValue).toFixed(2); // Update total input with the value from API
+                        totalAmount = parseFloat(totalValue); // Sync totalAmount variable
+                    } else {
+                        totalInput.value = "0.00"; // Default to 0 if no Total is provided
+                        totalAmount = 0;
+                    }
+                    payheadAmounts = {};
+
+
                 })
                 .catch(error => {
                     console.error("Error fetching payheads:", error);
                 });
         }
     }
+
 
     // Event listener for staff selection
     document.getElementById("StaffID").addEventListener("change", function () {
@@ -313,6 +327,7 @@
                 totalInput.value = totalAmount.toFixed(2); // Update the Total input value with two decimal points
             }
 
+           
         }
     }
 

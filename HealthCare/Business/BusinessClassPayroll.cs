@@ -30,6 +30,21 @@ namespace HealthCare.Business
             return alldocid;
         }
 
+        public List<LeaveMasterModel> leavelist(string facility)
+        {
+            var leave = (
+            from pr in _healthcareContext.SHleaveMaster
+            where pr.FacilityID == facility
+            select new LeaveMasterModel
+            {
+               LeaveName = pr.LeaveName,
+               
+            }
+                    ).ToList();
+
+            return leave;
+        }
+
 
         public List<PayHeadMaster> getPayhead(string facility)
         {
