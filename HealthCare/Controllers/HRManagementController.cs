@@ -43,6 +43,25 @@ namespace HealthCare.Controllers
                 return RedirectToAction("ErrorPage");
             }
 
+            if(buttonType== "Delete")
+            {
+                var checkdelete = await GetStaffPayroll.SHpayhead.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadID == model.PayheadID && x.IsDelete == false);
+                if(checkdelete !=null)
+                {
+                    checkdelete.IsDelete = true;
+                    await GetStaffPayroll.SaveChangesAsync();
+
+                    ViewBag.Message = "Deleted Successfully";
+
+                    
+                }
+                else
+                {
+                    ViewBag.Message = "No Data found";
+                }
+                return View("PayHead", model);
+            }
+
             var existinghead = await GetStaffPayroll.SHpayhead.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadID == model.PayheadID);
             if(existinghead!=null)
             {
@@ -125,6 +144,25 @@ namespace HealthCare.Controllers
                 return View("EmployeePayMaster", model);
             }
 
+            if(buttonType == "Delete")
+            {
+                var checkdeletepay = await GetStaffPayroll.SHemployeepay.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.Staffname == model.Staffname && x.IsDelete == false && x.Payhead == model.Payhead);
+
+                if(checkdeletepay!=null)
+                {
+                    checkdeletepay.IsDelete = true;
+                    await GetStaffPayroll.SaveChangesAsync();
+
+                    ViewBag.Message = "Deleted Successfully";
+                   
+                }
+                else
+                {
+                    ViewBag.Message = "No Data found";
+                }
+                return View("EmployeePayMaster", model);
+            }
+
             var existingemppay = await GetStaffPayroll.SHemployeepay.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.Staffpayid == model.Staffpayid);
             if (existingemppay != null)
             {
@@ -177,6 +215,40 @@ namespace HealthCare.Controllers
             {
                 TempData["ErrorMessage"] = "Session is not available. Please try again.";
                 return RedirectToAction("ErrorPage");
+            }
+
+            if (buttonType == "Delete")
+            {
+                // Fetch all payroll entries to delete that match the criteria
+                var payrollsToDelete = await GetStaffPayroll.SHemployeepayroll
+                    .Where(x =>
+                        x.FacilityID == facilityId &&
+                        x.StaffID == model.StaffID &&
+                        x.Month == model.Month &&
+                        x.Year == model.Year)
+                    .ToListAsync();
+
+                if (payrollsToDelete.Any())
+                {
+                    // Loop through and remove each matching record
+                    foreach (var payrolll in payrollsToDelete)
+                    {
+                        GetStaffPayroll.SHemployeepayroll.Remove(payrolll);
+                    }
+
+                    // Save changes to the database
+                    await GetStaffPayroll.SaveChangesAsync();
+
+                    ViewBag.Message = "Deleted Successfully";
+
+                    return View("EmployeePayroll");
+                }
+                else
+                {
+                    ViewBag.Message = "No matching records found to delete.";
+                }
+
+                return View("EmployeePayroll");
             }
 
             foreach (var item in viewmodel.Shpayrollview)
@@ -243,6 +315,29 @@ namespace HealthCare.Controllers
                 facilityId = TempData["FacilityID"].ToString();
                 TempData.Keep("FacilityID");
             }
+
+            if(buttonType == "Delete")
+            {
+                var leavedelete = await GetStaffPayroll.SHleaveMaster.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.LeaveName == model.LeaveName && x.IsDelete == false);
+
+                if(leavedelete!=null)
+                {
+                    leavedelete.IsDelete = true;
+                    await GetStaffPayroll.SaveChangesAsync();
+
+                    ViewBag.Message = "Deleted Successfully";
+
+                  
+                }
+                else
+                {
+                    ViewBag.Message = "No matching records found to delete.";
+                }
+
+                return View("LeaveMaster");
+            }
+        
+            
 
             var existinghead = await GetStaffPayroll.SHleaveMaster.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.LeaveName == model.LeaveName);
             if (existinghead != null)
@@ -852,7 +947,7 @@ namespace HealthCare.Controllers
 
             // Query SHemployeepay for all payheads associated with the staffId
             var payheads = (from p in GetStaffPayroll.SHemployeepay
-                            where p.Staffname == staffId
+                            where p.Staffname == staffId && p.IsDelete == false
                             select new
                             {
                                 p.Payhead,

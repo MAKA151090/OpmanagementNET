@@ -87,14 +87,14 @@
 
                         <input asp-for="PayheadID" class="form-control" placeholder="PayheadID"  />
                         <label asp-for="PayheadID" class="control-label">PayheadID</label>
-                        <span asp-validation-for="PayheadID" class="text-danger"></span>
+                       
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="PayheadName" class="form-control" placeholder="PayheadName" required />
+                        <input asp-for="PayheadName" class="form-control" placeholder="PayheadName" id="PayheadName" />
                         <label asp-for="PayheadName" class="control-label">PayheadName</label>
-                        <span asp-validation-for="PayheadName" class="text-danger"></span>
+                        <span id="payheadNameError" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
@@ -125,8 +125,8 @@
 
     <div class="form-group">
         <center>
-            <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
-            <button type="submit" value="Save"  class="btn btn-primary">Save</button>
+          
+            <button type="submit" value="Save" class="btn btn-primary" onclick="validateForm(event)">Save</button>
             <button type="submit" value="Delete" name="buttonType"  class="btn btn-primary">Delete</button>
             @if (ViewBag.Message != null)
             {
@@ -139,3 +139,22 @@
 
 
 </form>
+
+<script>
+    function validateForm(event) {
+        var bloodName = document.getElementById("PayheadName").value;
+        var errorSpan = document.getElementById("payheadNameError");
+
+        // Clear previous error message
+        errorSpan.textContent = '';
+
+        // Check if the field is empty
+        if (!bloodName.trim()) {
+            // Show error message
+            errorSpan.textContent = "Pay head name cannot be empty";
+
+            // Prevent form submission
+            event.preventDefault();
+        }
+    }
+</script>

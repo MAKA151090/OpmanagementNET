@@ -86,7 +86,7 @@
 
                     <div class="form-group">
                         <label asp-for="Month" class="control-label">Month</label>
-                        <select asp-for="Month" class="form-control" id="Month">
+                        <select asp-for="Month" class="form-control" id="Month" required>
                             <option value="">Select Month</option>
                             <option value="January">January</option>
                             <option value="February">February</option>
@@ -112,7 +112,7 @@
                                min="1000"
                                max="9999"
                                id="Year"
-                               oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);" />
+                               oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);" required />
                         <label asp-for="Year" class="control-label">Year</label>
                     </div>
 
@@ -150,7 +150,6 @@
 
     <div class="form-group">
         <center>
-            <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
             <button type="submit" value="Save" class="btn btn-primary">Save</button>
             <button type="submit" value="Delete" name="buttonType" class="btn btn-primary">Delete</button>
             @if (ViewBag.Message != null)

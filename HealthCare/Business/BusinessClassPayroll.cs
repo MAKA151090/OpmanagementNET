@@ -19,7 +19,7 @@ namespace HealthCare.Business
         {
             var alldocid = (
             from pr in _healthcareContext.SHclnStaffAdminModel
-            where pr.FacilityID == facility
+            where pr.FacilityID == facility && pr.IsDelete == false
             select new StaffAdminModel
             {
                 StrStaffID = pr.StrStaffID,
@@ -34,7 +34,7 @@ namespace HealthCare.Business
         {
             var leave = (
             from pr in _healthcareContext.SHleaveMaster
-            where pr.FacilityID == facility
+            where pr.FacilityID == facility && pr.IsDelete == false
             select new LeaveMasterModel
             {
                LeaveName = pr.LeaveName,
@@ -50,7 +50,7 @@ namespace HealthCare.Business
         {
             var getpayhead = (
             from pr in _healthcareContext.SHpayhead
-            where pr.FacilityID == facility
+            where pr.FacilityID == facility && pr.IsDelete == false
             select new PayHeadMaster
             {
                 PayheadID = pr.PayheadID,
