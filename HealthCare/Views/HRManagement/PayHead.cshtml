@@ -85,36 +85,49 @@
 
                     <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="PayheadID" class="form-control" placeholder="PayheadID"  />
+                        <input asp-for="PayheadID" class="form-control" placeholder="PayheadID" id="PayheadID" />
                         <label asp-for="PayheadID" class="control-label">PayheadID</label>
+                        <span id="payheadidError" class="text-danger"></span>
                        
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
 
-                        <input asp-for="PayheadName" class="form-control" placeholder="PayheadName" id="PayheadName" />
+                        <input asp-for="PayheadName" class="form-control" placeholder="PayheadName" id="PayheadName" value="@Model.PayheadName" />
                         <label asp-for="PayheadName" class="control-label">PayheadName</label>
                         <span id="payheadNameError" class="text-danger"></span>
                     </div>
 
+
+
                     <div class="form-group">
-                        <label asp-for="PayheadType" class="control-label">Payhead Type:</label>
-                        <select asp-for="PayheadType" class="form-control">
-                            <option value="">Select Head Type</option>
-                            <option value="Earningsforemployee">Earnings For Employee</option>
-                            <option value="Deductionfromemployee">Deduction From Employee</option>
-                        </select>
-                   
+                        <label class="control-label">Payhead Type</label><br />
+                        <div class="form-check form-check-inline">
+                            <input asp-for="PayheadType" class="form-check-input" type="radio" value="Earningsforemployee" id="Earningsforemployee"  />
+                            <label class="form-check-label" for="Earningsforemployee">Earnings For Employee</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="PayheadType" class="form-check-input" type="radio" value="Deductionfromemployee" id="Deductionfromemployee" />
+                            <label class="form-check-label" for="Deductionfromemployee">Deduction From Employee</label>
+                        </div>
+                      
+                        <span id="gendererror" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="PayheadCalculationType" class="control-label">Pay Calculation Type:</label>
-                        <select asp-for="PayheadCalculationType" class="form-control">
-                            <option value="">Select Calculation Type</option>
-                            <option value="AsComputedValue">As Computed Value</option>
-                            <option value="AsUserDefinedValue">As User Defined Value</option>
-                        </select>
 
+
+                    <div class="form-group">
+                        <label class="control-label">Pay Calculation Type</label><br />
+                        <div class="form-check form-check-inline">
+                            <input asp-for="PayheadCalculationType" class="form-check-input" type="radio" value="AsComputedValue" id="AsComputedValue" />
+                            <label class="form-check-label" for="AsComputedValue">As Computed Value</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="PayheadCalculationType" class="form-check-input" type="radio" value="AsUserDefinedValue" id="AsUserDefinedValue" />
+                            <label class="form-check-label" for="AsUserDefinedValue">As User Defined Value</label>
+                        </div>
+                       
+                        <span id="gendererror" class="text-danger"></span>
                     </div>
 
                 </div>
@@ -127,7 +140,8 @@
         <center>
           
             <button type="submit" value="Save" class="btn btn-primary" onclick="validateForm(event)">Save</button>
-            <button type="submit" value="Delete" name="buttonType"  class="btn btn-primary">Delete</button>
+            <button type="submit" value="Delete" name="buttonType" onclick="checkForm(event)" class="btn btn-primary">Delete</button>
+            <button type="submit" value="Get" name="buttonType" onclick="checkForm(event)" class="btn btn-primary">Get</button>
             @if (ViewBag.Message != null)
             {
                 <script>
@@ -152,6 +166,26 @@
         if (!bloodName.trim()) {
             // Show error message
             errorSpan.textContent = "Pay head name cannot be empty";
+
+            // Prevent form submission
+            event.preventDefault();
+        }
+    }
+</script>
+
+
+<script>
+    function checkForm(event) {
+        var payid = document.getElementById("PayheadID").value;
+        var errorSpan = document.getElementById("payheadidError");
+
+        // Clear previous error message
+        errorSpan.textContent = '';
+
+        // Check if the field is empty
+        if (!payid.trim()) {
+            // Show error message
+            errorSpan.textContent = "Pay ID cannot be empty";
 
             // Prevent form submission
             event.preventDefault();

@@ -43,27 +43,48 @@ namespace HealthCare.Controllers
                 return RedirectToAction("ErrorPage");
             }
 
-            if(buttonType== "Delete")
+
+            if (buttonType == "Get")
+            {
+                var getpayheDdata = await GetStaffPayroll.SHpayhead.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadID == model.PayheadID && x.IsDelete == false);
+                if (getpayheDdata != null)
+                {
+                    return View("PayHead", getpayheDdata);
+                }
+                else
+                {
+                    ViewBag.Message = "Payhead Not Found";
+                }
+                PayHeadMaster stf = new PayHeadMaster();
+
+                return View("PayHead", stf);
+
+            }
+
+            if (buttonType == "Delete")
             {
                 var checkdelete = await GetStaffPayroll.SHpayhead.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadID == model.PayheadID && x.IsDelete == false);
-                if(checkdelete !=null)
+                if (checkdelete != null)
                 {
                     checkdelete.IsDelete = true;
                     await GetStaffPayroll.SaveChangesAsync();
 
+
                     ViewBag.Message = "Deleted Successfully";
 
-                    
+
                 }
                 else
                 {
                     ViewBag.Message = "No Data found";
                 }
-                return View("PayHead", model);
+
+                PayHeadMaster cln = new PayHeadMaster();
+                return View("PayHead", cln);
             }
 
             var existinghead = await GetStaffPayroll.SHpayhead.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadID == model.PayheadID);
-            if(existinghead!=null)
+            if (existinghead != null)
             {
                 existinghead.PayheadName = model.PayheadName;
                 existinghead.PayheadType = model.PayheadType;
@@ -90,7 +111,7 @@ namespace HealthCare.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Addemployeepaymaster(EmployeePayMaster model, string buttonType)
+        public async Task<IActionResult> Addemployeepaymaster(EmployeePayMaster model, string buttonType, List<string> SelectedRollNames)
         {
             string facilityId = string.Empty;
             if (TempData["FacilityID"] != null)
@@ -119,79 +140,129 @@ namespace HealthCare.Controllers
                 return RedirectToAction("ErrorPage");
             }
 
-            // Retrieve the Headtype from the shpayhead table
-            var payHeadDetails = await GetStaffPayroll.SHpayhead
-                .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadName == model.Payhead);
-
-            if (payHeadDetails == null)
+            if (buttonType == "Delete")
             {
-                ViewBag.Message = "Invalid Payhead selected.";
-                return View("EmployeePayMaster", model);
-            }
-
-            // Determine Dr or Cr based on Headtype
-            string drValue = payHeadDetails.PayheadType switch
-            {
-                "Earningsforemployee" => "Dr",
-                "Deductionfromemployee" => "Cr",
-               
-            };
-
-
-            if (drValue == null)
-            {
-                ViewBag.Message = "Invalid Headtype selected.";
-                return View("EmployeePayMaster", model);
-            }
-
-            if(buttonType == "Delete")
-            {
-                var checkdeletepay = await GetStaffPayroll.SHemployeepay.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.Staffname == model.Staffname && x.IsDelete == false && x.Payhead == model.Payhead);
-
-                if(checkdeletepay!=null)
+                foreach (var payheadname in SelectedRollNames)
                 {
-                    checkdeletepay.IsDelete = true;
-                    await GetStaffPayroll.SaveChangesAsync();
+                    // Find the record to delete
+                    var recordToDelete = await GetStaffPayroll.SHemployeepay
+                        .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.Staffname == model.Staffname && x.Payhead == payheadname);
 
-                    ViewBag.Message = "Deleted Successfully";
-                   
+                    if (recordToDelete != null)
+                    {
+                        // Remove the record from the database
+                        GetStaffPayroll.SHemployeepay.Remove(recordToDelete);
+                        // Confirm deletion
+                        ViewBag.Message = "Selected records deleted successfully.";
+                    }
+                    else
+                    {
+                        // Log or display a message for entries not found
+                        ViewBag.Message = $"No data found for Payhead: {payheadname}";
+                    }
+                }
+
+                // Save changes to apply all deletions
+                await GetStaffPayroll.SaveChangesAsync();
+
+              
+                return View("EmployeePayMaster", model);
+            }
+
+
+
+            if (buttonType == "Get")
+            {
+                // Retrieve all Payhead names for the specified staff member
+                var checkpayhead = await GetStaffPayroll.SHemployeepay
+                    .Where(x => x.Staffname == model.Staffname && x.FacilityID == facilityId)
+                    .Select(x => x.Payhead) // Get only the Payhead names
+                    .ToListAsync();
+
+                if (checkpayhead.Any())
+                {
+                    // Pass the list of selected Payhead names to the view
+                    ViewData["SelectedPayheads"] = checkpayhead;
+                    return View("EmployeePayMaster", model);
                 }
                 else
                 {
-                    ViewBag.Message = "No Data found";
+                    ViewBag.Message = "No Data Found";
                 }
+
                 return View("EmployeePayMaster", model);
             }
 
-            var existingemppay = await GetStaffPayroll.SHemployeepay.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.Staffpayid == model.Staffpayid);
-            if (existingemppay != null)
-            {
-                existingemppay.Staffname = model.Staffname;
-                existingemppay.Payhead = model.Payhead;
-                existingemppay.Headtype = drValue;
-                existingemppay.LastUpdatedDate = DateTime.Now.ToString();
-                existingemppay.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                existingemppay.LastUpdatedUser = User.Claims.First().Value.ToString();
-                existingemppay.FacilityID = facilityId;
-                GetStaffPayroll.Entry(existingemppay).State = EntityState.Modified;
-            }
-            else
-            {
-                model.LastUpdatedDate = DateTime.Now.ToString();
-                model.LastUpdatedUser = User.Claims.First().Value.ToString();
-                model.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                model.FacilityID = facilityId;
-                model.Headtype = drValue;
-                GetStaffPayroll.SHemployeepay.Add(model);
-            }
-            await GetStaffPayroll.SaveChangesAsync();
 
+            foreach (var payheadname in SelectedRollNames)
+            {
+                // Retrieve the Payhead details
+                var payHeadDetails = await GetStaffPayroll.SHpayhead
+                    .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadName == payheadname);
+
+                if (payHeadDetails == null)
+                {
+                    ViewBag.Message = "Invalid Payhead selected.";
+                    return View("EmployeePayMaster", model);
+                }
+
+                // Determine Dr or Cr based on Headtype
+                string drValue = payHeadDetails.PayheadType switch
+                {
+                    "Earningsforemployee" => "Dr",
+                    "Deductionfromemployee" => "Cr",
+                    _ => null
+                };
+
+                if (drValue == null)
+                {
+                    ViewBag.Message = "Invalid Headtype selected.";
+                    return View("EmployeePayMaster", model);
+                }
+
+                // Check for existing record
+                var existingPay = await GetStaffPayroll.SHemployeepay
+                    .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.Staffname == model.Staffname && x.Payhead == payheadname);
+
+                if (existingPay != null)
+                {
+                    // Update existing record
+                    existingPay.Staffname = model.Staffname;
+                    existingPay.Payhead = payheadname;
+                    existingPay.Headtype = drValue;
+                    existingPay.LastUpdatedDate = DateTime.Now.ToString();
+                    existingPay.LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                    existingPay.LastUpdatedUser = User.Claims.First().Value.ToString();
+                    existingPay.FacilityID = facilityId;
+                    GetStaffPayroll.Entry(existingPay).State = EntityState.Modified;
+                }
+                else
+                {
+                    // Add a new record
+                    var newPay = new EmployeePayMaster
+                    {
+                        Staffname = model.Staffname,
+                        Payhead = payheadname,
+                        Headtype = drValue,
+                        LastUpdatedDate = DateTime.Now.ToString(),
+                        LastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
+                        LastUpdatedUser = User.Claims.First().Value.ToString(),
+                        FacilityID = facilityId
+                    };
+
+                    GetStaffPayroll.SHemployeepay.Add(newPay);
+                }
+            }
+
+            // Save all changes at once
+            await GetStaffPayroll.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully";
             return View("EmployeePayMaster", model);
         }
+    
 
 
-        [HttpPost]
+            [HttpPost]
         public async Task<IActionResult> Addemployeepayroll(EmployeePayrollModel model, string buttonType, string PayheadType, string headtype, EmployeePayrollView viewmodel)
         {
             string facilityId = string.Empty;
@@ -908,8 +979,8 @@ namespace HealthCare.Controllers
 
         public IActionResult PayHead()
         {
-           
-            return View();
+            PayHeadMaster cln = new PayHeadMaster();
+            return View("PayHead", cln);
         }
 
 
