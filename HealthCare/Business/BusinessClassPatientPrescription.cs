@@ -280,5 +280,90 @@ namespace HealthCare.Business
             return ModifyBillDoc(templatePath, billDetails);
         }
 
+
+        public byte[] PrintpayrollDetails(string facility,DataTable datatable)
+        {
+            string templatePath = Path.Combine("..\\HealthCare\\Template", facility + ".docx");
+            return ModifypayrollDoc(templatePath, datatable);
+        }
+
+        public byte[] ModifypayrollDoc(string filePath, DataTable datatable)
+        {
+            using (var document = DocX.Load(filePath))
+            {
+                
+
+                if (datatable.Rows.Count > 0)
+                {
+                    var row = datatable.Rows[0];
+                    document.ReplaceText("<<companyname>>", row["CompanyName"].ToString());
+                    document.ReplaceText("<<employeename>>", row["EmployeeName"].ToString());
+                    document.ReplaceText("<<designation>>", row["ResourceTypeName"].ToString());
+                    document.ReplaceText("<<payperiodmonth>>", row["Month"].ToString());
+                    document.ReplaceText("<<year>>", row["Year"].ToString());
+                    document.ReplaceText("<<workdays>>", row["Numberofdays"].ToString());
+                    document.ReplaceText("<<netpay>>", row["NetPay"].ToString());
+
+                    // Replace earnings and deductions
+                    // Initialize placeholders for earnings and deductions
+                    for (int i = 0, earningIndex = 1, deductionIndex = 1; i < datatable.Rows.Count; i++)
+                    {
+                        string payheadType = datatable.Rows[i]["PayheadType"].ToString();
+                        string amount = datatable.Rows[i]["Amount"].ToString();
+                        string headType = datatable.Rows[i]["Headtype"].ToString();
+
+                        if (headType == "Dr")
+                        {
+                            // Earnings
+                            document.ReplaceText($"<<e{earningIndex}>>", payheadType);
+                            document.ReplaceText($"<<ea{earningIndex}>>", amount);
+                            earningIndex++;
+                        }
+                        else if (headType == "Cr")
+                        {
+                            // Deductions
+                            document.ReplaceText($"<<d{deductionIndex}>>", payheadType);
+                            document.ReplaceText($"<<da{deductionIndex}>>", amount);
+                            deductionIndex++;
+                        }
+                    }
+
+                    // Fill any remaining placeholders with empty values (up to 8 rows for both earnings and deductions)
+                    for (int i = 0; i < 8; i++)
+                    {
+                        document.ReplaceText($"<<e{i + 1}>>", "");
+                        document.ReplaceText($"<<ea{i + 1}>>", "");
+                        document.ReplaceText($"<<d{i + 1}>>", "");
+                        document.ReplaceText($"<<da{i + 1}>>", "");
+                    }
+
+
+                    // Calculate total earnings
+                    var totalEarnings = datatable.AsEnumerable()
+                        .Where(row => row["Headtype"].ToString() == "Dr")
+                        .Sum(row => Convert.ToDecimal(row["Amount"]));
+
+                    // Calculate total deductions
+                    var totalDeductions = datatable.AsEnumerable()
+                        .Where(row => row["Headtype"].ToString() == "Cr")
+                        .Sum(row => Convert.ToDecimal(row["Amount"]));
+
+                    // Replace placeholders with calculated totals
+                    document.ReplaceText("<<earnamount>>", totalEarnings.ToString("F2")); // Format to 2 decimal places
+                    document.ReplaceText("<<deductamount>>", totalDeductions.ToString("F2"));
+
+                }
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    document.SaveAs(memoryStream);
+                    return memoryStream.ToArray();
+                }
+            }
+        }
+
+
+
+
     }
 }

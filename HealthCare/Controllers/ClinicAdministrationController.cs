@@ -323,7 +323,7 @@ namespace HealthCare.Controllers
             }
 
 
-            var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FindAsync(model.StrStaffID,model.FacilityID);
+            var existingStaffAdmin = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x=>x.StrStaffID == model.StrStaffID && x.FacilityID == model.FacilityID);
 
 
 

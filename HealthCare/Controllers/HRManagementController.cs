@@ -1,8 +1,15 @@
-﻿using HealthCare.Business;
+﻿using Dapper;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.InkML;
+using HealthCare.Business;
 using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
+using System.Data;
+using System.Globalization;
 
 namespace HealthCare.Controllers
 {
@@ -10,12 +17,14 @@ namespace HealthCare.Controllers
     {
         private HealthcareContext GetStaffPayroll;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
 
 
-        public HRManagementController(HealthcareContext GetStaffPayroll, IHttpContextAccessor httpContextAccessor)
+        public HRManagementController(HealthcareContext GetStaffPayroll, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             this.GetStaffPayroll = GetStaffPayroll;
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -288,7 +297,67 @@ namespace HealthCare.Controllers
                 return RedirectToAction("ErrorPage");
             }
 
-            if (buttonType == "Delete")
+            if (buttonType == "Print")
+            {
+                // Define the query to execute the stored procedure
+                var query = "CALL GetEmployeePayrollDetails(@StaffID, @Month, @Year, @FacilityID)";
+
+                var gettemplate = await GetStaffPayroll.SHclnClinicAdmin.Where(x => x.FacilityID == facilityId).Select(x => x.Template).FirstOrDefaultAsync();
+                    
+
+               string connectionString = _configuration.GetConnectionString("ClsPatientObjective");
+
+                using (var connection = new MySqlConnection(connectionString))
+                {
+                    try
+                    {
+                        // Open the connection
+                        await connection.OpenAsync();
+
+                        // Create a MySqlCommand to execute the stored procedure
+                        using (var command = new MySqlCommand(query, connection))
+                        {
+                            // Add parameters to the command
+                            command.Parameters.AddWithValue("@StaffID", viewmodel.StaffID);  // Ensure the model value is passed here
+                            command.Parameters.AddWithValue("@Month", viewmodel.Month);  // Converting "April" to "04"
+                            command.Parameters.AddWithValue("@Year", viewmodel.Year);
+                            command.Parameters.AddWithValue("@FacilityID", facilityId);
+
+                            // Execute the command and read the data
+                            using (var reader = await command.ExecuteReaderAsync())
+                            {
+                                DataTable datatable = new DataTable();
+
+                                datatable.Load(reader);
+
+
+                                // Extract the template path from the results
+                                string facilityTemplate = gettemplate;
+
+                                // Generate and return the document
+                                BusinessClassPatientPrescription objBilling = new BusinessClassPatientPrescription(GetStaffPayroll);
+                                return File(
+                                    objBilling.PrintpayrollDetails(facilityTemplate, datatable),
+                                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                    "Patient_Payroll_Details.docx"
+                                );
+                            }
+                             
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        // Log the error and show an appropriate message
+                        ViewBag.ErrorMessage = "An error occurred while fetching payroll details: " + ex.Message;
+                    }
+
+                }
+            return View("EmployeePayroll", model);
+            }
+
+
+                if (buttonType == "Delete")
             {
                 // Fetch all payroll entries to delete that match the criteria
                 var payrollsToDelete = await GetStaffPayroll.SHemployeepayroll
