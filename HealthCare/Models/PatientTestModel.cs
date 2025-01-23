@@ -27,6 +27,7 @@ namespace HealthCare.Models
         private String LastUpdatedMachine;
         private bool isdelete;
         private String barcodeID;
+        private String test;
 
 
         [MaxLength(100)]
@@ -83,6 +84,9 @@ namespace HealthCare.Models
 
         [MaxLength(50)]
         public string? BarcodeID { get => barcodeID; set => barcodeID = value; }
+
+        [MaxLength(50)]
+        public string? Test { get => test; set => test = value; }
     }
 
 }

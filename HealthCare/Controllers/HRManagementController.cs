@@ -318,8 +318,8 @@ namespace HealthCare.Controllers
                         using (var command = new MySqlCommand(query, connection))
                         {
                             // Add parameters to the command
-                            command.Parameters.AddWithValue("@StaffID", viewmodel.StaffID);  // Ensure the model value is passed here
-                            command.Parameters.AddWithValue("@Month", viewmodel.Month);  // Converting "April" to "04"
+                            command.Parameters.AddWithValue("@StaffID", viewmodel.StaffID);  
+                            command.Parameters.AddWithValue("@Month", viewmodel.Month);  
                             command.Parameters.AddWithValue("@Year", viewmodel.Year);
                             command.Parameters.AddWithValue("@FacilityID", facilityId);
 
@@ -353,7 +353,7 @@ namespace HealthCare.Controllers
                     }
 
                 }
-            return View("EmployeePayroll", model);
+            return View("EmployeePayroll");
             }
 
 
@@ -1102,7 +1102,9 @@ namespace HealthCare.Controllers
                                    {
                                        p.Payhead,
                                        p.Headtype,
-                                       Amount = emp != null ? emp.Amount.ToString() : string.Empty,
+                                       Amount = emp != null && !string.IsNullOrEmpty(emp.Amount) ? emp.Amount : string.Empty,
+                                     
+
                                        Total = payrollEntries.FirstOrDefault()?.Total
                                    }).Distinct().ToList();
 
