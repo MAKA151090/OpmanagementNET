@@ -339,14 +339,16 @@ namespace HealthCare.Business
 
 
                     // Calculate total earnings
+                    // Calculate total earnings
                     var totalEarnings = datatable.AsEnumerable()
                         .Where(row => row["Headtype"].ToString() == "Dr")
-                        .Sum(row => Convert.ToDecimal(row["Amount"]));
+                        .Sum(row => Convert.ToDecimal(row["Amount"] == DBNull.Value ? 0 : row["Amount"]));
 
                     // Calculate total deductions
                     var totalDeductions = datatable.AsEnumerable()
                         .Where(row => row["Headtype"].ToString() == "Cr")
-                        .Sum(row => Convert.ToDecimal(row["Amount"]));
+                        .Sum(row => Convert.ToDecimal(row["Amount"] == DBNull.Value ? 0 : row["Amount"]));
+
 
                     // Replace placeholders with calculated totals
                     document.ReplaceText("<<earnamount>>", totalEarnings.ToString("F2")); // Format to 2 decimal places
