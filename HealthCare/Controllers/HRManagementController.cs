@@ -257,7 +257,7 @@ namespace HealthCare.Controllers
             {
                 // Retrieve the Payhead details
                 var payHeadDetails = await GetStaffPayroll.SHpayhead
-                    .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadName == payheadname);
+                    .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadName == payheadname && x.IsDelete == false);
 
                 if (payHeadDetails == null)
                 {
@@ -1132,6 +1132,7 @@ namespace HealthCare.Controllers
 
             // Query SHemployeepay for all payheads associated with the staffId
             var payheads = (from p in GetStaffPayroll.SHemployeepay
+                            join h in GetStaffPayroll.SHpayhead on p.Payhead equals h.PayheadName
                             where p.Staffname == staffId && p.IsDelete == false
                             select new
                             {
