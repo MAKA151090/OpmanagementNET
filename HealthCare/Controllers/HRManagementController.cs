@@ -207,7 +207,7 @@ namespace HealthCare.Controllers
             {
                 // Retrieve the Payhead details
                 var payHeadDetails = await GetStaffPayroll.SHpayhead
-                    .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadName == payheadname);
+                    .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadName == payheadname && x.IsDelete == false);
 
                 if (payHeadDetails == null)
                 {
