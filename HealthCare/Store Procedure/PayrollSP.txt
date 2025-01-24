@@ -1,0 +1,71 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetEmployeePayrollDetails`(
+    IN StaffID NVARCHAR(50),
+    IN Month NVARCHAR(50),
+    IN Year NVARCHAR(50),
+    IN FacilityID NVARCHAR(50)
+)
+BEGIN
+    SELECT 
+        ssa.StrFullName AS EmployeeName,
+        srt.ResourceTypeName,
+        sep.Month,
+        sep.Year,
+        sea.Numberofdays,
+        sep.PayheadType,
+        sep.Amount,
+        pay.Headtype,
+        Netpay.NetPay,
+        (SELECT ClinicName 
+         FROM shclnclinicadmin sca 
+         WHERE sca.FacilityID = sep.FacilityID) AS CompanyName,
+        SUM(CASE WHEN pay.Headtype = 'Dr' THEN CAST(sep.Amount AS DECIMAL) ELSE 0 END) AS TotalDr,
+        SUM(CASE WHEN pay.Headtype = 'Cr' THEN CAST(sep.Amount AS DECIMAL) ELSE 0 END) AS TotalCr
+    FROM 
+        shclnresoursetypemaster srt
+        INNER JOIN shclnstaffadminmodel ssa ON ssa.ResourceTypeID = srt.ResourceTypeID
+        INNER JOIN shemployeeattendance sea ON sea.StaffID = ssa.StrStaffID 
+                                             AND sea.Month = Month 
+                                             AND sea.Year = Year
+        INNER JOIN shemployeepayroll sep ON sep.StaffID = ssa.StrStaffID 
+                                          AND sep.Month = Month 
+                                          AND sep.Year = Year
+        INNER JOIN shemployeepay pay ON pay.Staffname = ssa.StrStaffID 
+                                      AND pay.Payhead = sep.PayheadType
+        INNER JOIN (
+            SELECT 
+                sep1.StaffID,
+                sep1.Month,
+                sep1.Year,
+                sep1.FacilityID,
+                SUM(CASE 
+                        WHEN pay1.HeadType = 'Cr' THEN -CAST(sep1.Amount AS DECIMAL) 
+                        ELSE CAST(sep1.Amount AS DECIMAL) 
+                    END) AS NetPay
+            FROM 
+                shemployeepayroll sep1
+                INNER JOIN shemployeepay pay1 ON sep1.PayheadType = pay1.Payhead 
+                                              AND sep1.StaffID = pay1.Staffname
+            WHERE 
+                sep1.Month = Month 
+                AND sep1.Year = Year 
+                AND sep1.FacilityID = FacilityID
+            GROUP BY 
+                sep1.StaffID, sep1.Month, sep1.Year, sep1.FacilityID
+        ) Netpay ON Netpay.StaffID = ssa.StrStaffID 
+                AND Netpay.Month = sep.Month 
+                AND Netpay.Year = sep.Year
+    WHERE 
+        ssa.StrStaffID = StaffID
+        AND sep.FacilityID = FacilityID
+    GROUP BY
+        ssa.StrFullName,
+        srt.ResourceTypeName,
+        sep.Month,
+        sep.Year,
+        sea.Numberofdays,
+        sep.PayheadType,
+        sep.Amount,
+        pay.Headtype,
+        Netpay.NetPay,
+        sep.FacilityID;
+END
