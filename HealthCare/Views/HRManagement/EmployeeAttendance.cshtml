@@ -114,16 +114,11 @@
 
                     </div>
 
-                    <div class="form-floating form-floating-outline mb-4">
-
-                        <input asp-for="Numberofdays" class="form-control" placeholder="Numberofdays" />
-                        <label asp-for="Numberofdays" class="control-label">Numberofdays</label>
-
-                    </div>
+                   
 
                     <div class="form-group">
                         <label asp-for="Month" class="control-label">Month</label>
-                        <select asp-for="Month" class="form-control" id="Month">
+                        <select asp-for="Month" class="form-control" id="Month" required>
                             <option value="">Select Month</option>
                             <option value="January">January</option>
                             <option value="February">February</option>
@@ -149,10 +144,16 @@
                                min="1000"
                                max="9999"
                                id="Year"
-                               oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);" />
+                               oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);" required />
                         <label asp-for="Year" class="control-label">Year</label>
                     </div>
 
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="Numberofdays" class="form-control" placeholder="Numberofdays" />
+                        <label asp-for="Numberofdays" class="control-label">Numberofdays</label>
+
+                    </div>
 
 
                 </div>
