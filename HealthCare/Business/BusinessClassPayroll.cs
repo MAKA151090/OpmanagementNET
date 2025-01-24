@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace HealthCare.Business
 {
@@ -97,6 +98,21 @@ namespace HealthCare.Business
         public IActionResult Index()
         {
             return View();
+        }
+
+
+        public static DataTable convertToDataTableCategoryMaster(IEnumerable<PayHeadMaster> entities)
+        {
+            var dataTable = new DataTable();
+            dataTable.Columns.Add("PayheadID", typeof(string));
+            dataTable.Columns.Add("PayheadName", typeof(string));
+
+            foreach (var entity in entities)
+            {
+                dataTable.Rows.Add(entity.PayheadID, entity.PayheadName);
+            }
+
+            return dataTable;
         }
     }
 }

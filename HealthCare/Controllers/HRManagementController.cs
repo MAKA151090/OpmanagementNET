@@ -27,6 +27,39 @@ namespace HealthCare.Controllers
             _configuration = configuration;
         }
 
+
+
+        public async Task<IActionResult> PayHead()
+        {
+            PayHeadMaster cln = new PayHeadMaster();
+
+            string facilityId = string.Empty;
+            if (TempData["FacilityID"] != null)
+            {
+                facilityId = TempData["FacilityID"].ToString();
+                TempData.Keep("FacilityID");
+            }
+
+            ViewData["Payheaddata"] = await AdditionalPayheadMasterFun(facilityId);
+
+            return View("PayHead", cln);
+        }
+
+        public async Task<DataTable> AdditionalPayheadMasterFun(string facilityId)
+        {
+
+            // Step 1: Perform the query
+            var entities = GetStaffPayroll.SHpayhead
+                                  .Where(e => e.FacilityID == facilityId && e.IsDelete == false).OrderByDescending(e => e.LastUpdatedDate)
+                                  .ToList();
+
+            // Step 2: Convert to DataTable
+            return BusinessClassPayroll.convertToDataTableCategoryMaster(entities);
+
+
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Addpayhead(PayHeadMaster model, string buttonType)
         {
@@ -58,6 +91,10 @@ namespace HealthCare.Controllers
                 var getpayheDdata = await GetStaffPayroll.SHpayhead.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.PayheadID == model.PayheadID && x.IsDelete == false);
                 if (getpayheDdata != null)
                 {
+                    var dataTable = await AdditionalPayheadMasterFun(facilityId);
+
+                    // Store the DataTable in ViewData for access in the view
+                    ViewData["Payheaddata"] = dataTable;
                     return View("PayHead", getpayheDdata);
                 }
                 else
@@ -65,6 +102,9 @@ namespace HealthCare.Controllers
                     ViewBag.Message = "Payhead Not Found";
                 }
                 PayHeadMaster stf = new PayHeadMaster();
+
+                var dataTable2 = await AdditionalPayheadMasterFun(facilityId);
+                ViewData["Payheaddata"] = dataTable2;
 
                 return View("PayHead", stf);
 
@@ -89,6 +129,11 @@ namespace HealthCare.Controllers
                 }
 
                 PayHeadMaster cln = new PayHeadMaster();
+
+                var dataTable2 = await AdditionalPayheadMasterFun(facilityId);
+                ViewData["Payheaddata"] = dataTable2;
+
+
                 return View("PayHead", cln);
             }
 
@@ -115,6 +160,11 @@ namespace HealthCare.Controllers
             await GetStaffPayroll.SaveChangesAsync();
 
             ViewBag.Message = "Saved Successfully";
+
+            var dataTable3 = await AdditionalPayheadMasterFun(facilityId);
+            ViewData["Payheaddata"] = dataTable3;
+
+
             return View("PayHead", model);
         }
 
@@ -1046,12 +1096,7 @@ namespace HealthCare.Controllers
             return View(model);
         }
 
-        public IActionResult PayHead()
-        {
-            PayHeadMaster cln = new PayHeadMaster();
-            return View("PayHead", cln);
-        }
-
+       
 
         public IActionResult EmployeePayMaster()
         {
