@@ -17,7 +17,7 @@
 
   @* ! Hide app brand if navbar-full *@
   <div class='app-brand demo @((@ViewData["navbarFull"] != null && Convert.ToBoolean(@ViewData["navbarFull"])) ? "d-xl-none" : "")'>
-    <a asp-controller="ClinicAdminstration" asp-action="Index" class="app-brand-link">
+    <a asp-controller="ClinicAdministration" asp-action="Index" class="app-brand-link">
       <span class="app-brand-logo demo me-1">  @await Html.PartialAsync("../_Partials/_Macros")</span>
       <span class="app-brand-text demo menu-text fw-semibold ms-2">@TempData.Peek("appName")</span>
     </a>
@@ -553,64 +553,93 @@
 
                     <ul class="menu-sub">
 
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("PayHead"))
+                            {
 
-                      
                                 <li class='menu-item@(currentPage == "/HRManagement/PayHead" ? " active" : "")'>
-                            <a asp-controller="HRManagement" asp-action="PayHead" class="menu-link">
+                                    <a asp-controller="HRManagement" asp-action="PayHead" class="menu-link">
                                         <div>Pay Head</div>
                                     </a>
                                 </li>
-                           
-                    </ul>
-
-                    <ul class="menu-sub">
-
-
-
-                        <li class='menu-item@(currentPage == "/HRManagement/EmployeePayMaster" ? " active" : "")'>
-                            <a asp-controller="HRManagement" asp-action="EmployeePayMaster" class="menu-link">
-                                <div>Employee Pay Master</div>
-                            </a>
-                        </li>
+                            }
+                        }
 
                     </ul>
 
                     <ul class="menu-sub">
 
+                         @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("EmployeePayMaster"))
+                            {
 
 
-                        <li class='menu-item@(currentPage == "/HRManagement/EmployeePayroll" ? " active" : "")'>
-                            <a asp-controller="HRManagement" asp-action="EmployeePayroll" class="menu-link">
-                                <div>Employee Payroll</div>
-                            </a>
-                        </li>
+                                <li class='menu-item@(currentPage == "/HRManagement/EmployeePayMaster" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="EmployeePayMaster" class="menu-link">
+                                        <div>Employee Pay Master</div>
+                                    </a>
+                                </li>
+
+                            }
+                        }
+                    </ul>
+
+                    <ul class="menu-sub">
+
+                         @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("EmployeePayroll"))
+                            {
+
+
+                                <li class='menu-item@(currentPage == "/HRManagement/EmployeePayroll" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="EmployeePayroll" class="menu-link">
+                                        <div>Employee Payroll</div>
+                                    </a>
+                                </li>
+
+                            }
+                        }
 
                     </ul>
 
 
                     <ul class="menu-sub">
 
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("LeaveMaster"))
+                            {
 
+                                <li class='menu-item@(currentPage == "/HRManagement/LeaveMaster" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="LeaveMaster" class="menu-link">
+                                        <div>Leave Master</div>
+                                    </a>
+                                </li>
 
-                        <li class='menu-item@(currentPage == "/HRManagement/LeaveMaster" ? " active" : "")'>
-                            <a asp-controller="HRManagement" asp-action="LeaveMaster" class="menu-link">
-                                <div>Leave Master</div>
-                            </a>
-                        </li>
+                            }
+                        }
 
                     </ul>
 
 
                     <ul class="menu-sub">
 
+                        @if (rollAccessList != null)
+                        {
+                            @if (rollAccessList.Contains("EmployeeAttendance"))
+                            {
 
+                                <li class='menu-item@(currentPage == "/HRManagement/EmployeeAttendance" ? " active" : "")'>
+                                    <a asp-controller="HRManagement" asp-action="EmployeeAttendance" class="menu-link">
+                                        <div>Employee Attendance</div>
+                                    </a>
+                                </li>
 
-                        <li class='menu-item@(currentPage == "/HRManagement/EmployeeAttendance" ? " active" : "")'>
-                            <a asp-controller="HRManagement" asp-action="EmployeeAttendance" class="menu-link">
-                                <div>Employee Attendance</div>
-                            </a>
-                        </li>
-
+                            }
+                        }
                     </ul>
 
                  @*    <ul class="menu-sub">

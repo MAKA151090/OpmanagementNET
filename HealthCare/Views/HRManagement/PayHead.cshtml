@@ -166,8 +166,8 @@
             <div class="card">
                 <div class="card-body dividerblack">
                     <h3 class="centered text-white" style="font-family: 'Lucida Bright'; margin-bottom: 20px; text-align: center;">Categories</h3>
-                    <table class="table table-bordered" style="border: 1px solid black;">
-                        <thead style="background-color: black; color: white;">
+                    <table class="table table-bordered" style="border: 1px solid #8c62c9;">
+                        <thead style="background-color: #8c62c9; color: white;">
                             <tr>
                                 <th>Payhead ID</th>
                                 <th>Payhead Name</th>
@@ -188,9 +188,9 @@
                             }
                         </tbody>
                     </table><div id="pagination-controls" style="text-align: center; margin-top: 10px;">
-                        <button id="prev-btn" style="background-color: black; color: white; border: none; padding: 0px 6px; cursor: pointer; font-size: 16px; border-radius: 5px; margin: 0 5px;">Previous</button>
+                        <button id="prev-btn" style="background-color: #9055fd; color: white; border: none; padding: 0px 6px; cursor: pointer; font-size: 16px; border-radius: 5px; margin: 0 5px;">Previous</button>
                         <div id="page-numbers" style="display: inline-block; vertical-align: middle;"></div>
-                        <button id="next-btn" style="background-color: black; color: white; border: none; padding: 0px 6px; cursor: pointer; font-size: 16px; border-radius: 5px; margin: 0 5px;">Next</button>
+                        <button id="next-btn" style="background-color: #9055fd; color: white; border: none; padding: 0px 6px; cursor: pointer; font-size: 16px; border-radius: 5px; margin: 0 5px;">Next</button>
                     </div>
 
                     <script>
@@ -223,7 +223,7 @@
                                 for (let i = 1; i <= totalPages; i++) {
                                     const pageButton = document.createElement('button');
                                     pageButton.textContent = i;
-                                    pageButton.style.backgroundColor = (i === currentPage) ? 'black' : 'white'; // Highlight current page
+                                    pageButton.style.backgroundColor = (i === currentPage) ? '#9055fd' : 'white'; // Highlight current page
                                     pageButton.style.color = (i === currentPage) ? 'white' : 'black';
                                     pageButton.style.border = 'none';
                                     pageButton.style.padding = '5px 10px';
