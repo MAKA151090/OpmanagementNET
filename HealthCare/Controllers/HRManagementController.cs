@@ -72,12 +72,12 @@ namespace HealthCare.Controllers
 
             BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
 
-            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+            //var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
             // Use _httpContextAccessor to access HttpContext.Session
             if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
             {
-                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", facilityId);
             }
             else
             {
@@ -181,7 +181,7 @@ namespace HealthCare.Controllers
 
             BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
 
-            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+           // var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
 
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
@@ -191,7 +191,7 @@ namespace HealthCare.Controllers
             // Use _httpContextAccessor to access HttpContext.Session
             if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
             {
-                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", facilityId);
             }
             else
             {
@@ -332,14 +332,14 @@ namespace HealthCare.Controllers
             }
 
             BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
-            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+          //  var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
             ViewData["alldocid"] = payroll.AllStaff(facilityId);
 
             if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Session != null)
             {
-                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", daocfac);
+                _httpContextAccessor.HttpContext.Session.SetString("FacilityID", facilityId);
             }
             else
             {
@@ -1212,7 +1212,7 @@ namespace HealthCare.Controllers
 
             BusinessClassPatientPrescription docpres = new BusinessClassPatientPrescription(GetStaffPayroll);
 
-            var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
+          //  var daocfac = docpres.Getdocfacility(facilityId).FirstOrDefault()?.FacilityID;
 
 
             BusinessClassPayroll payroll = new BusinessClassPayroll(GetStaffPayroll);
