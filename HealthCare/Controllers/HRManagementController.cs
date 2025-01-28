@@ -349,59 +349,85 @@ namespace HealthCare.Controllers
 
             if (buttonType == "Print")
             {
-                // Define the query to execute the stored procedure
-                var query = "CALL GetEmployeePayrollDetails(@StaffID, @Month, @Year, @FacilityID)";
 
-                var gettemplate = await GetStaffPayroll.SHclnClinicAdmin.Where(x => x.FacilityID == facilityId).Select(x => x.Template).FirstOrDefaultAsync();
-                    
+                var checkdata =  (from ep in GetStaffPayroll.SHemployeepayroll
+                                                 join ea in GetStaffPayroll.SHemployeeattendance on ep.StaffID equals ea.StaffID
+                                                 where ep.StaffID == model.StaffID
+                                                       && ep.Month == model.Month
+                                                       && ep.Year == model.Year
+                                                       && ep.FacilityID == facilityId
+                                                       && ea.Month == model.Month
+                                                       && ea.Year == model.Year
+                                                       && ea.FacilityID == facilityId
+                                                       && ea.StaffID == model.StaffID
+                                                 select ep).FirstOrDefault();
 
-               string connectionString = _configuration.GetConnectionString("ClsPatientObjective");
-
-                using (var connection = new MySqlConnection(connectionString))
+                if (checkdata != null)
                 {
-                    try
-                    {
-                        // Open the connection
-                        await connection.OpenAsync();
 
-                        // Create a MySqlCommand to execute the stored procedure
-                        using (var command = new MySqlCommand(query, connection))
+
+
+
+
+                    // Define the query to execute the stored procedure
+                    var query = "CALL GetEmployeePayrollDetails(@StaffID, @Month, @Year, @FacilityID)";
+
+                    var gettemplate = await GetStaffPayroll.SHclnClinicAdmin.Where(x => x.FacilityID == facilityId).Select(x => x.Template).FirstOrDefaultAsync();
+
+
+                    string connectionString = _configuration.GetConnectionString("ClsPatientObjective");
+
+                    using (var connection = new MySqlConnection(connectionString))
+                    {
+                        try
                         {
-                            // Add parameters to the command
-                            command.Parameters.AddWithValue("@StaffID", viewmodel.StaffID);  
-                            command.Parameters.AddWithValue("@Month", viewmodel.Month);  
-                            command.Parameters.AddWithValue("@Year", viewmodel.Year);
-                            command.Parameters.AddWithValue("@FacilityID", facilityId);
+                            // Open the connection
+                            await connection.OpenAsync();
 
-                            // Execute the command and read the data
-                            using (var reader = await command.ExecuteReaderAsync())
+                            // Create a MySqlCommand to execute the stored procedure
+                            using (var command = new MySqlCommand(query, connection))
                             {
-                                DataTable datatable = new DataTable();
+                                // Add parameters to the command
+                                command.Parameters.AddWithValue("@StaffID", viewmodel.StaffID);
+                                command.Parameters.AddWithValue("@Month", viewmodel.Month);
+                                command.Parameters.AddWithValue("@Year", viewmodel.Year);
+                                command.Parameters.AddWithValue("@FacilityID", facilityId);
 
-                                datatable.Load(reader);
+                                // Execute the command and read the data
+                                using (var reader = await command.ExecuteReaderAsync())
+                                {
+                                    DataTable datatable = new DataTable();
+
+                                    datatable.Load(reader);
 
 
-                                // Extract the template path from the results
-                                string facilityTemplate = gettemplate;
+                                    // Extract the template path from the results
+                                    string facilityTemplate = gettemplate;
 
-                                // Generate and return the document
-                                BusinessClassPatientPrescription objBilling = new BusinessClassPatientPrescription(GetStaffPayroll);
-                                return File(
-                                    objBilling.PrintpayrollDetails(facilityTemplate, datatable),
-                                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                                    "Patient_Payroll_Details.docx"
-                                );
+                                    // Generate and return the document
+                                    BusinessClassPatientPrescription objBilling = new BusinessClassPatientPrescription(GetStaffPayroll);
+                                    return File(
+                                        objBilling.PrintpayrollDetails(facilityTemplate, datatable),
+                                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                        "Patient_Payroll_Details.docx"
+                                    );
+                                }
+
                             }
-                             
                         }
-                    }
 
-                    catch (Exception ex)
-                    {
-                        // Log the error and show an appropriate message
-                        ViewBag.ErrorMessage = "An error occurred while fetching payroll details: " + ex.Message;
-                    }
+                        catch (Exception ex)
+                        {
+                            // Log the error and show an appropriate message
+                            ViewBag.ErrorMessage = "An error occurred while fetching payroll details: " + ex.Message;
+                        }
 
+                    }
+                }
+                                else
+                {
+
+                    ViewBag.Message = "Employee Data Not Available";
                 }
             return View("EmployeePayroll");
             }
@@ -492,7 +518,9 @@ namespace HealthCare.Controllers
             await GetStaffPayroll.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully";
 
-            return View("EmployeePayroll");
+            EmployeePayrollView pv = new EmployeePayrollView();
+
+            return View("EmployeePayroll",pv);
         }
 
 
