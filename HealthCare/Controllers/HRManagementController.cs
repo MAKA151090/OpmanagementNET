@@ -457,14 +457,18 @@ namespace HealthCare.Controllers
 
                     ViewBag.Message = "Deleted Successfully";
 
-                    return View("EmployeePayroll");
+                    ModelState.Clear();
+
+                    return View("EmployeePayroll", new EmployeePayrollView());
                 }
                 else
                 {
                     ViewBag.Message = "No matching records found to delete.";
                 }
 
-                return View("EmployeePayroll");
+                ModelState.Clear();
+
+                return View("EmployeePayroll", new EmployeePayrollView());
             }
 
             foreach (var item in viewmodel.Shpayrollview)
@@ -514,13 +518,15 @@ namespace HealthCare.Controllers
                 }
             }
 
+
             // Save changes to the database
             await GetStaffPayroll.SaveChangesAsync();
             ViewBag.Message = "Saved Successfully";
 
-            EmployeePayrollView pv = new EmployeePayrollView();
+            // Clear input fields by returning a new empty model
+            ModelState.Clear();
 
-            return View("EmployeePayroll",pv);
+            return View("EmployeePayroll", new EmployeePayrollView());
         }
 
 
