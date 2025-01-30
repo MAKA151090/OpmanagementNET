@@ -60,7 +60,7 @@
             <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">Pay Head Master</h2>
+                        <h3 class="centered text-white" style="font-family:'Lucida Bright'">Pay Head Master</h3>
 
                     </div>
                 </div>
@@ -103,7 +103,8 @@
 
 
                     <div class="form-group">
-                        <label class="control-label">Payhead Type</label><br />
+                        <label class="control-label" style="margin-bottom:10px">Payhead Type</label><br />
+
                         <div class="form-check form-check-inline">
                             <input asp-for="PayheadType" class="form-check-input" type="radio" value="Earningsforemployee" id="Earningsforemployee"  />
                             <label class="form-check-label" for="Earningsforemployee">Earnings For Employee</label>
@@ -119,7 +120,7 @@
 
 
                     <div class="form-group">
-                        <label class="control-label">Pay Calculation Type</label><br />
+                        <label class="control-label" style="margin-bottom:10px">Pay Calculation Type</label><br />
                         <div class="form-check form-check-inline">
                             <input asp-for="PayheadCalculationType" class="form-check-input" type="radio" value="AsComputedValue" id="AsComputedValue" />
                             <label class="form-check-label" for="AsComputedValue">As Computed Value</label>
@@ -141,9 +142,9 @@
     <div class="form-group">
         <center>
           
-            <button type="submit" value="Save" class="btn btn-primary" onclick="validateForm(event)">Save</button>
-            <button type="submit" value="Delete" name="buttonType" onclick="checkForm(event)" class="btn btn-primary">Delete</button>
-            <button type="submit" value="Get" name="buttonType" onclick="checkForm(event)" class="btn btn-primary">Get</button>
+            <button type="submit" value="Save" style="background-color:#24cc3b" class="btn btn-primary" onclick="validateForm(event)">Save</button>
+            <button type="submit" value="Delete" name="buttonType" onclick="checkForm(event)" style="background-color:#cc3624 " class="btn btn-primary">Delete</button>
+            <button type="submit" value="Get" name="buttonType" onclick="checkForm(event)" style="background-color:#19398f" class="btn btn-primary">Get</button>
             @if (ViewBag.Message != null)
             {
                 <script>
@@ -159,13 +160,12 @@
         var dataTable = ViewData["Payheaddata"] as DataTable;
     }
 
-
-    <div class="row" style="margin-top:30px">
-        <div class="col-md-12 col-lg-0"></div>
-        <div class="col-md-12 col-lg-12">
+    <div class="row" style="margin-top:40px">
+        <div class="col-md-12 col-lg-1"></div>
+        <div class="col-md-12 col-lg-10">
             <div class="card">
                 <div class="card-body dividerblack">
-                    <h3 class="centered text-white" style="font-family: 'Lucida Bright'; margin-bottom: 20px; text-align: center;">Categories</h3>
+                    @* <h3 class="centered text-white" style="font-family: 'Lucida Bright'; margin-bottom: 20px; text-align: center;">Categories</h3> *@
                     <table class="table table-bordered" style="border: 1px solid #8c62c9;">
                         <thead style="background-color: #8c62c9; color: white;">
                             <tr>
@@ -187,11 +187,16 @@
                                 }
                             }
                         </tbody>
-                    </table><div id="pagination-controls" style="text-align: center; margin-top: 10px;">
-                        <button id="prev-btn" style="background-color: #9055fd; color: white; border: none; padding: 0px 6px; cursor: pointer; font-size: 16px; border-radius: 5px; margin: 0 5px;">Previous</button>
+                    </table>
+
+                    <div id="pagination-controls" style="text-align: center; margin-top: 10px;">
+                        <button id="prev-btn" style="background-color: #9055fd;" class=" btn btn-primary">Previous</button>
                         <div id="page-numbers" style="display: inline-block; vertical-align: middle;"></div>
-                        <button id="next-btn" style="background-color: #9055fd; color: white; border: none; padding: 0px 6px; cursor: pointer; font-size: 16px; border-radius: 5px; margin: 0 5px;">Next</button>
+                        <button id="next-btn" style="background-color: #9055fd;" class=" btn btn-primary">Next</button>
                     </div>
+
+                   
+
 
                     <script>
                         document.addEventListener('DOMContentLoaded', function () {
@@ -266,6 +271,7 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12 col-lg-1"></div>
     </div>
 
 </form>
