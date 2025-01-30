@@ -49,6 +49,26 @@
 </style>
 
 
+<div class="row gy-4">
+    <div class="col-md-12 col-lg-2">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h3 class="centered text-white" style="font-family:'Lucida Bright'">Employee Payroll</h3>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row gy-4" style="height:8%">
+</div>
+
 <form asp-action="Addemployeepayroll" asp-controller="HRManagement">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row gy-4">
@@ -85,7 +105,7 @@
 
 
                     <div class="form-group">
-                        <label asp-for="Month" class="control-label">Month</label>
+                        @* <label asp-for="Month" class="control-label">Month</label> *@
                         <select asp-for="Month" class="form-control" id="Month" required>
                             <option value="">Select Month</option>
                             <option value="January">January</option>
@@ -102,7 +122,7 @@
                             <option value="December">December</option>
                         </select>
                     </div>
-
+                    </br>
 
                     <div class="form-floating form-floating-outline mb-4">
                         <input asp-for="Year"
@@ -131,10 +151,16 @@
         </div>
     </div>
 
-    <div class="table-responsive">
-        <table class="table">
-            <h3>Payroll</h3>
-            <thead>
+    <div class="row" style="margin-top:40px">
+        <div class="col-md-12 col-lg-1"></div>
+        <div class="col-md-12 col-lg-10">
+            <div class="card">
+                <div class="card-body dividerblack">
+                    @*   <table class="table"> *@
+         @*    <h3>Payroll</h3> *@
+        @*     <thead> *@
+                    <table class="table table-bordered" style="border: 1px solid #8c62c9;">
+                        <thead style="background-color: #8c62c9; color: white;">
                 <tr>
                     <th>Payhead Name</th>
                     <th>Headtype</th>
@@ -145,15 +171,19 @@
                 <!-- Dynamic content will be added here -->
             </tbody>
         </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-1"></div>
     </div>
 
     <br />
 
     <div class="form-group">
         <center>
-            <button type="submit" value="Save" class="btn btn-primary">Save</button>
-            <button type="submit" value="Delete" name="buttonType" class="btn btn-primary">Delete</button>
-            <button type="submit" value="Print" name="buttonType" class="btn btn-primary">Print</button>
+            <button type="submit" value="Save" style="background-color:#24cc3b" class="btn btn-primary">Save</button>
+            <button type="submit" value="Delete" name="buttonType" style="background-color:#cc3624 " class="btn btn-primary">Delete</button>
+            <button type="submit" value="Print" name="buttonType" style="background-color:#268ea4 " class="btn btn-primary">Print</button>
             @if (ViewBag.Message != null)
             {
                 <script>

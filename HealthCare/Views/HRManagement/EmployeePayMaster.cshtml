@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+
 <script>
     function showPopup(message) {
         var popup = document.getElementById("popupMessage");
@@ -58,7 +59,7 @@
             <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">Employee Pay  Master</h2>
+                        <h4 class="centered text-white" style="font-family:'Lucida Bright'">Employee Pay Master</h4>
 
                     </div>
                 </div>
@@ -123,7 +124,7 @@
  *@
                     <div id="paymasterNamesSection" class="form-floating form-floating-outline mb-4">
                         <div id="paymasterNamesCheckboxes">
-                            <label>Select Pay Head</label>
+                            <label style="margin-bottom:10px">Select Pay Head</label>
 
                             @foreach (var rollOption in (IEnumerable<PayHeadMaster>)ViewData["getpayhead"])
                             {
@@ -158,9 +159,9 @@
     <div class="form-group">
         <center>
           
-            <button type="submit" value="Save" class="btn btn-primary" onclick="validateRollNames(event)">Save</button>
-            <button type="submit" value="Delete" name="buttonType" class="btn btn-primary" onclick="validateRollNames(event)">Delete</button>
-            <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
+            <button type="submit" value="Save" class="btn btn-primary" style="background-color:#24cc3b" onclick="validateRollNames(event)">Save</button>
+            <button type="submit" value="Delete" name="buttonType" class="btn btn-primary" style="background-color:#cc3624 " onclick="validateRollNames(event)">Delete</button>
+            <button type="submit" value="Get" name="buttonType" style="background-color:#19398f" class="btn btn-primary">Get</button>
             @if (ViewBag.Message != null)
             {
                 <script>

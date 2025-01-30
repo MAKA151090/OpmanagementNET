@@ -58,7 +58,7 @@
             <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">Attendance Master</h2>
+                        <h3 class="centered text-white" style="font-family:'Lucida Bright'">Attendance Master</h3>
 
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                    
 
                     <div class="form-group">
-                        <label asp-for="AttendanceType" class="control-label">Attendance Type</label>
+                     @*    <label asp-for="AttendanceType" class="control-label">Attendance Type</label> *@
                         <select asp-for="AttendanceType" class="form-control">
                             <option value="">Select Attendance Type</option>
                             <option value="WithPay">With Payment</option>
@@ -113,8 +113,8 @@
     <div class="form-group">
         <center>
            
-            <button type="submit" value="Save" class="btn btn-primary">Save</button>
-            <button type="submit" value="Delete" name="buttonType" class="btn btn-primary">Delete</button>
+            <button type="submit" value="Save" class="btn btn-primary" style="background-color:#24cc3b ">Save</button>
+            <button type="submit" value="Delete" name="buttonType" class="btn btn-primary" style="background-color:#cc3624 ">Delete</button>
             @if (ViewBag.Message != null)
             {
                 <script>
