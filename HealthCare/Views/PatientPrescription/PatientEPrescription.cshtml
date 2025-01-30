@@ -92,10 +92,12 @@
             <div class="card overflow-hidden mb-4" style="height: 150px;">
                 <div class="card-body" id="vertical-example">
 
-                    
-                    <table class="table table-sm">
+                    <table class="table table-bordered" style="border: 1px solid #bbb8bf;">
+                        <thead style="background-color: #bbb8bf; color: white;">
+
+                      @*       <table class="table table-sm">
                         <thead>
-                            <tr>
+                       *@      <tr>
                                 <th>Patient Name</th>
                                 <th>Visit Date</th>
                                 <th>Drug Name</th>
@@ -211,7 +213,7 @@
         </div>
 
         <div class="col-md-12 col-lg-2">
-            <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
+            <button type="submit" value="Get" name="buttonType"  class="btn btn-primary">Get</button>
 
         </div>
 
@@ -221,8 +223,7 @@
 
     <div class="row gy-4">
         <div class="col-md-12 col-lg-1">
-        </div>
-
+            </div>
         <div class="col-md-12 col-lg-4">
             <div class="card">
 
@@ -254,13 +255,37 @@
 
                     </div>
 
-
+                    <br/>
                     <div class="form-floating form-floating-outline mb-4" style="margin-top:10px">
                         <input asp-for="PrescriptionDate" class="form-control" type="date" placeholder="Prescription Date" />
                         <label asp-for="PrescriptionDate" class="control-label">Prescription Date</label>
 
 
                     </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="EndDate" class="form-control" type="number" placeholder="Number of Days" />
+                        <label asp-for="EndDate" class="control-label">Number of Days</label>
+
+
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <textarea asp-for="Comments" class="form-control" placeholder="Diagnosis"></textarea>
+                        <label asp-for="Comments" class="control-label">Diagnosis</label>
+
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+
+                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
                     <div class="form-group">
                         <fieldset>
@@ -289,25 +314,7 @@
                             </div>
                         </fieldset>
                     </div>
-
-
-
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-12 col-lg-3">
-            <div class="card">
-
-                <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="EndDate" class="form-control" type="number" placeholder="Number of Days" />
-                        <label asp-for="EndDate" class="control-label">Number of Days</label>
-
-
-                    </div>
-
+                    <br />
 
                     <div class="form-floating form-floating-outline mb-4">
                         <label class="control-label"></label>
@@ -321,23 +328,21 @@
                         </div>
                     </div>
 
-
-
-
-
-                    <div class="form-floating form-floating-outline mb-4">
-                        <textarea asp-for="Comments" class="form-control" placeholder="Diagnosis"></textarea>
-                        <label asp-for="Comments" class="control-label">Diagnosis</label>
-
-
-                    </div>
-
-
-                  
                 </div>
             </div>
+            <br />
+            <center>
+                <button type="submit" style="background-color:#24cc3b" value="Save" name="buttonType" class="btn btn-primary">Save</button>
+                @*  <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
+            *@
+                <button type="submit" value="Print" name="buttonType" style="background-color:#268ea4" class="btn btn-primary">Print</button>
+
+
+
+            </center>
         </div>
         <div class="col-md-12 col-lg-3">
+
             <div class="card">
 
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
@@ -364,25 +369,16 @@
 
                     </div>
 
-                
+
                 </div>
             </div>
+
         </div>
-        <div class="col-md-12 col-lg-1">
-        </div>
+
+       
     </div>
     <br />
-    <div class="form-group">
-        <center>
-            <button type="submit" value="Save" name="buttonType" class="btn btn-primary">Save</button>
-            @*  <button type="submit" value="Get" name="buttonType" class="btn btn-primary">Get</button>
-        *@
-            <button type="submit" value="Print" name="buttonType" class="btn btn-primary">Print</button>
-
-
-
-        </center>
-    </div>
+   
 
 
 
@@ -470,8 +466,8 @@
                 </form>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveCustomer">Save</button>
+                    <button type="button" style="background-color:#cc3624 " class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" style="background-color:#24cc3b; " class="btn btn-primary" id="saveCustomer">Save</button>
                 </div>
 
             </div>
@@ -522,8 +518,8 @@
                 </form>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveCustomer1">Save</button>
+                    <button type="button" style="background-color:#cc3624 " class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" style="background-color:#24cc3b; class="btn btn-primary" id="saveCustomer1">Save</button>
                 </div>
 
             </div>

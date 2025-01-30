@@ -7136,7 +7136,7 @@ a.invert-bg-dark:hover, a.invert-bg-dark:focus {
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 1px;
-  color: white;
+  color:black;
 }
 
 .table-dark th {
