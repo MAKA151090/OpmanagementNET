@@ -8,11 +8,18 @@ namespace HealthCare.Models
 
         private string screenName;
         private string id;
+        private string tableName;
+        private bool isMaster;
+
 
         [MaxLength(30)]
         public string ScreenName { get => screenName; set => screenName = value; }
 
         [MaxLength(100)]
         public string Id { get => id; set => id = value; }
+        public bool IsMaster { get => isMaster; set => isMaster = value; }
+
+        [MaxLength(30)]
+        public string TableName { get => tableName; set => tableName = value; }
     }
 }

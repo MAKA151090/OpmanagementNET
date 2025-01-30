@@ -91,12 +91,7 @@ namespace HealthCare.Controllers
                 ViewBag.Message = "Please enter FullName";
                 return View("PatientRegister", model);
             }
-            if(string.IsNullOrEmpty(model.BloodGroup))
-            {
-
-                ViewBag.Message = "Please select BloodGroup";
-                return View("PatientRegister", model);
-            }
+           
             if(string.IsNullOrEmpty(model.PhoneNumber))
             {
 

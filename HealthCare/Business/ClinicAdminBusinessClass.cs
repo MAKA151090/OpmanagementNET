@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Drawing;
 using HealthCare.Context;
 using HealthCare.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 namespace HealthCare.Business
@@ -226,6 +227,29 @@ namespace HealthCare.Business
 
             return screenname;
         }
+
+
+        public List<ScreenNameMasterModel>AllScreenname()
+        {
+
+            var allscreen = (from pr in _healthcareContext.shdbscreenname
+                             where pr.IsMaster == true && pr.TableName != null
+                             select new ScreenNameMasterModel
+
+                             {
+                                 Id = pr.Id,
+                                 ScreenName = pr.ScreenName,
+                                 TableName = pr.TableName,
+                                 IsMaster = pr.IsMaster
+                             }
+
+
+                ).ToList();
+
+            return allscreen;
+        }
+
+       
 
 
     }
