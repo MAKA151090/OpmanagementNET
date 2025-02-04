@@ -229,11 +229,11 @@ namespace HealthCare.Business
         }
 
 
-        public List<ScreenNameMasterModel>AllScreenname()
+        public List<ScreenNameMasterModel>AllScreenname(string facility)
         {
 
             var allscreen = (from pr in _healthcareContext.shdbscreenname
-                             where pr.IsMaster == true && pr.TableName != null
+                             where pr.IsMaster == true && pr.TableName != null && pr.FacilityID == facility
                              select new ScreenNameMasterModel
 
                              {
