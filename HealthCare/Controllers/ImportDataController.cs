@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using System.Net;
 using Humanizer;
 using System.Linq.Expressions;
+using Newtonsoft.Json;
+using System.IO;
 
 
 namespace HealthCare.Controllers
@@ -87,7 +89,7 @@ namespace HealthCare.Controllers
                 }
 
                 // Generate Excel file
-                var excelFile = await GenerateExcelFile(tableDetails,facilityId);
+                var excelFile = await GenerateExcelFile(tableDetails, facilityId);
 
                 return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{ScreenName}.xlsx");
             }
@@ -111,7 +113,7 @@ namespace HealthCare.Controllers
         }
 
 
-        private async Task<byte[]> GenerateExcelFile(string tableName,string facilityId)
+        private async Task<byte[]> GenerateExcelFile(string tableName, string facilityId)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -264,20 +266,30 @@ namespace HealthCare.Controllers
                     if (worksheet == null) throw new Exception("Invalid Excel File");
 
                     var entityType = _healthcareContext.Model.GetEntityTypes()
-                        .FirstOrDefault(e => e.GetTableName().Equals(tableDetails, StringComparison.OrdinalIgnoreCase));
+                    .FirstOrDefault(e => e.GetTableName().Equals(tableDetails, StringComparison.OrdinalIgnoreCase));
 
                     if (entityType == null)
                         throw new Exception($"Entity '{tableDetails}' not found in the model.");
 
-                    var columns = entityType.GetProperties()
-                    .Select(p => p.Name)
-                    .ToList();
-
-                    var dataList = new List<object>();
-
-                    int rowCount = worksheet.Dimension.Rows;
+                    // ✅ STEP 1: Build column mapping dictionary
+                    var headers = new Dictionary<string, int>();
                     int colCount = worksheet.Dimension.Columns;
 
+                    for (int col = 1; col <= colCount; col++)
+                    {
+                        var header = worksheet.Cells[1, col]?.Value?.ToString()?.Trim();
+                        if (!string.IsNullOrEmpty(header))
+                        {
+                            headers[header] = col;
+                        }
+                    }
+
+                    
+
+                    var dataList = new List<object>();
+                    int rowCount = worksheet.Dimension.Rows;
+
+                    // ✅ STEP 2: Process each row using mapped headers
                     for (int row = 2; row <= rowCount; row++)
                     {
                         var obj = Activator.CreateInstance(entityType.ClrType);
@@ -287,8 +299,13 @@ namespace HealthCare.Controllers
                             PropertyInfo propertyInfo = property.PropertyInfo;
                             if (propertyInfo == null) continue;
 
-                            string columnName = property.Name;
-                            var cellValue = worksheet.Cells[row, columns.IndexOf(columnName) + 1].Value;
+                            string columnName = property.Name.Trim();
+
+                            // ✅ Use the dictionary to fetch correct column index
+                            var columnIndex = headers.ContainsKey(columnName) ? headers[columnName] : -1;
+                            if (columnIndex == -1) continue; // Skip if column not found in Excel
+
+                            var cellValue = worksheet.Cells[row, columnIndex]?.Value;
                             object convertedValue = null;
 
                             try
@@ -347,7 +364,7 @@ namespace HealthCare.Controllers
                                     convertedValue = Convert.ChangeType(cellValue, propertyInfo.PropertyType);
                                 }
 
-                                propertyInfo.SetValue(obj, convertedValue ?? GetDefaultValue(propertyInfo.PropertyType));
+                                propertyInfo.SetValue(obj, convertedValue);
                             }
                             catch (Exception ex)
                             {
@@ -355,36 +372,34 @@ namespace HealthCare.Controllers
                             }
                         }
 
+                        // ✅ STEP 4: Set metadata fields (LastUpdated fields)
+                        var currentTime = DateTime.Now.ToString();
+                        var clientIp = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
+                        var currentUser = User.Claims.FirstOrDefault()?.Value.ToString();
+
+                        var lastUpdatedDateProp = entityType.GetProperties()
+                            .FirstOrDefault(p => p.Name.Equals("LastUpdatedDate", StringComparison.OrdinalIgnoreCase));
+                        var lastUpdatedMachineProp = entityType.GetProperties()
+                            .FirstOrDefault(p => p.Name.Equals("LastUpdatedMachine", StringComparison.OrdinalIgnoreCase));
+                        var lastUpdatedUserProp = entityType.GetProperties()
+                            .FirstOrDefault(p => p.Name.Equals("LastUpdatedUser", StringComparison.OrdinalIgnoreCase));
+
+                        if (lastUpdatedDateProp?.PropertyInfo != null)
+                            lastUpdatedDateProp.PropertyInfo.SetValue(obj, currentTime);
+
+                        if (lastUpdatedMachineProp?.PropertyInfo != null)
+                            lastUpdatedMachineProp.PropertyInfo.SetValue(obj, clientIp);
+
+                        if (lastUpdatedUserProp?.PropertyInfo != null)
+                            lastUpdatedUserProp.PropertyInfo.SetValue(obj, currentUser);
+
+                        // ✅ STEP 5: Store processed object
                         dataList.Add(obj);
-
                     }
 
-                    foreach (var obj in dataList)
-                    {
-                        if (obj != null)
-                        {
-                            var currentTime = DateTime.Now.ToString();
-                            var clientIp = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
-                            var currentUser = User.Claims.FirstOrDefault()?.Value.ToString();
+                  
 
-                            var lastUpdatedDateProp = entityType.GetProperties()
-                                .FirstOrDefault(p => p.Name.Equals("LastUpdatedDate", StringComparison.OrdinalIgnoreCase));
-                            var lastUpdatedMachineProp = entityType.GetProperties()
-                                .FirstOrDefault(p => p.Name.Equals("LastUpdatedMachine", StringComparison.OrdinalIgnoreCase));
-                            var lastUpdatedUserProp = entityType.GetProperties()
-                                .FirstOrDefault(p => p.Name.Equals("LastUpdatedUser", StringComparison.OrdinalIgnoreCase));
-
-                            if (lastUpdatedDateProp?.PropertyInfo != null)
-                                lastUpdatedDateProp.PropertyInfo.SetValue(obj, currentTime);
-
-                            if (lastUpdatedMachineProp?.PropertyInfo != null)
-                                lastUpdatedMachineProp.PropertyInfo.SetValue(obj, clientIp);
-
-                            if (lastUpdatedUserProp?.PropertyInfo != null)
-                                lastUpdatedUserProp.PropertyInfo.SetValue(obj, currentUser);
-                        }
-                    }
-
+                    // ✅ STEP 6: Save to Database
                     var dbSetMethod = typeof(DbContext).GetMethods()
                         .FirstOrDefault(m => m.Name == "Set" && m.IsGenericMethod && m.GetParameters().Length == 0);
 
@@ -409,23 +424,15 @@ namespace HealthCare.Controllers
                     }
 
                     var changes = await _healthcareContext.SaveChangesAsync();
+                   
+
+
                     if (changes == 0) throw new Exception("No records were updated! Check entity tracking.");
                 }
             }
         }
 
-
-        // Helper method to get default values for missing properties
-        private static object GetDefaultValue(Type type)
-        {
-            if (type == typeof(string)) return "";
-            if (type == typeof(int)) return 0;
-            if (type == typeof(double)) return 0.0;
-            if (type == typeof(decimal)) return 0m;
-            return null;
-        }
     }
-
-
+        
     }
 
