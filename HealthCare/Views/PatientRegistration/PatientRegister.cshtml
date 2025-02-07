@@ -63,7 +63,7 @@
                 <div class="card-body " style="background-color:#8c62c9">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="container">
-                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">Patient Registration</h2>
+                            <h3 class="centered text-white" style="font-family:'Lucida Bright'">Patient Registration</h3>
 
                         </div>
                     </div>
@@ -109,14 +109,16 @@
                         <span asp-validation-for="FacilityID" class="text-danger"></span>
                     </div>
 
-                    <div>
-                        <center>
-                            <button type="submit" value="GetPatient" asp-action="GetPatient" name="buttonType" formmethod="get" class="btn btn-primary">Get</button>
-                        </center>
-                    </div>
+                   
 
 
                 </div>
+            </div>
+            <br/>
+            <div>
+                <center>
+                    <button type="submit" value="GetPatient" style="background-color:#19398f" asp-action="GetPatient" name="buttonType" formmethod="get" class="btn btn-primary">Get</button>
+                </center>
             </div>
         </div>
         <div class="col-md-12 col-lg-2">
@@ -343,17 +345,19 @@
             </div>
 
 
-            <div class="form-floating form-floating-outline mb-4">
-                <center>
-                    <button type="submit" value="Save" asp-action="CreateOrUpdate" onclick="validateForm(event)" class="btn btn-primary">Save</button>
+           
 
 
-                    <button type="submit" value="Delete" asp-action="CreateOrUpdate" name="buttonType" class="btn btn-primary">Delete</button>
+        </div>
 
-                </center>
-            </div>
+        <div class="form-floating form-floating-outline mb-4">
+            <center>
+                <button type="submit" style="background-color:#24cc3b" value="Save" asp-action="CreateOrUpdate" onclick="validateForm(event)" class="btn btn-primary">Save</button>
 
 
+                <button type="submit" style="background-color:#cc3624 " value="Delete" asp-action="CreateOrUpdate" name="buttonType" class="btn btn-primary">Delete</button>
+
+            </center>
         </div>
         @if (ViewBag.Message != null)
         {
@@ -361,7 +365,7 @@
                 handleMessages("@ViewBag.Message");
             </script>
         }
-
+    </div>
 </form>
 
 
