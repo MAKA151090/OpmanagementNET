@@ -25,21 +25,21 @@ namespace HealthCare.Models
         public string Staffname { get => staffname; set => staffname = value; }
 
         [MaxLength(50)]
-        public string? Payhead { get => payhead; set => payhead = value; }
+        public string? Payhead { get => payhead; set => payhead = value ?? string.Empty; }
 
         [MaxLength(50)]
-        public string? Headtype { get => headtype; set => headtype = value; }
+        public string? Headtype { get => headtype; set => headtype = value ?? string.Empty; }
         public long Id { get => id; set => id = value; }
         public bool IsDelete { get => isDelete; set => isDelete = value; }
-        public string FacilityID { get => facilityID; set => facilityID = value; }
+        public string FacilityID { get => facilityID; set => facilityID = value ?? string.Empty; }
 
         [MaxLength(50)]
-        public string? LastUpdatedUser { get => lastUpdatedUser; set => lastUpdatedUser = value; }
+        public string? LastUpdatedUser { get => lastUpdatedUser; set => lastUpdatedUser = value ?? string.Empty; }
 
         [MaxLength(50)]
-        public string? LastUpdatedDate { get => lastUpdatedDate; set => lastUpdatedDate = value; }
+        public string? LastUpdatedDate { get => lastUpdatedDate; set => lastUpdatedDate = value ?? string.Empty; }
 
         [MaxLength(50)]
-        public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value; }
+        public string? LastUpdatedMachine { get => lastUpdatedMachine; set => lastUpdatedMachine = value ?? string.Empty; }
     }
 }

@@ -1268,6 +1268,29 @@ namespace HealthCare.Controllers
                 return RedirectToAction("ErrorPage");
             }
 
+            if(buttonType == "Delete")
+            {
+                var delempattd = await GetStaffPayroll.SHemployeeattendance.FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.StaffID == model.StaffID && x.LeaveName == model.LeaveName && x.Month == model.Month && x.Year == model.Year);
+
+                if(delempattd !=null)
+                {
+                    delempattd.IsDelete = true;
+
+                    GetStaffPayroll.SaveChangesAsync();
+
+                    ViewBag.Message = "Deleted Successfully";
+                    
+
+                }
+                else
+                {
+                    ViewBag.Message = "Not Found";
+                   
+                }
+
+                return View("EmployeeAttendance", model);
+            }
+
 
             var leaveDetails = await GetStaffPayroll.SHemployeeattendance
                 .FirstOrDefaultAsync(x => x.FacilityID == facilityId && x.StaffID == model.StaffID && x.LeaveName == model.LeaveName && x.Month == model.Month && x.Year == model.Year);
