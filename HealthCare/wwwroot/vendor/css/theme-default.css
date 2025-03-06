@@ -126,8 +126,8 @@ button.list-group-item-primary.active {
 
 .btn-primary {
   color: #fff;
-  background-color: #9055fd;
-  border-color: #9055fd;
+  background-color:InfoBackground;
+  border-color: none;
 }
 .btn-primary:hover {
   color: #fff !important;

@@ -59,7 +59,7 @@
             <div class="card-body " style="background-color:#8c62c9">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="container">
-                        <h2 class="centered text-white" style="font-family:'Lucida Bright'">Drug Type Master</h2>
+                        <h3 class="centered text-white" style="font-family:'Lucida Bright'">Drug Type Master</h3>
 
                     </div>
                 </div>
@@ -111,9 +111,9 @@
 <br />
     <div class="form-group">
         <center>
-            <button type="submit" onclick="validateForm(event)" value="Save" class="btn btn-primary">Save</button>
-            <button type="submit" value="Get"  formmethod="get" asp-action="GetDrugtype" class="btn btn-primary">Get</button>
-            <button type="submit" value="Delete" asp-action="DrugType" name="buttonType" class="btn btn-primary">Delete</button>
+            <button type="submit" style="background-color:#24cc3b" onclick="validateForm(event)" value="Save" class="btn btn-primary">Save</button>
+            <button type="submit" style="background-color:#19398f" value="Get" formmethod="get" asp-action="GetDrugtype" class="btn btn-primary">Get</button>
+            <button type="submit" style="background-color:#cc3624 " value="Delete" asp-action="DrugType" name="buttonType" class="btn btn-primary">Delete</button>
 
 
             @if (ViewBag.Message != null)
