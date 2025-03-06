@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthcareContext))]
-    [Migration("20250109062517_initial4")]
-    partial class initial4
+    [Migration("20250306054428_initial2")]
+    partial class initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,10 @@ namespace HealthCare.Migrations
                     b.Property<string>("FacilityID")
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Hospital")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("City")
                         .HasMaxLength(30)
@@ -113,7 +117,7 @@ namespace HealthCare.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
-                    b.HasKey("FacilityID");
+                    b.HasKey("FacilityID", "Hospital");
 
                     b.ToTable("SHclnClinicAdmin");
                 });
@@ -648,6 +652,56 @@ namespace HealthCare.Migrations
                     b.ToTable("SHclnEWSMaster");
                 });
 
+            modelBuilder.Entity("HealthCare.Models.EmployeeAttendance", b =>
+                {
+                    b.Property<string>("StaffID")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("LeaveName")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Month")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Year")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("FacilityID")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Attendancetype")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastUpdatedDate")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("LastUpdatedMachine")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("LastUpdatedUser")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Numberofdays")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("StaffID", "LeaveName", "Month", "Year", "FacilityID");
+
+                    b.ToTable("SHemployeeattendance");
+                });
+
             modelBuilder.Entity("HealthCare.Models.EmployeeHierarchymaster", b =>
                 {
                     b.Property<string>("EmpStaffID")
@@ -726,6 +780,67 @@ namespace HealthCare.Migrations
                     b.HasKey("Id", "FacilityID");
 
                     b.ToTable("SHemployeepay");
+                });
+
+            modelBuilder.Entity("HealthCare.Models.EmployeePayrollModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("FacilityID")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("StaffID")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("PayheadType")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Amount")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastUpdatedDate")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("LastUpdatedMachine")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("LastUpdatedUser")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Month")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PayrollID")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Total")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id", "FacilityID", "StaffID", "PayheadType");
+
+                    b.ToTable("SHemployeepayroll");
                 });
 
             modelBuilder.Entity("HealthCare.Models.GenericReportsModel", b =>
@@ -842,9 +957,11 @@ namespace HealthCare.Migrations
 
             modelBuilder.Entity("HealthCare.Models.HospitalRegistrationModel", b =>
                 {
-                    b.Property<string>("HospitalID")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
                         .HasMaxLength(100)
@@ -858,9 +975,18 @@ namespace HealthCare.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("HospitalID")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("HospitalName")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Phone1")
                         .HasMaxLength(30)
@@ -879,21 +1005,18 @@ namespace HealthCare.Migrations
                         .HasColumnType("varchar(30)");
 
                     b.Property<string>("lastUpdatedDate")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
                     b.Property<string>("lastUpdatedMachine")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
                     b.Property<string>("lastUpdatedUser")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
-                    b.HasKey("HospitalID");
+                    b.HasKey("Id");
 
                     b.ToTable("SHHospitalRegistration");
                 });
@@ -2436,6 +2559,10 @@ namespace HealthCare.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("Test")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("TestDateTime")
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
@@ -3010,9 +3137,20 @@ namespace HealthCare.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("FacilityID")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("Id")
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("IsMaster")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("TableName")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("ScreenName");
 
@@ -3277,20 +3415,15 @@ namespace HealthCare.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("FacilityID")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Active")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("FromHour")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<string>("ToHour")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                    b.Property<string>("Hospital")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("lastUpdatedMachine")
                         .HasMaxLength(30)

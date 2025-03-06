@@ -5,10 +5,8 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-@section PageStyles {
-    <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
-}
-<form>
+
+<form asp-controller="ClinicAdministration" asp-action="GetHospitalRegistration">
 
 
     <div class="row">
@@ -19,7 +17,7 @@
                 <div class="card-body " style="background-color:#8c62c9">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="container">
-                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">HospitalRegistration</h2>
+                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">Hospital Registration</h2>
 
                         </div>
                     </div>
@@ -111,21 +109,7 @@
 
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                    @* <div class="form-group">
-                    <label asp-for="lastUpdatedDate" class="control-label"></label>
-                    <input asp-for="lastUpdatedDate" class="form-control" />
-                    <span asp-validation-for="lastUpdatedDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                    <label asp-for="lastUpdatedUser" class="control-label"></label>
-                    <input asp-for="lastUpdatedUser" class="form-control" />
-                    <span asp-validation-for="lastUpdatedUser" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                    <label asp-for="lastUpdatedMachine" class="control-label"></label>
-                    <input asp-for="lastUpdatedMachine" class="form-control" />
-                    <span asp-validation-for="lastUpdatedMachine" class="text-danger"></span>
-                    </div> *@
+                   
                     <br />
 
 

@@ -295,7 +295,7 @@ namespace HealthCare.Context
 
         
             modelBuilder.Entity<ClinicAdminModel>()
-     .HasKey(i => new {i.FacilityID});
+     .HasKey(i => new {i.FacilityID,i.Hospital});
 
             modelBuilder.Entity<BloodGroupModel>()
                 .HasKey(i => new { i.IntBg_Id, i.FacilityID });
@@ -513,10 +513,11 @@ namespace HealthCare.Context
               modelBuilder.Entity<ScreenMasterModel>()
                 .ToTable(tb => tb.HasTrigger("dbo.Trigger_shclnscreenmaster"));
 
-              modelBuilder.Entity<HospitalRegistrationModel>()
-                  .HasKey(i => new { i.HospitalID });
+            modelBuilder.Entity<HospitalRegistrationModel>().HasKey(i => new { i.Id });
+            modelBuilder.Entity<HospitalRegistrationModel>().Property(i => i.Id).ValueGeneratedOnAdd();
+          
 
-              modelBuilder.Entity<HospitalFacilityMappingModel>()
+            modelBuilder.Entity<HospitalFacilityMappingModel>()
                   .HasKey(i => new { i.HospitalID, i.FacilityID });
 
               modelBuilder.Entity<DiagnosisMasterModel>()
@@ -749,6 +750,36 @@ namespace HealthCare.Context
             }
 
 
+            //Hospital reg
+            var hospitalreg = ChangeTracker
+                       .Entries<HospitalRegistrationModel>()
+                       .Where(e => e.State == EntityState.Added)
+                       .ToList();
+
+            if (hospitalreg.Any())
+            {
+                // Get the latest BillNumber from the database
+                var lasthospitalreg = await this.SHHospitalRegistration.OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+                int lasthospitalregNumber = 100; // Starting point, e.g., Bill_100
+
+                if (lasthospitalreg != null)
+                {
+                    // Extract the numeric part of the last BillNumber and increment it
+                    string lastempPayrollNum = lasthospitalreg.HospitalID.Replace("Hospital_", "");
+                    if (int.TryParse(lastempPayrollNum, out int number))
+                    {
+                        lasthospitalregNumber = number;
+                    }
+                }
+
+                // Assign the new BillNumber for each new bill
+                foreach (var billEntry in hospitalreg)
+                {
+                    lasthospitalregNumber++;
+                    billEntry.Entity.HospitalID = $"Hospital{lasthospitalregNumber}";
+                }
+            }
+
             //Employee Payroll
             var emppayroll = ChangeTracker
                        .Entries<EmployeePayrollModel>()
@@ -778,7 +809,6 @@ namespace HealthCare.Context
                     billEntry.Entity.PayrollID = $"Payroll{lastempPayrollNumber}";
                 }
             }
-
 
 
 

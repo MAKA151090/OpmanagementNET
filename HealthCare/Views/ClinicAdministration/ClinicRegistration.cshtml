@@ -103,6 +103,23 @@
                     <label asp-for="FacilityID" class="control-label">Facility ID</label>
                     <span asp-validation-for="FacilityID" class="text-danger"></span>
                 </div>
+
+                <div class="form-floating form-floating-outline mb-4">
+                    @{
+                        var fac = ((IEnumerable<HospitalRegistrationModel>)ViewData["hospital"])
+                        .Select(m => new SelectListItem
+            {
+                Value = m.HospitalID.ToString(), // Assuming ScreenId is of type int
+                Text = $"{m.HospitalName}"
+            });
+                    }
+
+                    @Html.DropDownListFor(model => model.Hospital, fac, "Select Hospital", new { @class = "form-control"})
+                    <label asp-for="Hospital" class="control-label">Hospital</label>
+
+                </div>
+
+
             </div>
             <div class="col-md-12 col-lg-3">
 

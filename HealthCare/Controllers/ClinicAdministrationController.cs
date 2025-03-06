@@ -4,6 +4,7 @@ using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Office.CustomUI;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HealthCare.Business;
 using HealthCare.Context;
@@ -42,6 +43,9 @@ namespace HealthCare.Controllers
 
         public IActionResult ClinicRegistration()
         {
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["hospital"] = clinicAd.Hospitalname();
+
             ClinicAdminModel mod = new ClinicAdminModel();
 
             return View("ClinicRegistration", mod);
@@ -51,7 +55,10 @@ namespace HealthCare.Controllers
         [HttpPost]
         public async Task<IActionResult> AddClinic(ClinicAdminModel model, string buttontype)
         {
-            if(buttontype == "Delete")
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["hospital"] = clinicAd.Hospitalname();
+
+            if (buttontype == "Delete")
             {
                 var stfDelete = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.ClinicName == model.ClinicName && x.StrIsDelete == false);
                 if(stfDelete != null)
@@ -76,6 +83,7 @@ namespace HealthCare.Controllers
 
             if (existingClinic != null)
             {
+                existingClinic.Hospital = model.Hospital;
                 existingClinic.FacilityID = model.FacilityID;
                 existingClinic.ClinicName = model.ClinicName;
                 existingClinic.ClinicAddress = model.ClinicAddress;
@@ -118,6 +126,9 @@ namespace HealthCare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClinic(ClinicAdminModel model)
         {
+            ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(_healthcareContext);
+            ViewData["hospital"] = clinicAd.Hospitalname();
+
             var getclinicdata = await _healthcareContext.SHclnClinicAdmin.FirstOrDefaultAsync(x => x.FacilityID == model.FacilityID && x.ClinicName == model.ClinicName && x.StrIsDelete== false);
 
             if (getclinicdata != null)
@@ -283,7 +294,7 @@ namespace HealthCare.Controllers
 
             ClinicAdminBusinessClass clinicAd = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAd.GetResourceid(model.FacilityID);
-            ViewData["Getfac"] = clinicAd.GetFacility(model.FacilityID);
+            ViewData["Getfac"] = clinicAd.GetFacility();
             if (buttonType == "Delete")
             {
                 var stffDelete = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.StrStaffID == model.StrStaffID &&x.FacilityID == model.FacilityID && x.IsDelete == false);
@@ -373,7 +384,7 @@ namespace HealthCare.Controllers
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAdmin.GetResourceid(model.FacilityID);
-            ViewData["Getfac"] = clinicAdmin.GetFacility(model.FacilityID);
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
 
             StaffAdminModel cln = new StaffAdminModel();
 
@@ -386,7 +397,7 @@ namespace HealthCare.Controllers
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAdmin.GetResourceid(model.FacilityID);
-            ViewData["Getfac"] = clinicAdmin.GetFacility(model.FacilityID);
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
 
 
             var getstaffdata = await _healthcareContext.SHclnStaffAdminModel.FirstOrDefaultAsync(x => x.FacilityID== model.FacilityID && x.StrStaffID == model.StrStaffID && x.IsDelete == false);
@@ -413,7 +424,7 @@ namespace HealthCare.Controllers
             }
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
             ViewData["resoruseid"] = clinicAdmin.GetResourceid(model.FacilityID);
-            ViewData["Getfac"] = clinicAdmin.GetFacility(model.FacilityID);
+            ViewData["Getfac"] = clinicAdmin.GetFacility();
 
 
             StaffAdminModel cln = new StaffAdminModel();
@@ -1068,7 +1079,7 @@ namespace HealthCare.Controllers
 
         public async Task<IActionResult> GetHospitalRegistration(HospitalRegistrationModel model)
         {
-            var existingTest = await _healthcareContext.SHHospitalRegistration.FindAsync(model.HospitalID);
+            var existingTest = await _healthcareContext.SHHospitalRegistration.FirstOrDefaultAsync(x=>x.HospitalID == model.HospitalID && x.IsDelete == false);
             if (existingTest != null)
             {
                 existingTest.HospitalID = model.HospitalID;
@@ -1370,53 +1381,83 @@ namespace HealthCare.Controllers
             }
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["staffid"] = clinicAdmin.GetStaffID(model.FacilityID);
+            ViewData["staffid"] = clinicAdmin.GetallStaffID(model.FacilityID);
             ViewData["stafffacid"] = clinicAdmin.GetFacidStaff();
             return View();
         }
 
-        public async Task<IActionResult> GetStaffFacilityMap(StaffFacilityMappingModel model)
-        {
 
-            if (TempData["FacilityID"] != null)
+        [HttpGet]
+        public JsonResult GetStaffFacilities(string staffId)
+        {
+            ClinicAdminBusinessClass _clinicAdminBusinessClass = new ClinicAdminBusinessClass(_healthcareContext);
+
+            var facilities = _clinicAdminBusinessClass.GetStaffFacilities(staffId);
+
+            if (facilities.Any())
             {
-                model.FacilityID = TempData["FacilityID"].ToString();
-                TempData.Keep("FacilityID");
+                return Json(new { success = true, facilities = facilities });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No facilities found." });
+            }
+        }
+
+        public async Task<IActionResult> GetStaffFacilityMap(StaffFacilityMappingModel model, List<string> SelectedRollNames)
+        {
+            if (SelectedRollNames == null || !SelectedRollNames.Any())
+            {
+                ViewBag.Message = "No facilities selected.";
+                return View("StaffFacilityMapping", model);
             }
 
-            var existingStafff = await _healthcareContext.SHclnStaffFacilityMapping.FindAsync(model.StaffId, model.FacilityID);
-            if (existingStafff != null)
+            foreach (var facilityId in SelectedRollNames)
             {
-                existingStafff.StaffId = model.StaffId;
-                existingStafff.FacilityID = model.FacilityID;
-                existingStafff.FromHour = model.FromHour;
-                existingStafff.ToHour = model.ToHour;
+                var hospitalName = (from cl in _healthcareContext.SHclnClinicAdmin
+                                  join h in _healthcareContext.SHHospitalRegistration on cl.Hospital equals h.HospitalID
+                                  where cl.StrIsDelete == false && h.IsDelete == false && cl.FacilityID == facilityId
+                                  select h.HospitalName).FirstOrDefault();
+                                
+                var existingStafff = await _healthcareContext.SHclnStaffFacilityMapping
+                    .FirstOrDefaultAsync(x => x.StaffId == model.StaffId && x.FacilityID == facilityId);
+
+                if (existingStafff != null)
+                {
+                  
+                existingStafff.Active = model.Active;
+                    existingStafff.Hospital = hospitalName;
                 existingStafff.lastupdatedDate = DateTime.Now.ToString();
                 existingStafff.lastUpdatedUser = User.Claims.First().Value.ToString();
                 existingStafff.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                 _healthcareContext.Entry(existingStafff).State = EntityState.Modified;
             }
-            else
-            {
-                model.lastupdatedDate = DateTime.Now.ToString();
-                model.lastUpdatedUser = User.Claims.First().Value.ToString();
-                model.lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                _healthcareContext.SHclnStaffFacilityMapping.Add(model);
+                else
+                {
+                    // Add new record
+                    var newStaffFacility = new StaffFacilityMappingModel
+                    {
+                        StaffId = model.StaffId,
+                        FacilityID = facilityId,
+                        Active = model.Active,
+                        Hospital = hospitalName,
+                        lastupdatedDate = DateTime.Now.ToString(),
+                        lastUpdatedUser = User.Claims.First().Value.ToString(),
+                        lastUpdatedMachine = Request.HttpContext.Connection.RemoteIpAddress.ToString()
+                    };
+                    _healthcareContext.SHclnStaffFacilityMapping.Add(newStaffFacility);
+                }
             }
 
             await _healthcareContext.SaveChangesAsync();
-
-
             ViewBag.Message = "Saved Successfully";
 
             ClinicAdminBusinessClass clinicAdmin = new ClinicAdminBusinessClass(_healthcareContext);
-            ViewData["staffid"] = clinicAdmin.GetStaffID(model.FacilityID);
+            ViewData["staffid"] = clinicAdmin.GetallStaffID(model.FacilityID);
             ViewData["stafffacid"] = clinicAdmin.GetFacidStaff();
 
             return View("StaffFacilityMapping", model);
-
-
         }
 
 

@@ -5,9 +5,6 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
-@section PageStyles {
-    <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
-}
 
 <div class="row" style="margin-top:70px">
     <div class="col-md-12 col-lg-3 ">
@@ -33,7 +30,7 @@
 
 
 
-
+<form asp-controller="ClinicAdministration">
 
 <div class="row">
     <div class="col-md-12 col-lg-3">
@@ -48,62 +45,34 @@
                                 .Select(m => new SelectListItem
             {
                 Value = m.StrStaffID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.StrStaffID}"
+                Text = $"{m.StrStaffID}-{m.StrFullName}"
             });
                             }
 
                             @Html.DropDownListFor(model => model.StaffId, screenList, "Select Staff ID", new { @class = "form-control" })
                             <label asp-for="StaffId" class="control-label"></label>
-                            <span asp-validation-for="StaffId" class="text-danger"></span>
+                            
                         </div>
 
-                       @*  <div class="form-floating form-floating-outline mb-4">
 
-                            <input asp-for="StaffId" class="form-control" placeholder="Staff ID" />
-                <label asp-for="StaffId" class="control-label"></label>
-                <span asp-validation-for="StaffId" class="text-danger"></span>
-            </div> *@
+                    <div id="rollNamesSection" class="form-floating form-floating-outline mb-4">
+                        <div id="rollNamesCheckboxes"></div>
+                        <span id="rollNamesError" class="text-danger"></span>
+                    </div>
 
-
-                        <div class="form-floating form-floating-outline mb-4">
-                            @{
-                                var screenlist = ((IEnumerable<ClinicAdminModel>)ViewData["stafffacid"])
-                                .Select(m => new SelectListItem
-            {
-                Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.FacilityID}"
-            });
-                            }
-
-                            @Html.DropDownListFor(model => model.FacilityID, screenlist, "Select Facility ID", new { @class = "form-control" })
-                            <label asp-for="FacilityID" class="control-label"></label>
-                            <span asp-validation-for="FacilityID" class="text-danger"></span>
+                    <div class="form-group">
+                        <label class="control-label" style="margin-bottom:10px">Active</label><br />
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Active" class="form-check-input" type="radio" value="Yes" id="Yes" />
+                            <label class="form-check-label" for="Yes">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Active" class="form-check-input" type="radio" value="No" id="No" />
+                            <label class="form-check-label" for="No">No</label>
                         </div>
 
-                        @* <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="FacilityID" class="form-control" placeholder="FacilityID" />
-                <label asp-for="FacilityID" class="control-label"></label>
-                <span asp-validation-for="FacilityID" class="text-danger"></span>
-            </div> *@
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="FromHour" class="form-control" placeholder="FromHour" />
-                            <label asp-for="FromHour" class="control-label"></label>
-                            <span asp-validation-for="FromHour" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="ToHour" class="form-control" placeholder="ToHour" />
-                            <label asp-for="ToHour" class="control-label"></label>
-                            <span asp-validation-for="ToHour" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-
-                            <input asp-for="Active" class="form-control" placeholder="Active" />
-                            <label asp-for="Active" class="control-label"></label>
-                            <span asp-validation-for="Active" class="text-danger"></span>
-                        </div>
+                        <span id="gendererror" class="text-danger"></span>
+                    </div>
 
             </div>
         </div>
@@ -134,5 +103,56 @@
     </div>
 </div>
 
+</form>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#StaffId").change(function () {
+            var staffId = $(this).val();
+
+            if (staffId) {
+                $.ajax({
+                    url: '@Url.Action("GetStaffFacilities", "ClinicAdministration")',
+                    type: 'GET',
+                    data: { staffId: staffId },
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log("Response Data:", response); // Debugging
+
+                        var checkboxesDiv = $("#rollNamesCheckboxes");
+                        checkboxesDiv.empty();
+
+                        if (response.success) {
+                            $.each(response.facilities, function (index, facility) {
+                                console.log("Facility Data:", facility);
+
+                                var facilityID = facility.facilityID || facility.FacilityID;
+                                var hospitalName = facility.hospital || facility.Hospital;
+                                var isChecked = facility.active || facility.Active ? "checked" : ""; // ✅ Fix
+
+                                if (facilityID && hospitalName) {
+                                    checkboxesDiv.append(`
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="hosname_${facilityID}" name="SelectedRollNames" value="${facilityID}" ${isChecked}>
+                                                <label class="form-check-label" for="hosname_${facilityID}">${hospitalName}</label>
+                                            </div>
+                                        `);
+                                } else {
+                                    console.error("Invalid Facility Data:", facility);
+                                }
+                            });
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Error fetching facilities.");
+                    }
+                });
+            }
+        });
+    });
+</script>
 

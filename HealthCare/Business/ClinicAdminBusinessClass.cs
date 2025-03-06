@@ -32,13 +32,14 @@ namespace HealthCare.Business
 
         ///Dropdown for Staffadmin
 
-        public List<ClinicAdminModel> GetFacility(string facility)
+        public List<ClinicAdminModel> GetFacility()
         {
             var Getfac = (from f in _healthcareContext.SHclnClinicAdmin
-                          where  f.StrIsDelete == false && f.FacilityID == facility
+                          where  f.StrIsDelete == false 
                           select new ClinicAdminModel
                           {
                               FacilityID = f.FacilityID,
+                              Hospital = f.Hospital,
                               ClinicName = f.ClinicName
                           }
                 ).ToList();
@@ -226,6 +227,59 @@ namespace HealthCare.Business
                 ).ToList();
 
             return screenname;
+        }
+
+        public List<HospitalRegistrationModel> Hospitalname()
+        {
+            var hospitalname = (
+                    from pr in _healthcareContext.SHHospitalRegistration
+                    select new HospitalRegistrationModel
+                    {
+                        HospitalID = pr.HospitalID,
+                       HospitalName= pr.HospitalName,
+                    }
+                ).ToList();
+
+            return hospitalname;
+        }
+
+        public List<StaffFacilityMappingModel> GetStaffFacilities(string staffId)
+        {
+            // Get facility assigned to the staff
+            var staffFacility = _healthcareContext.SHclnStaffAdminModel
+                .Where(s => s.StrStaffID == staffId)
+                .Select(s => s.FacilityID)
+                .FirstOrDefault();
+
+            if (staffFacility == null)
+            {
+                return new List<StaffFacilityMappingModel>(); // Return empty list if no facility is found
+            }
+
+            // Get the hospital linked to the facility
+            var hospitalName = _healthcareContext.SHclnClinicAdmin
+                .Where(f => f.FacilityID == staffFacility)
+                .Select(f => f.Hospital)
+                .FirstOrDefault();
+
+            if (hospitalName == null)
+            {
+                return new List<StaffFacilityMappingModel>(); // Return empty list if no hospital is found
+            }
+
+            // Fetch all facilities under the hospital & check if they exist in SHclnStaffFacilityMapping
+            var availableFacilities = _healthcareContext.SHclnClinicAdmin
+                .Where(f => f.Hospital == hospitalName)
+                .Select(f => new StaffFacilityMappingModel
+                {
+                    FacilityID = f.FacilityID,
+                    Hospital = f.ClinicName,
+                    Active = _healthcareContext.SHclnStaffFacilityMapping
+                        .Any(m => m.StaffId == staffId && m.FacilityID == f.FacilityID && m.Active == false) 
+                })
+                .ToList();
+
+            return availableFacilities;
         }
 
 

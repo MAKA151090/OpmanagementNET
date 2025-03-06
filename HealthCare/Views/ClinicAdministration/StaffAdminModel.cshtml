@@ -95,7 +95,7 @@
                             .Select(m => new SelectListItem
             {
                 Value = m.FacilityID.ToString(), // Assuming ScreenId is of type int
-                Text = $"{m.ClinicName}"
+                Text = $"{m.Hospital}-{m.ClinicName}"
             });
                         }
 

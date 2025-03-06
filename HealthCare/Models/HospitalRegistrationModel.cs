@@ -20,13 +20,15 @@ namespace HealthCare.Models
         private String strlastUpdatedDate;
         private String strlastUpdatedUser;
         private String strlastUpdatedMachine;
+        private long id;
+        private bool isDelete;
 
 
         [MaxLength(100)]
         public string HospitalID { get => strHospitalID; set => strHospitalID = value; }
 
         [MaxLength(30)]
-        public string? HospitalName { get => strHospitalName; set => strHospitalName = value; }
+        public string HospitalName { get => strHospitalName; set => strHospitalName = value; }
 
         [MaxLength(100)]
         public string? Address { get => strAddress; set => strAddress = value; }
@@ -50,13 +52,16 @@ namespace HealthCare.Models
         public string? Email { get => strEmail; set => strEmail = value; }
 
         [MaxLength(30)]
-        public string lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
+        public string? lastUpdatedDate { get => strlastUpdatedDate; set => strlastUpdatedDate = value; }
 
         [MaxLength(30)]
-        public string lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
+        public string? lastUpdatedUser { get => strlastUpdatedUser; set => strlastUpdatedUser = value; }
 
         [MaxLength(30)]
-        public string lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+        public string? lastUpdatedMachine { get => strlastUpdatedMachine; set => strlastUpdatedMachine = value; }
+
+        public long Id { get => id; set => id = value; }
+        public bool IsDelete { get => isDelete; set => isDelete = value; }
     }
 
 }

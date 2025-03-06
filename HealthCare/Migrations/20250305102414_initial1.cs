@@ -114,6 +114,8 @@ namespace HealthCare.Migrations
                 {
                     FacilityID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Hospital = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ClinicName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ClinicAddress = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
@@ -142,7 +144,7 @@ namespace HealthCare.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHclnClinicAdmin", x => x.FacilityID);
+                    table.PrimaryKey("PK_SHclnClinicAdmin", x => new { x.FacilityID, x.Hospital });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -653,6 +655,11 @@ namespace HealthCare.Migrations
                     ScreenName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Id = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsMaster = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TableName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FacilityID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -681,6 +688,104 @@ namespace HealthCare.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SHEmpHierarchy", x => new { x.EmpStaffID, x.MgrStaffID });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "SHemployeeattendance",
+                columns: table => new
+                {
+                    StaffID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LeaveName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Month = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Year = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FacilityID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Numberofdays = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedUser = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedDate = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedMachine = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDelete = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Attendancetype = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHemployeeattendance", x => new { x.StaffID, x.LeaveName, x.Month, x.Year, x.FacilityID });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "SHemployeepay",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FacilityID = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Staffpayid = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Staffname = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Payhead = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Headtype = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDelete = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LastUpdatedUser = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedDate = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedMachine = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHemployeepay", x => new { x.Id, x.FacilityID });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "SHemployeepayroll",
+                columns: table => new
+                {
+                    StaffID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PayheadType = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FacilityID = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PayrollID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Amount = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Total = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedUser = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedDate = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedMachine = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDelete = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Month = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Year = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHemployeepayroll", x => new { x.Id, x.FacilityID, x.StaffID, x.PayheadType });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -943,9 +1048,11 @@ namespace HealthCare.Migrations
                 name: "SHHospitalRegistration",
                 columns: table => new
                 {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     HospitalID = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    HospitalName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                    HospitalName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Address = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -961,16 +1068,17 @@ namespace HealthCare.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    lastUpdatedDate = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
+                    lastUpdatedDate = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    lastUpdatedUser = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
+                    lastUpdatedUser = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    lastUpdatedMachine = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    lastUpdatedMachine = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDelete = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SHHospitalRegistration", x => x.HospitalID);
+                    table.PrimaryKey("PK_SHHospitalRegistration", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -1196,6 +1304,30 @@ namespace HealthCare.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SHipmInPatientTransferUpdate", x => new { x.PatientId, x.CaseId, x.BedId, x.TranferID });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "SHleaveMaster",
+                columns: table => new
+                {
+                    LeaveName = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FacilityID = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AttendanceType = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedDate = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedUser = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedMachine = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDelete = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SHleaveMaster", x => new { x.LeaveName, x.FacilityID });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -1747,6 +1879,8 @@ namespace HealthCare.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Isdelete = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     BarcodeID = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Test = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -2572,6 +2706,15 @@ namespace HealthCare.Migrations
                 name: "SHEmpHierarchy");
 
             migrationBuilder.DropTable(
+                name: "SHemployeeattendance");
+
+            migrationBuilder.DropTable(
+                name: "SHemployeepay");
+
+            migrationBuilder.DropTable(
+                name: "SHemployeepayroll");
+
+            migrationBuilder.DropTable(
                 name: "SHEXMdiagnosis");
 
             migrationBuilder.DropTable(
@@ -2618,6 +2761,9 @@ namespace HealthCare.Migrations
 
             migrationBuilder.DropTable(
                 name: "SHipmInPatientTransferUpdate");
+
+            migrationBuilder.DropTable(
+                name: "SHleaveMaster");
 
             migrationBuilder.DropTable(
                 name: "SHLeaveTypeMaster");
