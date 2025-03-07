@@ -275,7 +275,7 @@ namespace HealthCare.Business
                     FacilityID = f.FacilityID,
                     Hospital = f.ClinicName,
                     Active = _healthcareContext.SHclnStaffFacilityMapping
-                        .Any(m => m.StaffId == staffId && m.FacilityID == f.FacilityID && m.Active == false) 
+                        .Any(m => m.StaffId == staffId && m.FacilityID == f.FacilityID && m.Active == true) 
                 })
                 .ToList();
 

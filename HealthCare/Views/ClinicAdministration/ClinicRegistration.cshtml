@@ -114,9 +114,9 @@
             });
                     }
 
-                    @Html.DropDownListFor(model => model.Hospital, fac, "Select Hospital", new { @class = "form-control"})
+                    @Html.DropDownListFor(model => model.Hospital, fac, "Select Hospital", new { @class = "form-control", id = "HospitalName" })
                     <label asp-for="Hospital" class="control-label">Hospital</label>
-
+                    <span id="HospitalNameError" class="text-danger"></span>
                 </div>
 
 
@@ -158,13 +158,11 @@
                     <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
 
 
-                        <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                            <textarea asp-for="ClinicAddress" class="form-control" placeholder="Clinic Address" aria-describedby="text-to-speech-addon"></textarea>
-                            <label asp-for="ClinicAddress" class="control-label">Clinic Address</label>
-                            <span class="input-group-text" id="text-to-speech-addon">
-                                <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-                            <span asp-validation-for="ClinicAddress" class="text-danger"></span>
+                        <div class="form-floating form-floating-outline mb-4">
+
+                            <input asp-for="ClinicAddress" class="form-control" type="text" placeholder="ClinicAddress" id="ClinicAddress" value="@Model.ClinicAddress" />
+                            <label asp-for="ClinicAddress" class="control-label">ClinicAddress</label>
+
                         </div>
 
                         <div class="form-floating form-floating-outline mb-4">
@@ -229,7 +227,7 @@
                             <div class="container">
 
 
-                                <button type="submit" style="centered" class="btn btn-primary" asp-action="AddClinic" value="Save">Save</button>
+                                <button type="submit" style="centered" class="btn btn-primary" asp-action="AddClinic" onclick="validateForm(event)" value="Save">Save</button>
 
 
                                 <button type="submit" style="centered" class="btn btn-primary" asp-action="AddClinic" name="buttontype" value="Delete">Delete</button>
@@ -348,4 +346,23 @@
         });
 
 
+    </script>
+
+    <script>
+        function validateForm(event) {
+            var bloodName = document.getElementById("HospitalName").value;
+            var errorSpan = document.getElementById("HospitalNameError");
+
+            // Clear previous error message
+            errorSpan.textContent = '';
+
+            // Check if the field is empty
+            if (!bloodName.trim()) {
+                // Show error message
+                errorSpan.textContent = "Hospital Name cannot be empty.";
+
+                // Prevent form submission
+                event.preventDefault();
+            }
+        }
     </script>

@@ -122,9 +122,9 @@
 
             @if (ViewBag.Message != null)
             {
-                <div class="alert alert-success">
-                    @ViewBag.Message
-                </div>
+                <script>
+                    handleMessages("@ViewBag.Message");
+                </script>
             }
         </div>
 

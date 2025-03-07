@@ -6,6 +6,51 @@
 }
 
 
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        // Close popup when OK button is clicked
+        popupOKButton.addEventListener("click", function () {
+            closePopup();
+        });
+
+        // Close popup when clicking outside of the message box
+        document.addEventListener("click", function (event) {
+            if (!popup.contains(event.target) && !popupOKButton.contains(event.target)) {
+                closePopup();
+            }
+        });
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popupMessage");
+        popup.style.display = "none"; // Hide the popup
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
+
+
+
 <form asp-controller="ClinicAdministration" asp-action="GetHospitalRegistration">
 
 
@@ -40,35 +85,33 @@
 
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="HospitalID" class="form-control" placeholder="HospitalID" />
+                        <input asp-for="HospitalID" class="form-control" placeholder="HospitalID" value="@Model.HospitalID" required />
                         <label asp-for="HospitalID" class="control-label"></label>
                         <span asp-validation-for="HospitalID" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="HospitalName" class="form-control" placeholder="HospitalName" />
+                        <input asp-for="HospitalName" class="form-control" placeholder="HospitalName" id="HospitalName" value="@Model.HospitalName" />
                         <label asp-for="HospitalName" class="control-label"></label>
 
-                        <span asp-validation-for="HospitalName" class="text-danger"></span>
+                        <span id="HospitalNameError" class="text-danger"></span>
                     </div>
 
 
-                    <div class="input-group input-group-merge speech-to-text form-floating form-floating-outline mb-4">
-                        <textarea asp-for="Address" class="form-control" placeholder="Address" aria-describedby="text-to-speech-addon"></textarea>
-                        <label asp-for="Address" class="control-label"></label>
-                        <span class="input-group-text" id="text-to-speech-addon">
-                            <i class="mdi mdi-microphone-outline cursor-pointer text-to-speech-toggle"></i>
-                        </span>
-                        <span asp-validation-for="Address" class="text-danger"></span>
+                    <div class="form-floating form-floating-outline mb-4">
+
+                        <input asp-for="Address" class="form-control" type="text" placeholder="Address" id="Address" value="@Model.Address" />
+                        <label asp-for="Address" class="control-label">Address</label>
+                        
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="City" class="form-control" placeholder="City" />
+                        <input asp-for="City" class="form-control" placeholder="City" value="@Model.City"/>
                         <label asp-for="City" class="control-label"></label>
 
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="State" class="form-control" placeholder="State" />
+                        <input asp-for="State" class="form-control" placeholder="State" value="@Model.State" />
                         <label asp-for="State" class="control-label"></label>
 
                         <span asp-validation-for="State" class="text-danger"></span>
@@ -85,26 +128,21 @@
                     <div class="form-floating form-floating-outline mb-4">
 
 
-                        <input asp-for="Phone1" class="form-control" placeholder="Phone1" />
+                        <input asp-for="Phone1" class="form-control" placeholder="Phone1" value="@Model.Phone1" />
                         <label asp-for="Phone1" class="control-label"></label>
 
                         <span asp-validation-for="Phone1" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Phone2" class="form-control" placeholder="Phone2" />
+                        <input asp-for="Phone2" class="form-control" placeholder="Phone2" value="@Model.Phone2" />
                         <label asp-for="Phone2" class="control-label"></label>
 
                         <span asp-validation-for="Phone2" class="text-danger"></span>
                     </div>
+                    
                     <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Phone3" class="form-control" placeholder="Phone3" />
-                        <label asp-for="Phone3" class="control-label"></label>
-
-                        <span asp-validation-for="Phone3" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="Email" class="form-control" placeholder="Email" />
+                        <input asp-for="Email" class="form-control" placeholder="Email" value="@Model.Email" />
                         <label asp-for="Email" class="control-label"></label>
 
                         <span asp-validation-for="Email" class="text-danger"></span>
@@ -127,19 +165,37 @@
                 <center>
 
 
-                    <button type="submit" style="width:180px" asp-action="GetHospitalRegistration" value="Save" class="btn btn-primary waves-effect waves-light">  Save </button>
+                    <button type="submit" style="width:180px" asp-action="GetHospitalRegistration" onclick="validateForm(event)" value="Save" name="buttonType" class="btn btn-primary waves-effect waves-light">  Save </button>
+                    <button type="submit" style="width:180px" asp-action="GetHospitalRegistration" value="Get" name="buttonType" class="btn btn-primary waves-effect waves-light">  Get </button>
+                    <button type="submit" style="width:180px" asp-action="GetHospitalRegistration" value="Delete" name="buttonType" class="btn btn-primary waves-effect waves-light">  Delete </button>
 
-                        @if (ViewBag.Message != null)
-                        {
-                            <div class="alert alert-success">
-
-
-                                @ViewBag.Message
-                            </div>
-                        }
+                    @if (ViewBag.Message != null)
+                    {
+                        <script>
+                            handleMessages("@ViewBag.Message");
+                        </script>
+                    }
                 </center>
             </div>
         </div>
     </div>
 </form>
 
+<script>
+    function validateForm(event) {
+        var bloodName = document.getElementById("HospitalName").value;
+        var errorSpan = document.getElementById("HospitalNameError");
+
+        // Clear previous error message
+        errorSpan.textContent = '';
+
+        // Check if the field is empty
+        if (!bloodName.trim()) {
+            // Show error message
+            errorSpan.textContent = "Hospital Name cannot be empty.";
+
+            // Prevent form submission
+            event.preventDefault();
+        }
+    }
+</script>

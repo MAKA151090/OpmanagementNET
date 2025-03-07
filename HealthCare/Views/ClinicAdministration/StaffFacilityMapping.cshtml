@@ -5,6 +5,48 @@
     Layout = "~/Views/Shared/_ContentNavbarLayout.cshtml";
 }
 
+<script>
+    function showPopup(message) {
+        var popup = document.getElementById("popupMessage");
+        var popupText = document.getElementById("popupMessageText");
+        var popupOKButton = document.getElementById("popupOKButton");
+
+        popupText.textContent = message; // Set the message text
+        popup.style.display = "block";
+
+        // Close popup when OK button is clicked
+        popupOKButton.addEventListener("click", function () {
+            closePopup();
+        });
+
+        // Close popup when clicking outside of the message box
+        document.addEventListener("click", function (event) {
+            if (!popup.contains(event.target) && !popupOKButton.contains(event.target)) {
+                closePopup();
+            }
+        });
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popupMessage");
+        popup.style.display = "none"; // Hide the popup
+    }
+
+    function handleMessages(message) {
+        showPopup(message);
+    }
+</script>
+
+<div id="popupMessage" class="dividerblack popborder" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f0f0f0; color: #8c62c9; padding: 30px; border-radius: 10px; z-index: 1000; display: none; text-align: center;">
+    <span id="popupMessageText" style="display: block; margin-bottom: 10px;"></span>
+    <button id="popupOKButton" style="padding: 10px 20px; color: #8c62c9; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+</div>
+
+<style>
+    .popborder {
+        border: 10px solid #8c62c9;
+    }
+</style>
 
 <div class="row" style="margin-top:70px">
     <div class="col-md-12 col-lg-3 ">
@@ -60,19 +102,8 @@
                         <span id="rollNamesError" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label" style="margin-bottom:10px">Active</label><br />
-                        <div class="form-check form-check-inline">
-                            <input asp-for="Active" class="form-check-input" type="radio" value="Yes" id="Yes" />
-                            <label class="form-check-label" for="Yes">Yes</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input asp-for="Active" class="form-check-input" type="radio" value="No" id="No" />
-                            <label class="form-check-label" for="No">No</label>
-                        </div>
+                    
 
-                        <span id="gendererror" class="text-danger"></span>
-                    </div>
 
             </div>
         </div>
@@ -90,14 +121,15 @@
         <div class="container">
             <center>
                 <button type="submit" style="width:180px" asp-action="GetStaffFacilityMap" value="Save" class="btn btn-primary">Save</button>
+                    <button type="submit" style="width:180px" asp-action="GetStaffFacilityMap" value="Delete" name="buttonType" class="btn btn-primary">Delete</button>
             </center>
 
-            @if (ViewBag.Message != null)
-            {
-                <div class="alert alert-success">
-                    @ViewBag.Message
-                </div>
-            }
+                @if (ViewBag.Message != null)
+                {
+                    <script>
+                        handleMessages("@ViewBag.Message");
+                    </script>
+                }
         </div>
 
     </div>
