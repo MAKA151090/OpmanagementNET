@@ -50,33 +50,31 @@
 </style>
 
 
+<div class="row gy-4">
+    <div class="col-md-12 col-lg-2">
+    </div>
+    <div class="col-md-12 col-lg-8">
+        <div class="card">
+            <div class="card-body " style="background-color:#8c62c9">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="container">
+                        <h3 class="centered text-white" style="font-family:'Lucida Bright'">Hospital Registration</h3>
 
-<form asp-controller="ClinicAdministration" asp-action="GetHospitalRegistration">
-
-
-    <div class="row">
-        <div class="col-md-12 col-lg-1">
-        </div>
-        <div class="col-md-12 col-lg-8">
-            <div class="card">
-                <div class="card-body " style="background-color:#8c62c9">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="container">
-                            <h2 class="centered text-white" style="font-family:'Lucida Bright'">Hospital Registration</h2>
-
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <br/>
+</div>
 
-    <div class="row" style="height:8%">
-    </div>
+<div class="row gy-4" style="height:8%">
+</div>
+
+<form asp-controller="ClinicAdministration" asp-action="GetHospitalRegistration">
+
 
     <div class="row gy-4">
-        <div class="col-md-12 col-lg-1">
+        <div class="col-md-12 col-lg-2">
         </div>
         <div class="col-md-12 col-lg-4">
             <div class="card">
@@ -110,12 +108,7 @@
 
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
-                    <div class="form-floating form-floating-outline mb-4">
-                        <input asp-for="State" class="form-control" placeholder="State" value="@Model.State" />
-                        <label asp-for="State" class="control-label"></label>
-
-                        <span asp-validation-for="State" class="text-danger"></span>
-                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -124,6 +117,15 @@
 
             <div class="card">
                 <div class="card-body " style="background-image: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 51%, #ece5f6 100%);">
+
+
+
+                    <div class="form-floating form-floating-outline mb-4">
+                        <input asp-for="State" class="form-control" placeholder="State" value="@Model.State" />
+                        <label asp-for="State" class="control-label"></label>
+
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
 
                     <div class="form-floating form-floating-outline mb-4">
 
@@ -147,38 +149,38 @@
 
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                   
-                    <br />
-
-
-
-
-
+                  
                 </div>
             </div>
 
-            <div class="col-md-12 col-lg-1" style="height=10%">
+          @*   <div class="col-md-12 col-lg-1" style="height=10%">
                 <div class="form-floating form-floating-outline mb-4">
                 </div>
-            </div>
-            <div class="form-group">
-                <center>
+            </div> *@
 
+            <br />
 
-                    <button type="submit" style="width:180px" asp-action="GetHospitalRegistration" onclick="validateForm(event)" value="Save" name="buttonType" class="btn btn-primary waves-effect waves-light">  Save </button>
-                    <button type="submit" style="width:180px" asp-action="GetHospitalRegistration" value="Get" name="buttonType" class="btn btn-primary waves-effect waves-light">  Get </button>
-                    <button type="submit" style="width:180px" asp-action="GetHospitalRegistration" value="Delete" name="buttonType" class="btn btn-primary waves-effect waves-light">  Delete </button>
-
-                    @if (ViewBag.Message != null)
-                    {
-                        <script>
-                            handleMessages("@ViewBag.Message");
-                        </script>
-                    }
-                </center>
-            </div>
+            
         </div>
     </div>
+
+    <div class="form-group">
+        <center>
+
+
+            <button type="submit" style="background-color:#24cc3b" asp-action="GetHospitalRegistration" onclick="validateForm(event)" value="Save" name="buttonType" class="btn btn-primary">  Save </button>
+            <button type="submit" style="background-color:#19398f" asp-action="GetHospitalRegistration" value="Get" name="buttonType" class="btn btn-primary">  Get </button>
+            <button type="submit" style="background-color:#cc3624 " asp-action="GetHospitalRegistration" value="Delete" name="buttonType" class="btn btn-primary">  Delete </button>
+
+            @if (ViewBag.Message != null)
+            {
+                <script>
+                    handleMessages("@ViewBag.Message");
+                </script>
+            }
+        </center>
+    </div>
+
 </form>
 
 <script>
